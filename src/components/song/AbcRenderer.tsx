@@ -43,6 +43,25 @@ export default function AbcRenderer({
       }
       console.log('✅ svg 存在')
 
+      const allElements = svg.querySelectorAll('*')
+      const classNames = new Set<string>()
+      allElements.forEach(el => {
+        const svgEl = el as SVGElement
+        const classNameValue = (svgEl as SVGElement).className
+        if (
+          classNameValue &&
+          typeof classNameValue === 'object' &&
+          'baseVal' in classNameValue
+        ) {
+          if (classNameValue.baseVal) classNames.add(classNameValue.baseVal)
+        } else if (typeof (el as HTMLElement).className === 'string') {
+          if ((el as HTMLElement).className) {
+            classNames.add((el as HTMLElement).className)
+          }
+        }
+      })
+      console.log('SVG 中出现的所有类名:', Array.from(classNames))
+
       const systems = svg.querySelectorAll('.abcjs-system')
       console.log(`找到 ${systems.length} 个 .abcjs-system`)
 
