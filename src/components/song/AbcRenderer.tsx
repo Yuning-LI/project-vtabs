@@ -36,63 +36,91 @@ export default function AbcRenderer({
   const injectFingering = useCallback(
     (svg: SVGSVGElement, payload: NotePayload[]) => {
       console.log('===== injectFingering 开始 =====')
+
+      if (!svg) {
+        console.error('❌ svg 参数为空')
+        return
+      }
+      console.log('✅ svg 存在')
+
       const systems = svg.querySelectorAll('.abcjs-system')
-      if (!systems.length) return
+      console.log(`找到 ${systems.length} 个 .abcjs-system`)
+
+      if (!systems.length) {
+        console.warn('⚠️ 没有找到 .abcjs-system，无法继续')
+        return
+      }
 
       const positions: NotePosition[] = []
 
+      console.log('开始测量音符坐标...')
       systems.forEach((sys, sysIdx) => {
         const sysEl = sys as SVGGraphicsElement
         const sysBBox = sysEl.getBBox()
-        const systemBottomY = sysBBox.y + sysBBox.height
+        console.log(
+          `系统行 ${sysIdx}: BBox y=${sysBBox.y}, height=${sysBBox.height}, bottom=${sysBBox.y + sysBBox.height}`
+        )
+
         const notes = sys.querySelectorAll('.abcjs-note')
-        notes.forEach(note => {
+        console.log(`系统行 ${sysIdx} 内有 ${notes.length} 个音符`)
+
+        notes.forEach((note, noteIdx) => {
           const noteEl = note as SVGGraphicsElement
           const noteBBox = noteEl.getBBox()
           const centerX = noteBBox.x + noteBBox.width / 2
           positions.push({
             systemIndex: sysIdx,
             x: centerX,
-            systemBottomY
+            systemBottomY: sysBBox.y + sysBBox.height
           })
+          console.log(`  音符 ${noteIdx}: x=${centerX.toFixed(2)}`)
         })
       })
 
-      console.log('payload 长度:', payload.length)
-      console.log('positions 长度:', positions.length)
+      console.log(`测量完成，共得到 ${positions.length} 个坐标`)
+      console.log(`payload 长度: ${payload.length}`)
+      console.log(`positions 长度: ${positions.length}`)
+
       if (payload.length !== positions.length) {
-        console.warn('⚠️ 长度不匹配！索引可能错位')
+        console.warn(
+          `⚠️ 长度不匹配！payload=${payload.length}, positions=${positions.length}`
+        )
+        const minLen = Math.min(payload.length, positions.length)
+        console.log(`将使用前 ${minLen} 项进行注入`)
       }
 
-      payload.forEach((item, idx) => {
-        if (item.skip) return
+      console.log('开始注入指法图...')
+      const len = Math.min(payload.length, positions.length)
+      for (let idx = 0; idx < len; idx++) {
+        const item = payload[idx]
         const pos = positions[idx]
-        if (!pos) {
-          console.warn(`位置缺失，索引 ${idx}`)
-          return
+
+        if (item.skip) {
+          console.log(`索引 ${idx}: skip 跳过`)
+          continue
         }
+
         console.log(
-          `音符 ${idx}: midi=${item.midi}, x=${pos.x.toFixed(
+          `处理索引 ${idx}: midi=${item.midi}, x=${pos.x.toFixed(
             2
           )}, bottomY=${pos.systemBottomY.toFixed(2)}`
         )
 
         const state = DICT[item.midi]
         if (!state) {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`字典缺失 MIDI: ${item.midi}`)
-          }
-          return
+          console.warn(`  字典缺失 MIDI ${item.midi}，跳过`)
+          continue
         }
 
         const { element: fingerG } = drawOcarina12(state)
         const tx = pos.x - 3000
         const ty = pos.systemBottomY - 500
-        console.log(`平移: translate(${tx.toFixed(2)}, ${ty.toFixed(2)})`)
+        console.log(`  平移: translate(${tx.toFixed(2)}, ${ty.toFixed(2)})`)
         fingerG.setAttribute('transform', `translate(${tx}, ${ty})`)
 
         const targetSys = systems[pos.systemIndex]
         targetSys.appendChild(fingerG)
+        console.log(`  指法图已添加到系统行 ${pos.systemIndex}`)
 
         const text = document.createElementNS(
           'http://www.w3.org/2000/svg',
@@ -107,7 +135,10 @@ export default function AbcRenderer({
         text.setAttribute('text-anchor', 'middle')
         text.setAttribute('font-weight', 'bold')
         targetSys.appendChild(text)
-      })
+        console.log('  字母谱已添加')
+      }
+
+      console.log('===== injectFingering 完成 =====')
     },
     []
   )
