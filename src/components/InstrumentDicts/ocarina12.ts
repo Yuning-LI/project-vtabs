@@ -1,0 +1,122 @@
+import { FingeringState, RenderResult } from '@/lib/types'
+
+// 孔位顺序 (12个)
+export const HOLE_ORDER = [
+  'LB',
+  'RB',
+  'L1',
+  'L2',
+  'L3',
+  'L4',
+  'R1',
+  'R2',
+  'R3',
+  'R4',
+  'LS',
+  'RS'
+]
+
+// 孔位坐标 (SVG用户坐标)
+const HOLE_COORDS = {
+  LB: { cx: 1465, cy: 1463, r: 220 },
+  RB: { cx: 3194, cy: 1448, r: 220 },
+  L1: { cx: 926, cy: 2912, r: 170 },
+  L2: { cx: 1505, cy: 3101, r: 170 },
+  L3: { cx: 2035, cy: 3320, r: 170 },
+  L4: { cx: 2495, cy: 3693, r: 170 },
+  R1: { cx: 3433, cy: 2850, r: 170 },
+  R2: { cx: 3940, cy: 3200, r: 170 },
+  R3: { cx: 4370, cy: 3500, r: 170 },
+  R4: { cx: 4816, cy: 3900, r: 170 },
+  LS: { cx: 1630, cy: 2700, r: 110 },
+  RS: { cx: 3693, cy: 3600, r: 110 }
+}
+
+// 身体轮廓路径
+const BODY_PATH =
+  'm4845,4460c-214,-23 -457,-59 -647,-95c-134,-26 -220,-43 -303,-58c-92,-18 -155,-31 -240,-52c-33,-7 -123,-28 -200,-45c-77,-18 -185,-43 -240,-57c-123,-30 -258,-63 -305,-72c-19,-4 -51,-13 -70,-19c-19,-6 -75,-21 -125,-32c-187,-43 -724,-207 -820,-250c-19,-9 -84,-33 -135,-49c-14,-5 -72,-30 -130,-56c-58,-26 -127,-56 -155,-67c-231,-92 -568,-308 -712,-457c-408,-421 -250,-826 442,-1134c98,-43 292,-111 410,-143c130,-35 163,-48 231,-90c61,-37 78,-54 112,-112l40,-68l6,-274c11,-496 30,-585 135,-622c51,-18 348,-14 394,6c64,26 88,74 147,296c13,47 29,104 37,128c7,23 13,51 13,62c0,10 4,21 9,24c5,3 12,23 16,43c3,21 20,83 36,138c147,488 175,556 274,664c45,49 196,173 265,217c25,16 47,31 50,35c3,3 41,30 85,60c44,30 105,73 135,95c30,22 100,72 155,109c114,78 166,116 331,235c64,47 146,106 183,133c36,26 73,53 81,60c8,7 74,57 145,112c432,331 707,576 920,820c35,40 95,131 95,143c0,6 6,17 13,24c18,18 47,110 47,150c-1,81 -76,150 -202,183c-73,20 -391,29 -523,15z'
+
+// 字典：MIDI → 12位0/1数组
+export const DICT: Record<number, FingeringState> = {
+  57: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  58: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  59: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+  60: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+  61: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1],
+  62: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+  63: [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0],
+  64: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+  65: [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  66: [1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0],
+  67: [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+  68: [1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0],
+  69: [1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+  70: [1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+  71: [1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+  72: [1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+  73: [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+  74: [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+  75: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  76: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+  77: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
+
+// MIDI 到字母谱映射
+export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
+  {
+    57: { letter: 'A', octave: 3 },
+    58: { letter: 'Bb', octave: 3 },
+    59: { letter: 'B', octave: 3 },
+    60: { letter: 'C', octave: 4 },
+    61: { letter: 'Db', octave: 4 },
+    62: { letter: 'D', octave: 4 },
+    63: { letter: 'Eb', octave: 4 },
+    64: { letter: 'E', octave: 4 },
+    65: { letter: 'F', octave: 4 },
+    66: { letter: 'Gb', octave: 4 },
+    67: { letter: 'G', octave: 4 },
+    68: { letter: 'Ab', octave: 4 },
+    69: { letter: 'A', octave: 4 },
+    70: { letter: 'Bb', octave: 4 },
+    71: { letter: 'B', octave: 4 },
+    72: { letter: 'C', octave: 5 },
+    73: { letter: 'Db', octave: 5 },
+    74: { letter: 'D', octave: 5 },
+    75: { letter: 'Eb', octave: 5 },
+    76: { letter: 'E', octave: 5 },
+    77: { letter: 'F', octave: 5 }
+  }
+
+// 绘图函数
+export function drawOcarina12(state: FingeringState): RenderResult {
+  const ns = 'http://www.w3.org/2000/svg'
+  const g = document.createElementNS(ns, 'g')
+
+  // 1. 身体轮廓
+  const path = document.createElementNS(ns, 'path')
+  path.setAttribute('d', BODY_PATH)
+  path.setAttribute('fill', 'none')
+  path.setAttribute('stroke', '#3E2723')
+  path.setAttribute('stroke-width', '45')
+  g.appendChild(path)
+
+  // 2. 画12个孔
+  Object.entries(HOLE_COORDS).forEach(([id, { cx, cy, r }]) => {
+    const circle = document.createElementNS(ns, 'circle')
+    circle.setAttribute('cx', cx.toString())
+    circle.setAttribute('cy', cy.toString())
+    circle.setAttribute('r', r.toString())
+    const idx = HOLE_ORDER.indexOf(id)
+    const isClosed = state[idx] === 1
+    circle.setAttribute('fill', isClosed ? '#3E2723' : '#FFFFFF')
+    circle.setAttribute('stroke', '#3E2723')
+    circle.setAttribute('stroke-width', '35')
+    g.appendChild(circle)
+  })
+
+  return {
+    element: g,
+    width: 28,
+    height: 24
+  }
+}
