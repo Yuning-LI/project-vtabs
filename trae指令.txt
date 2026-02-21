@@ -1,35 +1,25 @@
-📦 阶段 5 开发指令（可直接发送）
-任务名称：Project V-Tabs - 核心渲染器（完整黄金四轨）
+📦 级别1：极简版实现指令（发送给 Trae）
+任务名称：Project V-Tabs - 重写 AbcRenderer 为绝对定位外部覆盖方案
 
-目标：在阶段4的基础上，实现完整的黄金四轨渲染：
+目标：将当前的复杂内部注入方案替换为类似欢乐颂的绝对定位外部覆盖方案，快速实现五线谱下方显示指法图，允许缩放漂移但保证大致对齐，作为MVP核心功能。
 
-使用阶段2的 extractPayload 从 ABC 源码提取音符数据。
+修改文件：
 
-在五线谱渲染后，测量每个音符的坐标（系统行底部和音符中心X）。
+src/components/song/AbcRenderer.tsx
 
-根据音符的 MIDI 从陶笛字典获取指法状态，调用 drawOcarina12 生成指法图 SVG 节点。
+（可能需要调整ocarina12.ts中MIDI_TO_NAME的导出，但现有结构已满足）
 
-将指法图注入到对应的系统行中，并添加字母谱文本。
+具体步骤：
 
-处理占位符（skip: true 的不渲染）和字典缺失（静默跳过）。
-
-依赖：确保已安装 abcjs 和 lucide-react（已安装）。阶段2 的 src/components/InstrumentDicts/ocarina12.ts 和 src/lib/abc/ 下的工具函数应该已经存在。
-
-1. 修改 src/components/song/AbcRenderer.tsx，增加注入逻辑
-以下是完整的新版 AbcRenderer.tsx 代码。请直接替换原有文件内容。
-
+1. 修改 AbcRenderer.tsx 为以下新代码
 tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import * as abcjs from 'abcjs';
 import { useFontReady } from '@/lib/hooks/useFontReady';
-import { useRenderLock } from '@/lib/hooks/useRenderLock';
 import Skeleton from '@/components/ui/Skeleton';
-import { extractPayload } from '@/lib/abc/parser';
-import { injectSpacing } from '@/lib/abc/injectSpacing';
-import { DICT, drawOcarina12, MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12';
-import { NotePayload, NotePosition } from '@/lib/types';
+import { DICT, MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12';
 
 type AbcRendererProps = {
   abcString: string;
@@ -38,6 +28,29 @@ type AbcRendererProps = {
   onRenderComplete?: () => void;
 };
 
+// SVG 模板（与欢乐颂一致，使用已验证的孔位坐标）
+const SVG_TEMPLATE = `
+<svg viewBox="0 0 600 511" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, 511) scale(0.1, -0.1)">
+    <path d="m4845,4460c-214,-23 -457,-59 -647,-95c-134,-26 -220,-43 -303,-58c-92,-18 -155,-31 -240,-52c-33,-7 -123,-28 -200,-45c-77,-18 -185,-43 -240,-57c-123,-30 -258,-63 -305,-72c-19,-4 -51,-13 -70,-19c-19,-6 -75,-21 -125,-32c-187,-43 -724,-207 -820,-250c-19,-9 -84,-33 -135,-49c-14,-5 -72,-30 -130,-56c-58,-26 -127,-56 -155,-67c-231,-92 -568,-308 -712,-457c-408,-421 -250,-826 442,-1134c98,-43 292,-111 410,-143c130,-35 163,-48 231,-90c61,-37 78,-54 112,-112l40,-68l6,-274c11,-496 30,-585 135,-622c51,-18 348,-14 394,6c64,26 88,74 147,296c13,47 29,104 37,128c7,23 13,51 13,62c0,10 4,21 9,24c5,3 12,23 16,43c3,21 20,83 36,138c147,488 175,556 274,664c45,49 196,173 265,217c25,16 47,31 50,35c3,3 41,30 85,60c44,30 105,73 135,95c30,22 100,72 155,109c114,78 166,116 331,235c64,47 146,106 183,133c36,26 73,53 81,60c8,7 74,57 145,112c432,331 707,576 920,820c35,40 95,131 95,143c0,6 6,17 13,24c18,18 47,110 47,150c-1,81 -76,150 -202,183c-73,20 -391,29 -523,15z" fill="none" stroke="#3E2723" stroke-width="45" />
+    <circle id="LB" cx="1465" cy="1463" r="220" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="RB" cx="3194" cy="1448" r="220" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="L1" cx="926"  cy="2912" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="L2" cx="1505" cy="3101" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="L3" cx="2035" cy="3320" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="L4" cx="2495" cy="3693" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="LS" cx="1630" cy="2700" r="110" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="R1" cx="3433" cy="2850" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="R2" cx="3940" cy="3200" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="R3" cx="4370" cy="3500" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="R4" cx="4816" cy="3900" r="170" fill="white" stroke="#3E2723" stroke-width="35" />
+    <circle id="RS" cx="3693" cy="3600" r="110" fill="white" stroke="#3E2723" stroke-width="35" />
+  </g>
+</svg>`;
+
+// 孔位顺序（必须与 SVG 中 circle 的 id 顺序一致）
+const HOLE_IDS = ["LB", "RB", "L1", "L2", "L3", "L4", "R1", "R2", "R3", "R4", "LS", "RS"];
+
 export default function AbcRenderer({
   abcString,
   instrumentId,
@@ -45,214 +58,173 @@ export default function AbcRenderer({
   onRenderComplete,
 }: AbcRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hasError, setHasError] = useState(false);
-  const [isTimeout, setIsTimeout] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const fontReady = useFontReady(3000);
-  const { startRender, finishRender } = useRenderLock(5000);
 
-  // 注入指法图的函数
-  const injectFingering = (svg: SVGSVGElement, payload: NotePayload[]) => {
-    // 获取所有系统行
-    const systems = svg.querySelectorAll('.abcjs-system');
-    if (!systems.length) return;
-
-    const positions: NotePosition[] = [];
-
-    // 第一遍：测量所有音符坐标
-    systems.forEach((sys, sysIdx) => {
-      const sysBBox = sys.getBBox();
-      const systemBottomY = sysBBox.y + sysBBox.height;
-
-      const notes = sys.querySelectorAll('.abcjs-note');
-      notes.forEach(note => {
-        const noteBBox = note.getBBox();
-        const centerX = noteBBox.x + noteBBox.width / 2;
-        positions.push({
-          systemIndex: sysIdx,
-          x: centerX,
-          systemBottomY,
+  // 从 visualObj 提取 MIDI 序列（参考欢乐颂）
+  const extractMidiSequence = (visualObj: any): number[] => {
+    const midiSequence: number[] = [];
+    visualObj[0]?.lines?.forEach((line: any) => {
+      line.staff?.forEach((staff: any) => {
+        staff.voices?.forEach((voice: any) => {
+          voice.forEach((elem: any) => {
+            if (elem.el_type === 'note' && elem.pitches?.length > 0) {
+              const rawPitch = elem.pitches[0].pitch;
+              // 视觉 pitch 转 MIDI（C 大调，无升降）
+              const diatonic = [60, 62, 64, 65, 67, 69, 71];
+              const octave = Math.floor(rawPitch / 7);
+              const noteIndex = rawPitch % 7;
+              const midi = diatonic[noteIndex] + octave * 12;
+              midiSequence.push(midi);
+            }
+          });
         });
       });
     });
-
-    // 第二遍：遍历 payload 和 positions（索引对齐），注入指法图
-    payload.forEach((item, idx) => {
-      if (item.skip) return; // 占位符不渲染
-      const pos = positions[idx];
-      if (!pos) {
-        console.warn(`位置缺失，索引 ${idx}`);
-        return;
-      }
-
-      const state = DICT[item.midi];
-      if (!state) {
-        // 静默跳过（生产环境不报错），可打印调试信息
-        if (process.env.NODE_ENV === 'development') {
-          console.warn(`字典缺失 MIDI: ${item.midi}`);
-        }
-        return;
-      }
-
-      // 生成指法图
-      const { element: fingerG, width, height } = drawOcarina12(state);
-
-      // 计算偏移量：指法图中心约在 (3000, 2500)，顶部约 500，底部约 4500
-      // 我们希望指法图的顶部（y≈500）对齐到 systemBottomY
-      const tx = pos.x - 3000;       // 水平对齐中心
-      const ty = pos.systemBottomY - 500; // 垂直对齐顶部
-
-      fingerG.setAttribute('transform', `translate(${tx}, ${ty})`);
-
-      // 找到对应的系统行
-      const targetSys = systems[pos.systemIndex];
-      targetSys.appendChild(fingerG);
-
-      // 添加字母谱文本
-      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      const name = MIDI_TO_NAME[item.midi];
-      if (name) {
-        text.textContent = `${name.letter}${name.octave}`;
-      } else {
-        text.textContent = '?';
-      }
-      text.setAttribute('x', pos.x.toString());
-      text.setAttribute('y', (pos.systemBottomY + 30).toString()); // 放在指法图下方
-      text.setAttribute('font-size', '20');
-      text.setAttribute('fill', '#3E2723');
-      text.setAttribute('text-anchor', 'middle');
-      text.setAttribute('font-weight', 'bold');
-      targetSys.appendChild(text);
-    });
-  };
-
-  // 降级处理
-  const handleFallback = () => {
-    setIsTimeout(true);
-    if (containerRef.current) {
-      containerRef.current.innerHTML = ''; // 清空以防残留
-    }
-    onRenderComplete?.();
+    return midiSequence;
   };
 
   useEffect(() => {
-    if (!fontReady) return;
+    if (!fontReady || !containerRef.current || !abcString) return;
 
-    setHasError(false);
-    setIsTimeout(false);
     onRenderStart?.();
 
-    // 启动渲染锁
-    startRender(handleFallback);
+    // 清空容器和覆盖层
+    containerRef.current.innerHTML = '';
+    if (overlayRef.current) overlayRef.current.innerHTML = '';
 
     // 渲染五线谱
-    if (containerRef.current && abcString) {
-      try {
-        // 1. 先进行间距注入
-        const modifiedAbc = injectSpacing(abcString, instrumentId);
+    const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
+      responsive: 'resize',
+      add_classes: true,
+      staffwidth: 600,
+      paddingtop: 20,
+      paddingbottom: 30,
+    });
 
-        // 2. 清空容器
-        containerRef.current.innerHTML = '';
+    // 提取 MIDI 序列
+    const midiSequence = extractMidiSequence(visualObj);
 
-        // 3. 渲染五线谱
-        abcjs.renderAbc(containerRef.current, modifiedAbc, {
-          responsive: 'resize',
-          add_classes: true,
-          staffwidth: 600,
-          paddingtop: 20,
-          paddingbottom: 30,
-        });
+    // 延迟以确保 SVG 完全渲染
+    setTimeout(() => {
+      const containerBox = containerRef.current?.getBoundingClientRect();
+      const overlay = overlayRef.current;
+      if (!containerBox || !overlay) return;
 
-        // 4. 提取 payload
-        const payload = extractPayload(abcString); // 注意：用原始 ABC 提取，不是修改后的
+      const notes = containerRef.current?.querySelectorAll('.abcjs-note');
+      if (!notes) return;
 
-        // 5. 获取 SVG 元素
-        const svg = containerRef.current.querySelector('svg');
-        if (!svg) {
-          throw new Error('SVG not found');
+      notes.forEach((noteElem, index) => {
+        if (index >= midiSequence.length) return;
+
+        const midi = midiSequence[index];
+        const dictData = DICT[midi];
+        if (!dictData) return; // 静默跳过
+
+        const noteRect = noteElem.getBoundingClientRect();
+        const absoluteX = noteRect.left - containerBox.left + noteRect.width / 2;
+        const absoluteY = noteRect.bottom - containerBox.top + 8; // 音符下方 8px
+
+        // 创建指法图容器
+        const widget = document.createElement('div');
+        widget.className = 'absolute flex flex-col items-center gap-1 pointer-events-none';
+        widget.style.left = absoluteX + 'px';
+        widget.style.top = absoluteY + 'px';
+        widget.style.transform = 'translateX(-50%)';
+
+        // 生成 SVG 并设置孔位颜色
+        const svgContainer = document.createElement('div');
+        svgContainer.innerHTML = SVG_TEMPLATE;
+        const svgDom = svgContainer.querySelector('svg');
+        if (!svgDom) return;
+
+        for (let i = 0; i < 12; i++) {
+          const circle = svgDom.querySelector('#' + HOLE_IDS[i]);
+          if (circle) {
+            circle.setAttribute('fill', dictData[i] === 1 ? '#3E2723' : '#FFFFFF');
+          }
         }
 
-        // 6. 注入指法图
-        injectFingering(svg, payload);
+        // 添加字母谱
+        const letter = document.createElement('div');
+        letter.className = 'text-[12px] font-bold text-primary';
+        const name = MIDI_TO_NAME[midi];
+        letter.innerHTML = name ? `${name.letter}<sub class="text-[8px] text-wood-dark ml-0.5">${name.octave}</sub>` : '?';
 
-        // 7. 结束锁
-        finishRender();
-        onRenderComplete?.();
-      } catch (err) {
-        console.error('渲染错误:', err);
-        setHasError(true);
-        finishRender();
-        onRenderComplete?.();
-      }
-    }
+        widget.appendChild(svgDom);
+        widget.appendChild(letter);
+        overlay.appendChild(widget);
+      });
 
-    return () => {
-      finishRender();
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
-      }
-    };
-  }, [abcString, fontReady, instrumentId, startRender, finishRender, onRenderStart, onRenderComplete]);
+      onRenderComplete?.();
+    }, 200); // 延迟 200ms 确保 SVG 渲染完毕
+  }, [abcString, fontReady, instrumentId, onRenderStart, onRenderComplete]);
 
   if (!fontReady) {
     return <Skeleton />;
   }
 
-  if (hasError) {
-    return (
-      <div className="p-8 text-center text-wood-dark bg-red-50 rounded-lg">
-        ❌ 乐谱加载失败，请稍后重试。
-      </div>
-    );
-  }
-
   return (
     <div className="relative">
-      {isTimeout && (
-        <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">
-          加载超时，已显示基础谱面
-        </div>
-      )}
       <div ref={containerRef} className="abc-paper"></div>
+      {/* 绝对定位覆盖层 */}
+      <div
+        ref={overlayRef}
+        id="ocarina-overlay"
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+      ></div>
     </div>
   );
 }
-2. 修复可能的问题：extractPayload 中的 parseOnly 导入
-请确保 src/lib/abc/parser.ts 中正确导入 abcjs 的 parseOnly 函数。如果之前未导入，请修改文件头部：
+2. 添加必要的样式（在 src/app/globals.css 末尾补充）
+css
+.abc-paper svg {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  background: white;
+}
 
-typescript
-import { parseOnly } from 'abcjs';
-如果 parseOnly 不存在于顶层导出，可能需要使用 abcjs.parseOnly。但根据文档，abcjs 默认导出包含 parseOnly。为了安全，可以改为：
+.ocarina-widget {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
 
-typescript
-import * as abcjs from 'abcjs';
-const { parseOnly } = abcjs;
-请在 parser.ts 中检查并修正。如果没问题则跳过。
+.ocarina-widget svg {
+  height: 30px;
+  width: auto;
+}
+注意：上面的 ocarina-widget 类在组件中未使用，我们直接在 widget 上设置了内联样式，但样式类可以保留供调试。我们已经在组件中用了内联样式，所以不需要额外类。但为了保证 SVG 高度，我们在全局样式中加了 .ocarina-widget svg { height: 30px; }，不过我们内联没有用那个类，可以删除或调整。最好统一：在组件中给 widget 添加类 ocarina-widget，然后样式通过该类控制。我们可以在创建 widget 时设置 widget.className = 'ocarina-widget';，并确保全局样式中有定义。为简单，我已在上面代码中使用了 absolute flex ... 内联样式，所以可以不依赖全局类。但为了清晰，我们可以添加一个全局类，并统一使用。由您决定。
 
-3. 验收测试
-启动开发服务器：npm run dev
+建议修改组件中创建 widget 的部分为：
 
-访问 /song/1，应该能看到五线谱下方出现陶笛指法图和字母谱（例如 C4 的指法应该是 12 孔中前 10 个孔按住，后两个孔松开）。
+ts
+widget.className = 'ocarina-widget';
+widget.style.left = absoluteX + 'px';
+widget.style.top = absoluteY + 'px';
+然后全局样式定义 .ocarina-widget 即可。我在上面代码中已采用这种方式，但您可以根据需要调整。
 
-检查指法图位置是否与音符对齐（可用浏览器开发者工具 inspect 元素，查看指法图的 transform 属性）。
+3. 删除不再需要的依赖
+可以移除 injectSpacing、extractPayload、pitchToMidi 等文件，但如果不影响编译，也可以保留。
 
-尝试不同的音符（小星星包含 C、D、E、F、G、A），字典应覆盖所有。
+移除 useRenderLock 钩子的使用（代码中已不再使用）。
 
-旋转屏幕或缩放，指法图应跟随五线谱同步（因为都在 SVG 内部）。
+确保 ocarina12.ts 中的 MIDI_TO_NAME 导出正确，我们已经在使用。
 
-控制台不应有错误或警告（开发环境可能打印字典缺失警告，但小星星所有音都在字典内，不应出现）。
+4. 测试与验证
+启动开发服务器，访问 /song/1，应能看到五线谱下方出现指法图和字母谱。
 
-验证超时机制：可以在 useRenderLock 中暂时将超时时间改小（如 1ms）测试降级提示。
+指法图位置可能因缩放而略有偏移，但大致对齐。
 
-4. 可能的注意事项
-坐标偏移量微调：tx = pos.x - 3000 和 ty = pos.systemBottomY - 500 是基于陶笛原始 SVG 尺寸的经验值。如果指法图位置偏左或偏右，可能需要微调。可以在注入后通过浏览器检查指法图位置，如果偏移，可以调整这些常数（例如改为 -2800 或 -3200）。但先按此值，有问题再微调。
-
-系统行识别：abcjs 生成的系统行类名 .abcjs-system 是稳定的，但如果未来版本变化，需注意。
-
-字母谱字体：使用系统默认 serif 字体，已在 Tailwind 中配置。
+控制台不应有错误。
 
 5. 提交代码
-完成并验证后执行：
-
 bash
 git add .
-git commit -m "feat: 完成阶段5 完整黄金四轨渲染"
+git commit -m "feat: 重写 AbcRenderer 为绝对定位外部覆盖方案"
