@@ -35,6 +35,7 @@ export default function AbcRenderer({
 
   const injectFingering = useCallback(
     (svg: SVGSVGElement, payload: NotePayload[]) => {
+      console.log('===== injectFingering 开始 =====')
       const systems = svg.querySelectorAll('.abcjs-system')
       if (!systems.length) return
 
@@ -57,6 +58,12 @@ export default function AbcRenderer({
         })
       })
 
+      console.log('payload 长度:', payload.length)
+      console.log('positions 长度:', positions.length)
+      if (payload.length !== positions.length) {
+        console.warn('⚠️ 长度不匹配！索引可能错位')
+      }
+
       payload.forEach((item, idx) => {
         if (item.skip) return
         const pos = positions[idx]
@@ -64,6 +71,11 @@ export default function AbcRenderer({
           console.warn(`位置缺失，索引 ${idx}`)
           return
         }
+        console.log(
+          `音符 ${idx}: midi=${item.midi}, x=${pos.x.toFixed(
+            2
+          )}, bottomY=${pos.systemBottomY.toFixed(2)}`
+        )
 
         const state = DICT[item.midi]
         if (!state) {
@@ -76,6 +88,7 @@ export default function AbcRenderer({
         const { element: fingerG } = drawOcarina12(state)
         const tx = pos.x - 3000
         const ty = pos.systemBottomY - 500
+        console.log(`平移: translate(${tx.toFixed(2)}, ${ty.toFixed(2)})`)
         fingerG.setAttribute('transform', `translate(${tx}, ${ty})`)
 
         const targetSys = systems[pos.systemIndex]
@@ -118,9 +131,8 @@ export default function AbcRenderer({
 
     if (container && abcString) {
       try {
-        const modifiedAbc = injectSpacing(abcString, instrumentId)
         container.innerHTML = ''
-        abcjs.renderAbc(container, modifiedAbc, {
+        abcjs.renderAbc(container, abcString, {
           responsive: 'resize',
           add_classes: true,
           staffwidth: 600,
@@ -134,7 +146,9 @@ export default function AbcRenderer({
           throw new Error('SVG not found')
         }
 
-        injectFingering(svg, payload)
+        setTimeout(() => {
+          injectFingering(svg, payload)
+        }, 200)
         finishRender()
         onRenderComplete?.()
       } catch (err) {
