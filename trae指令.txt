@@ -1,233 +1,259 @@
-📦 阶段 2 开发指令（自包含版，可直接发送）
-任务名称：Project V-Tabs - 数据层与工具函数
+📦 阶段 4 开发指令
+任务名称：Project V-Tabs - 核心渲染器（基础）
 
-目标：创建所有核心数据结构和工具函数，包括类型定义、陶笛字典、MIDI 转换、ABC 解析（降维提取）、动态间距注入。这些模块不涉及 UI，可以独立验证。
+目标：创建 AbcRenderer 组件，实现以下功能：
 
-具体步骤：
+集成 abcjs 渲染五线谱。
 
-1. 创建类型定义文件 src/lib/types/index.ts
-请创建该文件，并写入以下内容：
+字体加载锁（useFontReady）：等待字体加载，超时3秒后强制渲染。
 
-typescript
-// 音符的 L2 数据（一个发音事件）
-export type NotePayload = {
-  midi: number;           // 绝对 MIDI 编号 (60 = C4)
-  skip: boolean;          // true 表示不渲染指法图（占位）
-  pitchClass?: string;    // 音名，如 "C"
-  octave?: number;        // 八度，如 4
-  rawPitch?: number;      // 原始视觉 pitch（可选，用于调试）
-};
+渲染锁（useRenderLock）：从开始渲染计时，5秒超时后降级为纯五线谱。
 
-// 指法状态数组，元素为 0 或 1（半孔暂不支持）
-export type FingeringState = (0 | 1)[];
+骨架屏展示。
 
-// 乐器定义接口
-export type InstrumentDefinition = {
-  id: string;                 // 如 'ocarina-12'
-  name: string;               // 如 '12孔陶笛'
-  holeCount: number;          // 孔数
-  range: [minMidi: number, maxMidi: number]; // 音域
-  dictionary: Record<number, FingeringState>; // MIDI -> 状态数组
-  draw: (state: FingeringState) => RenderResult; // 绘图函数（稍后实现）
-};
+不注入指法图，仅渲染五线谱。
 
-// 绘图函数返回结果
-export type RenderResult = {
-  element: SVGElement;    // 生成的 <g> 节点
-  width: number;          // 逻辑宽度 (px)，用于排版计算
-  height: number;         // 逻辑高度 (px)
-};
-
-// 坐标信息
-export type NotePosition = {
-  systemIndex: number;    // 所属系统行索引
-  x: number;              // 音符中心X坐标（SVG用户坐标）
-  systemBottomY: number;  // 系统行底部Y坐标（SVG用户坐标）
-};
-2. 创建陶笛 12 孔字典与绘图函数 src/components/InstrumentDicts/ocarina12.ts
-首先创建目录 src/components/InstrumentDicts（如果不存在），然后创建文件并写入以下内容：
-
-typescript
-import { FingeringState, RenderResult } from '@/lib/types';
-
-// 孔位顺序 (12个)
-export const HOLE_ORDER = ["LB","RB","L1","L2","L3","L4","R1","R2","R3","R4","LS","RS"];
-
-// 孔位坐标 (SVG用户坐标)
-const HOLE_COORDS = {
-  LB: { cx:1465, cy:1463, r:220 },
-  RB: { cx:3194, cy:1448, r:220 },
-  L1: { cx:926,  cy:2912, r:170 },
-  L2: { cx:1505, cy:3101, r:170 },
-  L3: { cx:2035, cy:3320, r:170 },
-  L4: { cx:2495, cy:3693, r:170 },
-  R1: { cx:3433, cy:2850, r:170 },
-  R2: { cx:3940, cy:3200, r:170 },
-  R3: { cx:4370, cy:3500, r:170 },
-  R4: { cx:4816, cy:3900, r:170 },
-  LS: { cx:1630, cy:2700, r:110 },
-  RS: { cx:3693, cy:3600, r:110 }
-};
-
-// 身体轮廓路径
-const BODY_PATH = "m4845,4460c-214,-23 -457,-59 -647,-95c-134,-26 -220,-43 -303,-58c-92,-18 -155,-31 -240,-52c-33,-7 -123,-28 -200,-45c-77,-18 -185,-43 -240,-57c-123,-30 -258,-63 -305,-72c-19,-4 -51,-13 -70,-19c-19,-6 -75,-21 -125,-32c-187,-43 -724,-207 -820,-250c-19,-9 -84,-33 -135,-49c-14,-5 -72,-30 -130,-56c-58,-26 -127,-56 -155,-67c-231,-92 -568,-308 -712,-457c-408,-421 -250,-826 442,-1134c98,-43 292,-111 410,-143c130,-35 163,-48 231,-90c61,-37 78,-54 112,-112l40,-68l6,-274c11,-496 30,-585 135,-622c51,-18 348,-14 394,6c64,26 88,74 147,296c13,47 29,104 37,128c7,23 13,51 13,62c0,10 4,21 9,24c5,3 12,23 16,43c3,21 20,83 36,138c147,488 175,556 274,664c45,49 196,173 265,217c25,16 47,31 50,35c3,3 41,30 85,60c44,30 105,73 135,95c30,22 100,72 155,109c114,78 166,116 331,235c64,47 146,106 183,133c36,26 73,53 81,60c8,7 74,57 145,112c432,331 707,576 920,820c35,40 95,131 95,143c0,6 6,17 13,24c18,18 47,110 47,150c-1,81 -76,150 -202,183c-73,20 -391,29 -523,15z";
-
-// 字典：MIDI → 12位0/1数组
-export const DICT: Record<number, FingeringState> = {
-  57: [1,1,1,1,1,1,1,1,1,1,1,1], // A3
-  58: [1,1,1,1,1,1,1,1,1,1,1,0], // Bb3
-  59: [1,1,1,1,1,1,1,1,1,1,0,1], // B3
-  60: [1,1,1,1,1,1,1,1,1,1,0,0], // C4
-  61: [1,1,1,1,1,1,1,1,1,0,0,1], // Db4
-  62: [1,1,1,1,1,1,1,1,1,0,0,0], // D4
-  63: [1,1,1,1,1,1,1,1,0,1,0,0], // Eb4
-  64: [1,1,1,1,1,1,1,1,0,0,0,0], // E4
-  65: [1,1,1,1,1,1,1,0,0,0,0,0], // F4
-  66: [1,1,1,1,1,1,0,0,1,0,0,0], // Gb4
-  67: [1,1,1,1,1,1,0,0,0,0,0,0], // G4
-  68: [1,1,1,1,0,1,0,0,1,0,0,0], // Ab4
-  69: [1,1,1,1,0,1,0,0,0,0,0,0], // A4
-  70: [1,1,1,0,0,1,0,0,1,0,0,0], // Bb4
-  71: [1,1,1,0,0,1,0,0,0,0,0,0], // B4
-  72: [1,1,0,0,0,1,0,0,0,0,0,0], // C5
-  73: [0,1,0,1,0,1,0,0,0,0,0,0], // Db5
-  74: [0,1,0,0,0,1,0,0,0,0,0,0], // D5
-  75: [0,1,0,0,0,0,0,0,0,0,0,0], // Eb5
-  76: [0,0,0,0,0,1,0,0,0,0,0,0], // E5
-  77: [0,0,0,0,0,0,0,0,0,0,0,0], // F5
-};
-
-// MIDI 到字母谱映射
-export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> = {
-  57: { letter: "A", octave: 3 },
-  58: { letter: "Bb", octave: 3 },
-  59: { letter: "B", octave: 3 },
-  60: { letter: "C", octave: 4 },
-  61: { letter: "Db", octave: 4 },
-  62: { letter: "D", octave: 4 },
-  63: { letter: "Eb", octave: 4 },
-  64: { letter: "E", octave: 4 },
-  65: { letter: "F", octave: 4 },
-  66: { letter: "Gb", octave: 4 },
-  67: { letter: "G", octave: 4 },
-  68: { letter: "Ab", octave: 4 },
-  69: { letter: "A", octave: 4 },
-  70: { letter: "Bb", octave: 4 },
-  71: { letter: "B", octave: 4 },
-  72: { letter: "C", octave: 5 },
-  73: { letter: "Db", octave: 5 },
-  74: { letter: "D", octave: 5 },
-  75: { letter: "Eb", octave: 5 },
-  76: { letter: "E", octave: 5 },
-  77: { letter: "F", octave: 5 },
-};
-
-// 绘图函数
-export function drawOcarina12(state: FingeringState): RenderResult {
-  const ns = "http://www.w3.org/2000/svg";
-  const g = document.createElementNS(ns, "g");
-
-  // 1. 身体轮廓
-  const path = document.createElementNS(ns, "path");
-  path.setAttribute("d", BODY_PATH);
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", "#3E2723");
-  path.setAttribute("stroke-width", "45");
-  g.appendChild(path);
-
-  // 2. 画12个孔
-  Object.entries(HOLE_COORDS).forEach(([id, { cx, cy, r }]) => {
-    const circle = document.createElementNS(ns, "circle");
-    circle.setAttribute("cx", cx.toString());
-    circle.setAttribute("cy", cy.toString());
-    circle.setAttribute("r", r.toString());
-    const idx = HOLE_ORDER.indexOf(id);
-    const isClosed = state[idx] === 1;
-    circle.setAttribute("fill", isClosed ? "#3E2723" : "#FFFFFF");
-    circle.setAttribute("stroke", "#3E2723");
-    circle.setAttribute("stroke-width", "35");
-    g.appendChild(circle);
-  });
-
-  return {
-    element: g,
-    width: 28,
-    height: 24,
-  };
-}
-3. 创建 pitch 转 MIDI 工具 src/lib/abc/pitchToMidi.ts
-typescript
-const DIATONIC_MIDI = [60, 62, 64, 65, 67, 69, 71]; // C D E F G A B
-
-export function visualPitchToMidi(pitch: number): number {
-  const noteIndex = pitch % 7;
-  const octaveShift = Math.floor(pitch / 7);
-  return DIATONIC_MIDI[noteIndex] + octaveShift * 12;
-}
-4. 创建动态间距注入工具 src/lib/abc/injectSpacing.ts
-typescript
-export function injectSpacing(abc: string, instrumentId: string): string {
-  // 固定指法图高度（逻辑高度 24px + 边距 20px）
-  const FINGER_HEIGHT = 24;
-  const PADDING = 20;
-  const sysstaffsep = FINGER_HEIGHT + PADDING;
-
-  // 在 ABC 头部插入指令（如果已有其他头部指令，应放在它们之前）
-  return `%%sysstaffsep ${sysstaffsep}\n%%spacing 2.0\n${abc}`;
-}
-5. 创建降维提取函数（简化版）src/lib/abc/parser.ts
-typescript
-import { parseOnly } from 'abcjs';
-import { visualPitchToMidi } from './pitchToMidi';
-import { NotePayload } from '@/lib/types';
-
-export function extractPayload(abcString: string): NotePayload[] {
-  const ast = parseOnly(abcString);
-  const payload: NotePayload[] = [];
-
-  // 简易遍历：假设只有单旋律，没有多声部、装饰音等
-  ast.lines?.forEach(line => {
-    line.staff?.forEach(staff => {
-      staff.voices?.forEach(voice => {
-        voice.forEach(elem => {
-          if (elem.el_type === 'note') {
-            if (elem.pitches && elem.pitches.length > 0) {
-              const pitch = elem.pitches[0].pitch;
-              const midi = visualPitchToMidi(pitch);
-              payload.push({ midi, skip: false });
-            } else {
-              // 音符无 pitches？理论上不会，但安全占位
-              payload.push({ midi: 0, skip: true });
-            }
-          } else {
-            // 非音符元素（小节线、休止符等）都作为占位
-            payload.push({ midi: 0, skip: true });
-          }
-        });
-      });
-    });
-  });
-
-  return payload;
-}
-6. 验收与测试
-运行 TypeScript 类型检查，确保无报错：
+依赖：需要安装 abcjs（如果尚未安装）：
 
 bash
-npx tsc --noEmit
-（可选）创建一个临时测试文件（如 src/test-data.ts），导入上述函数并打印结果，用 Node 执行验证（需要先安装 ts-node 或编译为 JS）。
+npm install abcjs
+1. 创建字体加载锁 Hook src/lib/hooks/useFontReady.ts
+该 Hook 用于等待文档字体加载，超时后强制就绪。
 
-预期结果：
+typescript
+import { useEffect, useState } from 'react';
 
-visualPitchToMidi(0) 返回 60。
+export function useFontReady(timeoutMs = 3000): boolean {
+  const [ready, setReady] = useState(false);
 
-injectSpacing("X:1\nK:C\nC", "ocarina-12") 返回以 %%sysstaffsep 44\n%%spacing 2.0\n 开头的字符串。
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    // 等待所有字体加载
+    document.fonts.ready.then(() => setReady(true));
+    timeout = setTimeout(() => setReady(true), timeoutMs); // 超时强制就绪
+    return () => clearTimeout(timeout);
+  }, [timeoutMs]);
 
-extractPayload("X:1\nK:C\nC D E F|") 应返回包含 4 个非 skip 项的数组，MIDI 依次为 60,62,64,65。
+  return ready;
+}
+2. 创建渲染锁 Hook src/lib/hooks/useRenderLock.ts
+该 Hook 用于监控渲染过程，超时后触发降级。
 
-完成标志
-所有文件创建并验证无误后，可以提交 Git：
+typescript
+import { useRef, useCallback } from 'react';
+
+export function useRenderLock(timeoutMs = 5000) {
+  const timerRef = useRef<NodeJS.Timeout>();
+
+  const startRender = useCallback((onTimeout: () => void) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onTimeout(); // 超时回调，用于降级
+    }, timeoutMs);
+  }, [timeoutMs]);
+
+  const finishRender = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = undefined;
+    }
+  }, []);
+
+  return { startRender, finishRender };
+}
+3. 创建 AbcRenderer 组件 src/components/song/AbcRenderer.tsx
+这是核心组件，负责渲染五线谱并集成防御机制。目前不实现指法图注入。
+
+tsx
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import * as abcjs from 'abcjs';
+import { useFontReady } from '@/lib/hooks/useFontReady';
+import { useRenderLock } from '@/lib/hooks/useRenderLock';
+import Skeleton from '@/components/ui/Skeleton';
+
+type AbcRendererProps = {
+  abcString: string;          // ABC 源码
+  instrumentId: string;       // 乐器 ID（暂未使用，但保留）
+  onRenderStart?: () => void;
+  onRenderComplete?: () => void;
+};
+
+export default function AbcRenderer({
+  abcString,
+  instrumentId,
+  onRenderStart,
+  onRenderComplete,
+}: AbcRendererProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [hasError, setHasError] = useState(false);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const fontReady = useFontReady(3000);
+  const { startRender, finishRender } = useRenderLock(5000);
+
+  // 降级处理函数：超时或错误时调用
+  const handleFallback = () => {
+    setIsTimeout(true);
+    setHasError(false); // 超时不算错误，只是不渲染指法图
+    // 可以在这里清理可能的部分渲染
+    if (containerRef.current) {
+      containerRef.current.innerHTML = ''; // 清空以防残留
+    }
+    // 通知父组件完成（降级完成也算完成）
+    onRenderComplete?.();
+  };
+
+  useEffect(() => {
+    if (!fontReady) return; // 字体未就绪，继续等待
+
+    // 重置状态
+    setHasError(false);
+    setIsTimeout(false);
+    onRenderStart?.();
+
+    // 启动渲染锁
+    startRender(handleFallback);
+
+    // 执行 abcjs 渲染
+    if (containerRef.current && abcString) {
+      try {
+        // 清空容器
+        containerRef.current.innerHTML = '';
+
+        // 调用 abcjs 渲染
+        abcjs.renderAbc(containerRef.current, abcString, {
+          responsive: 'resize',
+          add_classes: true,      // 添加 CSS 类名，便于后续定位
+          staffwidth: 600,        // 五线谱宽度（可调）
+          paddingtop: 20,
+          paddingbottom: 30,
+        });
+
+        // 渲染完成，结束锁
+        finishRender();
+        onRenderComplete?.();
+      } catch (err) {
+        console.error('abcjs 渲染错误:', err);
+        setHasError(true);
+        finishRender();
+        onRenderComplete?.();
+      }
+    }
+
+    // 清理函数
+    return () => {
+      finishRender();
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+    };
+  }, [abcString, fontReady, startRender, finishRender, onRenderStart, onRenderComplete]);
+
+  // 如果字体未就绪，显示骨架屏
+  if (!fontReady) {
+    return <Skeleton />;
+  }
+
+  // 如果发生错误，显示错误信息
+  if (hasError) {
+    return (
+      <div className="p-8 text-center text-wood-dark bg-red-50 rounded-lg">
+        ❌ 乐谱加载失败，请稍后重试。
+      </div>
+    );
+  }
+
+  // 如果超时（但未错误），显示纯五线谱（不注入指法图），但保留容器
+  return (
+    <div className="relative">
+      {isTimeout && (
+        <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">
+          加载超时，已显示基础谱面
+        </div>
+      )}
+      <div ref={containerRef} className="abc-paper"></div>
+    </div>
+  );
+}
+4. 更新详情页 src/app/song/[id]/page.tsx 以使用 AbcRenderer
+注意：需要先创建 app/song/[id]/ 目录（如果不存在）。并在其中创建 page.tsx。
+
+tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import Header from '@/components/layout/Header';
+import TitleBlock from '@/components/layout/TitleBlock';
+import ControlBar from '@/components/layout/ControlBar';
+import AbcRenderer from '@/components/song/AbcRenderer';
+import Skeleton from '@/components/ui/Skeleton';
+
+export default function SongPage() {
+  const { id } = useParams();
+  const [abcString, setAbcString] = useState<string | null>(null);
+  const [instrumentId, setInstrumentId] = useState('ocarina-12');
+
+  // 模拟从 API 或 sessionStorage 获取 ABC 源码
+  useEffect(() => {
+    // 这里暂时用硬编码的小星星 ABC 作为测试
+    const mockAbc = `X:1
+T:Twinkle
+M:4/4
+L:1/4
+K:C
+C C G G | A A G2 | F F E E | D D C2 |]`;
+    setAbcString(mockAbc);
+  }, [id]);
+
+  if (!abcString) {
+    return <Skeleton />;
+  }
+
+  return (
+    <main className="bg-bg min-h-screen pb-20">
+      <Header instrument={instrumentId} onInstrumentChange={() => {}} />
+      <TitleBlock title="Twinkle, Twinkle, Little Star" meta={{ key: 'C', tempo: 100 }} />
+      <AbcRenderer
+        abcString={abcString}
+        instrumentId={instrumentId}
+        onRenderStart={() => console.log('渲染开始')}
+        onRenderComplete={() => console.log('渲染完成')}
+      />
+      <ControlBar />
+    </main>
+  );
+}
+5. 添加样式（可选，确保容器有基础样式）
+在 src/app/globals.css 末尾添加：
+
+css
+.abc-paper svg {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  background: white;
+}
+6. 验收标准
+启动开发服务器（npm run dev），访问 /song/1（或其他 id），应能看到五线谱渲染，且控制台无报错。
+
+五线谱下方无指法图（符合阶段4目标）。
+
+快速刷新页面，应短暂显示骨架屏，然后出现五线谱。
+
+模拟字体加载缓慢（例如在 Network 中限制速度），应看到3秒后字体锁超时，但五线谱依然显示。
+
+模拟 abcjs 渲染超时（例如在 startRender 后故意不调用 finishRender），5秒后应出现超时提示条，且五线谱依然显示（降级）。
+
+TypeScript 类型检查通过（npx tsc --noEmit）。
+
+ESLint 无错误。
+
+7. 提交代码
+完成后执行 Git 提交：
 
 bash
 git add .
-git commit -m "feat: 完成阶段2 数据层与工具函数"
+git commit -m "feat: 完成阶段4 核心渲染器基础"
