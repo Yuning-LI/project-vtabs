@@ -1,8 +1,9 @@
-import { parseOnly } from 'abcjs'
+import * as abcjs from 'abcjs'
 import { visualPitchToMidi } from './pitchToMidi'
 import { NotePayload } from '@/lib/types'
 
 export function extractPayload(abcString: string): NotePayload[] {
+  const { parseOnly } = abcjs
   const tunes = parseOnly(abcString) as any[]
   const ast = tunes[0]
   const payload: NotePayload[] = []

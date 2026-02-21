@@ -1,68 +1,22 @@
-📦 阶段 4 开发指令
-任务名称：Project V-Tabs - 核心渲染器（基础）
+📦 阶段 5 开发指令（可直接发送）
+任务名称：Project V-Tabs - 核心渲染器（完整黄金四轨）
 
-目标：创建 AbcRenderer 组件，实现以下功能：
+目标：在阶段4的基础上，实现完整的黄金四轨渲染：
 
-集成 abcjs 渲染五线谱。
+使用阶段2的 extractPayload 从 ABC 源码提取音符数据。
 
-字体加载锁（useFontReady）：等待字体加载，超时3秒后强制渲染。
+在五线谱渲染后，测量每个音符的坐标（系统行底部和音符中心X）。
 
-渲染锁（useRenderLock）：从开始渲染计时，5秒超时后降级为纯五线谱。
+根据音符的 MIDI 从陶笛字典获取指法状态，调用 drawOcarina12 生成指法图 SVG 节点。
 
-骨架屏展示。
+将指法图注入到对应的系统行中，并添加字母谱文本。
 
-不注入指法图，仅渲染五线谱。
+处理占位符（skip: true 的不渲染）和字典缺失（静默跳过）。
 
-依赖：需要安装 abcjs（如果尚未安装）：
+依赖：确保已安装 abcjs 和 lucide-react（已安装）。阶段2 的 src/components/InstrumentDicts/ocarina12.ts 和 src/lib/abc/ 下的工具函数应该已经存在。
 
-bash
-npm install abcjs
-1. 创建字体加载锁 Hook src/lib/hooks/useFontReady.ts
-该 Hook 用于等待文档字体加载，超时后强制就绪。
-
-typescript
-import { useEffect, useState } from 'react';
-
-export function useFontReady(timeoutMs = 3000): boolean {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    // 等待所有字体加载
-    document.fonts.ready.then(() => setReady(true));
-    timeout = setTimeout(() => setReady(true), timeoutMs); // 超时强制就绪
-    return () => clearTimeout(timeout);
-  }, [timeoutMs]);
-
-  return ready;
-}
-2. 创建渲染锁 Hook src/lib/hooks/useRenderLock.ts
-该 Hook 用于监控渲染过程，超时后触发降级。
-
-typescript
-import { useRef, useCallback } from 'react';
-
-export function useRenderLock(timeoutMs = 5000) {
-  const timerRef = useRef<NodeJS.Timeout>();
-
-  const startRender = useCallback((onTimeout: () => void) => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      onTimeout(); // 超时回调，用于降级
-    }, timeoutMs);
-  }, [timeoutMs]);
-
-  const finishRender = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = undefined;
-    }
-  }, []);
-
-  return { startRender, finishRender };
-}
-3. 创建 AbcRenderer 组件 src/components/song/AbcRenderer.tsx
-这是核心组件，负责渲染五线谱并集成防御机制。目前不实现指法图注入。
+1. 修改 src/components/song/AbcRenderer.tsx，增加注入逻辑
+以下是完整的新版 AbcRenderer.tsx 代码。请直接替换原有文件内容。
 
 tsx
 'use client';
@@ -72,10 +26,14 @@ import * as abcjs from 'abcjs';
 import { useFontReady } from '@/lib/hooks/useFontReady';
 import { useRenderLock } from '@/lib/hooks/useRenderLock';
 import Skeleton from '@/components/ui/Skeleton';
+import { extractPayload } from '@/lib/abc/parser';
+import { injectSpacing } from '@/lib/abc/injectSpacing';
+import { DICT, drawOcarina12, MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12';
+import { NotePayload, NotePosition } from '@/lib/types';
 
 type AbcRendererProps = {
-  abcString: string;          // ABC 源码
-  instrumentId: string;       // 乐器 ID（暂未使用，但保留）
+  abcString: string;
+  instrumentId: string;
   onRenderStart?: () => void;
   onRenderComplete?: () => void;
 };
@@ -92,22 +50,93 @@ export default function AbcRenderer({
   const fontReady = useFontReady(3000);
   const { startRender, finishRender } = useRenderLock(5000);
 
-  // 降级处理函数：超时或错误时调用
+  // 注入指法图的函数
+  const injectFingering = (svg: SVGSVGElement, payload: NotePayload[]) => {
+    // 获取所有系统行
+    const systems = svg.querySelectorAll('.abcjs-system');
+    if (!systems.length) return;
+
+    const positions: NotePosition[] = [];
+
+    // 第一遍：测量所有音符坐标
+    systems.forEach((sys, sysIdx) => {
+      const sysBBox = sys.getBBox();
+      const systemBottomY = sysBBox.y + sysBBox.height;
+
+      const notes = sys.querySelectorAll('.abcjs-note');
+      notes.forEach(note => {
+        const noteBBox = note.getBBox();
+        const centerX = noteBBox.x + noteBBox.width / 2;
+        positions.push({
+          systemIndex: sysIdx,
+          x: centerX,
+          systemBottomY,
+        });
+      });
+    });
+
+    // 第二遍：遍历 payload 和 positions（索引对齐），注入指法图
+    payload.forEach((item, idx) => {
+      if (item.skip) return; // 占位符不渲染
+      const pos = positions[idx];
+      if (!pos) {
+        console.warn(`位置缺失，索引 ${idx}`);
+        return;
+      }
+
+      const state = DICT[item.midi];
+      if (!state) {
+        // 静默跳过（生产环境不报错），可打印调试信息
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`字典缺失 MIDI: ${item.midi}`);
+        }
+        return;
+      }
+
+      // 生成指法图
+      const { element: fingerG, width, height } = drawOcarina12(state);
+
+      // 计算偏移量：指法图中心约在 (3000, 2500)，顶部约 500，底部约 4500
+      // 我们希望指法图的顶部（y≈500）对齐到 systemBottomY
+      const tx = pos.x - 3000;       // 水平对齐中心
+      const ty = pos.systemBottomY - 500; // 垂直对齐顶部
+
+      fingerG.setAttribute('transform', `translate(${tx}, ${ty})`);
+
+      // 找到对应的系统行
+      const targetSys = systems[pos.systemIndex];
+      targetSys.appendChild(fingerG);
+
+      // 添加字母谱文本
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      const name = MIDI_TO_NAME[item.midi];
+      if (name) {
+        text.textContent = `${name.letter}${name.octave}`;
+      } else {
+        text.textContent = '?';
+      }
+      text.setAttribute('x', pos.x.toString());
+      text.setAttribute('y', (pos.systemBottomY + 30).toString()); // 放在指法图下方
+      text.setAttribute('font-size', '20');
+      text.setAttribute('fill', '#3E2723');
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('font-weight', 'bold');
+      targetSys.appendChild(text);
+    });
+  };
+
+  // 降级处理
   const handleFallback = () => {
     setIsTimeout(true);
-    setHasError(false); // 超时不算错误，只是不渲染指法图
-    // 可以在这里清理可能的部分渲染
     if (containerRef.current) {
       containerRef.current.innerHTML = ''; // 清空以防残留
     }
-    // 通知父组件完成（降级完成也算完成）
     onRenderComplete?.();
   };
 
   useEffect(() => {
-    if (!fontReady) return; // 字体未就绪，继续等待
+    if (!fontReady) return;
 
-    // 重置状态
     setHasError(false);
     setIsTimeout(false);
     onRenderStart?.();
@@ -115,47 +144,59 @@ export default function AbcRenderer({
     // 启动渲染锁
     startRender(handleFallback);
 
-    // 执行 abcjs 渲染
+    // 渲染五线谱
     if (containerRef.current && abcString) {
       try {
-        // 清空容器
+        // 1. 先进行间距注入
+        const modifiedAbc = injectSpacing(abcString, instrumentId);
+
+        // 2. 清空容器
         containerRef.current.innerHTML = '';
 
-        // 调用 abcjs 渲染
-        abcjs.renderAbc(containerRef.current, abcString, {
+        // 3. 渲染五线谱
+        abcjs.renderAbc(containerRef.current, modifiedAbc, {
           responsive: 'resize',
-          add_classes: true,      // 添加 CSS 类名，便于后续定位
-          staffwidth: 600,        // 五线谱宽度（可调）
+          add_classes: true,
+          staffwidth: 600,
           paddingtop: 20,
           paddingbottom: 30,
         });
 
-        // 渲染完成，结束锁
+        // 4. 提取 payload
+        const payload = extractPayload(abcString); // 注意：用原始 ABC 提取，不是修改后的
+
+        // 5. 获取 SVG 元素
+        const svg = containerRef.current.querySelector('svg');
+        if (!svg) {
+          throw new Error('SVG not found');
+        }
+
+        // 6. 注入指法图
+        injectFingering(svg, payload);
+
+        // 7. 结束锁
         finishRender();
         onRenderComplete?.();
       } catch (err) {
-        console.error('abcjs 渲染错误:', err);
+        console.error('渲染错误:', err);
         setHasError(true);
         finishRender();
         onRenderComplete?.();
       }
     }
 
-    // 清理函数
     return () => {
       finishRender();
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
       }
     };
-  }, [abcString, fontReady, startRender, finishRender, onRenderStart, onRenderComplete]);
+  }, [abcString, fontReady, instrumentId, startRender, finishRender, onRenderStart, onRenderComplete]);
 
-  // 如果字体未就绪，显示骨架屏
   if (!fontReady) {
     return <Skeleton />;
   }
 
-  // 如果发生错误，显示错误信息
   if (hasError) {
     return (
       <div className="p-8 text-center text-wood-dark bg-red-50 rounded-lg">
@@ -164,7 +205,6 @@ export default function AbcRenderer({
     );
   }
 
-  // 如果超时（但未错误），显示纯五线谱（不注入指法图），但保留容器
   return (
     <div className="relative">
       {isTimeout && (
@@ -176,84 +216,43 @@ export default function AbcRenderer({
     </div>
   );
 }
-4. 更新详情页 src/app/song/[id]/page.tsx 以使用 AbcRenderer
-注意：需要先创建 app/song/[id]/ 目录（如果不存在）。并在其中创建 page.tsx。
+2. 修复可能的问题：extractPayload 中的 parseOnly 导入
+请确保 src/lib/abc/parser.ts 中正确导入 abcjs 的 parseOnly 函数。如果之前未导入，请修改文件头部：
 
-tsx
-'use client';
+typescript
+import { parseOnly } from 'abcjs';
+如果 parseOnly 不存在于顶层导出，可能需要使用 abcjs.parseOnly。但根据文档，abcjs 默认导出包含 parseOnly。为了安全，可以改为：
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import Header from '@/components/layout/Header';
-import TitleBlock from '@/components/layout/TitleBlock';
-import ControlBar from '@/components/layout/ControlBar';
-import AbcRenderer from '@/components/song/AbcRenderer';
-import Skeleton from '@/components/ui/Skeleton';
+typescript
+import * as abcjs from 'abcjs';
+const { parseOnly } = abcjs;
+请在 parser.ts 中检查并修正。如果没问题则跳过。
 
-export default function SongPage() {
-  const { id } = useParams();
-  const [abcString, setAbcString] = useState<string | null>(null);
-  const [instrumentId, setInstrumentId] = useState('ocarina-12');
+3. 验收测试
+启动开发服务器：npm run dev
 
-  // 模拟从 API 或 sessionStorage 获取 ABC 源码
-  useEffect(() => {
-    // 这里暂时用硬编码的小星星 ABC 作为测试
-    const mockAbc = `X:1
-T:Twinkle
-M:4/4
-L:1/4
-K:C
-C C G G | A A G2 | F F E E | D D C2 |]`;
-    setAbcString(mockAbc);
-  }, [id]);
+访问 /song/1，应该能看到五线谱下方出现陶笛指法图和字母谱（例如 C4 的指法应该是 12 孔中前 10 个孔按住，后两个孔松开）。
 
-  if (!abcString) {
-    return <Skeleton />;
-  }
+检查指法图位置是否与音符对齐（可用浏览器开发者工具 inspect 元素，查看指法图的 transform 属性）。
 
-  return (
-    <main className="bg-bg min-h-screen pb-20">
-      <Header instrument={instrumentId} onInstrumentChange={() => {}} />
-      <TitleBlock title="Twinkle, Twinkle, Little Star" meta={{ key: 'C', tempo: 100 }} />
-      <AbcRenderer
-        abcString={abcString}
-        instrumentId={instrumentId}
-        onRenderStart={() => console.log('渲染开始')}
-        onRenderComplete={() => console.log('渲染完成')}
-      />
-      <ControlBar />
-    </main>
-  );
-}
-5. 添加样式（可选，确保容器有基础样式）
-在 src/app/globals.css 末尾添加：
+尝试不同的音符（小星星包含 C、D、E、F、G、A），字典应覆盖所有。
 
-css
-.abc-paper svg {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  height: auto;
-  background: white;
-}
-6. 验收标准
-启动开发服务器（npm run dev），访问 /song/1（或其他 id），应能看到五线谱渲染，且控制台无报错。
+旋转屏幕或缩放，指法图应跟随五线谱同步（因为都在 SVG 内部）。
 
-五线谱下方无指法图（符合阶段4目标）。
+控制台不应有错误或警告（开发环境可能打印字典缺失警告，但小星星所有音都在字典内，不应出现）。
 
-快速刷新页面，应短暂显示骨架屏，然后出现五线谱。
+验证超时机制：可以在 useRenderLock 中暂时将超时时间改小（如 1ms）测试降级提示。
 
-模拟字体加载缓慢（例如在 Network 中限制速度），应看到3秒后字体锁超时，但五线谱依然显示。
+4. 可能的注意事项
+坐标偏移量微调：tx = pos.x - 3000 和 ty = pos.systemBottomY - 500 是基于陶笛原始 SVG 尺寸的经验值。如果指法图位置偏左或偏右，可能需要微调。可以在注入后通过浏览器检查指法图位置，如果偏移，可以调整这些常数（例如改为 -2800 或 -3200）。但先按此值，有问题再微调。
 
-模拟 abcjs 渲染超时（例如在 startRender 后故意不调用 finishRender），5秒后应出现超时提示条，且五线谱依然显示（降级）。
+系统行识别：abcjs 生成的系统行类名 .abcjs-system 是稳定的，但如果未来版本变化，需注意。
 
-TypeScript 类型检查通过（npx tsc --noEmit）。
+字母谱字体：使用系统默认 serif 字体，已在 Tailwind 中配置。
 
-ESLint 无错误。
-
-7. 提交代码
-完成后执行 Git 提交：
+5. 提交代码
+完成并验证后执行：
 
 bash
 git add .
-git commit -m "feat: 完成阶段4 核心渲染器基础"
+git commit -m "feat: 完成阶段5 完整黄金四轨渲染"
