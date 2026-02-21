@@ -104,6 +104,15 @@ export default function AbcRenderer({
       const notes = containerRef.current?.querySelectorAll('.abcjs-note')
       if (!notes) return
 
+      const staffs = containerRef.current?.querySelectorAll('.abcjs-staff')
+      const staffBottoms: number[] = []
+      if (staffs) {
+        staffs.forEach(staff => {
+          const staffRect = staff.getBoundingClientRect()
+          staffBottoms.push(staffRect.bottom - containerBox.top)
+        })
+      }
+
       notes.forEach((noteElem, index) => {
         if (index >= midiSequence.length) return
 
@@ -113,7 +122,15 @@ export default function AbcRenderer({
 
         const noteRect = noteElem.getBoundingClientRect()
         const absoluteX = noteRect.left - containerBox.left + noteRect.width / 2
-        const absoluteY = noteRect.bottom - containerBox.top + 8
+        let absoluteY = noteRect.bottom - containerBox.top + 8
+
+        const parentStaff = noteElem.closest('.abcjs-staff')
+        if (parentStaff && staffs) {
+          const staffIndex = Array.from(staffs).indexOf(parentStaff)
+          if (staffIndex !== -1 && staffBottoms[staffIndex] !== undefined) {
+            absoluteY = staffBottoms[staffIndex] + 8
+          }
+        }
 
         const widget = document.createElement('div')
         widget.className = 'ocarina-widget'
