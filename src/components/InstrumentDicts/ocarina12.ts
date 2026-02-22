@@ -1,6 +1,10 @@
 import { FingeringState, RenderResult } from '@/lib/types'
 
-// 孔位顺序 (12个)
+/**
+ * 12 孔陶笛的孔位顺序，用于将指法数组映射到具体孔位
+ *
+ * 注意：此顺序必须与 SVG 模板中的孔位 ID 一致
+ */
 export const HOLE_ORDER = [
   'LB',
   'RB',
@@ -16,7 +20,11 @@ export const HOLE_ORDER = [
   'RS'
 ]
 
-// 孔位坐标 (SVG用户坐标)
+/**
+ * 12 孔位在 SVG 用户坐标系中的位置与半径
+ *
+ * 注意：坐标与孔位顺序共同决定最终渲染位置
+ */
 const HOLE_COORDS = {
   LB: { cx: 1465, cy: 1463, r: 220 },
   RB: { cx: 3194, cy: 1448, r: 220 },
@@ -32,11 +40,17 @@ const HOLE_COORDS = {
   RS: { cx: 3693, cy: 3600, r: 110 }
 }
 
-// 身体轮廓路径
+/**
+ * 陶笛身体轮廓的 SVG Path 数据
+ */
 const BODY_PATH =
   'm4845,4460c-214,-23 -457,-59 -647,-95c-134,-26 -220,-43 -303,-58c-92,-18 -155,-31 -240,-52c-33,-7 -123,-28 -200,-45c-77,-18 -185,-43 -240,-57c-123,-30 -258,-63 -305,-72c-19,-4 -51,-13 -70,-19c-19,-6 -75,-21 -125,-32c-187,-43 -724,-207 -820,-250c-19,-9 -84,-33 -135,-49c-14,-5 -72,-30 -130,-56c-58,-26 -127,-56 -155,-67c-231,-92 -568,-308 -712,-457c-408,-421 -250,-826 442,-1134c98,-43 292,-111 410,-143c130,-35 163,-48 231,-90c61,-37 78,-54 112,-112l40,-68l6,-274c11,-496 30,-585 135,-622c51,-18 348,-14 394,6c64,26 88,74 147,296c13,47 29,104 37,128c7,23 13,51 13,62c0,10 4,21 9,24c5,3 12,23 16,43c3,21 20,83 36,138c147,488 175,556 274,664c45,49 196,173 265,217c25,16 47,31 50,35c3,3 41,30 85,60c44,30 105,73 135,95c30,22 100,72 155,109c114,78 166,116 331,235c64,47 146,106 183,133c36,26 73,53 81,60c8,7 74,57 145,112c432,331 707,576 920,820c35,40 95,131 95,143c0,6 6,17 13,24c18,18 47,110 47,150c-1,81 -76,150 -202,183c-73,20 -391,29 -523,15z'
 
-// 字典：MIDI → 12位0/1数组
+/**
+ * MIDI 到指法状态的映射字典
+ *
+ * 指法数组为 12 位 0/1，1 表示按下（闭孔），0 表示抬起（开孔）
+ */
 export const DICT: Record<number, FingeringState> = {
   57: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   58: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -61,7 +75,9 @@ export const DICT: Record<number, FingeringState> = {
   77: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
 
-// MIDI 到字母谱映射
+/**
+ * MIDI 到字母谱名称与八度的映射
+ */
 export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
   {
     57: { letter: 'A', octave: 3 },
@@ -87,7 +103,12 @@ export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
     77: { letter: 'F', octave: 5 }
   }
 
-// 绘图函数
+/**
+ * 根据指法状态生成 12 孔陶笛的 SVG 结构
+ *
+ * @param state - 12 位指法数组
+ * @returns 渲染结果，包含 SVG 元素与尺寸信息
+ */
 export function drawOcarina12(state: FingeringState): RenderResult {
   const ns = 'http://www.w3.org/2000/svg'
   const g = document.createElementNS(ns, 'g')
@@ -100,14 +121,14 @@ export function drawOcarina12(state: FingeringState): RenderResult {
   path.setAttribute('stroke-width', '45')
   g.appendChild(path)
 
-  // 2. 画12个孔
+  // 2. 画 12 个孔位
   Object.entries(HOLE_COORDS).forEach(([id, { cx, cy, r }]) => {
     const circle = document.createElementNS(ns, 'circle')
     circle.setAttribute('cx', cx.toString())
     circle.setAttribute('cy', cy.toString())
     circle.setAttribute('r', r.toString())
-    const idx = HOLE_ORDER.indexOf(id)
-    const isClosed = state[idx] === 1
+    const idx = HOLE_ORDER.indexOf(id) // 将孔位 ID 映射到指法数组索引
+    const isClosed = state[idx] === 1 // 1 表示闭孔，0 表示开孔
     circle.setAttribute('fill', isClosed ? '#3E2723' : '#FFFFFF')
     circle.setAttribute('stroke', '#3E2723')
     circle.setAttribute('stroke-width', '35')

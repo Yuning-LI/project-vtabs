@@ -9,6 +9,9 @@ import AbcRenderer from '@/components/song/AbcRenderer'
 import Skeleton from '@/components/ui/Skeleton'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
+/**
+ * 硬编码几首曲子的 ABC 源码（完整版）
+ */
 const songAbcMap: Record<string, string> = {
   'twinkle': `X:1
 T:Twinkle, Twinkle, Little Star
@@ -59,6 +62,9 @@ K:C
 G G A G C B | G G A G D C | G G G E C B A | F F E C D C |]`
 }
 
+/**
+ * 曲目标题映射
+ */
 const songTitleMap: Record<string, string> = {
   'twinkle': 'Twinkle, Twinkle, Little Star',
   'ode-to-joy': 'Ode to Joy',
@@ -68,6 +74,9 @@ const songTitleMap: Record<string, string> = {
   'happy-birthday': 'Happy Birthday'
 }
 
+/**
+ * 曲目元信息映射
+ */
 const songMetaMap: Record<string, { key: string; tempo: number }> = {
   'twinkle': { key: 'C', tempo: 100 },
   'ode-to-joy': { key: 'C', tempo: 120 },
@@ -77,6 +86,11 @@ const songMetaMap: Record<string, { key: string; tempo: number }> = {
   'happy-birthday': { key: 'C', tempo: 90 }
 }
 
+/**
+ * 曲目详情页，根据 URL 的 id 加载对应 ABC 并渲染
+ *
+ * @returns 曲目详情页面
+ */
 export default function SongPage() {
   const { id } = useParams()
   const [abcString, setAbcString] = useState<string | null>(null)
@@ -86,9 +100,10 @@ export default function SongPage() {
   useEffect(() => {
     const fetchSong = async () => {
       setLoading(true)
+      // 模拟加载延迟，确保骨架屏可见
       await new Promise(resolve => setTimeout(resolve, 300))
-      const key = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : 'twinkle'
-      const abc = songAbcMap[key] || songAbcMap['twinkle']
+      const key = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : 'twinkle' // 兜底默认曲目
+      const abc = songAbcMap[key] || songAbcMap['twinkle'] // 找不到时回退到默认曲目
       setAbcString(abc)
       setLoading(false)
     }
@@ -106,9 +121,9 @@ export default function SongPage() {
     )
   }
 
-  const key = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : 'twinkle'
+  const key = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : 'twinkle' // 兜底默认曲目
   const title = songTitleMap[key] || 'Unknown Song'
-  const meta = songMetaMap[key] || { key: 'C', tempo: 100 }
+  const meta = songMetaMap[key] || { key: 'C', tempo: 100 } // 缺失时回退默认元信息
 
   return (
     <main className="bg-bg min-h-screen pb-20">

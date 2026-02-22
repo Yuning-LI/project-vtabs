@@ -13,6 +13,9 @@ type AbcRendererProps = {
   onRenderComplete?: () => void
 }
 
+/**
+ * 指法图 SVG 模板，用于在五线谱下方绘制陶笛按孔示意
+ */
 const SVG_TEMPLATE = `
 <svg viewBox="0 0 600 511" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(0, 511) scale(0.1, -0.1)">
@@ -32,6 +35,9 @@ const SVG_TEMPLATE = `
   </g>
 </svg>`
 
+/**
+ * 指法图孔位 ID 顺序，需与 SVG 模板中的 circle id 一致
+ */
 const HOLE_IDS = [
   'LB',
   'RB',
@@ -47,6 +53,14 @@ const HOLE_IDS = [
   'RS'
 ]
 
+/**
+ * 渲染 ABC 乐谱并叠加指法图与字母谱
+ *
+ * @param abcString - ABC 源码
+ * @param instrumentId - 当前乐器标识（用于保持接口一致）
+ * @param onRenderStart - 渲染开始回调
+ * @param onRenderComplete - 渲染完成回调
+ */
 export default function AbcRenderer({
   abcString,
   instrumentId,
@@ -55,8 +69,14 @@ export default function AbcRenderer({
 }: AbcRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const fontReady = useFontReady(3000)
+  const fontReady = useFontReady(3000) // 等待字体加载完成，避免测量偏移
 
+  /**
+   * 从 abcjs 的 visualObj 中提取 MIDI 序列
+   *
+   * @param visualObj - abcjs 渲染返回的结构
+   * @returns 依照视觉顺序排列的 MIDI 数组
+   */
   const extractMidiSequence = (visualObj: any): number[] => {
     const midiSequence: number[] = []
     visualObj[0]?.lines?.forEach((line: any) => {
@@ -64,8 +84,8 @@ export default function AbcRenderer({
         staff.voices?.forEach((voice: any) => {
           voice.forEach((elem: any) => {
             if (elem.el_type === 'note' && elem.pitches?.length > 0) {
-              const rawPitch = elem.pitches[0].pitch
-              const diatonic = [60, 62, 64, 65, 67, 69, 71]
+              const rawPitch = elem.pitches[0].pitch // abcjs 的音级索引
+              const diatonic = [60, 62, 64, 65, 67, 69, 71] // C4 到 B4 的 MIDI 基准
               const octave = Math.floor(rawPitch / 7)
               const noteIndex = rawPitch % 7
               const midi = diatonic[noteIndex] + octave * 12
@@ -83,9 +103,10 @@ export default function AbcRenderer({
 
     onRenderStart?.()
 
-    containerRef.current.innerHTML = ''
-    if (overlayRef.current) overlayRef.current.innerHTML = ''
+    containerRef.current.innerHTML = '' // 清空乐谱容器
+    if (overlayRef.current) overlayRef.current.innerHTML = '' // 清空覆盖层
 
+    // 渲染五线谱并获取可视对象
     const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
       responsive: 'resize',
       add_classes: true,
@@ -106,7 +127,7 @@ export default function AbcRenderer({
       const lyrics = containerRef.current?.querySelectorAll('.abcjs-lyric')
       if (!notes || !staffs) return
 
-      const EXTRA_GAP = 15
+      const EXTRA_GAP = 15 // 指法图与谱行/歌词的垂直间距
 
       notes.forEach((noteElem, index) => {
         if (index >= midiSequence.length) return
@@ -133,6 +154,7 @@ export default function AbcRenderer({
           }
         })
 
+        // 优先使用歌词底部，否则使用谱行底部作为基线
         const baseLineY = activeLyricBottom > 0 ? activeLyricBottom : currentStaffBottom
         const absoluteY = baseLineY - containerBox.top + EXTRA_GAP
 
