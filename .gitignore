@@ -9,3 +9,5 @@ dist
 .env.production.local
 .DS_Store
 .vercel
+playwright-report
+test-results
