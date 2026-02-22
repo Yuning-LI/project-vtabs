@@ -1,6 +1,7 @@
 'use client'
 
 import { ChevronLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 type HeaderProps = {
   instrument: string
@@ -11,10 +12,14 @@ export default function Header({
   instrument,
   onInstrumentChange
 }: HeaderProps) {
+  const router = useRouter()
   return (
     <header className="flex justify-between items-center py-3 px-4 bg-white border-b border-wood-dark/20">
       <div className="flex items-center gap-2">
-        <button className="p-1 hover:bg-wood-light rounded-full transition">
+        <button
+          onClick={() => router.push('/')}
+          className="p-1 hover:bg-wood-light rounded-full transition"
+        >
           <ChevronLeft size={20} className="text-primary" />
         </button>
         <span className="text-lg font-semibold text-primary">V-Tabs</span>
