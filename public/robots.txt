@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://project-vtabs.vercel.app
+
+# Sitemaps
+Sitemap: https://project-vtabs.vercel.app/sitemap.xml
