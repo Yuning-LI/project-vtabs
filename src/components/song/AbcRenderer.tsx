@@ -92,7 +92,13 @@ export default function AbcRenderer({
         staff.voices?.forEach((voice: any) => {
           voice.forEach((elem: any) => {
             if (elem.el_type === 'note' && elem.pitches?.length > 0) {
-              const rawPitch = elem.pitches[0].pitch // abcjs 的音级索引
+              let rawPitch: number
+              if (elem.pitches.length > 1) {
+                // 和弦：取最高音（pitch 值最大）
+                rawPitch = Math.max(...elem.pitches.map((p: any) => p.pitch))
+              } else {
+                rawPitch = elem.pitches[0].pitch
+              }
               const diatonic = [60, 62, 64, 65, 67, 69, 71] // C4 到 B4 的 MIDI 基准
               const octave = Math.floor(rawPitch / 7)
               const noteIndex = rawPitch % 7
