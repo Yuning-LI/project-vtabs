@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Ocarina Tabs & Fingering Charts | Interactive Visual Sheet Music',
+  title: 'Ocarina Tabs & Fingering Charts | Free 12-Hole Ocarina Songs',
   description:
-    'Free interactive ocarina tabs with visual fingering diagrams. Learn to play Twinkle Twinkle, Ode to Joy, Amazing Grace and more. No music theory needed.'
+    'Free interactive ocarina tabs for 12-hole AC ocarina. Learn to play Zelda songs, anime songs, and classics like Twinkle Twinkle. Visual fingering charts included.'
 }
 
 export default function Home() {
