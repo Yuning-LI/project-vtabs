@@ -45,7 +45,7 @@ T:Happy Birthday
 M:3/4
 L:1/4
 K:C
-G G A G C B | G G A G D C | G G G E C B A | F F E C D C |]`,
+G G A G c B | G G A G d c | G G G e c B A | F F e c d c |]`,
 
   'aura-lea': `X:1
 T:Aura Lea
