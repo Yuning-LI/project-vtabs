@@ -4,10 +4,10 @@ import { Play, Timer, Music, Volume2 } from 'lucide-react'
 
 export default function ControlBar() {
   const buttons = [
-    { icon: Play, label: '播放' },
-    { icon: Timer, label: '速度 1.0x' },
-    { icon: Music, label: '调号 C' },
-    { icon: Volume2, label: '伴奏' }
+    { icon: Play, label: 'Play' },
+    { icon: Timer, label: 'Speed 1.0x' },
+    { icon: Music, label: 'Key C' },
+    { icon: Volume2, label: 'Accompaniment' }
   ]
 
   return (

@@ -47,12 +47,18 @@ export default function SongClient() {
     <main className="bg-bg min-h-screen pb-20">
       <Header instrument={instrumentId} onInstrumentChange={() => {}} />
       <TitleBlock title={title} meta={meta} />
-      <ErrorBoundary fallback={<div className="p-8 text-center text-red-600">乐谱渲染出错了</div>}>
+      <ErrorBoundary
+        fallback={
+          <div className="p-8 text-center text-red-600">
+            Sheet music rendering failed.
+          </div>
+        }
+      >
         <AbcRenderer
           abcString={abcString!}
           instrumentId={instrumentId}
-          onRenderStart={() => console.log('渲染开始')}
-          onRenderComplete={() => console.log('渲染完成')}
+          onRenderStart={() => console.log('Render started')}
+          onRenderComplete={() => console.log('Render complete')}
         />
       </ErrorBoundary>
       <ControlBar />

@@ -13,7 +13,7 @@ export default function TitleBlock({ title, meta }: TitleBlockProps) {
         {title}
       </h1>
       <div className="flex gap-4 text-wood-dark text-sm mt-1">
-        <span>{meta.key}大调</span>
+        <span>Key: {meta.key}</span>
         <span>♩ = {meta.tempo}</span>
       </div>
     </div>

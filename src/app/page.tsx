@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-bg p-6">
-      <h1 className="text-3xl font-bold text-primary mb-6">曲目列表</h1>
+      <h1 className="text-3xl font-bold text-primary mb-6">Song List</h1>
       <div className="grid gap-4">
         {songs.map(song => (
           <Link
@@ -28,7 +28,7 @@ export default function Home() {
           >
             <h2 className="text-xl font-semibold text-primary">{song.title}</h2>
             <p className="text-wood-dark text-sm mt-1">
-              {song.key}大调 · ♩ = {song.tempo}
+              Key: {song.key} · ♩ = {song.tempo}
             </p>
           </Link>
         ))}

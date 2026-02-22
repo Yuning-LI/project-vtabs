@@ -30,7 +30,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // 记录错误，便于排查
-    console.error('错误边界捕获到错误:', error, errorInfo)
+    console.error('Error boundary caught an error:', error, errorInfo)
   }
 
   render() {

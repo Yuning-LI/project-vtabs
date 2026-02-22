@@ -19,7 +19,7 @@ export default function Header({
         </button>
         <span className="text-lg font-semibold text-primary">V-Tabs</span>
         <span className="text-xs bg-wood-light text-primary px-2 py-1 rounded-full">
-          详情页独立
+          Independent Page
         </span>
       </div>
       <div>
@@ -27,7 +27,7 @@ export default function Header({
           onClick={onInstrumentChange}
           className="bg-primary text-wood-light px-4 py-2 rounded-full text-sm font-medium border border-wood-dark hover:bg-opacity-90 transition"
         >
-          🌿 {instrument === 'ocarina-12' ? '12孔陶笛' : instrument}
+          🌿 {instrument === 'ocarina-12' ? '12-Hole Ocarina' : instrument}
         </button>
       </div>
     </header>
