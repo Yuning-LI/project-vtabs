@@ -124,7 +124,7 @@ export default function AbcRenderer({
     const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
       responsive: 'resize',
       add_classes: true,
-      staffwidth: 600,
+      wrap: { minSpacing: 1.8, maxSpacing: 2.5, preferredMeasuresPerLine: 0 },
       paddingtop: 20,
       paddingbottom: 30
     })
