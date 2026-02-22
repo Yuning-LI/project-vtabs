@@ -35,6 +35,14 @@ const SVG_TEMPLATE = `
   </g>
 </svg>`
 
+const PLACEHOLDER_SVG = `
+<svg viewBox="0 0 600 511" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0, 511) scale(0.1, -0.1)">
+    <circle cx="3000" cy="2500" r="800" fill="#f0f0f0" stroke="#aaa" stroke-width="50" />
+    <text x="3000" y="2800" font-size="1200" text-anchor="middle" fill="#666" font-family="Arial, sans-serif">?</text>
+  </g>
+</svg>`
+
 /**
  * 指法图孔位 ID 顺序，需与 SVG 模板中的 circle id 一致
  */
@@ -134,7 +142,6 @@ export default function AbcRenderer({
 
         const midi = midiSequence[index]
         const dictData = DICT[midi]
-        if (!dictData) return
 
         const noteRect = noteElem.getBoundingClientRect()
         const absoluteX = noteRect.left - containerBox.left + noteRect.width / 2
@@ -157,6 +164,28 @@ export default function AbcRenderer({
         // 优先使用歌词底部，否则使用谱行底部作为基线
         const baseLineY = activeLyricBottom > 0 ? activeLyricBottom : currentStaffBottom
         const absoluteY = baseLineY - containerBox.top + EXTRA_GAP
+
+        if (!dictData) {
+          const widget = document.createElement('div')
+          widget.className = 'ocarina-widget'
+          widget.style.left = absoluteX + 'px'
+          widget.style.top = absoluteY + 'px'
+
+          const svgContainer = document.createElement('div')
+          svgContainer.innerHTML = PLACEHOLDER_SVG
+          const svgDom = svgContainer.querySelector('svg')
+          if (svgDom) {
+            widget.appendChild(svgDom)
+          }
+
+          const letter = document.createElement('div')
+          letter.className = 'text-[12px] font-bold text-primary'
+          letter.textContent = '?'
+          widget.appendChild(letter)
+
+          overlay.appendChild(widget)
+          return
+        }
 
         const widget = document.createElement('div')
         widget.className = 'ocarina-widget'
