@@ -13,6 +13,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="0v8KW9rp4IJiR2C0dT07wTgI5KZWSQDjREcYZ50ZPAM"
+        />
+      </head>
       <body className="bg-bg text-primary font-serif">{children}</body>
     </html>
   )
