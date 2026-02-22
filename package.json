@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
@@ -13,6 +14,7 @@
     "abcjs": "^6.2.3",
     "lucide-react": "^0.473.0",
     "next": "14.2.5",
+    "next-sitemap": "^4.2.3",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
