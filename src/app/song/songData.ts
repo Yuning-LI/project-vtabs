@@ -75,15 +75,17 @@ G2G|c2B|A2G|F2F|E3-|E2E|
 G2G|c2c|B2A|G2F|E3-|E2E|
 c2B|A2G|F2F|E2D|C3-|C2|`,
 
-  'greensleeves': `X:1
-T:Greensleeves
-M:6/8
-L:1/8
-K:C
-E|C2C G2G|A2A G2E|F2F E2D|C4 E|
-C2C G2G|A2A G2E|F2F E2D|C4 z|
-E|G2G G2G|A2B c2c|B2A G2E|F4 E|
-C2C G2G|A2A G2E|F2F E2D|C4|`,
+  'greensleeves': `X:168
+T:B168-  Greensleeves
+S:(1st/6)
+Q:120
+L:1/4
+M:6/4
+K:Gm
+G|B2cd3/2e/2d|c2AF3/2G/2A|B2GG3/2^F/2G|A2^FD2G|\
+B2cd3/2e/2d|c2AF3/2G/2A|B3/2A/2G^F3/2=E/2F|G3D3|\
+(f3f2)=e/2d/2|c2AF3/2G/2A|B2GG3/2^F/2G|A2^FD3|\
+(f3f2)=e/2d/2|c2AF3/2G/2A|B2G^F3/2=E/2F|(G3G2)|]`,
 
   'danny-boy': `X:1
 T:Danny Boy
