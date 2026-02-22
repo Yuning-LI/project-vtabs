@@ -4,7 +4,10 @@ export default function Home() {
   const songs = [
     { id: 'twinkle', title: 'Twinkle, Twinkle, Little Star', key: 'C', tempo: 100 },
     { id: 'ode-to-joy', title: 'Ode to Joy', key: 'C', tempo: 120 },
-    { id: 'amazing-grace', title: 'Amazing Grace', key: 'C', tempo: 80 }
+    { id: 'amazing-grace', title: 'Amazing Grace', key: 'C', tempo: 80 },
+    { id: 'mary-lamb', title: 'Mary Had a Little Lamb', key: 'C', tempo: 110 },
+    { id: 'jingle-bells', title: 'Jingle Bells', key: 'C', tempo: 130 },
+    { id: 'happy-birthday', title: 'Happy Birthday', key: 'C', tempo: 90 }
   ]
 
   return (
