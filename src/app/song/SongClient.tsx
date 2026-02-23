@@ -10,7 +10,7 @@ import Skeleton from '@/components/ui/Skeleton'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { songAbcMap, songMetaMap, songTitleMap } from '@/app/song/songData'
 
-export default function SongClient() {
+export default function SongClient({ description }: { description: string }) {
   const { id } = useParams()
   const [abcString, setAbcString] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -61,6 +61,10 @@ export default function SongClient() {
           onRenderComplete={() => console.log('Render complete')}
         />
       </ErrorBoundary>
+      <section className="mt-8 p-6 bg-white rounded-xl border border-wood-dark/10">
+        <h2 className="text-xl font-bold text-primary mb-3">About This Song</h2>
+        <p className="text-wood-dark leading-relaxed">{description}</p>
+      </section>
       <ControlBar />
     </main>
   )
