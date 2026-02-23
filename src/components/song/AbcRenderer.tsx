@@ -91,7 +91,7 @@ export default function AbcRenderer({
       line.staff?.forEach((staff: any) => {
         staff.voices?.forEach((voice: any) => {
           voice.forEach((elem: any) => {
-            if (elem.el_type === 'note' && elem.pitches?.length > 0) {
+            if (elem.el_type === 'note' && !elem.grace && elem.pitches?.length > 0) {
               let rawPitch: number
               if (elem.pitches.length > 1) {
                 // 和弦：取最高音（pitch 值最大）
