@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import * as abcjs from 'abcjs'
 import { useFontReady } from '@/lib/hooks/useFontReady'
+import { useRenderLock } from '@/lib/hooks/useRenderLock'
 import Skeleton from '@/components/ui/Skeleton'
 import { DICT, MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12'
 
@@ -78,6 +79,14 @@ export default function AbcRenderer({
   const containerRef = useRef<HTMLDivElement>(null)
   const overlayRef = useRef<HTMLDivElement>(null)
   const fontReady = useFontReady(3000) // 等待字体加载完成，避免测量偏移
+  const { startRender, finishRender } = useRenderLock(5000)
+  const [isTimeout, setIsTimeout] = useState(false)
+
+  const handleTimeout = useCallback(() => {
+    setIsTimeout(true)
+    finishRender()
+    onRenderComplete?.()
+  }, [finishRender, onRenderComplete])
 
   /**
    * 从 abcjs 的 visualObj 中提取 MIDI 序列
@@ -116,119 +125,146 @@ export default function AbcRenderer({
     if (!fontReady || !containerRef.current || !abcString) return
 
     onRenderStart?.()
+    setIsTimeout(false)
+    startRender(handleTimeout)
 
-    containerRef.current.innerHTML = '' // 清空乐谱容器
-    if (overlayRef.current) overlayRef.current.innerHTML = '' // 清空覆盖层
+    containerRef.current.innerHTML = ''
+    if (overlayRef.current) overlayRef.current.innerHTML = ''
 
-    // 渲染五线谱并获取可视对象
-    const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
-      responsive: 'resize',
-      add_classes: true,
-      staffwidth: 500,
-      wrap: { minSpacing: 1.8 },
-      paddingtop: 20,
-      paddingbottom: 30
-    } as any)
+    try {
+      const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
+        responsive: 'resize',
+        add_classes: true,
+        staffwidth: 500,
+        wrap: { minSpacing: 1.8 },
+        paddingtop: 20,
+        paddingbottom: 30
+      } as any)
 
-    const midiSequence = extractMidiSequence(visualObj)
+      const midiSequence = extractMidiSequence(visualObj)
 
-    setTimeout(() => {
-      const containerBox = containerRef.current?.getBoundingClientRect()
-      const overlay = overlayRef.current
-      if (!containerBox || !overlay) return
+      setTimeout(() => {
+        const containerBox = containerRef.current?.getBoundingClientRect()
+        const overlay = overlayRef.current
+        if (!containerBox || !overlay) {
+          finishRender()
+          onRenderComplete?.()
+          return
+        }
 
-      const notes = containerRef.current?.querySelectorAll('.abcjs-note')
-      const staffs = containerRef.current?.querySelectorAll('.abcjs-staff')
-      const lyrics = containerRef.current?.querySelectorAll('.abcjs-lyric')
-      if (!notes || !staffs) return
+        const notes = containerRef.current?.querySelectorAll('.abcjs-note')
+        const staffs = containerRef.current?.querySelectorAll('.abcjs-staff')
+        const lyrics = containerRef.current?.querySelectorAll('.abcjs-lyric')
+        if (!notes || !staffs) {
+          finishRender()
+          onRenderComplete?.()
+          return
+        }
 
-      const EXTRA_GAP = 15 // 指法图与谱行/歌词的垂直间距
+        const EXTRA_GAP = 15
 
-      notes.forEach((noteElem, index) => {
-        if (index >= midiSequence.length) return
+        notes.forEach((noteElem, index) => {
+          if (index >= midiSequence.length) return
 
-        const midi = midiSequence[index]
-        const dictData = DICT[midi]
+          const midi = midiSequence[index]
+          const dictData = DICT[midi]
 
-        const noteRect = noteElem.getBoundingClientRect()
-        const absoluteX = noteRect.left - containerBox.left + noteRect.width / 2
-        let currentStaffBottom = 0
-        staffs.forEach(staff => {
-          const staffRect = staff.getBoundingClientRect()
-          if (noteRect.top < staffRect.bottom && noteRect.bottom > staffRect.top - 50) {
-            currentStaffBottom = staffRect.bottom
+          const noteRect = noteElem.getBoundingClientRect()
+          const absoluteX = noteRect.left - containerBox.left + noteRect.width / 2
+          let currentStaffBottom = 0
+          staffs.forEach(staff => {
+            const staffRect = staff.getBoundingClientRect()
+            if (noteRect.top < staffRect.bottom && noteRect.bottom > staffRect.top - 50) {
+              currentStaffBottom = staffRect.bottom
+            }
+          })
+
+          let activeLyricBottom = 0
+          lyrics?.forEach(ly => {
+            const lyRect = ly.getBoundingClientRect()
+            if (lyRect.height > 0 && Math.abs(lyRect.top - currentStaffBottom) < 60) {
+              activeLyricBottom = Math.max(activeLyricBottom, lyRect.bottom)
+            }
+          })
+
+          const baseLineY = activeLyricBottom > 0 ? activeLyricBottom : currentStaffBottom
+          const absoluteY = baseLineY - containerBox.top + EXTRA_GAP
+
+          if (!dictData) {
+            const widget = document.createElement('div')
+            widget.className = 'ocarina-widget'
+            widget.style.left = absoluteX + 'px'
+            widget.style.top = absoluteY + 'px'
+
+            const svgContainer = document.createElement('div')
+            svgContainer.innerHTML = PLACEHOLDER_SVG
+            const svgDom = svgContainer.querySelector('svg')
+            if (svgDom) {
+              widget.appendChild(svgDom)
+            }
+
+            const letter = document.createElement('div')
+            letter.className = 'text-[12px] font-bold text-primary'
+            letter.textContent = '?'
+            widget.appendChild(letter)
+
+            overlay.appendChild(widget)
+            return
           }
-        })
 
-        let activeLyricBottom = 0
-        lyrics?.forEach(ly => {
-          const lyRect = ly.getBoundingClientRect()
-          if (lyRect.height > 0 && Math.abs(lyRect.top - currentStaffBottom) < 60) {
-            activeLyricBottom = Math.max(activeLyricBottom, lyRect.bottom)
-          }
-        })
-
-        // 优先使用歌词底部，否则使用谱行底部作为基线
-        const baseLineY = activeLyricBottom > 0 ? activeLyricBottom : currentStaffBottom
-        const absoluteY = baseLineY - containerBox.top + EXTRA_GAP
-
-        if (!dictData) {
           const widget = document.createElement('div')
           widget.className = 'ocarina-widget'
           widget.style.left = absoluteX + 'px'
           widget.style.top = absoluteY + 'px'
 
           const svgContainer = document.createElement('div')
-          svgContainer.innerHTML = PLACEHOLDER_SVG
+          svgContainer.innerHTML = SVG_TEMPLATE
           const svgDom = svgContainer.querySelector('svg')
-          if (svgDom) {
-            widget.appendChild(svgDom)
+          if (!svgDom) return
+
+          for (let i = 0; i < 12; i++) {
+            const circle = svgDom.querySelector('#' + HOLE_IDS[i])
+            if (circle) {
+              circle.setAttribute(
+                'fill',
+                dictData[i] === 1 ? '#3E2723' : '#FFFFFF'
+              )
+            }
           }
 
           const letter = document.createElement('div')
           letter.className = 'text-[12px] font-bold text-primary'
-          letter.textContent = '?'
+          const name = MIDI_TO_NAME[midi]
+          letter.innerHTML = name
+            ? `${name.letter}<sub class="text-[8px] text-wood-dark ml-0.5">${name.octave}</sub>`
+            : '?'
+
+          widget.appendChild(svgDom)
           widget.appendChild(letter)
-
           overlay.appendChild(widget)
-          return
-        }
+        })
 
-        const widget = document.createElement('div')
-        widget.className = 'ocarina-widget'
-        widget.style.left = absoluteX + 'px'
-        widget.style.top = absoluteY + 'px'
-
-        const svgContainer = document.createElement('div')
-        svgContainer.innerHTML = SVG_TEMPLATE
-        const svgDom = svgContainer.querySelector('svg')
-        if (!svgDom) return
-
-        for (let i = 0; i < 12; i++) {
-          const circle = svgDom.querySelector('#' + HOLE_IDS[i])
-          if (circle) {
-            circle.setAttribute(
-              'fill',
-              dictData[i] === 1 ? '#3E2723' : '#FFFFFF'
-            )
-          }
-        }
-
-        const letter = document.createElement('div')
-        letter.className = 'text-[12px] font-bold text-primary'
-        const name = MIDI_TO_NAME[midi]
-        letter.innerHTML = name
-          ? `${name.letter}<sub class="text-[8px] text-wood-dark ml-0.5">${name.octave}</sub>`
-          : '?'
-
-        widget.appendChild(svgDom)
-        widget.appendChild(letter)
-        overlay.appendChild(widget)
-      })
-
+        finishRender()
+        onRenderComplete?.()
+      }, 200)
+    } catch (err) {
+      console.error('渲染错误:', err)
+      finishRender()
       onRenderComplete?.()
-    }, 200)
-  }, [abcString, fontReady, instrumentId, onRenderStart, onRenderComplete])
+    }
+
+    return () => {
+      finishRender()
+    }
+  }, [
+    abcString,
+    fontReady,
+    startRender,
+    finishRender,
+    handleTimeout,
+    onRenderStart,
+    onRenderComplete
+  ])
 
   if (!fontReady) {
     return <Skeleton />
@@ -236,6 +272,11 @@ export default function AbcRenderer({
 
   return (
     <div className="relative">
+      {isTimeout && (
+        <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded shadow">
+          ⏳ 渲染超时，已显示基础谱面
+        </div>
+      )}
       <div ref={containerRef} className="abc-paper"></div>
       <div
         ref={overlayRef}

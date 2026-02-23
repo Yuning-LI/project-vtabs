@@ -1,5 +1,25 @@
 import { useCallback, useRef } from 'react'
 
+export function createRenderLock(timeoutMs = 5000) {
+  let timer: ReturnType<typeof setTimeout> | undefined
+
+  const startRender = (onTimeout: () => void) => {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(() => {
+      onTimeout()
+    }, timeoutMs)
+  }
+
+  const finishRender = () => {
+    if (timer) {
+      clearTimeout(timer)
+      timer = undefined
+    }
+  }
+
+  return { startRender, finishRender }
+}
+
 export function useRenderLock(timeoutMs = 5000) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
