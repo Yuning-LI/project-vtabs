@@ -43,6 +43,19 @@ export default function Home() {
           </Link>
         ))}
       </div>
+      <section className="mt-12 p-6 bg-white rounded-xl border border-wood-dark/10">
+        <h2 className="text-2xl font-bold text-primary mb-4">About OcarinaMaster</h2>
+        <p className="text-wood-dark leading-relaxed">
+          Welcome to OcarinaMaster, your free source for interactive 12-hole AC ocarina tabs and fingering charts.
+          Learn to play your favorite songs – from traditional folk tunes to Zelda classics – with our visual,
+          easy-to-follow finger diagrams. No music theory required, just click and play. Perfect for beginners
+          and hobbyists.
+        </p>
+        <p className="text-wood-dark leading-relaxed mt-4">
+          Our collection includes popular pieces like Twinkle Twinkle Little Star, Ode to Joy, Amazing Grace,
+          and many more. All tabs are free and optimized for mobile devices. Start your ocarina journey today!
+        </p>
+      </section>
     </main>
   )
 }
