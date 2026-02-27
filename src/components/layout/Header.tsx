@@ -22,9 +22,9 @@ export default function Header({
         >
           <ChevronLeft size={20} className="text-primary" />
         </button>
-        <span className="text-lg font-semibold text-primary">V-Tabs</span>
+        <span className="text-lg font-semibold text-primary">Play By Fingering</span>
         <span className="text-xs bg-wood-light text-primary px-2 py-1 rounded-full">
-          Independent Page
+          Learn Ocarina
         </span>
       </div>
       <div>

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Ocarina Tabs & Fingering Charts | Free 12-Hole Ocarina Songs',
+  title: 'Play By Fingering – Ocarina Tabs & Visual Fingering Charts',
   description:
-    'Free interactive ocarina tabs for 12-hole AC ocarina. Learn to play Zelda songs, anime songs, and classics like Twinkle Twinkle. Visual fingering charts included.'
+    'Free interactive ocarina tabs for 12-hole AC ocarina. Visual fingering charts for beginners. Learn Zelda songs, folk tunes, and more.'
 }
 
 export default function Home() {
@@ -28,7 +28,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-bg p-6">
-      <h1 className="text-3xl font-bold text-primary mb-6">Song List</h1>
+      <h1 className="text-3xl font-bold text-primary mb-2">Play By Fingering</h1>
+      <p className="text-wood-dark text-sm mb-6">
+        Learn ocarina with interactive tabs
+      </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {songs.map(song => (
           <Link
@@ -44,9 +47,9 @@ export default function Home() {
         ))}
       </div>
       <section className="mt-12 p-6 bg-white rounded-xl border border-wood-dark/10">
-        <h2 className="text-2xl font-bold text-primary mb-4">About OcarinaMaster</h2>
+        <h2 className="text-2xl font-bold text-primary mb-4">About Play By Fingering</h2>
         <p className="text-wood-dark leading-relaxed">
-          Welcome to OcarinaMaster, your free source for interactive 12-hole AC ocarina tabs and fingering charts.
+          Welcome to Play By Fingering, your free source for interactive 12-hole AC ocarina tabs and fingering charts.
           Learn to play your favorite songs – from traditional folk tunes to Zelda classics – with our visual,
           easy-to-follow finger diagrams. No music theory required, just click and play. Perfect for beginners
           and hobbyists.

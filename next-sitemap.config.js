@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://project-vtabs.vercel.app',
+  siteUrl: process.env.SITE_URL || 'https://playbyfingering.com',
   generateRobotsTxt: true,
   exclude: [],
   robotsTxtOptions: {

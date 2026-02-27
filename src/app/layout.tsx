@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Project V-Tabs',
-  description: 'Project V-Tabs'
+  title: 'Play By Fingering – Ocarina Tabs & Visual Fingering Charts',
+  description:
+    'Free interactive ocarina tabs for 12-hole AC ocarina. Visual fingering charts for beginners. Learn Zelda songs, folk tunes, and more.'
 }
 
 export default function RootLayout({
