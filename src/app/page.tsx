@@ -23,7 +23,8 @@ export default function Home() {
     { id: 'when-the-saints', title: 'When the Saints Go Marching In', key: 'C', tempo: 100 },
     { id: 'you-are-my-sunshine', title: 'You Are My Sunshine', key: 'C', tempo: 100 },
     { id: 'over-the-rainbow', title: 'Over the Rainbow', key: 'C', tempo: 100 },
-    { id: 'we-wish-you', title: 'We Wish You a Merry Christmas', key: 'C', tempo: 100 }
+    { id: 'we-wish-you', title: 'We Wish You a Merry Christmas', key: 'C', tempo: 100 },
+    { id: 'red-river', title: 'Red River Valley', key: 'C', tempo: 100 }
   ]
 
   return (

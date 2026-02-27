@@ -97,26 +97,27 @@ export default function AbcRenderer({
   const extractMidiSequence = (visualObj: any): number[] => {
     const midiSequence: number[] = []
     visualObj[0]?.lines?.forEach((line: any) => {
-      line.staff?.forEach((staff: any) => {
-        staff.voices?.forEach((voice: any) => {
-          voice.forEach((elem: any) => {
+      const staffs = line.staff
+      if (!staffs || staffs.length === 0) return
+      const staff = staffs[0]
+        if (staff.voices && staff.voices.length > 0) {
+          const mainVoice = staff.voices[0]
+          mainVoice.forEach((elem: any) => {
             if (elem.el_type === 'note' && !elem.grace && elem.pitches?.length > 0) {
               let rawPitch: number
               if (elem.pitches.length > 1) {
-                // 和弦：取最高音（pitch 值最大）
                 rawPitch = Math.max(...elem.pitches.map((p: any) => p.pitch))
               } else {
                 rawPitch = elem.pitches[0].pitch
               }
-              const diatonic = [60, 62, 64, 65, 67, 69, 71] // C4 到 B4 的 MIDI 基准
+              const diatonic = [60, 62, 64, 65, 67, 69, 71]
               const octave = Math.floor(rawPitch / 7)
               const noteIndex = rawPitch % 7
               const midi = diatonic[noteIndex] + octave * 12
               midiSequence.push(midi)
             }
           })
-        })
-      })
+        }
     })
     return midiSequence
   }

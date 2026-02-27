@@ -33,7 +33,9 @@ const descriptions: Record<string, string> = {
   'over-the-rainbow':
     'Free Over the Rainbow ocarina tabs for 12-hole AC ocarina. Learn this Wizard of Oz classic with visual fingering diagrams. 1939 public domain.',
   'we-wish-you':
-    'Free We Wish You a Merry Christmas ocarina tabs for 12-hole AC ocarina. Easy Christmas song with visual fingering charts. Perfect for holiday practice.'
+    'Free We Wish You a Merry Christmas ocarina tabs for 12-hole AC ocarina. Easy Christmas song with visual fingering charts. Perfect for holiday practice.',
+  'red-river':
+    'Learn to play Red River Valley on 12-hole ocarina. Free interactive tabs with visual fingering charts. Traditional Canadian folk song with harmony part.'
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }) {

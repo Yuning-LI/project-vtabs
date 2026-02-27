@@ -146,6 +146,16 @@ C|C C C|D D D|E E F|G3|
 G G G|A A A|G G F|E3|
 C C C|D D D|E E F|G3|
 G G G|A A A|G F E|C3|]`
+,
+  'red-river': `X:1
+T:Red River Valley
+M:4/4
+L:1/4
+K:C
+V:1 name="Melody"
+C | E F G A | G4 E | G A G E | C4 C | E F G A | G4 E | F E D C | C4 |]
+V:2 name="Harmony"
+C | C C E F | E4 C | E F E C | C4 C | C C E F | E4 C | D C B, C | C4 |]`
 }
 
 export const songTitleMap: Record<string, string> = {
@@ -164,7 +174,8 @@ export const songTitleMap: Record<string, string> = {
   'when-the-saints': 'When the Saints Go Marching In',
   'you-are-my-sunshine': 'You Are My Sunshine',
   'over-the-rainbow': 'Over the Rainbow',
-  'we-wish-you': 'We Wish You a Merry Christmas'
+  'we-wish-you': 'We Wish You a Merry Christmas',
+  'red-river': 'Red River Valley'
 }
 
 export const songMetaMap: Record<string, { key: string; tempo: number }> = {
@@ -183,5 +194,6 @@ export const songMetaMap: Record<string, { key: string; tempo: number }> = {
   'when-the-saints': { key: 'C', tempo: 100 },
   'you-are-my-sunshine': { key: 'C', tempo: 100 },
   'over-the-rainbow': { key: 'C', tempo: 100 },
-  'we-wish-you': { key: 'C', tempo: 100 }
+  'we-wish-you': { key: 'C', tempo: 100 },
+  'red-river': { key: 'C', tempo: 100 }
 }
