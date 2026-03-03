@@ -143,25 +143,46 @@ export default function AbcRenderer({
 
       const midiSequence = extractMidiSequence(visualObj)
 
-      setTimeout(() => {
-        const containerBox = containerRef.current?.getBoundingClientRect()
-        const overlay = overlayRef.current
+      // 等待五线谱稳定后再注入指法图
+      const waitForStableNotes = async (notes: NodeListOf<Element>, maxAttempts = 20, interval = 100) => {
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          // 检查第一个音符是否已有有效宽度
+          const firstNote = notes[0];
+          if (firstNote) {
+            const rect = firstNote.getBoundingClientRect();
+            if (rect.width > 5 && rect.height > 5) {
+              console.log(`✅ 第 ${attempt + 1} 次尝试后稳定，注入指法图`);
+              return true;
+            }
+          }
+          await new Promise(resolve => setTimeout(resolve, interval));
+        }
+        console.warn('⚠️ 音符稳定超时，仍尝试注入指法图');
+        return false;
+      };
+
+      const injectFingering = async () => {
+        const containerBox = containerRef.current?.getBoundingClientRect();
+        const overlay = overlayRef.current;
         if (!containerBox || !overlay) {
-          finishRender()
-          onRenderComplete?.()
-          return
+          finishRender();
+          onRenderComplete?.();
+          return;
         }
 
-        const notes = containerRef.current?.querySelectorAll('.abcjs-note')
-        const staffs = containerRef.current?.querySelectorAll('.abcjs-staff')
-        const lyrics = containerRef.current?.querySelectorAll('.abcjs-lyric')
+        const notes = containerRef.current?.querySelectorAll('.abcjs-note');
+        const staffs = containerRef.current?.querySelectorAll('.abcjs-staff');
+        const lyrics = containerRef.current?.querySelectorAll('.abcjs-lyric');
         if (!notes || !staffs) {
-          finishRender()
-          onRenderComplete?.()
-          return
+          finishRender();
+          onRenderComplete?.();
+          return;
         }
 
-        const EXTRA_GAP = 15
+        // 等待音符稳定
+        await waitForStableNotes(notes);
+
+        const EXTRA_GAP = 15;
 
         notes.forEach((noteElem, index) => {
           if (index >= midiSequence.length) return
@@ -244,9 +265,16 @@ export default function AbcRenderer({
           overlay.appendChild(widget)
         })
 
-        finishRender()
-        onRenderComplete?.()
-      }, 200)
+        finishRender();
+        onRenderComplete?.();
+      };
+
+      // 启动注入（异步，不阻塞）
+      injectFingering().catch(err => {
+        console.error('注入失败', err);
+        finishRender();
+        onRenderComplete?.();
+      });
     } catch (err) {
       console.error('渲染错误:', err)
       finishRender()
