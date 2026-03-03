@@ -143,18 +143,39 @@ export default function AbcRenderer({
 
       const midiSequence = extractMidiSequence(visualObj)
 
-      // 等待五线谱稳定后再注入指法图
-      const waitForStableNotes = async (notes: NodeListOf<Element>, maxAttempts = 20, interval = 100) => {
+      // 等待所有音符坐标有效
+      const waitForAllNotesStable = async (notes: NodeListOf<Element>, maxAttempts = 30, interval = 150) => {
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
-          // 检查第一个音符是否已有有效宽度
-          const firstNote = notes[0];
-          if (firstNote) {
-            const rect = firstNote.getBoundingClientRect();
-            if (rect.width > 5 && rect.height > 5) {
-              console.log(`✅ 第 ${attempt + 1} 次尝试后稳定，注入指法图`);
-              return true;
+          let allValid = true;
+          let lastNoteValid = false;
+
+          // 检查所有音符
+          notes.forEach((note, index) => {
+            const rect = note.getBoundingClientRect();
+            if (rect.width <= 5 || rect.height <= 5) {
+              allValid = false;
             }
+            // 特别关注最后一个音符
+            if (index === notes.length - 1) {
+              lastNoteValid = rect.width > 5 && rect.height > 5;
+            }
+          });
+
+          // 如果所有音符有效，或者至少最后一个音符有效且整体大部分有效？这里可以简化：要求所有音符有效
+          // 但为了保险，可以要求最后一个音符有效且第一个音符有效（即头尾都有效）
+          if (allValid) {
+            console.log(`✅ 第 ${attempt + 1} 次尝试后所有音符稳定`);
+            return true;
           }
+
+          // 如果至少头尾有效，也可以尝试（可能中间还有未就绪，但概率低）
+          const firstNote = notes[0];
+          const firstValid = firstNote ? firstNote.getBoundingClientRect().width > 5 : false;
+          if (firstValid && lastNoteValid) {
+            console.log(`✅ 第 ${attempt + 1} 次尝试后头尾音符稳定，假设整体稳定`);
+            return true;
+          }
+
           await new Promise(resolve => setTimeout(resolve, interval));
         }
         console.warn('⚠️ 音符稳定超时，仍尝试注入指法图');
@@ -179,8 +200,8 @@ export default function AbcRenderer({
           return;
         }
 
-        // 等待音符稳定
-        await waitForStableNotes(notes);
+        // 等待所有音符稳定
+        await waitForAllNotesStable(notes);
 
         const EXTRA_GAP = 15;
 
