@@ -2,15 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.abc-paper {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
 .abc-paper svg {
   display: block;
   margin: 0 auto;
-  max-width: 100%;
   width: 100%;
   height: auto;
   background: white;
@@ -27,6 +21,6 @@
 }
 
 .ocarina-widget svg {
-  height: clamp(20px, 3vw, 35px);
+  height: 30px;
   width: auto;
 }
