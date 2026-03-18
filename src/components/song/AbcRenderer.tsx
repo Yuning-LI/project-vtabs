@@ -135,10 +135,10 @@ export default function AbcRenderer({
       const visualObj = abcjs.renderAbc(containerRef.current, abcString, {
         responsive: 'resize',
         add_classes: true,
-        staffwidth: 500,
         wrap: { minSpacing: 1.8 },
         paddingtop: 20,
-        paddingbottom: 30
+        paddingbottom: 30,
+        scale: 0.9
       } as any)
 
       const midiSequence = extractMidiSequence(visualObj)
@@ -320,7 +320,7 @@ export default function AbcRenderer({
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-full max-w-[920px] mx-auto">
       {isTimeout && (
         <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded shadow">
           ⏳ 渲染超时，已显示基础谱面
