@@ -1,0 +1,40 @@
+{
+  "id": "going-home",
+  "slug": "going-home",
+  "title": "念故乡",
+  "description": "念故乡 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "念 故 乡 念 故 乡 故 乡 真 可 爱，",
+    "天 甚 清 风 甚 凉， 乡 愁 阵 阵 来。",
+    "故 乡 人 今 如 何， 常 念 念 不 忘，",
+    "在 他 乡 一 孤 客， 寂 寞 又 凄 凉。",
+    "我 愿 意 回 故 乡， 重 返 旧 家 园，",
+    "众 亲 友 聚 一 堂， 同 享 从 前 乐。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/F209f1CD2.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song F209f1CD2 on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "3 - - 5 5 - - - 3 - - 2 1 - - - | 2 - - 3 5 - - 3 2 - - - - - - - |",
+    "3 - - 5 5 - - - 3 - - 2 1 - - - | 2 - - 3 2 - - 1 1 - - - - - - - |",
+    "6 - - 1' 1' - - - 7 - 5 - 6 - - - | 6 - 1' - 7 - 5 - 6 - - - - - - - |",
+    "6 - - 1' 1' - - - 7 - 5 - 6 - - - | 6 - 1' - 7 - 5 - 6 - - - - - - - |",
+    "3 - - 5 5 - - - 3 - - 2 1 - - - | 2 - - 3 5 - - 3 2 - - - - - - - |",
+    "3 - - 5 5 - - - 1' - - 2' 3' - - - | 2' - - 1' 2' - 6 - 1' - - - - - - - | | |"
+  ]
+}

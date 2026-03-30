@@ -1,0 +1,32 @@
+{
+  "id": "happy-birthday",
+  "slug": "happy-birthday-to-you",
+  "title": "Happy Birthday to You",
+  "description": "Happy Birthday to You melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "祝 你 生 日 快 乐 祝 你 生 日 快 乐 祝 你",
+    "生 日 快 乐 _ 祝 你 生 日 快 乐"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/sM41f1bA5.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song sM41f1bA5 on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5, 5, | 6, - 5, - 1 - | 7, - - - 5, 5, | 6, - 5, - 2 - | 1 - - - 5, 5, |",
+    "5 - 3 - 1 - | 7, - 6, - 4 4 | 3 - 1 - 2 - | 1 - - - - - | | |"
+  ]
+}

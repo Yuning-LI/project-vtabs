@@ -1,0 +1,52 @@
+{
+  "id": "flight-of-the-bumblebee",
+  "slug": "flight-of-the-bumblebee",
+  "title": "Flight of the Bumblebee",
+  "description": "Flight of the Bumblebee melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 尼古拉·里姆斯基-科萨科.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/yvjbe1gkl.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song yvjbe1gkl on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "3' #2' #2' #1' #1' 4' 3' #2' | 3' #2' #2' #1' #1' #1' 2' #2' |",
+    "3' #2' #2' #1' #1' 4' 3' #2' | 3' #2' #2' #1' #1' #1' 2' #2' |",
+    "3' #2' #2' #1' 2' 1' #1' 7 | 1' #1' 2' #2' 3' 4' 3' - |",
+    "3' #2' #2' #1' 2' 1' #1' 7 | 1' #1' 2' #2' #3' 4' 5' - |",
+    "6' #5' #5' #4' #4' b7' 6' #5' | 6' #5' #5' #4' #4' #4' 5' #5' |",
+    "6' #5' #5' #4' #4' b7' 6' #5' | 6' #5' #5' #5' #4' #4' 5' #5' |",
+    "6' #5' #5' #4' 5' 4' #4' 3' | #4' #4' 5' #5' 6' b7' 6' - |",
+    "6' #5' #5' #4' #3' b2' 2' #1' | 6' #5' #5' #5' 6' b7' 6' - |",
+    "6, b7, 6, #5, 6, 7, 6, 5, | 6, b7, 6, #5, 6, 7, 6, 5, |",
+    "6, b7, #7, 1 b2 1 7, b6, | 6, b7, #7, 1 #1 2 #2 3 | 4 - 0 0 0 0 0 0 |",
+    "2 b3 2 #1 2 3 2 1 | 2 b3 2 #1 2 3 2 1 |",
+    "2 b3 #3 4 #4 #4 3 4 | #4 4 #5 6 #6 7 1' #1' |",
+    "2' #1' #1' 7 b7 b3' 2' #1' | 2' #1' #1' 7 b7 #7 1' #1' |",
+    "2' #1' #1' 7 1' 7 b7 6 | b7 #7 1' #1' #1' #1' 2' #2' |",
+    "3' #2' #2' #1' 2' 1' #1' 7 | 1' 7 b7 6 b6 5 #4 #4 |",
+    "3 4 #3 2 3 4 3 2 | 3 4 #3 2 3 4 3 2 |",
+    "3 4 #3 2 3 4 3 2 | 3 4 #3 2 3 4 3 2 | 3 - - - - - - - 0 0 0 0 - - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 |",
+    "4 #2' #2' #1' #1' 4' 3' #2' | 3' #2' #2' #1' #1' #1' 2' #2' |",
+    "3' #2' #2' #1' #1' 4' 3' #2' | 3' #2' #2' #1' #1' #1' 2' #2' |",
+    "3 - #5 6 b7 #7 1' #1' | 2' #1' #1' 7 1' 7 b7 6 |",
+    "#5 6 b7 #7 1' #1' 2' #2' | 3' #4 3' #2' 3' #4 5' #5' |",
+    "6' #5' #5' #4' 5' 4' #4' 3' | 4' 3' #2' #2' #1' #1' 7 b7 |",
+    "6 #5 #5 #4 5 4 #4 3 | 4 3 #2 #2 #1 #1 7, b7, |",
+    "6, b7, 6, #5, 6, 7, 6, 5, | 6, b7, 6, #5, 6, 7, 1 2 |",
+    "3 4 3 #2 3 4 3 2 | 3 4 3 #2 #3 4 5 #5 |",
+    "6 - 0 0 0 0 0 0 | 6, - 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | | |"
+  ]
+}

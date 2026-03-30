@@ -1,63 +1,122 @@
 import Link from 'next/link'
+import { songCatalog } from '@/lib/songbook/catalog'
+import { getSongPresentation } from '@/lib/songbook/presentation'
+
+/**
+ * 首页策展顺序，不是字母序，也不是数据库自然顺序。
+ *
+ * 业务原因：
+ * - 这个站当前阶段更像“对外首发展示页”，不是资料库索引页
+ * - 首页默认目标是提高首批欧美用户的识别度和点击率
+ * - 所以排序优先级是“高认知 / 高搜索 / 高点击潜力”而不是字母序
+ *
+ * 后续如果要做搜索或 A-Z 浏览，再另做二级视图；
+ * 不要把首页默认排序直接改回 alphabetic。
+ */
+const SONG_ORDER = [
+  'happy-birthday',
+  'twinkle',
+  'frere-jacques',
+  'london-bridge',
+  'old-macdonald',
+  'do-your-ears-hang-low',
+  'jingle-bells',
+  'deck-the-halls',
+  'silent-night',
+  'we-wish-you-a-merry-christmas',
+  'amazing-grace',
+  'ode-to-joy',
+  'yankee-doodle',
+  'greensleeves',
+  'red-river-valley',
+  'canon',
+  'can-can',
+  'fur-elise',
+  'moonlight-sonata',
+  'minuet-in-g',
+  'air-on-the-g-string',
+  'god-rest-you-merry-gentlemen',
+  'scotland-the-brave',
+  'santa-lucia',
+  'long-long-ago',
+  'were-you-there',
+  'wedding-march',
+  'schubert-serenade',
+  'auld-lang-syne',
+  'scarborough-fair',
+  'mary-lamb',
+  'brahms-lullaby'
+] as const
 
 export const metadata = {
-  title: 'Play By Fingering – Ocarina Tabs & Visual Fingering Charts',
+  title: 'Play By Fingering | Ocarina Letter Tabs, Numbered Notes & Fingering Charts',
   description:
-    'Free interactive ocarina tabs for 12-hole AC ocarina. Visual fingering charts for beginners. Learn Zelda songs, folk tunes, and more.'
+    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.'
 }
 
+/**
+ * 首页当前承担两个角色：
+ * 1. 给搜索引擎和用户一个“这站是干什么的”的总入口
+ * 2. 给首批外链和收录流量一个尽量高转化的曲库落地页
+ *
+ * 因此这里刻意不展示过多曲目元信息，而是只露歌名：
+ * - 降低列表视觉噪音
+ * - 更像可扫读的 song catalog
+ * - 避免首页变成信息过载的半详情页
+ */
 export default function Home() {
-  const songs = [
-    { id: 'twinkle', title: 'Twinkle, Twinkle, Little Star', key: 'C', tempo: 100 },
-    { id: 'ode-to-joy', title: 'Ode to Joy', key: 'C', tempo: 120 },
-    { id: 'amazing-grace', title: 'Amazing Grace', key: 'C', tempo: 80 },
-    { id: 'mary-lamb', title: 'Mary Had a Little Lamb', key: 'C', tempo: 110 },
-    { id: 'jingle-bells', title: 'Jingle Bells', key: 'C', tempo: 130 },
-    { id: 'happy-birthday', title: 'Happy Birthday', key: 'C', tempo: 90 },
-    { id: 'aura-lea', title: 'Aura Lea', key: 'C', tempo: 100 },
-    { id: 'auld-lang-syne', title: 'Auld Lang Syne', key: 'C', tempo: 100 },
-    { id: 'scarborough-fair', title: 'Scarborough Fair', key: 'C', tempo: 100 },
-    { id: 'greensleeves', title: 'Greensleeves', key: 'C', tempo: 100 },
-    { id: 'danny-boy', title: 'Danny Boy', key: 'C', tempo: 100 },
-    { id: 'sakura', title: 'Sakura Sakura', key: 'C', tempo: 100 },
-    { id: 'when-the-saints', title: 'When the Saints Go Marching In', key: 'C', tempo: 100 },
-    { id: 'you-are-my-sunshine', title: 'You Are My Sunshine', key: 'C', tempo: 100 },
-    { id: 'over-the-rainbow', title: 'Over the Rainbow', key: 'C', tempo: 100 },
-    { id: 'we-wish-you', title: 'We Wish You a Merry Christmas', key: 'C', tempo: 100 }
+  const featuredSongs = [
+    ...SONG_ORDER.map(id => songCatalog.find(song => song.id === id)).filter(
+      (song): song is (typeof songCatalog)[number] => Boolean(song)
+    ),
+    ...songCatalog.filter(song => !SONG_ORDER.includes(song.id as (typeof SONG_ORDER)[number]))
   ]
 
   return (
-    <main className="min-h-screen bg-bg p-6">
-      <h1 className="text-3xl font-bold text-primary mb-2">Play By Fingering</h1>
-      <p className="text-wood-dark text-sm mb-6">
-        Learn ocarina with interactive tabs
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {songs.map(song => (
-          <Link
-            key={song.id}
-            href={`/song/${song.id}`}
-            className="block p-4 bg-white rounded-xl shadow-sm border border-wood-dark/10 hover:shadow-md transition"
-          >
-            <h2 className="text-xl font-semibold text-primary">{song.title}</h2>
-            <p className="text-wood-dark text-sm mt-1">
-              Key: {song.key} · ♩ = {song.tempo}
-            </p>
-          </Link>
-        ))}
-      </div>
-      <section className="mt-12 p-6 bg-white rounded-xl border border-wood-dark/10">
-        <h2 className="text-2xl font-bold text-primary mb-4">About Play By Fingering</h2>
-        <p className="text-wood-dark leading-relaxed">
-          Welcome to Play By Fingering, your free source for interactive 12-hole AC ocarina tabs and fingering charts.
-          Learn to play your favorite songs – from traditional folk tunes to Zelda classics – with our visual,
-          easy-to-follow finger diagrams. No music theory required, just click and play. Perfect for beginners
-          and hobbyists.
-        </p>
-        <p className="text-wood-dark leading-relaxed mt-4">
-          Our collection includes popular pieces like Twinkle Twinkle Little Star, Ode to Joy, Amazing Grace,
-          and many more. All tabs are free and optimized for mobile devices. Start your ocarina journey today!
-        </p>
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#f7ecd8_0%,#efe0c4_44%,#e7d3b4_100%)] p-6">
+      <section className="mx-auto max-w-6xl">
+        <div className="rounded-[36px] border border-stone-200/80 bg-[linear-gradient(135deg,rgba(255,252,245,0.96)_0%,rgba(247,237,220,0.9)_100%)] p-6 shadow-[0_28px_60px_rgba(73,45,19,0.12)]">
+          <h1 className="text-4xl font-black tracking-tight text-stone-900 md:text-6xl">
+            Ocarina Letter Tabs
+          </h1>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-stone-700 md:text-lg">
+            Browse English song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto mt-8 max-w-6xl">
+        <div className="mb-4 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-stone-900">Browse Ocarina Songs</h2>
+            <p className="text-sm text-stone-700">Find melody pages for folk songs, nursery rhymes, Christmas songs, and famous classical themes in a clean 12-hole AC ocarina format.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {featuredSongs.map(song => {
+            const presentation = getSongPresentation(song)
+
+            return (
+              <Link
+                key={song.id}
+                href={`/song/${song.slug}`}
+                className="group block rounded-[28px] border border-stone-200 bg-white/95 p-5 shadow-[0_18px_34px_rgba(84,58,32,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_44px_rgba(84,58,32,0.14)]"
+              >
+                <h2 className="text-xl font-semibold text-stone-900 transition group-hover:text-stone-700">
+                  {presentation.title}
+                </h2>
+              </Link>
+            )
+          })}
+        </div>
+
+        <section className="mt-10 rounded-[32px] border border-stone-200 bg-white/90 p-6 shadow-[0_18px_40px_rgba(84,58,32,0.08)]">
+          <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-700">
+            This site focuses on the search terms real players use most often: ocarina letter tabs, 12-hole AC fingering charts, easy melody pages, and optional numbered notation. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly song layout that is fast to scan during practice.
+          </p>
+        </section>
       </section>
     </main>
   )

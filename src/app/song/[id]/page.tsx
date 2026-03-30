@@ -1,55 +1,147 @@
-import SongClient from '@/app/song/SongClient'
-import { songTitleMap } from '@/app/song/songData'
+import fs from 'node:fs'
+import path from 'node:path'
+import { notFound } from 'next/navigation'
+import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
+import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
+import type { KuailepuSongPayload } from '@/lib/songbook/kuailepuImport'
+import { getSongPresentation } from '@/lib/songbook/presentation'
 
-const descriptions: Record<string, string> = {
-  'twinkle':
-    'Learn to play Twinkle Twinkle Little Star on 12-hole ocarina with interactive tabs and visual fingering diagrams. Perfect for beginners.',
-  'ode-to-joy':
-    'Ode to Joy ocarina notes and tabs for 12-hole AC ocarina. Includes easy-to-follow fingering charts. Free and interactive.',
-  'amazing-grace':
-    'Amazing Grace ocarina tabs with visual fingering. Play this classic hymn on your 12-hole ocarina with our free interactive sheet.',
-  'mary-lamb':
-    'Mary Had a Little Lamb ocarina tabs for 12-hole ocarina. Simple and fun song for beginners. Interactive fingering charts included.',
-  'jingle-bells':
-    'Jingle Bells ocarina tabs – play this Christmas classic on 12-hole ocarina. Free interactive tabs with visual fingerings.',
-  'happy-birthday':
-    'Happy Birthday ocarina tabs for 12-hole AC ocarina. Celebrate with easy-to-read fingering charts. Free and interactive.',
-  'aura-lea':
-    'Learn to play Aura Lea on 12-hole ocarina. Free interactive tabs with visual fingering charts. The melody of "Love Me Tender" – perfect for beginners.',
-  'auld-lang-syne':
-    'Free Auld Lang Syne ocarina tabs for 12-hole AC ocarina. Easy-to-follow fingering diagrams. Perfect for New Year’s Eve and beginner practice.',
-  'scarborough-fair':
-    'Learn Scarborough Fair on ocarina with our free interactive tabs. Visual fingering charts for 12-hole AC ocarina. Traditional English folk song.',
-  'greensleeves':
-    'Free Greensleeves ocarina tabs for 12-hole AC ocarina. Easy-to-read visual fingering diagrams. A must-learn classic for all ocarina players.',
-  'danny-boy':
-    'Free Danny Boy ocarina tabs with visual fingering charts. Learn this beautiful Irish melody on 12-hole AC ocarina. Perfect for beginners.',
-  'sakura':
-    'Free Sakura Sakura ocarina tabs for 12-hole AC ocarina. Learn this iconic Japanese folk song with our interactive fingering charts.',
-  'when-the-saints':
-    'Free When the Saints Go Marching In ocarina tabs for 12-hole AC ocarina. Easy traditional gospel song with visual fingering diagrams.',
-  'you-are-my-sunshine':
-    'Free You Are My Sunshine ocarina tabs for 12-hole AC ocarina. Learn this beloved American folk song with our interactive fingering charts.',
-  'over-the-rainbow':
-    'Free Over the Rainbow ocarina tabs for 12-hole AC ocarina. Learn this Wizard of Oz classic with visual fingering diagrams. 1939 public domain.',
-  'we-wish-you':
-    'Free We Wish You a Merry Christmas ocarina tabs for 12-hole AC ocarina. Easy Christmas song with visual fingering charts. Perfect for holiday practice.'
+export const dynamicParams = false
+
+export async function generateStaticParams() {
+  return songCatalog.map(song => ({ id: song.slug }))
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { id } = params
-  const songName = songTitleMap[id] || 'Song'
+  const song = songCatalogBySlug[id]
+  const presentation = song ? getSongPresentation(song) : null
+  const songName = presentation?.title || song?.title || 'Song'
   const description =
-    descriptions[id] ||
-    `Learn to play ${songName} on 12-hole ocarina with our interactive tabs and visual fingering diagrams. Perfect for beginners.`
+    presentation?.metaDescription ||
+    `Play ${songName} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notation.`
   return {
-    title: `${songName} Ocarina Tabs | 12-Hole AC Ocarina Fingering Chart`,
-    description
+    title: `${songName} Ocarina Tabs | Letter Notes & Fingering Chart`,
+    description,
+    alternates: {
+      canonical: `https://playbyfingering.com/song/${song?.slug || id}`
+    }
   }
 }
 
-export default function SongPage({ params }: { params: { id: string } }) {
-  const key = params.id || 'twinkle'
-  const description = descriptions[key] || descriptions['twinkle']
-  return <SongClient description={description} />
+export default function SongPage({
+  params,
+  searchParams
+}: {
+  params: { id: string }
+  searchParams?: {
+    note_label_mode?: string
+  }
+}) {
+  const song = songCatalogBySlug[params.id]
+  if (!song) {
+    notFound()
+  }
+  const presentation = getSongPresentation(song)
+
+  /**
+   * 当前公开曲库已经全部补齐了快乐谱 raw JSON。
+   *
+   * 这意味着公开详情页主链现在不再需要回退到旧的 SongClient 原生详情页。
+   * 如果这里读不到 raw JSON，应该把它当成数据缺失而不是静默切回旧链，
+   * 否则后续维护时很容易产生“页面还能打开，但其实已经偏离主架构”的假象。
+   *
+   * 站点原生 Jianpu / SongClient 仍然保留：
+   * - 供 dev 预览页使用
+   * - 供未来去 iframe 化迁移时复用
+   * 但它不再是当前公开详情页的默认产品路线。
+   */
+  const runtimePayload = loadKuailepuRuntimePayload(song.slug, song.source?.url)
+  if (!runtimePayload) {
+    notFound()
+  }
+
+  /**
+   * 详情页当前只有两个公开阅读模式：
+   * - `letter`：默认模式
+   * - `number`：备选模式
+   *
+   * `both` 已经被产品移除；`graph` 只保留内部兼容，不再在 UI 暴露。
+   * 这里继续保留 mode 归一化，是为了：
+   * - URL 分享时参数稳定
+   * - 新对话接手时能立刻看懂目前公开模式边界
+   */
+  return (
+    <KuailepuLegacyRuntimePage
+      songId={song.slug}
+      title={presentation.title}
+      subtitle={presentation.subtitle}
+      seo={presentation}
+      state={{
+        note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode)
+      }}
+    />
+  )
+}
+
+function loadKuailepuRuntimePayload(slug: string, _sourceUrl?: string) {
+  const filePath = path.resolve(process.cwd(), 'reference', 'songs', `${slug}.json`)
+  if (!fs.existsSync(filePath)) {
+    return null
+  }
+
+  const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuSongPayload & {
+    instrumentFingerings?: Array<{
+      instrument: string
+      instrumentName: string
+      fingeringSetList?: Array<
+        Array<{
+          fingering: string
+          fingeringName: string
+          tonalityName?: string
+          match?: number
+        }>
+      >
+      graphList?: Array<{
+        name: string
+        value: string
+      }>
+    }>
+    sheetScaleList?: number[]
+    show_graph?: string
+    show_lyric?: string
+    show_measure_num?: string
+    measure_layout?: string
+    comment?: string
+    comment_list?: Array<{
+      body?: Array<{
+        type?: string
+        value?: string
+      }>
+    }>
+    nickname?: string
+    pv?: string
+    lyric_composer?: string
+  }
+
+  if (!payload.song_uuid && !payload.song_name && !payload.notation) {
+    return null
+  }
+
+  /**
+   * 这里只做“数据是否像一个快乐谱详情页上下文”的最低限度校验。
+   *
+   * 不在这里做更多 schema 收紧，原因有两个：
+   * 1. 快乐谱 payload 字段本来就不稳定，过度收紧会让老歌在无意义字段差异上失效
+   * 2. 真正的兼容性判断应该交给 runtime compare 脚本，而不是这个入口函数
+   */
+  return payload
+}
+
+function normalizeNoteLabelMode(value: string | undefined) {
+  if (value === 'number' || value === 'graph' || value === 'letter') {
+    return value
+  }
+
+  return 'letter'
 }

@@ -11,3 +11,6 @@ dist
 .vercel
 playwright-report
 test-results
+# Local research and competitor-reference material.
+# Must never be committed or exposed in production.
+reference/

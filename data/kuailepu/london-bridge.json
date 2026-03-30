@@ -1,0 +1,36 @@
+{
+  "id": "london-bridge",
+  "slug": "london-bridge",
+  "title": "London Bridge Is Falling Down",
+  "description": "The classroom standard London Bridge Is Falling Down, imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "伦 敦 桥 _ 要 垮 了， 要 垮 了 要 垮 了， 伦 敦 桥 _ 要 垮 了， 我 的 朋 友。"
+  ],
+  "extraLyrics": [
+    "快 拿 木 料 架 起 来， 架 起 来 架 起 来， 快 拿 木 料 架 起 来， 我 的 朋 友。",
+    "木 料 架 好 要 冲 倒， 要 冲 倒 要 冲 倒， 木 料 架 好 要 冲 倒， 我 的 朋 友。",
+    "快 搬 石 头 垒 起 来， 垒 起 来 垒 起 来， 快 搬 石 头 垒 起 来， 我 的 朋 友。",
+    "伦 敦 桥 _ 架 起 来， 架 起 来 架 起 来， 伦 敦 桥 _ 架 起 来， 我 的 朋 友。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/jcEBn1m8I.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song jcEBn1m8I on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5 - - 6 5 - 4 - 3 - 4 - 5 - - - | 2 - 3 - 4 - - - | 3 - 4 - 5 - - - | 5 - - 6 5 - 4 - 3 - 4 - 5 - - - | 2 - - - 5 - - - 3 - - - - - 1 - |"
+  ]
+}

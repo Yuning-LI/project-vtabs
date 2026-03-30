@@ -1,0 +1,34 @@
+{
+  "id": "we-wish-you-a-merry-christmas",
+  "slug": "we-wish-you-a-merry-christmas",
+  "title": "We Wish You a Merry Christmas",
+  "description": "We Wish You a Merry Christmas melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "We wish you _ mer ry christ mas! We wish you _ mer ry christ mas! We wish you _ mer ry",
+    "christ mas! and a hap py new year! Good tid ings to you where ev er you",
+    "are. Good tid ings for christ mas and a hap py new year!"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/MFoLe13QR.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song MFoLe13QR on 2026-03-28."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 120,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-03-28",
+    "note": "User manually rechecked this Kuailepu-derived page and approved it as correct for launch."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 5 - | 1' - 1' 2' 1' 7 | 6 - 6 - 6 - | 2' - 2' 3' 2' 1' | 7 - 5 - 5 - | 3' - 3' 4' 3' 2' |",
+    "1' - 6 - 5 5 | 6 - 2' - 7 - | 1' - - - 5 - | 1' - 1' - 1' - | 7 - - - 7 - | 1' - 7 - 6 - |",
+    "5 - - - 2' - | 3' - 2' - 1' - | 5' - 5 - 5 5 | 6 - 2' - 7 - | 1' - - - - - | | |"
+  ]
+}

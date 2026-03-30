@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+msg_file="$1"
+msg="$(cat "$msg_file")"
+subject="$(printf '%s\n' "$msg" | sed -n '/./{p;q;}')"
+body_nonempty_count="$(printf '%s\n' "$msg" | tail -n +2 | sed '/^[[:space:]]*$/d' | wc -l | tr -d ' ')"
+
+case "$subject" in
+  Merge\ *|Revert\ *)
+    exit 0
+    ;;
+esac
+
+if ! printf '%s' "$msg" | grep -q '[一-龥]'; then
+  echo "提交信息必须使用中文，并包含中文说明。" >&2
+  exit 1
+fi
+
+if [ "$(printf '%s' "$subject" | wc -m | tr -d ' ')" -lt 8 ]; then
+  echo "提交标题太短，请用中文写清楚本次提交的目标。" >&2
+  exit 1
+fi
+
+if [ "$body_nonempty_count" -lt 3 ]; then
+  echo "提交信息不够详细，请至少补充“变更 / 原因 / 验证”三部分内容。" >&2
+  exit 1
+fi

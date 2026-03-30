@@ -1,0 +1,38 @@
+{
+  "id": "little-bee",
+  "slug": "little-bee",
+  "title": "小蜜蜂（德国儿歌）",
+  "description": "小蜜蜂（德国儿歌） melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 德国儿歌.",
+  "published": true,
+  "alignedLyrics": [
+    "嗡 嗡 嗡， 飞 吧 小 蜜 蜂。",
+    "我 们 绝 不 伤 害 益 虫， 快 快 飞 到 大 树 林 中。",
+    "嗡 嗡 嗡， 飞 吧 小 蜜 蜂。"
+  ],
+  "extraLyrics": [
+    "嗡 嗡 嗡， 飞 吧 小 蜜 蜂。 为 花 采 蜜 辛 勤 劳 动， 为 采 花 蜜 辛 勤 劳 动。 嗡 嗡 嗡， 飞 吧 小 蜜 蜂。",
+    "嗡 嗡 嗡， 飞 吧 小 蜜 蜂。 花 蜜 采 的 又 多 又 香， 高 高 兴 兴 飞 回 蜂 房。 嗡 嗡 嗡， 飞 吧 小 蜜 蜂。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/lSYri1H2c.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song lSYri1H2c on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "5 - 4 - | 3 - 0 0 | 2 3 4 2 | 1 - 0 0 |",
+    "3 4 5 3 | 2 3 4 2 | 3 4 5 3 | 2 3 4 2 |",
+    "5 - 4 - | 3 - 0 0 | 2 3 4 2 | 1 - 0 0 | | |"
+  ]
+}

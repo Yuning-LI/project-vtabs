@@ -1,0 +1,32 @@
+{
+  "id": "red-river-valley",
+  "slug": "red-river-valley",
+  "title": "Red River Valley",
+  "description": "The traditional folk song Red River Valley, imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "人 们 说 你 就 要 离 开 村 庄 _ 我 们 将 怀 念 你 的 微 _ 笑 你 的",
+    "眼 睛 比 太 阳 更 明 亮 _ 照 耀 在 我 _ 们 心 _ 上"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/BRFqe1jj5.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song BRFqe1jj5 on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5, - 1 - | 3 - - - 3 - 3 - 3 - - - 2 - 3 - | 2 - 1 - 1 - - - - - - - 5, - 1 - | 3 - - - 1 - 3 - 5 - - 5 4 - 3 - | 2 - - - - - - - - - - - 5 - 4 - |",
+    "3 - - - 3 - 2 - 1 - - - 2 - 3 - | 5 - 4 - 4 - - - - - - - 6, - 6, - | 5, - - - 7, - 1 - 2 - - - 3 - 2 - | 1 - - - - - - - - - - - - - - - | | |"
+  ]
+}

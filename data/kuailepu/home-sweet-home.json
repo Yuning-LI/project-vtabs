@@ -1,0 +1,40 @@
+{
+  "id": "home-sweet-home",
+  "slug": "home-sweet-home",
+  "title": "Home Sweet Home",
+  "description": "Home Sweet Home melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 【英】比肖普.",
+  "published": true,
+  "alignedLyrics": [
+    "虽 然 游 遍 美 丽 宫 殿， 享 尽 富 贵 荣 华， 但 是",
+    "无 论 我 在 那 里， 都 怀 念 我 的 家。 好 像",
+    "天 上 降 临 声 音 向 我 亲 切 召 唤， 我 _",
+    "走 遍 海 角 天 涯 总 想 念 我 的 家。"
+  ],
+  "extraLyrics": [
+    "当 我 漫 游 在 荒 野 上， 凝 望 天 边 月 亮， 好 像 看 见 我 的 母 亲 把 爱 儿 思 _ 念。 她 正 站 在 茅 屋 门 前 也 望 着 月 _ 亮， 那 _ 家 门 前 的 香 花 我 再 也 看 不 见。",
+    "离 开 家 乡 流 浪 人， 一 切 不 会 动 我 心， 只 要 让 _ 我 能 回 到 我 简 陋 家 _ 园。 那 些 听 我 召 唤 小 鸟 快 飞 会 我 跟 前， 让 我 重 温 平 静 生 活 比 一 切 都 香 甜。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/wa6qi1un1.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song wa6qi1un1 on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 2 | 3 - - 4 4 - 5 - | 5 - - - 3 - 5 - | 4 - - 3 4 - 2 - | 3 - - - - - 1 2 |",
+    "3 - - 4 4 - 5 - | 5 - - - 3 - 5 - | 4 - - 3 4 - 2 - | 1 - - - - - 5 5 |",
+    "1' - - 7 6 - 5 - | 5 - - - 3 - 5 - | 4 - - 3 4 - 2 - | 3 - - - - - 5 5 |",
+    "1' - - 7 6 - 5 - | 5 - - - 3 - 5 - | 4 - - 3 4 - 2 - | 1 - - - - - | | |"
+  ]
+}

@@ -1,4 +1,24 @@
-import { FingeringState, RenderResult } from '@/lib/types'
+import type { FingeringState, RenderResult } from '@/lib/types'
+
+/**
+ * 12 孔 AC 陶笛指法字典。
+ *
+ * 这是当前项目里最关键的业务资产之一，因为它决定了：
+ * - 页面上每个音最终画成什么指法图
+ * - 字母谱 / 简谱 / 五线谱最终是否能和“可吹奏动作”闭环
+ *
+ * 当前产品范围：
+ * - 首发默认乐器只有 12 孔 AC 陶笛
+ * - 所以前台很多逻辑会直接依赖这里的 MIDI 范围和指法字典
+ *
+ * 后续扩展其他乐器时要注意：
+ * - 不要继续把更多乐器硬塞进这个文件
+ * - 应该新增对应乐器字典与图形模板
+ * - 上层再按 instrumentId 选择不同字典
+ *
+ * 当前稳定业务链路是：
+ * notation / ABC -> MIDI -> DICT[midi] -> 指法图 SVG
+ */
 
 /**
  * 12 孔陶笛的孔位顺序，用于将指法数组映射到具体孔位
@@ -50,6 +70,14 @@ const BODY_PATH =
  * MIDI 到指法状态的映射字典
  *
  * 指法数组为 12 位 0/1，1 表示按下（闭孔），0 表示抬起（开孔）
+ *
+ * 这里的键空间同时定义了“当前乐器可稳定支持的音域”。
+ * 也就是说：
+ * - 如果某个 MIDI 不在这个 DICT 里，前台就会显示为不可用 / 越界
+ * - 所以前面才需要 range fitting（自动移调）去尽量把整首歌压进这个范围
+ *
+ * 当前范围大致覆盖 A3 到 F5（57-77）。
+ * 如果未来校正指法或加入替代指法，优先在这里维护，而不是在渲染层打补丁。
  */
 export const DICT: Record<number, FingeringState> = {
   57: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -77,6 +105,14 @@ export const DICT: Record<number, FingeringState> = {
 
 /**
  * MIDI 到字母谱名称与八度的映射
+ *
+ * 当前线上默认详情页走“字母谱 + 指法图 + 歌词”，
+ * 所以这个映射不只是附属信息，而是实际用户会直接看到的主标签来源。
+ *
+ * 注意：
+ * - 这里用的是站点当前约定的拼写方式（例如 Bb / Db）
+ * - 若以后要支持更细的调性偏好（例如同音异名、按 key signature 决定升降写法），
+ *   不应直接在组件里临时替换字符串，而应升级这一层映射逻辑
  */
 export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
   {
@@ -105,6 +141,13 @@ export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
 
 /**
  * 根据指法状态生成 12 孔陶笛的 SVG 结构
+ *
+ * 这是“纯绘图层”能力，不关心曲子、歌词、调号。
+ * 它只做一件事：把已经确定好的 12 位孔状态画成 SVG。
+ *
+ * 业务上应该始终保持这个分层：
+ * - 音乐语义和音高判断在上层
+ * - 这个函数只负责图形结果
  *
  * @param state - 12 位指法数组
  * @returns 渲染结果，包含 SVG 元素与尺寸信息

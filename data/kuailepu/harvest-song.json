@@ -1,0 +1,39 @@
+{
+  "id": "harvest-song",
+  "slug": "harvest-song",
+  "title": "丹麦民歌",
+  "description": "丹麦民歌 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "田 野 上 庄 稼 都 已 收 割 完 毕 大 麦 小 麦 收 进 仓 库",
+    "干 草 堆 成 堆 果 园 里 甜 美 的 水 果 已 摘 完",
+    "背 起 筐 儿 欢 欢 喜 喜 回 家 庆 丰 年。 采 果的 劳 动 者",
+    "不 会 白 流 汗 新 鲜的 果 儿 我 们 大 家 都 来 尝 一 尝。"
+  ],
+  "extraLyrics": [
+    "辛 苦 的 种 田 人 将 得 到 酬 谢 金 黄的 麦 粒 补 偿 他 们 一 年的 血 _ 汗。 欢 乐 中 别 忘 了 旁 人 的 苦 难 让 我 们 去 帮 助 别 人 慷 慨 又 大 方。 人 人 都 高 兴 到 处 歌 舞 欢 唱 着 歌 儿 编 成 一 个 丰 收的 大 花 环。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/hfxua1ao7.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song hfxua1ao7 on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": " 2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "1' - 5 3 | 1 - 3 5 | 1 - 3 5 | 1' - 1' - | 4 6 6 6 | 3 5 5 5 |",
+    "2 4 3 2 | 1 - 0 0 | 1' - 5 3 | 1 - 3 5 | 1 - 3 5 | 1' - 1' - |",
+    "4 6 6 6 | 3 5 5 5 | 2 4 3 2 | 1 - 0 0 | 1' - 1' - | 7 2' 5 - |",
+    "2' - 2' - | 1' 3' 5 - | 4 6 6 6 | 3 5 5 5 | 2 4 3 2 | 1 - 0 0 | | |"
+  ]
+}

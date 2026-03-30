@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Play By Fingering – Ocarina Tabs & Visual Fingering Charts',
+  title: 'Play By Fingering | Ocarina Letter Tabs & Fingering Charts',
   description:
-    'Free interactive ocarina tabs for 12-hole AC ocarina. Visual fingering charts for beginners. Learn Zelda songs, folk tunes, and more.'
+    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.'
 }
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <head>
         <meta
           name="google-site-verification"

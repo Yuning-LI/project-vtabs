@@ -1,0 +1,30 @@
+{
+  "id": "long-long-ago",
+  "slug": "long-long-ago",
+  "title": "Long Long Ago",
+  "description": "19th-century song by Thomas Haynes Bayly imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/au1xe1clc.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song au1xe1clc on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Surfaced on the site as a pending review page. Manual melody review is still required before treating this as a trusted production melody."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "1 - 1 2 3 - 3 4 | 5 - 6 5 3 - - - | 5 - 4 3 2 - - - | 4 - 3 2 1 - - - |",
+    "1 - 1 2 3 - 3 4 | 5 - 6 5 3 - - - | 5 - 4 3 2 - 3 2 | 1 - - - - - - - |",
+    "5 - 4 3 2 - - - | 5, 5, 4 - 3 2 1 - | 5 - 4 3 2 - - - | 5, 5, 4 - 3 2 1 - |",
+    "1 - 1 2 3 - 3 4 | 5 - 6 5 3 - - - | 5 - 4 3 2 - 3 2 | 1 - - - - - - - | | |"
+  ]
+}

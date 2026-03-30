@@ -1,0 +1,29 @@
+{
+  "id": "lullaby",
+  "slug": "lullaby",
+  "title": "摇篮曲",
+  "description": "摇篮曲 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/JeqZc1VdO.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song JeqZc1VdO on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "3 - - - 5 - - - 2 - - 3 4 - - - | 3 - 3 - 2 1 7, 1 2 - - - 5, - - - | 3 - - - 5 - - - 2 - - 3 4 - - - |",
+    "3 - 3 - 2 3 4 2 1 - - - - - - - | 2 - - - - - 2 - 3 - - 2 1 - - - | 5 - - - 6 5 4 3 2 - - - 5, - - - |",
+    "3 - - - 5 - - - 2 - - 3 4 - - - | 3 - 3 - 2 3 4 2 1 - - - - - - - | 1 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | | |"
+  ]
+}

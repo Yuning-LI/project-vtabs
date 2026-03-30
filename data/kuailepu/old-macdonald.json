@@ -1,0 +1,30 @@
+{
+  "id": "old-macdonald",
+  "slug": "old-macdonald",
+  "title": "Old MacDonald Had a Farm",
+  "description": "The familiar children's song Old MacDonald Had a Farm, imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/QAu5c14PE.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song QAu5c14PE on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 1 1 5, | 6, 6, 5, - | 3 3 2 2 | 1 - - 5, |",
+    "1 1 1 5, | 6, 6, 5, - | 3 3 2 2 | 1 - - - |",
+    "1 1 1 - | 1 1 1 - | 1 1 1 1 | 1 1 1 - |",
+    "1 1 1 5, | 6, 6, 5, - | 3 3 2 2 | 1 - - - | | |"
+  ]
+}

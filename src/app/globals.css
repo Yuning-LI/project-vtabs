@@ -18,9 +18,21 @@
   align-items: center;
   gap: 4px;
   pointer-events: none;
+  min-width: 0;
 }
 
 .ocarina-widget svg {
-  height: 30px;
-  width: auto;
+  height: var(--ocarina-diagram-height, 28px);
+  width: var(--ocarina-diagram-width, auto);
+  max-width: 100%;
+}
+
+.ocarina-note-label {
+  font-size: var(--ocarina-label-size, 11px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ocarina-note-subscript {
+  font-size: var(--ocarina-subscript-size, 8px);
 }

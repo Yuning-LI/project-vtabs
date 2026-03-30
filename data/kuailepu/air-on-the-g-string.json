@@ -1,0 +1,40 @@
+{
+  "id": "air-on-the-g-string",
+  "slug": "air-on-the-g-string",
+  "title": "Air on the G String",
+  "description": "Bach melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/HJczl1Q9t.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song HJczl1Q9t on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Surfaced on the site as a pending review page. Manual melody review is still required before treating this as a trusted production melody."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "3 - - - - - - - - - - - - - - - | 3 - - - - - - - - - - - - - - - | 3 - - - 6 - 4 - 3 - - - 2 - 1 - 7, - 1 - | 7, - - - - - - - 6, - 5, - - - - - |",
+    "5 - - - - - - - - - - - - - - - | 5 - 3 - b7, - 6, - 2 - #1 - 5 - 4 - | 4 - - - - - - - - - - - - - - - | 4 - 2 - 6, - 5, - 1 - 7, - 4 - 3 - |",
+    "3 - - - - - - - 3 - - - #4 - 5 - | 1 - - - 1 2 3 - 3 - 2 - - - 1 - | 7, - 6, - 6, 7, 1 - 1 - - - 7, - 6, - | 5, - - - - - - - - - - - - - - - |",
+    "| 7, - - - - - - - 7, - 1 7, 6, 7, 5, - | 5 - - - - - - - 5 - - - b7, - - - | 6, - - - 6 - - - 6 - 5 - 4 - 3 - | 3 - 4 - - - - - 4 3 2 1 7, - 6, - |",
+    "#5, - 6, - 7, - - - 7, - 1 - 2 - - - | 2 - 3 - 4 - - - 4 - - - 3 - - - | 2 - 1 - 7, - 6, - 7, - 1 2 1 - 7, - | 6, - - - - - - - - - - - - - - - |",
+    "1 - - - - - - - 1 - - - 3 - 2 - | 2 - - - - - - - 2 - - - 4 - 3 - | 3 - - - - - - - 3 - - - 5 - 4 - | 4 - - - - - - - - - - - - - - - |",
+    "5, - - - - - - - 5, - 7, - 2 - 4 - | 4 - 2 - 3 - - - 3 - - - - - 4 5 | 1 - - - - - - - 1 - 3 - 5 - b7 - | b7 - - - 6 - - - 6 - - - 1 - - - |",
+    "7, - 2 - 4 - - - 4 - - - 6, - - - | 5, - - - 2 3 4 - 4 - 3 - - - 2 - |",
+    "1 - - -",
+    "1 7, 6, - - - 7, - 1 - - - 7, - - 1 | 1 - - - - - - - - - - - - - - - |",
+    "|",
+    "2 - - -",
+    "1 7, 6, - - - 7, - 1 - - - 7, - - 1 | 1 - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}

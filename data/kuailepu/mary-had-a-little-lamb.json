@@ -1,0 +1,32 @@
+{
+  "id": "mary-lamb",
+  "slug": "mary-had-a-little-lamb",
+  "title": "Mary Had a Little Lamb",
+  "description": "Mary Had a Little Lamb melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 萨拉·约瑟法·黑尔.",
+  "published": true,
+  "alignedLyrics": [
+    "玛 丽 有 只 小 羊 羔， 小 羊 羔， 小 羊 羔，",
+    "玛 丽 有 只 小 羊 羔 呀 雪 白 羊 _ 毛"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/PnPuk1RbB.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song PnPuk1RbB on 2026-03-30."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-30",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "6 5 4 5 | 6 6 6 - | 5 5 5 - | 6 6 6 - |",
+    "6 5 4 5 | 6 6 6 6 | 5 5 6 5 | 4 - - - | |"
+  ]
+}

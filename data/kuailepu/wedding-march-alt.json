@@ -1,0 +1,32 @@
+{
+  "id": "wedding-march-alt",
+  "slug": "wedding-march-alt",
+  "title": "Wedding March",
+  "description": "Wedding March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/XhcVa141a.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song XhcVa141a on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 - - - 4 - - 4 | 4 - - - - - - - | 1 - - - 5 - - 3 | 4 - - - - - - - | 1 - - - 4 - - b7 | b7 - - - 6 - - 5 | 4 - - - 3 - - 4 |",
+    "5 - - - - - - - | 1 - - - 4 - - 4 | 4 - - - - - - - |",
+    "1 - - - 5 - - 3 | 4 - - - - - - - | 1 - - - 4 - - 6 | 1' - - - 6 - - 4 | 2 - - - 5 - - 6 | 4 - - - - - - - |",
+    "b7 - - - 6 - - 5 | 2 - - - 2 - - - | 3 - - - 4 - - 5 | 5 - - - - - - - | b7 - - - 6 - - 5 | 2 - - - 2 - - - | 3 - - - 4 - - 5 | 5 - - - - - - - |",
+    "1 - - - 4 - - 4 | 4 - - - - - - - | 1 - - - 5 - - 3 | 4 - - - - - - - |",
+    "1 - - - 4 - - 6 | 1' - - - 6 - - 4 | 2 - - - 5 - - 6 | 4 - - - - - - - | 2 - - - 5 - - 6 | 4 - - - - - - - | 4 - - - - - - - | | |"
+  ]
+}

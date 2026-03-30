@@ -1,0 +1,28 @@
+{
+  "id": "god-rest-you-merry-gentlemen",
+  "slug": "god-rest-you-merry-gentlemen",
+  "title": "God Rest You Merry, Gentlemen",
+  "description": "Traditional English Christmas carol imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/T1Zpa1JnI.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song T1Zpa1JnI on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Surfaced on the site as a pending review page. Manual melody review is still required before treating this as a trusted production melody."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 - 2 1 7, - 5, - 6, - - - - -",
+    "6, - | 6, - 3 - 3 - 2 - 1 - 7, - 6, - 5, - | 6, - 7, - 1 - 2 - 3 - - - - - 6, - | 6, - 3 - 3 - 2 - 1 - 7, - 6, - 5, - | 6, - 7, - 1 - 2 - 3 - - - - - 3 - | 4 - 2 - 3 - 4 - 5 - 6 - 3 - 2 - | 1 - 6, - 7, - 1 - 2 - - - 1 - 2 - | 3 - - - 4 - 3 - 3 - 2 - 1 - 7, - | 6, - - - 1 7, 6, - 2 - - - 1 - 2 - | 3 - 4 - 5 - 6 - 3 - 2 - 1 - 7, - | 6, - - - - - - - - - - - - - - - |"
+  ]
+}

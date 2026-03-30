@@ -1,0 +1,30 @@
+{
+  "id": "scotland-the-brave",
+  "slug": "scotland-the-brave",
+  "title": "Scotland the Brave",
+  "description": "Traditional Scottish march melody imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/EUgXg1ts6.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song EUgXg1ts6 on 2026-03-29."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 120,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-29",
+    "note": "Surfaced on the site as a pending review page. Manual melody review is still required before treating this as a trusted production melody."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 - - - 1 - - 2 3 - 1 - 3 - 5 - | 1' - - - 1' - - 1' 1' - 5 - 3 - 1 - |",
+    "4 - - - 6 - - 4 3 - 5 - 3 - 1 - | 2 - - - 5 - - 6 5 - 4 - 3 - 2 - |",
+    "1 - - - 1 - - 2 3 - 1 - 3 - 5 - | 1' - - - 1' - - 1' 1' - 5 - 3 - 1 - |",
+    "4 - - - 6 - - 4 3 - 5 - 3 - 1 - | 2 - - - 1 - - 1 1 - - - 0 0 0 0 | | |"
+  ]
+}
