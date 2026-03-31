@@ -3,7 +3,7 @@ import type { KuailepuSongPayload } from './kuailepuImport'
 const SONG_TITLE_OVERRIDES: Record<string, { title: string; subtitle?: string }> = {
   jyz9m1QbT: { title: 'Wedding March', subtitle: 'Wagner version' },
   XhcVa141a: { title: 'Wedding March' },
-  MQ31c1qft: { title: 'Greensleeves' },
+  MQ31c1qft: { title: 'Greensleeves', subtitle: 'Green Sleeves' },
   NGp2r1Esl: { title: 'Amazing Grace' },
   nLqmn131u: { title: 'Moonlight Sonata' },
   leoVi11R5: { title: 'Minuet in G' },

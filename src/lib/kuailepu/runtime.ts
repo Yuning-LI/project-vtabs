@@ -1,5 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import {
+  getKuailepuEnglishTitle,
+  translateKuailepuFingeringName,
+  translateKuailepuGraphName,
+  translateKuailepuInstrumentName,
+  translateKuailepuPersonName
+} from '../songbook/kuailepuEnglish'
 
 /**
  * 这里定义的是“站点外壳传给快乐谱兼容 runtime 的状态”。
@@ -45,8 +52,19 @@ type KuailepuLetterTrackData = {
 type KuailepuRuntimePayload = Record<string, unknown> & {
   song_name?: string
   alias_name?: string
+  song_pinyin?: string
   lyric?: unknown
   lyric_text?: unknown
+  music_composer?: string
+  lyric_composer?: string
+  composer?: string
+  lyricist?: string
+  arranger?: string
+  player?: string
+  author?: string
+  nickname?: string
+  title?: string
+  subtitle?: string
   instrument?: string
   fingering?: string
   fingering_index?: string | number | null
@@ -59,6 +77,14 @@ type KuailepuRuntimePayload = Record<string, unknown> & {
   instrumentFingerings?: Array<{
     instrument: string
     instrumentName?: string
+    fingeringsList?: Array<
+      Array<{
+        fingering: string
+        fingeringName?: string
+        tonalityName?: string
+        match?: number
+      }>
+    >
     fingeringSetList?: Array<
       Array<{
         fingering: string
@@ -67,8 +93,14 @@ type KuailepuRuntimePayload = Record<string, unknown> & {
         match?: number
       }>
     >
+    graphList?: Array<{
+      name?: string
+      value?: string
+    }>
   }>
 }
+
+type KuailepuRuntimeTextMode = 'source' | 'english'
 
 let cachedTemplateHtml: string | null = null
 
@@ -92,9 +124,19 @@ export function buildKuailepuRuntimeHtml(input: {
   payload: KuailepuRuntimePayload
   state?: KuailepuRuntimeState | null
   letterTrack?: KuailepuLetterTrackData | null
+  textMode?: KuailepuRuntimeTextMode | null
+  preferredEnglishTitle?: string | null
+  preferredEnglishSubtitle?: string | null
 }) {
   const { songId } = input
-  const payload = applyRuntimeDefaults(input.payload, input.state ?? null)
+  const payload = applyRuntimeDefaults(
+    localizeRuntimePayload(input.payload, {
+      mode: input.textMode ?? 'source',
+      preferredTitle: input.preferredEnglishTitle ?? null,
+      preferredSubtitle: input.preferredEnglishSubtitle ?? null
+    }),
+    input.state ?? null
+  )
   const letterTrack = input.letterTrack ?? null
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeForInlineScript(payload)
@@ -124,7 +166,7 @@ export function buildKuailepuRuntimeHtml(input: {
     )
     .replace(
       /<\/body>/i,
-      `${buildRuntimeBridgeScript(songId, letterTrack)}</body>`
+      `${buildRuntimeBridgeScript(songId, letterTrack, input.textMode ?? 'source')}</body>`
     )
 }
 
@@ -335,6 +377,127 @@ function applyRuntimeDefaults(
   return next
 }
 
+function localizeRuntimePayload(
+  payload: KuailepuRuntimePayload,
+  options: {
+    mode: KuailepuRuntimeTextMode
+    preferredTitle?: string | null
+    preferredSubtitle?: string | null
+  }
+) {
+  if (options.mode !== 'english') {
+    return payload
+  }
+
+  const englishTitle = getKuailepuEnglishTitle(payload)
+  const localized: KuailepuRuntimePayload = {
+    ...payload,
+    song_name:
+      options.preferredTitle?.trim() ||
+      englishTitle.title?.trim() ||
+      payload.song_name,
+    alias_name:
+      normalizeLocalizedText(
+        options.preferredSubtitle ??
+          englishTitle.subtitle ??
+          translateNonLatinText(payload.alias_name)
+      ) ?? '',
+    title:
+      normalizeLocalizedText(
+        options.preferredTitle ??
+          englishTitle.title ??
+          translateNonLatinText(payload.title)
+      ) ?? payload.title,
+    subtitle:
+      normalizeLocalizedText(
+        options.preferredSubtitle ??
+          englishTitle.subtitle ??
+          translateNonLatinText(payload.subtitle)
+      ) ?? '',
+    music_composer:
+      normalizeLocalizedText(translateKuailepuPersonName(payload.music_composer)) ?? undefined,
+    lyric_composer:
+      normalizeLocalizedText(translateKuailepuPersonName(payload.lyric_composer)) ?? undefined,
+    composer: normalizeLocalizedText(translateKuailepuPersonName(payload.composer)) ?? undefined,
+    lyricist: normalizeLocalizedText(translateKuailepuPersonName(payload.lyricist)) ?? undefined,
+    arranger: normalizeLocalizedText(translateKuailepuPersonName(payload.arranger)) ?? undefined,
+    player: normalizeLocalizedText(translateKuailepuPersonName(payload.player)) ?? undefined,
+    author: normalizeLocalizedText(translateKuailepuPersonName(payload.author)) ?? undefined,
+    nickname: normalizeLocalizedText(translateKuailepuPersonName(payload.nickname)) ?? undefined
+  }
+
+  localized.instrumentFingerings = payload.instrumentFingerings?.map(option => ({
+    ...option,
+    instrumentName:
+      normalizeLocalizedText(
+        translateKuailepuInstrumentName(sanitizeInstrumentLabel(option.instrumentName))
+      ) ?? option.instrumentName,
+    fingeringsList: option.fingeringsList?.map(group =>
+      group.map(item => ({
+        ...item,
+        fingeringName:
+          normalizeLocalizedText(translateKuailepuFingeringName(item.fingeringName)) ??
+          item.fingeringName
+      }))
+    ),
+    fingeringSetList: option.fingeringSetList?.map(group =>
+      group.map(item => ({
+        ...item,
+        fingeringName:
+          normalizeLocalizedText(translateKuailepuFingeringName(item.fingeringName)) ??
+          item.fingeringName
+      }))
+    ),
+    graphList: option.graphList?.map(item => ({
+      ...item,
+      name:
+        normalizeLocalizedText(
+          translateKuailepuGraphName(item.name?.replace(/\s+/g, '') ?? item.name)
+        ) ?? item.name
+    }))
+  }))
+
+  return localized
+}
+
+function sanitizeInstrumentLabel(value: string | null | undefined) {
+  if (!value) {
+    return value
+  }
+
+  return value.replace(/[（）()]/g, '').replace(/\s+/g, '')
+}
+
+function translateNonLatinText(value: string | null | undefined) {
+  if (!value) {
+    return value ?? null
+  }
+
+  if (/[A-Za-z]/.test(value)) {
+    return value
+  }
+
+  const translatedPersonName = translateKuailepuPersonName(value)
+  if (translatedPersonName && /[A-Za-z]/.test(translatedPersonName)) {
+    return translatedPersonName
+  }
+
+  return null
+}
+
+function normalizeLocalizedText(value: string | null | undefined) {
+  if (!value) {
+    return null
+  }
+
+  const text = value.trim()
+  if (!text) {
+    return null
+  }
+
+  return /[\u3400-\u9fff]/.test(text) && !/[A-Za-z]/.test(text) ? null : text
+}
+
 /**
  * 快乐谱原前端把很多“开关”都保存成字符串：
  * - `on`
@@ -530,7 +693,8 @@ function buildRuntimePendingScript(letterTrack: KuailepuLetterTrackData | null) 
  */
 function buildRuntimeBridgeScript(
   songId: string,
-  letterTrack: KuailepuLetterTrackData | null
+  letterTrack: KuailepuLetterTrackData | null,
+  textMode: KuailepuRuntimeTextMode
 ) {
   const safeLetterTrack = serializeForInlineScript(
     letterTrack ?? {
@@ -547,6 +711,7 @@ function buildRuntimeBridgeScript(
 (function () {
   var songId = ${JSON.stringify(songId)};
   var letterTrack = ${safeLetterTrack};
+  var textMode = ${JSON.stringify(textMode)};
   var resizeTimer = null;
   var letterTrackWarned = false;
   var initialSyncTimer = null;
@@ -733,6 +898,118 @@ function buildRuntimeBridgeScript(
     return document.createElementNS('http://www.w3.org/2000/svg', tagName);
   }
 
+  function replaceAllText(source, replacements) {
+    var next = source;
+    replacements.forEach(function (pair) {
+      next = next.split(pair[0]).join(pair[1]);
+    });
+    return next;
+  }
+
+  function translateVisibleSheetText(text) {
+    if (!text || textMode !== 'english') {
+      return text;
+    }
+
+    var replacements = [
+      ['作曲', 'Composer'],
+      ['作词', 'Lyricist'],
+      ['編曲', 'Arranger'],
+      ['编曲', 'Arranger'],
+      ['記譜', 'Notation'],
+      ['记谱', 'Notation'],
+      ['制谱', 'Notation'],
+      ['十二孔陶笛', '12-hole ocarina'],
+      ['六孔陶笛', '6-hole ocarina'],
+      ['三管陶笛', 'Triple ocarina'],
+      ['英式八孔竖笛', 'English 8-hole recorder'],
+      ['德式八孔竖笛', 'German 8-hole recorder'],
+      ['爱尔兰哨笛', 'Irish whistle'],
+      ['八孔埙', '8-hole xun'],
+      ['十孔埙', '10-hole xun'],
+      ['合埙', 'He-xun'],
+      ['八孔箫', '8-hole xiao'],
+      ['七孔葫芦丝', '7-hole hulusi'],
+      ['九孔葫芦丝', '9-hole hulusi'],
+      ['六孔竹笛', '6-hole bamboo flute'],
+      ['F调指法', 'F fingering'],
+      ['G调指法', 'G fingering'],
+      ['C调指法', 'C fingering'],
+      ['D调指法', 'D fingering'],
+      ['bB调指法', 'Bb fingering'],
+      ['♭B调指法', 'Bb fingering'],
+      ['bE调指法', 'Eb fingering'],
+      ['♭E调指法', 'Eb fingering'],
+      ['标准指法', 'Standard fingering'],
+      ['易于握持', 'Easy grip'],
+      ['吹口在下（推荐）', 'Mouthpiece down (Recommended)'],
+      ['吹口在上（推荐）', 'Mouthpiece up (Recommended)'],
+      ['吹口在下', 'Mouthpiece down'],
+      ['吹口在上', 'Mouthpiece up'],
+      ['演奏顺序：', 'Play order:'],
+      ['演奏顺序', 'Play order'],
+      ['美国民歌', 'folk song'],
+      ['左起', 'Left-start'],
+      ['右起', 'Right-start'],
+      ['七星', 'Seven-star']
+    ];
+
+    var translated = replaceAllText(text, replacements);
+    translated = translated
+      .replace(/\\bocarina\\((12|6) holes\\)\\s*/gi, function (_, holes) {
+        return holes + '-hole ocarina ';
+      })
+      .replace(/\\bbamboo flute\\((6) holes\\)\\s*/gi, function (_, holes) {
+        return holes + '-hole bamboo flute ';
+      })
+      .replace(/\\brecorder\\(baroque 8 holes\\)\\s*/gi, 'English 8-hole recorder ')
+      .replace(/\\brecorder\\(german 8 holes\\)\\s*/gi, 'German 8-hole recorder ')
+      .replace(/\\bxun\\((8|10|11) holes\\)\\s*/gi, function (_, holes) {
+        return holes === '11' ? 'He-xun ' : holes + '-hole xun ';
+      })
+      .replace(/\\bhulusi\\((7|9) holes\\)\\s*/gi, function (_, holes) {
+        return holes + '-hole hulusi ';
+      })
+      .replace(/\\bb([A-G])\\b/g, '$1b');
+    translated = translated.replace(
+      /([a-z)])(?=(?:Bb|Eb|[A-G]|bE|bB)\\s*fingering\\b)/g,
+      '$1 '
+    );
+    return translated.replace(/\\s{2,}/g, ' ').trim();
+  }
+
+  function shouldRelaxVisibleSheetTextWidth(text) {
+    if (!text || textMode !== 'english') {
+      return false;
+    }
+
+    return /(?:Composer|Lyricist|Arranger|Notation|fingering|ocarina|recorder|xun|hulusi|xiao|bamboo flute)/i.test(
+      text
+    );
+  }
+
+  function localizeVisibleSheetText(svg) {
+    if (!svg || textMode !== 'english') {
+      return;
+    }
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('text'))
+      .forEach(function (node) {
+        var original = node.textContent || '';
+        var translated = translateVisibleSheetText(original);
+        var shouldRelaxWidth = shouldRelaxVisibleSheetTextWidth(translated || original);
+        if (!translated || (translated === original && !shouldRelaxWidth)) {
+          return;
+        }
+        if (shouldRelaxWidth) {
+          node.removeAttribute('textLength');
+          node.removeAttribute('lengthAdjust');
+        }
+        node.textContent = translated;
+      });
+  }
+
   function clearLetterTrack(svg) {
     Array.prototype.slice
       .call(svg.querySelectorAll('[data-vtabs-letter-track]'))
@@ -907,14 +1184,16 @@ function buildRuntimeBridgeScript(
   }
 
   function renderLetterTrack() {
-    if (!letterTrack || letterTrack.mode === 'number') {
-      setSheetPending(false);
-      return true;
-    }
-
     var svg = getSheetSvg();
     if (!svg) {
       return false;
+    }
+
+    localizeVisibleSheetText(svg);
+
+    if (!letterTrack || letterTrack.mode === 'number') {
+      setSheetPending(false);
+      return true;
     }
 
     clearLetterTrack(svg);
@@ -1158,11 +1437,16 @@ function buildRuntimeBridgeScript(
 
   function scheduleInitialSync() {
     var attempts = 0;
+    var successfulRenders = 0;
     window.clearInterval(initialSyncTimer);
     initialSyncTimer = window.setInterval(function () {
       attempts += 1;
       var rendered = renderLetterTrack();
-      if (rendered || attempts >= 24) {
+      if (rendered) {
+        successfulRenders += 1;
+        postSize();
+      }
+      if (attempts >= 60 || (successfulRenders >= 12 && attempts >= 12)) {
         window.clearInterval(initialSyncTimer);
         postSize();
         setSheetPending(false);

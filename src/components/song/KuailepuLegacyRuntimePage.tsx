@@ -38,6 +38,7 @@ export default function KuailepuLegacyRuntimePage({
    * - 交接 / 排障：复制一个详情页地址就能复现当前模式，不依赖 React 内存状态
    */
   const params = new URLSearchParams()
+  params.set('runtime_text_mode', 'english')
   if (state?.instrument) params.set('instrument', state.instrument)
   if (state?.fingering) params.set('fingering', state.fingering)
   if (state?.fingering_index !== null && state?.fingering_index !== undefined) {

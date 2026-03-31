@@ -42,7 +42,7 @@
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `reference/songs/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 57 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 55 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -56,13 +56,13 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 57`
+- `songCatalog.length = 55`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 65`
+- `allSongCatalog.length = 63`
   - 仓库里保留的全部候选曲目数量，包含未公开的手工占位条目。
 - `reference/songs/*.json = 59`
   - 本机 raw JSON 数量。这里是 runtime 真相源。
-- `data/kuailepu/*.json = 51`
+- `data/kuailepu/*.json = 49`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：

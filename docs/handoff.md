@@ -87,13 +87,13 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 57`
+- `songCatalog.length = 55`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 65`
+- `allSongCatalog.length = 63`
   - 当前仓库保留的总候选数。
 - `reference/songs/*.json = 59`
   - 本机 raw JSON 数量。
-- `data/kuailepu/*.json = 51`
+- `data/kuailepu/*.json = 49`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

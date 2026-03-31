@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { NextResponse } from 'next/server'
 
 /**
@@ -16,14 +18,35 @@ export async function proxyKuailepuStaticAsset(asset: string[]) {
     return new NextResponse('Not found', { status: 404 })
   }
 
+  const localAsset = loadBundledKuailepuStaticAsset(assetPath)
+  if (localAsset) {
+    return new NextResponse(localAsset.body, {
+      headers: localAsset.headers
+    })
+  }
+
+  if (!isRemoteStaticFallbackEnabled()) {
+    return new NextResponse(`Missing bundled Kuailepu static asset: ${assetPath}`, {
+      status: 404
+    })
+  }
+
   const targetUrl = `https://www.kuaiyuepu.com/static/${assetPath}`
-  const upstream = await fetch(targetUrl, {
-    headers: {
-      'user-agent':
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-    },
-    cache: 'no-store'
-  })
+  let upstream: Response
+  try {
+    upstream = await fetch(targetUrl, {
+      headers: {
+        'user-agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+      },
+      cache: 'no-store'
+    })
+  } catch (error) {
+    return new NextResponse(
+      `Upstream asset fetch failed for ${assetPath}: ${error instanceof Error ? error.message : String(error)}`,
+      { status: 502 }
+    )
+  }
 
   if (!upstream.ok) {
     return new NextResponse(`Upstream asset error: ${upstream.status}`, {
@@ -43,4 +66,90 @@ export async function proxyKuailepuStaticAsset(asset: string[]) {
   return new NextResponse(await upstream.arrayBuffer(), {
     headers
   })
+}
+
+let archivedStaticAssets: Map<string, string> | null = null
+
+function loadBundledKuailepuStaticAsset(assetPath: string) {
+  const vendorPath = path.resolve(process.cwd(), 'vendor', 'kuailepu-static', assetPath)
+  if (fs.existsSync(vendorPath) && fs.statSync(vendorPath).isFile()) {
+    const headers = new Headers()
+    headers.set('content-type', getContentType(vendorPath))
+    headers.set('cache-control', 'public, max-age=31536000, immutable')
+
+    return {
+      body: fs.readFileSync(vendorPath),
+      headers
+    }
+  }
+
+  const archived = getArchivedStaticAssets().get(path.basename(assetPath))
+  if (archived !== undefined) {
+    const headers = new Headers()
+    headers.set('content-type', getContentType(assetPath))
+    headers.set('cache-control', 'public, max-age=31536000, immutable')
+
+    return {
+      body: archived,
+      headers
+    }
+  }
+
+  return null
+}
+
+function getArchivedStaticAssets() {
+  if (archivedStaticAssets) {
+    return archivedStaticAssets
+  }
+
+  const sourcePath = path.resolve(process.cwd(), 'reference', '快乐谱代码.txt')
+  const sourceText = fs.readFileSync(sourcePath, 'utf8')
+  const marker = /^文件：(.+)$/gm
+  const matches = Array.from(sourceText.matchAll(marker))
+  archivedStaticAssets = new Map()
+
+  for (let index = 0; index < matches.length; index += 1) {
+    const current = matches[index]
+    const next = matches[index + 1]
+    const filename = current[1]?.trim()
+    const start = current.index! + current[0].length + 1
+    const end = next?.index ?? sourceText.length
+
+    if (!filename || filename === 'qyiBa1mPa.html') {
+      continue
+    }
+
+    archivedStaticAssets.set(filename, sourceText.slice(start, end).trim())
+  }
+
+  return archivedStaticAssets
+}
+
+function getContentType(filePath: string) {
+  const ext = path.extname(filePath).toLowerCase()
+  switch (ext) {
+    case '.css':
+      return 'text/css; charset=utf-8'
+    case '.js':
+      return 'application/javascript; charset=utf-8'
+    case '.ico':
+      return 'image/x-icon'
+    case '.svg':
+      return 'image/svg+xml'
+    case '.woff':
+      return 'font/woff'
+    case '.woff2':
+      return 'font/woff2'
+    case '.ttf':
+      return 'font/ttf'
+    case '.eot':
+      return 'application/vnd.ms-fontobject'
+    default:
+      return 'application/octet-stream'
+  }
+}
+
+function isRemoteStaticFallbackEnabled() {
+  return process.env.KUAILEPU_ALLOW_REMOTE_STATIC_FALLBACK === '1'
 }

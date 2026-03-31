@@ -150,10 +150,10 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：57
-- 全部候选：65
+- 公开 song pages：55
+- 全部候选：63
 - raw JSON：59
-- 可提交轻量导入：51
+- 可提交轻量导入：49
 
 不要拿这些数字互相强行对应。
 

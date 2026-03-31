@@ -6,6 +6,7 @@ import {
   type KuailepuRuntimeState
 } from '@/lib/kuailepu/runtime'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
+import { getSongPresentation } from '@/lib/songbook/presentation'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,6 +48,8 @@ export async function GET(
     note_label_mode: searchParams.get('note_label_mode')
   }
   const song = songCatalogBySlug[params.id]
+  const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
+  const presentation = song ? getSongPresentation(song) : null
   /**
    * 字母谱不是修改 raw JSON 后再交给快乐谱重渲染，
    * 而是先让快乐谱按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
@@ -66,7 +69,10 @@ export async function GET(
     songId: params.id,
     payload,
     state,
-    letterTrack
+    letterTrack,
+    textMode: runtimeTextMode,
+    preferredEnglishTitle: runtimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
+    preferredEnglishSubtitle: null
   })
 
   return new NextResponse(html, {

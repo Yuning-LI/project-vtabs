@@ -51,10 +51,8 @@ const TITLE_OVERRIDES: Record<string, string> = {
   'auld-lang-syne-english': 'Auld Lang Syne (English Lyrics Version)',
   'going-home': 'Going Home',
   'harvest-song': 'Harvest Song',
-  'jingle-bells-english': 'Jingle Bells (English Lyrics Version)',
   'lightly-row': 'Lightly Row',
   'little-bee': 'Little Bee',
-  'silent-night-english': 'Silent Night (English Lyrics Version)',
   'song-of-parting': 'Song of Parting',
   'the-trout': 'The Trout',
   'twinkle-variations': 'Twinkle, Twinkle, Little Star Variations',
@@ -219,11 +217,6 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     background: 'Humoresque is a widely recognised Dvorak melody and a common search target for players who want a lighter classical tune.',
     practice: 'It offers moderate phrasing detail without the density of faster virtuoso themes.'
   },
-  'jingle-bells-english': {
-    searchTerms: ['Jingle Bells ocarina tabs', 'Jingle Bells English lyrics ocarina'],
-    background: 'This version is aimed at players who want Jingle Bells with the familiar English sing-along wording visible on the page.',
-    practice: 'It is useful for holiday practice where melody reading and lyric phrasing both matter.'
-  },
   'lightly-row': {
     searchTerms: ['Lightly Row ocarina tabs', 'Lightly Row letter notes'],
     background: 'Lightly Row is a common beginner teaching tune with a clean melodic shape that translates well to basic ocarina reading.',
@@ -303,11 +296,6 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     searchTerms: ['Scotland the Brave ocarina tabs', 'Scotland the Brave letter notes'],
     background: 'Scotland the Brave is a bold traditional melody that players often search for as a recognizable patriotic or folk-style theme.',
     practice: 'It encourages stronger pulse, cleaner attacks, and confident melodic projection.'
-  },
-  'silent-night-english': {
-    searchTerms: ['Silent Night ocarina tabs', 'Silent Night English lyrics ocarina'],
-    background: 'This version is aimed at players who want Silent Night with familiar English lyrics visible while they practice or sing along.',
-    practice: 'It is especially useful for Christmas performance practice and gentle phrase shaping.'
   },
   'song-of-parting': {
     searchTerms: ['Song of Parting ocarina tabs', 'Song of Parting letter notes'],
@@ -478,10 +466,8 @@ function getSongFamily(slug: string): SongFamily {
   if (
     [
       'jingle-bells',
-      'jingle-bells-english',
       'deck-the-halls',
       'silent-night',
-      'silent-night-english',
       'we-wish-you-a-merry-christmas',
       'god-rest-you-merry-gentlemen'
     ].includes(slug)
