@@ -514,12 +514,44 @@ function normalizeLocalizedText(value: string | null | undefined) {
     return null
   }
 
-  const text = value.trim()
+  const text = normalizeLocalizedPunctuation(value)
   if (!text) {
     return null
   }
 
   return /[\u3400-\u9fff]/.test(text) && !/[A-Za-z]/.test(text) ? null : text
+}
+
+/**
+ * 这层只服务“英文公开 runtime 输出”，不改 raw JSON 真相源本身。
+ *
+ * 当前已知必要性：
+ * - 快乐谱不少人名 / 副标题 / 说明字段即使被翻成英文，仍会残留全角中文标点
+ * - 这些字符在公开页上会直接可见，例如 `Herbert Hughes ，Benjamin Britten`
+ *
+ * 所以这里统一做一层轻量规范化：
+ * - 全角标点转成 ASCII 标点
+ * - 顺手收敛标点前后的多余空格
+ *
+ * 不要把它扩张成“任意改写文本内容”的大翻译器。
+ * 它的边界仍然只是英文公开页的排版净化。
+ */
+function normalizeLocalizedPunctuation(value: string) {
+  return value
+    .replace(/\u3000/g, ' ')
+    .replace(/[，、]/g, ', ')
+    .replace(/；/g, '; ')
+    .replace(/：/g, ': ')
+    .replace(/（/g, '(')
+    .replace(/）/g, ')')
+    .replace(/！/g, '!')
+    .replace(/？/g, '?')
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/([([{])\s+/g, '$1')
+    .replace(/\s+([)\]}])/g, '$1')
+    .replace(/([,.;:!?])(?=[A-Za-z0-9(])/g, '$1 ')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
 }
 
 /**

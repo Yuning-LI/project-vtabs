@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "sync:kuailepu-static": "node scripts/sync-kuailepu-static.mjs",
+    "predev": "npm run sync:kuailepu-static",
+    "prebuild": "npm run sync:kuailepu-static",
+    "prestart": "npm run sync:kuailepu-static",
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap",

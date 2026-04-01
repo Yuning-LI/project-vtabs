@@ -15,14 +15,20 @@
 - 指法图始终是核心内容。
 - 字母谱与简谱都只是阅读模式，真相源是快乐谱 raw JSON + 快乐谱原始渲染链。
 
-### 1.1 2026-03-31 最新补充
+### 1.1 2026-04-02 最新补充
 
-本轮最新状态要额外记住四点：
+本轮最新状态要额外记住下面这些点：
 
 - 公开 runtime 已补齐英文文本模式，`Composer`、`Play order`、`12-hole ocarina Bb fingering` 这类 SVG 内可见标签也已在我们自己的 runtime 后处理中英文化。
 - 公开页当前默认不再依赖 `www.kuaiyuepu.com/static/...` 的实时静态资源；脚本、字体、i18n 包、播放器依赖等已补到本地 `vendor/kuailepu-static`。
+- `/k-static` 现在优先是 `public/k-static` 下的静态同步产物，不再主要依赖动态 route。
+- `scripts/sync-kuailepu-static.mjs` 会在 `dev` / `build` / `start` 前自动执行，把 `vendor/kuailepu-static` 与 runtime archive 里的必需资源同步到 `public/k-static`。
+- `vendor/kuailepu-static` 当前包含一份快乐谱线上实际部署版的压缩静态快照，供公开页离线复用。
+- 公开生产链路已脱离 `reference/` 硬依赖：
+  - 生产 raw JSON 优先读 `data/kuailepu-runtime/<slug>.json`
+  - runtime 模板归档优先读 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
+  - `reference/` 现在只保留给本地导歌 / 调试 fallback
 - `silent-night-english` 与 `jingle-bells-english` 这两个重复公开入口已经删除，只保留单一歌曲入口。
-- 当前工作区还有一组未提交的样式统一改动：首页与详情页正在收敛到同一套暖色 editorial shell，但这不改变 runtime 主链和数据边界。
 - 本轮新导入并通过 preflight compare 的公开曲目有 5 首：
   - `jasmine-flower`
   - `arirang`
@@ -33,6 +39,26 @@
 - runtime 文本英文化链已经补上：
   - `轻吹 -> Soft blow`
   - `重吹 -> Strong blow`
+- runtime 英文化规范化链已补上全角中文标点清理：
+  - 例如 `Herbert Hughes ，Benjamin Britten` 现在会规范成 `Herbert Hughes, Benjamin Britten`
+- 详情页 runtime loading / 高度同步逻辑已拆到 `src/components/song/KuailepuRuntimeFrame.tsx`：
+  - 不再依赖 `KuailepuLegacyRuntimePage.tsx` 里的 server component 内联脚本
+  - 首页点进详情页时 loading overlay 已确认会正常消失
+- favicon 已补齐：
+  - `src/app/icon.svg`
+  - `public/favicon.ico`
+  - `src/app/layout.tsx` 已声明 `metadata.icons`
+- 线上 `https://www.playbyfingering.com/` 已实际检查通过：
+  - `/song/ode-to-joy`
+  - `/song/jasmine-flower`
+  - `/song/arirang`
+  - `number` 模式切换
+  - `/api/kuailepu-runtime/...`
+  - 实际被页面引用的 `/k-static/...` CSS/JS 资源
+- Playwright 当前已经恢复到“仓库内测试可直接运行”的状态：
+  - `playwright.config.ts` 固定走 `127.0.0.1:3000`
+  - `webServer` 已改为 `port: 3000`
+  - `e2e/core.spec.ts` 已对齐当前 runtime-backed 产品流
 
 ## 2. 当前用户已经确认过的业务规则
 
@@ -143,7 +169,9 @@
   - 返回 runtime HTML，不是返回 JSON。
 - `src/components/song/KuailepuLegacyRuntimePage.tsx`
   - 站点详情页外壳。
-  - 负责 iframe 容器、模式切换、SEO 文案区域、高度同步。
+  - 负责页面壳、模式切换、SEO 文案区域。
+- `src/components/song/KuailepuRuntimeFrame.tsx`
+  - 负责 iframe 装载、loading overlay、消息桥接、高度同步。
 - `src/app/song/[id]/page.tsx`
   - song route 入口。
   - 当前原则是：找不到 raw JSON 就 `notFound()`，不再回退到旧详情页。
@@ -178,6 +206,8 @@
 
 - `scripts/check-kuailepu-login.ts`
   - 检查快乐谱 Playwright 登录态是否还有效。
+- `scripts/sync-kuailepu-static.mjs`
+  - 在 `dev` / `build` / `start` 前同步 `public/k-static`。
 - `scripts/login-kuailepu.ts`
   - 建立或刷新登录态。
 - `scripts/search-kuailepu-song.ts`
@@ -199,12 +229,22 @@
 
 所以当前策略是：
 
-- 浏览器请求我们自己的 `/k-static/...` 或 `/static/...`
-- 服务端优先读取本地 `vendor/kuailepu-static`
-- 本地没有时，再读 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 归档出来的静态资源
+- 浏览器请求我们自己的 `/k-static/...`
+- `scripts/sync-kuailepu-static.mjs` 在启动前把当前模板要用到的资源同步到 `public/k-static`
+- 同步来源优先是本地 `vendor/kuailepu-static`
+- 本地快照缺失时，再从 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 里抽取
 - 默认不再静默回源快乐谱线上静态文件
 
 这层代理不是“功能性 feature”，而是 runtime 这条主链能工作的基础设施。
+
+### 7.2 线上验证口径
+
+到本轮交接时，已经实测确认：
+
+- Vercel 部署版本可直接打开公开详情页
+- runtime API 不再因缺少 `reference/快乐谱代码.txt` 而失败
+- `number` 模式切换能正确落到 `?note_label_mode=number`
+- 页面实际引用的 `/k-static/...` 资源可返回 `200`
 
 ### 7.1 这层代理现在解决了什么问题
 
@@ -369,6 +409,8 @@
 - 详情页已确认不再显示 source/Kuailepu 引导文案
 - `amazing-grace`、`canon`、`greensleeves` 等公开页已确认看不到中文标签，指法标题英文化后不再因 `textLength` 压缩而重叠
 - 中国以外网络下，公开页已确认可以不访问快乐谱线上静态资源而正常显示指法图
+- 线上 `ode-to-joy`、`jasmine-flower`、`arirang` 详情页已确认能在公开域名正常打开
+- `Down By the Salley Gardens` 的可见残留已进一步收口到标点级别，runtime 现已把全角中文逗号规范成英文逗号
 
 ## 13. SEO 层当前策略
 
@@ -521,9 +563,34 @@
    - 当前文案为 `Back to Song Library`
 4. runtime 的中文残留英文化已经扩大
    - `Down By the Salley Gardens` 这类混合中英副标题不再只靠单歌修补
+   - 人名 / 副标题等字段里残留的全角中文标点，也已经并入 runtime 英文化规范化链
    - 常见短中文标签也已有固定英文映射
 5. 难度标签规则已经收紧
    - 长曲篇幅不再单独触发 `Intermediate to advanced`
    - 最高档更依赖速度、升降号密度，或组合条件
 
 不建议在交接前继续大改核心 runtime 路线，因为当前主链已经稳定，额外重构只会增加新对话接手成本。
+
+## 18. 当前工作区剩余状态
+
+到 2026-04-02 这次交接整理时，当前工作区待提交的是下面这组同一主题的改动：
+
+- Playwright 修复：
+  - `playwright.config.ts`
+  - `e2e/core.spec.ts`
+- 详情页 runtime loading 修复：
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
+  - `src/components/song/KuailepuLegacyRuntimePage.tsx`
+- `/k-static` 静态同步链：
+  - `scripts/sync-kuailepu-static.mjs`
+  - `package.json`
+  - `public/k-static/**`
+  - `vendor/kuailepu-static/**`
+- favicon 补齐：
+  - `src/app/icon.svg`
+  - `public/favicon.ico`
+  - `src/app/layout.tsx`
+- runtime 英文标点规范化：
+  - `src/lib/kuailepu/runtime.ts`
+
+`tsconfig.tsbuildinfo`、调试截图、`.tmp` 文件、临时日志都属于噪音，不应带入提交。

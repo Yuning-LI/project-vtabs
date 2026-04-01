@@ -54,7 +54,7 @@
 
 ## 当前真实状态
 
-以 2026-03-31 当前工作区为准：
+以 2026-04-01 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
@@ -69,14 +69,15 @@
 - `Fingering + Lyrics` 已移除。
 - 字母谱不是新开一轨，而是直接复用简谱那一轨的位置、间距、节拍、歌词、指法图，只把数字替换成字母音名。
 
-## 2026-03-31 补充状态
+## 2026-04-02 补充状态
 
 - 公开 runtime 现已默认注入 `runtime_text_mode=english`，标题、副标题、作曲/作词/编曲标签、指法标题、演奏顺序等可见文案已统一走英文转换。
-- `/k-static/...` 与 `/static/...` 当前默认走本地优先解析：先读 `vendor/kuailepu-static`，再读 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 中归档内容，不再默认静默回源快乐谱线上静态文件。
+- `/k-static/...` 现在优先是 `public/k-static` 下的静态同步产物，不再主要依赖动态 route。
+- `scripts/sync-kuailepu-static.mjs` 会在 `dev` / `build` / `start` 前自动执行，把 `vendor/kuailepu-static` 与 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 里当前模板实际需要的资源同步到 `public/k-static`。
+- `vendor/kuailepu-static` 现在带着一份快乐谱线上实际部署版的压缩静态快照；模板仍引用旧 i18n hash 时，会通过同步脚本兼容映射到线上仍存在的压缩包内容。
 - 公开生产链路已不再要求部署环境存在 `reference/`；`reference/` 现在只保留给本地导歌、compare、登录态与调试用途。
 - 这意味着公开 song page 在中国以外网络也能正常显示曲谱与指法图；但“导歌 / compare / 登录态检查”仍然依赖能访问快乐谱详情页上下文。
 - 重复公开入口 `silent-night-english`、`jingle-bells-english` 已清理，只保留单一公开歌曲入口。
-- 当前工作区另外还有一组“首页与详情页统一暖色视觉壳”的样式改动，尚未提交；它不会改变 runtime 数据链，只影响前台视觉一致性。
 - 本轮新增并通过 preflight compare 的 5 首歌：
   - `jasmine-flower`
   - `arirang`
@@ -84,6 +85,23 @@
   - `cavalry-march`
   - `sakura-sakura`
 - `scripts/preflight-kuailepu-publish.ts` 已修复一处登录误判问题：`npm` 输出和 Node warning 不应再把有效登录态误判成失效。
+- 公开 runtime 英文化链已新增全角标点规范化，避免可见区域残留 `，` 这类中式标点。
+- 详情页 iframe loading 与高度同步逻辑已从 server component 内联脚本拆到 `src/components/song/KuailepuRuntimeFrame.tsx`，首页点进详情页时 loading overlay 不会再卡住不消失。
+- favicon 现在已补齐：
+  - `src/app/icon.svg`
+  - `public/favicon.ico`
+  - `src/app/layout.tsx` 已声明 `metadata.icons`
+- Vercel 线上已人工检查通过：
+  - `/song/ode-to-joy`
+  - `/song/jasmine-flower`
+  - `/song/arirang`
+  - `number` 模式切换
+  - `/api/kuailepu-runtime/...`
+  - 实际被页面引用的 `/k-static/...` CSS/JS 资源
+- Playwright 当前已经恢复可直接运行：
+  - `playwright.config.ts` 固定使用 `http://127.0.0.1:3000`
+  - `webServer` 改为 `port: 3000`
+  - `e2e/core.spec.ts` 已对齐当前 runtime-backed 产品流
 
 ## 当前数量口径
 
@@ -116,6 +134,30 @@
 - 这是面向英语用户的更直白文案。
 - `numbered notation` 仍可作为内部描述或 SEO 背景词，但当前前台主操作文案优先用 `numbered notes`。
 
+## 这次收口前的待提交内容
+
+到 2026-04-02 这次整理交接时，当前工作区待提交的是一整组同一主题的改动，不是只剩 `runtime.ts`：
+
+- Playwright 修复：
+  - `playwright.config.ts`
+  - `e2e/core.spec.ts`
+- 详情页 runtime loading 修复：
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
+  - `src/components/song/KuailepuLegacyRuntimePage.tsx`
+- `/k-static` 静态同步链：
+  - `scripts/sync-kuailepu-static.mjs`
+  - `package.json`
+  - `public/k-static/**`
+  - `vendor/kuailepu-static/**`
+- favicon 补齐：
+  - `src/app/icon.svg`
+  - `public/favicon.ico`
+  - `src/app/layout.tsx`
+- runtime 英文化排版净化：
+  - `src/lib/kuailepu/runtime.ts`
+
+`tsconfig.tsbuildinfo` 属于生成噪音，不应进入提交；调试截图和 `.tmp` / 临时日志也不应重新带回工作区。
+
 ## 架构真相
 
 当前项目同时保留两条链，但公开主链只有一条：
@@ -138,6 +180,7 @@
   - `src/lib/kuailepu/assetProxy.ts`
   - `src/app/api/kuailepu-runtime/[id]/route.ts`
   - `src/components/song/KuailepuLegacyRuntimePage.tsx`
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
   - `src/app/song/[id]/page.tsx`
 - 曲库与导入层：
   - `src/lib/songbook/catalog.ts`
@@ -145,6 +188,7 @@
   - `src/lib/songbook/kuailepuImport.ts`
   - `data/kuailepu/*.json`
 - runtime 校验脚本：
+  - `scripts/sync-kuailepu-static.mjs`
   - `scripts/check-kuailepu-login.ts`
   - `scripts/compare-kuailepu-runtime-live.ts`
   - `scripts/import-kuailepu-song.ts`
@@ -153,6 +197,8 @@
   - `src/lib/songbook/presentation.ts`
   - `src/app/page.tsx`
   - `src/app/layout.tsx`
+  - `src/app/icon.svg`
+  - `public/favicon.ico`
 
 ## 本地开发
 

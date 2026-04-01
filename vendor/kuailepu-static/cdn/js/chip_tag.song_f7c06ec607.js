@@ -1,0 +1,1 @@
+ChipTag.song={strToChipHtml:function(t,r){for(var a="",i=ChipTag.strToArray(t),n=0;n<i.length;n++)a+=Kit.string.renderTemplate('<div class="chip">{tag}</div>',{tag:i[n],action:r?r:"album"});return a}};

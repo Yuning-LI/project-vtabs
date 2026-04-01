@@ -1,57 +1,69 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
-const songs = [
-  { id: 'twinkle', title: 'Twinkle, Twinkle, Little Star' },
-  { id: 'ode-to-joy', title: 'Ode to Joy' },
-  { id: 'amazing-grace', title: 'Amazing Grace' },
-  { id: 'mary-lamb', title: 'Mary Had a Little Lamb' },
-  { id: 'jingle-bells', title: 'Jingle Bells' },
-  { id: 'happy-birthday', title: 'Happy Birthday' },
-  { id: 'aura-lea', title: 'Aura Lea' },
-  { id: 'auld-lang-syne', title: 'Auld Lang Syne' },
-  { id: 'scarborough-fair', title: 'Scarborough Fair' },
-  { id: 'greensleeves', title: 'Greensleeves' },
-  { id: 'danny-boy', title: 'Danny Boy' },
-  { id: 'sakura', title: 'Sakura Sakura' },
-  { id: 'when-the-saints', title: 'When the Saints Go Marching In' },
-  { id: 'you-are-my-sunshine', title: 'You Are My Sunshine' },
-  { id: 'over-the-rainbow', title: 'Over the Rainbow' },
-  { id: 'we-wish-you', title: 'We Wish You a Merry Christmas' }
-]
+const publicSongs = [
+  { slug: 'ode-to-joy', title: 'Ode to Joy' },
+  { slug: 'jasmine-flower', title: 'Jasmine Flower' },
+  { slug: 'arirang', title: 'Arirang' }
+] as const
 
-test.describe('核心产品逻辑测试', () => {
-  test('首页应显示所有曲目链接', async ({ page }) => {
+async function expectRuntimeSheet(page: Parameters<typeof test>[0]['page'], slug: string) {
+  const frame = page.locator(`iframe[src*="/api/kuailepu-runtime/${slug}"]`)
+  await expect(frame).toBeVisible()
+
+  const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/${slug}"]`)
+  await expect(runtime.locator('svg.sheet-svg')).toBeVisible({ timeout: 20000 })
+}
+
+test.describe('runtime-backed song pages', () => {
+  test('homepage shows English song cards for public songs', async ({ page }) => {
     await page.goto('/')
-    for (const song of songs) {
-      await expect(page.locator(`a[href="/song/${song.id}"]`)).toHaveCount(1)
+
+    await expect(page).toHaveTitle(/Play By Fingering/)
+    await expect(page.getByRole('heading', { name: 'Ocarina Letter Tabs' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Browse Ocarina Songs' })).toBeVisible()
+    await expect(page.getByText('Kuailepu source')).toHaveCount(0)
+    await expect(page.getByText('reference source')).toHaveCount(0)
+
+    for (const song of publicSongs) {
+      const card = page.locator(`a[href="/song/${song.slug}"]`)
+      await expect(card).toHaveCount(1)
+      await expect(card).toHaveText(song.title)
     }
   })
 
-  for (const song of songs) {
-    test(`${song.title} 详情页应正常加载且指法图数量正确`, async ({ page }) => {
-      const errors: string[] = []
-      page.on('pageerror', err => errors.push(err.message))
+  test('song page renders the English shell around the runtime iframe', async ({ page }) => {
+    await page.goto('/song/ode-to-joy')
 
-      await page.goto(`/song/${song.id}`)
-      await expect(page.locator('.ocarina-widget').first()).toBeVisible({ timeout: 10000 })
+    await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Letter Notes' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
+    await expect(page.getByText('Kuailepu source')).toHaveCount(0)
+    await expect(page.getByText('reference source')).toHaveCount(0)
 
-      const noteCount = await page.locator('.abcjs-note').count()
-      const widgetCount = await page.locator('.ocarina-widget').count()
-      expect(widgetCount).toBe(noteCount)
-      expect(errors).toEqual([])
-    })
-  }
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english'
+    )
 
-  test('小星星第一个C4指法应为C4', async ({ page }) => {
-    await page.goto('/song/twinkle')
-    const firstWidget = page.locator('.ocarina-widget').first()
-    await expect(firstWidget).toBeVisible()
+    await expectRuntimeSheet(page, 'ode-to-joy')
+  })
 
-    const letter = firstWidget.locator('.text-primary')
-    await expect(letter).toHaveText(/C4/)
+  test('number mode keeps the runtime route and renders the original sheet view', async ({
+    page
+  }) => {
+    await page.goto('/song/ode-to-joy?note_label_mode=number')
 
-    const firstHole = firstWidget.locator('circle').first()
-    const fillColor = await firstHole.getAttribute('fill')
-    expect(fillColor).toBe('#3E2723')
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&note_label_mode=number'
+    )
+
+    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expectRuntimeSheet(page, 'ode-to-joy')
   })
 })

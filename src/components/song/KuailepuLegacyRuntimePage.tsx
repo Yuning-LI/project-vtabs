@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtime'
 import type { SongPresentation } from '@/lib/songbook/presentation'
+import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
 
 type KuailepuLegacyRuntimePageProps = {
   songId: string
@@ -15,12 +16,11 @@ type KuailepuLegacyRuntimePageProps = {
  *
  * 关键职责只有两个：
  * 1. 生成 iframe URL，把当前曲目的运行时状态传给 `/api/kuailepu-runtime/[id]`。
- * 2. 接收 iframe 内部通过 `postMessage` 发回来的实际谱面高度，然后同步更新 iframe 高度。
+ * 2. 把 iframe 的真实装载和 loading / 高度同步交给单独的 client 组件。
  *
- * 为什么这里不用 React client component：
- * - Next 14 在当前开发态里对新加 client component 有过一次 RSC manifest 丢模块的问题。
- * - 这个页面壳本身并不需要 React 交互状态，服务端组件 + 一小段内联脚本更稳定。
- * - 这样也方便后续交接：页面壳职责非常单一，不会和快乐谱 runtime 混在一起。
+ * 这里仍然保留 server component，是为了把“站点页面壳”和“runtime 装载行为”
+ * 明确拆开：SEO 文案、模式链接、标题区在这里；iframe 生命周期在
+ * `KuailepuRuntimeFrame` 里，避免两层职责继续缠在一起。
  */
 export default function KuailepuLegacyRuntimePage({
   songId,
@@ -59,7 +59,7 @@ export default function KuailepuLegacyRuntimePage({
   const frameSrc = query
     ? `/api/kuailepu-runtime/${songId}?${query}`
     : `/api/kuailepu-runtime/${songId}`
-  const frameId = `kuailepu-runtime-${songId}`
+  const loadingId = `kuailepu-runtime-${songId}-loading`
   const noteLabelMode =
     state?.note_label_mode === 'letter' ||
     state?.note_label_mode === 'number' ||
@@ -120,16 +120,12 @@ export default function KuailepuLegacyRuntimePage({
           </div>
         </section>
 
-        <section className="page-warm-panel overflow-hidden">
-          <iframe
-            id={frameId}
-            title={`${title} Kuailepu runtime`}
-            src={frameSrc}
-            scrolling="no"
-            className="block w-full border-0"
-            style={{ height: '900px' }}
-          />
-        </section>
+        <KuailepuRuntimeFrame
+          songId={songId}
+          title={title}
+          frameSrc={frameSrc}
+          loadingId={loadingId}
+        />
 
         <article className="mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
           <section className="page-warm-panel p-6 md:p-7">
@@ -175,130 +171,6 @@ export default function KuailepuLegacyRuntimePage({
           </div>
         </article>
       </div>
-
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function () {
-              var frame = document.getElementById(${JSON.stringify(frameId)});
-              var resizeObserver = null;
-
-              function applyFrameHeight(height) {
-                var nextHeight = Number(height);
-                if (!frame || !Number.isFinite(nextHeight) || nextHeight <= 200) {
-                  return;
-                }
-                frame.style.height = Math.ceil(nextHeight) + 'px';
-              }
-
-              function measureFrameContentHeight() {
-                try {
-                  if (!frame || !frame.contentDocument) {
-                    return null;
-                  }
-
-                  var doc = frame.contentDocument;
-                  var body = doc.body;
-                  var html = doc.documentElement;
-                  if (!body || !html) {
-                    return null;
-                  }
-
-                  var bodyTop = body.getBoundingClientRect().top;
-                  var measuredBottom = 0;
-                  ['#sheet', '#sheet .sheet-svg'].forEach(function (selector) {
-                    var nodes = doc.querySelectorAll(selector);
-                    nodes.forEach(function (node) {
-                      if (!node || !node.getBoundingClientRect) {
-                        return;
-                      }
-                      var rect = node.getBoundingClientRect();
-                      if (rect.height <= 0) {
-                        return;
-                      }
-                      measuredBottom = Math.max(
-                        measuredBottom,
-                        rect.bottom - bodyTop,
-                        rect.height
-                      );
-                    });
-                  });
-
-                  var fallbackHeight = Math.max(
-                    body.scrollHeight || 0,
-                    html.scrollHeight || 0,
-                    body.offsetHeight || 0,
-                    html.offsetHeight || 0
-                  );
-                  // 优先信任真正可见的谱面节点，只有“谱面还没渲染出来”时
-                  // 才退回 body/html 高度。否则很容易重新引入隐藏节点撑高 iframe 的问题。
-                  var height = measuredBottom > 0 ? measuredBottom + 24 : fallbackHeight + 24;
-                  return height;
-                } catch (error) {
-                  return null;
-                }
-              }
-
-              function syncFrameHeight() {
-                applyFrameHeight(measureFrameContentHeight());
-              }
-
-              function scheduleSyncBursts() {
-                syncFrameHeight();
-                [120, 360, 900, 1800].forEach(function (delay) {
-                  window.setTimeout(syncFrameHeight, delay);
-                });
-              }
-
-              function installFrameObservers() {
-                try {
-                  if (!frame || !frame.contentDocument || !window.ResizeObserver) {
-                    return;
-                  }
-
-                  if (resizeObserver) {
-                    resizeObserver.disconnect();
-                  }
-
-                  var doc = frame.contentDocument;
-                  var body = doc.body;
-                  var html = doc.documentElement;
-                  resizeObserver = new ResizeObserver(function () {
-                    window.setTimeout(syncFrameHeight, 30);
-                  });
-                  if (body) resizeObserver.observe(body);
-                  if (html) resizeObserver.observe(html);
-                } catch (error) {
-                  return;
-                }
-              }
-
-              // iframe 内部只会发一种我们关心的消息：
-              // { type: 'kuailepu-runtime-size', songId, height }
-              // 这里故意做了多重校验，避免别的页面消息误伤当前页。
-              // 当前站点 song pages 都跑在同源下，保守过滤可以减少后续新增 iframe 时的串扰风险。
-              function onMessage(event) {
-                var data = event.data;
-                if (!frame || !data || typeof data !== 'object') return;
-                if (data.type !== 'kuailepu-runtime-size') return;
-                if (data.songId !== ${JSON.stringify(songId)}) return;
-                applyFrameHeight(data.height);
-              }
-
-              if (frame) {
-                frame.addEventListener('load', function () {
-                  installFrameObservers();
-                  scheduleSyncBursts();
-                });
-              }
-
-              window.addEventListener('message', onMessage);
-              window.addEventListener('resize', scheduleSyncBursts);
-              scheduleSyncBursts();
-            })();
-          `
-        }}
-      />
     </main>
   )
 }
