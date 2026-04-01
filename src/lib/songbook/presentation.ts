@@ -152,6 +152,11 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     background: 'American Patrol is a march melody with a clear parade character, which makes it useful for players who want a brighter rhythmic feel than a lullaby or folk tune.',
     practice: 'It supports pulse control, confident articulation, and more active note changes.'
   },
+  arirang: {
+    searchTerms: ['Arirang ocarina tabs', 'Arirang letter notes'],
+    background: 'Arirang is one of the best-known Korean folk melodies, so it works well as a lyrical world-folk page for players searching beyond the usual nursery repertoire.',
+    practice: 'It is especially useful for breath planning, legato phrasing, and a more vocal melodic shape.'
+  },
   'auld-lang-syne-english': {
     searchTerms: ['Auld Lang Syne ocarina tabs', 'Auld Lang Syne English lyrics ocarina'],
     background: 'This version keeps Auld Lang Syne in a format that works well for players who specifically want the familiar English sing-along wording on the page.',
@@ -176,6 +181,11 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     searchTerms: ['Down By the Salley Gardens ocarina tabs', 'Down By the Salley Gardens letter notes'],
     background: 'Down By the Salley Gardens is a lyrical folk melody that players often want in a simpler melody-first format for expressive practice.',
     practice: 'This tune is especially useful for breath timing, softer dynamics, and connected phrasing.'
+  },
+  'jasmine-flower': {
+    searchTerms: ['Jasmine Flower ocarina tabs', 'Mo Li Hua letter notes'],
+    background: 'Jasmine Flower is one of the most widely recognised Chinese folk melodies, and it fits well as a clear melody-first page for players exploring global traditional tunes.',
+    practice: 'It supports gentle phrasing, breath control, and a singing tone rather than fast technical playing.'
   },
   'flight-of-the-bumblebee': {
     searchTerms: ['Flight of the Bumblebee ocarina tabs', 'Flight of the Bumblebee letter notes'],
@@ -277,6 +287,11 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     background: 'On Wings of Song is a lyrical Mendelssohn melody that players often want in a simplified, melody-first practice format.',
     practice: 'It supports expressive breathing, smoother connection between notes, and a controlled singing tone.'
   },
+  'sakura-sakura': {
+    searchTerms: ['Sakura Sakura ocarina tabs', 'Sakura Sakura letter notes'],
+    background: 'Sakura Sakura is a traditional Japanese melody with steady interest from players looking for recognisable world-folk repertoire on ocarina.',
+    practice: 'It is useful for phrase shape, controlled breath release, and a calm lyrical tone.'
+  },
   'red-river-valley': {
     searchTerms: ['Red River Valley ocarina tabs', 'Red River Valley letter notes'],
     background: 'Red River Valley is a well-known folk and cowboy-style melody with steady search demand for easy melody instruments.',
@@ -322,6 +337,16 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     background: 'Turkish March is one of Mozart\'s most searched fast themes, making it a strong keyword target for melody-first classical ocarina pages.',
     practice: 'This tune is better suited to players who want crisp rhythm, active finger work, and more energy than a slow lyrical melody.'
   },
+  'toy-march': {
+    searchTerms: ['Toy March ocarina tabs', 'Toy March letter notes'],
+    background: 'Toy March is a compact parade-style melody that works well for players who want something brighter and more rhythmic than a slow folk tune.',
+    practice: 'It supports articulation, pulse control, and quicker note changes in a short format.'
+  },
+  'cavalry-march': {
+    searchTerms: ['Cavalry March ocarina tabs', 'Cavalry March letter notes'],
+    background: 'Cavalry March is a lively public-domain march tune that fits players searching for upbeat parade-style ocarina music.',
+    practice: 'It gives useful work in rhythmic drive, finger timing, and clean attack patterns.'
+  },
   'twinkle-variations': {
     searchTerms: ['Twinkle Twinkle Little Star variations ocarina tabs', 'Twinkle variations letter notes'],
     background: 'This variation-style version of the Twinkle melody attracts players who already know the basic tune and want a more advanced melodic reading challenge.',
@@ -366,11 +391,11 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
   const lyricsAvailable = hasLyrics(song)
 
   const metaDescription = lyricsAvailable
-    ? `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, optional numbered notation, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`
-    : `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notation. A clear page for ${profile.searchTerms[0]}.`
+    ? `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, optional numbered notes, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`
+    : `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notes. A clear page for ${profile.searchTerms[0]}.`
 
   const overview = [
-    `Play ${title} on 12-hole AC ocarina with letter notes, a visual fingering chart, and an optional numbered notation view.`,
+    `Play ${title} on 12-hole AC ocarina with letter notes, a visual fingering chart, and an optional numbered notes view.`,
     `This page is designed for players searching for ${profile.searchTerms[0]} or ${profile.searchTerms[1]}.`
   ].join(' ')
 
@@ -399,7 +424,7 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
    */
   const includes = [
     'Letter notes as the default reading mode',
-    'Optional numbered notation for players who prefer number-based note reading',
+    'Optional numbered notes for players who prefer number-based note reading',
     'A visual fingering chart aligned to the melody',
     lyricsAvailable ? 'Lyrics where a singable line is available on the page' : 'A clean melody-first layout for instrumental practice'
   ]
@@ -411,15 +436,15 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
         `Yes. This ${title} page is arranged for 12-hole AC ocarina and keeps the note labels, fingering chart, and phrase layout aligned for practical everyday practice.`
     },
     {
-      question: `Does this ${title} page show letter notes or numbered notation?`,
+      question: `Does this ${title} page show letter notes or numbered notes?`,
       answer:
-        `Letter notes are the default view, and numbered notation is still available as an option. That makes the page useful both for players learning letter tabs and for players who still want a numbered backup view.`
+        `Letter notes are the default view, and numbered notes are still available as an option. That makes the page useful both for players learning letter tabs and for players who still want a numbered backup view.`
     }
   ]
 
   return {
     title,
-    subtitle: `${familyLabel} for 12-hole AC ocarina with letter notes, a fingering chart, and optional numbered notation.`,
+    subtitle: `${familyLabel} for 12-hole AC ocarina with letter notes, a fingering chart, and optional numbered notes.`,
     metaDescription,
     overview,
     background,
@@ -487,6 +512,8 @@ function getSongFamily(slug: string): SongFamily {
   if (
     [
       'american-patrol',
+      'cavalry-march',
+      'toy-march',
       'wedding-march',
       'wedding-march-alt',
       'turkish-march'
@@ -530,12 +557,15 @@ function getSongFamily(slug: string): SongFamily {
     [
       'auld-lang-syne',
       'auld-lang-syne-english',
+      'arirang',
       'scarborough-fair',
       'down-by-the-salley-gardens',
       'greensleeves',
+      'jasmine-flower',
       'red-river-valley',
       'londonderry-air',
       'long-long-ago',
+      'sakura-sakura',
       'santa-lucia',
       'scotland-the-brave',
       'harvest-song',
@@ -615,11 +645,26 @@ function getDifficultyLabel(song: SongDoc) {
   const accidentalCount = (notationText.match(/[#b]/g) ?? []).length
   const octaveShiftCount = (notationText.match(/[',]/g) ?? []).length
 
-  if (song.meta.tempo >= 132 || noteCount >= 110 || accidentalCount >= 6) {
+  // 这是一个面向 SEO 外壳的启发式标签，不是严格演奏考级。
+  // 当前规则刻意收紧了 `Intermediate to advanced`：
+  // - “篇幅长”不再单独等于 advanced
+  // - 需要更明显的速度、升降号密度，或“篇幅 + 技术负担”组合才会进最高档
+  const advancedByTempo = song.meta.tempo >= 138
+  const advancedByChromaticism = accidentalCount >= 6
+  const advancedByDenseFastPassage =
+    song.meta.tempo >= 126 && (noteCount >= 110 || octaveShiftCount >= 20)
+  const advancedByLongChromaticPiece = noteCount >= 145 && accidentalCount >= 3
+
+  if (
+    advancedByTempo ||
+    advancedByChromaticism ||
+    advancedByDenseFastPassage ||
+    advancedByLongChromaticPiece
+  ) {
     return 'Intermediate to advanced'
   }
 
-  if (song.meta.tempo >= 116 || noteCount >= 70 || accidentalCount >= 2 || octaveShiftCount >= 16) {
+  if (song.meta.tempo >= 116 || noteCount >= 80 || accidentalCount >= 2 || octaveShiftCount >= 16) {
     return 'Intermediate'
   }
 

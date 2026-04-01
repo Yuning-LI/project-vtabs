@@ -24,9 +24,14 @@ const SONG_TITLE_OVERRIDES: Record<string, { title: string; subtitle?: string }>
   wa6qi1un1: { title: 'Home Sweet Home' },
   au1xe1clc: { title: 'Long Long Ago' },
   HJczl1Q9t: { title: 'Air on the G String' },
-  xvGha1N7l: { title: 'Down By the Salley Gardens' },
+  xvGha1N7l: { title: 'Down By the Salley Gardens', subtitle: 'Irish folk song' },
   DtfPo1qgX: { title: 'Were You There' },
-  T1Zpa1JnI: { title: 'God Rest You Merry, Gentlemen' }
+  T1Zpa1JnI: { title: 'God Rest You Merry, Gentlemen' },
+  wiyVa1gxe: { title: 'Jasmine Flower', subtitle: 'Jiangsu folk song' },
+  np52h1DEa: { title: 'Arirang', subtitle: 'Korean folk song' },
+  SoEBn1ppC: { title: 'Toy March' },
+  N9o2m1PeV: { title: 'Cavalry March' },
+  ualLc13Cb: { title: 'Sakura Sakura', subtitle: 'Japanese folk song' }
 }
 
 const SONG_PINYIN_TITLE_OVERRIDES: Record<string, { title: string; subtitle?: string }> = {
@@ -50,9 +55,17 @@ const SONG_PINYIN_TITLE_OVERRIDES: Record<string, { title: string; subtitle?: st
   keaidejia: { title: 'Home Sweet Home' },
   duonianyiqian: { title: 'Long Long Ago' },
   gxianshangdeyongtandiao: { title: 'Air on the G String' },
-  aierlanhuameishalihuayuan: { title: 'Down By the Salley Gardens' },
+  aierlanhuameishalihuayuan: {
+    title: 'Down By the Salley Gardens',
+    subtitle: 'Irish folk song'
+  },
   wereyouthere: { title: 'Were You There' },
-  tiancihuanle: { title: 'God Rest You Merry, Gentlemen' }
+  tiancihuanle: { title: 'God Rest You Merry, Gentlemen' },
+  molihua: { title: 'Jasmine Flower', subtitle: 'Jiangsu folk song' },
+  alilang: { title: 'Arirang', subtitle: 'Korean folk song' },
+  wanjujinxingqu: { title: 'Toy March' },
+  qibingjinxingqu: { title: 'Cavalry March' },
+  yinghuaribenminge: { title: 'Sakura Sakura', subtitle: 'Japanese folk song' }
 }
 
 const PERSON_NAME_OVERRIDES: Record<string, string> = {
@@ -100,6 +113,22 @@ const FINGERING_NAME_OVERRIDES: Record<string, string> = {
   bE调指法: 'Eb fingering'
 }
 
+const COMMON_TEXT_OVERRIDES: Record<string, string> = {
+  英文版: 'English lyrics version',
+  瓦格纳版本: 'Wagner version',
+  美国民歌: 'American folk song',
+  英国民歌: 'English folk song',
+  爱尔兰民歌: 'Irish folk song',
+  加拿大民歌: 'Canadian folk song',
+  意大利民歌: 'Italian folk song',
+  日本民歌: 'Japanese folk song',
+  江苏民歌: 'Jiangsu folk song',
+  丹麦民歌: 'Danish folk song',
+  朝鲜族民歌: 'Korean folk song',
+  法国童谣: 'French nursery rhyme',
+  英语童谣: 'English nursery rhyme'
+}
+
 export function getKuailepuEnglishTitle(payload: Pick<KuailepuSongPayload, 'song_uuid' | 'song_pinyin' | 'song_name' | 'alias_name'>) {
   const byUuid = payload.song_uuid ? SONG_TITLE_OVERRIDES[payload.song_uuid] : undefined
   if (byUuid) return byUuid
@@ -136,6 +165,11 @@ export function translateKuailepuFingeringName(value: string | null | undefined)
   return FINGERING_NAME_OVERRIDES[value] ?? value
 }
 
+export function translateKuailepuCommonText(value: string | null | undefined) {
+  if (!value) return null
+  return COMMON_TEXT_OVERRIDES[value.trim()] ?? null
+}
+
 export function englishEditorialNoteFromComment(commentText: string) {
   if (!commentText.trim()) {
     return 'No English editorial note has been added for this song yet.'
@@ -148,12 +182,60 @@ export function englishEditorialNoteFromComment(commentText: string) {
   return commentText
 }
 
+export function extractKuailepuEnglishText(value: string | null | undefined) {
+  if (!value) {
+    return null
+  }
+
+  const normalized = normalizeEnglishSpacing(value)
+  if (!normalized) {
+    return null
+  }
+
+  if (!containsCjk(normalized)) {
+    return normalized
+  }
+
+  const wrappedEnglish = Array.from(
+    normalized.matchAll(/[《〈<（(]\s*([^《》〈〉<>（）()]*[A-Za-z][^《》〈〉<>（）()]*)\s*[》〉>）)]/g)
+  )
+    .map(match => normalizeEnglishSpacing(match[1]))
+    .filter((candidate): candidate is string => Boolean(candidate))
+    .sort((left, right) => right.length - left.length)[0]
+
+  if (wrappedEnglish) {
+    return wrappedEnglish
+  }
+
+  const stripped = normalizeEnglishSpacing(
+    normalized
+      .replace(/[\u3400-\u9fff]+/g, ' ')
+      .replace(/[《》〈〉（）【】「」『』]/g, ' ')
+  )
+
+  return /[A-Za-z]/.test(stripped) ? stripped : null
+}
+
 function pickEnglishCandidate(...values: Array<string | null | undefined>) {
   return values
-    .map(value => value?.trim() ?? '')
+    .map(value => extractKuailepuEnglishText(value) ?? '')
     .find(value => value.length > 0 && /[A-Za-z]/.test(value))
 }
 
 function containsCjk(value: string) {
   return /[\u3400-\u9fff]/.test(value)
+}
+
+function normalizeEnglishSpacing(value: string | null | undefined) {
+  if (!value) {
+    return ''
+  }
+
+  return value
+    .replace(/\u3000/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/([([{])\s+/g, '$1')
+    .replace(/\s+([)\]}])/g, '$1')
+    .trim()
 }

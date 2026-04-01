@@ -1,6 +1,5 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { chromium } from 'playwright'
+import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { songCatalog } from '../src/lib/songbook/catalog.ts'
 
 type RuntimeValidationResult = {
@@ -17,12 +16,10 @@ type RuntimeValidationResult = {
 
 const baseUrl = process.argv[2] ?? 'http://127.0.0.1:3000'
 
-const candidates = songCatalog.filter(song =>
-  fs.existsSync(path.resolve(process.cwd(), 'reference', 'songs', `${song.slug}.json`))
-)
+const candidates = songCatalog.filter(song => Boolean(resolveKuailepuRuntimeSongPath(song.slug)))
 
 if (candidates.length < 1) {
-  console.error('No published songs with matching reference/songs raw JSON were found.')
+  console.error('No published songs with matching deployable Kuailepu raw JSON were found.')
   process.exit(1)
 }
 

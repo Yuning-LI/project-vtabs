@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs'
-import path from 'node:path'
 import type { Page } from 'playwright'
+import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
 import {
   dismissKuailepuLoginOverlay,
@@ -50,8 +50,8 @@ const candidates = allSongCatalog.filter(song => {
     return false
   }
 
-  const filePath = path.resolve(process.cwd(), 'reference', 'songs', `${song.slug}.json`)
-  if (!fs.existsSync(filePath)) {
+  const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+  if (!filePath || !fs.existsSync(filePath)) {
     return false
   }
 
@@ -71,7 +71,19 @@ try {
   const compareResults: CompareResult[] = []
 
   for (const song of candidates) {
-    const filePath = path.resolve(process.cwd(), 'reference', 'songs', `${song.slug}.json`)
+    const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+    if (!filePath) {
+      compareResults.push({
+        slug: song.slug,
+        title: song.title,
+        songUuid: '',
+        liveUrl: '',
+        localUrl: `${baseUrl}/api/kuailepu-runtime/${song.slug}?note_label_mode=number`,
+        ok: false,
+        reason: 'missing deployable Kuailepu raw JSON'
+      })
+      continue
+    }
     const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid: string }
     const songUuid = payload.song_uuid
     /**

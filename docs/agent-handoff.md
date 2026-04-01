@@ -6,6 +6,22 @@
 
 当前公开 `/song/<slug>` 页面已经统一走“快乐谱 raw JSON + 快乐谱原始 runtime 渲染逻辑”的路线，默认显示字母谱，简谱作为可选模式保留，`captured SVG` 只剩调试价值。
 
+补充：
+
+- 生产 raw JSON 现在优先读取 `data/kuailepu-runtime/<slug>.json`
+- `reference/songs/<slug>.json` 只保留给本地导歌 / 调试 fallback
+- deployable runtime archive 在 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
+
+## 最新补充（2026-03-31）
+
+- 公开 runtime 现已默认走英文文本模式，SVG 里的 `Composer`、`Play order`、`12-hole ocarina Bb fingering` 等可见标签都应是英文。
+- 公开页当前默认本地优先加载快乐谱静态依赖，不再默认回源 `www.kuaiyuepu.com/static/...`；中国以外网络下公开页也应能正常显示。
+- 重复公开入口 `silent-night-english`、`jingle-bells-english` 已清理。
+- 当前工作区另有一组未提交的样式统一改动：首页和详情页正在共用同一套暖色视觉壳，但不影响 runtime 数据链。
+- 本轮又新增了 5 首快乐谱导入并已通过 preflight compare：`jasmine-flower`、`arirang`、`toy-march`、`cavalry-march`、`sakura-sakura`。
+- `scripts/preflight-kuailepu-publish.ts` 已修复一处误判：之前 `npm` 输出和 Node warning 会污染 JSON，导致“登录其实有效，但 preflight 误报无效登录”。
+- runtime 英文化链已补上 `轻吹 -> Soft blow`、`重吹 -> Strong blow`。
+
 ## 2. 接手后必须先知道的事
 
 - 站点前台目标用户是 Google 来的 western 用户。
@@ -25,13 +41,15 @@
 3. `docs/kuailepu-compatibility-roadmap.md`
 4. `docs/manual-runtime-qa-checklist.md`
 5. `src/lib/kuailepu/runtime.ts`
-6. 目标曲目的 `reference/songs/<slug>.json`
+6. 目标曲目的 `data/kuailepu-runtime/<slug>.json`
 
 ## 4. 关键文件别搞混
 
+- `data/kuailepu-runtime/*.json`
+  - 生产可部署 raw 真相层
+  - runtime 详情页优先吃这个
 - `reference/songs/*.json`
-  - 本机 raw 真相层
-  - runtime 详情页真正吃这个
+  - 本地导歌 / 调试 fallback
 - `data/kuailepu/*.json`
   - 可提交轻量 SongDoc
   - catalog / metadata / SEO 主要读这个
@@ -71,6 +89,19 @@ npm run login:kuailepu
 
 不要在登录失效状态下继续假设 compare 结果可靠。
 
+补充：
+
+- “公开页已本地化可显示” 不等于 “导歌和 compare 可以脱离快乐谱运行”。
+- 公开页的静态资源依赖已经本地化，但导歌 / compare / preflight 仍然要读取快乐谱详情页上下文。
+
+## 6.5 网络 / VPN 规则
+
+- 快乐谱导歌、compare、preflight、登录态检查、线上上下文调试，默认需要中国可达网络。
+- Google / western 网站调研、国外搜索结果核实，可能需要国外 VPN。
+- 不要默认两边网络同时可用。
+- 如果任务需要切到另一侧网络，先明确告诉用户切换 VPN，再继续。
+- 如果快乐谱登录失效，也不要继续硬跑脚本；先停下来，让用户手动执行 `npm run login:kuailepu`。
+
 ## 7. 发布前必须走的门槛
 
 ```bash
@@ -104,6 +135,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 7. 通过后再公开
 
 不要省略 compare。
+
+当前额外背景：
+
+- 这轮已经整理过一份“国外 ocarina 流量较高的公版曲目候选名单”。
+- 但快乐谱站内搜索对不少候选曲命中很差，继续加歌时要准备英文名、中文名、别名、标题变体一起试，必要时人工导航。
 
 ## 9. 如果用户让你“改字母谱效果”
 
@@ -150,12 +186,42 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：55
-- 全部候选：63
-- raw JSON：59
-- 可提交轻量导入：49
+- 公开 song pages：60
+- 全部候选：67
+- raw JSON：65
+- 可提交轻量导入：55
 
 不要拿这些数字互相强行对应。
+
+## 12.5 当前未提交但重要的工作区状态
+
+- 未提交的前台改动集中在：
+  - `src/app/globals.css`
+  - `src/app/page.tsx`
+  - `src/components/song/KuailepuLegacyRuntimePage.tsx`
+  - `src/lib/kuailepu/runtime.ts`
+  - `src/lib/songbook/kuailepuEnglish.ts`
+  - `src/lib/songbook/presentation.ts`
+  - `scripts/preflight-kuailepu-publish.ts`
+  - `data/kuailepu/*.json` 新增 5 首
+- 根目录还有多张 PNG 截图和 `tsconfig.tsbuildinfo`，都不是这轮必须提交的产品文件，不要误提交。
+
+## 12.6 当前新对话必须知道的最近收尾结果
+
+- 详情页模式切换按钮当前已经改成：
+  - `Letter Notes`
+  - `Numbered Notes`
+- 首页 song list 卡片当前只显示歌名，`Ocarina Song` 已移除。
+- 详情页左上角当前已有 `Back to Song Library` 返回入口。
+- `Down By the Salley Gardens` 的混合中英副标题残留，已经并入统一英文化链处理：
+  - 入口在 `src/lib/songbook/kuailepuEnglish.ts`
+  - runtime 侧仍由 `src/lib/kuailepu/runtime.ts` 消费这层结果
+- 当前短中文副标题 / 民歌标签 / 版本标签的常见英文化，已经有一层固定映射：
+  - 如 `日本民歌 -> Japanese folk song`
+  - `英文版 -> English lyrics version`
+- 难度标签规则已经收紧：
+  - 长曲篇幅不再单独把歌曲推到 `Intermediate to advanced`
+  - 更依赖速度、升降号密度，或“篇幅 + 技术负担”的组合
 
 ## 13. 新对话可直接复制的起始提示词
 

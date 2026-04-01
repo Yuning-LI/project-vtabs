@@ -67,24 +67,37 @@ export default function KuailepuLegacyRuntimePage({
       ? state.note_label_mode
       : 'letter'
   const modeLinks = [
-    { href: `/song/${songId}`, label: 'Letter', mode: 'letter' },
-    { href: `/song/${songId}?note_label_mode=number`, label: 'Number', mode: 'number' }
+    { href: `/song/${songId}`, label: 'Letter Notes', mode: 'letter' },
+    {
+      href: `/song/${songId}?note_label_mode=number`,
+      label: 'Numbered Notes',
+      mode: 'number'
+    }
   ] as const
 
   return (
-    <main className="min-h-screen bg-[#f6f6f2] text-[#222222]">
-      <div className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-8">
-        <section className="mb-5 rounded-[24px] bg-white px-5 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+    <main className="page-warm-shell">
+      <div className="page-warm-container">
+        <section className="page-warm-hero mb-6 px-6 py-6 md:px-8 md:py-7">
+          <Link
+            href="/"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-stone-900 bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
+          >
+            <span aria-hidden="true" className="text-base leading-none">←</span>
+            <span>Back to Song Library</span>
+          </Link>
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
             {seo.familyLabel} · {seo.difficultyLabel}
           </div>
-          <h1 className="mt-2 text-[1.9rem] leading-tight text-[#2e2e2e]">{title}</h1>
-          {subtitle ? <p className="mt-1 text-sm text-stone-500">{subtitle}</p> : null}
-          <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium text-stone-600">
-            <span className="rounded-full bg-stone-100 px-3 py-1">Key {seo.keyLabel}</span>
-            <span className="rounded-full bg-stone-100 px-3 py-1">{seo.meterLabel}</span>
-            <span className="rounded-full bg-stone-100 px-3 py-1">{seo.tempoLabel}</span>
-            <span className="rounded-full bg-stone-100 px-3 py-1">12-Hole AC Ocarina</span>
+          <h1 className="mt-3 text-[2.1rem] font-black leading-tight tracking-tight text-stone-900 md:text-[3.35rem]">
+            {title}
+          </h1>
+          {subtitle ? <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-600">{subtitle}</p> : null}
+          <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium">
+            <span className="page-warm-pill px-3 py-1">Key {seo.keyLabel}</span>
+            <span className="page-warm-pill px-3 py-1">{seo.meterLabel}</span>
+            <span className="page-warm-pill px-3 py-1">{seo.tempoLabel}</span>
+            <span className="page-warm-pill px-3 py-1">12-Hole AC Ocarina</span>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {modeLinks.map(link => {
@@ -96,8 +109,8 @@ export default function KuailepuLegacyRuntimePage({
                   href={link.href}
                   className={
                     isActive
-                      ? 'rounded-full border border-stone-900 bg-stone-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white'
-                      : 'rounded-full border border-stone-300 bg-stone-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-stone-700 transition hover:border-stone-500 hover:bg-stone-100'
+                      ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
+                      : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
                   }
                 >
                   {link.label}
@@ -107,7 +120,7 @@ export default function KuailepuLegacyRuntimePage({
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-[24px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.08)]">
+        <section className="page-warm-panel overflow-hidden">
           <iframe
             id={frameId}
             title={`${title} Kuailepu runtime`}
@@ -119,7 +132,7 @@ export default function KuailepuLegacyRuntimePage({
         </section>
 
         <article className="mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
-          <section className="rounded-[24px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+          <section className="page-warm-panel p-6 md:p-7">
             <h2 className="text-2xl font-bold text-stone-900">About {title}</h2>
             <p className="mt-4 text-sm leading-7 text-stone-700">{seo.overview}</p>
             <p className="mt-4 text-sm leading-7 text-stone-700">{seo.background}</p>
@@ -127,22 +140,25 @@ export default function KuailepuLegacyRuntimePage({
           </section>
 
           <div className="grid gap-6">
-            <section className="rounded-[24px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+            <section className="page-warm-panel-soft p-6">
               <h2 className="text-xl font-bold text-stone-900">What This Page Includes</h2>
               <ul className="mt-4 grid gap-3 text-sm leading-6 text-stone-700">
                 {seo.includes.map(item => (
-                  <li key={item} className="rounded-2xl bg-stone-50 px-4 py-3">
+                  <li key={item} className="rounded-2xl bg-[rgba(255,247,237,0.85)] px-4 py-3">
                     {item}
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="rounded-[24px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+            <section className="page-warm-panel-soft p-6">
               <h2 className="text-xl font-bold text-stone-900">FAQ</h2>
               <div className="mt-4 grid gap-4">
                 {seo.faqs.map(item => (
-                  <div key={item.question} className="rounded-2xl bg-stone-50 px-4 py-4">
+                  <div
+                    key={item.question}
+                    className="rounded-2xl bg-[rgba(255,247,237,0.82)] px-4 py-4"
+                  >
                     <h3 className="text-sm font-semibold text-stone-900">{item.question}</h3>
                     <p className="mt-2 text-sm leading-6 text-stone-700">{item.answer}</p>
                   </div>
@@ -150,10 +166,10 @@ export default function KuailepuLegacyRuntimePage({
               </div>
             </section>
 
-            <section className="rounded-[24px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)]">
+            <section className="page-warm-panel-soft p-6">
               <h2 className="text-xl font-bold text-stone-900">How To Use This Page</h2>
               <p className="mt-3 text-sm leading-6 text-stone-700">
-                Use the default letter-note view for fast reading, switch to numbered notation only when you want a backup reference, and keep the fingering chart visible as you work through each phrase. The layout is built so you can land on the melody and start playing quickly.
+                Use the default letter-note view for fast reading, switch to numbered notes only when you want a backup reference, and keep the fingering chart visible as you work through each phrase. The layout is built so you can land on the melody and start playing quickly.
               </p>
             </section>
           </div>

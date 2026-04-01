@@ -1,0 +1,30 @@
+{
+  "id": "arirang",
+  "slug": "arirang",
+  "title": "Arirang",
+  "description": "Arirang melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/np52h1DEa.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song np52h1DEa on 2026-03-31."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-31",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "5, - - 6, 5, 6, | 1 - - 2 1 2 | 3 - 2 3 1 6, | 5, - - 6, 5, 6, |",
+    "1 - - 2 1 2 | 3 2 1 6, 5, 6, | 1 - - 2 1 - | 1 - - - - - |",
+    "5 - 5 - 0 0 | 5 - 3 - 2 - | 3 - 2 3 1 6, | 5, - - 6, 5, 6, |",
+    "1 - - 2 1 2 | 3 2 1 6, 5, 6, | 1 - - 2 1 - | 1 - - - - - | | |"
+  ]
+}

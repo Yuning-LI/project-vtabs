@@ -17,6 +17,23 @@
 
 仓库根目录现在额外有一份 `AGENTS.md`，用于让新对话优先遵守这套阅读顺序和发布前预检流程。
 
+## 网络协作规则
+
+- 快乐谱相关动作：
+  - 导歌
+  - compare
+  - preflight
+  - 登录态检查
+  - 线上上下文排障
+  都依赖能访问快乐谱详情页的网络环境，通常需要中国可达网络。
+- Google / 国外站点调研、关键词查证、western 用户侧资料核实，通常需要国外 VPN。
+- 不要默认两种网络可同时使用。
+- 如果当前任务需要切换到另一侧网络，先明确告诉用户切换 VPN，再继续。
+- 如果 `npm run check:kuailepu-login` 或 preflight 提示登录失效，应停止后续快乐谱动作，先让用户手动执行：
+  ```bash
+  npm run login:kuailepu
+  ```
+
 ## Git 提交规范
 
 以后每次提交都按下面规则执行：
@@ -37,12 +54,12 @@
 
 ## 当前真实状态
 
-以 2026-03-30 这轮收尾后的状态为准：
+以 2026-03-31 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
-  `reference/songs/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 55 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+  `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
+- 当前公开的 60 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -52,32 +69,59 @@
 - `Fingering + Lyrics` 已移除。
 - 字母谱不是新开一轨，而是直接复用简谱那一轨的位置、间距、节拍、歌词、指法图，只把数字替换成字母音名。
 
+## 2026-03-31 补充状态
+
+- 公开 runtime 现已默认注入 `runtime_text_mode=english`，标题、副标题、作曲/作词/编曲标签、指法标题、演奏顺序等可见文案已统一走英文转换。
+- `/k-static/...` 与 `/static/...` 当前默认走本地优先解析：先读 `vendor/kuailepu-static`，再读 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 中归档内容，不再默认静默回源快乐谱线上静态文件。
+- 公开生产链路已不再要求部署环境存在 `reference/`；`reference/` 现在只保留给本地导歌、compare、登录态与调试用途。
+- 这意味着公开 song page 在中国以外网络也能正常显示曲谱与指法图；但“导歌 / compare / 登录态检查”仍然依赖能访问快乐谱详情页上下文。
+- 重复公开入口 `silent-night-english`、`jingle-bells-english` 已清理，只保留单一公开歌曲入口。
+- 当前工作区另外还有一组“首页与详情页统一暖色视觉壳”的样式改动，尚未提交；它不会改变 runtime 数据链，只影响前台视觉一致性。
+- 本轮新增并通过 preflight compare 的 5 首歌：
+  - `jasmine-flower`
+  - `arirang`
+  - `toy-march`
+  - `cavalry-march`
+  - `sakura-sakura`
+- `scripts/preflight-kuailepu-publish.ts` 已修复一处登录误判问题：`npm` 输出和 Node warning 不应再把有效登录态误判成失效。
+
 ## 当前数量口径
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 55`
+- `songCatalog.length = 60`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 63`
+- `allSongCatalog.length = 67`
   - 仓库里保留的全部候选曲目数量，包含未公开的手工占位条目。
-- `reference/songs/*.json = 59`
-  - 本机 raw JSON 数量。这里是 runtime 真相源。
-- `data/kuailepu/*.json = 49`
+- `data/kuailepu-runtime/*.json = 64`
+  - 当前生产可部署的快乐谱 raw JSON 数量。
+- `reference/songs/*.json = 65`
+  - 本机原始研究层数量，主要给导歌与本地调试用。
+- `data/kuailepu/*.json = 55`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
 
-- `reference/songs` 是本机 raw 数据层，不等于公开曲库。
+- `data/kuailepu-runtime` 是生产部署要带上的 raw 数据层。
+- `reference/songs` 是本机 raw 研究层，不等于公开曲库。
 - `data/kuailepu` 只存“导入后的轻量 SongDoc”，不含全部手工 catalog。
 - `songCatalog` 是 `manualSongCatalog + importedSongCatalog` 去重再筛掉 `published: false` 后得到的公开子集。
 - `allSongCatalog` 里仍保留一些旧手工候选或待处理条目，所以比公开曲库多。
+
+## 当前前台文案口径
+
+- 详情页模式切换按钮当前文案：
+  - `Letter Notes`
+  - `Numbered Notes`
+- 这是面向英语用户的更直白文案。
+- `numbered notation` 仍可作为内部描述或 SEO 背景词，但当前前台主操作文案优先用 `numbered notes`。
 
 ## 架构真相
 
 当前项目同时保留两条链，但公开主链只有一条：
 
 - 公开详情页主链：
-  - `reference/songs/<slug>.json -> runtime iframe -> 快乐谱原始渲染逻辑 -> final SVG`
+  - `data/kuailepu-runtime/<slug>.json -> runtime iframe -> 快乐谱原始渲染逻辑 -> final SVG`
 - 保留中的站点原生链：
   - `SongDoc -> notation -> MIDI -> 指法字典 -> 自有 React 页面`
 
@@ -138,6 +182,11 @@ http://127.0.0.1:3000
 
 - `reference/songs/*.json`
 - `reference/auth/kuailepu-profile/`
+
+另外，当前生产必需但可提交的运行时资产还有：
+
+- `data/kuailepu-runtime/*.json`
+- `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
 
 这些文件用于：
 
@@ -228,6 +277,11 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - 如果 `3000` 被占用，自动切换到可用端口
 - 再运行 compare
 
+补充说明：
+
+- 即使公开页静态资源已经本地化，`preflight` 仍然需要快乐谱登录态有效，因为它要读取快乐谱线上详情页上下文做 compare。
+- 如果用户当前网络无法访问快乐谱，公开页可以继续本地查看，但导歌、compare、preflight 仍应等到可访问快乐谱的网络环境再执行。
+
 当前选源规则必须执行：
 
 - 如果快乐谱同时存在英文歌词版和中文歌词版，优先英文歌词版。
@@ -259,6 +313,12 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - 27 首原本 `published: false` 的快乐谱候选已与线上快乐谱最终 `#sheet` SVG 比对，全部哈希一致。
 - `data/kuailepu/*.json` 当前都已是 `published: true`。
 - `npm run typecheck` 在本轮会话已多次通过。
+- 详情页模式切换按钮当前已是：
+  - `Letter Notes`
+  - `Numbered Notes`
+- 首页列表卡片当前只显示歌名。
+- 详情页当前已有 `Back to Song Library` 返回按钮。
+- 难度标签规则已收紧，长曲篇幅不再单独触发 `Intermediate to advanced`。
 
 ## SEO 与前台文案规则
 

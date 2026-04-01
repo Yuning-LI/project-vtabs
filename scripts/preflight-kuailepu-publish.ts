@@ -216,7 +216,23 @@ function safeJsonParse(value: string) {
   try {
     return JSON.parse(value) as Record<string, unknown>
   } catch {
-    return null
+    const start = value.lastIndexOf('\n{')
+    const jsonCandidate =
+      start >= 0
+        ? value.slice(start + 1).trim()
+        : value.trim().startsWith('{')
+          ? value.trim()
+          : null
+
+    if (!jsonCandidate) {
+      return null
+    }
+
+    try {
+      return JSON.parse(jsonCandidate) as Record<string, unknown>
+    } catch {
+      return null
+    }
   }
 }
 

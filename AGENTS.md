@@ -15,7 +15,10 @@ If the task touches Kuailepu compatibility, song import, publishing, letter mode
 
 ## Product Truth
 
-- Public `/song/<slug>` pages are driven by `reference/songs/<slug>.json` plus the original Kuailepu runtime path.
+- Public `/song/<slug>` pages are driven by deployable raw JSON plus the original Kuailepu runtime path.
+- Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
+- `reference/songs/<slug>.json` is now local fallback for import/debug only.
+- The deployable runtime archive lives in `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Default reading mode is `letter`.
 - Public optional backup mode is `number`.
 - Do not restore `both` mode.
@@ -48,6 +51,14 @@ If login is invalid, stop and ask the user to run:
 ```bash
 npm run login:kuailepu
 ```
+
+## Network Coordination
+
+- Kuailepu import, compare, preflight, and live-context debugging require a China-reachable network.
+- Google or western-web research may require a foreign VPN instead.
+- Do not assume both are reachable at the same time.
+- If the current task needs the other network, explicitly tell the user to switch VPN before continuing.
+- If Kuailepu login is invalid, stop and ask the user to refresh it manually instead of continuing with stale assumptions.
 
 ## Runtime Guardrails
 

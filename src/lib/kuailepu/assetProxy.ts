@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
+import { resolveKuailepuRuntimeArchivePath } from './archiveFiles'
 
 /**
  * 浏览器直接从 `localhost` 页面去加载 `https://www.kuaiyuepu.com/static/...`
@@ -8,7 +9,8 @@ import { NextResponse } from 'next/server'
  *
  * 所以这里做了一个“同源静态资源代理”：
  * - 浏览器只请求我们自己的 `/k-static/...` 或 `/static/...`
- * - 服务端再代替浏览器去抓快乐谱原站静态资源
+ * - 服务端优先读取仓库内已提交资源与 runtime 归档
+ * - 最后才在显式允许时回源快乐谱原站静态资源
  *
  * 这样浏览器看到的是“同源资源”，快乐谱原始脚本链就能完整跑起来。
  */
@@ -103,7 +105,10 @@ function getArchivedStaticAssets() {
     return archivedStaticAssets
   }
 
-  const sourcePath = path.resolve(process.cwd(), 'reference', '快乐谱代码.txt')
+  const sourcePath = resolveKuailepuRuntimeArchivePath()
+  if (!sourcePath) {
+    return new Map()
+  }
   const sourceText = fs.readFileSync(sourcePath, 'utf8')
   const marker = /^文件：(.+)$/gm
   const matches = Array.from(sourceText.matchAll(marker))

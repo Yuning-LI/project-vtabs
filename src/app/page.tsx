@@ -51,7 +51,7 @@ const SONG_ORDER = [
 export const metadata = {
   title: 'Play By Fingering | Ocarina Letter Tabs, Numbered Notes & Fingering Charts',
   description:
-    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.'
+    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.'
 }
 
 /**
@@ -73,19 +73,22 @@ export default function Home() {
   ]
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#f7ecd8_0%,#efe0c4_44%,#e7d3b4_100%)] p-6">
-      <section className="mx-auto max-w-6xl">
-        <div className="rounded-[36px] border border-stone-200/80 bg-[linear-gradient(135deg,rgba(255,252,245,0.96)_0%,rgba(247,237,220,0.9)_100%)] p-6 shadow-[0_28px_60px_rgba(73,45,19,0.12)]">
-          <h1 className="text-4xl font-black tracking-tight text-stone-900 md:text-6xl">
+    <main className="page-warm-shell">
+      <section className="page-warm-container">
+        <div className="page-warm-hero px-6 py-7 md:px-8 md:py-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+            Song Library
+          </div>
+          <h1 className="mt-3 text-4xl font-black tracking-tight text-stone-900 md:text-6xl">
             Ocarina Letter Tabs
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-stone-700 md:text-lg">
-            Browse English song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.
+            Browse English song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.
           </p>
         </div>
       </section>
 
-      <section className="mx-auto mt-8 max-w-6xl">
+      <section className="page-warm-container pt-0">
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-stone-900">Browse Ocarina Songs</h2>
@@ -101,7 +104,7 @@ export default function Home() {
               <Link
                 key={song.id}
                 href={`/song/${song.slug}`}
-                className="group block rounded-[28px] border border-stone-200 bg-white/95 p-5 shadow-[0_18px_34px_rgba(84,58,32,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_44px_rgba(84,58,32,0.14)]"
+                className="page-warm-card-link group block p-5 md:p-6"
               >
                 <h2 className="text-xl font-semibold text-stone-900 transition group-hover:text-stone-700">
                   {presentation.title}
@@ -111,10 +114,10 @@ export default function Home() {
           })}
         </div>
 
-        <section className="mt-10 rounded-[32px] border border-stone-200 bg-white/90 p-6 shadow-[0_18px_40px_rgba(84,58,32,0.08)]">
+        <section className="page-warm-panel mt-10 p-6 md:p-7">
           <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-700">
-            This site focuses on the search terms real players use most often: ocarina letter tabs, 12-hole AC fingering charts, easy melody pages, and optional numbered notation. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly song layout that is fast to scan during practice.
+            This site focuses on the search terms real players use most often: ocarina letter tabs, 12-hole AC fingering charts, easy melody pages, and optional numbered notes. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly song layout that is fast to scan during practice.
           </p>
         </section>
       </section>

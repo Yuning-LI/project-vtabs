@@ -4,7 +4,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Letter Tabs & Fingering Charts',
   description:
-    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notation, visual fingering charts, and lyrics when available.'
+    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.'
 }
 
 export default function RootLayout({

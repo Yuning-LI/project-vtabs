@@ -2,6 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --page-warm-text: #2f261f;
+  --page-warm-bg:
+    radial-gradient(circle at top left, #f7ecd8 0%, #efe0c4 44%, #e7d3b4 100%);
+  --page-warm-border: rgba(154, 126, 91, 0.22);
+  --page-warm-border-strong: rgba(126, 95, 58, 0.26);
+  --page-warm-panel: rgba(255, 252, 247, 0.92);
+  --page-warm-panel-soft: rgba(255, 255, 255, 0.84);
+  --page-warm-hero:
+    linear-gradient(135deg, rgba(255, 252, 245, 0.96) 0%, rgba(247, 237, 220, 0.9) 100%);
+  --page-warm-shadow: 0 18px 40px rgba(84, 58, 32, 0.08);
+  --page-warm-shadow-lg: 0 28px 60px rgba(73, 45, 19, 0.12);
+}
+
+.page-warm-shell {
+  min-height: 100vh;
+  background: var(--page-warm-bg);
+  color: var(--page-warm-text);
+}
+
+.page-warm-container {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.5rem;
+}
+
+.page-warm-hero {
+  border: 1px solid var(--page-warm-border);
+  border-radius: 2.25rem;
+  background: var(--page-warm-hero);
+  box-shadow: var(--page-warm-shadow-lg);
+}
+
+.page-warm-panel {
+  border: 1px solid var(--page-warm-border);
+  border-radius: 2rem;
+  background: var(--page-warm-panel);
+  box-shadow: var(--page-warm-shadow);
+}
+
+.page-warm-panel-soft {
+  border: 1px solid rgba(154, 126, 91, 0.18);
+  border-radius: 1.75rem;
+  background: var(--page-warm-panel-soft);
+  box-shadow: 0 14px 32px rgba(84, 58, 32, 0.06);
+}
+
+.page-warm-pill {
+  border: 1px solid rgba(168, 142, 108, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 248, 238, 0.92);
+  color: #6c5540;
+}
+
+.page-warm-pill-active {
+  border: 1px solid #3d2f22;
+  border-radius: 999px;
+  background: #3d2f22;
+  color: #fffaf2;
+}
+
+.page-warm-pill-muted {
+  border: 1px solid rgba(168, 142, 108, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 251, 245, 0.86);
+  color: #6a5440;
+}
+
+.page-warm-card-link {
+  border: 1px solid rgba(154, 126, 91, 0.2);
+  border-radius: 1.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 34px rgba(84, 58, 32, 0.08);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.page-warm-card-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--page-warm-border-strong);
+  box-shadow: 0 24px 44px rgba(84, 58, 32, 0.14);
+}
+
+@media (min-width: 768px) {
+  .page-warm-container {
+    padding: 2rem 2rem 3rem;
+  }
+}
+
 .abc-paper svg {
   display: block;
   margin: 0 auto;

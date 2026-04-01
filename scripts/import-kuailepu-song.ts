@@ -50,9 +50,11 @@ if (!options) {
 }
 
 const rawDir = path.resolve(process.cwd(), 'reference', 'songs')
+const deployRawDir = path.resolve(process.cwd(), 'data', 'kuailepu-runtime')
 const compactDir = path.resolve(process.cwd(), 'data', 'kuailepu')
 
 await fs.promises.mkdir(rawDir, { recursive: true })
+await fs.promises.mkdir(deployRawDir, { recursive: true })
 await fs.promises.mkdir(compactDir, { recursive: true })
 
 const inputSource = await resolveInputSource(options.input)
@@ -70,18 +72,21 @@ const songDoc = buildKuailepuSongDoc(payload, {
 })
 
 const rawPath = path.join(rawDir, `${songDoc.slug}.json`)
+const deployRawPath = path.join(deployRawDir, `${songDoc.slug}.json`)
 const compactPath = path.join(compactDir, `${songDoc.slug}.json`)
 
 await fs.promises.writeFile(rawPath, JSON.stringify(payload, null, 2) + '\n', 'utf8')
+await fs.promises.writeFile(deployRawPath, JSON.stringify(payload, null, 2) + '\n', 'utf8')
 await fs.promises.writeFile(compactPath, JSON.stringify(songDoc, null, 2) + '\n', 'utf8')
 
 console.log(`Imported ${songDoc.title}`)
 if (inputSource.kind === 'local') {
   console.log(`  input: ${path.relative(process.cwd(), inputSource.filePath)}`)
 } else {
-  console.log(`  detail: ${inputSource.sourceUrl}`)
+console.log(`  detail: ${inputSource.sourceUrl}`)
 }
 console.log(`  raw: ${path.relative(process.cwd(), rawPath)}`)
+console.log(`  deployRaw: ${path.relative(process.cwd(), deployRawPath)}`)
 console.log(`  compact: ${path.relative(process.cwd(), compactPath)}`)
 console.log(`  published: ${songDoc.published === false ? 'false' : 'true'}`)
 

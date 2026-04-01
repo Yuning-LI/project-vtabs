@@ -21,14 +21,15 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   /**
-   * 这里先读 `reference/songs/<slug>.json`，而不是 `data/kuailepu/<slug>.json`。
+   * 这里先读可部署的 raw JSON，而不是 `data/kuailepu/<slug>.json`。
    *
    * 原因：
    * - `data/kuailepu/*.json` 是给站点 catalog / SEO / 列表用的轻量 SongDoc
    * - runtime 真正需要的是快乐谱详情页完整上下文
    * - 只有完整 raw JSON 才包含快乐谱原始 `Song.draw()` 会消费的所有字段
    *
-   * 所以当前详情页的真相源仍然是 reference/raw 层，而不是轻量导入层。
+   * 生产环境优先读取仓库内可提交的 `data/kuailepu-runtime/<slug>.json`；
+   * `reference/songs/<slug>.json` 只保留为本地导歌 / 调试 fallback。
    */
   const payload = loadKuailepuSongPayload(params.id)
   if (!payload) {

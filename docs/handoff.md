@@ -15,6 +15,25 @@
 - 指法图始终是核心内容。
 - 字母谱与简谱都只是阅读模式，真相源是快乐谱 raw JSON + 快乐谱原始渲染链。
 
+### 1.1 2026-03-31 最新补充
+
+本轮最新状态要额外记住四点：
+
+- 公开 runtime 已补齐英文文本模式，`Composer`、`Play order`、`12-hole ocarina Bb fingering` 这类 SVG 内可见标签也已在我们自己的 runtime 后处理中英文化。
+- 公开页当前默认不再依赖 `www.kuaiyuepu.com/static/...` 的实时静态资源；脚本、字体、i18n 包、播放器依赖等已补到本地 `vendor/kuailepu-static`。
+- `silent-night-english` 与 `jingle-bells-english` 这两个重复公开入口已经删除，只保留单一歌曲入口。
+- 当前工作区还有一组未提交的样式统一改动：首页与详情页正在收敛到同一套暖色 editorial shell，但这不改变 runtime 主链和数据边界。
+- 本轮新导入并通过 preflight compare 的公开曲目有 5 首：
+  - `jasmine-flower`
+  - `arirang`
+  - `toy-march`
+  - `cavalry-march`
+  - `sakura-sakura`
+- `scripts/preflight-kuailepu-publish.ts` 已修掉一个脚本层误判：之前 `npm` 横幅和 Node warning 可能导致登录检查 JSON 解析失败，看起来像“登录掉了”，但实际是脚本读错输出。
+- runtime 文本英文化链已经补上：
+  - `轻吹 -> Soft blow`
+  - `重吹 -> Strong blow`
+
 ## 2. 当前用户已经确认过的业务规则
 
 这些不是建议，是当前产品已确认规则：
@@ -42,7 +61,7 @@
 
 当前 `/song/<slug>` 的真实渲染链是：
 
-`reference/songs/<slug>.json -> Kit.context.setContext(rawObject) -> Song.draw()/Song.compile() -> final SVG`
+`data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(rawObject) -> Song.draw()/Song.compile() -> final SVG`
 
 中间包装层是：
 
@@ -87,20 +106,23 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 55`
+- `songCatalog.length = 60`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 63`
+- `allSongCatalog.length = 67`
   - 当前仓库保留的总候选数。
-- `reference/songs/*.json = 59`
-  - 本机 raw JSON 数量。
-- `data/kuailepu/*.json = 49`
+- `data/kuailepu-runtime/*.json = 64`
+  - 当前生产可部署 raw JSON 数量。
+- `reference/songs/*.json = 65`
+  - 本机原始研究层数量。
+- `data/kuailepu/*.json = 55`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：
 
 - `songCatalog` 是最终公开视图。
 - `allSongCatalog` 还包含未公开的旧手工候选。
-- `reference/songs` 是 raw 真相层，数量不要求等于公开数。
+- `data/kuailepu-runtime` 是生产 raw 真相层，数量不要求等于公开数。
+- `reference/songs` 是本地导歌 / 调试层，不要求等于公开数。
 - `data/kuailepu` 是轻量导入层，不覆盖所有手工 catalog。
 
 这一点在排障时尤其重要。不要因为看到某首歌有 raw JSON，就默认它一定已经公开。
@@ -136,10 +158,12 @@
   - 读取 `data/kuailepu/*.json`。
 - `src/lib/songbook/kuailepuImport.ts`
   - 把快乐谱 payload 转成轻量 SongDoc。
+- `data/kuailepu-runtime/*.json`
+  - 生产可部署的完整 raw JSON。
 - `data/kuailepu/*.json`
   - 可提交的轻量数据。
 - `reference/songs/*.json`
-  - 本地 raw 真相层。
+  - 本地导歌 / 调试 fallback。
 
 ### 6.3 SEO 与前台英文文案层
 
@@ -176,9 +200,31 @@
 所以当前策略是：
 
 - 浏览器请求我们自己的 `/k-static/...` 或 `/static/...`
-- 服务端代抓快乐谱静态资源
+- 服务端优先读取本地 `vendor/kuailepu-static`
+- 本地没有时，再读 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 归档出来的静态资源
+- 默认不再静默回源快乐谱线上静态文件
 
 这层代理不是“功能性 feature”，而是 runtime 这条主链能工作的基础设施。
+
+### 7.1 这层代理现在解决了什么问题
+
+之前公开页虽然已经吃本地 raw JSON，但 runtime 静态依赖仍可能在缺失时去拉快乐谱线上资源。结果是：
+
+- 中国以外网络访问不到快乐谱时
+- 指法图脚本链会断
+- 页面会报 `/k-static/...` 500
+- 用户会误以为“我们的 song page 挂了”
+
+现在公开页默认本地优先，所以上面这类问题已经从“线上依赖”变成“本地资源是否补齐”的问题，排障面收缩很多。
+
+但要明确：
+
+- 导歌
+- compare
+- preflight
+- 登录态检查
+
+这些流程仍然需要访问快乐谱详情页上下文，所以它们和“公开页能否正常显示”不是同一件事。
 
 ## 8. 字母谱实现的真实策略
 
@@ -241,6 +287,23 @@
 
 如果登录掉了，应该第一时间提醒人工重新登录，不要继续假设脚本还能稳定拿到详情页上下文。
 
+## 9.5 网络 / VPN 协作规则
+
+- 快乐谱相关工作：
+  - 导歌
+  - compare
+  - preflight
+  - 登录态检查
+  - 线上上下文排障
+  默认依赖中国可达网络。
+- Google / western 网站调研、国外搜索结果核实，往往需要国外 VPN。
+- 不要默认两种网络能同时访问。
+- 如果当前任务需要另一侧网络，应先明确告诉用户切换 VPN，再继续。
+- 如果 `check:kuailepu-login` 或 preflight 判断登录失效，正确动作不是继续重试脚本，而是停下来让用户手动执行：
+  ```bash
+  npm run login:kuailepu
+  ```
+
 ## 10. 导歌策略
 
 ### 10.1 当前选源优先级
@@ -290,7 +353,7 @@
 当前 compare 脚本要点：
 
 - 遍历 `allSongCatalog`
-- 自动读取 `reference/songs/<slug>.json`
+- 自动读取生产 raw JSON（本地可 fallback 到 `reference/songs/<slug>.json`）
 - 强制本地 runtime 使用 `note_label_mode=number`
 - 比对线上快乐谱和本地 runtime 最终 `svg.sheet-svg` 的哈希
 
@@ -304,6 +367,8 @@
 - 当前 `data/kuailepu/*.json` 都已为 `published: true`
 - 本地首页已确认只有歌名，没有评审状态和来源文案
 - 详情页已确认不再显示 source/Kuailepu 引导文案
+- `amazing-grace`、`canon`、`greensleeves` 等公开页已确认看不到中文标签，指法标题英文化后不再因 `textLength` 压缩而重叠
+- 中国以外网络下，公开页已确认可以不访问快乐谱线上静态资源而正常显示指法图
 
 ## 13. SEO 层当前策略
 
@@ -432,5 +497,33 @@
 2. 每次加歌或上线前都跑统一预检：
    `npm run preflight:kuailepu-publish -- <slug...>`
 3. 每次改字母谱逻辑后都先用 `number` 模式验证没有污染原谱
+
+### 17.1 当前下一步的真实阻塞点
+
+如果下一轮任务是“继续扩充曲库”，当前上下文要记住：
+
+- 国外 ocarina 流量较高的公版曲目候选名单已经整理过一轮
+- 但快乐谱站内搜索对这些英文/中文标题的命中率很差，经常返回同一批兜底推荐
+- 所以继续加歌时，不能只依赖现有搜索脚本结果，可能要人工浏览或换别名再搜
+- 真正开始导入前，仍然必须先跑 `npm run preflight:kuailepu-publish -- <slug...>`
+- 如果 preflight 报登录失效，就先让人工执行 `npm run login:kuailepu`
+
+### 17.2 当前最近已完成的收尾
+
+如果下一轮接手，需要先记住下面这些已经落地，不要重复当作待办：
+
+1. 详情页模式切换按钮文案已改成：
+   - `Letter Notes`
+   - `Numbered Notes`
+2. 首页列表卡片已移除 `Ocarina Song`
+   - 当前只保留歌名
+3. 详情页已补返回列表页按钮
+   - 当前文案为 `Back to Song Library`
+4. runtime 的中文残留英文化已经扩大
+   - `Down By the Salley Gardens` 这类混合中英副标题不再只靠单歌修补
+   - 常见短中文标签也已有固定英文映射
+5. 难度标签规则已经收紧
+   - 长曲篇幅不再单独触发 `Intermediate to advanced`
+   - 最高档更依赖速度、升降号密度，或组合条件
 
 不建议在交接前继续大改核心 runtime 路线，因为当前主链已经稳定，额外重构只会增加新对话接手成本。

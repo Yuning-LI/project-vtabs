@@ -1,9 +1,7 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
+import { loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
-import type { KuailepuSongPayload } from '@/lib/songbook/kuailepuImport'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
 export const dynamicParams = false
@@ -19,7 +17,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const songName = presentation?.title || song?.title || 'Song'
   const description =
     presentation?.metaDescription ||
-    `Play ${songName} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notation.`
+    `Play ${songName} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notes.`
   return {
     title: `${songName} Ocarina Tabs | Letter Notes & Fingering Chart`,
     description,
@@ -56,7 +54,7 @@ export default function SongPage({
    * - 供未来去 iframe 化迁移时复用
    * 但它不再是当前公开详情页的默认产品路线。
    */
-  const runtimePayload = loadKuailepuRuntimePayload(song.slug, song.source?.url)
+  const runtimePayload = loadKuailepuSongPayload(song.slug)
   if (!runtimePayload) {
     notFound()
   }
@@ -82,60 +80,6 @@ export default function SongPage({
       }}
     />
   )
-}
-
-function loadKuailepuRuntimePayload(slug: string, _sourceUrl?: string) {
-  const filePath = path.resolve(process.cwd(), 'reference', 'songs', `${slug}.json`)
-  if (!fs.existsSync(filePath)) {
-    return null
-  }
-
-  const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuSongPayload & {
-    instrumentFingerings?: Array<{
-      instrument: string
-      instrumentName: string
-      fingeringSetList?: Array<
-        Array<{
-          fingering: string
-          fingeringName: string
-          tonalityName?: string
-          match?: number
-        }>
-      >
-      graphList?: Array<{
-        name: string
-        value: string
-      }>
-    }>
-    sheetScaleList?: number[]
-    show_graph?: string
-    show_lyric?: string
-    show_measure_num?: string
-    measure_layout?: string
-    comment?: string
-    comment_list?: Array<{
-      body?: Array<{
-        type?: string
-        value?: string
-      }>
-    }>
-    nickname?: string
-    pv?: string
-    lyric_composer?: string
-  }
-
-  if (!payload.song_uuid && !payload.song_name && !payload.notation) {
-    return null
-  }
-
-  /**
-   * 这里只做“数据是否像一个快乐谱详情页上下文”的最低限度校验。
-   *
-   * 不在这里做更多 schema 收紧，原因有两个：
-   * 1. 快乐谱 payload 字段本来就不稳定，过度收紧会让老歌在无意义字段差异上失效
-   * 2. 真正的兼容性判断应该交给 runtime compare 脚本，而不是这个入口函数
-   */
-  return payload
 }
 
 function normalizeNoteLabelMode(value: string | undefined) {

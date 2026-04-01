@@ -1,12 +1,16 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
+  extractKuailepuEnglishText,
   getKuailepuEnglishTitle,
+  translateKuailepuCommonText,
   translateKuailepuFingeringName,
   translateKuailepuGraphName,
   translateKuailepuInstrumentName,
   translateKuailepuPersonName
 } from '../songbook/kuailepuEnglish'
+import { resolveKuailepuRuntimeArchivePath } from './archiveFiles'
+import { resolveKuailepuRuntimeSongPath } from './sourceFiles'
 
 /**
  * 这里定义的是“站点外壳传给快乐谱兼容 runtime 的状态”。
@@ -105,14 +109,17 @@ type KuailepuRuntimeTextMode = 'source' | 'english'
 let cachedTemplateHtml: string | null = null
 
 /**
- * 从本地忽略目录里读取完整快乐谱 raw JSON。
+ * 读取公开 runtime 所需的完整快乐谱 raw JSON。
  *
- * 这里读取的是用户本机保存的“原始详情页上下文快照”，不是站点公开用的轻量 SongDoc。
- * 它是当前快乐谱兼容 runtime 的真相源。
+ * 读取顺序：
+ * 1. `data/kuailepu-runtime/<slug>.json`（生产可部署）
+ * 2. `reference/songs/<slug>.json`（本地导歌 / 调试 fallback）
+ *
+ * 它不是站点公开用的轻量 SongDoc，而是当前快乐谱兼容 runtime 的真相源。
  */
 export function loadKuailepuSongPayload(songId: string) {
-  const filePath = path.resolve(process.cwd(), 'reference', 'songs', `${songId}.json`)
-  if (!fs.existsSync(filePath)) {
+  const filePath = resolveKuailepuRuntimeSongPath(songId)
+  if (!filePath || !fs.existsSync(filePath)) {
     return null
   }
 
@@ -220,27 +227,38 @@ export function buildKuailepuLetterTrackData(input: {
 }
 
 /**
- * 注意：`reference/快乐谱代码.txt` 不是“历史资料”，而是当前 runtime 的模板来源。
+ * 注意：runtime HTML 模板来自一份已归档的快乐谱详情页源码。
  *
- * 也就是说，这个文件虽然名字土，但实际上承载着：
+ * 当前生产优先读取：
+ * - `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
+ *
+ * 本地仍允许 fallback 到：
+ * - `reference/快乐谱代码.txt`
+ *
+ * 这份归档承载着：
  * - 快乐谱详情页 HTML 模板
  * - 原始脚本入口
  * - 原始资源引用路径
  *
- * 如果它被替换、删减、或者与线上结构严重漂移，本地 runtime 兼容层就会一起失效。
+ * 如果它被替换、删减、或者与线上结构严重漂移，runtime 兼容层就会一起失效。
  */
 function getKuailepuHtmlTemplate() {
   if (cachedTemplateHtml) {
     return cachedTemplateHtml
   }
 
-  const sourcePath = path.resolve(process.cwd(), 'reference', '快乐谱代码.txt')
+  const sourcePath = resolveKuailepuRuntimeArchivePath()
+  if (!sourcePath) {
+    throw new Error(
+      'Missing deployable Kuailepu runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'
+    )
+  }
   const sourceText = fs.readFileSync(sourcePath, 'utf8')
   const fileMap = parseMarkedFiles(sourceText)
   const html = fileMap.get('qyiBa1mPa.html')
 
   if (!html) {
-    throw new Error('Missing qyiBa1mPa.html in reference/快乐谱代码.txt')
+    throw new Error(`Missing qyiBa1mPa.html in ${path.relative(process.cwd(), sourcePath)}`)
   }
 
   cachedTemplateHtml = html
@@ -473,8 +491,14 @@ function translateNonLatinText(value: string | null | undefined) {
     return value ?? null
   }
 
-  if (/[A-Za-z]/.test(value)) {
-    return value
+  const extractedEnglish = extractKuailepuEnglishText(value)
+  if (extractedEnglish && /[A-Za-z]/.test(extractedEnglish)) {
+    return extractedEnglish
+  }
+
+  const translatedCommonText = translateKuailepuCommonText(value)
+  if (translatedCommonText) {
+    return translatedCommonText
   }
 
   const translatedPersonName = translateKuailepuPersonName(value)
@@ -946,9 +970,23 @@ function buildRuntimeBridgeScript(
       ['吹口在上（推荐）', 'Mouthpiece up (Recommended)'],
       ['吹口在下', 'Mouthpiece down'],
       ['吹口在上', 'Mouthpiece up'],
+      ['轻吹', 'Soft blow'],
+      ['重吹', 'Strong blow'],
       ['演奏顺序：', 'Play order:'],
       ['演奏顺序', 'Play order'],
-      ['美国民歌', 'folk song'],
+      ['英文版', 'English lyrics version'],
+      ['瓦格纳版本', 'Wagner version'],
+      ['美国民歌', 'American folk song'],
+      ['英国民歌', 'English folk song'],
+      ['爱尔兰民歌', 'Irish folk song'],
+      ['加拿大民歌', 'Canadian folk song'],
+      ['意大利民歌', 'Italian folk song'],
+      ['日本民歌', 'Japanese folk song'],
+      ['江苏民歌', 'Jiangsu folk song'],
+      ['丹麦民歌', 'Danish folk song'],
+      ['朝鲜族民歌', 'Korean folk song'],
+      ['法国童谣', 'French nursery rhyme'],
+      ['英语童谣', 'English nursery rhyme'],
       ['左起', 'Left-start'],
       ['右起', 'Right-start'],
       ['七星', 'Seven-star']

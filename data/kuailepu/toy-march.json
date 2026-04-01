@@ -1,0 +1,38 @@
+{
+  "id": "toy-march",
+  "slug": "toy-march",
+  "title": "Toy March",
+  "description": "Toy March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "嘀 哒 哒 嘀 哒 哒 吹 起 小 喇 叭， 小 玩 具 的 进 行 曲 _ 滴 滴 哒。",
+    "木 偶 的 个 儿 呀 都 是 一 般 高， 小 狗 小 马 也 在 一 起 滴 滴 哒。"
+  ],
+  "extraLyrics": [
+    "嘀 哒 哒 嘀 哒 哒 绕 场 一 _ 周，",
+    "洋 娃 娃 和 小 鸽 子 也 滴 滴 哒。",
+    "法 国 的 洋 娃 娃 突 然 跳 出 来，",
+    "一 吹 笛 子 锣 鼓 声 就 咚 咚 锵。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/SoEBn1ppC.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song SoEBn1ppC on 2026-03-31."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-03-31",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "1 - 5, 5, | 1 - 5, 5, | 1 2 3 2 | 5 - 0 0 | 5 6 5 4 | 3 4 3 2 | 1 - 2 - | 3 - 0 0 |",
+    "1 - 5, 5, | 1 - 5, 5, | 1 2 3 2 | 5 - 0 0 | 5 6 5 4 | 3 4 3 2 | 6, - 7, - | 1 - 0 0 |"
+  ]
+}
