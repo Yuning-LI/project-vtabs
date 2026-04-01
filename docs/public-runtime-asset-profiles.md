@@ -38,14 +38,22 @@
 - `public-song`
   - 公开详情页默认使用
   - 停用当前公开页不需要的保留脚本注入
+  - 当前默认模板脚本数：`6`
 - `full-template`
   - 调试 / 对照 / 恢复行为时可用
   - 保留快乐谱原模板脚本注入
+  - 当前模板脚本数：`28`
 
 当前 `src/app/api/kuailepu-runtime/[id]/route.ts` 支持：
 
 - 默认走 `public-song`
 - 查询参数 `runtime_asset_profile=full-template` 时切回完整模板注入
+
+当前建议：
+
+- 先停在这版 `public-song = 6 个脚本`
+- 暂时不要继续为了更小脚本集而无限扩张 compatibility stub
+- 如果以后还要进一步减载，先补新的收益证据，再决定是否值得继续增加维护复杂度
 
 ## 4. 当前硬依赖
 
@@ -57,55 +65,60 @@
 - `cdn/js/song_1f2ad3c3ba.js`
 - `cdn/js/i18n_d3be79dfbd.js`
 
-## 5. 当前已验证可默认停用的保留脚本
+## 5. 当前已验证默认停用的保留脚本
 
-下面这批脚本当前已经验证：
+下面这批脚本当前已经验证，在 `public-song` 默认 profile 下可以停用：
 
 - 在公开 `/song/ode-to-joy?note_label_mode=number` 下默认不加载
 - `svg.sheet-svg` 仍能正常渲染
 - 页面壳和 loading 不受影响
+- 不再出现 pageerror
 - 相关静态文件继续保留，未来需要时可重新加入 profile
 
-当前 Phase 1 默认停用：
+当前默认停用：
 
 - `lib/jqueryui/1.11.4/jquery-ui.min.js`
+- `lib/materialize/0.97.5/js/materialize.min.js`
+- `lib/soundmanager2/2.97a.20150601/script/soundmanager2-nodebug-jsmin.js`
 - `lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js`
+- `lib/art-template/3.0.1/template.js`
+- `lib/clipboard.js/1.5.12/clipboard.min.js`
 - `cdn/js/i18n/all_09a443f1a6.js`
-- `cdn/js/user_favorite.kit_2cf017fc27.js`
-- `cdn/js/midi_number_659c66b334.js`
-- `cdn/js/midi_soundfont_fb98b7a74c.js`
-- `cdn/js/countdown_852b2933cb.js`
-- `cdn/js/diaohao_aab9dd0b9e.js`
-- `cdn/js/cangqiang_f2fb865e71.js`
-- `cdn/js/cangqiang.song_1ce5916de5.js`
-
-这批脚本默认停用的目的，是先拿到低风险收益，同时不破坏未来恢复路径。
-
-## 6. 当前保留但还不能直接停用的脚本
-
-下面这批脚本单独拦掉时，当前公开页仍能出谱，但模板初始化代码会报缺少全局对象。
-
-这意味着它们不是“谱面硬依赖”，但也不是当前可以无保护直接移除的对象：
-
+- `cdn/js/lib/web-audio-scheduler_1823326334.js`
 - `cdn/js/metronome_7124fad0b0.js`
 - `cdn/js/microphone_7bba73959e.js`
 - `cdn/js/chip_tag_4b7d8a0043.js`
 - `cdn/js/chip_tag.song_f7c06ec607.js`
 - `cdn/js/media_24bd4df64f.js`
+- `cdn/js/user_favorite.kit_2cf017fc27.js`
 - `cdn/js/midi_context_dea7103763.js`
+- `cdn/js/midi_number_659c66b334.js`
+- `cdn/js/midi_soundfont_fb98b7a74c.js`
 - `cdn/js/midi_player_62c3ad29f7.js`
-- `cdn/js/lib/web-audio-scheduler_1823326334.js`
-- `lib/clipboard.js/1.5.12/clipboard.min.js`
-- `lib/materialize/0.97.5/js/materialize.min.js`
-- `lib/soundmanager2/2.97a.20150601/script/soundmanager2-nodebug-jsmin.js`
-- `lib/art-template/3.0.1/template.js`
+- `cdn/js/countdown_852b2933cb.js`
+- `cdn/js/diaohao_aab9dd0b9e.js`
+- `cdn/js/cangqiang_f2fb865e71.js`
+- `cdn/js/cangqiang.song_1ce5916de5.js`
 
-对这组脚本，正确顺序是：
+这批脚本默认停用后，公开详情页模板脚本从 `28` 个降到 `6` 个。
 
-1. 先在 runtime 注入层补 guard / stub
-2. 再决定是否让公开页默认停用
+这也是当前建议先停下来的主要边界：
 
-不要跳过第 1 步直接删。
+- 收益已经有了
+- 恢复路径还在
+- 但继续往下减，会越来越依赖我们自己的 stub 和模板内行为判断
+
+## 6. 当前保留但不默认加载的原因
+
+这些脚本虽然默认不加载，但当前仍然保留在快照里，不是废弃文件。
+
+原因包括：
+
+- 未来可能恢复登录、播放、收藏、节拍器、麦克风等能力
+- 调试或对照时仍可能需要完整模板模式
+- 某些脚本现在依赖 runtime 里注入的兼容 stub；这说明它们已不再是公开谱面的硬依赖，但仍属于“保留资产”
+
+如果以后要恢复这些模块，优先做法是切回 `full-template` 或把对应脚本重新加入 `public-song`，不要先去重抓线上资源。
 
 ## 7. CSS 的当前口径
 

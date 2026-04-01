@@ -120,14 +120,33 @@ let cachedTemplateHtml: string | null = null
  * 这样做的目标是同时满足两件事：
  * 1. 当前公开页少加载一批不会触发的旧模块
  * 2. 未来恢复功能时，仓库内仍有明确的资产和恢复路径
+ *
+ * 截至 2026-04-02 当前建议先停在这版：
+ * - `public-song` 默认 6 个脚本
+ * - `full-template` 作为恢复入口
+ *
+ * 不建议继续无限扩张这层 profile / stub，把越来越多模板行为都手工接管。
+ * 如果未来再继续减载，优先先看收益是否真的明显，再决定是否值得增加维护复杂度。
  */
 const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'lib/jqueryui/1.11.4/jquery-ui.min.js',
+  'lib/materialize/0.97.5/js/materialize.min.js',
+  'lib/soundmanager2/2.97a.20150601/script/soundmanager2-nodebug-jsmin.js',
   'lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js',
+  'lib/art-template/3.0.1/template.js',
+  'lib/clipboard.js/1.5.12/clipboard.min.js',
   'cdn/js/i18n/all_09a443f1a6.js',
+  'cdn/js/lib/web-audio-scheduler_1823326334.js',
+  'cdn/js/metronome_7124fad0b0.js',
+  'cdn/js/microphone_7bba73959e.js',
+  'cdn/js/chip_tag_4b7d8a0043.js',
+  'cdn/js/chip_tag.song_f7c06ec607.js',
+  'cdn/js/media_24bd4df64f.js',
   'cdn/js/user_favorite.kit_2cf017fc27.js',
+  'cdn/js/midi_context_dea7103763.js',
   'cdn/js/midi_number_659c66b334.js',
   'cdn/js/midi_soundfont_fb98b7a74c.js',
+  'cdn/js/midi_player_62c3ad29f7.js',
   'cdn/js/countdown_852b2933cb.js',
   'cdn/js/diaohao_aab9dd0b9e.js',
   'cdn/js/cangqiang_f2fb865e71.js',
@@ -356,11 +375,177 @@ function applyKuailepuRuntimeAssetProfile(
   return profile.disabledScriptAssets.reduce((nextHtml, assetPath) => {
     const publicPath = `/k-static/${assetPath}`
     return nextHtml.replace(buildExternalScriptTagPattern(publicPath), '')
-  }, html)
+  }, injectKuailepuRuntimeCompatibilityScript(html, profileName))
 }
 
 function buildExternalScriptTagPattern(src: string) {
   return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, 'g')
+}
+
+function injectKuailepuRuntimeCompatibilityScript(
+  html: string,
+  profileName: KuailepuRuntimeAssetProfileName
+) {
+  if (profileName !== 'public-song') {
+    return html
+  }
+
+  return html.replace(
+    /(<script[^>]+src="\/k-static\/cdn\/js\/song_1f2ad3c3ba\.js"[^>]*><\/script>)/i,
+    `${buildPublicRuntimeCompatibilityScript()}$1`
+  )
+}
+
+function buildPublicRuntimeCompatibilityScript() {
+  /**
+   * 这层 stub 不是为了“重写快乐谱所有旧模块”，而只是为了让公开 song page
+   * 在默认停用一批历史脚本后，仍能稳定走完：
+   *
+   * `Kit.context -> Song.draw/compile -> hc.parse -> final SVG`
+   *
+   * 当前这层已经足够支撑 `public-song` 默认 6 个脚本的公开模式。
+   * 后续如果某个新优化要继续往这里堆很多兼容逻辑，先重新评估收益，
+   * 不要把它继续演变成一个越来越难维护的“半套快乐谱 runtime 模拟器”。
+   */
+  return `<script data-kuailepu-runtime-public-compat>
+    (function () {
+      var win = window;
+      var $ = win.jQuery || win.$;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      if (!win.initMetronome) {
+        win.initMetronome = function () {};
+      }
+
+      if (!win.Media) {
+        win.Media = {
+          generateHtml: function () {
+            return '';
+          }
+        };
+      }
+
+      if (!win.ChipTag) {
+        win.ChipTag = {};
+      }
+      if (!win.ChipTag.song) {
+        win.ChipTag.song = {
+          strToChipHtml: function () {
+            return '';
+          }
+        };
+      }
+
+      if (!win.MidiContext) {
+        win.MidiContext = {
+          tick: function () {},
+          getAudioContext: function () {
+            return null;
+          }
+        };
+      }
+
+      if (!win.MidiPlayer) {
+        win.MidiPlayer = function () {};
+      }
+      if (!win.MidiPlayer.prototype.setContext) {
+        win.MidiPlayer.prototype.setContext = function () {};
+      }
+      if (!win.MidiPlayer.prototype.refresh) {
+        win.MidiPlayer.prototype.refresh = function () {};
+      }
+
+      if (!win.WebAudioScheduler) {
+        win.WebAudioScheduler = function () {};
+      }
+
+      if (!win.MicroPhone) {
+        win.MicroPhone = {
+          gainNode: null,
+          init: function () {},
+          setGain: function () {},
+          isBrowserSupport: function () {
+            return false;
+          }
+        };
+      } else if (!win.MicroPhone.isBrowserSupport) {
+        win.MicroPhone.isBrowserSupport = function () {
+          return false;
+        };
+      }
+
+      win.Clipboard = function ClipboardStub() {
+        return {
+          on: function () {}
+        };
+      };
+
+      if (!win.template) {
+        win.template = function (id, data) {
+          if (id === 'option-tpl') {
+            var optionValue = data && data.value != null ? escapeHtml(data.value) : '';
+            var optionName = data && data.name != null ? escapeHtml(data.name) : '';
+            var selected = data && data.selected ? ' selected' : '';
+            return '<option value="' + optionValue + '"' + selected + '>' + optionName + '</option>';
+          }
+          return '';
+        };
+      }
+
+      if (!win.Materialize) {
+        win.Materialize = {
+          toast: function () {}
+        };
+      }
+
+      if (!win.soundManager) {
+        win.soundManager = {
+          setup: function () {
+            return this;
+          },
+          createSound: function () {
+            return {
+              play: function () {},
+              pause: function () {},
+              stop: function () {}
+            };
+          },
+          onready: function (callback) {
+            if (typeof callback === 'function') {
+              callback();
+            }
+          },
+          stopAll: function () {},
+          pauseAll: function () {},
+          resumeAll: function () {},
+          destroySound: function () {},
+          getSoundById: function () {
+            return null;
+          },
+          setVolume: function () {}
+        };
+      }
+
+      if ($ && $.fn) {
+        ['openModal', 'closeModal', 'materialbox', 'material_select', 'leanModal'].forEach(
+          function (method) {
+            if (!$.fn[method]) {
+              $.fn[method] = function () {
+                return this;
+              };
+            }
+          }
+        );
+      }
+    })();
+  </script>`
 }
 
 function escapeRegExp(value: string) {

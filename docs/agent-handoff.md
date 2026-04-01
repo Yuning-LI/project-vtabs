@@ -257,6 +257,8 @@ npm run preflight:kuailepu-publish -- <slug...>
   - 默认可以停用当前不用的旧脚本注入
   - 但不要删除本地静态快照文件
   - 未来恢复登录 / 播放等功能时，应优先调整 runtime asset profile
+  - 当前 `public-song` 默认已从 28 个模板脚本收缩到 6 个
+  - 当前建议先停在这版，不要继续无上限扩张 compatibility stub
 
 ## 13. 新对话可直接复制的起始提示词
 

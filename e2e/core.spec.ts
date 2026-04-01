@@ -33,12 +33,16 @@ test.describe('runtime-backed song pages', () => {
 
   test('song page renders the English shell around the runtime iframe', async ({ page }) => {
     const requestedAssets = new Set<string>()
+    const pageErrors: string[] = []
     page.on('requestfinished', request => {
       const url = request.url()
       if (!url.includes('/k-static/')) {
         return
       }
       requestedAssets.add(new URL(url).pathname)
+    })
+    page.on('pageerror', error => {
+      pageErrors.push(error.message)
     })
 
     await page.goto('/song/ode-to-joy')
@@ -63,6 +67,11 @@ test.describe('runtime-backed song pages', () => {
     expect(requestedAssets.has('/k-static/cdn/js/song_1f2ad3c3ba.js')).toBe(true)
     expect(requestedAssets.has('/k-static/cdn/js/countdown_852b2933cb.js')).toBe(false)
     expect(requestedAssets.has('/k-static/cdn/js/midi_soundfont_fb98b7a74c.js')).toBe(false)
+    expect(requestedAssets.has('/k-static/lib/materialize/0.97.5/js/materialize.min.js')).toBe(
+      false
+    )
+    expect(requestedAssets.has('/k-static/cdn/js/midi_player_62c3ad29f7.js')).toBe(false)
+    expect(pageErrors).toEqual([])
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({
