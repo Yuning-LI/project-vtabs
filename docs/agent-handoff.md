@@ -66,6 +66,10 @@
 6. `src/lib/kuailepu/runtime.ts`
 7. 目标曲目的 `data/kuailepu-runtime/<slug>.json`
 
+如果任务是“公开详情页最小脚本集 / 快乐谱旧资产减载”，再补读：
+
+8. `docs/public-runtime-asset-profiles.md`
+
 ## 4. 关键文件别搞混
 
 - `data/kuailepu-runtime/*.json`
@@ -84,6 +88,8 @@
   - iframe 装载、loading 移除、高度同步
 - `scripts/sync-kuailepu-static.mjs`
   - 启动前把必需静态资源同步到 `public/k-static`
+- `docs/public-runtime-asset-profiles.md`
+  - 公开页最小资产 profile、保留资产和恢复路径说明
 - `src/lib/songbook/presentation.ts`
   - 详情页英文 SEO 文案生成器，不是谱面真相
 
@@ -247,6 +253,10 @@ npm run preflight:kuailepu-publish -- <slug...>
 - 难度标签规则已经收紧：
   - 长曲篇幅不再单独把歌曲推到 `Intermediate to advanced`
   - 更依赖速度、升降号密度，或“篇幅 + 技术负担”的组合
+- 公开详情页现在对快乐谱旧资产采用新的规范：
+  - 默认可以停用当前不用的旧脚本注入
+  - 但不要删除本地静态快照文件
+  - 未来恢复登录 / 播放等功能时，应优先调整 runtime asset profile
 
 ## 13. 新对话可直接复制的起始提示词
 

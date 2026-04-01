@@ -59,6 +59,10 @@
   - `playwright.config.ts` 固定走 `127.0.0.1:3000`
   - `webServer` 已改为 `port: 3000`
   - `e2e/core.spec.ts` 已对齐当前 runtime-backed 产品流
+- 公开详情页对快乐谱旧资产的处理规则已经收敛：
+  - 当前公开页不需要的旧脚本可以默认停用注入
+  - 但本地快照资产不能随手物理删除
+  - 恢复登录 / 播放 / 收藏 / 节拍器等能力时，优先改 runtime asset profile
 
 ## 2. 当前用户已经确认过的业务规则
 
@@ -216,6 +220,8 @@
   - 导入 raw JSON 和轻量 SongDoc。
 - `scripts/compare-kuailepu-runtime-live.ts`
   - 发布前 parity gate。
+- `docs/public-runtime-asset-profiles.md`
+  - 公开 runtime 最小资产集、保留资产和恢复路径规范。
 
 ## 7. 为什么必须保留同源静态资源代理
 
@@ -236,6 +242,16 @@
 - 默认不再静默回源快乐谱线上静态文件
 
 这层代理不是“功能性 feature”，而是 runtime 这条主链能工作的基础设施。
+
+### 7.3 旧资产减载的操作规范
+
+- 以后对快乐谱旧 JS/CSS 做公开页减载时，优先做“默认不加载”，不要直接删快照文件。
+- 默认控制点在 `src/lib/kuailepu/runtime.ts` 的 runtime asset profile，而不是 `vendor/` 或 `public/k-static/` 的物理删除。
+- 这样做是为了同时保住：
+  - 当前公开页的更小脚本集
+  - 未来恢复登录、播放、收藏、节拍器等功能时的可追溯恢复路径
+- 当前资产分组和恢复说明单独写在：
+  - `docs/public-runtime-asset-profiles.md`
 
 ### 7.2 线上验证口径
 

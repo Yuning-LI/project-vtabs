@@ -17,6 +17,10 @@
 
 仓库根目录现在额外有一份 `AGENTS.md`，用于让新对话优先遵守这套阅读顺序和发布前预检流程。
 
+如果任务涉及“公开详情页最小脚本集”或快乐谱旧资产减载，额外继续看：
+
+- `docs/public-runtime-asset-profiles.md`
+
 ## 网络协作规则
 
 - 快乐谱相关动作：
@@ -102,6 +106,10 @@
   - `playwright.config.ts` 固定使用 `http://127.0.0.1:3000`
   - `webServer` 改为 `port: 3000`
   - `e2e/core.spec.ts` 已对齐当前 runtime-backed 产品流
+- 公开详情页开始收敛到“最小公开资产 profile”：
+  - 默认只停用当前公开页不需要的旧脚本注入
+  - 不删除 `vendor/kuailepu-static` / `public/k-static` 里的保留资产
+  - 未来如果要恢复登录、播放、收藏、节拍器等能力，优先改 runtime asset profile，而不是重新找线上资源
 
 ## 当前数量口径
 
@@ -172,6 +180,18 @@
 - 公开详情页不是直接展示快乐谱线上已经渲染好的 SVG。
 - 也不是我们自己写的近似 renderer 在模仿快乐谱。
 - 而是本地 iframe 内真正跑快乐谱原始前端渲染链。
+
+## 公开 Runtime 资产规范
+
+- 对快乐谱旧 JS/CSS 做减载时，默认策略是：
+  - 公开详情页默认不加载
+  - 本地快照资产继续保留
+  - 恢复路径要继续明确存在
+- 不要把“当前公开页不用”误解成“可以把文件从仓库里删掉”。
+- 优先在 `src/lib/kuailepu/runtime.ts` 里通过 asset profile 控制注入。
+- 只有确认未来不再需要、且恢复路径已经另有保障时，才讨论物理删除资产文件。
+- 当前详细分组和恢复策略见：
+  - `docs/public-runtime-asset-profiles.md`
 
 ## 关键文件地图
 

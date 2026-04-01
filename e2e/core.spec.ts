@@ -32,6 +32,15 @@ test.describe('runtime-backed song pages', () => {
   })
 
   test('song page renders the English shell around the runtime iframe', async ({ page }) => {
+    const requestedAssets = new Set<string>()
+    page.on('requestfinished', request => {
+      const url = request.url()
+      if (!url.includes('/k-static/')) {
+        return
+      }
+      requestedAssets.add(new URL(url).pathname)
+    })
+
     await page.goto('/song/ode-to-joy')
 
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
@@ -50,6 +59,10 @@ test.describe('runtime-backed song pages', () => {
     )
 
     await expectRuntimeSheet(page, 'ode-to-joy')
+    expect(requestedAssets.has('/k-static/cdn/js/dist/hc.min_02d898293e.js')).toBe(true)
+    expect(requestedAssets.has('/k-static/cdn/js/song_1f2ad3c3ba.js')).toBe(true)
+    expect(requestedAssets.has('/k-static/cdn/js/countdown_852b2933cb.js')).toBe(false)
+    expect(requestedAssets.has('/k-static/cdn/js/midi_soundfont_fb98b7a74c.js')).toBe(false)
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({

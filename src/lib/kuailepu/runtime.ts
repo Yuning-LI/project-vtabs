@@ -105,8 +105,51 @@ type KuailepuRuntimePayload = Record<string, unknown> & {
 }
 
 type KuailepuRuntimeTextMode = 'source' | 'english'
+type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
 
 let cachedTemplateHtml: string | null = null
+
+/**
+ * 公开 song page 现在不再默认把快乐谱模板里的所有历史脚本一股脑注入。
+ *
+ * 但这里的策略不是“把旧文件从仓库里删掉”，而是：
+ * - 公开详情页默认只加载当前验证过的最小必需集
+ * - 登录 / 播放 / 收藏 / 节拍器等未来可能恢复的脚本继续保留在本地快照里
+ * - 如果以后要恢复这些功能，优先调整 asset profile，而不是重新回源抓线上资源
+ *
+ * 这样做的目标是同时满足两件事：
+ * 1. 当前公开页少加载一批不会触发的旧模块
+ * 2. 未来恢复功能时，仓库内仍有明确的资产和恢复路径
+ */
+const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
+  'lib/jqueryui/1.11.4/jquery-ui.min.js',
+  'lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js',
+  'cdn/js/i18n/all_09a443f1a6.js',
+  'cdn/js/user_favorite.kit_2cf017fc27.js',
+  'cdn/js/midi_number_659c66b334.js',
+  'cdn/js/midi_soundfont_fb98b7a74c.js',
+  'cdn/js/countdown_852b2933cb.js',
+  'cdn/js/diaohao_aab9dd0b9e.js',
+  'cdn/js/cangqiang_f2fb865e71.js',
+  'cdn/js/cangqiang.song_1ce5916de5.js'
+] as const
+
+const KUAILEPU_RUNTIME_ASSET_PROFILES: Record<
+  KuailepuRuntimeAssetProfileName,
+  {
+    disabledScriptAssets: readonly string[]
+    reservedScriptAssets: readonly string[]
+  }
+> = {
+  'public-song': {
+    disabledScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS,
+    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
+  },
+  'full-template': {
+    disabledScriptAssets: [],
+    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
+  }
+}
 
 /**
  * 读取公开 runtime 所需的完整快乐谱 raw JSON。
@@ -132,6 +175,7 @@ export function buildKuailepuRuntimeHtml(input: {
   state?: KuailepuRuntimeState | null
   letterTrack?: KuailepuLetterTrackData | null
   textMode?: KuailepuRuntimeTextMode | null
+  assetProfile?: KuailepuRuntimeAssetProfileName | null
   preferredEnglishTitle?: string | null
   preferredEnglishSubtitle?: string | null
 }) {
@@ -145,6 +189,7 @@ export function buildKuailepuRuntimeHtml(input: {
     input.state ?? null
   )
   const letterTrack = input.letterTrack ?? null
+  const assetProfile = input.assetProfile ?? 'public-song'
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeForInlineScript(payload)
   const template = getKuailepuHtmlTemplate()
@@ -156,25 +201,29 @@ export function buildKuailepuRuntimeHtml(input: {
    * 3. 把所有 `/static/...` 资源改到本地代理 `/k-static/...`
    * 4. 注入一层覆盖样式，隐藏快乐谱原页面里对我们站点没意义的外壳
    * 5. 注入桥接脚本，把 iframe 内部真实谱面高度发回宿主页面
+   * 6. 按公开页 asset profile 停用当前不会触发、但未来可能恢复的旧模块脚本
    */
-  return template
-    .replace(
-      /<title>[\s\S]*?<\/title>/i,
-      `<title>${escapeHtml(pageTitle)} - Kuailepu Runtime Preview</title>`
-    )
-    .replace(
-      /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i,
-      `$1var context = Kit.context.setContext(${safePayload});$2`
-    )
-    .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
-    .replace(
-      /<\/head>/i,
-      `${buildRuntimeOverrideStyle()}${buildRuntimePendingScript(letterTrack)}</head>`
-    )
-    .replace(
-      /<\/body>/i,
-      `${buildRuntimeBridgeScript(songId, letterTrack, input.textMode ?? 'source')}</body>`
-    )
+  return applyKuailepuRuntimeAssetProfile(
+    template
+      .replace(
+        /<title>[\s\S]*?<\/title>/i,
+        `<title>${escapeHtml(pageTitle)} - Kuailepu Runtime Preview</title>`
+      )
+      .replace(
+        /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i,
+        `$1var context = Kit.context.setContext(${safePayload});$2`
+      )
+      .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
+      .replace(
+        /<\/head>/i,
+        `${buildRuntimeOverrideStyle()}${buildRuntimePendingScript(letterTrack)}</head>`
+      )
+      .replace(
+        /<\/body>/i,
+        `${buildRuntimeBridgeScript(songId, letterTrack, input.textMode ?? 'source')}</body>`
+      ),
+    assetProfile
+  )
 }
 
 export function buildKuailepuLetterTrackData(input: {
@@ -293,6 +342,29 @@ function parseMarkedFiles(sourceText: string) {
   }
 
   return files
+}
+
+function applyKuailepuRuntimeAssetProfile(
+  html: string,
+  profileName: KuailepuRuntimeAssetProfileName
+) {
+  const profile = KUAILEPU_RUNTIME_ASSET_PROFILES[profileName]
+  if (!profile || profile.disabledScriptAssets.length === 0) {
+    return html
+  }
+
+  return profile.disabledScriptAssets.reduce((nextHtml, assetPath) => {
+    const publicPath = `/k-static/${assetPath}`
+    return nextHtml.replace(buildExternalScriptTagPattern(publicPath), '')
+  }, html)
+}
+
+function buildExternalScriptTagPattern(src: string) {
+  return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, 'g')
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function applyRuntimeDefaults(

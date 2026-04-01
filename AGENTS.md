@@ -65,6 +65,8 @@ npm run login:kuailepu
 - Keep Kuailepu core rendering behavior intact.
 - Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
 - Any publish/parity check must use `note_label_mode=number`.
+- When trimming extra Kuailepu JS/CSS for public song pages, default to “do not load by default, but keep the bundled assets and recovery path”.
+- Prefer changing the runtime asset profile in `src/lib/kuailepu/runtime.ts` over deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
 ## Git Commit Rule
 
