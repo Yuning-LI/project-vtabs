@@ -23,7 +23,8 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
 
-  const normalizedQuery = query.trim().toLowerCase()
+  const normalizedQuery = normalizeLibrarySearchText(query)
+  const compactQuery = compactLibrarySearchText(normalizedQuery)
 
   const filteredSongs = useMemo(() => {
     return songs
@@ -36,8 +37,15 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
           return true
         }
 
-        const haystack = [song.title, song.slug, song.familyLabel].join(' ').toLowerCase()
-        return haystack.includes(normalizedQuery)
+        const haystack = normalizeLibrarySearchText(
+          [song.title, song.slug, song.id, song.familyLabel].join(' ')
+        )
+
+        if (haystack.includes(normalizedQuery)) {
+          return true
+        }
+
+        return compactLibrarySearchText(haystack).includes(compactQuery)
       })
       .sort((left, right) => {
         if (sortMode === 'az') {
@@ -46,7 +54,7 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
 
         return left.featuredRank - right.featuredRank
       })
-  }, [activeFamily, normalizedQuery, songs, sortMode])
+  }, [activeFamily, compactQuery, normalizedQuery, songs, sortMode])
 
   const groupedSongs = useMemo(() => {
     if (sortMode !== 'az') {
@@ -75,7 +83,7 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
             <div>
               <h3 className="text-lg font-bold text-stone-900">Find a Song Faster</h3>
               <p className="mt-1 text-sm leading-6 text-stone-700">
-                Search by title or switch between featured order and A–Z browsing.
+                Search by title, short name, or song family, then switch between featured order and A–Z browsing.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -110,7 +118,7 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
                 type="search"
                 value={query}
                 onChange={event => setQuery(event.target.value)}
-                placeholder="Search titles like Greensleeves, Ode to Joy, or Jingle Bells"
+                placeholder="Search titles like fur elise, twinkle, scarborough, or jingle bells"
                 className="page-warm-input w-full"
                 aria-label="Search song titles"
               />
@@ -244,4 +252,18 @@ function getGroupLetter(title: string) {
   }
 
   return /[A-Z]/.test(firstCharacter) ? firstCharacter : '#'
+}
+
+function normalizeLibrarySearchText(value: string) {
+  return value
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ')
+}
+
+function compactLibrarySearchText(value: string) {
+  return value.replace(/\s+/g, '')
 }

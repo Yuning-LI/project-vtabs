@@ -107,6 +107,10 @@
   - `google-site-verification`
 - 首页 song library 现已补上轻量找歌交互：
   - title 搜索
+  - 搜索已兼容常见英文别名式输入：
+    - 忽略重音符号（如 `Für` -> `fur`）
+    - 忽略连字符 / 标点
+    - 支持用短名或 slug / id 片段搜索（如 `twinkle`、`scarborough`）
   - family filter
   - `Featured` / `A–Z` 切换
   - `A–Z` 模式下的字母跳转条

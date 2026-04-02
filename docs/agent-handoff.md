@@ -65,6 +65,8 @@
 - 发布前 parity gate 必须用 `number` 模式。
 - 首页 song card 仍然只显示歌名，但首页现已支持：
   - title 搜索
+    - 搜索已兼容英文重音、标点、slug / 短名式输入
+    - `fur elise`、`twinkle`、`scarborough` 应能命中对应曲目
   - family filter
   - `Featured` / `A–Z` 浏览切换
   - `A–Z` 模式下的字母跳转

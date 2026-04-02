@@ -31,6 +31,22 @@ test.describe('runtime-backed song pages', () => {
     }
   })
 
+  test('homepage search matches accentless and short-name queries', async ({ page }) => {
+    await page.goto('/')
+
+    const search = page.getByRole('searchbox', { name: 'Search song titles' })
+
+    await search.fill('fur elise')
+    await expect(page.locator('a[href="/song/fur-elise"]')).toHaveCount(1)
+    await expect(page.locator('a[href="/song/scarborough-fair"]')).toHaveCount(0)
+
+    await search.fill('twinkle')
+    await expect(page.locator('a[href="/song/twinkle-twinkle-little-star"]')).toHaveCount(1)
+
+    await search.fill('scarborough')
+    await expect(page.locator('a[href="/song/scarborough-fair"]')).toHaveCount(1)
+  })
+
   test('song page renders the English shell around the runtime iframe', async ({ page }) => {
     const requestedAssets = new Set<string>()
     const pageErrors: string[] = []
