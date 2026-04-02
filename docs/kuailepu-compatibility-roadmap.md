@@ -102,6 +102,7 @@
 - 继续细化 `presentation.ts` 里的 song-specific profile
 - 保持英文、自然、不暴露第三方来源
 - 让每首 song page 都更像独立 landing page
+- 继续把 sitemap / robots / canonical 保持在简单、可部署、可自动更新的 App Router metadata routes 上
 
 ### 4.4 流程工程化
 
@@ -141,6 +142,25 @@
 - 业务当前更需要扩曲与 SEO 收录
 - 过早重写会让新接手者理解成本暴增
 
+### 6.1 当前对 HC 本体的路线判断
+
+- 已证实：
+  - 历史公开版曾长期使用 split `hc_*.js + hc.kit_*.js`
+  - 当前 live 公开页已切到 monolithic `hc.min_02d898293e.js`
+  - 历史 `hc` 主文件更偏 parser / lexer / layout / SVG render 主链
+  - 历史 `hc.kit` 更偏 MIDI / harmonizer / chord / instrument / fingering 支撑层
+- 高概率推测：
+  - 当前 `hc.min` 更像历史 split 结构的合包演化版，而不是单纯把旧 `hc` 改名
+- 暂无证据：
+  - 没找到公开 sourcemap
+  - 没找到真正可用的未压缩源码版
+
+这组判断对 roadmap 的含义是：
+
+- 以后如果继续做旧资产减载或更细的 runtime 拆解，重点应放在“主链依赖地图”而不是继续赌 sourcemap。
+- 这也解释了为什么当前不适合为了追求更纯的架构，贸然把 runtime 相关旧代码大面积删掉。
+- 本地研究材料保存在 `reference/hc-history-investigation/2026-04-02/`，默认只作本地分析上下文，不是生产依赖。
+
 ## 7. 当前路线的验收标准
 
 以后任何对 runtime 主链的修改，都应该满足下面的验收标准：
@@ -177,8 +197,9 @@
 如果现在有人接手继续做，推荐遵守这个顺序：
 
 1. 先保证已有 runtime 路线稳定
-2. 再继续扩曲
-3. 再优化 SEO 文案
-4. 最后才讨论更大规模的架构替换
+2. 同步积累 HC 模块地图和主链结构认知
+3. 再继续扩曲
+4. 再优化 SEO 文案
+5. 最后才讨论更大规模的架构替换
 
 当前最不值得做的事，是为了追求“架构更纯”而重新打开核心渲染路线的重构。

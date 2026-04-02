@@ -95,6 +95,16 @@
   - `src/app/icon.svg`
   - `public/favicon.ico`
   - `src/app/layout.tsx` 已声明 `metadata.icons`
+- SEO / GSC 基础链现已切到 Next App Router metadata routes：
+  - `src/app/sitemap.ts` 直接基于公开 `songCatalog` 生成 sitemap
+  - `src/app/robots.ts` 统一输出 `robots.txt`
+  - 不再依赖 `next-sitemap` 或仓库内静态 `public/sitemap*.xml`
+  - `icon.svg` 不应再进入 sitemap
+- 首页 metadata 已补齐基础项：
+  - `metadataBase`
+  - 显式 canonical
+  - `robots`
+  - `google-site-verification`
 - Vercel 线上已人工检查通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`
@@ -183,6 +193,53 @@
 - 也不是我们自己写的近似 renderer 在模仿快乐谱。
 - 而是本地 iframe 内真正跑快乐谱原始前端渲染链。
 
+## 当前 HC 引擎认知
+
+到 2026-04-02 这轮本地研究为止，当前对 HC 本体的最小正确认知是：
+
+- 已证实：
+  - 历史公开版曾长期使用 split 结构：
+    - `hc_*.js`
+    - `hc.kit_*.js`
+  - 当前 live 公开页已切到单文件：
+    - `hc.min_02d898293e.js`
+  - 历史 `hc` 主文件更明确承担 parser / lexer / layout / SVG render 主链职责。
+  - 历史 `hc.kit` 更偏支撑层：
+    - `MidGen`
+    - `MidiHarmonizer`
+    - `MidiFont`
+    - `MidiChord`
+    - `MidiKey`
+    - 乐器 / 指法辅助
+  - runtime archive 与生产 raw JSON 已可见和弦相关痕迹：
+    - `CHORD_NAME`
+    - `ChordNode`
+    - `show_chord_name`
+    - `chordName`
+    - `chordNotes`
+- 高概率推测：
+  - 当前 monolithic `hc.min` 更像历史 split `hc + hc.kit` 的合包演化版，而不只是把旧 `hc` 改了文件名。
+- 暂无证据：
+  - 没找到公开 sourcemap
+  - 没找到真正可用的未压缩源码版
+
+本地研究材料已放在：
+
+- `reference/hc-history-investigation/2026-04-02/`
+
+注意：
+
+- `reference/` 默认是本地研究层，已被 gitignore 忽略。
+- 这些材料用于帮助后续拆解和理解 runtime，不是生产部署依赖。
+
+## HC 维护边界
+
+- 不要把 HC 理解成“只是最终把谱转成 SVG 的 renderer”。
+- 当前更安全的理解链路是：
+  `Kit.context.setContext(...) -> Song.draw()/Song.compile() -> hc.parse -> renderSheet -> final SVG`
+- 所以以后做快乐谱旧资产减载、脚本 profile 收缩、兼容性排障时，不要只凭文件名猜“这个脚本看起来像播放器 / 登录 / UI，所以肯定和主链无关”。
+- 默认先顺着主链确认依赖，再决定是否让公开页默认不加载某些旧模块。
+
 ## 公开 Runtime 资产规范
 
 - 对快乐谱旧 JS/CSS 做减载时，默认策略是：
@@ -211,6 +268,13 @@
   - `data/kuailepu/*.json`
 - runtime 校验脚本：
   - `scripts/sync-kuailepu-static.mjs`
+- SEO / indexing 基础层：
+  - `src/app/sitemap.ts`
+  - `src/app/robots.ts`
+  - `src/app/layout.tsx`
+  - `src/app/page.tsx`
+  - `src/app/song/[id]/page.tsx`
+  - `src/lib/site.ts`
   - `scripts/check-kuailepu-login.ts`
   - `scripts/compare-kuailepu-runtime-live.ts`
   - `scripts/import-kuailepu-song.ts`

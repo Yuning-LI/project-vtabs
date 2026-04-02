@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import { loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
+import { siteUrl } from '@/lib/site'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
@@ -22,7 +23,11 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     title: `${songName} Ocarina Tabs | Letter Notes & Fingering Chart`,
     description,
     alternates: {
-      canonical: `https://playbyfingering.com/song/${song?.slug || id}`
+      canonical: `${siteUrl}/song/${song?.slug || id}`
+    },
+    robots: {
+      index: true,
+      follow: true
     }
   }
 }

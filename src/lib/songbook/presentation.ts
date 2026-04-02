@@ -396,21 +396,30 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
 
   const overview = [
     `Play ${title} on 12-hole AC ocarina with letter notes, a visual fingering chart, and an optional numbered notes view.`,
-    `This page is designed for players searching for ${profile.searchTerms[0]} or ${profile.searchTerms[1]}.`
+    buildSearchIntentSentence({
+      familyLabel,
+      difficultyLabel,
+      searchTerms: profile.searchTerms
+    })
   ].join(' ')
 
   const background = [
     profile.background,
-    lyricsAvailable
-      ? 'The layout keeps the melody readable while leaving room for the lyric line, phrase shape, and fingering flow to stay easy to follow on the page.'
-      : 'The layout keeps the melody readable while preserving phrase shape and fingering flow for practice without staff notation.'
+    buildLayoutSentence({
+      family,
+      lyricsAvailable
+    })
   ].join(' ')
 
   const practiceNotes = [
     `The page is laid out in ${meterLabel} with a reference tempo around ${tempoLabel} and a key center of ${keyLabel}.`,
     getDifficultySentence(difficultyLabel),
     profile.practice,
-    lyricsAvailable ? 'Aligned lyrics stay close to the melody for phrasing and breath-timing support.' : 'The melody-first layout keeps attention on finger changes, timing, and tone.'
+    buildPracticeSupportSentence({
+      family,
+      lyricsAvailable,
+      difficultyLabel
+    })
   ].join(' ')
 
   /**
@@ -423,22 +432,35 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
    * - 同时保留对练习者真正有用的句子
    */
   const includes = [
-    'Letter notes as the default reading mode',
-    'Optional numbered notes for players who prefer number-based note reading',
-    'A visual fingering chart aligned to the melody',
-    lyricsAvailable ? 'Lyrics where a singable line is available on the page' : 'A clean melody-first layout for instrumental practice'
+    'Letter notes shown by default for fast melody reading',
+    'A numbered-notes backup view for cross-checking the same tune',
+    `Key ${keyLabel} and ${meterLabel} reference points for phrase planning and breath control`,
+    lyricsAvailable
+      ? 'Aligned lyrics to support sing-through timing and phrase entry'
+      : `A clean ${familyLabel.toLowerCase()} layout that stays focused on fingering and tone`
   ]
 
   const faqs = [
     {
       question: `Can I play ${title} on a 12-hole AC ocarina?`,
       answer:
-        `Yes. This ${title} page is arranged for 12-hole AC ocarina and keeps the note labels, fingering chart, and phrase layout aligned for practical everyday practice.`
+        `Yes. This ${title} page is set up for 12-hole AC ocarina and keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow in one place.`
     },
     {
-      question: `Does this ${title} page show letter notes or numbered notes?`,
-      answer:
-        `Letter notes are the default view, and numbered notes are still available as an option. That makes the page useful both for players learning letter tabs and for players who still want a numbered backup view.`
+      question: `Which note view should I use for ${title}?`,
+      answer: buildNoteViewFaqAnswer({
+        family,
+        lyricsAvailable,
+        difficultyLabel
+      })
+    },
+    {
+      question: `What should I focus on when practicing ${title}?`,
+      answer: buildPracticeFaqAnswer({
+        difficultyLabel,
+        lyricsAvailable,
+        practice: profile.practice
+      })
     }
   ]
 
@@ -457,6 +479,104 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
     familyLabel,
     difficultyLabel
   }
+}
+
+function buildSearchIntentSentence(input: {
+  familyLabel: string
+  difficultyLabel: string
+  searchTerms: string[]
+}) {
+  const familyLabel = input.familyLabel.toLowerCase()
+  const difficultyLabel = input.difficultyLabel.toLowerCase()
+
+  return `It works as a ${familyLabel} landing page for players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]} without losing a ${difficultyLabel} reading flow.`
+}
+
+function buildLayoutSentence(input: {
+  family: SongFamily
+  lyricsAvailable: boolean
+}) {
+  if (input.lyricsAvailable) {
+    switch (input.family) {
+      case 'holiday':
+      case 'hymn':
+        return 'The layout leaves room for the lyric line while keeping longer sung phrases and fingering changes easy to track on the page.'
+      case 'folk':
+        return 'The layout leaves room for the lyric line while keeping the melody shape and fingering flow easy to follow across each phrase.'
+      default:
+        return 'The layout leaves room for the lyric line while keeping the melody shape and fingering flow easy to follow on the page.'
+    }
+  }
+
+  switch (input.family) {
+    case 'classical':
+      return 'The layout keeps the melody readable without crowding the phrase shape, so the tune still feels practical to scan away from staff notation.'
+    case 'march':
+    case 'dance':
+      return 'The layout keeps the note groups readable while preserving the rhythmic outline and fingering flow needed for steadier pulse work.'
+    default:
+      return 'The layout keeps the melody readable while preserving phrase shape and fingering flow for practice without staff notation.'
+  }
+}
+
+function buildPracticeSupportSentence(input: {
+  family: SongFamily
+  lyricsAvailable: boolean
+  difficultyLabel: string
+}) {
+  if (input.lyricsAvailable) {
+    return 'Aligned lyrics stay close to the melody, which helps with phrase entry, breath timing, and sing-through practice.'
+  }
+
+  if (input.family === 'march' || input.family === 'dance') {
+    return 'The melody-first layout keeps attention on pulse, articulation, and clean finger timing.'
+  }
+
+  if (input.difficultyLabel === 'Intermediate to advanced') {
+    return 'The melody-first layout helps keep technical attention on finger changes, timing, and tone instead of page clutter.'
+  }
+
+  return 'The melody-first layout keeps attention on finger changes, timing, and tone.'
+}
+
+function buildNoteViewFaqAnswer(input: {
+  family: SongFamily
+  lyricsAvailable: boolean
+  difficultyLabel: string
+}) {
+  if (input.lyricsAvailable) {
+    return 'Letter notes are the default view for faster reading, and numbered notes stay available as a backup option without losing the aligned lyric line.'
+  }
+
+  if (input.family === 'classical') {
+    return 'Letter notes are usually the faster default for melody reading here, while numbered notes give you a backup check if you want a more number-based reference for the same phrase shapes.'
+  }
+
+  if (input.family === 'march' || input.family === 'dance') {
+    return 'Letter notes are usually the faster default for pulse-based practice, while numbered notes stay available whenever you want a more familiar number reference.'
+  }
+
+  if (input.difficultyLabel === 'Beginner to easy') {
+    return 'Letter notes are the quickest way to read the page, while numbered notes stay available as a backup if you learned the tune from number-based materials.'
+  }
+
+  return 'Letter notes are the default view for faster reading, and numbered notes stay available as a backup option whenever you want a quick number-based cross-check.'
+}
+
+function buildPracticeFaqAnswer(input: {
+  difficultyLabel: string
+  lyricsAvailable: boolean
+  practice: string
+}) {
+  const lead =
+    input.difficultyLabel === 'Beginner to easy'
+      ? 'Start by keeping the note labels and fingering chart in view while you settle the phrase shape.'
+      : 'Start by locking in the phrase shape before pushing tempo or larger note changes.'
+  const ending = input.lyricsAvailable
+    ? 'If the lyric line is visible, use it to check phrase entry and breathing points.'
+    : 'Use the cleaner melody-only layout to stay focused on timing, fingering, and tone.'
+
+  return `${lead} ${input.practice} ${ending}`
 }
 
 function getDisplaySongTitle(song: SongDoc) {

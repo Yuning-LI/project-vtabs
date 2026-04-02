@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://playbyfingering.com
-
-# Sitemaps
-Sitemap: https://playbyfingering.com/sitemap.xml

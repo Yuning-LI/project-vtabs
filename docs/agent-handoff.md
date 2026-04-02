@@ -32,6 +32,16 @@
   - `src/app/icon.svg`
   - `public/favicon.ico`
   - `src/app/layout.tsx` 的 `metadata.icons`
+- sitemap / robots 现已改为 App Router metadata routes：
+  - `src/app/sitemap.ts` 基于公开 `songCatalog` 输出 sitemap
+  - `src/app/robots.ts` 输出 robots.txt 并指向 sitemap
+  - 不再使用 `next-sitemap`
+  - `icon.svg` 不应进入 sitemap
+- 首页 metadata 现已统一补齐：
+  - `metadataBase`
+  - canonical
+  - `robots`
+  - `google-site-verification`
 - Vercel 线上已实测通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`
@@ -92,6 +102,38 @@
   - 公开页最小资产 profile、保留资产和恢复路径说明
 - `src/lib/songbook/presentation.ts`
   - 详情页英文 SEO 文案生成器，不是谱面真相
+- `src/app/sitemap.ts`
+  - sitemap 真相层，直接列出公开 song pages
+- `src/app/robots.ts`
+  - robots 真相层，负责声明 sitemap 入口
+- `src/lib/site.ts`
+  - 站点 URL 与 verification 常量
+
+## 4.5 当前对 HC 引擎的最小正确认知
+
+- 已证实：
+  - 历史公开版曾使用 split：
+    - `hc_*.js`
+    - `hc.kit_*.js`
+  - 当前 live 公开页已切到：
+    - `hc.min_02d898293e.js`
+  - 历史 `hc` 主文件更偏 parser / lexer / layout / SVG render 主链。
+  - 历史 `hc.kit` 更偏 MIDI / harmonizer / chord / instrument / fingering 等支撑层。
+  - runtime archive 与生产 raw JSON 里都已经能看到和弦字段与节点，不要把这些能力误判成“历史废代码”。
+- 高概率推测：
+  - 当前 monolithic `hc.min` 更像旧 `hc + hc.kit` 的合包演化版，而不是单纯改名。
+- 暂无证据：
+  - 没找到公开 sourcemap 或真正可用的未压缩源码版。
+
+本地研究材料在：
+
+- `reference/hc-history-investigation/2026-04-02/hc-engine-structure-map.md`
+- `reference/hc-history-investigation/2026-04-02/hc-module-evidence-matrix.md`
+
+注意：
+
+- `reference/` 默认是本地研究层，已被 gitignore 忽略。
+- 这些研究文件帮助理解 runtime 和后续拆解，不是生产依赖。
 
 ## 5. 当前已上线的字母谱语义
 
@@ -258,6 +300,9 @@ npm run preflight:kuailepu-publish -- <slug...>
   - 但不要删除本地静态快照文件
   - 未来恢复登录 / 播放等功能时，应优先调整 runtime asset profile
   - 当前 `public-song` 默认已从 28 个模板脚本收缩到 6 个
+- 处理 HC 相关旧资产时，先沿着
+  `Kit.context.setContext -> Song.draw()/Song.compile() -> hc.parse -> renderSheet`
+  判断主链依赖，不要把 HC 误当成“单纯 SVG renderer”来删东西
   - 当前建议先停在这版，不要继续无上限扩张 compatibility stub
 
 ## 13. 新对话可直接复制的起始提示词

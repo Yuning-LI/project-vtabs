@@ -48,6 +48,13 @@
   - `src/app/icon.svg`
   - `public/favicon.ico`
   - `src/app/layout.tsx` 已声明 `metadata.icons`
+- sitemap / robots / canonical 基础链已收口到 Next App Router metadata routes：
+  - `src/app/sitemap.ts` 直接从公开 `songCatalog` 枚举 sitemap URL
+  - `src/app/robots.ts` 统一输出 `robots.txt`
+  - `src/app/layout.tsx` 现在统一维护 `metadataBase` 与 `google-site-verification`
+  - 首页 canonical 已显式补齐
+  - `icon.svg` 不应再进入 sitemap
+  - 不再依赖 `next-sitemap` 或提交到仓库里的静态 `public/sitemap*.xml`
 - 线上 `https://www.playbyfingering.com/` 已实际检查通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`
@@ -116,6 +123,62 @@
 - 详情页谱面问题，先查 runtime 兼容层。
 - 不是先去修旧的原生 `SongClient`。
 - 也不要把 `captured SVG` 重新扶正成默认详情页数据源。
+
+### 3.4 当前对 HC 引擎本体的认知
+
+到 2026-04-02 当前本地研究为止，下面这些点已经足够作为后续维护时的最小正确心智模型：
+
+- 已证实：
+  - 历史公开版长期存在 split 结构：
+    - `hc_*.js`
+    - `hc.kit_*.js`
+  - 当前 live 公开页已经切到单文件：
+    - `hc.min_02d898293e.js`
+  - 历史 `hc` 主文件更明显承担 parser / lexer / layout / SVG render 主链职责。
+  - 历史 `hc.kit` 更偏支撑层：
+    - `MidGen`
+    - `MidiHarmonizer`
+    - `MidiFont`
+    - `MidiChord`
+    - `MidiKey`
+    - 乐器 / 指法辅助
+  - runtime archive 和生产 raw JSON 里都已经能看到和弦相关字段或节点：
+    - `CHORD_NAME`
+    - `ChordNode`
+    - `show_chord_name`
+    - `chordName`
+    - `chordNotes`
+- 高概率推测：
+  - 当前 monolithic `hc.min` 更像历史 split `hc + hc.kit` 的合包演化版，而不只是旧 `hc` 主文件简单改名。
+- 暂无证据：
+  - 没找到公开 sourcemap
+  - 没找到真正可用的未压缩源码版
+
+本地研究材料保存在：
+
+- `reference/hc-history-investigation/2026-04-02/hc-engine-structure-map.md`
+- `reference/hc-history-investigation/2026-04-02/hc-module-evidence-matrix.md`
+
+注意：
+
+- `reference/` 默认是本地研究层，不是生产部署依赖。
+- 这些文件默认不会进入 git 提交，因为 `reference/` 已被忽略。
+
+### 3.5 这组 HC 认知为什么重要
+
+它至少会影响三类后续决策：
+
+- 第一，不要把 HC 当成“只负责最终 SVG 输出”的单薄 renderer。
+  当前更安全的主链理解是：
+  `Kit.context.setContext(...) -> Song.draw()/Song.compile() -> hc.parse -> renderSheet -> final SVG`
+- 第二，做快乐谱旧资产减载时，不要只凭文件名判断依赖关系。
+  公开页默认不加载某些旧脚本是可以的，但是否能停用，应该先沿着主链和实际触发路径确认。
+- 第三，如果以后要继续拆 HC 或逐步去 iframe 化，最值钱的不是继续赌 sourcemap，而是沿着：
+  - `Kit.context.setContext`
+  - `Song.draw()/Song.compile()`
+  - `hc.parse`
+  - `renderSheet`
+  这几处入口积累结构认知。
 
 ## 4. 当前保留的第二条链是什么
 
@@ -207,6 +270,12 @@
   - 首页 SEO landing page。
 - `src/app/layout.tsx`
   - 全站 metadata 和 `html lang="en"`。
+- `src/app/sitemap.ts`
+  - 公开 sitemap 真相层，直接基于 `songCatalog` 输出。
+- `src/app/robots.ts`
+  - 公开 robots 真相层，负责指向 sitemap。
+- `src/lib/site.ts`
+  - 站点 URL 与 GSC verification 常量。
 
 ### 6.4 脚本层
 
@@ -522,6 +591,7 @@
 
 - 改 `runtime.ts` 里对快乐谱模板的替换逻辑
 - 改 iframe 高度桥接逻辑
+- 只凭文件名或“当前公开页暂时没触发”就武断删除 HC / kit 相关旧资产
 - 把找不到 raw JSON 的详情页改回 fallback
 - 让 compare 脚本不再强制 `number`
 - 在前台重新暴露第三方来源文案

@@ -23,7 +23,15 @@ import { resolveKuailepuRuntimeSongPath } from './sourceFiles'
  * - `show_graph`
  *
  * 这些字段最终会直接进入 `Kit.context.setContext(...)`，然后由快乐谱原始
- * `Song.draw -> Song.compile -> hc.parse` 链条继续消费。
+ * `Song.draw -> Song.compile -> hc.parse -> renderSheet` 链条继续消费。
+ *
+ * 这也是当前维护时最重要的边界之一：
+ * - 不要把 HC 理解成“只负责最后吐 SVG 的 renderer”
+ * - 历史公开版里，`hc` 主文件本身就承担 parser / lexer / layout / render 主链
+ * - 历史 `hc.kit` 还承担过 MIDI / harmonizer / chord / instrument / fingering 支撑职责
+ *
+ * 所以后面如果继续收缩公开页脚本集，是否能默认停用某个旧模块，
+ * 应该先沿着这条主链判断，而不是只看文件名猜它是不是“非核心 UI 脚本”。
  */
 export type KuailepuRuntimeState = {
   instrument?: string | null

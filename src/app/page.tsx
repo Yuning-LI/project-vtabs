@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
@@ -48,10 +49,17 @@ const SONG_ORDER = [
   'brahms-lullaby'
 ] as const
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Letter Tabs, Numbered Notes & Fingering Charts',
   description:
-    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.'
+    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.',
+  alternates: {
+    canonical: '/'
+  },
+  robots: {
+    index: true,
+    follow: true
+  }
 }
 
 /**
