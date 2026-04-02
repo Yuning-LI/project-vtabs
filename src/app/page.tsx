@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import LibraryBrowser from '@/components/library/LibraryBrowser'
 import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
@@ -78,6 +78,27 @@ export default function Home() {
     ),
     ...songCatalog.filter(song => !SONG_ORDER.includes(song.id as (typeof SONG_ORDER)[number]))
   ]
+  const librarySongs = featuredSongs.map((song, index) => {
+    const presentation = getSongPresentation(song)
+
+    return {
+      id: song.id,
+      slug: song.slug,
+      title: presentation.title,
+      familyLabel: presentation.familyLabel,
+      featuredRank: index
+    }
+  })
+  const familyFilters = [
+    'Nursery Rhyme',
+    'Folk Song',
+    'Classical Melody',
+    'Holiday Song',
+    'Hymn or Spiritual',
+    'March or Parade Tune',
+    'Dance Melody',
+    'Popular Song Melody'
+  ].filter(label => librarySongs.some(song => song.familyLabel === label))
 
   return (
     <main className="page-warm-shell">
@@ -103,23 +124,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {featuredSongs.map(song => {
-            const presentation = getSongPresentation(song)
-
-            return (
-              <Link
-                key={song.id}
-                href={`/song/${song.slug}`}
-                className="page-warm-card-link group block p-5 md:p-6"
-              >
-                <h2 className="text-xl font-semibold text-stone-900 transition group-hover:text-stone-700">
-                  {presentation.title}
-                </h2>
-              </Link>
-            )
-          })}
-        </div>
+        <LibraryBrowser songs={librarySongs} familyFilters={familyFilters} />
 
         <section className="page-warm-panel mt-10 p-6 md:p-7">
           <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>

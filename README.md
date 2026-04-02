@@ -105,6 +105,11 @@
   - 显式 canonical
   - `robots`
   - `google-site-verification`
+- 首页 song library 现已补上轻量找歌交互：
+  - title 搜索
+  - family filter
+  - `Featured` / `A–Z` 切换
+  - song card 仍然只显示歌名
 - Vercel 线上已人工检查通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`

@@ -63,6 +63,10 @@
 - 默认阅读模式是 `letter`。
 - 可公开切换模式只有 `letter` 和 `number`。
 - 发布前 parity gate 必须用 `number` 模式。
+- 首页 song card 仍然只显示歌名，但首页现已支持：
+  - title 搜索
+  - family filter
+  - `Featured` / `A–Z` 浏览切换
 
 ## 3. 必读顺序
 

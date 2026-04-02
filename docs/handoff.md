@@ -80,6 +80,11 @@
 - 站点前台文案必须是英文。
 - 不要在前台展示“参考了快乐谱”“来源是快乐谱”之类措辞。
 - 首页列表每首歌只显示歌名，不显示摘要。
+- 首页列表现在已补上轻量找歌交互：
+  - 搜索框
+  - family filter
+  - `Featured` / `A–Z` 切换
+  但 song card 仍然只显示歌名，不额外展开摘要。
 - 首页不再区分 `Verified For Playtest` / `Still Pending Review`。
 - 首页不再显示 `pending` / `rechecked` 标签。
 - 首页右上角黑框统计信息已移除。
