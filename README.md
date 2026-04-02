@@ -129,13 +129,13 @@
 
 - `songCatalog.length = 60`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 67`
-  - 仓库里保留的全部候选曲目数量，包含未公开的手工占位条目。
-- `data/kuailepu-runtime/*.json = 64`
+- `allSongCatalog.length = 60`
+  - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
+- `data/kuailepu-runtime/*.json = 60`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 65`
-  - 本机原始研究层数量，主要给导歌与本地调试用。
-- `data/kuailepu/*.json = 55`
+- `reference/songs/*.json = 60`
+  - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
+- `data/kuailepu/*.json = 54`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -143,8 +143,8 @@
 - `data/kuailepu-runtime` 是生产部署要带上的 raw 数据层。
 - `reference/songs` 是本机 raw 研究层，不等于公开曲库。
 - `data/kuailepu` 只存“导入后的轻量 SongDoc”，不含全部手工 catalog。
-- `songCatalog` 是 `manualSongCatalog + importedSongCatalog` 去重再筛掉 `published: false` 后得到的公开子集。
-- `allSongCatalog` 里仍保留一些旧手工候选或待处理条目，所以比公开曲库多。
+- `songCatalog` 是当前真正对外公开的曲库。
+- `allSongCatalog` 现在已经收口到与公开曲库一致，不再保留无快乐谱 raw JSON 基础的未上线手工候选。
 
 ## 当前前台文案口径
 

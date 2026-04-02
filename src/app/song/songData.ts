@@ -47,16 +47,6 @@ L:1/4
 K:C
 G G A G c B | G G A G d c | G G g e c B A | f f e c d c |]`,
 
-  'aura-lea': `X:1
-T:Aura Lea
-M:4/4
-L:1/4
-K:C
-C|C C D E|F3 F|E E F G|A3 A|
-G G A B|c3 c|B A G F|E3 E|
-C C D E|F3 F|E E F G|A3 A|
-G G A B|c3 c|B A G F|E3 E|`,
-
   'auld-lang-syne': `X:1
 T:Auld Lang Syne
 M:4/4
@@ -155,7 +145,6 @@ export const songTitleMap: Record<string, string> = {
   'mary-lamb': 'Mary Had a Little Lamb',
   'jingle-bells': 'Jingle Bells',
   'happy-birthday': 'Happy Birthday',
-  'aura-lea': 'Aura Lea',
   'auld-lang-syne': 'Auld Lang Syne',
   'scarborough-fair': 'Scarborough Fair',
   'greensleeves': 'Greensleeves',
@@ -174,7 +163,6 @@ export const songMetaMap: Record<string, { key: string; tempo: number }> = {
   'mary-lamb': { key: 'C', tempo: 110 },
   'jingle-bells': { key: 'C', tempo: 130 },
   'happy-birthday': { key: 'C', tempo: 90 },
-  'aura-lea': { key: 'C', tempo: 100 },
   'auld-lang-syne': { key: 'C', tempo: 100 },
   'scarborough-fair': { key: 'C', tempo: 100 },
   'greensleeves': { key: 'C', tempo: 100 },

@@ -2,8 +2,6 @@ const redirects = [
   ['twinkle', 'twinkle-twinkle-little-star'],
   ['mary-lamb', 'mary-had-a-little-lamb'],
   ['sakura', 'sakura-sakura'],
-  ['blue-danube', 'the-blue-danube'],
-  ['battle-hymn', 'battle-hymn-of-the-republic'],
   ['jingle-bells-english', 'jingle-bells'],
   ['silent-night-english', 'silent-night']
 ]

@@ -46,7 +46,6 @@ const SONG_ORDER = [
   'auld-lang-syne',
   'scarborough-fair',
   'mary-lamb',
-  'brahms-lullaby'
 ] as const
 
 export const metadata: Metadata = {
