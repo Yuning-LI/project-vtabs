@@ -174,8 +174,30 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
         </section>
       ) : sortMode === 'az' ? (
         <div className="space-y-8">
+          {groupedSongs.length > 1 ? (
+            <nav
+              aria-label="Jump to song title letter"
+              className="page-warm-panel-soft p-4 md:p-5"
+            >
+              <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                Jump to Letter
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {groupedSongs.map(([letter]) => (
+                  <a
+                    key={letter}
+                    href={`#library-group-${encodeURIComponent(letter)}`}
+                    className="page-warm-pill-muted px-3 py-2 text-sm font-semibold"
+                  >
+                    {letter}
+                  </a>
+                ))}
+              </div>
+            </nav>
+          ) : null}
+
           {groupedSongs.map(([letter, group]) => (
-            <section key={letter}>
+            <section key={letter} id={`library-group-${encodeURIComponent(letter)}`}>
               <div className="mb-3 flex items-center gap-3">
                 <div className="page-warm-pill px-3 py-1 text-xs font-bold uppercase tracking-[0.18em]">
                   {letter}

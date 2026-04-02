@@ -84,6 +84,7 @@
   - 搜索框
   - family filter
   - `Featured` / `A–Z` 切换
+  - `A–Z` 模式下的字母跳转条
   但 song card 仍然只显示歌名，不额外展开摘要。
 - 首页不再区分 `Verified For Playtest` / `Still Pending Review`。
 - 首页不再显示 `pending` / `rechecked` 标签。

@@ -67,6 +67,7 @@
   - title 搜索
   - family filter
   - `Featured` / `A–Z` 浏览切换
+  - `A–Z` 模式下的字母跳转
 
 ## 3. 必读顺序
 

@@ -109,6 +109,7 @@
   - title 搜索
   - family filter
   - `Featured` / `A–Z` 切换
+  - `A–Z` 模式下的字母跳转条
   - song card 仍然只显示歌名
 - Vercel 线上已人工检查通过：
   - `/song/ode-to-joy`
