@@ -65,20 +65,16 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
-    await expect(page.getByRole('link', { name: '12-Hole Ocarina' })).toBeVisible()
-    await expect(page.getByRole('link', { name: '6-Hole Ocarina' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'English Recorder' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'German Recorder' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Tin Whistle' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Letter Notes' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Chart On' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Chart Off' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Compact' })).toBeVisible()
-    await expect(page.getByRole('link', { name: '100%' })).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'One control deck for reading, layout, and practice' })
-    ).toBeVisible()
+    await expect(page.getByRole('region', { name: 'Function Zone' })).toBeVisible()
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
+    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
+    await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('compact')
+    await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('10')
+    await expect(page.getByRole('link', { name: 'Note View: Letter Notes' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
@@ -106,10 +102,8 @@ test.describe('runtime-backed song pages', () => {
     await page.goto('/song/ode-to-joy?instrument=r8b', { waitUntil: 'domcontentloaded' })
 
     await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&note_label_mode=number'
-    )
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
+    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(page.getByText('Play Ode to Joy on English 8-hole recorder')).toBeVisible()
     await expect(
       page.getByRole('heading', { name: 'Can I play Ode to Joy on an English 8-hole recorder?' })
@@ -128,10 +122,8 @@ test.describe('runtime-backed song pages', () => {
     await page.goto('/song/ode-to-joy?instrument=w6', { waitUntil: 'domcontentloaded' })
 
     await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=w6&note_label_mode=number'
-    )
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('w6')
+    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(page.getByText('Play Ode to Joy on Irish tin whistle')).toBeVisible()
     await expect(
       page.getByRole('heading', { name: 'Can I play Ode to Joy on an Irish tin whistle?' })
@@ -162,27 +154,29 @@ test.describe('runtime-backed song pages', () => {
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
     )
 
-    await expect(page.getByRole('link', { name: 'Chart Off' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&show_graph=off&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1u')
+    await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')
+    await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('12')
+    await expect(page.getByRole('link', { name: 'Lyrics: Off' })).toHaveAttribute(
+      'aria-current',
+      'page'
     )
-    await expect(page.getByRole('link', { name: 'Mouthpiece Up' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Lyrics On' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    await expect(page.getByRole('link', { name: 'Measure Numbers: On' })).toHaveAttribute(
+      'aria-current',
+      'page'
     )
-    await expect(page.getByRole('link', { name: 'Numbers Off' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=off&measure_layout=mono&sheet_scale=12'
+
+    await page.getByRole('link', { name: 'Lyrics: On' }).click()
+    await expect(page).toHaveURL(
+      'http://127.0.0.1:3000/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
     )
-    await expect(page.getByRole('link', { name: 'Compact' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=compact&sheet_scale=12'
+
+    await page.goto(
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      { waitUntil: 'domcontentloaded' }
     )
-    await expect(page.getByRole('link', { name: '100%' })).toHaveAttribute(
-      'href',
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=10'
-    )
+    await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')
+    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1u')
 
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
@@ -203,7 +197,7 @@ test.describe('runtime-backed song pages', () => {
       waitUntil: 'domcontentloaded'
     })
 
-    await expect(page.getByRole('link', { name: 'Metronome' })).toBeVisible()
+    await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveValue('metronome')
     await expect(page.getByRole('button', { name: 'Open Metronome' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
@@ -238,7 +232,10 @@ test.describe('runtime-backed song pages', () => {
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&note_label_mode=number'
     )
 
-    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
 
@@ -255,8 +252,11 @@ test.describe('runtime-backed song pages', () => {
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&note_label_mode=number'
     )
 
-    await expect(page.getByRole('link', { name: 'English Recorder' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
+    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
 })

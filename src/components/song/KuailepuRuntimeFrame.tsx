@@ -225,21 +225,16 @@ export default function KuailepuRuntimeFrame({
   return (
     <section className="page-warm-panel relative overflow-hidden">
       {practiceTool === 'metronome' ? (
-        <div className="border-b border-[rgba(154,126,91,0.18)] bg-[linear-gradient(135deg,rgba(255,252,246,0.98)_0%,rgba(250,240,224,0.92)_100%)] px-5 py-4 md:flex md:items-center md:justify-between md:gap-6 md:px-6">
-          <div>
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-stone-500">
-              Practice Tool
-            </p>
-            <h2 className="mt-2 text-lg font-bold text-stone-900">Built-in Metronome</h2>
-            <p className="mt-1 text-sm leading-6 text-stone-700">
-              Open the click track inside the sheet view when you want a steady tempo reference.
-            </p>
-          </div>
+        <div className="border-b border-[rgba(154,126,91,0.18)] bg-[linear-gradient(135deg,rgba(255,252,246,0.98)_0%,rgba(250,240,224,0.92)_100%)] px-4 py-3 md:flex md:items-center md:justify-between md:gap-5 md:px-5">
+          <p className="text-sm leading-6 text-stone-700">
+            <span className="font-semibold text-stone-900">Metronome is ready.</span> Open the
+            click track inside the sheet when you want a steady tempo reference.
+          </p>
           <button
             type="button"
             onClick={openMetronome}
             disabled={isLoading}
-            className="mt-4 inline-flex items-center justify-center rounded-full border border-stone-900 bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)] disabled:cursor-not-allowed disabled:border-stone-300 disabled:bg-stone-200 disabled:text-stone-500 disabled:shadow-none md:mt-0"
+            className="mt-3 inline-flex items-center justify-center rounded-full border border-stone-900 bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_12px_24px_rgba(61,47,34,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_16px_30px_rgba(61,47,34,0.2)] disabled:cursor-not-allowed disabled:border-stone-300 disabled:bg-stone-200 disabled:text-stone-500 disabled:shadow-none md:mt-0"
           >
             Open Metronome
           </button>
