@@ -1057,19 +1057,11 @@ html[data-vtabs-letter-track-pending="1"] #sheet {
 }
 
 #metronome-modal .modal-content {
-  padding: 0.95rem 1rem 1rem !important;
+  padding: 0.8rem 1rem 0.85rem !important;
 }
 
 html[data-vtabs-public-metronome="1"] #metronome-modal {
   display: block !important;
-}
-
-#metronome-modal .row {
-  margin: 0 !important;
-}
-
-#metronome-modal .input-field {
-  margin-top: 0 !important;
 }
 
 #metronome-modal .browser-select {
@@ -1092,51 +1084,78 @@ html[data-vtabs-public-metronome="1"] #metronome-modal {
 #metronome-modal #metronome-beat {
   margin: 0 !important;
   color: #8c5f1f !important;
-  font-size: 1.15rem !important;
+  font-size: 0.82rem !important;
   font-weight: 800 !important;
+  line-height: 1 !important;
 }
 
 #metronome-modal #metronome-play {
-  min-width: 7rem !important;
+  min-width: 6.1rem !important;
+  height: 2.65rem !important;
+  line-height: 2.65rem !important;
+  margin: 0 !important;
   border-radius: 999px !important;
   background: #3d2f22 !important;
   box-shadow: none !important;
 }
 
-.vtabs-public-metronome-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
+.vtabs-public-metronome-toolbar {
+  display: grid;
+  gap: 0.75rem;
+  align-items: end;
 }
 
-.vtabs-public-metronome-heading h2 {
+.vtabs-public-metronome-title {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.vtabs-public-metronome-title h2 {
   margin: 0 !important;
   color: #2f261f !important;
   font-size: 1rem !important;
   font-weight: 800 !important;
 }
 
-.vtabs-public-metronome-heading p {
-  margin: 0.2rem 0 0 !important;
-  color: #6c5540 !important;
-  font-size: 0.82rem !important;
-  line-height: 1.45 !important;
+.vtabs-public-metronome-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  min-height: 2.1rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(140, 95, 31, 0.12);
+  color: #8c5f1f;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.vtabs-public-metronome-chip:empty {
+  display: none;
+}
+
+.vtabs-public-metronome-field {
+  display: grid;
+  gap: 0.38rem;
+}
+
+.vtabs-public-metronome-field .input-field {
+  margin: 0 !important;
+}
+
+.vtabs-public-metronome-action {
+  display: flex;
+  align-items: end;
 }
 
 @media (min-width: 768px) {
-  #metronome-modal .row {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
-    gap: 0.9rem;
+  .vtabs-public-metronome-toolbar {
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 0.85rem;
     align-items: end;
-  }
-
-  #metronome-modal .row .col {
-    width: auto !important;
-    margin-left: 0 !important;
-    left: auto !important;
   }
 }
 </style>
@@ -1232,6 +1251,15 @@ function buildRuntimeBridgeScript(
     playButton.textContent = 'Start';
   }
 
+  function setPublicMetronomeBeat(value) {
+    var beat = document.getElementById('metronome-beat');
+    if (!beat) {
+      return;
+    }
+
+    beat.textContent = value ? String(value) : '';
+  }
+
   function localizePublicMetronome() {
     if (!hasPublicMetronome || textMode !== 'english') {
       return;
@@ -1242,7 +1270,40 @@ function buildRuntimeBridgeScript(
       timeSignatureLabel.textContent = 'Time Signature';
     }
 
+    var bpmOptions = {
+      '40': '40 Grave',
+      '46': '46 Largo',
+      '56': '56 Adagio',
+      '60': '60 Larghetto',
+      '66': '66 Andante',
+      '69': '69 Andantino',
+      '88': '88 Moderato',
+      '108': '108 Allegretto',
+      '132': '132 Allegro',
+      '160': '160 Vivace',
+      '184': '184 Presto',
+      '208': '208 Prestissimo'
+    };
+    Array.prototype.slice
+      .call(document.querySelectorAll('#metronome-bpm option'))
+      .forEach(function (option) {
+        var value = option.getAttribute('value') || '';
+        if (bpmOptions[value]) {
+          option.textContent = bpmOptions[value];
+        }
+      });
+
     syncPublicMetronomeButtonLabel();
+  }
+
+  function findMetronomeField(content, inputId) {
+    return (
+      Array.prototype.slice
+        .call(content.querySelectorAll('.input-field'))
+        .find(function (node) {
+          return Boolean(node.querySelector('#' + inputId));
+        }) || null
+    );
   }
 
   function mountPublicMetronomePanel() {
@@ -1262,15 +1323,65 @@ function buildRuntimeBridgeScript(
 
       var content = modal.querySelector('.modal-content');
       if (content) {
-        var heading = document.createElement('div');
-        heading.className = 'vtabs-public-metronome-heading';
-        heading.innerHTML =
-          '<div><h2>Metronome</h2><p>Keep the beat visible without covering the fingering chart.</p></div><p id="metronome-beat" aria-live="polite"></p>';
-        var existingBeat = content.querySelector('#metronome-beat');
-        if (existingBeat) {
-          existingBeat.remove();
+        var timeSignatureField = findMetronomeField(content, 'metronome-time-signature');
+        var bpmField = findMetronomeField(content, 'metronome-bpm');
+        var playButton = content.querySelector('#metronome-play');
+        if (timeSignatureField) {
+          timeSignatureField.classList.add('vtabs-public-metronome-field');
         }
-        content.insertBefore(heading, content.firstChild);
+        if (bpmField) {
+          bpmField.classList.add('vtabs-public-metronome-field');
+        }
+
+        var toolbar = document.createElement('div');
+        toolbar.className = 'vtabs-public-metronome-toolbar';
+
+        var title = document.createElement('div');
+        title.className = 'vtabs-public-metronome-title';
+
+        var titleText = document.createElement('h2');
+        titleText.textContent = 'Metronome';
+        title.appendChild(titleText);
+
+        var beat = document.createElement('p');
+        beat.id = 'metronome-beat';
+        beat.className = 'vtabs-public-metronome-chip';
+        beat.setAttribute('aria-live', 'polite');
+        title.appendChild(beat);
+
+        toolbar.appendChild(title);
+
+        if (timeSignatureField) {
+          toolbar.appendChild(timeSignatureField);
+        }
+
+        if (bpmField) {
+          toolbar.appendChild(bpmField);
+        }
+
+        if (playButton) {
+          var playAction = document.createElement('div');
+          playAction.className = 'vtabs-public-metronome-action';
+          playAction.appendChild(playButton);
+          toolbar.appendChild(playAction);
+        }
+
+        var legacyBeat = content.querySelector('#metronome-beat');
+        if (legacyBeat && legacyBeat !== beat) {
+          legacyBeat.remove();
+        }
+
+        var row = content.querySelector('.row');
+        if (row) {
+          row.remove();
+        }
+
+        var legacyPlayWrapper = content.querySelector('.center-align');
+        if (legacyPlayWrapper) {
+          legacyPlayWrapper.remove();
+        }
+
+        content.insertBefore(toolbar, content.firstChild);
       }
     }
 
@@ -1282,17 +1393,11 @@ function buildRuntimeBridgeScript(
         syncPublicMetronomeButtonLabel();
       };
       window.Metronome.onstop = function () {
-        var beat = document.getElementById('metronome-beat');
-        if (beat) {
-          beat.textContent = '';
-        }
+        setPublicMetronomeBeat('');
         syncPublicMetronomeButtonLabel();
       };
       window.Metronome.onbeat = function (value) {
-        var beat = document.getElementById('metronome-beat');
-        if (beat) {
-          beat.textContent = String(value);
-        }
+        setPublicMetronomeBeat(value);
       };
       syncPublicMetronomeButtonLabel();
     }

@@ -222,7 +222,30 @@ test.describe('runtime-backed song pages', () => {
     await expect(runtime.locator('#metronome-play')).toBeVisible()
     await expect(runtime.getByText('Metronome')).toBeVisible()
     await expect(runtime.getByText('Time Signature')).toBeVisible()
+    await expect(runtime.getByText('BPM')).toBeVisible()
     await expect(runtime.locator('#metronome-play')).toHaveText('Start')
+    await expect(
+      runtime.locator('#metronome-bpm option').filter({ hasText: '40 Grave' })
+    ).toHaveCount(1)
+    await expect(
+      runtime.locator('#metronome-bpm option').filter({ hasText: '60 Larghetto' })
+    ).toHaveCount(1)
+    await expect(
+      runtime.locator('#metronome-bpm option').filter({ hasText: '184 Presto' })
+    ).toHaveCount(1)
+
+    const metronomeDoesNotCoverSheet = await runtime.locator('body').evaluate(() => {
+      const modal = document.getElementById('metronome-modal');
+      const sheet = document.getElementById('sheet');
+      if (!modal || !sheet) {
+        return false;
+      }
+      const modalRect = modal.getBoundingClientRect();
+      const sheetRect = sheet.getBoundingClientRect();
+      return modalRect.bottom <= sheetRect.top + 1;
+    })
+    expect(metronomeDoesNotCoverSheet).toBe(true)
+
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
   })
