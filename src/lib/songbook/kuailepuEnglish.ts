@@ -101,6 +101,8 @@ const INSTRUMENT_NAME_OVERRIDES: Record<string, string> = {
 }
 
 const GRAPH_NAME_OVERRIDES: Record<string, string> = {
+  吹口在下: 'Mouthpiece down',
+  吹口在上: 'Mouthpiece up',
   '吹口在下（推荐）': 'Mouthpiece down (Recommended)',
   '吹口在上（推荐）': 'Mouthpiece up (Recommended)'
 }
@@ -163,7 +165,11 @@ export function translateKuailepuGraphName(value: string | null | undefined) {
 
 export function translateKuailepuFingeringName(value: string | null | undefined) {
   if (!value) return null
-  return FINGERING_NAME_OVERRIDES[value] ?? value
+  return (
+    FINGERING_NAME_OVERRIDES[value] ??
+    translateTubeToneFingeringName(value) ??
+    value
+  )
 }
 
 export function translateKuailepuCommonText(value: string | null | undefined) {
@@ -239,4 +245,24 @@ function normalizeEnglishSpacing(value: string | null | undefined) {
     .replace(/([([{])\s+/g, '$1')
     .replace(/\s+([)\]}])/g, '$1')
     .trim()
+}
+
+function translateTubeToneFingeringName(value: string) {
+  const match = value.match(/^筒音作(低音)?([^()]+)\(([^()]+)\)$/)
+  if (!match) {
+    return null
+  }
+
+  const [, lowRegister, degree, fingeringName] = match
+  const translatedFingering = FINGERING_NAME_OVERRIDES[fingeringName]
+  if (!translatedFingering) {
+    return null
+  }
+
+  const normalizedDegree = degree.trim()
+  if (!normalizedDegree) {
+    return null
+  }
+
+  return `${lowRegister ? 'Tube tone bass ' : 'Tube tone '}${normalizedDegree} (${translatedFingering})`
 }

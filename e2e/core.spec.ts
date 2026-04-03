@@ -137,6 +137,10 @@ test.describe('runtime-backed song pages', () => {
     )
 
     await expectRuntimeSheet(page, 'ode-to-joy')
+
+    const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/ode-to-joy"]`)
+    const visibleText = await runtime.locator('body').innerText()
+    expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({
