@@ -91,7 +91,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The balanced phrase structure makes it useful for tone consistency, moderate finger movement, and phrase-based practice.'
   },
   'amazing-grace': {
-    searchTerms: ['Amazing Grace ocarina tabs', 'Amazing Grace 12-hole ocarina notes'],
+    searchTerms: ['Amazing Grace ocarina tabs', 'Amazing Grace recorder notes'],
     background: 'Amazing Grace is a hymn tune that players often search for as an expressive slow melody, especially when they want a simple note-label version instead of staff notation.',
     practice: 'It works especially well for breath support, legato playing, and shaping longer lyrical phrases on ocarina.'
   },
@@ -116,7 +116,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'Its lyrical contour is especially useful for phrasing, breath planning, and quiet tone control.'
   },
   'auld-lang-syne': {
-    searchTerms: ['Auld Lang Syne ocarina tabs', 'Auld Lang Syne 12-hole ocarina notes'],
+    searchTerms: ['Auld Lang Syne ocarina tabs', 'Auld Lang Syne recorder notes'],
     background: 'Auld Lang Syne is a traditional song strongly associated with New Year celebrations, so it draws steady seasonal search traffic from players who want a quick melody page for countdown and group sing-along use.',
     practice: 'The tune is friendly for group sing-along use and works well for smooth phrase connection.'
   },
@@ -171,7 +171,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The steady phrase flow makes it useful for measured breath control and clean melodic connection.'
   },
   'deck-the-halls': {
-    searchTerms: ['Deck the Halls ocarina tabs', 'Deck the Halls 12-hole ocarina notes'],
+    searchTerms: ['Deck the Halls ocarina tabs', 'Deck the Halls recorder notes'],
     background: 'Deck the Halls is a seasonal favorite with strong holiday search demand for easy melody tabs, quick December practice, and familiar carol playing.',
     practice: 'The tune gives helpful practice in quick but manageable phrase movement and cheerful rhythmic flow.'
   },
@@ -211,7 +211,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It works well for expressive shaping and longer-breath melodic playing.'
   },
   greensleeves: {
-    searchTerms: ['Greensleeves ocarina tabs', 'Greensleeves 12-hole ocarina letter notes'],
+    searchTerms: ['Greensleeves ocarina tabs', 'Greensleeves recorder notes'],
     background: 'Greensleeves is one of the best-known English folk melodies, making it a strong evergreen search term for players who want a lyrical tune with clear note labels.',
     practice: 'Its flowing contour supports breath control, legato playing, and a more expressive folk-song feel.'
   },
