@@ -399,8 +399,8 @@ export function getSongPresentation(
       : hasLyrics(song)
 
   const metaDescription = lyricsAvailable
-    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`
-    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. A clear page for ${profile.searchTerms[0]}.`
+    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]}.`
+    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]}.`
 
   const overview = [
     `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported melody instruments on this page.`,
@@ -442,6 +442,7 @@ export function getSongPresentation(
   const includes = [
     'Letter notes shown by default for fast melody reading',
     'A numbered-notes backup view for cross-checking the same tune',
+    'Switchable instrument views on supported songs without leaving the page',
     `Key ${keyLabel} and ${meterLabel} reference points for phrase planning and breath control`,
     lyricsAvailable
       ? 'Aligned lyrics to support sing-through timing and phrase entry'
@@ -474,7 +475,7 @@ export function getSongPresentation(
 
   return {
     title,
-    subtitle: `${familyLabel} with letter notes, a fingering chart, optional numbered notes, and switchable instrument views.`,
+    subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable instrument views.`,
     metaDescription,
     overview,
     background,
@@ -497,7 +498,7 @@ function buildSearchIntentSentence(input: {
   const familyLabel = input.familyLabel.toLowerCase()
   const difficultyLabel = input.difficultyLabel.toLowerCase()
 
-  return `It works as a ${familyLabel} landing page for players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]} without losing a ${difficultyLabel} reading flow.`
+  return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still keeping a ${difficultyLabel} reading flow for this ${familyLabel} melody.`
 }
 
 function buildLayoutSentence(input: {
@@ -533,7 +534,7 @@ function buildPracticeSupportSentence(input: {
   difficultyLabel: string
 }) {
   if (input.lyricsAvailable) {
-    return 'Aligned lyrics stay close to the melody, which helps with phrase entry, breath timing, and sing-through practice.'
+    return 'When lyrics are visible, they stay close to the melody so phrase entry, breath timing, and sing-through practice remain easy to track.'
   }
 
   if (input.family === 'march' || input.family === 'dance') {
@@ -730,19 +731,19 @@ function getFallbackBackgroundSentence(family: SongFamily, title: string) {
     case 'nursery':
       return `${title} is a familiar nursery song with repeated shapes, so it works naturally as an easy beginner melody page for letter-note reading.`
     case 'holiday':
-      return `${title} is a popular holiday melody with strong seasonal search demand for readable ocarina tabs and sing-along note pages.`
+      return `${title} is a popular holiday melody with strong seasonal search demand for readable melody pages and sing-along note support.`
     case 'hymn':
-      return `${title} is commonly played as a lyrical hymn-style melody, which makes it a strong fit for players searching for slower expressive ocarina music.`
+      return `${title} is commonly played as a lyrical hymn-style melody, which makes it a strong fit for players searching for slower expressive melody reading.`
     case 'march':
       return `${title} has a brighter rhythmic feel than a simple beginner tune, making it useful for players who want a more energetic melody page.`
     case 'dance':
       return `${title} is a dance-driven melody, so players often search for a version that keeps the tune readable without needing staff notation.`
     case 'classical':
-      return `${title} is presented as a melody-first classical theme for players who want a clearer route into a famous tune on 12-hole AC ocarina.`
+      return `${title} is presented as a melody-first classical theme for players who want a clearer route into a famous tune without relying on staff notation.`
     case 'folk':
-      return `${title} is a singable folk-style melody that works well for players searching for lyrical ocarina tabs and readable note labels.`
+      return `${title} is a singable folk-style melody that works well for players searching for lyrical melody notes and readable note labels.`
     default:
-      return `${title} fits well on a melody-first 12-hole AC ocarina page for players who want note labels and fingering support in one place.`
+      return `${title} fits well on a melody-first page for players who want note labels and fingering support in one place.`
   }
 }
 
@@ -763,7 +764,7 @@ function getFallbackPracticeSentence(family: SongFamily) {
     case 'folk':
       return 'It is useful for legato playing, breath planning, and a more vocal melodic style.'
     default:
-      return 'It supports practical day-to-day melody practice on 12-hole AC ocarina.'
+      return 'It supports practical day-to-day melody practice with readable note labels and fingering support.'
   }
 }
 
