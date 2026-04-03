@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "audit:kuailepu-instruments": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-kuailepu-instruments.ts",
     "sync:kuailepu-static": "node scripts/sync-kuailepu-static.mjs",
     "predev": "npm run sync:kuailepu-static",
     "prebuild": "npm run sync:kuailepu-static",
