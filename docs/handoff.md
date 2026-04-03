@@ -4,7 +4,7 @@
 
 ## 1. 项目当前是什么
 
-这是一个面向 Google 搜索流量和 western 用户的 12-hole AC ocarina 曲谱站。
+这是一个面向 Google 搜索流量和 western 用户、以 ocarina 为主并已公开支持 recorder / tin whistle 的 melody song page 站点。
 
 当前产品已经不是“通用乐谱实验场”，而是一个非常明确的业务形态：
 
@@ -82,12 +82,12 @@
   - `r8g` -> `German 8-Hole Recorder`
   - `w6` -> `Irish Tin Whistle`
 - 公开 song page 也已接入一批最小显示开关，继续直接复用快乐谱 runtime 状态：
-  - `Fingering Chart`：开 / 关
-  - `Chart View`：当前乐器有多方向图谱时显示
-  - `Lyrics`：有歌词轨时显示开 / 关
+  - `Fingering Chart`：同一下拉内负责开 / 关，多方向图谱乐器也在这里切方向
+  - `Lyrics`：仅在存在公开可见歌词轨时显示开 / 关
   - `Measure Numbers`：开 / 关
   - `Layout`：`Compact` / `Equal Width`
   - `Zoom`
+  - `Metronome`：开 / 关
 - 这组乐器切换仍然完全走原有公开主链：
   - `/song/<slug>` 页面壳
   - iframe
@@ -107,8 +107,9 @@
   - `o6`
   - `r8b`
   - `r8g`
+  - `w6`
 - 最终结果：
-  - `20 / 20` 组合一致
+  - `25 / 25` 组合一致
   - 说明这批样本下本地公开 runtime 的指法图谱已经与快乐谱 live 页对齐
 - 本轮同时修掉了一处关键默认值问题：
   - 切到 recorder 时，不应继续继承 payload 根层属于默认乐器的 `fingering` / `show_graph`
@@ -119,10 +120,11 @@
   - 默认 canonical 仍收口到 `/song/<slug>`
 - compare / preflight 现已补强到可直接覆盖当前公开乐器集，包括 `w6` 这类不在快乐谱 live 页下拉显式暴露的乐器。
 - 关键做法是对 live 页直接回放 local runtime context，不再继续把 `fingering_index` 等下拉索引硬套到 live 页可见 select。
-- 节拍器恢复可行性已做过一轮本地审计：
-  - `full-template` 下相关脚本与 DOM 实际仍可工作
-  - 当前主要阻断点是我们自己的公开页覆盖样式把 `#metronome-modal` / 菜单入口隐藏了
-  - 这说明节拍器属于“恢复路径相对清晰”的下一梯队能力，但当前还没有公开到前台
+- 节拍器现已按最小改法公开到前台：
+  - 继续复用快乐谱原始 metronome 脚本
+  - 公开页只额外做英文文案与停靠式工具条改造
+  - 工具条会固定插在指法图谱上方，不再以遮挡谱面的弹窗出现
+  - 当前公开可见项只有 `Metronome` On / Off，不再保留泛化的 `Practice Tool` 入口
 
 ## 2. 当前用户已经确认过的业务规则
 
@@ -154,6 +156,9 @@
   - `Irish Tin Whistle`
 - 乐器切换仍然只是同一个 `/song/<slug>` 页面上的 runtime 状态切换，不是新开第二条公开详情页架构。
 - 如果某首歌 raw JSON 未来只支持其中部分公开乐器，前台只显示实际可用项。
+- 纯中文歌词轨默认不对 western 用户显示。
+- 只有存在公开可见歌词轨时，前台才显示 `Lyrics` 开 / 关。
+- 公开页即使手动拼 `show_lyric=on`，也不应重新暴露纯中文歌词。
 - 字母谱休止符使用 `R`。
 - 字母谱延时线保留 `-`。
 - 字母谱换气符号使用西式逗号样式。
@@ -583,10 +588,18 @@
 当前常用覆盖词：
 
 - `song name ocarina tabs`
+- `song name ocarina notes`
+- `song name recorder notes`
+- `song name tin whistle notes`
 - `song name letter notes`
-- `12-hole AC ocarina`
 - `fingering chart`
 - `numbered notation`
+
+补充：
+
+- `presentation.ts` 里的 `searchTerms[0]` 是主搜索词，通常承接 `ocarina tabs`
+- `searchTerms[1]` 是第二搜索词，用来补 `ocarina notes` / `recorder notes` / `tin whistle notes` 这类次意图
+- 当前文案不应再把所有详情页都写成只支持 `12-hole AC ocarina`
 
 ### 13.3 明确禁止
 

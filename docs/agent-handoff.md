@@ -63,24 +63,27 @@
   - `r8g`
   - `w6`
 - 公开 song page 也已支持一批最小显示开关：
-  - `Fingering Chart`
-  - `Chart View`（仅多图谱乐器）
-  - `Lyrics`
+  - `Fingering Chart`（同一下拉也负责多图谱方向切换）
+  - `Lyrics`（仅公开可见歌词）
   - `Measure Numbers`
   - `Layout`
   - `Zoom`
+  - `Metronome`
 - 这组乐器切换仍走同一个 runtime-backed `/song/<slug>` 页面，不存在第二条公开详情页路线。
 - `scripts/audit-kuailepu-instruments.ts` 已可直接审计当前公开曲目的快乐谱乐器支持覆盖率。
 - `docs/instrument-rollout-plan.md` 已记录当前公开顺序与剩余待缓开放的乐器集合。
-- 中国网络下已经做过 5 首样本歌 x 4 个公开乐器的 live-vs-local `number` 模式 SVG hash 对照：
-  - `20 / 20` 组合一致
+- 中国网络下已经做过 5 首样本歌 x 5 个公开乐器的 live-vs-local `number` 模式 SVG hash 对照：
+  - `25 / 25` 组合一致
 - 本轮还修掉了一处默认值继承问题：
   - 显式切换乐器后，不应继续沿用 payload 根层属于默认乐器的 `fingering` / `show_graph`
   - 修复点在 `src/lib/kuailepu/runtime.ts`
 - `w6` 爱尔兰哨笛现已接入前台最小公开乐器集，继续沿用 `?instrument=w6` query state。
 - compare / preflight 现已补到可直接覆盖当前公开乐器集，包括 `w6` 这类不在 live 页下拉显式暴露的乐器。
 - 这条补强依赖“直接回放 live runtime context”，而不是继续把本地下拉索引硬套到 live 页可见 select。
-- 节拍器已完成一轮恢复可行性审计：`full-template` 下脚本与 modal 本体仍能工作，当前主要阻断是公开页覆盖样式与入口隐藏。
+- 节拍器现已公开：
+  - 前台只有 `Metronome` On / Off
+  - 仍复用快乐谱原始 metronome 脚本
+  - 公开页会把它改造成停靠在谱面上方的英文工具条，不再以遮挡谱面的弹窗出现
 
 ## 2. 接手后必须先知道的事
 
@@ -103,6 +106,8 @@
   - `show_measure_num`
   - `measure_layout`
   - `sheet_scale`
+- 公开 song page 还支持 `practice_tool=metronome`。
+- 只有存在公开可见歌词轨时，前台才显示 `Lyrics` 开关；纯中文歌词轨默认隐藏且不应被公开 query 重新暴露。
 - 乐器切换继续走同一个 runtime-backed `/song/<slug>` 页面，不单开旧详情页或其他公开路线。
 - 如果某首歌缺少某个公开乐器，只显示该曲实际支持的选项。
 - 首页 song card 仍然只显示歌名，但首页现已支持：
@@ -297,6 +302,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 - 自然覆盖搜索词
 - 不暴露第三方来源
 - 首页列表只显示歌名
+- 当前常用搜索词不只限于 `ocarina tabs`，还会用第二搜索词补 `ocarina notes`、`recorder notes`、`tin whistle notes`
 
 ## 11. 常见错误心智模型
 

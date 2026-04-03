@@ -1,6 +1,6 @@
 # Project V-Tabs
 
-面向 Google / western 用户的 12-hole AC ocarina 曲谱站。当前公开站点的默认详情页已经收敛到快乐谱兼容 runtime 路线，默认显示字母谱，简谱作为可选阅读模式保留。
+面向 Google / western 用户、以 ocarina 为主并已公开支持 recorder / tin whistle 的 melody song page 站点。当前公开站点的默认详情页已经收敛到快乐谱兼容 runtime 路线，默认显示字母谱，简谱作为可选阅读模式保留。
 
 ## 交接优先读
 
@@ -164,12 +164,12 @@
 - 这是面向英语用户的更直白文案。
 - `numbered notation` 仍可作为内部描述或 SEO 背景词，但当前前台主操作文案优先用 `numbered notes`。
 - 公开 song page 现已支持最小显示开关：
-  - `Fingering Chart`：`Chart On` / `Chart Off`
-  - `Chart View`：仅在当前乐器存在多图谱方向时显示
-  - `Lyrics`：有歌词轨时显示 `Lyrics On` / `Lyrics Off`
-  - `Measure Numbers`：`Numbers On` / `Numbers Off`
+  - `Fingering Chart`：同一下拉框内负责 `Chart On` / `Chart Off`，多图谱乐器也在这里切方向
+  - `Lyrics`：仅在存在公开可见歌词轨时显示 `On` / `Off`
+  - `Measure Numbers`：`On` / `Off`
   - `Layout`：`Compact` / `Equal Width`
   - `Zoom`：复用快乐谱原有 `sheet_scale`
+  - `Metronome`：`On` / `Off`
 - 公开 song page 现已支持最小公开乐器切换：
   - 默认 `o12`：`12-Hole AC Ocarina`
   - 可选 `o6`：`6-Hole Ocarina`
@@ -203,12 +203,13 @@
   - `scarborough-fair`
   - `jingle-bells`
   - `fur-elise`
-- 检查维度为 4 个公开乐器：
+- 检查维度为 5 个公开乐器：
   - `o12`
   - `o6`
   - `r8b`
   - `r8g`
-- 最终结果为 `20 / 20` 组合一致，说明当前公开多乐器页在这批样本下的指法图谱与快乐谱 live 页一致。
+  - `w6`
+- 最终结果为 `25 / 25` 组合一致，说明当前公开多乐器页在这批样本下的指法图谱与快乐谱 live 页一致。
 - 本轮还修掉了一处多乐器默认值问题：
   - 显式切换乐器后，不应继续沿用 payload 根层原本属于默认乐器的 `fingering` / `show_graph`
   - 修复点在 `src/lib/kuailepu/runtime.ts`
@@ -216,7 +217,19 @@
   - 非默认乐器使用 `?instrument=<id>`
   - 默认 `o12` 仍不写 query
   - canonical 仍收口到 `/song/<slug>`
-- `w6` 的中国网络下 live-vs-local parity 仍待补跑；如果要继续发布 gate 校验，需要先切中国 VPN。
+- `w6` 的中国网络下 live-vs-local parity 已补跑通过；当前这批 5 首样本歌在 5 个公开乐器上的组合结果为 `25 / 25` 一致。
+- 公开 song page 的功能区现已收口为“同一页内的 runtime 状态控制”：
+  - 下拉选择：`Instrument`、`Fingering Chart`、`Layout`、`Zoom`
+  - `Fingering Chart` 下拉同时负责开 / 关，以及多图谱乐器的方向选择
+  - 切换按钮：`Note View`、`Lyrics`（仅公开可见歌词）、`Measure Numbers`、`Metronome`
+- 节拍器现已公开为内嵌式工具条：
+  - 仍由快乐谱原始 metronome 脚本驱动
+  - 但会停靠在指法图谱上方，不再以遮挡谱面的弹窗出现
+  - `Time Signature`、`BPM`、`Start` / `Stop` 等可见文案已统一为英文
+- 纯中文歌词轨当前遵守产品层隐藏规则：
+  - 默认不显示中文歌词
+  - 前台也不显示 `Lyrics` 开关
+  - 即使手动拼 `show_lyric=on`，公开页也不应重新暴露纯中文歌词
 
 ## 这次收口前的待提交内容
 
@@ -526,9 +539,15 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - 文案目标是 SEO landing page，而不是写乐理文章。
 - 关键词应自然覆盖：
   - `ocarina tabs`
+  - `ocarina notes`
+  - `recorder notes`
+  - `tin whistle notes`
   - `letter notes`
-  - `12-hole AC`
   - `fingering chart`
+- 详情页文案现在不应再把站点写成只支持 `12-hole AC ocarina` 的单乐器产品。
+- `presentation.ts` 里的 `searchTerms` 现已按“主词 + 次词”收口：
+  - `searchTerms[0]` 通常是主查询，例如 `song name ocarina tabs`
+  - `searchTerms[1]` 用来覆盖第二搜索意图，例如 `song name recorder notes` 或 `song name ocarina notes`
 - 禁止在前台写：
   - “参考了快乐谱”
   - “来源是快乐谱”

@@ -15,6 +15,21 @@
 - 默认阅读模式是字母谱
 - 简谱是可选模式
 - 详情页文案已切换到英文 SEO landing page 形态
+- 公开 song page 现已支持最小多乐器切换：
+  - `o12`
+  - `o6`
+  - `r8b`
+  - `r8g`
+  - `w6`
+- 公开 song page 现已支持最小功能区：
+  - `Instrument`
+  - `Fingering Chart`（同一下拉也负责多图谱方向切换）
+  - `Layout`
+  - `Zoom`
+  - `Note View`
+  - `Lyrics`（仅公开可见歌词）
+  - `Measure Numbers`
+  - `Metronome`
 - 公开 runtime 现在额外有一层最小公开资产 profile：
   - `public-song` 默认只保留 6 个脚本
   - `full-template` 作为恢复与排障入口
@@ -61,6 +76,7 @@
 - 直接复用简谱那一轨
 - 用字母覆盖数字
 - 保留指法图、歌词、结构和节拍位置
+- 纯中文歌词轨默认不公开显示，也不在前台暴露歌词开关
 - 不改源数据
 
 ### 3.1 当前字母谱语义
@@ -102,6 +118,11 @@
 - 继续细化 `presentation.ts` 里的 song-specific profile
 - 保持英文、自然、不暴露第三方来源
 - 让每首 song page 都更像独立 landing page
+- 继续使用“主搜索词 + 第二搜索词”结构覆盖：
+  - `ocarina tabs`
+  - `ocarina notes`
+  - `recorder notes`
+  - `tin whistle notes`
 - 继续把 sitemap / robots / canonical 保持在简单、可部署、可自动更新的 App Router metadata routes 上
 
 ### 4.4 流程工程化
@@ -117,8 +138,8 @@
 - 给 compare 流程加更清晰的 machine-readable 报告
 - 补更多 runtime smoke tests
 - 优化字母谱在极长标签下的排版策略
-- 增加更明确的歌词可见性策略配置
-- 给首页增加 A-Z 或搜索视图
+- 继续收口歌词可见性策略与 song-specific 规则
+- 继续细化功能区信息密度和交互层级
 - 对公开页最小脚本集继续做更激进删减
 
 当前理由：
@@ -169,7 +190,9 @@
 2. `letter` 模式下不能压坏歌词和指法图
 3. 首页和详情页前台文案继续保持英文
 4. 前台不出现第三方来源披露
-5. 发布前仍可通过 compare gate
+5. 纯中文歌词轨不应被公开歌词开关或 query 重新暴露
+6. 节拍器打开后不应遮挡指法图
+7. 发布前仍可通过 compare gate
 
 ## 8. 当前 roadmap 的风险提示
 
