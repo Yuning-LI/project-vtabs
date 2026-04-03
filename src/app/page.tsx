@@ -3,51 +3,6 @@ import LibraryBrowser from '@/components/library/LibraryBrowser'
 import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
-/**
- * 首页策展顺序，不是字母序，也不是数据库自然顺序。
- *
- * 业务原因：
- * - 这个站当前阶段更像“对外首发展示页”，不是资料库索引页
- * - 首页默认目标是提高首批欧美用户的识别度和点击率
- * - 所以排序优先级是“高认知 / 高搜索 / 高点击潜力”而不是字母序
- *
- * 后续如果要做搜索或 A-Z 浏览，再另做二级视图；
- * 不要把首页默认排序直接改回 alphabetic。
- */
-const SONG_ORDER = [
-  'happy-birthday',
-  'twinkle',
-  'frere-jacques',
-  'london-bridge',
-  'old-macdonald',
-  'do-your-ears-hang-low',
-  'jingle-bells',
-  'deck-the-halls',
-  'silent-night',
-  'we-wish-you-a-merry-christmas',
-  'amazing-grace',
-  'ode-to-joy',
-  'yankee-doodle',
-  'greensleeves',
-  'red-river-valley',
-  'canon',
-  'can-can',
-  'fur-elise',
-  'moonlight-sonata',
-  'minuet-in-g',
-  'air-on-the-g-string',
-  'god-rest-you-merry-gentlemen',
-  'scotland-the-brave',
-  'santa-lucia',
-  'long-long-ago',
-  'were-you-there',
-  'wedding-march',
-  'schubert-serenade',
-  'auld-lang-syne',
-  'scarborough-fair',
-  'mary-lamb',
-] as const
-
 export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Letter Tabs, Numbered Notes & Fingering Charts',
   description:
@@ -72,13 +27,7 @@ export const metadata: Metadata = {
  * - 避免首页变成信息过载的半详情页
  */
 export default function Home() {
-  const featuredSongs = [
-    ...SONG_ORDER.map(id => songCatalog.find(song => song.id === id)).filter(
-      (song): song is (typeof songCatalog)[number] => Boolean(song)
-    ),
-    ...songCatalog.filter(song => !SONG_ORDER.includes(song.id as (typeof SONG_ORDER)[number]))
-  ]
-  const librarySongs = featuredSongs.map((song, index) => {
+  const librarySongs = songCatalog.map((song, index) => {
     const presentation = getSongPresentation(song)
 
     return {
@@ -86,7 +35,7 @@ export default function Home() {
       slug: song.slug,
       title: presentation.title,
       familyLabel: presentation.familyLabel,
-      featuredRank: index
+      featuredRank: index + 1
     }
   })
   const familyFilters = [

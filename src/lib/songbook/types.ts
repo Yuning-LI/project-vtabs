@@ -17,6 +17,16 @@ export type SongReview = {
   note: string
 }
 
+export type PublicSongFamily =
+  | 'nursery'
+  | 'folk'
+  | 'classical'
+  | 'holiday'
+  | 'hymn'
+  | 'march'
+  | 'dance'
+  | 'song'
+
 export type SongDoc = {
   id: string
   slug: string

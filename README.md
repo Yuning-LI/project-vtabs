@@ -141,6 +141,8 @@
   - 当前真正对外公开的 song pages 数量。
 - `allSongCatalog.length = 60`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
+- `data/songbook/public-song-manifest.json = 60`
+  - 当前公开内容层 manifest 数量。
 - `data/kuailepu-runtime/*.json = 60`
   - 当前生产可部署的快乐谱 raw JSON 数量。
 - `reference/songs/*.json = 60`
@@ -153,8 +155,24 @@
 - `data/kuailepu-runtime` 是生产部署要带上的 raw 数据层。
 - `reference/songs` 是本机 raw 研究层，不等于公开曲库。
 - `data/kuailepu` 只存“导入后的轻量 SongDoc”，不含全部手工 catalog。
-- `songCatalog` 是当前真正对外公开的曲库。
+- `songCatalog` 是 dedupe 后的总曲库再叠加 `data/songbook/public-song-manifest.json` 得到的最终公开视图。
 - `allSongCatalog` 现在已经收口到与公开曲库一致，不再保留无快乐谱 raw JSON 基础的未上线手工候选。
+
+## 当前文件优先内容层
+
+从 2026-04-03 这轮开始，项目的“公开内容层”开始明确收口到文件化 manifest，而不是继续把 publish/order/family 状态散落在页面代码里。
+
+- `data/songbook/public-song-manifest.json`
+  - 当前公开内容层真相文件。
+  - 负责：
+    - 哪些歌公开
+    - 首页策展顺序
+    - 歌曲 family 分类
+- `src/lib/songbook/publicManifest.ts`
+  - 读取并归一化这份 manifest。
+  - 给 `catalog.ts`、`presentation.ts`、首页和脚本层提供统一入口。
+
+当前还没有把所有 SEO 长文案都迁进数据文件；现阶段先把最容易漂移、又最常改的公开状态和排序收口到 manifest，`presentation.ts` 仍保留代码兜底。
 
 ## 当前前台文案口径
 
@@ -341,10 +359,14 @@
 - 曲库与导入层：
   - `src/lib/songbook/catalog.ts`
   - `src/lib/songbook/importedCatalog.ts`
+  - `src/lib/songbook/publicManifest.ts`
   - `src/lib/songbook/kuailepuImport.ts`
   - `data/kuailepu/*.json`
+  - `data/songbook/public-song-manifest.json`
 - runtime 校验脚本：
   - `scripts/sync-kuailepu-static.mjs`
+  - `scripts/validate-content.ts`
+  - `scripts/doctor-song.ts`
 - SEO / indexing 基础层：
   - `src/app/sitemap.ts`
   - `src/app/robots.ts`
@@ -385,6 +407,13 @@ http://127.0.0.1:3000
 - 直接看 runtime：
   - `http://127.0.0.1:3000/api/kuailepu-runtime/we-wish-you-a-merry-christmas`
 
+常用内容脚本：
+
+- `npm run validate:content`
+  - 校验公开 manifest、SongDoc 与 deployable raw JSON 是否一致。
+- `npm run doctor:song -- <slug-or-id>`
+  - 快速查看单曲的公开状态、manifest、歌词可见性、公开乐器和 SEO 基本信息。
+
 ## 快乐谱登录态与本地数据
 
 本机忽略目录：
@@ -411,10 +440,12 @@ http://127.0.0.1:3000
 可提交数据：
 
 - `data/kuailepu/*.json`
+- `data/songbook/public-song-manifest.json`
 
 它们用于：
 
 - 站点 song catalog
+- 公开状态 / 首页排序 / family 分类
 - SEO 文案输入
 - 首页与详情页路由元数据
 

@@ -1,14 +1,5 @@
-import type { SongDoc } from './types'
-
-type SongFamily =
-  | 'nursery'
-  | 'folk'
-  | 'classical'
-  | 'holiday'
-  | 'hymn'
-  | 'march'
-  | 'dance'
-  | 'song'
+import { resolvePublicSongFamily } from './publicManifest.ts'
+import type { PublicSongFamily, SongDoc } from './types'
 
 export type SongPresentation = {
   title: string
@@ -59,7 +50,7 @@ const TITLE_OVERRIDES: Record<string, string> = {
   'wedding-march-alt': 'Wedding March (Alternate Setting)'
 }
 
-const FAMILY_LABELS: Record<SongFamily, string> = {
+const FAMILY_LABELS: Record<PublicSongFamily, string> = {
   nursery: 'Nursery Rhyme',
   folk: 'Folk Song',
   classical: 'Classical Melody',
@@ -505,7 +496,7 @@ function buildSearchIntentSentence(input: {
 }
 
 function buildLayoutSentence(input: {
-  family: SongFamily
+  family: PublicSongFamily
   lyricsAvailable: boolean
 }) {
   if (input.lyricsAvailable) {
@@ -532,7 +523,7 @@ function buildLayoutSentence(input: {
 }
 
 function buildPracticeSupportSentence(input: {
-  family: SongFamily
+  family: PublicSongFamily
   lyricsAvailable: boolean
   difficultyLabel: string
 }) {
@@ -552,7 +543,7 @@ function buildPracticeSupportSentence(input: {
 }
 
 function buildNoteViewFaqAnswer(input: {
-  family: SongFamily
+  family: PublicSongFamily
   lyricsAvailable: boolean
   difficultyLabel: string
 }) {
@@ -604,7 +595,16 @@ function getDisplaySongTitle(song: SongDoc) {
   return song.title
 }
 
-function getSongFamily(slug: string): SongFamily {
+function getSongFamily(slug: string): PublicSongFamily {
+  const manifestFamily = resolvePublicSongFamily(slug)
+  if (manifestFamily) {
+    return manifestFamily
+  }
+
+  return getLegacySongFamily(slug)
+}
+
+function getLegacySongFamily(slug: string): PublicSongFamily {
   if (
     [
       'twinkle-twinkle-little-star',
@@ -711,7 +711,7 @@ function getSongFamily(slug: string): SongFamily {
   return 'song'
 }
 
-function getSongSeoProfile(slug: string, title: string, family: SongFamily): SongSeoProfile {
+function getSongSeoProfile(slug: string, title: string, family: PublicSongFamily): SongSeoProfile {
   const profile = SONG_SEO_PROFILES[slug]
   if (profile) {
     return profile
@@ -729,7 +729,7 @@ function getSongSeoProfile(slug: string, title: string, family: SongFamily): Son
   }
 }
 
-function getFallbackBackgroundSentence(family: SongFamily, title: string) {
+function getFallbackBackgroundSentence(family: PublicSongFamily, title: string) {
   switch (family) {
     case 'nursery':
       return `${title} is a familiar nursery song with repeated shapes, so it works naturally as an easy beginner melody page for letter-note reading.`
@@ -750,7 +750,7 @@ function getFallbackBackgroundSentence(family: SongFamily, title: string) {
   }
 }
 
-function getFallbackPracticeSentence(family: SongFamily) {
+function getFallbackPracticeSentence(family: PublicSongFamily) {
   switch (family) {
     case 'nursery':
       return 'It is especially friendly for first-note reading, repetition drills, and easy breath changes.'

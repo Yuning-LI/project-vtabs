@@ -144,8 +144,13 @@
 - `data/kuailepu/*.json`
   - 可提交轻量 SongDoc
   - catalog / metadata / SEO 主要读这个
+- `data/songbook/public-song-manifest.json`
+  - 当前公开内容层真相文件
+  - 负责 publish / featured 排序 / family
 - `src/lib/kuailepu/runtime.ts`
   - 当前 runtime 兼容和字母谱覆盖层核心
+- `src/lib/songbook/publicManifest.ts`
+  - 读取 public manifest，给 catalog / 首页 / presentation / 脚本层复用
 - `src/components/song/KuailepuLegacyRuntimePage.tsx`
   - 详情页外壳，不是 runtime 本体
 - `src/components/song/KuailepuRuntimeFrame.tsx`
@@ -156,6 +161,10 @@
   - 公开页最小资产 profile、保留资产和恢复路径说明
 - `src/lib/songbook/presentation.ts`
   - 详情页英文 SEO 文案生成器，不是谱面真相
+- `scripts/validate-content.ts`
+  - 校验 public manifest、SongDoc 与 deployable raw JSON 是否一致
+- `scripts/doctor-song.ts`
+  - 快速输出单曲公开状态、公开乐器、歌词可见性和 SEO 摘要
 - `src/app/sitemap.ts`
   - sitemap 真相层，直接列出公开 song pages
 - `src/app/robots.ts`
@@ -318,6 +327,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 - 公开 song pages：60
 - 全部候选：60
+- public manifest：60
 - raw JSON：60
 - 可提交轻量导入：54
 

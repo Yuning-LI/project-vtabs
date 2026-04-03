@@ -8,9 +8,9 @@ import {
   translateKuailepuGraphName,
   translateKuailepuInstrumentName,
   translateKuailepuPersonName
-} from '../songbook/kuailepuEnglish'
-import { resolveKuailepuRuntimeArchivePath } from './archiveFiles'
-import { resolveKuailepuRuntimeSongPath } from './sourceFiles'
+} from '../songbook/kuailepuEnglish.ts'
+import { resolveKuailepuRuntimeArchivePath } from './archiveFiles.ts'
+import { resolveKuailepuRuntimeSongPath } from './sourceFiles.ts'
 
 /**
  * 这里定义的是“站点外壳传给快乐谱兼容 runtime 的状态”。

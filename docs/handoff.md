@@ -277,6 +277,8 @@
   - 当前公开 song pages 数。
 - `allSongCatalog.length = 60`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
+- `data/songbook/public-song-manifest.json = 60`
+  - 当前公开内容 manifest 数量。
 - `data/kuailepu-runtime/*.json = 60`
   - 当前生产可部署 raw JSON 数量。
 - `reference/songs/*.json = 60`
@@ -286,7 +288,7 @@
 
 为什么数量会不一致：
 
-- `songCatalog` 是最终公开视图。
+- `songCatalog` 是 dedupe 后的总曲库再叠加 `data/songbook/public-song-manifest.json` 得到的最终公开视图。
 - `allSongCatalog` 现在已与公开视图对齐，不再保留无快乐谱 raw JSON 基础的未上线手工候选。
 - `data/kuailepu-runtime` 是生产 raw 真相层，数量不要求等于公开数。
 - `reference/songs` 是本地导歌 / 调试层，不要求等于公开数。
@@ -323,14 +325,20 @@
 
 - `src/lib/songbook/catalog.ts`
   - 手工 catalog + 导入 catalog 去重后的总入口。
+  - 公开 songCatalog 还会继续叠加 public manifest。
 - `src/lib/songbook/importedCatalog.ts`
   - 读取 `data/kuailepu/*.json`。
+- `src/lib/songbook/publicManifest.ts`
+  - 读取 `data/songbook/public-song-manifest.json`。
+  - 负责统一公开状态、首页排序、family 分类。
 - `src/lib/songbook/kuailepuImport.ts`
   - 把快乐谱 payload 转成轻量 SongDoc。
 - `data/kuailepu-runtime/*.json`
   - 生产可部署的完整 raw JSON。
 - `data/kuailepu/*.json`
   - 可提交的轻量数据。
+- `data/songbook/public-song-manifest.json`
+  - 当前文件优先的公开内容层真相文件。
 - `reference/songs/*.json`
   - 本地导歌 / 调试 fallback。
 
@@ -355,6 +363,10 @@
   - 检查快乐谱 Playwright 登录态是否还有效。
 - `scripts/sync-kuailepu-static.mjs`
   - 在 `dev` / `build` / `start` 前同步 `public/k-static`。
+- `scripts/validate-content.ts`
+  - 校验 public manifest、SongDoc、deployable raw JSON 之间是否一致。
+- `scripts/doctor-song.ts`
+  - 快速输出单曲公开状态、歌词可见性、公开乐器、SEO 基本信息。
 - `scripts/login-kuailepu.ts`
   - 建立或刷新登录态。
 - `scripts/search-kuailepu-song.ts`
@@ -698,6 +710,7 @@
 - `AGENTS.md` 已经把“新对话先读哪些文档”和“加歌或上线前先跑什么”写成仓库级指引。
 - 对 Codex 类代码代理来说，这会显著提高新对话自动按顺序接手的概率。
 - 但这依然是仓库内约束，不是平台级强制；如果未来换别的工具或模型，仍建议人工先确认它有没有按顺序读。
+- 如果任务涉及公开状态、首页排序、family 分类，不要先去翻首页代码；先看 `data/songbook/public-song-manifest.json`。
 
 ## 17. 当前交接前还值得做什么
 

@@ -1,5 +1,6 @@
 import type { SongDoc } from '@/lib/songbook/types'
 import { importedSongCatalog } from './importedCatalog.ts'
+import { isPublicSongPublished, sortSongDocsByPublicManifest } from './publicManifest.ts'
 
 /**
  * 曲库主数据文件。
@@ -409,7 +410,9 @@ export const allSongCatalog: SongDoc[] = dedupeSongCatalog([
   ...importedSongCatalog
 ])
 
-export const songCatalog: SongDoc[] = allSongCatalog.filter(song => song.published !== false)
+export const songCatalog: SongDoc[] = sortSongDocsByPublicManifest(
+  allSongCatalog.filter(song => isPublicSongPublished(song))
+)
 export const songCatalogMap = Object.fromEntries(songCatalog.map(song => [song.id, song]))
 export const songCatalogBySlug = Object.fromEntries(songCatalog.map(song => [song.slug, song]))
 
