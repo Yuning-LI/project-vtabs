@@ -69,6 +69,7 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('link', { name: '6-Hole Ocarina' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'English Recorder' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'German Recorder' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Tin Whistle' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Letter Notes' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
@@ -111,6 +112,28 @@ test.describe('runtime-backed song pages', () => {
     await expect(frame).toHaveAttribute(
       'src',
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b'
+    )
+
+    await expectRuntimeSheet(page, 'ode-to-joy')
+  })
+
+  test('tin whistle mode keeps the runtime route and shell copy aligned', async ({ page }) => {
+    await page.goto('/song/ode-to-joy?instrument=w6')
+
+    await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=w6&note_label_mode=number'
+    )
+    await expect(page.getByText('Play Ode to Joy on Irish tin whistle')).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Can I play Ode to Joy on an Irish tin whistle?' })
+    ).toBeVisible()
+
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=w6'
     )
 
     await expectRuntimeSheet(page, 'ode-to-joy')

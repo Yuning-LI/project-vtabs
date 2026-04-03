@@ -80,6 +80,7 @@
   - `o6` -> `6-Hole Ocarina`
   - `r8b` -> `English 8-Hole Recorder`
   - `r8g` -> `German 8-Hole Recorder`
+  - `w6` -> `Irish Tin Whistle`
 - 这组乐器切换仍然完全走原有公开主链：
   - `/song/<slug>` 页面壳
   - iframe
@@ -105,12 +106,11 @@
 - 本轮同时修掉了一处关键默认值问题：
   - 切到 recorder 时，不应继续继承 payload 根层属于默认乐器的 `fingering` / `show_graph`
   - 修复位置在 `src/lib/kuailepu/runtime.ts`
-- `w6` 爱尔兰哨笛目前已确认存在于全部 60 首 deployable raw JSON 中，但还没有公开到前台。
-- 如果下一轮要继续扩公开乐器，当前最自然的候选是 `w6`。
-- 继续推进 `w6` 前，建议顺序：
-  1. 补前台文案 / URL 状态设计
-  2. 做本地 runtime 接入
-  3. 再切中国网络做 live-vs-local parity 校验
+- `w6` 爱尔兰哨笛现已按最小改法接入公开 song page：
+  - 前台标签使用 `Irish Tin Whistle` / `Tin Whistle`
+  - 非默认乐器继续使用 `?instrument=<id>` query state
+  - 默认 canonical 仍收口到 `/song/<slug>`
+- 这轮只完成了本地接入与回归；`w6` 的中国网络下 live-vs-local parity 仍待补跑。
 
 ## 2. 当前用户已经确认过的业务规则
 
@@ -139,6 +139,7 @@
   - `6-Hole Ocarina`
   - `English 8-Hole Recorder`
   - `German 8-Hole Recorder`
+  - `Irish Tin Whistle`
 - 乐器切换仍然只是同一个 `/song/<slug>` 页面上的 runtime 状态切换，不是新开第二条公开详情页架构。
 - 如果某首歌 raw JSON 未来只支持其中部分公开乐器，前台只显示实际可用项。
 - 字母谱休止符使用 `R`。

@@ -168,6 +168,7 @@
   - 可选 `o6`：`6-Hole Ocarina`
   - 可选 `r8b`：`English 8-Hole Recorder`
   - 可选 `r8g`：`German 8-Hole Recorder`
+  - 可选 `w6`：`Irish Tin Whistle`
 - 乐器切换仍走同一条 runtime-backed `/song/<slug>` 主链，不单开旧详情页或新渲染路线。
 - 如果某首歌未来只支持其中部分公开乐器，前台只显示该曲实际支持的乐器选项。
 
@@ -182,11 +183,12 @@
   - `r8g`
   - `w6`
   以及更多快乐谱乐器入口。
-- 其中当前已公开给前台的最小乐器集仍是：
+- 其中当前已公开给前台的最小乐器集现已包括：
   - `o12`
   - `o6`
   - `r8b`
   - `r8g`
+  - `w6`
 - 中国网络下已对 5 首样本歌做 live-vs-local `number` 模式 SVG hash 对照：
   - `ode-to-joy`
   - `twinkle-twinkle-little-star`
@@ -202,10 +204,11 @@
 - 本轮还修掉了一处多乐器默认值问题：
   - 显式切换乐器后，不应继续沿用 payload 根层原本属于默认乐器的 `fingering` / `show_graph`
   - 修复点在 `src/lib/kuailepu/runtime.ts`
-- `w6` 爱尔兰哨笛目前已确认存在于全部 60 首 raw JSON 中，但还没有公开到前台。
-- 下一步优先事项：
-  - 评估是否把 `w6` 作为下一批公开乐器接入现有 song page
-  - 如果继续推进，先做前台英文文案与公开 URL 状态设计，再做中国网络下 parity 校验
+- `w6` 现已按最小公开乐器接入 song page，继续沿用 query state：
+  - 非默认乐器使用 `?instrument=<id>`
+  - 默认 `o12` 仍不写 query
+  - canonical 仍收口到 `/song/<slug>`
+- `w6` 的中国网络下 live-vs-local parity 仍待补跑；如果要继续发布 gate 校验，需要先切中国 VPN。
 
 ## 这次收口前的待提交内容
 

@@ -1,13 +1,13 @@
 import type { SongPresentation } from './presentation'
 
-export type PublicSongInstrumentId = 'o12' | 'o6' | 'r8b' | 'r8g'
+export type PublicSongInstrumentId = 'o12' | 'o6' | 'r8b' | 'r8g' | 'w6'
 
 export type PublicSongInstrument = {
   id: PublicSongInstrumentId
   label: string
   shortLabel: string
   seoLabel: string
-  family: 'ocarina' | 'recorder'
+  family: 'ocarina' | 'recorder' | 'whistle'
 }
 
 type RuntimeInstrumentCarrier = {
@@ -44,6 +44,13 @@ const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] = [
     shortLabel: 'German Recorder',
     seoLabel: 'German 8-hole recorder',
     family: 'recorder'
+  },
+  {
+    id: 'w6',
+    label: 'Irish Tin Whistle',
+    shortLabel: 'Tin Whistle',
+    seoLabel: 'Irish tin whistle',
+    family: 'whistle'
   }
 ] as const
 
@@ -124,22 +131,29 @@ function replaceInstrumentReferences(text: string, instrument: PublicSongInstrum
     .replaceAll(/12-Hole AC Ocarina/g, instrument.label)
     .replaceAll(/12-hole AC/gi, seoLabel)
 
+  return replaceInstrumentFamilyTerms(next, instrument)
+}
+
+function replaceInstrumentFamilyTerms(text: string, instrument: PublicSongInstrument) {
   if (instrument.family === 'ocarina') {
-    return next
+    return text
   }
 
-  next = next
-    .replaceAll(/searchable beginner ocarina tabs/gi, 'searchable beginner recorder notes')
-    .replaceAll(/readable ocarina tabs/gi, 'readable recorder notes')
-    .replaceAll(/beginner ocarina tabs/gi, 'beginner recorder notes')
-    .replaceAll(/ocarina letter notes/gi, 'recorder letter notes')
-    .replaceAll(/ocarina tabs/gi, 'recorder notes')
-    .replaceAll(/ocarina version/gi, 'recorder version')
-    .replaceAll(/ocarina page/gi, 'recorder page')
-    .replaceAll(/on ocarina/gi, `on ${seoLabel}`)
-    .replaceAll(/\bocarina\b/gi, 'recorder')
+  const familyLabel = instrument.family === 'recorder' ? 'recorder' : 'tin whistle'
 
-  return next
+  return text
+    .replaceAll(
+      /searchable beginner ocarina tabs/gi,
+      `searchable beginner ${familyLabel} notes`
+    )
+    .replaceAll(/readable ocarina tabs/gi, `readable ${familyLabel} notes`)
+    .replaceAll(/beginner ocarina tabs/gi, `beginner ${familyLabel} notes`)
+    .replaceAll(/ocarina letter notes/gi, `${familyLabel} letter notes`)
+    .replaceAll(/ocarina tabs/gi, `${familyLabel} notes`)
+    .replaceAll(/ocarina version/gi, `${familyLabel} version`)
+    .replaceAll(/ocarina page/gi, `${familyLabel} page`)
+    .replaceAll(/on ocarina/gi, `on ${instrument.seoLabel}`)
+    .replaceAll(/\bocarina\b/gi, familyLabel)
 }
 
 function getIndefiniteArticle(value: string) {

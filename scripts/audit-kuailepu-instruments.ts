@@ -127,8 +127,8 @@ const summary: InstrumentAuditSummary[] = [...songsByInstrument.entries()]
   })
 
 const launchRecommendation = {
-  recommendedNow: ['o12', 'o6', 'r8b', 'r8g'],
-  recommendedNext: ['w6'],
+  recommendedNow: ['o12', 'o6', 'r8b', 'r8g', 'w6'],
+  recommendedNext: [],
   holdForNow: ['o3', 'a6', 'b6', 'x8', 'x10', 'hx', 'p8', 'h7', 'h9', 'sn', 'none']
 }
 

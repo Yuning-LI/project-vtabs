@@ -88,6 +88,7 @@ const INSTRUMENT_NAME_OVERRIDES: Record<string, string> = {
   六孔陶笛: '6-hole ocarina',
   十二孔陶笛: '12-hole ocarina',
   三管陶笛: 'Triple ocarina',
+  爱尔兰哨笛: 'Irish tin whistle',
   六筒陶笛APP: '6-tube ocarina app',
   英式八孔竖笛: 'English 8-hole recorder',
   德式八孔竖笛: 'German 8-hole recorder',

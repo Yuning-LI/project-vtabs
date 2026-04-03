@@ -30,12 +30,13 @@
 
 ## Product Recommendation
 
-建议公开上线顺序：
+当前最小公开乐器集已经落地为：
 
-1. `o6` 六孔陶笛
-2. `r8b` 英式八孔竖笛
-3. `r8g` 德式八孔竖笛
-4. `w6` 爱尔兰哨笛
+1. `o12` 十二孔陶笛（默认）
+2. `o6` 六孔陶笛
+3. `r8b` 英式八孔竖笛
+4. `r8g` 德式八孔竖笛
+5. `w6` 爱尔兰哨笛
 
 建议暂缓：
 
@@ -67,7 +68,7 @@
 - sitemap / canonical / 页面定位也会变模糊
 - 用户会误解本站已经从 ocarina-focused library 直接变成“全乐器百科”
 
-## Why These Four
+## Why These Four Plus `w6`
 
 ### `o6`
 
@@ -104,11 +105,11 @@
 
 ## Current Pending Next Step
 
-- `w6` 爱尔兰哨笛目前数据层已具备条件，但还没有公开到前台。
-- 如果下一轮继续推进，优先做：
-  1. song page 的前台 copy / URL 状态设计
-  2. 最小公开切换接入
-  3. 中国网络下的 live-vs-local parity 校验
+- `w6` 爱尔兰哨笛现已按最小改法接入前台：
+  - song page 文案使用 `Irish Tin Whistle` / `Tin Whistle`
+  - 非默认乐器继续走 `?instrument=<id>` query state
+  - 默认 canonical 仍收口到 `/song/<slug>`
+- 当前待补的是中国网络下的 live-vs-local parity 校验。
 
 ## Implementation Rule
 
@@ -132,8 +133,6 @@
 
 下一步先做：
 
-1. song page 最小乐器切换壳
-2. 第一批公开 `o6`
-3. 回归验证后再追加 `r8b`
-4. 再追加 `r8g`
-5. 最后再评估 `w6`
+1. 切中国 VPN
+2. 针对 `w6` 补跑 live-vs-local `number` 模式 parity
+3. 通过后再决定是否把更多快乐谱乐器继续公开
