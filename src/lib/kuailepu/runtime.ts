@@ -114,6 +114,7 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
 
 type KuailepuRuntimeTextMode = 'source' | 'english'
 type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
+type KuailepuRuntimePublicFeature = 'metronome'
 
 let cachedTemplateHtml: string | null = null
 
@@ -228,6 +229,7 @@ export function buildKuailepuRuntimeHtml(input: {
   letterTrack?: KuailepuLetterTrackData | null
   textMode?: KuailepuRuntimeTextMode | null
   assetProfile?: KuailepuRuntimeAssetProfileName | null
+  publicFeatures?: KuailepuRuntimePublicFeature[] | null
   preferredEnglishTitle?: string | null
   preferredEnglishSubtitle?: string | null
 }) {
@@ -242,6 +244,7 @@ export function buildKuailepuRuntimeHtml(input: {
   )
   const letterTrack = input.letterTrack ?? null
   const assetProfile = input.assetProfile ?? 'public-song'
+  const publicFeatures = new Set(input.publicFeatures ?? [])
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeForInlineScript(payload)
   const template = getKuailepuHtmlTemplate()
@@ -268,7 +271,7 @@ export function buildKuailepuRuntimeHtml(input: {
       .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
       .replace(
         /<\/head>/i,
-        `${buildRuntimeOverrideStyle()}${buildRuntimePendingScript(letterTrack)}</head>`
+        `${buildRuntimeOverrideStyle(publicFeatures)}${buildRuntimePendingScript(letterTrack)}</head>`
       )
       .replace(
         /<\/body>/i,
@@ -973,7 +976,28 @@ function escapeHtml(value: string) {
  * 真正的完整谱面高度仍然依赖 bridge script 回传给父页面，
  * 所以这里关掉内层纵向滚动不会裁掉内容，只会避免 iframe 自己再出现一层滚动。
  */
-function buildRuntimeOverrideStyle() {
+function buildRuntimeOverrideStyle(publicFeatures: Set<KuailepuRuntimePublicFeature>) {
+  const hiddenSelectors = [
+    '#header',
+    '#foot',
+    '#menu-modal',
+    '#diaohao-modal',
+    '#play-modal',
+    '#instruments-modal',
+    '#nosound-modal',
+    '#score-modal',
+    '#preload',
+    '.count-down-area',
+    '.fab-wrapper',
+    '#comment-wrapper',
+    '#tags-wrapper',
+    '#media-wrapper'
+  ]
+
+  if (!publicFeatures.has('metronome')) {
+    hiddenSelectors.push('#metronome-modal', '.lean-overlay')
+  }
+
   return `
 <style data-kuailepu-runtime-override>
 html,
@@ -989,20 +1013,7 @@ body {
   min-height: 100vh;
 }
 
-#header,
-#foot,
-#menu-modal,
-#diaohao-modal,
-#play-modal,
-#metronome-modal,
-#preload,
-.lean-overlay,
-.modal,
-.count-down-area,
-.fab-wrapper,
-#comment-wrapper,
-#tags-wrapper,
-#media-wrapper {
+${hiddenSelectors.join(',\n')} {
   display: none !important;
 }
 
@@ -1020,6 +1031,14 @@ body {
 
 html[data-vtabs-letter-track-pending="1"] #sheet {
   opacity: 0 !important;
+}
+
+#metronome-modal {
+  max-width: min(34rem, calc(100vw - 2rem)) !important;
+}
+
+#metronome-modal .modal-content {
+  padding: 1.5rem 1.5rem 1.35rem !important;
 }
 </style>
 `
@@ -1096,6 +1115,38 @@ function buildRuntimeBridgeScript(
 
   function getSheetSvg() {
     return document.querySelector('#sheet svg, #sheet .sheet-svg');
+  }
+
+  function openMetronomeFromPublicPage() {
+    var trigger = document.getElementById('metronome-li');
+    if (trigger && typeof trigger.click === 'function') {
+      trigger.click();
+      return;
+    }
+
+    var modal = document.getElementById('metronome-modal');
+    if (!modal) {
+      return;
+    }
+
+    try {
+      var jq = window.jQuery || window.$;
+      if (jq && typeof jq === 'function') {
+        var modalNode = jq('#metronome-modal');
+        if (modalNode && typeof modalNode.openModal === 'function') {
+          modalNode.openModal({
+            opacity: 0.4,
+            in_duration: 200,
+            out_duration: 100
+          });
+          return;
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to open metronome modal from public page', error);
+    }
+
+    modal.style.display = 'block';
   }
 
   function getLetterTrackAnchors(svg) {
@@ -1800,6 +1851,17 @@ function buildRuntimeBridgeScript(
     }, 80);
   }
 
+  function onParentMessage(event) {
+    var data = event && event.data;
+    if (!data || typeof data !== 'object') {
+      return;
+    }
+
+    if (data.type === 'vtabs-public-metronome-open') {
+      openMetronomeFromPublicPage();
+    }
+  }
+
   function installObservers() {
     if (window.ResizeObserver && document.body) {
       // 这里只监听 body 尺寸变化，不再做额外复杂观察。
@@ -1811,6 +1873,7 @@ function buildRuntimeBridgeScript(
     }
 
     window.addEventListener('resize', requestRedraw);
+    window.addEventListener('message', onParentMessage);
     renderLetterTrack();
     postSize();
   }

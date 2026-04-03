@@ -61,7 +61,7 @@ test.describe('runtime-backed song pages', () => {
       pageErrors.push(error.message)
     })
 
-    await page.goto('/song/ode-to-joy')
+    await page.goto('/song/ode-to-joy', { waitUntil: 'domcontentloaded' })
 
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
@@ -76,6 +76,9 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('link', { name: 'Chart Off' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Compact' })).toBeVisible()
     await expect(page.getByRole('link', { name: '100%' })).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'One control deck for reading, layout, and practice' })
+    ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
@@ -100,7 +103,7 @@ test.describe('runtime-backed song pages', () => {
   })
 
   test('instrument mode keeps the runtime route and shell copy aligned', async ({ page }) => {
-    await page.goto('/song/ode-to-joy?instrument=r8b')
+    await page.goto('/song/ode-to-joy?instrument=r8b', { waitUntil: 'domcontentloaded' })
 
     await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
@@ -122,7 +125,7 @@ test.describe('runtime-backed song pages', () => {
   })
 
   test('tin whistle mode keeps the runtime route and shell copy aligned', async ({ page }) => {
-    await page.goto('/song/ode-to-joy?instrument=w6')
+    await page.goto('/song/ode-to-joy?instrument=w6', { waitUntil: 'domcontentloaded' })
 
     await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
@@ -149,7 +152,8 @@ test.describe('runtime-backed song pages', () => {
 
   test('display controls keep runtime state and links aligned', async ({ page }) => {
     await page.goto(
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      { waitUntil: 'domcontentloaded' }
     )
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
@@ -183,10 +187,50 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
 
+  test('metronome mode keeps the same song page and opens the runtime metronome modal', async ({
+    page
+  }) => {
+    const requestedAssets = new Set<string>()
+    page.on('requestfinished', request => {
+      const url = request.url()
+      if (!url.includes('/k-static/')) {
+        return
+      }
+      requestedAssets.add(new URL(url).pathname)
+    })
+
+    await page.goto('/song/ode-to-joy?practice_tool=metronome', {
+      waitUntil: 'domcontentloaded'
+    })
+
+    await expect(page.getByRole('link', { name: 'Metronome' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Open Metronome' })).toBeVisible()
+
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&public_feature=metronome'
+    )
+
+    await expectRuntimeSheet(page, 'ode-to-joy')
+    expect(requestedAssets.has('/k-static/lib/materialize/0.97.5/js/materialize.min.js')).toBe(
+      true
+    )
+    expect(requestedAssets.has('/k-static/cdn/js/metronome_7124fad0b0.js')).toBe(true)
+
+    await page.getByRole('button', { name: 'Open Metronome' }).click()
+
+    const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/ode-to-joy"]`)
+    await expect(runtime.locator('#metronome-modal')).toBeVisible()
+    await expect(runtime.locator('#metronome-play')).toBeVisible()
+    const visibleText = await runtime.locator('body').innerText()
+    expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
+  })
+
   test('number mode keeps the runtime route and renders the original sheet view', async ({
     page
   }) => {
-    await page.goto('/song/ode-to-joy?note_label_mode=number')
+    await page.goto('/song/ode-to-joy?note_label_mode=number', { waitUntil: 'domcontentloaded' })
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -201,7 +245,9 @@ test.describe('runtime-backed song pages', () => {
   test('instrument and number mode can be combined on the same public song page', async ({
     page
   }) => {
-    await page.goto('/song/ode-to-joy?instrument=r8b&note_label_mode=number')
+    await page.goto('/song/ode-to-joy?instrument=r8b&note_label_mode=number', {
+      waitUntil: 'domcontentloaded'
+    })
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(

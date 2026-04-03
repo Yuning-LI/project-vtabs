@@ -50,6 +50,8 @@ export async function GET(
   }
   const song = songCatalogBySlug[params.id]
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
+  const publicFeatures =
+    searchParams.get('public_feature') === 'metronome' ? (['metronome'] as const) : []
   /**
    * 公开详情页默认走最小公开资产 profile：
    * - 当前不会触发的旧模块脚本默认不注入
@@ -58,7 +60,7 @@ export async function GET(
    * 如果后续需要排查“完整快乐谱模板”行为，允许临时切回 `full-template`。
    */
   const runtimeAssetProfile =
-    searchParams.get('runtime_asset_profile') === 'full-template'
+    searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
       ? 'full-template'
       : 'public-song'
   const presentation = song ? getSongPresentation(song) : null
@@ -84,6 +86,7 @@ export async function GET(
     letterTrack,
     textMode: runtimeTextMode,
     assetProfile: runtimeAssetProfile,
+    publicFeatures: [...publicFeatures],
     preferredEnglishTitle: runtimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
     preferredEnglishSubtitle: null
   })

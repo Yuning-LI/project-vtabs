@@ -56,6 +56,7 @@ export default function SongPage({
     show_measure_num?: string
     measure_layout?: string
     sheet_scale?: string
+    practice_tool?: string
   }
 }) {
   const song = songCatalogBySlug[params.id]
@@ -97,7 +98,8 @@ export default function SongPage({
     showLyric: normalizeToggleParam(searchParams?.show_lyric),
     showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
     measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
-    sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList)
+    sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList),
+    practiceTool: normalizePracticeTool(searchParams?.practice_tool)
   }
   const effectiveState = resolveKuailepuRuntimeState(runtimePayload, {
     instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
@@ -208,4 +210,12 @@ function normalizeSheetScale(value: string | undefined, sheetScaleList: number[]
   }
 
   return /^\d+$/.test(value) ? value : null
+}
+
+function normalizePracticeTool(value: string | undefined) {
+  if (value === 'metronome') {
+    return value
+  }
+
+  return null
 }

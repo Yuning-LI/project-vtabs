@@ -18,6 +18,7 @@ export type PublicSongPageQueryState = {
   showMeasureNum?: 'on' | 'off' | null
   measureLayout?: 'compact' | 'mono' | null
   sheetScale?: string | number | null
+  practiceTool?: 'metronome' | null
 }
 
 type RuntimeInstrumentCarrier = {
@@ -121,6 +122,10 @@ export function buildSongPageHref(
 
   if (input.sheetScale !== null && input.sheetScale !== undefined && input.sheetScale !== '') {
     params.set('sheet_scale', String(input.sheetScale))
+  }
+
+  if (input.practiceTool === 'metronome') {
+    params.set('practice_tool', 'metronome')
   }
 
   const query = params.toString()

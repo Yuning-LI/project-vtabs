@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtime'
 import type { SongPresentation } from '@/lib/songbook/presentation'
@@ -20,6 +21,12 @@ type KuailepuLegacyRuntimePageProps = {
   controlConfig: PublicRuntimeControlConfig
   hasLyricToggle: boolean
   state?: KuailepuRuntimeState | null
+}
+
+type ControlLinkOption = {
+  href: string
+  label: string
+  isActive: boolean
 }
 
 /**
@@ -70,6 +77,9 @@ export default function KuailepuLegacyRuntimePage({
   if (state?.note_label_mode && state.note_label_mode !== 'letter') {
     params.set('note_label_mode', state.note_label_mode)
   }
+  if (queryState.practiceTool === 'metronome') {
+    params.set('public_feature', 'metronome')
+  }
 
   const query = params.toString()
   const frameSrc = query
@@ -82,18 +92,22 @@ export default function KuailepuLegacyRuntimePage({
     state?.note_label_mode === 'graph'
       ? state.note_label_mode
       : 'letter'
-  const instrumentLinks = supportedInstruments.map(instrument => ({
-    href: buildSongPageHref({
-      songId,
-      ...queryState,
-      instrumentId: instrument.id,
-      noteLabelMode
-    }),
-    label: instrument.shortLabel,
-    instrumentId: instrument.id
-  }))
+
+  const instrumentLinks = supportedInstruments.map(instrument =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: instrument.id,
+        noteLabelMode
+      }),
+      label: instrument.shortLabel,
+      isActive: instrument.id === activeInstrument.id
+    })
+  )
+
   const modeLinks = [
-    {
+    buildControlOption({
       href: buildSongPageHref({
         songId,
         ...queryState,
@@ -101,9 +115,9 @@ export default function KuailepuLegacyRuntimePage({
         noteLabelMode: 'letter'
       }),
       label: 'Letter Notes',
-      mode: 'letter'
-    },
-    {
+      isActive: noteLabelMode === 'letter'
+    }),
+    buildControlOption({
       href: buildSongPageHref({
         songId,
         ...queryState,
@@ -111,9 +125,149 @@ export default function KuailepuLegacyRuntimePage({
         noteLabelMode: 'number'
       }),
       label: 'Numbered Notes',
-      mode: 'number'
+      isActive: noteLabelMode === 'number'
+    })
+  ]
+
+  const chartVisibilityLinks = ([
+    {
+      label: 'Chart On',
+      value: controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]?.value ?? 'on'
+    },
+    {
+      label: 'Chart Off',
+      value: 'off'
     }
-  ] as const
+  ] as const).map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        showGraph: option.value
+      }),
+      label: option.label,
+      isActive:
+        option.value === 'off'
+          ? controlConfig.activeGraphVisibility === 'off'
+          : controlConfig.activeGraphVisibility === 'on'
+    })
+  )
+
+  const chartViewLinks = controlConfig.graphOptions.map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        showGraph: option.value
+      }),
+      label: option.label,
+      isActive: option.value === controlConfig.activeGraphValue
+    })
+  )
+
+  const lyricLinks = ([
+    { label: 'Lyrics On', value: 'on' },
+    { label: 'Lyrics Off', value: 'off' }
+  ] as const).map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        showLyric: option.value
+      }),
+      label: option.label,
+      isActive: option.value === controlConfig.activeShowLyric
+    })
+  )
+
+  const measureNumberLinks = ([
+    { label: 'Numbers On', value: 'on' },
+    { label: 'Numbers Off', value: 'off' }
+  ] as const).map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        showMeasureNum: option.value
+      }),
+      label: option.label,
+      isActive: option.value === controlConfig.activeShowMeasureNum
+    })
+  )
+
+  const layoutLinks = ([
+    { label: 'Compact', value: 'compact' },
+    { label: 'Equal Width', value: 'mono' }
+  ] as const).map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        measureLayout: option.value
+      }),
+      label: option.label,
+      isActive: option.value === controlConfig.activeMeasureLayout
+    })
+  )
+
+  const zoomLinks = controlConfig.scaleOptions.map(option =>
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        sheetScale: option.value
+      }),
+      label: option.label,
+      isActive: option.value === controlConfig.activeSheetScale
+    })
+  )
+
+  const practiceLinks = [
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        practiceTool: null
+      }),
+      label: 'Practice Off',
+      isActive: queryState.practiceTool !== 'metronome'
+    }),
+    buildControlOption({
+      href: buildSongPageHref({
+        songId,
+        ...queryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode,
+        practiceTool: 'metronome'
+      }),
+      label: 'Metronome',
+      isActive: queryState.practiceTool === 'metronome'
+    })
+  ]
+
+  const setupSummary = [
+    activeInstrument.shortLabel,
+    noteLabelMode === 'number' ? 'Numbered Notes' : 'Letter Notes',
+    controlConfig.activeGraphVisibility === 'off' ? 'Chart Off' : 'Chart On',
+    hasLyricToggle ? (controlConfig.activeShowLyric === 'off' ? 'Lyrics Off' : 'Lyrics On') : null,
+    controlConfig.activeMeasureLayout === 'mono' ? 'Equal Width' : 'Compact',
+    `Zoom ${controlConfig.activeSheetScale}0%`,
+    queryState.practiceTool === 'metronome' ? 'Metronome Ready' : null
+  ].filter((value): value is string => Boolean(value))
 
   return (
     <main className="page-warm-shell">
@@ -139,272 +293,108 @@ export default function KuailepuLegacyRuntimePage({
             <span className="page-warm-pill px-3 py-1">{seo.tempoLabel}</span>
             <span className="page-warm-pill px-3 py-1">{activeInstrument.label}</span>
           </div>
-          <div className="mt-5 flex flex-col gap-4">
-            {instrumentLinks.length > 1 ? (
+
+          <section className="page-control-deck mt-7">
+            <div className="page-control-deck-header">
               <div>
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Instrument
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {instrumentLinks.map(link => {
-                    const isActive = link.instrumentId === activeInstrument.id
-
-                    return (
-                      <Link
-                        key={link.instrumentId}
-                        href={link.href}
-                        className={
-                          isActive
-                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                        }
-                      >
-                        {link.label}
-                      </Link>
-                    )
-                  })}
-                </div>
+                <p className="page-control-eyebrow">Customize This Page</p>
+                <h2 className="mt-2 text-2xl font-bold tracking-tight text-stone-900">
+                  One control deck for reading, layout, and practice
+                </h2>
               </div>
-            ) : null}
-
-            <div>
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Note View
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {modeLinks.map(link => {
-                  const isActive = link.mode === noteLabelMode
-
-                  return (
-                    <Link
-                      key={link.mode}
-                      href={link.href}
-                      className={
-                        isActive
-                          ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                          : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                      }
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                })}
-              </div>
+              <p className="max-w-2xl text-sm leading-7 text-stone-600">
+                Switch instruments, simplify the sheet, and open practice tools without leaving
+                the same song URL.
+              </p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Fingering Chart
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {([
-                    {
-                      label: 'Chart On',
-                      value: controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]?.value ?? 'on'
-                    },
-                    {
-                      label: 'Chart Off',
-                      value: 'off'
-                    }
-                  ] as const).map(option => {
-                    const isActive =
-                      option.value === 'off'
-                        ? controlConfig.activeGraphVisibility === 'off'
-                        : controlConfig.activeGraphVisibility === 'on'
-
-                    return (
-                      <Link
-                        key={option.label}
-                        href={buildSongPageHref({
-                          songId,
-                          ...queryState,
-                          instrumentId: activeInstrument.id,
-                          noteLabelMode,
-                          showGraph: option.value
-                        })}
-                        className={
-                          isActive
-                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                        }
-                      >
-                        {option.label}
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {controlConfig.graphOptions.length > 1 && controlConfig.activeGraphVisibility === 'on' ? (
-                <div>
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                    Chart View
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {controlConfig.graphOptions.map(option => {
-                      const isActive = option.value === controlConfig.activeGraphValue
-
-                      return (
-                        <Link
-                          key={option.value}
-                          href={buildSongPageHref({
-                            songId,
-                            ...queryState,
-                            instrumentId: activeInstrument.id,
-                            noteLabelMode,
-                            showGraph: option.value
-                          })}
-                          className={
-                            isActive
-                              ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                              : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                          }
-                        >
-                          {option.label}
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </div>
-              ) : null}
-
-              {hasLyricToggle ? (
-                <div>
-                  <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                    Lyrics
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {([
-                      { label: 'Lyrics On', value: 'on' },
-                      { label: 'Lyrics Off', value: 'off' }
-                    ] as const).map(option => {
-                      const isActive = option.value === controlConfig.activeShowLyric
-
-                      return (
-                        <Link
-                          key={option.value}
-                          href={buildSongPageHref({
-                            songId,
-                            ...queryState,
-                            instrumentId: activeInstrument.id,
-                            noteLabelMode,
-                            showLyric: option.value
-                          })}
-                          className={
-                            isActive
-                              ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                              : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                          }
-                        >
-                          {option.label}
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </div>
-              ) : null}
-
-              <div>
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Measure Numbers
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {([
-                    { label: 'Numbers On', value: 'on' },
-                    { label: 'Numbers Off', value: 'off' }
-                  ] as const).map(option => {
-                    const isActive = option.value === controlConfig.activeShowMeasureNum
-
-                    return (
-                      <Link
-                        key={option.value}
-                        href={buildSongPageHref({
-                          songId,
-                          ...queryState,
-                          instrumentId: activeInstrument.id,
-                          noteLabelMode,
-                          showMeasureNum: option.value
-                        })}
-                        className={
-                          isActive
-                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                        }
-                      >
-                        {option.label}
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Layout
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {([
-                    { label: 'Compact', value: 'compact' },
-                    { label: 'Equal Width', value: 'mono' }
-                  ] as const).map(option => {
-                    const isActive = option.value === controlConfig.activeMeasureLayout
-
-                    return (
-                      <Link
-                        key={option.value}
-                        href={buildSongPageHref({
-                          songId,
-                          ...queryState,
-                          instrumentId: activeInstrument.id,
-                          noteLabelMode,
-                          measureLayout: option.value
-                        })}
-                        className={
-                          isActive
-                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                        }
-                      >
-                        {option.label}
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-
-              <div className="md:col-span-2">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Zoom
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {controlConfig.scaleOptions.map(option => {
-                    const isActive = option.value === controlConfig.activeSheetScale
-
-                    return (
-                      <Link
-                        key={option.value}
-                        href={buildSongPageHref({
-                          songId,
-                          ...queryState,
-                          instrumentId: activeInstrument.id,
-                          noteLabelMode,
-                          sheetScale: option.value
-                        })}
-                        className={
-                          isActive
-                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                        }
-                      >
-                        {option.label}
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {setupSummary.map(item => (
+                <span key={item} className="page-control-summary-pill">
+                  {item}
+                </span>
+              ))}
             </div>
-          </div>
+
+            <div className="mt-6 grid gap-4 xl:grid-cols-[1.08fr,1fr,0.92fr]">
+              <ControlCard
+                eyebrow="Play Setup"
+                title="Instrument and note system"
+                description="Keep the fingering chart and reading mode aligned to the instrument you are using."
+              >
+                {instrumentLinks.length > 1 ? (
+                  <ControlGroup
+                    label="Instrument"
+                    hint="Swap the chart and fingering system with a shareable page state."
+                    options={instrumentLinks}
+                  />
+                ) : null}
+                <ControlGroup
+                  label="Note View"
+                  hint="Stay in letter notes for fast reading, or switch to numbered notes as a backup view."
+                  options={modeLinks}
+                />
+              </ControlCard>
+
+              <ControlCard
+                eyebrow="Display Layers"
+                title="What stays visible on the sheet"
+                description="Trim support layers when you want a cleaner read, or turn them back on for guidance."
+              >
+                <ControlGroup
+                  label="Fingering Chart"
+                  hint="Keep chart diagrams visible or hide them for a cleaner melody line."
+                  options={chartVisibilityLinks}
+                />
+                {controlConfig.graphOptions.length > 1 && controlConfig.activeGraphVisibility === 'on' ? (
+                  <ControlGroup
+                    label="Chart View"
+                    hint="Choose the chart orientation that matches how you hold the instrument."
+                    options={chartViewLinks}
+                  />
+                ) : null}
+                {hasLyricToggle ? (
+                  <ControlGroup
+                    label="Lyrics"
+                    hint="Hide lyric lines when you only want the fingering and note flow."
+                    options={lyricLinks}
+                  />
+                ) : null}
+                <ControlGroup
+                  label="Measure Numbers"
+                  hint="Turn count markers on for section work or off for a lighter page."
+                  options={measureNumberLinks}
+                />
+              </ControlCard>
+
+              <ControlCard
+                eyebrow="Layout And Practice"
+                title="Reading comfort and tempo support"
+                description="Tune spacing and zoom first, then bring in a click track when you want steady timing."
+              >
+                <ControlGroup
+                  label="Layout"
+                  hint="Compact keeps phrases tighter. Equal width gives each measure the same horizontal space."
+                  options={layoutLinks}
+                />
+                <ControlGroup
+                  label="Zoom"
+                  hint="Adjust the sheet scale without leaving the current song setup."
+                  options={zoomLinks}
+                />
+                <ControlGroup
+                  label="Practice Tools"
+                  hint="Metronome mode loads the full practice layer only when you ask for it."
+                  options={practiceLinks}
+                />
+                {queryState.practiceTool === 'metronome' ? (
+                  <p className="rounded-2xl border border-[rgba(154,126,91,0.18)] bg-[rgba(255,247,237,0.9)] px-4 py-3 text-sm leading-6 text-stone-700">
+                    Metronome mode is ready. Use the sheet toolbar below to open the click track.
+                  </p>
+                ) : null}
+              </ControlCard>
+            </div>
+          </section>
         </section>
 
         <KuailepuRuntimeFrame
@@ -412,6 +402,7 @@ export default function KuailepuLegacyRuntimePage({
           title={title}
           frameSrc={frameSrc}
           loadingId={loadingId}
+          practiceTool={queryState.practiceTool}
         />
 
         <article className="mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
@@ -452,12 +443,76 @@ export default function KuailepuLegacyRuntimePage({
             <section className="page-warm-panel-soft p-6">
               <h2 className="text-xl font-bold text-stone-900">How To Use This Page</h2>
               <p className="mt-3 text-sm leading-6 text-stone-700">
-                Use the default letter-note view for fast reading, switch to numbered notes only when you want a backup reference, and keep the fingering chart visible as you work through each phrase. The layout is built so you can land on the melody and start playing quickly.
+                Use the default letter-note view for fast reading, switch to numbered notes only
+                when you want a backup reference, and keep the fingering chart visible as you work
+                through each phrase. The layout is built so you can land on the melody and start
+                playing quickly.
               </p>
             </section>
           </div>
         </article>
       </div>
     </main>
+  )
+}
+
+function buildControlOption(option: ControlLinkOption) {
+  return option
+}
+
+function ControlCard({
+  eyebrow,
+  title,
+  description,
+  children
+}: {
+  eyebrow: string
+  title: string
+  description: string
+  children: ReactNode
+}) {
+  return (
+    <section className="page-control-card">
+      <p className="page-control-eyebrow">{eyebrow}</p>
+      <h3 className="mt-2 text-xl font-bold tracking-tight text-stone-900">{title}</h3>
+      <p className="mt-2 text-sm leading-6 text-stone-600">{description}</p>
+      <div className="mt-5 grid gap-4">{children}</div>
+    </section>
+  )
+}
+
+function ControlGroup({
+  label,
+  hint,
+  options
+}: {
+  label: string
+  hint: string
+  options: ControlLinkOption[]
+}) {
+  return (
+    <div className="page-control-group">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="page-control-label">{label}</div>
+          <p className="mt-1 text-sm leading-6 text-stone-600">{hint}</p>
+        </div>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {options.map(option => (
+          <Link
+            key={`${label}-${option.label}`}
+            href={option.href}
+            className={
+              option.isActive
+                ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
+                : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
+            }
+          >
+            {option.label}
+          </Link>
+        ))}
+      </div>
+    </div>
   )
 }

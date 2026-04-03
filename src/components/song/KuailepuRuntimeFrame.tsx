@@ -7,6 +7,7 @@ type KuailepuRuntimeFrameProps = {
   title: string
   frameSrc: string
   loadingId: string
+  practiceTool?: 'metronome' | null
 }
 
 /**
@@ -23,7 +24,8 @@ export default function KuailepuRuntimeFrame({
   songId,
   title,
   frameSrc,
-  loadingId
+  loadingId,
+  practiceTool = null
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -206,8 +208,43 @@ export default function KuailepuRuntimeFrame({
     }
   }, [frameSrc, songId])
 
+  function openMetronome() {
+    const frameWindow = frameRef.current?.contentWindow
+    if (!frameWindow || isLoading) {
+      return
+    }
+
+    frameWindow.postMessage(
+      {
+        type: 'vtabs-public-metronome-open'
+      },
+      window.location.origin
+    )
+  }
+
   return (
     <section className="page-warm-panel relative overflow-hidden">
+      {practiceTool === 'metronome' ? (
+        <div className="border-b border-[rgba(154,126,91,0.18)] bg-[linear-gradient(135deg,rgba(255,252,246,0.98)_0%,rgba(250,240,224,0.92)_100%)] px-5 py-4 md:flex md:items-center md:justify-between md:gap-6 md:px-6">
+          <div>
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-stone-500">
+              Practice Tool
+            </p>
+            <h2 className="mt-2 text-lg font-bold text-stone-900">Built-in Metronome</h2>
+            <p className="mt-1 text-sm leading-6 text-stone-700">
+              Open the click track inside the sheet view when you want a steady tempo reference.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={openMetronome}
+            disabled={isLoading}
+            className="mt-4 inline-flex items-center justify-center rounded-full border border-stone-900 bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)] disabled:cursor-not-allowed disabled:border-stone-300 disabled:bg-stone-200 disabled:text-stone-500 disabled:shadow-none md:mt-0"
+          >
+            Open Metronome
+          </button>
+        </div>
+      ) : null}
       {isLoading ? (
         <div
           id={loadingId}
