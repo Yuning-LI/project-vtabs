@@ -131,8 +131,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The melody gives useful work in phrase contrast, pitch awareness, and cleaner transitions than a simple nursery song.'
   },
   'home-sweet-home': {
-    searchTerms: ['Home Sweet Home ocarina tabs', 'Home Sweet Home letter notes'],
-    background: 'Home Sweet Home is a widely known 19th-century song melody that still works well as a lyrical ocarina tune.',
+    searchTerms: ['Home Sweet Home ocarina tabs', 'Home Sweet Home 12-hole ocarina notes'],
+    background: 'Home Sweet Home is a widely known 19th-century song melody that still works well as a lyrical tune for players looking for a calm, old-fashioned melody page.',
     practice: 'This page supports expressive tone, sustained phrases, and moderate breath planning.'
   },
   'yankee-doodle': {
@@ -146,8 +146,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It rewards stronger rhythm, sharper articulation, and more confident finger timing.'
   },
   'air-on-the-g-string': {
-    searchTerms: ['Air on the G String ocarina tabs', 'Bach Air on the G String letter notes'],
-    background: 'Air on the G String is one of Bach\'s most searched lyrical themes, especially for players who want a calm classical melody in a non-staff format.',
+    searchTerms: ['Air on the G String ocarina tabs', 'Bach Air on the G String 12-hole ocarina notes'],
+    background: 'Air on the G String is one of Bach\'s most searched lyrical themes, especially for players who want a calm classical melody in a non-staff, slow-reading format.',
     practice: 'It is well suited to long breath lines, smooth attacks, and even tone color.'
   },
   'american-patrol': {
@@ -201,8 +201,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'Its repeated section design makes it ideal for beginners practicing note recall and phrase repetition.'
   },
   'god-rest-you-merry-gentlemen': {
-    searchTerms: ['God Rest You Merry Gentlemen ocarina tabs', 'God Rest You Merry Gentlemen letter notes'],
-    background: 'God Rest You Merry, Gentlemen is a traditional English Christmas carol with steady seasonal search interest from melody players.',
+    searchTerms: ['God Rest You Merry Gentlemen ocarina tabs', 'God Rest You Merry Gentlemen 12-hole ocarina notes'],
+    background: 'God Rest You Merry, Gentlemen is a traditional English Christmas carol with steady seasonal search interest from melody players who want a darker minor-mode holiday tune.',
     practice: 'The line gives useful practice in phrase weight, minor-mode feeling, and controlled breath placement.'
   },
   'going-home': {
@@ -246,8 +246,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The melody is approachable for first songs while still giving enough motion to feel musical.'
   },
   'londonderry-air': {
-    searchTerms: ['Londonderry Air ocarina tabs', 'Danny Boy melody ocarina'],
-    background: 'Londonderry Air is the melody most players recognise from Danny Boy, making it a strong lyric-style search term for ocarina melody pages.',
+    searchTerms: ['Londonderry Air ocarina tabs', 'Danny Boy melody 12-hole ocarina notes'],
+    background: 'Londonderry Air is the melody most players recognise from Danny Boy, making it a strong lyric-style search term for players who want a slow singable tune with clear fingering support.',
     practice: 'It is especially useful for singing tone, long breath lines, and expressive phrase ends.'
   },
   'long-long-ago': {
@@ -276,8 +276,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is most useful for sustained tone, patient breath timing, and phrase control.'
   },
   'old-folks-at-home': {
-    searchTerms: ['Old Folks at Home ocarina tabs', 'Swanee River ocarina letter notes'],
-    background: 'Old Folks at Home, also known as Swanee River, is a familiar American song melody that fits well on a lyrical ocarina page.',
+    searchTerms: ['Old Folks at Home ocarina tabs', 'Swanee River 12-hole ocarina letter notes'],
+    background: 'Old Folks at Home, also known as Swanee River, is a familiar American song melody that fits well for players looking for a gentle lyrical page with an easy vocal contour.',
     practice: 'It is useful for melody shaping, moderate range movement, and even tone across phrases.'
   },
   'old-macdonald': {
@@ -291,8 +291,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It supports expressive breathing, smoother connection between notes, and a controlled singing tone.'
   },
   'sakura-sakura': {
-    searchTerms: ['Sakura Sakura ocarina tabs', 'Sakura Sakura letter notes'],
-    background: 'Sakura Sakura is a traditional Japanese melody with steady interest from players looking for recognisable world-folk repertoire on ocarina.',
+    searchTerms: ['Sakura Sakura ocarina tabs', 'Sakura Sakura 12-hole ocarina notes'],
+    background: 'Sakura Sakura is a traditional Japanese melody with steady interest from players looking for recognisable world-folk repertoire and a calm pentatonic tune on ocarina.',
     practice: 'It is useful for phrase shape, controlled breath release, and a calm lyrical tone.'
   },
   'red-river-valley': {
@@ -301,17 +301,17 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It works well for legato practice and relaxed phrasing over a familiar song shape.'
   },
   'santa-lucia': {
-    searchTerms: ['Santa Lucia ocarina tabs', 'Santa Lucia letter notes'],
-    background: 'Santa Lucia is a widely recognised song melody that sits well in a lyrical melody-first format for ocarina players.',
+    searchTerms: ['Santa Lucia ocarina tabs', 'Santa Lucia 12-hole ocarina notes'],
+    background: 'Santa Lucia is a widely recognised song melody that sits well in a lyrical melody-first format for players who want a warm, flowing tune they can sing through internally while playing.',
     practice: 'This page supports smooth phrasing, breath control, and a rounded vocal-like tone.'
   },
   'schubert-serenade': {
-    searchTerms: ['Schubert Serenade ocarina tabs', 'Serenade letter notes'],
-    background: 'Schubert Serenade is a popular search target among players looking for a lyrical classical melody rather than a dense score excerpt.',
+    searchTerms: ['Schubert Serenade ocarina tabs', 'Schubert Serenade 12-hole ocarina notes'],
+    background: 'Schubert Serenade is a popular search target among players looking for a lyrical classical melody rather than a dense score excerpt, especially in a singable note-label format.',
     practice: 'It is especially suited to expressive line shaping and patient breath support.'
   },
   'scotland-the-brave': {
-    searchTerms: ['Scotland the Brave ocarina tabs', 'Scotland the Brave letter notes'],
+    searchTerms: ['Scotland the Brave ocarina tabs', 'Scotland the Brave 12-hole ocarina notes'],
     background: 'Scotland the Brave is a bold traditional melody that players often search for as a recognizable patriotic or folk-style theme.',
     practice: 'It encourages stronger pulse, cleaner attacks, and confident melodic projection.'
   },
@@ -374,8 +374,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is useful for steady rhythm, phrase confidence, and performance-oriented repetition.'
   },
   'were-you-there': {
-    searchTerms: ['Were You There ocarina tabs', 'Were You There letter notes'],
-    background: 'Were You There is a spiritual melody that players often want in a simple lyrical format for reflective or church-style playing.',
+    searchTerms: ['Were You There ocarina tabs', 'Were You There 12-hole ocarina notes'],
+    background: 'Were You There is a spiritual melody that players often want in a simple lyrical format for reflective practice, church-style playing, or slower devotional repertoire.',
     practice: 'It is well suited to slow phrasing, breath support, and a more vocal style of tone.'
   },
   'wild-rose': {
