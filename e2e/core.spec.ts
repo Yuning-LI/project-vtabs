@@ -72,6 +72,10 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('link', { name: 'Tin Whistle' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Letter Notes' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Chart On' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Chart Off' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Compact' })).toBeVisible()
+    await expect(page.getByRole('link', { name: '100%' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
@@ -141,6 +145,42 @@ test.describe('runtime-backed song pages', () => {
     const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/ode-to-joy"]`)
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
+  })
+
+  test('display controls keep runtime state and links aligned', async ({ page }) => {
+    await page.goto(
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    )
+
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    )
+
+    await expect(page.getByRole('link', { name: 'Chart Off' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&show_graph=off&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    )
+    await expect(page.getByRole('link', { name: 'Mouthpiece Up' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Lyrics On' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+    )
+    await expect(page.getByRole('link', { name: 'Numbers Off' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=off&measure_layout=mono&sheet_scale=12'
+    )
+    await expect(page.getByRole('link', { name: 'Compact' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=compact&sheet_scale=12'
+    )
+    await expect(page.getByRole('link', { name: '100%' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=10'
+    )
+
+    await expectRuntimeSheet(page, 'ode-to-joy')
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({

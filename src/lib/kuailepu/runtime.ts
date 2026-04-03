@@ -61,7 +61,7 @@ type KuailepuLetterTrackData = {
     | null
 }
 
-type KuailepuRuntimePayload = Record<string, unknown> & {
+export type KuailepuRuntimePayload = Record<string, unknown> & {
   song_name?: string
   alias_name?: string
   song_pinyin?: string
@@ -194,6 +194,31 @@ export function loadKuailepuSongPayload(songId: string) {
   }
 
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
+}
+
+export function resolveKuailepuRuntimeState(
+  payload: KuailepuRuntimePayload,
+  state: KuailepuRuntimeState | null
+) {
+  const resolved = applyRuntimeDefaults(payload, state)
+
+  return {
+    instrument: resolved.instrument ?? null,
+    fingering: resolved.fingering ?? null,
+    fingering_index: resolved.fingering_index ?? null,
+    show_graph: resolved.show_graph ?? null,
+    show_lyric: resolved.show_lyric ?? null,
+    show_measure_num: resolved.show_measure_num ?? null,
+    measure_layout: resolved.measure_layout ?? null,
+    sheet_scale: resolved.sheet_scale ?? null,
+    note_label_mode: state?.note_label_mode ?? null
+  } satisfies KuailepuRuntimeState
+}
+
+export function hasKuailepuLyricContent(
+  payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
+) {
+  return extractPayloadLyricText(payload as KuailepuRuntimePayload).trim().length > 0
 }
 
 export function buildKuailepuRuntimeHtml(input: {

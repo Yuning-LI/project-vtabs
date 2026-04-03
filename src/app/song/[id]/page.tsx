@@ -1,14 +1,20 @@
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
-import { loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
+import {
+  hasKuailepuLyricContent,
+  loadKuailepuSongPayload,
+  resolveKuailepuRuntimeState
+} from '@/lib/kuailepu/runtime'
 import { siteUrl } from '@/lib/site'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
   getSupportedPublicSongInstruments,
-  normalizePublicSongInstrument
+  normalizePublicSongInstrument,
+  type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
+import { buildPublicRuntimeControlConfig } from '@/lib/songbook/publicRuntimeControls'
 
 export const dynamicParams = false
 
@@ -45,6 +51,11 @@ export default function SongPage({
   searchParams?: {
     instrument?: string
     note_label_mode?: string
+    show_graph?: string
+    show_lyric?: string
+    show_measure_num?: string
+    measure_layout?: string
+    sheet_scale?: string
   }
 }) {
   const song = songCatalogBySlug[params.id]
@@ -75,6 +86,42 @@ export default function SongPage({
     supportedInstruments
   )
   const shellSeo = adaptPresentationForInstrument(presentation, activeInstrument)
+  const graphOptions = (runtimePayload.instrumentFingerings ?? [])
+    .find(option => option.instrument === activeInstrument.id)
+    ?.graphList?.map(option => option.value?.trim())
+    .filter((value): value is string => Boolean(value)) ?? []
+  const queryState: PublicSongPageQueryState = {
+    instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
+    noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
+    showGraph: normalizeExplicitShowGraph(searchParams?.show_graph, graphOptions),
+    showLyric: normalizeToggleParam(searchParams?.show_lyric),
+    showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
+    measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
+    sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList)
+  }
+  const effectiveState = resolveKuailepuRuntimeState(runtimePayload, {
+    instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
+    note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode),
+    show_graph: queryState.showGraph ?? null,
+    show_lyric: queryState.showLyric ?? null,
+    show_measure_num: queryState.showMeasureNum ?? null,
+    measure_layout: queryState.measureLayout ?? null,
+    sheet_scale: queryState.sheetScale ?? null
+  })
+  const controlConfig = buildPublicRuntimeControlConfig(
+    runtimePayload,
+    activeInstrument.id,
+    effectiveState
+  )
+  const frameState = {
+    instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
+    note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode),
+    show_graph: queryState.showGraph ?? null,
+    show_lyric: queryState.showLyric ?? null,
+    show_measure_num: queryState.showMeasureNum ?? null,
+    measure_layout: queryState.measureLayout ?? null,
+    sheet_scale: queryState.sheetScale ?? null
+  }
 
   /**
    * 详情页当前只有两个公开阅读模式：
@@ -94,10 +141,10 @@ export default function SongPage({
       seo={shellSeo}
       activeInstrument={activeInstrument}
       supportedInstruments={supportedInstruments}
-      state={{
-        instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
-        note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode)
-      }}
+      state={frameState}
+      queryState={queryState}
+      controlConfig={controlConfig}
+      hasLyricToggle={hasKuailepuLyricContent(runtimePayload)}
     />
   )
 }
@@ -108,4 +155,57 @@ function normalizeNoteLabelMode(value: string | undefined) {
   }
 
   return 'letter'
+}
+
+function normalizeExplicitNoteLabelMode(value: string | undefined) {
+  if (value === 'number' || value === 'graph') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeToggleParam(value: string | undefined) {
+  if (value === 'on' || value === 'off') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeMeasureLayout(value: string | undefined) {
+  if (value === 'compact' || value === 'mono') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeExplicitShowGraph(value: string | undefined, graphOptions: string[]) {
+  if (!value) {
+    return null
+  }
+
+  if (value === 'off') {
+    return value
+  }
+
+  if (value === 'on') {
+    return graphOptions[0] ?? null
+  }
+
+  return graphOptions.includes(value) ? value : null
+}
+
+function normalizeSheetScale(value: string | undefined, sheetScaleList: number[] | undefined) {
+  if (!value) {
+    return null
+  }
+
+  const available = new Set((sheetScaleList ?? []).map(item => String(item)))
+  if (available.size > 0) {
+    return available.has(value) ? value : null
+  }
+
+  return /^\d+$/.test(value) ? value : null
 }

@@ -10,6 +10,16 @@ export type PublicSongInstrument = {
   family: 'ocarina' | 'recorder' | 'whistle'
 }
 
+export type PublicSongPageQueryState = {
+  instrumentId?: PublicSongInstrumentId | null
+  noteLabelMode?: string | null
+  showGraph?: string | null
+  showLyric?: 'on' | 'off' | null
+  showMeasureNum?: 'on' | 'off' | null
+  measureLayout?: 'compact' | 'mono' | null
+  sheetScale?: string | number | null
+}
+
 type RuntimeInstrumentCarrier = {
   instrumentFingerings?: Array<{
     instrument?: string | null
@@ -78,11 +88,11 @@ export function normalizePublicSongInstrument(
   return supported.find(instrument => instrument.id === 'o12') ?? supported[0]
 }
 
-export function buildSongPageHref(input: {
-  songId: string
-  instrumentId?: PublicSongInstrumentId | null
-  noteLabelMode?: string | null
-}) {
+export function buildSongPageHref(
+  input: {
+    songId: string
+  } & PublicSongPageQueryState
+) {
   const params = new URLSearchParams()
 
   if (input.instrumentId && input.instrumentId !== 'o12') {
@@ -91,6 +101,26 @@ export function buildSongPageHref(input: {
 
   if (input.noteLabelMode && input.noteLabelMode !== 'letter') {
     params.set('note_label_mode', input.noteLabelMode)
+  }
+
+  if (input.showGraph) {
+    params.set('show_graph', input.showGraph)
+  }
+
+  if (input.showLyric) {
+    params.set('show_lyric', input.showLyric)
+  }
+
+  if (input.showMeasureNum) {
+    params.set('show_measure_num', input.showMeasureNum)
+  }
+
+  if (input.measureLayout) {
+    params.set('measure_layout', input.measureLayout)
+  }
+
+  if (input.sheetScale !== null && input.sheetScale !== undefined && input.sheetScale !== '') {
+    params.set('sheet_scale', String(input.sheetScale))
   }
 
   const query = params.toString()

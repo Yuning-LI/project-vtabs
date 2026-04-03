@@ -163,6 +163,13 @@
   - `Numbered Notes`
 - 这是面向英语用户的更直白文案。
 - `numbered notation` 仍可作为内部描述或 SEO 背景词，但当前前台主操作文案优先用 `numbered notes`。
+- 公开 song page 现已支持最小显示开关：
+  - `Fingering Chart`：`Chart On` / `Chart Off`
+  - `Chart View`：仅在当前乐器存在多图谱方向时显示
+  - `Lyrics`：有歌词轨时显示 `Lyrics On` / `Lyrics Off`
+  - `Measure Numbers`：`Numbers On` / `Numbers Off`
+  - `Layout`：`Compact` / `Equal Width`
+  - `Zoom`：复用快乐谱原有 `sheet_scale`
 - 公开 song page 现已支持最小公开乐器切换：
   - 默认 `o12`：`12-Hole AC Ocarina`
   - 可选 `o6`：`6-Hole Ocarina`
@@ -170,6 +177,7 @@
   - 可选 `r8g`：`German 8-Hole Recorder`
   - 可选 `w6`：`Irish Tin Whistle`
 - 乐器切换仍走同一条 runtime-backed `/song/<slug>` 主链，不单开旧详情页或新渲染路线。
+- 这批显示开关同样继续走 `/song/<slug>` query state，不单开新页面或客户端自管状态。
 - 如果某首歌未来只支持其中部分公开乐器，前台只显示该曲实际支持的乐器选项。
 
 ## 2026-04-03 多乐器补充状态

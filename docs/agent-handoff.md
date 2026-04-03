@@ -62,6 +62,13 @@
   - `r8b`
   - `r8g`
   - `w6`
+- 公开 song page 也已支持一批最小显示开关：
+  - `Fingering Chart`
+  - `Chart View`（仅多图谱乐器）
+  - `Lyrics`
+  - `Measure Numbers`
+  - `Layout`
+  - `Zoom`
 - 这组乐器切换仍走同一个 runtime-backed `/song/<slug>` 页面，不存在第二条公开详情页路线。
 - `scripts/audit-kuailepu-instruments.ts` 已可直接审计当前公开曲目的快乐谱乐器支持覆盖率。
 - `docs/instrument-rollout-plan.md` 已记录当前公开顺序与剩余待缓开放的乐器集合。
@@ -73,6 +80,7 @@
 - `w6` 爱尔兰哨笛现已接入前台最小公开乐器集，继续沿用 `?instrument=w6` query state。
 - compare / preflight 现已补到可直接覆盖当前公开乐器集，包括 `w6` 这类不在 live 页下拉显式暴露的乐器。
 - 这条补强依赖“直接回放 live runtime context”，而不是继续把本地下拉索引硬套到 live 页可见 select。
+- 节拍器已完成一轮恢复可行性审计：`full-template` 下脚本与 modal 本体仍能工作，当前主要阻断是公开页覆盖样式与入口隐藏。
 
 ## 2. 接手后必须先知道的事
 
@@ -89,6 +97,12 @@
   - `r8b` -> `English 8-Hole Recorder`
   - `r8g` -> `German 8-Hole Recorder`
   - `w6` -> `Irish Tin Whistle`
+- 公开 song page 还支持一批 query-state 显示开关：
+  - `show_graph`
+  - `show_lyric`
+  - `show_measure_num`
+  - `measure_layout`
+  - `sheet_scale`
 - 乐器切换继续走同一个 runtime-backed `/song/<slug>` 页面，不单开旧详情页或其他公开路线。
 - 如果某首歌缺少某个公开乐器，只显示该曲实际支持的选项。
 - 首页 song card 仍然只显示歌名，但首页现已支持：

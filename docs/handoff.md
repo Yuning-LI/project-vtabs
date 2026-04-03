@@ -81,6 +81,13 @@
   - `r8b` -> `English 8-Hole Recorder`
   - `r8g` -> `German 8-Hole Recorder`
   - `w6` -> `Irish Tin Whistle`
+- 公开 song page 也已接入一批最小显示开关，继续直接复用快乐谱 runtime 状态：
+  - `Fingering Chart`：开 / 关
+  - `Chart View`：当前乐器有多方向图谱时显示
+  - `Lyrics`：有歌词轨时显示开 / 关
+  - `Measure Numbers`：开 / 关
+  - `Layout`：`Compact` / `Equal Width`
+  - `Zoom`
 - 这组乐器切换仍然完全走原有公开主链：
   - `/song/<slug>` 页面壳
   - iframe
@@ -112,6 +119,10 @@
   - 默认 canonical 仍收口到 `/song/<slug>`
 - compare / preflight 现已补强到可直接覆盖当前公开乐器集，包括 `w6` 这类不在快乐谱 live 页下拉显式暴露的乐器。
 - 关键做法是对 live 页直接回放 local runtime context，不再继续把 `fingering_index` 等下拉索引硬套到 live 页可见 select。
+- 节拍器恢复可行性已做过一轮本地审计：
+  - `full-template` 下相关脚本与 DOM 实际仍可工作
+  - 当前主要阻断点是我们自己的公开页覆盖样式把 `#metronome-modal` / 菜单入口隐藏了
+  - 这说明节拍器属于“恢复路径相对清晰”的下一梯队能力，但当前还没有公开到前台
 
 ## 2. 当前用户已经确认过的业务规则
 
