@@ -115,7 +115,7 @@
 
 ### 4.3 SEO 内容深化
 
-- 继续细化 `presentation.ts` 里的 song-specific profile
+- 继续细化 `data/songbook/song-seo-profiles.json` 里的 song-specific profile，并保留 `presentation.ts` fallback
 - 保持英文、自然、不暴露第三方来源
 - 让每首 song page 都更像独立 landing page
 - 继续使用“主搜索词 + 第二搜索词”结构覆盖：

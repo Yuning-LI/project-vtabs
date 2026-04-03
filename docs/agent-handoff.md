@@ -147,10 +147,15 @@
 - `data/songbook/public-song-manifest.json`
   - 当前公开内容层真相文件
   - 负责 publish / featured 排序 / family
+- `data/songbook/song-seo-profiles.json`
+  - 当前 song-specific SEO profile 真相文件
+  - 负责 `searchTerms` / `background` / `practice`
 - `src/lib/kuailepu/runtime.ts`
   - 当前 runtime 兼容和字母谱覆盖层核心
 - `src/lib/songbook/publicManifest.ts`
   - 读取 public manifest，给 catalog / 首页 / presentation / 脚本层复用
+- `src/lib/songbook/seoProfiles.ts`
+  - 读取 song SEO profiles，给 presentation / 校验脚本 / doctor 脚本复用
 - `src/components/song/KuailepuLegacyRuntimePage.tsx`
   - 详情页外壳，不是 runtime 本体
 - `src/components/song/KuailepuRuntimeFrame.tsx`
@@ -161,6 +166,7 @@
   - 公开页最小资产 profile、保留资产和恢复路径说明
 - `src/lib/songbook/presentation.ts`
   - 详情页英文 SEO 文案生成器，不是谱面真相
+  - 当前只保留 fallback 生成逻辑
 - `scripts/validate-content.ts`
   - 校验 public manifest、SongDoc 与 deployable raw JSON 是否一致
 - `scripts/doctor-song.ts`
@@ -301,6 +307,8 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 优先看：
 
+- `data/songbook/song-seo-profiles.json`
+- `src/lib/songbook/seoProfiles.ts`
 - `src/lib/songbook/presentation.ts`
 - `src/app/page.tsx`
 - `src/app/layout.tsx`

@@ -160,7 +160,7 @@
 
 ## 当前文件优先内容层
 
-从 2026-04-03 这轮开始，项目的“公开内容层”开始明确收口到文件化 manifest，而不是继续把 publish/order/family 状态散落在页面代码里。
+从 2026-04-03 这轮开始，项目的“公开内容层”开始明确收口到文件化数据，而不是继续把 publish/order/family/SEO profile 状态散落在页面代码里。
 
 - `data/songbook/public-song-manifest.json`
   - 当前公开内容层真相文件。
@@ -171,8 +171,17 @@
 - `src/lib/songbook/publicManifest.ts`
   - 读取并归一化这份 manifest。
   - 给 `catalog.ts`、`presentation.ts`、首页和脚本层提供统一入口。
+- `data/songbook/song-seo-profiles.json`
+  - 当前 song-specific SEO profile 真相文件。
+  - 负责：
+    - `searchTerms`
+    - `background`
+    - `practice`
+- `src/lib/songbook/seoProfiles.ts`
+  - 读取并归一化 song SEO profile。
+  - 给 `presentation.ts`、`validate-content.ts`、`doctor-song.ts` 复用。
 
-当前还没有把所有 SEO 长文案都迁进数据文件；现阶段先把最容易漂移、又最常改的公开状态和排序收口到 manifest，`presentation.ts` 仍保留代码兜底。
+`presentation.ts` 现在只保留 fallback 生成逻辑；如果新歌暂时没配显式 SEO profile，页面不会空掉，但 `validate:content` 会对公开歌曲给出 warning。
 
 ## 当前前台文案口径
 
@@ -360,9 +369,11 @@
   - `src/lib/songbook/catalog.ts`
   - `src/lib/songbook/importedCatalog.ts`
   - `src/lib/songbook/publicManifest.ts`
+  - `src/lib/songbook/seoProfiles.ts`
   - `src/lib/songbook/kuailepuImport.ts`
   - `data/kuailepu/*.json`
   - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
 - runtime 校验脚本：
   - `scripts/sync-kuailepu-static.mjs`
   - `scripts/validate-content.ts`
@@ -441,6 +452,7 @@ http://127.0.0.1:3000
 
 - `data/kuailepu/*.json`
 - `data/songbook/public-song-manifest.json`
+- `data/songbook/song-seo-profiles.json`
 
 它们用于：
 

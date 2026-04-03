@@ -331,6 +331,9 @@
 - `src/lib/songbook/publicManifest.ts`
   - 读取 `data/songbook/public-song-manifest.json`。
   - 负责统一公开状态、首页排序、family 分类。
+- `src/lib/songbook/seoProfiles.ts`
+  - 读取 `data/songbook/song-seo-profiles.json`。
+  - 负责统一 song-specific SEO profile。
 - `src/lib/songbook/kuailepuImport.ts`
   - 把快乐谱 payload 转成轻量 SongDoc。
 - `data/kuailepu-runtime/*.json`
@@ -339,6 +342,8 @@
   - 可提交的轻量数据。
 - `data/songbook/public-song-manifest.json`
   - 当前文件优先的公开内容层真相文件。
+- `data/songbook/song-seo-profiles.json`
+  - 当前文件优先的 song SEO profile 真相文件。
 - `reference/songs/*.json`
   - 本地导歌 / 调试 fallback。
 
@@ -346,6 +351,7 @@
 
 - `src/lib/songbook/presentation.ts`
   - 生成 song page 英文标题、meta、介绍、FAQ。
+  - 当前只保留 fallback 文案生成，不再内嵌整份 song-specific profile 数据。
 - `src/app/page.tsx`
   - 首页 SEO landing page。
 - `src/app/layout.tsx`
