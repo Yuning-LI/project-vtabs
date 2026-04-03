@@ -87,6 +87,29 @@
 - 未来可以单独做一波 tin whistle landing / category expansion
 - 但它比 recorder 更容易牵出新的 SEO 定位问题，所以建议排在 recorder 后面
 
+## 2026-04-03 Validation Update
+
+- 当前公开最小乐器集 `o12 / o6 / r8b / r8g` 已完成一轮中国网络下的 live-vs-local `number` 模式 SVG hash 对照。
+- 抽查样本：
+  - `ode-to-joy`
+  - `twinkle-twinkle-little-star`
+  - `scarborough-fair`
+  - `jingle-bells`
+  - `fur-elise`
+- 检查结果：
+  - 5 首歌 x 4 乐器 = `20 / 20` 组合一致
+- 过程中确认并修掉了一处 runtime 默认值继承问题：
+  - 显式切换乐器时，默认指法与图谱方向应优先从所选乐器自己的 `fingeringSetList` / `graphList` 推导
+  - 不能继续沿用 payload 根层默认乐器的 `fingering` / `show_graph`
+
+## Current Pending Next Step
+
+- `w6` 爱尔兰哨笛目前数据层已具备条件，但还没有公开到前台。
+- 如果下一轮继续推进，优先做：
+  1. song page 的前台 copy / URL 状态设计
+  2. 最小公开切换接入
+  3. 中国网络下的 live-vs-local parity 校验
+
 ## Implementation Rule
 
 如果某首歌未来只支持部分公开乐器：

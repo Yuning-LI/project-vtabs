@@ -54,6 +54,28 @@
   - `webServer` 使用 `port: 3000`
   - `e2e/core.spec.ts` 已改到当前 runtime-backed 流程
 
+## 最新补充（2026-04-03）
+
+- 公开 song page 现在已经支持最小多乐器切换：
+  - `o12`（默认）
+  - `o6`
+  - `r8b`
+  - `r8g`
+- 这组乐器切换仍走同一个 runtime-backed `/song/<slug>` 页面，不存在第二条公开详情页路线。
+- `scripts/audit-kuailepu-instruments.ts` 已可直接审计当前公开曲目的快乐谱乐器支持覆盖率。
+- `docs/instrument-rollout-plan.md` 已记录建议公开顺序：
+  - 先 `o6`
+  - 再 `r8b`
+  - 再 `r8g`
+  - 再评估 `w6`
+- 中国网络下已经做过 5 首样本歌 x 4 个公开乐器的 live-vs-local `number` 模式 SVG hash 对照：
+  - `20 / 20` 组合一致
+- 本轮还修掉了一处默认值继承问题：
+  - 显式切换乐器后，不应继续沿用 payload 根层属于默认乐器的 `fingering` / `show_graph`
+  - 修复点在 `src/lib/kuailepu/runtime.ts`
+- `w6` 爱尔兰哨笛已确认存在于全部 60 首 raw JSON 中，但还没有公开到前台。
+- 下一轮如果继续扩乐器，优先考虑 `w6`，但仍要先做前台 copy / URL 设计，再做中国网络下 parity 校验。
+
 ## 2. 接手后必须先知道的事
 
 - 站点前台目标用户是 Google 来的 western 用户。

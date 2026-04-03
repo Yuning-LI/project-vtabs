@@ -73,6 +73,45 @@
   - 当前 `public-song` 默认已从 28 个模板脚本收缩到 6 个，`full-template` 仍保留完整恢复入口
   - 当前建议先停在这版，不再继续激进扩大 stub 范围
 
+### 1.2 2026-04-03 多乐器最新补充
+
+- 公开 song page 已经支持最小多乐器切换：
+  - `o12` -> `12-Hole AC Ocarina`（默认）
+  - `o6` -> `6-Hole Ocarina`
+  - `r8b` -> `English 8-Hole Recorder`
+  - `r8g` -> `German 8-Hole Recorder`
+- 这组乐器切换仍然完全走原有公开主链：
+  - `/song/<slug>` 页面壳
+  - iframe
+  - deployable raw JSON
+  - 原始 Kuailepu runtime
+- 当前前台不会为缺失乐器的歌曲显示占位按钮；未来如果某首歌只支持其中部分公开乐器，只显示实际支持项。
+- `scripts/audit-kuailepu-instruments.ts` 已加入仓库，可直接盘点当前公开曲目 raw JSON 里的快乐谱乐器支持情况。
+- `docs/instrument-rollout-plan.md` 记录了当前建议公开顺序和为什么不建议一次性把全部快乐谱乐器都放到前台。
+- 中国网络下已对 5 首样本歌做 live-vs-local `number` 模式 SVG hash 对照：
+  - `ode-to-joy`
+  - `twinkle-twinkle-little-star`
+  - `scarborough-fair`
+  - `jingle-bells`
+  - `fur-elise`
+- 每首歌检查：
+  - `o12`
+  - `o6`
+  - `r8b`
+  - `r8g`
+- 最终结果：
+  - `20 / 20` 组合一致
+  - 说明这批样本下本地公开 runtime 的指法图谱已经与快乐谱 live 页对齐
+- 本轮同时修掉了一处关键默认值问题：
+  - 切到 recorder 时，不应继续继承 payload 根层属于默认乐器的 `fingering` / `show_graph`
+  - 修复位置在 `src/lib/kuailepu/runtime.ts`
+- `w6` 爱尔兰哨笛目前已确认存在于全部 60 首 deployable raw JSON 中，但还没有公开到前台。
+- 如果下一轮要继续扩公开乐器，当前最自然的候选是 `w6`。
+- 继续推进 `w6` 前，建议顺序：
+  1. 补前台文案 / URL 状态设计
+  2. 做本地 runtime 接入
+  3. 再切中国网络做 live-vs-local parity 校验
+
 ## 2. 当前用户已经确认过的业务规则
 
 这些不是建议，是当前产品已确认规则：
