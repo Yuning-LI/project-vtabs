@@ -39,7 +39,7 @@ export type SongPresentation = {
  * 当前站点面向 Google / western 用户，因此这里的输出必须满足：
  * - 全英文
  * - 对人类可读，不写明显机器堆词
- * - 但要覆盖高价值搜索意图，例如 `ocarina tabs`、`letter notes`、`12-hole AC`
+ * - 但要覆盖高价值搜索意图，例如 `ocarina tabs`、`ocarina notes`、`recorder notes`
  *
  * 同时，前台禁止出现：
  * - “参考了快乐谱”
@@ -82,7 +82,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
       'Twinkle Twinkle Little Star ocarina tabs',
       'Twinkle Twinkle Little Star recorder notes'
     ],
-    background: 'Twinkle, Twinkle, Little Star is one of the most familiar beginner melodies in the world, so players often look for a version that is easy to scan, easy to memorize, and practical on 12-hole AC ocarina.',
+    background: 'Twinkle, Twinkle, Little Star is one of the most familiar beginner melodies in the world, so players often look for a version that is easy to scan, easy to memorize, and practical on ocarina or recorder.',
     practice: 'Its repeating phrase pattern makes it useful for first-note reading, clean finger changes, and steady beginner breath control.'
   },
   'ode-to-joy': {
@@ -111,7 +111,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The rhythm stays lively without becoming too dense, which makes it useful for holiday practice and confident pulse control.'
   },
   'scarborough-fair': {
-    searchTerms: ['Scarborough Fair ocarina tabs', 'Scarborough Fair 12-hole ocarina notes'],
+    searchTerms: ['Scarborough Fair ocarina tabs', 'Scarborough Fair ocarina notes'],
     background: 'Scarborough Fair is a traditional English ballad melody that players often want in a gentle, singable format with readable note labels instead of staff notation.',
     practice: 'Its lyrical contour is especially useful for phrasing, breath planning, and quiet tone control.'
   },
@@ -126,17 +126,17 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'Its slower pace makes it effective for breath control, tone warmth, and gentle legato playing.'
   },
   'fur-elise': {
-    searchTerms: ['Fur Elise ocarina tabs', 'Fur Elise 12-hole ocarina letter notes'],
+    searchTerms: ['Fur Elise ocarina tabs', 'Fur Elise ocarina letter notes'],
     background: 'Für Elise is one of the most recognisable piano themes ever written, which makes it a strong classical search term for players looking for melody-first tabs they can read quickly.',
     practice: 'The melody gives useful work in phrase contrast, pitch awareness, and cleaner transitions than a simple nursery song.'
   },
   'home-sweet-home': {
-    searchTerms: ['Home Sweet Home ocarina tabs', 'Home Sweet Home 12-hole ocarina notes'],
+    searchTerms: ['Home Sweet Home ocarina tabs', 'Home Sweet Home ocarina notes'],
     background: 'Home Sweet Home is a widely known 19th-century song melody that still works well as a lyrical tune for players looking for a calm, old-fashioned melody page.',
     practice: 'This page supports expressive tone, sustained phrases, and moderate breath planning.'
   },
   'yankee-doodle': {
-    searchTerms: ['Yankee Doodle ocarina tabs', 'Yankee Doodle 12-hole ocarina notes'],
+    searchTerms: ['Yankee Doodle ocarina tabs', 'Yankee Doodle ocarina notes'],
     background: 'Yankee Doodle remains a familiar American tune with simple melodic shapes, making it a natural fit for players searching for beginner-friendly note labels and quick patriotic repertoire.',
     practice: 'It is useful for beginner articulation practice and steady rhythmic reading.'
   },
@@ -146,7 +146,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It rewards stronger rhythm, sharper articulation, and more confident finger timing.'
   },
   'air-on-the-g-string': {
-    searchTerms: ['Air on the G String ocarina tabs', 'Bach Air on the G String 12-hole ocarina notes'],
+    searchTerms: ['Air on the G String ocarina tabs', 'Bach Air on the G String ocarina notes'],
     background: 'Air on the G String is one of Bach\'s most searched lyrical themes, especially for players who want a calm classical melody in a non-staff, slow-reading format.',
     practice: 'It is well suited to long breath lines, smooth attacks, and even tone color.'
   },
@@ -156,7 +156,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It supports pulse control, confident articulation, and more active note changes.'
   },
   arirang: {
-    searchTerms: ['Arirang ocarina tabs', 'Arirang 12-hole ocarina notes'],
+    searchTerms: ['Arirang ocarina tabs', 'Arirang ocarina notes'],
     background: 'Arirang is one of the best-known Korean folk melodies, so it works well as a lyrical world-folk page for players searching beyond the usual nursery repertoire and western holiday tunes.',
     practice: 'It is especially useful for breath planning, legato phrasing, and a more vocal melodic shape.'
   },
@@ -166,7 +166,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is especially practical for seasonal sing-along playing and phrase-based repetition.'
   },
   canon: {
-    searchTerms: ['Canon in D ocarina tabs', 'Canon in D 12-hole ocarina notes'],
+    searchTerms: ['Canon in D ocarina tabs', 'Canon in D ocarina notes'],
     background: 'Canon in D is one of the most searched classical wedding melodies online, so a melody-first fingering page is especially useful for players preparing ceremony-friendly music.',
     practice: 'The steady phrase flow makes it useful for measured breath control and clean melodic connection.'
   },
@@ -201,7 +201,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'Its repeated section design makes it ideal for beginners practicing note recall and phrase repetition.'
   },
   'god-rest-you-merry-gentlemen': {
-    searchTerms: ['God Rest You Merry Gentlemen ocarina tabs', 'God Rest You Merry Gentlemen 12-hole ocarina notes'],
+    searchTerms: ['God Rest You Merry Gentlemen ocarina tabs', 'God Rest You Merry Gentlemen ocarina notes'],
     background: 'God Rest You Merry, Gentlemen is a traditional English Christmas carol with steady seasonal search interest from melody players who want a darker minor-mode holiday tune.',
     practice: 'The line gives useful practice in phrase weight, minor-mode feeling, and controlled breath placement.'
   },
@@ -246,7 +246,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The melody is approachable for first songs while still giving enough motion to feel musical.'
   },
   'londonderry-air': {
-    searchTerms: ['Londonderry Air ocarina tabs', 'Danny Boy melody 12-hole ocarina notes'],
+    searchTerms: ['Londonderry Air ocarina tabs', 'Danny Boy melody ocarina notes'],
     background: 'Londonderry Air is the melody most players recognise from Danny Boy, making it a strong lyric-style search term for players who want a slow singable tune with clear fingering support.',
     practice: 'It is especially useful for singing tone, long breath lines, and expressive phrase ends.'
   },
@@ -266,17 +266,17 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is useful for phrase balance, moderate articulation, and cleaner classical note shaping.'
   },
   'minuet-in-g': {
-    searchTerms: ['Minuet in G ocarina tabs', 'Minuet in G 12-hole ocarina notes'],
+    searchTerms: ['Minuet in G ocarina tabs', 'Minuet in G ocarina notes'],
     background: 'Minuet in G is one of the most searched beginner classical melodies, especially for players moving from simple songs into baroque-style phrasing and cleaner articulation.',
     practice: 'The tune gives manageable classical phrasing without becoming too technically dense.'
   },
   'moonlight-sonata': {
-    searchTerms: ['Moonlight Sonata ocarina tabs', 'Moonlight Sonata 12-hole ocarina notes'],
+    searchTerms: ['Moonlight Sonata ocarina tabs', 'Moonlight Sonata ocarina notes'],
     background: 'Moonlight Sonata is one of Beethoven\'s most recognisable themes, so a clean melody-first page is valuable for searchers who want the theme in a slow, readable format on ocarina.',
     practice: 'It is most useful for sustained tone, patient breath timing, and phrase control.'
   },
   'old-folks-at-home': {
-    searchTerms: ['Old Folks at Home ocarina tabs', 'Swanee River 12-hole ocarina letter notes'],
+    searchTerms: ['Old Folks at Home ocarina tabs', 'Swanee River ocarina letter notes'],
     background: 'Old Folks at Home, also known as Swanee River, is a familiar American song melody that fits well for players looking for a gentle lyrical page with an easy vocal contour.',
     practice: 'It is useful for melody shaping, moderate range movement, and even tone across phrases.'
   },
@@ -291,27 +291,27 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It supports expressive breathing, smoother connection between notes, and a controlled singing tone.'
   },
   'sakura-sakura': {
-    searchTerms: ['Sakura Sakura ocarina tabs', 'Sakura Sakura 12-hole ocarina notes'],
+    searchTerms: ['Sakura Sakura ocarina tabs', 'Sakura Sakura ocarina notes'],
     background: 'Sakura Sakura is a traditional Japanese melody with steady interest from players looking for recognisable world-folk repertoire and a calm pentatonic tune on ocarina.',
     practice: 'It is useful for phrase shape, controlled breath release, and a calm lyrical tone.'
   },
   'red-river-valley': {
-    searchTerms: ['Red River Valley ocarina tabs', 'Red River Valley 12-hole ocarina notes'],
+    searchTerms: ['Red River Valley ocarina tabs', 'Red River Valley ocarina notes'],
     background: 'Red River Valley is a well-known folk and cowboy-style melody with steady search demand from players who want an easy lyrical tune for casual practice and sing-through playing.',
     practice: 'It works well for legato practice and relaxed phrasing over a familiar song shape.'
   },
   'santa-lucia': {
-    searchTerms: ['Santa Lucia ocarina tabs', 'Santa Lucia 12-hole ocarina notes'],
+    searchTerms: ['Santa Lucia ocarina tabs', 'Santa Lucia ocarina notes'],
     background: 'Santa Lucia is a widely recognised song melody that sits well in a lyrical melody-first format for players who want a warm, flowing tune they can sing through internally while playing.',
     practice: 'This page supports smooth phrasing, breath control, and a rounded vocal-like tone.'
   },
   'schubert-serenade': {
-    searchTerms: ['Schubert Serenade ocarina tabs', 'Schubert Serenade 12-hole ocarina notes'],
+    searchTerms: ['Schubert Serenade ocarina tabs', 'Schubert Serenade ocarina notes'],
     background: 'Schubert Serenade is a popular search target among players looking for a lyrical classical melody rather than a dense score excerpt, especially in a singable note-label format.',
     practice: 'It is especially suited to expressive line shaping and patient breath support.'
   },
   'scotland-the-brave': {
-    searchTerms: ['Scotland the Brave ocarina tabs', 'Scotland the Brave 12-hole ocarina notes'],
+    searchTerms: ['Scotland the Brave ocarina tabs', 'Scotland the Brave ocarina notes'],
     background: 'Scotland the Brave is a bold traditional melody that players often search for as a recognizable patriotic or folk-style theme.',
     practice: 'It encourages stronger pulse, cleaner attacks, and confident melodic projection.'
   },
@@ -356,10 +356,7 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It gives extra phrase variety and stronger note-reading demands than the base beginner version.'
   },
   'we-wish-you-a-merry-christmas': {
-    searchTerms: [
-      'We Wish You a Merry Christmas ocarina tabs',
-      'We Wish You a Merry Christmas 12-hole ocarina notes'
-    ],
+    searchTerms: ['We Wish You a Merry Christmas ocarina tabs', 'We Wish You a Merry Christmas ocarina notes'],
     background: 'We Wish You a Merry Christmas is a high-demand seasonal song for school, family, and holiday group playing, especially when players want a tune they can bring into rehearsal quickly.',
     practice: 'It works well for festive rhythm, familiar sing-along phrasing, and practical December practice sessions.'
   },
@@ -369,12 +366,12 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It emphasizes ceremonial pulse, phrase control, and clear note transitions.'
   },
   'wedding-march': {
-    searchTerms: ['Wedding March ocarina tabs', 'Mendelssohn Wedding March 12-hole ocarina notes'],
+    searchTerms: ['Wedding March ocarina tabs', 'Mendelssohn Wedding March ocarina notes'],
     background: 'Wedding March is one of the most recognisable ceremonial melodies, so players often search for a quick melody page they can practice for weddings, recitals, and event-style performance.',
     practice: 'It is useful for steady rhythm, phrase confidence, and performance-oriented repetition.'
   },
   'were-you-there': {
-    searchTerms: ['Were You There ocarina tabs', 'Were You There 12-hole ocarina notes'],
+    searchTerms: ['Were You There ocarina tabs', 'Were You There ocarina notes'],
     background: 'Were You There is a spiritual melody that players often want in a simple lyrical format for reflective practice, church-style playing, or slower devotional repertoire.',
     practice: 'It is well suited to slow phrasing, breath support, and a more vocal style of tone.'
   },
