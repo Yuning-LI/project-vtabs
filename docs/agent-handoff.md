@@ -71,7 +71,8 @@
   - 显式切换乐器后，不应继续沿用 payload 根层属于默认乐器的 `fingering` / `show_graph`
   - 修复点在 `src/lib/kuailepu/runtime.ts`
 - `w6` 爱尔兰哨笛现已接入前台最小公开乐器集，继续沿用 `?instrument=w6` query state。
-- 当前仍未完成 `w6` 的中国网络下 parity 校验；需要切中国 VPN 后再补跑 live-vs-local compare。
+- compare / preflight 现已补到可直接覆盖当前公开乐器集，包括 `w6` 这类不在 live 页下拉显式暴露的乐器。
+- 这条补强依赖“直接回放 live runtime context”，而不是继续把本地下拉索引硬套到 live 页可见 select。
 
 ## 2. 接手后必须先知道的事
 

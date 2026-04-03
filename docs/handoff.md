@@ -110,7 +110,8 @@
   - 前台标签使用 `Irish Tin Whistle` / `Tin Whistle`
   - 非默认乐器继续使用 `?instrument=<id>` query state
   - 默认 canonical 仍收口到 `/song/<slug>`
-- 这轮只完成了本地接入与回归；`w6` 的中国网络下 live-vs-local parity 仍待补跑。
+- compare / preflight 现已补强到可直接覆盖当前公开乐器集，包括 `w6` 这类不在快乐谱 live 页下拉显式暴露的乐器。
+- 关键做法是对 live 页直接回放 local runtime context，不再继续把 `fingering_index` 等下拉索引硬套到 live 页可见 select。
 
 ## 2. 当前用户已经确认过的业务规则
 

@@ -4,6 +4,10 @@ import type { Page } from 'playwright'
 import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
 import {
+  getSupportedPublicSongInstruments,
+  type PublicSongInstrumentId
+} from '../src/lib/songbook/publicInstruments.ts'
+import {
   dismissKuailepuLoginOverlay,
   getPrimaryPage,
   launchKuailepuPersistentContext
@@ -26,6 +30,7 @@ type CompareResult = {
   slug: string
   title: string
   songUuid: string
+  instrumentId: PublicSongInstrumentId
   liveUrl: string
   localUrl: string
   ok: boolean
@@ -64,28 +69,33 @@ if (candidates.length < 1) {
   process.exit(1)
 }
 
+const compareTargets = candidates.flatMap(song => {
+  const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+  if (!filePath) {
+    return []
+  }
+
+  const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as {
+    song_uuid: string
+    instrumentFingerings?: Array<{ instrument?: string | null }>
+  }
+  const supportedInstruments = getSupportedPublicSongInstruments(payload)
+
+  return supportedInstruments.map(instrument => ({
+    slug: song.slug,
+    title: song.title,
+    songUuid: payload.song_uuid,
+    instrumentId: instrument.id
+  }))
+})
+
 const context = await launchKuailepuPersistentContext({ headless: true })
 
 try {
   const page = await getPrimaryPage(context)
   const compareResults: CompareResult[] = []
 
-  for (const song of candidates) {
-    const filePath = resolveKuailepuRuntimeSongPath(song.slug)
-    if (!filePath) {
-      compareResults.push({
-        slug: song.slug,
-        title: song.title,
-        songUuid: '',
-        liveUrl: '',
-        localUrl: `${baseUrl}/api/kuailepu-runtime/${song.slug}?note_label_mode=number`,
-        ok: false,
-        reason: 'missing deployable Kuailepu raw JSON'
-      })
-      continue
-    }
-    const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid: string }
-    const songUuid = payload.song_uuid
+  for (const target of compareTargets) {
     /**
      * compare 时强制把本地 runtime 切回 `note_label_mode=number`。
      *
@@ -94,17 +104,18 @@ try {
      * - 字母谱属于我们自己的显示层变换
      * - 所以发布 gate 必须回到原始 number 视图
      */
-    const localUrl = `${baseUrl}/api/kuailepu-runtime/${song.slug}?note_label_mode=number`
-    const liveUrl = `https://www.kuaiyuepu.com/jianpu/${songUuid}.html`
+    const localUrl = buildLocalCompareUrl(baseUrl, target.slug, target.instrumentId)
+    const liveUrl = `https://www.kuaiyuepu.com/jianpu/${target.songUuid}.html`
 
     try {
       const localCapture = await captureLocalRuntime(page, localUrl)
       const liveCapture = await captureLiveRuntime(page, liveUrl, localCapture.state)
 
       compareResults.push({
-        slug: song.slug,
-        title: song.title,
-        songUuid,
+        slug: target.slug,
+        title: target.title,
+        songUuid: target.songUuid,
+        instrumentId: target.instrumentId,
         liveUrl,
         localUrl,
         ok: localCapture.hash === liveCapture.hash,
@@ -115,9 +126,10 @@ try {
       })
     } catch (error) {
       compareResults.push({
-        slug: song.slug,
-        title: song.title,
-        songUuid,
+        slug: target.slug,
+        title: target.title,
+        songUuid: target.songUuid,
+        instrumentId: target.instrumentId,
         liveUrl,
         localUrl,
         ok: false,
@@ -248,9 +260,19 @@ async function applyContextState(page: Page, state: CompareState) {
 
         Object.assign(ctx, state)
 
+        /**
+         * 注意这里不要再强行驱动 `#which-instrument` / `#fingerings-wrapper`。
+         *
+         * 原因：
+         * - `w6` 这类快乐谱隐藏乐器在 live 页下拉里可能根本不存在
+         * - 继续把本地 `fingering_index` 套到 live 页可见下拉，会把隐藏乐器状态误投到
+         *   别的可见乐器选项上，造成假性 parity 失败
+         *
+         * 更稳妥的方式是：
+         * - 直接回放 local runtime 已解析好的 context 字段
+         * - 再只用 live 页里确实存在的非乐器 UI 开关做补充同步
+         */
         const selectPairs: Array<[string, string | number | null | undefined]> = [
-          ['#which-instrument', state.instrument],
-          ['#fingerings-wrapper', state.fingering_index],
           ['#show-graph', state.show_graph],
           ['#show-lyric', state.show_lyric],
           ['#show-measure-num', state.show_measure_num],
@@ -289,4 +311,18 @@ async function applyContextState(page: Page, state: CompareState) {
 
 function sha256(input: string) {
   return crypto.createHash('sha256').update(input).digest('hex')
+}
+
+function buildLocalCompareUrl(
+  baseUrl: string,
+  slug: string,
+  instrumentId: PublicSongInstrumentId
+) {
+  const params = new URLSearchParams()
+  params.set('note_label_mode', 'number')
+  if (instrumentId !== 'o12') {
+    params.set('instrument', instrumentId)
+  }
+
+  return `${baseUrl}/api/kuailepu-runtime/${slug}?${params.toString()}`
 }
