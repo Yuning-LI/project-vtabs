@@ -80,14 +80,14 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
   'twinkle-twinkle-little-star': {
     searchTerms: [
       'Twinkle Twinkle Little Star ocarina tabs',
-      'Twinkle Twinkle Little Star 12-hole ocarina letter notes'
+      'Twinkle Twinkle Little Star recorder notes'
     ],
     background: 'Twinkle, Twinkle, Little Star is one of the most familiar beginner melodies in the world, so players often look for a version that is easy to scan, easy to memorize, and practical on 12-hole AC ocarina.',
     practice: 'Its repeating phrase pattern makes it useful for first-note reading, clean finger changes, and steady beginner breath control.'
   },
   'ode-to-joy': {
-    searchTerms: ['Ode to Joy ocarina tabs', 'Ode to Joy 12-hole ocarina fingering'],
-    background: 'Ode to Joy is the well-known theme from Beethoven\'s Ninth Symphony, and it remains one of the most searched classical melodies for players who want a readable fingering-first version.',
+    searchTerms: ['Ode to Joy ocarina tabs', 'Ode to Joy recorder notes'],
+    background: 'Ode to Joy is the well-known theme from Beethoven\'s Ninth Symphony, and it remains one of the most searched classical melodies for players who want a readable fingering-first version across simple melody instruments.',
     practice: 'The balanced phrase structure makes it useful for tone consistency, moderate finger movement, and phrase-based practice.'
   },
   'amazing-grace': {
@@ -101,13 +101,13 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The short range and repeated note shapes make it effective for absolute beginners building note recognition.'
   },
   'happy-birthday-to-you': {
-    searchTerms: ['Happy Birthday to You ocarina tabs', 'Happy Birthday 12-hole ocarina letter notes'],
-    background: 'Happy Birthday to You is one of the most recognisable songs on the internet, so players often want a clean ocarina version they can use immediately for real-life playing, parties, and quick requests.',
+    searchTerms: ['Happy Birthday to You ocarina tabs', 'Happy Birthday recorder notes'],
+    background: 'Happy Birthday to You is one of the most recognisable songs on the internet, so players often want a clean melody page they can use immediately on ocarina, recorder, or tin whistle for parties and quick requests.',
     practice: 'This melody is useful for everyday performance practice because it combines familiar phrasing with a few larger note moves.'
   },
   'jingle-bells': {
-    searchTerms: ['Jingle Bells ocarina tabs', 'Jingle Bells 12-hole ocarina notes'],
-    background: 'Jingle Bells is one of the highest-demand Christmas melodies for beginner-friendly letter tabs, fast holiday practice, and family sing-along playing.',
+    searchTerms: ['Jingle Bells ocarina tabs', 'Jingle Bells recorder notes'],
+    background: 'Jingle Bells is one of the highest-demand Christmas melodies for beginner-friendly letter tabs, fast holiday practice, and family sing-along playing across ocarina, recorder, and tin whistle.',
     practice: 'The rhythm stays lively without becoming too dense, which makes it useful for holiday practice and confident pulse control.'
   },
   'scarborough-fair': {
@@ -121,8 +121,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The tune is friendly for group sing-along use and works well for smooth phrase connection.'
   },
   'silent-night': {
-    searchTerms: ['Silent Night ocarina tabs', 'Silent Night 12-hole ocarina notes'],
-    background: 'Silent Night is one of the best-known Christmas carols, and players often search for a calm, readable ocarina version with clear phrasing support for church, school, or home performance.',
+    searchTerms: ['Silent Night ocarina tabs', 'Silent Night recorder notes'],
+    background: 'Silent Night is one of the best-known Christmas carols, and players often search for a calm, readable melody version with clear phrasing support for church, school, or home performance.',
     practice: 'Its slower pace makes it effective for breath control, tone warmth, and gentle legato playing.'
   },
   'fur-elise': {
@@ -405,11 +405,11 @@ export function getSongPresentation(
       : hasLyrics(song)
 
   const metaDescription = lyricsAvailable
-    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]}.`
-    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]}.`
+    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
+    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
 
   const overview = [
-    `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported melody instruments on this page.`,
+    `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported ocarina, recorder, and tin whistle variants on this page.`,
     buildSearchIntentSentence({
       familyLabel,
       difficultyLabel,
@@ -448,7 +448,7 @@ export function getSongPresentation(
   const includes = [
     'Letter notes shown by default for fast melody reading',
     'A numbered-notes backup view for cross-checking the same tune',
-    'Switchable instrument views on supported songs without leaving the page',
+    'Switchable ocarina, recorder, and tin whistle views on supported songs without leaving the page',
     `Key ${keyLabel} and ${meterLabel} reference points for phrase planning and breath control`,
     lyricsAvailable
       ? 'Aligned lyrics to support sing-through timing and phrase entry'
@@ -459,7 +459,7 @@ export function getSongPresentation(
     {
       question: `Can I play ${title} on this page?`,
       answer:
-        `Yes. This ${title} page keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow while letting you switch between the supported instrument views.`
+        `Yes. This ${title} page keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow while letting you switch between the supported ocarina, recorder, and tin whistle views.`
     },
     {
       question: `Which note view should I use for ${title}?`,
@@ -481,7 +481,7 @@ export function getSongPresentation(
 
   return {
     title,
-    subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable instrument views.`,
+    subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.`,
     metaDescription,
     overview,
     background,
