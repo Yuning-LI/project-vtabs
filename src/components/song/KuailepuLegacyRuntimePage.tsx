@@ -154,42 +154,11 @@ export default function KuailepuLegacyRuntimePage({
     }))
   }
 
-  const practiceSelect = {
-    id: 'practice-tool',
-    label: 'Practice Tool',
-    value: queryState.practiceTool === 'metronome' ? 'metronome' : 'off',
-    options: [
-      {
-        value: 'off',
-        label: 'Off',
-        href: buildSongPageHref({
-          songId,
-          ...queryState,
-          instrumentId: activeInstrument.id,
-          noteLabelMode,
-          practiceTool: null
-        })
-      },
-      {
-        value: 'metronome',
-        label: 'Metronome',
-        href: buildSongPageHref({
-          songId,
-          ...queryState,
-          instrumentId: activeInstrument.id,
-          noteLabelMode,
-          practiceTool: 'metronome'
-        })
-      }
-    ]
-  }
-
   const selects: SongPageFunctionZoneSelectControl[] = [
     ...(instrumentSelect ? [instrumentSelect] : []),
     fingeringChartSelect,
     layoutSelect,
-    zoomSelect,
-    practiceSelect
+    zoomSelect
   ]
 
   const toggles: SongPageFunctionZoneToggleControl[] = [
@@ -276,6 +245,34 @@ export default function KuailepuLegacyRuntimePage({
             showMeasureNum: 'off'
           }),
           isActive: controlConfig.activeShowMeasureNum === 'off'
+        }
+      ]
+    },
+    {
+      id: 'metronome',
+      label: 'Metronome',
+      options: [
+        {
+          label: 'On',
+          href: buildSongPageHref({
+            songId,
+            ...queryState,
+            instrumentId: activeInstrument.id,
+            noteLabelMode,
+            practiceTool: 'metronome'
+          }),
+          isActive: queryState.practiceTool === 'metronome'
+        },
+        {
+          label: 'Off',
+          href: buildSongPageHref({
+            songId,
+            ...queryState,
+            instrumentId: activeInstrument.id,
+            noteLabelMode,
+            practiceTool: null
+          }),
+          isActive: queryState.practiceTool !== 'metronome'
         }
       ]
     }

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import {
-  hasKuailepuLyricContent,
+  hasPublicKuailepuLyricToggle,
   loadKuailepuSongPayload,
   resolveKuailepuRuntimeState
 } from '@/lib/kuailepu/runtime'
@@ -86,6 +86,7 @@ export default function SongPage({
     searchParams?.instrument,
     supportedInstruments
   )
+  const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
   const shellSeo = adaptPresentationForInstrument(presentation, activeInstrument)
   const graphOptions = (runtimePayload.instrumentFingerings ?? [])
     .find(option => option.instrument === activeInstrument.id)
@@ -95,7 +96,7 @@ export default function SongPage({
     instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
     noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
     showGraph: normalizeExplicitShowGraph(searchParams?.show_graph, graphOptions),
-    showLyric: normalizeToggleParam(searchParams?.show_lyric),
+    showLyric: hasPublicLyricToggle ? normalizeToggleParam(searchParams?.show_lyric) : null,
     showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
     measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
     sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList),
@@ -146,7 +147,7 @@ export default function SongPage({
       state={frameState}
       queryState={queryState}
       controlConfig={controlConfig}
-      hasLyricToggle={hasKuailepuLyricContent(runtimePayload)}
+      hasLyricToggle={hasPublicLyricToggle}
     />
   )
 }

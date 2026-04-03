@@ -222,6 +222,15 @@ export function hasKuailepuLyricContent(
   return extractPayloadLyricText(payload as KuailepuRuntimePayload).trim().length > 0
 }
 
+export function hasPublicKuailepuLyricToggle(
+  payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
+) {
+  return (
+    hasKuailepuLyricContent(payload) &&
+    !shouldHideLyricTrackByDefault(payload as KuailepuRuntimePayload)
+  )
+}
+
 export function buildKuailepuRuntimeHtml(input: {
   songId: string
   payload: KuailepuRuntimePayload
@@ -1043,7 +1052,7 @@ html[data-vtabs-letter-track-pending="1"] #sheet {
   display: none !important;
   width: auto !important;
   max-width: none !important;
-  margin: 0 0 1rem 0 !important;
+  margin: -0.25rem 0 0.75rem 0 !important;
   position: relative !important;
   top: auto !important;
   left: auto !important;
@@ -1057,7 +1066,7 @@ html[data-vtabs-letter-track-pending="1"] #sheet {
 }
 
 #metronome-modal .modal-content {
-  padding: 0.8rem 1rem 0.85rem !important;
+  padding: 0.55rem 1rem 0.75rem !important;
 }
 
 html[data-vtabs-public-metronome="1"] #metronome-modal {
@@ -1109,6 +1118,8 @@ html[data-vtabs-public-metronome="1"] #metronome-modal {
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  align-self: end;
+  transform: translateY(-0.2rem);
 }
 
 .vtabs-public-metronome-title h2 {
@@ -1149,6 +1160,8 @@ html[data-vtabs-public-metronome="1"] #metronome-modal {
 .vtabs-public-metronome-action {
   display: flex;
   align-items: end;
+  align-self: end;
+  transform: translateY(-0.18rem);
 }
 
 @media (min-width: 768px) {

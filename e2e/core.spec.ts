@@ -37,13 +37,16 @@ test.describe('runtime-backed song pages', () => {
     const search = page.getByRole('searchbox', { name: 'Search song titles' })
 
     await search.fill('fur elise')
+    await expect(page.getByText('Search: fur elise')).toBeVisible()
+    await expect(page.getByText(/Showing 1 of \d+ songs/)).toBeVisible()
     await expect(page.locator('a[href="/song/fur-elise"]')).toHaveCount(1)
-    await expect(page.locator('a[href="/song/scarborough-fair"]')).toHaveCount(0)
 
     await search.fill('twinkle')
+    await expect(page.getByText('Search: twinkle')).toBeVisible()
     await expect(page.locator('a[href="/song/twinkle-twinkle-little-star"]')).toHaveCount(1)
 
     await search.fill('scarborough')
+    await expect(page.getByText('Search: scarborough')).toBeVisible()
     await expect(page.locator('a[href="/song/scarborough-fair"]')).toHaveCount(1)
   })
 
@@ -72,11 +75,16 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('compact')
     await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('10')
+    await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: 'Note View: Letter Notes' })).toHaveAttribute(
       'aria-current',
       'page'
     )
     await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Metronome: Off' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
@@ -203,7 +211,11 @@ test.describe('runtime-backed song pages', () => {
       waitUntil: 'domcontentloaded'
     })
 
-    await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveValue('metronome')
+    await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Metronome: On' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -248,6 +260,27 @@ test.describe('runtime-backed song pages', () => {
 
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
+  })
+
+  test('pure Chinese runtime lyrics stay hidden and do not expose a public lyrics toggle', async ({
+    page
+  }) => {
+    await page.goto('/song/happy-birthday-to-you?show_lyric=on', {
+      waitUntil: 'domcontentloaded'
+    })
+
+    await expect(page.getByRole('link', { name: /Lyrics:/ })).toHaveCount(0)
+
+    const frame = page.locator('iframe[title="Happy Birthday to You Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/happy-birthday-to-you?runtime_text_mode=english'
+    )
+
+    await expectRuntimeSheet(page, 'happy-birthday-to-you')
+    const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/happy-birthday-to-you"]`)
+    const visibleText = await runtime.locator('body').innerText()
+    expect(visibleText).not.toContain('祝你生日快乐')
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({
