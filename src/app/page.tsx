@@ -51,7 +51,7 @@ const SONG_ORDER = [
 export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Letter Tabs, Numbered Notes & Fingering Charts',
   description:
-    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.',
+    'English melody pages with letter notes, optional numbered notes, fingering charts, and switchable ocarina, recorder, and tin whistle views on supported songs.',
   alternates: {
     canonical: '/'
   },
@@ -111,7 +111,7 @@ export default function Home() {
             Ocarina Letter Tabs
           </h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-stone-700 md:text-lg">
-            Browse English song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.
+            Browse melody pages built around letter notes, optional numbered notes, fingering charts, and switchable instrument views, with 12-hole AC ocarina still leading the library.
           </p>
         </div>
       </section>
@@ -120,7 +120,7 @@ export default function Home() {
         <div className="mb-4 flex items-end justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-stone-900">Browse Ocarina Songs</h2>
-            <p className="text-sm text-stone-700">Find melody pages for folk songs, nursery rhymes, Christmas songs, and famous classical themes in a clean 12-hole AC ocarina format.</p>
+            <p className="text-sm text-stone-700">Find melody pages for folk songs, nursery rhymes, Christmas songs, and famous classical themes, with ocarina-first presentation and supported recorder or tin whistle views where available.</p>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default function Home() {
         <section className="page-warm-panel mt-10 p-6 md:p-7">
           <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-700">
-            This site focuses on the search terms real players use most often: ocarina letter tabs, 12-hole AC fingering charts, easy melody pages, and optional numbered notes. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly song layout that is fast to scan during practice.
+            This site focuses on the search terms real players use most often: ocarina letter tabs, 12-hole AC fingering charts, easy melody pages, and optional numbered notes. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly layout, while supported songs can also switch into recorder or tin whistle views without leaving the same page.
           </p>
         </section>
       </section>

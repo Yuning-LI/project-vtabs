@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Play By Fingering | Ocarina Letter Tabs & Fingering Charts',
   description:
-    'English ocarina song pages for 12-hole AC ocarina with letter notes, optional numbered notes, visual fingering charts, and lyrics when available.',
+    'English melody pages with letter notes, optional numbered notes, fingering charts, and switchable ocarina, recorder, and tin whistle views on supported songs.',
   robots: {
     index: true,
     follow: true

@@ -379,7 +379,12 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
   }
 }
 
-export function getSongPresentation(song: SongDoc): SongPresentation {
+export function getSongPresentation(
+  song: SongDoc,
+  options?: {
+    publicLyricsAvailable?: boolean | null
+  }
+): SongPresentation {
   const title = getDisplaySongTitle(song)
   const family = getSongFamily(song.slug)
   const familyLabel = FAMILY_LABELS[family]
@@ -388,7 +393,10 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
   const meterLabel = song.meta.meter.trim()
   const tempoLabel = `${song.meta.tempo} BPM`
   const difficultyLabel = getDifficultyLabel(song)
-  const lyricsAvailable = hasLyrics(song)
+  const lyricsAvailable =
+    typeof options?.publicLyricsAvailable === 'boolean'
+      ? options.publicLyricsAvailable
+      : hasLyrics(song)
 
   const metaDescription = lyricsAvailable
     ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`

@@ -25,11 +25,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { id } = params
   const song = songCatalogBySlug[id]
-  const presentation = song ? getSongPresentation(song) : null
+  const runtimePayload = song ? loadKuailepuSongPayload(song.slug) : null
+  const publicLyricsAvailable = runtimePayload ? hasPublicKuailepuLyricToggle(runtimePayload) : null
+  const presentation = song
+    ? getSongPresentation(song, { publicLyricsAvailable })
+    : null
   const songName = presentation?.title || song?.title || 'Song'
   const description =
     presentation?.metaDescription ||
-    `Play ${songName} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notes.`
+    `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument views.`
   return {
     title: `${songName} Ocarina Tabs | Letter Notes & Fingering Chart`,
     description,
@@ -63,8 +67,6 @@ export default function SongPage({
   if (!song) {
     notFound()
   }
-  const presentation = getSongPresentation(song)
-
   /**
    * 当前公开曲库已经全部补齐了快乐谱 raw JSON。
    *
@@ -87,7 +89,10 @@ export default function SongPage({
     supportedInstruments
   )
   const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
-  const shellSeo = adaptPresentationForInstrument(presentation, activeInstrument)
+  const shellSeo = adaptPresentationForInstrument(
+    getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
+    activeInstrument
+  )
   const graphOptions = (runtimePayload.instrumentFingerings ?? [])
     .find(option => option.instrument === activeInstrument.id)
     ?.graphList?.map(option => option.value?.trim())
