@@ -78,18 +78,21 @@ type SongSeoProfile = {
 
 const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
   'twinkle-twinkle-little-star': {
-    searchTerms: ['Twinkle Twinkle Little Star ocarina tabs', 'Twinkle Twinkle Little Star letter notes'],
-    background: 'Twinkle, Twinkle, Little Star is one of the most familiar beginner melodies in the world, so players often look for a version that is easy to scan and easy to memorize on 12-hole AC ocarina.',
+    searchTerms: [
+      'Twinkle Twinkle Little Star ocarina tabs',
+      'Twinkle Twinkle Little Star 12-hole ocarina letter notes'
+    ],
+    background: 'Twinkle, Twinkle, Little Star is one of the most familiar beginner melodies in the world, so players often look for a version that is easy to scan, easy to memorize, and practical on 12-hole AC ocarina.',
     practice: 'Its repeating phrase pattern makes it useful for first-note reading, clean finger changes, and steady beginner breath control.'
   },
   'ode-to-joy': {
-    searchTerms: ['Ode to Joy ocarina tabs', 'Ode to Joy letter notes'],
-    background: 'Ode to Joy is the well-known theme from Beethoven\'s Ninth Symphony, and it remains one of the most searched classical melodies for simple melody instruments.',
+    searchTerms: ['Ode to Joy ocarina tabs', 'Ode to Joy 12-hole ocarina fingering'],
+    background: 'Ode to Joy is the well-known theme from Beethoven\'s Ninth Symphony, and it remains one of the most searched classical melodies for players who want a readable fingering-first version.',
     practice: 'The balanced phrase structure makes it useful for tone consistency, moderate finger movement, and phrase-based practice.'
   },
   'amazing-grace': {
-    searchTerms: ['Amazing Grace ocarina tabs', 'Amazing Grace letter notes'],
-    background: 'Amazing Grace is a hymn tune that players often search for as an expressive slow melody rather than a fast technical piece.',
+    searchTerms: ['Amazing Grace ocarina tabs', 'Amazing Grace 12-hole ocarina notes'],
+    background: 'Amazing Grace is a hymn tune that players often search for as an expressive slow melody, especially when they want a simple note-label version instead of staff notation.',
     practice: 'It works especially well for breath support, legato playing, and shaping longer lyrical phrases on ocarina.'
   },
   'mary-had-a-little-lamb': {
@@ -98,13 +101,13 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The short range and repeated note shapes make it effective for absolute beginners building note recognition.'
   },
   'happy-birthday-to-you': {
-    searchTerms: ['Happy Birthday to You ocarina tabs', 'Happy Birthday ocarina letter notes'],
-    background: 'Happy Birthday to You is one of the most recognisable songs on the internet, so players often want a clean ocarina version they can use immediately for real-life playing.',
+    searchTerms: ['Happy Birthday to You ocarina tabs', 'Happy Birthday 12-hole ocarina letter notes'],
+    background: 'Happy Birthday to You is one of the most recognisable songs on the internet, so players often want a clean ocarina version they can use immediately for real-life playing, parties, and quick requests.',
     practice: 'This melody is useful for everyday performance practice because it combines familiar phrasing with a few larger note moves.'
   },
   'jingle-bells': {
-    searchTerms: ['Jingle Bells ocarina tabs', 'Jingle Bells letter notes'],
-    background: 'Jingle Bells is one of the highest-demand Christmas melodies for beginner-friendly letter tabs and seasonal play-along practice.',
+    searchTerms: ['Jingle Bells ocarina tabs', 'Jingle Bells 12-hole ocarina notes'],
+    background: 'Jingle Bells is one of the highest-demand Christmas melodies for beginner-friendly letter tabs, fast holiday practice, and family sing-along playing.',
     practice: 'The rhythm stays lively without becoming too dense, which makes it useful for holiday practice and confident pulse control.'
   },
   'scarborough-fair': {
@@ -118,13 +121,13 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The tune is friendly for group sing-along use and works well for smooth phrase connection.'
   },
   'silent-night': {
-    searchTerms: ['Silent Night ocarina tabs', 'Silent Night letter notes'],
-    background: 'Silent Night is one of the best-known Christmas carols, and players often search for a calm, readable ocarina version with clear phrasing support.',
+    searchTerms: ['Silent Night ocarina tabs', 'Silent Night 12-hole ocarina notes'],
+    background: 'Silent Night is one of the best-known Christmas carols, and players often search for a calm, readable ocarina version with clear phrasing support for church, school, or home performance.',
     practice: 'Its slower pace makes it effective for breath control, tone warmth, and gentle legato playing.'
   },
   'fur-elise': {
-    searchTerms: ['Fur Elise ocarina tabs', 'Fur Elise letter notes'],
-    background: 'Für Elise is one of the most recognisable piano themes ever written, which makes it a strong classical search term for ocarina players looking for melody-first tabs.',
+    searchTerms: ['Fur Elise ocarina tabs', 'Fur Elise 12-hole ocarina letter notes'],
+    background: 'Für Elise is one of the most recognisable piano themes ever written, which makes it a strong classical search term for players looking for melody-first tabs they can read quickly.',
     practice: 'The melody gives useful work in phrase contrast, pitch awareness, and cleaner transitions than a simple nursery song.'
   },
   'home-sweet-home': {
@@ -163,8 +166,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is especially practical for seasonal sing-along playing and phrase-based repetition.'
   },
   canon: {
-    searchTerms: ['Canon in D ocarina tabs', 'Pachelbel Canon letter notes'],
-    background: 'Canon in D is one of the most searched classical wedding melodies online, so a melody-first ocarina page is especially useful here.',
+    searchTerms: ['Canon in D ocarina tabs', 'Canon in D 12-hole ocarina notes'],
+    background: 'Canon in D is one of the most searched classical wedding melodies online, so a melody-first fingering page is especially useful for players preparing ceremony-friendly music.',
     practice: 'The steady phrase flow makes it useful for measured breath control and clean melodic connection.'
   },
   'deck-the-halls': {
@@ -208,8 +211,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It works well for expressive shaping and longer-breath melodic playing.'
   },
   greensleeves: {
-    searchTerms: ['Greensleeves ocarina tabs', 'Greensleeves letter notes'],
-    background: 'Greensleeves is one of the best-known English folk melodies, making it a strong evergreen search term for ocarina players.',
+    searchTerms: ['Greensleeves ocarina tabs', 'Greensleeves 12-hole ocarina letter notes'],
+    background: 'Greensleeves is one of the best-known English folk melodies, making it a strong evergreen search term for players who want a lyrical tune with clear note labels.',
     practice: 'Its flowing contour supports breath control, legato playing, and a more expressive folk-song feel.'
   },
   habanera: {
@@ -353,8 +356,11 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It gives extra phrase variety and stronger note-reading demands than the base beginner version.'
   },
   'we-wish-you-a-merry-christmas': {
-    searchTerms: ['We Wish You a Merry Christmas ocarina tabs', 'We Wish You a Merry Christmas letter notes'],
-    background: 'We Wish You a Merry Christmas is a high-demand seasonal song for school, family, and holiday group playing.',
+    searchTerms: [
+      'We Wish You a Merry Christmas ocarina tabs',
+      'We Wish You a Merry Christmas 12-hole ocarina notes'
+    ],
+    background: 'We Wish You a Merry Christmas is a high-demand seasonal song for school, family, and holiday group playing, especially when players want a tune they can bring into rehearsal quickly.',
     practice: 'It works well for festive rhythm, familiar sing-along phrasing, and practical December practice sessions.'
   },
   'wedding-march-alt': {
