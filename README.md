@@ -163,6 +163,13 @@
   - `Numbered Notes`
 - 这是面向英语用户的更直白文案。
 - `numbered notation` 仍可作为内部描述或 SEO 背景词，但当前前台主操作文案优先用 `numbered notes`。
+- 公开 song page 现已支持最小公开乐器切换：
+  - 默认 `o12`：`12-Hole AC Ocarina`
+  - 可选 `o6`：`6-Hole Ocarina`
+  - 可选 `r8b`：`English 8-Hole Recorder`
+  - 可选 `r8g`：`German 8-Hole Recorder`
+- 乐器切换仍走同一条 runtime-backed `/song/<slug>` 主链，不单开旧详情页或新渲染路线。
+- 如果某首歌未来只支持其中部分公开乐器，前台只显示该曲实际支持的乐器选项。
 
 ## 这次收口前的待提交内容
 

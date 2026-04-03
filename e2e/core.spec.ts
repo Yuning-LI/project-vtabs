@@ -65,6 +65,10 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
+    await expect(page.getByRole('link', { name: '12-Hole Ocarina' })).toBeVisible()
+    await expect(page.getByRole('link', { name: '6-Hole Ocarina' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'English Recorder' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'German Recorder' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Letter Notes' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
@@ -90,6 +94,28 @@ test.describe('runtime-backed song pages', () => {
     expect(pageErrors).toEqual([])
   })
 
+  test('instrument mode keeps the runtime route and shell copy aligned', async ({ page }) => {
+    await page.goto('/song/ode-to-joy?instrument=r8b')
+
+    await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toHaveAttribute(
+      'href',
+      '/song/ode-to-joy?instrument=r8b&note_label_mode=number'
+    )
+    await expect(page.getByText('Play Ode to Joy on English 8-hole recorder')).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Can I play Ode to Joy on an English 8-hole recorder?' })
+    ).toBeVisible()
+
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b'
+    )
+
+    await expectRuntimeSheet(page, 'ode-to-joy')
+  })
+
   test('number mode keeps the runtime route and renders the original sheet view', async ({
     page
   }) => {
@@ -101,6 +127,22 @@ test.describe('runtime-backed song pages', () => {
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&note_label_mode=number'
     )
 
+    await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
+    await expectRuntimeSheet(page, 'ode-to-joy')
+  })
+
+  test('instrument and number mode can be combined on the same public song page', async ({
+    page
+  }) => {
+    await page.goto('/song/ode-to-joy?instrument=r8b&note_label_mode=number')
+
+    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&note_label_mode=number'
+    )
+
+    await expect(page.getByRole('link', { name: 'English Recorder' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Numbered Notes' })).toBeVisible()
     await expectRuntimeSheet(page, 'ode-to-joy')
   })

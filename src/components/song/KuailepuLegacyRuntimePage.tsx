@@ -1,6 +1,10 @@
 import Link from 'next/link'
 import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtime'
 import type { SongPresentation } from '@/lib/songbook/presentation'
+import {
+  buildSongPageHref,
+  type PublicSongInstrument
+} from '@/lib/songbook/publicInstruments'
 import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
 
 type KuailepuLegacyRuntimePageProps = {
@@ -8,6 +12,8 @@ type KuailepuLegacyRuntimePageProps = {
   title: string
   subtitle?: string | null
   seo: SongPresentation
+  activeInstrument: PublicSongInstrument
+  supportedInstruments: PublicSongInstrument[]
   state?: KuailepuRuntimeState | null
 }
 
@@ -27,6 +33,8 @@ export default function KuailepuLegacyRuntimePage({
   title,
   subtitle = null,
   seo,
+  activeInstrument,
+  supportedInstruments,
   state = null
 }: KuailepuLegacyRuntimePageProps) {
   /**
@@ -66,10 +74,31 @@ export default function KuailepuLegacyRuntimePage({
     state?.note_label_mode === 'graph'
       ? state.note_label_mode
       : 'letter'
+  const instrumentLinks = supportedInstruments.map(instrument => ({
+    href: buildSongPageHref({
+      songId,
+      instrumentId: instrument.id,
+      noteLabelMode
+    }),
+    label: instrument.shortLabel,
+    instrumentId: instrument.id
+  }))
   const modeLinks = [
-    { href: `/song/${songId}`, label: 'Letter Notes', mode: 'letter' },
     {
-      href: `/song/${songId}?note_label_mode=number`,
+      href: buildSongPageHref({
+        songId,
+        instrumentId: activeInstrument.id,
+        noteLabelMode: 'letter'
+      }),
+      label: 'Letter Notes',
+      mode: 'letter'
+    },
+    {
+      href: buildSongPageHref({
+        songId,
+        instrumentId: activeInstrument.id,
+        noteLabelMode: 'number'
+      }),
       label: 'Numbered Notes',
       mode: 'number'
     }
@@ -97,26 +126,60 @@ export default function KuailepuLegacyRuntimePage({
             <span className="page-warm-pill px-3 py-1">Key {seo.keyLabel}</span>
             <span className="page-warm-pill px-3 py-1">{seo.meterLabel}</span>
             <span className="page-warm-pill px-3 py-1">{seo.tempoLabel}</span>
-            <span className="page-warm-pill px-3 py-1">12-Hole AC Ocarina</span>
+            <span className="page-warm-pill px-3 py-1">{activeInstrument.label}</span>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {modeLinks.map(link => {
-              const isActive = link.mode === noteLabelMode
+          <div className="mt-5 flex flex-col gap-4">
+            {instrumentLinks.length > 1 ? (
+              <div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  Instrument
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {instrumentLinks.map(link => {
+                    const isActive = link.instrumentId === activeInstrument.id
 
-              return (
-                <Link
-                  key={link.mode}
-                  href={link.href}
-                  className={
-                    isActive
-                      ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                      : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
-                  }
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
+                    return (
+                      <Link
+                        key={link.instrumentId}
+                        href={link.href}
+                        className={
+                          isActive
+                            ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
+                            : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
+                        }
+                      >
+                        {link.label}
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+            ) : null}
+
+            <div>
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                Note View
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {modeLinks.map(link => {
+                  const isActive = link.mode === noteLabelMode
+
+                  return (
+                    <Link
+                      key={link.mode}
+                      href={link.href}
+                      className={
+                        isActive
+                          ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
+                          : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold transition hover:border-[rgba(126,95,58,0.3)] hover:bg-[rgba(255,248,238,0.96)]'
+                      }
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
           </div>
         </section>
 

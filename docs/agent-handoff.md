@@ -63,6 +63,13 @@
 - 默认阅读模式是 `letter`。
 - 可公开切换模式只有 `letter` 和 `number`。
 - 发布前 parity gate 必须用 `number` 模式。
+- 公开 song page 现在支持的最小公开乐器集是：
+  - `o12` -> `12-Hole AC Ocarina`（默认）
+  - `o6` -> `6-Hole Ocarina`
+  - `r8b` -> `English 8-Hole Recorder`
+  - `r8g` -> `German 8-Hole Recorder`
+- 乐器切换继续走同一个 runtime-backed `/song/<slug>` 页面，不单开旧详情页或其他公开路线。
+- 如果某首歌缺少某个公开乐器，只显示该曲实际支持的选项。
 - 首页 song card 仍然只显示歌名，但首页现已支持：
   - title 搜索
     - 搜索已兼容英文重音、标点、slug / 短名式输入

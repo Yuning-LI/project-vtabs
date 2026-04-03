@@ -95,6 +95,13 @@
 - 字母谱默认开启。
 - “字母谱 + 简谱同时显示”已移除。
 - 简谱保留为可选模式。
+- 公开 song page 现在除了 note mode 外，还支持最小公开乐器切换：
+  - `12-Hole AC Ocarina`（默认）
+  - `6-Hole Ocarina`
+  - `English 8-Hole Recorder`
+  - `German 8-Hole Recorder`
+- 乐器切换仍然只是同一个 `/song/<slug>` 页面上的 runtime 状态切换，不是新开第二条公开详情页架构。
+- 如果某首歌 raw JSON 未来只支持其中部分公开乐器，前台只显示实际可用项。
 - 字母谱休止符使用 `R`。
 - 字母谱延时线保留 `-`。
 - 字母谱换气符号使用西式逗号样式。

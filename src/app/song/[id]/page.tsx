@@ -4,6 +4,11 @@ import { loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
 import { siteUrl } from '@/lib/site'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
+import {
+  adaptPresentationForInstrument,
+  getSupportedPublicSongInstruments,
+  normalizePublicSongInstrument
+} from '@/lib/songbook/publicInstruments'
 
 export const dynamicParams = false
 
@@ -38,6 +43,7 @@ export default function SongPage({
 }: {
   params: { id: string }
   searchParams?: {
+    instrument?: string
     note_label_mode?: string
   }
 }) {
@@ -63,6 +69,12 @@ export default function SongPage({
   if (!runtimePayload) {
     notFound()
   }
+  const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
+  const activeInstrument = normalizePublicSongInstrument(
+    searchParams?.instrument,
+    supportedInstruments
+  )
+  const shellSeo = adaptPresentationForInstrument(presentation, activeInstrument)
 
   /**
    * 详情页当前只有两个公开阅读模式：
@@ -77,10 +89,13 @@ export default function SongPage({
   return (
     <KuailepuLegacyRuntimePage
       songId={song.slug}
-      title={presentation.title}
-      subtitle={presentation.subtitle}
-      seo={presentation}
+      title={shellSeo.title}
+      subtitle={shellSeo.subtitle}
+      seo={shellSeo}
+      activeInstrument={activeInstrument}
+      supportedInstruments={supportedInstruments}
       state={{
+        instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
         note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode)
       }}
     />
