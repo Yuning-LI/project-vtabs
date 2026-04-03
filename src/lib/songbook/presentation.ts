@@ -111,13 +111,13 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The rhythm stays lively without becoming too dense, which makes it useful for holiday practice and confident pulse control.'
   },
   'scarborough-fair': {
-    searchTerms: ['Scarborough Fair ocarina tabs', 'Scarborough Fair letter notes'],
-    background: 'Scarborough Fair is a traditional English ballad melody that players often want in a gentle, singable format rather than in staff notation.',
+    searchTerms: ['Scarborough Fair ocarina tabs', 'Scarborough Fair 12-hole ocarina notes'],
+    background: 'Scarborough Fair is a traditional English ballad melody that players often want in a gentle, singable format with readable note labels instead of staff notation.',
     practice: 'Its lyrical contour is especially useful for phrasing, breath planning, and quiet tone control.'
   },
   'auld-lang-syne': {
-    searchTerms: ['Auld Lang Syne ocarina tabs', 'Auld Lang Syne letter notes'],
-    background: 'Auld Lang Syne is a traditional song strongly associated with New Year celebrations, so it draws steady seasonal search traffic for simple melody pages.',
+    searchTerms: ['Auld Lang Syne ocarina tabs', 'Auld Lang Syne 12-hole ocarina notes'],
+    background: 'Auld Lang Syne is a traditional song strongly associated with New Year celebrations, so it draws steady seasonal search traffic from players who want a quick melody page for countdown and group sing-along use.',
     practice: 'The tune is friendly for group sing-along use and works well for smooth phrase connection.'
   },
   'silent-night': {
@@ -136,8 +136,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'This page supports expressive tone, sustained phrases, and moderate breath planning.'
   },
   'yankee-doodle': {
-    searchTerms: ['Yankee Doodle ocarina tabs', 'Yankee Doodle letter notes'],
-    background: 'Yankee Doodle remains a familiar American tune with simple melodic shapes, making it a natural fit for searchable beginner ocarina tabs.',
+    searchTerms: ['Yankee Doodle ocarina tabs', 'Yankee Doodle 12-hole ocarina notes'],
+    background: 'Yankee Doodle remains a familiar American tune with simple melodic shapes, making it a natural fit for players searching for beginner-friendly note labels and quick patriotic repertoire.',
     practice: 'It is useful for beginner articulation practice and steady rhythmic reading.'
   },
   'can-can': {
@@ -156,8 +156,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It supports pulse control, confident articulation, and more active note changes.'
   },
   arirang: {
-    searchTerms: ['Arirang ocarina tabs', 'Arirang letter notes'],
-    background: 'Arirang is one of the best-known Korean folk melodies, so it works well as a lyrical world-folk page for players searching beyond the usual nursery repertoire.',
+    searchTerms: ['Arirang ocarina tabs', 'Arirang 12-hole ocarina notes'],
+    background: 'Arirang is one of the best-known Korean folk melodies, so it works well as a lyrical world-folk page for players searching beyond the usual nursery repertoire and western holiday tunes.',
     practice: 'It is especially useful for breath planning, legato phrasing, and a more vocal melodic shape.'
   },
   'auld-lang-syne-english': {
@@ -171,8 +171,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'The steady phrase flow makes it useful for measured breath control and clean melodic connection.'
   },
   'deck-the-halls': {
-    searchTerms: ['Deck the Halls ocarina tabs', 'Deck the Halls letter notes'],
-    background: 'Deck the Halls is a seasonal favorite with strong holiday search demand for easy melody tabs and beginner-friendly letter notes.',
+    searchTerms: ['Deck the Halls ocarina tabs', 'Deck the Halls 12-hole ocarina notes'],
+    background: 'Deck the Halls is a seasonal favorite with strong holiday search demand for easy melody tabs, quick December practice, and familiar carol playing.',
     practice: 'The tune gives helpful practice in quick but manageable phrase movement and cheerful rhythmic flow.'
   },
   'do-your-ears-hang-low': {
@@ -186,8 +186,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'This tune is especially useful for breath timing, softer dynamics, and connected phrasing.'
   },
   'jasmine-flower': {
-    searchTerms: ['Jasmine Flower ocarina tabs', 'Mo Li Hua letter notes'],
-    background: 'Jasmine Flower is one of the most widely recognised Chinese folk melodies, and it fits well as a clear melody-first page for players exploring global traditional tunes.',
+    searchTerms: ['Jasmine Flower ocarina tabs', 'Mo Li Hua ocarina letter notes'],
+    background: 'Jasmine Flower is one of the most widely recognised Chinese folk melodies, and it fits well as a clear melody-first page for players exploring global traditional tunes with a familiar concert or recital profile.',
     practice: 'It supports gentle phrasing, breath control, and a singing tone rather than fast technical playing.'
   },
   'flight-of-the-bumblebee': {
@@ -266,13 +266,13 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is useful for phrase balance, moderate articulation, and cleaner classical note shaping.'
   },
   'minuet-in-g': {
-    searchTerms: ['Minuet in G ocarina tabs', 'Minuet in G letter notes'],
-    background: 'Minuet in G is one of the most searched beginner classical melodies, especially for players moving from simple songs into baroque-style phrasing.',
+    searchTerms: ['Minuet in G ocarina tabs', 'Minuet in G 12-hole ocarina notes'],
+    background: 'Minuet in G is one of the most searched beginner classical melodies, especially for players moving from simple songs into baroque-style phrasing and cleaner articulation.',
     practice: 'The tune gives manageable classical phrasing without becoming too technically dense.'
   },
   'moonlight-sonata': {
-    searchTerms: ['Moonlight Sonata ocarina tabs', 'Moonlight Sonata letter notes'],
-    background: 'Moonlight Sonata is one of Beethoven\'s most recognisable themes, so a clean melody-first page is valuable for searchers who want the theme on ocarina.',
+    searchTerms: ['Moonlight Sonata ocarina tabs', 'Moonlight Sonata 12-hole ocarina notes'],
+    background: 'Moonlight Sonata is one of Beethoven\'s most recognisable themes, so a clean melody-first page is valuable for searchers who want the theme in a slow, readable format on ocarina.',
     practice: 'It is most useful for sustained tone, patient breath timing, and phrase control.'
   },
   'old-folks-at-home': {
@@ -296,8 +296,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It is useful for phrase shape, controlled breath release, and a calm lyrical tone.'
   },
   'red-river-valley': {
-    searchTerms: ['Red River Valley ocarina tabs', 'Red River Valley letter notes'],
-    background: 'Red River Valley is a well-known folk and cowboy-style melody with steady search demand for easy melody instruments.',
+    searchTerms: ['Red River Valley ocarina tabs', 'Red River Valley 12-hole ocarina notes'],
+    background: 'Red River Valley is a well-known folk and cowboy-style melody with steady search demand from players who want an easy lyrical tune for casual practice and sing-through playing.',
     practice: 'It works well for legato practice and relaxed phrasing over a familiar song shape.'
   },
   'santa-lucia': {
@@ -369,8 +369,8 @@ const SONG_SEO_PROFILES: Record<string, SongSeoProfile> = {
     practice: 'It emphasizes ceremonial pulse, phrase control, and clear note transitions.'
   },
   'wedding-march': {
-    searchTerms: ['Wedding March ocarina tabs', 'Mendelssohn Wedding March letter notes'],
-    background: 'Wedding March is one of the most recognisable ceremonial melodies, so players often search for a quick melody page they can practice for events.',
+    searchTerms: ['Wedding March ocarina tabs', 'Mendelssohn Wedding March 12-hole ocarina notes'],
+    background: 'Wedding March is one of the most recognisable ceremonial melodies, so players often search for a quick melody page they can practice for weddings, recitals, and event-style performance.',
     practice: 'It is useful for steady rhythm, phrase confidence, and performance-oriented repetition.'
   },
   'were-you-there': {
