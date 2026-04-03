@@ -588,6 +588,10 @@ function applyRuntimeDefaults(
   const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
     option => option.instrument && option.instrument !== 'none'
   )
+  const hasExplicitInstrumentOverride =
+    Boolean(state?.instrument) &&
+    state?.instrument !== 'none' &&
+    state?.instrument !== payload.instrument
   const selectedInstrument =
     instrumentOptions.find(option => option.instrument === state?.instrument) ??
     instrumentOptions.find(option => option.instrument === payload.instrument) ??
@@ -595,19 +599,29 @@ function applyRuntimeDefaults(
     instrumentOptions.find(option => option.instrument === 'o6') ??
     instrumentOptions[0]
   const selectedFingeringIndex =
-    state?.fingering_index ??
-    payload.fingering_index ??
-    0
+    hasExplicitInstrumentOverride
+      ? state?.fingering_index ?? 0
+      : state?.fingering_index ??
+        payload.fingering_index ??
+        0
   const selectedFingeringSet =
     selectedInstrument?.fingeringSetList?.[Number(selectedFingeringIndex)]
 
-  const selectedFingeringCandidates = [
-    state?.fingering,
-    payload.fingering,
-    selectedFingeringSet?.map(option => option.fingering).join('+'),
-    selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
-    selectedInstrument?.fingeringSetList?.flat()[0]?.fingering
-  ]
+  const selectedFingeringCandidates = hasExplicitInstrumentOverride
+    ? [
+        state?.fingering,
+        selectedFingeringSet?.map(option => option.fingering).join('+'),
+        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
+        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering,
+        payload.fingering
+      ]
+    : [
+        state?.fingering,
+        payload.fingering,
+        selectedFingeringSet?.map(option => option.fingering).join('+'),
+        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
+        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering
+      ]
   const selectedFingering =
     selectedFingeringCandidates.find(
       (value): value is string => typeof value === 'string' && value.trim().length > 0
@@ -620,7 +634,11 @@ function applyRuntimeDefaults(
 
   next.fingering = selectedFingering
   next.fingering_index = selectedFingeringIndex
-  next.show_graph = normalizeToggle(state?.show_graph, payload.show_graph, '1')
+  const selectedGraphValue =
+    selectedInstrument?.graphList?.find(item => item.value?.trim())?.value ?? null
+  next.show_graph = hasExplicitInstrumentOverride
+    ? state?.show_graph ?? selectedGraphValue ?? normalizeToggle(undefined, payload.show_graph, '1')
+    : normalizeToggle(state?.show_graph, payload.show_graph, '1')
   /**
    * 这里新增了一条和产品语言策略直接相关的规则：
    *
