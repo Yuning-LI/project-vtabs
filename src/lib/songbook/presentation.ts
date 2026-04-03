@@ -391,11 +391,11 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
   const lyricsAvailable = hasLyrics(song)
 
   const metaDescription = lyricsAvailable
-    ? `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, optional numbered notes, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`
-    : `Play ${title} on 12-hole AC ocarina with letter notes, fingering chart, and optional numbered notes. A clear page for ${profile.searchTerms[0]}.`
+    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and lyrics when available. A clear page for ${profile.searchTerms[0]}.`
+    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. A clear page for ${profile.searchTerms[0]}.`
 
   const overview = [
-    `Play ${title} on 12-hole AC ocarina with letter notes, a visual fingering chart, and an optional numbered notes view.`,
+    `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported melody instruments on this page.`,
     buildSearchIntentSentence({
       familyLabel,
       difficultyLabel,
@@ -442,9 +442,9 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
 
   const faqs = [
     {
-      question: `Can I play ${title} on a 12-hole AC ocarina?`,
+      question: `Can I play ${title} on this page?`,
       answer:
-        `Yes. This ${title} page is set up for 12-hole AC ocarina and keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow in one place.`
+        `Yes. This ${title} page keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow while letting you switch between the supported instrument views.`
     },
     {
       question: `Which note view should I use for ${title}?`,
@@ -466,7 +466,7 @@ export function getSongPresentation(song: SongDoc): SongPresentation {
 
   return {
     title,
-    subtitle: `${familyLabel} for 12-hole AC ocarina with letter notes, a fingering chart, and optional numbered notes.`,
+    subtitle: `${familyLabel} with letter notes, a fingering chart, optional numbered notes, and switchable instrument views.`,
     metaDescription,
     overview,
     background,

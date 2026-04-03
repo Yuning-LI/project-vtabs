@@ -66,6 +66,8 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('region', { name: 'Function Zone' })).toBeVisible()
+    await expect(page.getByText('Function Zone')).toHaveCount(0)
+    await expect(page.getByText('Quick Setup')).toHaveCount(0)
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
     await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('compact')
@@ -104,10 +106,12 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
-    await expect(page.getByText('Play Ode to Joy on English 8-hole recorder')).toBeVisible()
     await expect(
-      page.getByRole('heading', { name: 'Can I play Ode to Joy on an English 8-hole recorder?' })
+      page.getByText(
+        'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
+      )
     ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -124,10 +128,12 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('w6')
     await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
-    await expect(page.getByText('Play Ode to Joy on Irish tin whistle')).toBeVisible()
     await expect(
-      page.getByRole('heading', { name: 'Can I play Ode to Joy on an Irish tin whistle?' })
+      page.getByText(
+        'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
+      )
     ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -181,7 +187,7 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
 
-  test('metronome mode keeps the same song page and opens the runtime metronome modal', async ({
+  test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({
     page
   }) => {
     const requestedAssets = new Set<string>()
@@ -198,7 +204,6 @@ test.describe('runtime-backed song pages', () => {
     })
 
     await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveValue('metronome')
-    await expect(page.getByRole('button', { name: 'Open Metronome' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -212,11 +217,12 @@ test.describe('runtime-backed song pages', () => {
     )
     expect(requestedAssets.has('/k-static/cdn/js/metronome_7124fad0b0.js')).toBe(true)
 
-    await page.getByRole('button', { name: 'Open Metronome' }).click()
-
     const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/ode-to-joy"]`)
     await expect(runtime.locator('#metronome-modal')).toBeVisible()
     await expect(runtime.locator('#metronome-play')).toBeVisible()
+    await expect(runtime.getByText('Metronome')).toBeVisible()
+    await expect(runtime.getByText('Time Signature')).toBeVisible()
+    await expect(runtime.locator('#metronome-play')).toHaveText('Start')
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
   })

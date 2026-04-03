@@ -281,12 +281,6 @@ export default function KuailepuLegacyRuntimePage({
     }
   ]
 
-  const functionZoneSummary = [
-    `${activeInstrument.shortLabel} selected`,
-    noteLabelMode === 'number' ? 'numbered view active' : 'letter view active',
-    `zoom set to ${controlConfig.activeSheetScale}0%`
-  ].join(', ')
-
   return (
     <main className="page-warm-shell">
       <div className="page-warm-container">
@@ -313,17 +307,17 @@ export default function KuailepuLegacyRuntimePage({
             <span className="page-warm-pill px-3 py-1">{seo.tempoLabel}</span>
             <span className="page-warm-pill px-3 py-1">{activeInstrument.label}</span>
           </div>
+          <div className="mt-4 border-t border-[rgba(154,126,91,0.18)] pt-4">
+            <SongPageFunctionZone selects={selects} toggles={toggles} />
+          </div>
         </section>
 
-        <SongPageFunctionZone summary={functionZoneSummary} selects={selects} toggles={toggles} />
-
-        <div className="mt-4">
+        <div>
           <KuailepuRuntimeFrame
             songId={songId}
             title={title}
             frameSrc={frameSrc}
             loadingId={loadingId}
-            practiceTool={queryState.practiceTool}
           />
         </div>
 

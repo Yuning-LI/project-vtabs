@@ -28,13 +28,11 @@ export type SongPageFunctionZoneToggleControl = {
 }
 
 type SongPageFunctionZoneProps = {
-  summary: string
   selects: SongPageFunctionZoneSelectControl[]
   toggles: SongPageFunctionZoneToggleControl[]
 }
 
 export default function SongPageFunctionZone({
-  summary,
   selects,
   toggles
 }: SongPageFunctionZoneProps) {
@@ -48,14 +46,6 @@ export default function SongPageFunctionZone({
 
   return (
     <section className="page-function-zone" aria-label="Function Zone">
-      <div className="page-function-zone-header">
-        <div>
-          <p className="page-function-zone-eyebrow">Quick Setup</p>
-          <h2 className="page-function-zone-title">Function Zone</h2>
-        </div>
-        <p className="page-function-zone-summary">{summary}</p>
-      </div>
-
       <div className="page-function-zone-grid">
         {selects.map(control => (
           <label key={control.id} className="page-function-zone-field">

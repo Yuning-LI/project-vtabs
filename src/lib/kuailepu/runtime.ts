@@ -275,7 +275,12 @@ export function buildKuailepuRuntimeHtml(input: {
       )
       .replace(
         /<\/body>/i,
-        `${buildRuntimeBridgeScript(songId, letterTrack, input.textMode ?? 'source')}</body>`
+        `${buildRuntimeBridgeScript(
+          songId,
+          letterTrack,
+          input.textMode ?? 'source',
+          publicFeatures
+        )}</body>`
       ),
     assetProfile
   )
@@ -994,8 +999,9 @@ function buildRuntimeOverrideStyle(publicFeatures: Set<KuailepuRuntimePublicFeat
     '#media-wrapper'
   ]
 
+  hiddenSelectors.push('.lean-overlay')
   if (!publicFeatures.has('metronome')) {
-    hiddenSelectors.push('#metronome-modal', '.lean-overlay')
+    hiddenSelectors.push('#metronome-modal')
   }
 
   return `
@@ -1034,11 +1040,104 @@ html[data-vtabs-letter-track-pending="1"] #sheet {
 }
 
 #metronome-modal {
-  max-width: min(34rem, calc(100vw - 2rem)) !important;
+  display: none !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 0 1rem 0 !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-radius: 1.35rem !important;
+  border: 1px solid rgba(154, 126, 91, 0.22) !important;
+  background: linear-gradient(145deg, rgba(255, 252, 246, 0.98) 0%, rgba(249, 240, 224, 0.94) 100%) !important;
 }
 
 #metronome-modal .modal-content {
-  padding: 1.5rem 1.5rem 1.35rem !important;
+  padding: 0.95rem 1rem 1rem !important;
+}
+
+html[data-vtabs-public-metronome="1"] #metronome-modal {
+  display: block !important;
+}
+
+#metronome-modal .row {
+  margin: 0 !important;
+}
+
+#metronome-modal .input-field {
+  margin-top: 0 !important;
+}
+
+#metronome-modal .browser-select {
+  height: 2.65rem !important;
+  border-radius: 0.9rem !important;
+  border: 1px solid rgba(154, 126, 91, 0.22) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #2f261f !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76) !important;
+}
+
+#metronome-modal label {
+  color: #70553d !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+#metronome-modal #metronome-beat {
+  margin: 0 !important;
+  color: #8c5f1f !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+}
+
+#metronome-modal #metronome-play {
+  min-width: 7rem !important;
+  border-radius: 999px !important;
+  background: #3d2f22 !important;
+  box-shadow: none !important;
+}
+
+.vtabs-public-metronome-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.vtabs-public-metronome-heading h2 {
+  margin: 0 !important;
+  color: #2f261f !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+}
+
+.vtabs-public-metronome-heading p {
+  margin: 0.2rem 0 0 !important;
+  color: #6c5540 !important;
+  font-size: 0.82rem !important;
+  line-height: 1.45 !important;
+}
+
+@media (min-width: 768px) {
+  #metronome-modal .row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 0.9rem;
+    align-items: end;
+  }
+
+  #metronome-modal .row .col {
+    width: auto !important;
+    margin-left: 0 !important;
+    left: auto !important;
+  }
 }
 </style>
 `
@@ -1077,7 +1176,8 @@ function buildRuntimePendingScript(letterTrack: KuailepuLetterTrackData | null) 
 function buildRuntimeBridgeScript(
   songId: string,
   letterTrack: KuailepuLetterTrackData | null,
-  textMode: KuailepuRuntimeTextMode
+  textMode: KuailepuRuntimeTextMode,
+  publicFeatures: Set<KuailepuRuntimePublicFeature>
 ) {
   const safeLetterTrack = serializeForInlineScript(
     letterTrack ?? {
@@ -1095,6 +1195,7 @@ function buildRuntimeBridgeScript(
   var songId = ${JSON.stringify(songId)};
   var letterTrack = ${safeLetterTrack};
   var textMode = ${JSON.stringify(textMode)};
+  var hasPublicMetronome = ${publicFeatures.has('metronome') ? 'true' : 'false'};
   var resizeTimer = null;
   var letterTrackWarned = false;
   var initialSyncTimer = null;
@@ -1117,36 +1218,84 @@ function buildRuntimeBridgeScript(
     return document.querySelector('#sheet svg, #sheet .sheet-svg');
   }
 
-  function openMetronomeFromPublicPage() {
-    var trigger = document.getElementById('metronome-li');
-    if (trigger && typeof trigger.click === 'function') {
-      trigger.click();
+  function syncPublicMetronomeButtonLabel() {
+    var playButton = document.getElementById('metronome-play');
+    if (!playButton) {
+      return;
+    }
+
+    if (window.Metronome && window.Metronome.tick >= 0) {
+      playButton.textContent = 'Stop';
+      return;
+    }
+
+    playButton.textContent = 'Start';
+  }
+
+  function localizePublicMetronome() {
+    if (!hasPublicMetronome || textMode !== 'english') {
+      return;
+    }
+
+    var timeSignatureLabel = document.querySelector('label[for="metronome-time-signature"]');
+    if (timeSignatureLabel) {
+      timeSignatureLabel.textContent = 'Time Signature';
+    }
+
+    syncPublicMetronomeButtonLabel();
+  }
+
+  function mountPublicMetronomePanel() {
+    if (!hasPublicMetronome) {
       return;
     }
 
     var modal = document.getElementById('metronome-modal');
-    if (!modal) {
+    var sheet = document.getElementById('sheet');
+    if (!modal || !sheet || !sheet.parentNode) {
       return;
     }
 
-    try {
-      var jq = window.jQuery || window.$;
-      if (jq && typeof jq === 'function') {
-        var modalNode = jq('#metronome-modal');
-        if (modalNode && typeof modalNode.openModal === 'function') {
-          modalNode.openModal({
-            opacity: 0.4,
-            in_duration: 200,
-            out_duration: 100
-          });
-          return;
+    if (!modal.getAttribute('data-vtabs-public-docked')) {
+      modal.setAttribute('data-vtabs-public-docked', '1');
+      sheet.parentNode.insertBefore(modal, sheet);
+
+      var content = modal.querySelector('.modal-content');
+      if (content) {
+        var heading = document.createElement('div');
+        heading.className = 'vtabs-public-metronome-heading';
+        heading.innerHTML =
+          '<div><h2>Metronome</h2><p>Keep the beat visible without covering the fingering chart.</p></div><p id="metronome-beat" aria-live="polite"></p>';
+        var existingBeat = content.querySelector('#metronome-beat');
+        if (existingBeat) {
+          existingBeat.remove();
         }
+        content.insertBefore(heading, content.firstChild);
       }
-    } catch (error) {
-      console.warn('Failed to open metronome modal from public page', error);
     }
 
-    modal.style.display = 'block';
+    document.documentElement.setAttribute('data-vtabs-public-metronome', '1');
+    localizePublicMetronome();
+
+    if (window.Metronome) {
+      window.Metronome.onstart = function () {
+        syncPublicMetronomeButtonLabel();
+      };
+      window.Metronome.onstop = function () {
+        var beat = document.getElementById('metronome-beat');
+        if (beat) {
+          beat.textContent = '';
+        }
+        syncPublicMetronomeButtonLabel();
+      };
+      window.Metronome.onbeat = function (value) {
+        var beat = document.getElementById('metronome-beat');
+        if (beat) {
+          beat.textContent = String(value);
+        }
+      };
+      syncPublicMetronomeButtonLabel();
+    }
   }
 
   function getLetterTrackAnchors(svg) {
@@ -1851,17 +2000,6 @@ function buildRuntimeBridgeScript(
     }, 80);
   }
 
-  function onParentMessage(event) {
-    var data = event && event.data;
-    if (!data || typeof data !== 'object') {
-      return;
-    }
-
-    if (data.type === 'vtabs-public-metronome-open') {
-      openMetronomeFromPublicPage();
-    }
-  }
-
   function installObservers() {
     if (window.ResizeObserver && document.body) {
       // 这里只监听 body 尺寸变化，不再做额外复杂观察。
@@ -1873,7 +2011,7 @@ function buildRuntimeBridgeScript(
     }
 
     window.addEventListener('resize', requestRedraw);
-    window.addEventListener('message', onParentMessage);
+    mountPublicMetronomePanel();
     renderLetterTrack();
     postSize();
   }
@@ -1889,6 +2027,7 @@ function buildRuntimeBridgeScript(
         successfulRenders += 1;
         postSize();
       }
+      mountPublicMetronomePanel();
       if (attempts >= 60 || (successfulRenders >= 12 && attempts >= 12)) {
         window.clearInterval(initialSyncTimer);
         postSize();

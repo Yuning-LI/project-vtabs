@@ -7,7 +7,6 @@ type KuailepuRuntimeFrameProps = {
   title: string
   frameSrc: string
   loadingId: string
-  practiceTool?: 'metronome' | null
 }
 
 /**
@@ -24,8 +23,7 @@ export default function KuailepuRuntimeFrame({
   songId,
   title,
   frameSrc,
-  loadingId,
-  practiceTool = null
+  loadingId
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -208,38 +206,8 @@ export default function KuailepuRuntimeFrame({
     }
   }, [frameSrc, songId])
 
-  function openMetronome() {
-    const frameWindow = frameRef.current?.contentWindow
-    if (!frameWindow || isLoading) {
-      return
-    }
-
-    frameWindow.postMessage(
-      {
-        type: 'vtabs-public-metronome-open'
-      },
-      window.location.origin
-    )
-  }
-
   return (
     <section className="page-warm-panel relative overflow-hidden">
-      {practiceTool === 'metronome' ? (
-        <div className="border-b border-[rgba(154,126,91,0.18)] bg-[linear-gradient(135deg,rgba(255,252,246,0.98)_0%,rgba(250,240,224,0.92)_100%)] px-4 py-3 md:flex md:items-center md:justify-between md:gap-5 md:px-5">
-          <p className="text-sm leading-6 text-stone-700">
-            <span className="font-semibold text-stone-900">Metronome is ready.</span> Open the
-            click track inside the sheet when you want a steady tempo reference.
-          </p>
-          <button
-            type="button"
-            onClick={openMetronome}
-            disabled={isLoading}
-            className="mt-3 inline-flex items-center justify-center rounded-full border border-stone-900 bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_12px_24px_rgba(61,47,34,0.16)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_16px_30px_rgba(61,47,34,0.2)] disabled:cursor-not-allowed disabled:border-stone-300 disabled:bg-stone-200 disabled:text-stone-500 disabled:shadow-none md:mt-0"
-          >
-            Open Metronome
-          </button>
-        </div>
-      ) : null}
       {isLoading ? (
         <div
           id={loadingId}
