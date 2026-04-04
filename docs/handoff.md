@@ -114,6 +114,26 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自快乐谱页 `普世歡騰 / 敬拜頌讚`，按英文常用名映射为 `Joy to the World` 公开；由于该页歌词为纯中文，公开页将继续默认隐藏歌词且不显示歌词开关
+- 本轮后续又新增并通过 preflight compare 的 3 首 western 候选：
+  - `home-on-the-range`
+  - `la-cucaracha`
+  - `drinking-song`
+- 中国网络下已对这 3 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 组合一致
+- 其中：
+  - `Home on the Range` 导入自快乐谱页 `牧场上的家`；纯中文歌词仍按公开规则默认隐藏
+  - `La Cucaracha` 当前为器乐页，无公开歌词
+  - `Drinking Song` 当前导入自 `饮酒歌 / 威尔第`；纯中文歌词仍按公开规则默认隐藏
+- 本轮后续又新增并通过 preflight compare 的 3 首直接导入候选：
+  - `edelweiss`
+  - `el-condor-pasa`
+  - `happy-new-year`
+- 中国网络下已对这 3 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 组合一致
+- 其中：
+  - `Edelweiss` 导入自 `雪绒花 Edelweiss` 页，当前歌词为英文
+  - `El Condor Pasa` 导入自 `老鹰之歌 If I Could (El Condor Pasa)` 器乐页，无公开歌词
+  - `Happy New Year` 导入自 `新年好 Happy New Year` 页，当前为中英混合歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -321,17 +341,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 72`
+- `songCatalog.length = 78`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 72`
+- `allSongCatalog.length = 78`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 72`
+- `data/songbook/public-song-manifest.json = 78`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 72`
+- `data/kuailepu-runtime/*.json = 78`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 72`
+- `reference/songs/*.json = 78`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 65`
+- `data/kuailepu/*.json = 72`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：
@@ -798,31 +818,21 @@
 这份文件不是快乐谱全站 `6000+` 首曲目的完整清单，而是当前产品更相关的第一版 western 子集。当前统计是：
 
 - `uniqueResults = 30`
-- `alreadyPublic = 9`
+- `alreadyPublic = 12`
 - `newCandidatesWithLatinTitles = 14`
-- `immediateScreeningCandidates = 3`
-- `skipForNowCandidates = 17`
+- `immediateScreeningCandidates = 0`
+- `skipForNowCandidates = 18`
 
 这轮在国外 VPN 下已经完成第一轮 western 流量与可用性筛选，随后又在中国网络下补做了一轮扩池。当前结论是：
 
 1. 首轮 `screen-next` 已全部收口
-2. 中国网络后续扩池后，当前新的 `screen-next` 有 3 个：
-   - `Home on the Range`
-   - `La Cucaracha`
-   - `Drinking Song`
-3. 美国侧第二轮筛选后的当前优先级是：
-   - `Home on the Range`
-   - `La Cucaracha`
-   - `Drinking Song`
-4. 其中：
-   - `Home on the Range` 是当前最值得进入下一轮导歌链的目标
-   - `La Cucaracha` 是可行备选
-   - `Drinking Song` 继续保留，但因为标题更泛、快乐谱页公开乐器也更窄，所以优先级最低
-2. `The Last Waltz` 与 `Tennessee Waltz` 只保留为 western 需求参考标题
-3. `Vientos Suaves` 与 `Polska` 暂时保留，但都缺少足够清晰的单曲 landing-page 身份
-4. `Lullaby of the Manifold` 已基本确认偏现代版权曲，不再属于当前导歌队列
-5. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
-6. `G Major Minuet` 也在快乐谱能找到，但该页缺少当前公开乐器集对应的可用图谱，当前同样不进入队列
+2. 中国网络后续扩池并结合美国侧第二轮筛选后，`Home on the Range`、`La Cucaracha`、`Drinking Song` 都已经导入并通过 preflight compare
+3. 当前这份候选池里已经没有剩余 `screen-next`
+4. `The Last Waltz` 与 `Tennessee Waltz` 只保留为 western 需求参考标题
+5. `Vientos Suaves` 与 `Polska` 暂时保留，但都缺少足够清晰的单曲 landing-page 身份
+6. `Lullaby of the Manifold` 已基本确认偏现代版权曲，不再属于当前导歌队列
+7. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
+8. `G Major Minuet` 也在快乐谱能找到，但该页缺少当前公开乐器集对应的可用图谱，当前同样不进入队列
 
 当前已明确更适合先跳过的代表项有：
 
@@ -839,6 +849,9 @@
 
 这轮候选池里已落地完成并不应再重复导入的有：
 
+- `home-on-the-range`
+- `la-cucaracha`
+- `drinking-song`
 - `joy-to-the-world`
 - `jolly-old-saint-nicholas`
 
@@ -848,10 +861,10 @@
   - 它和当前已上线的 `greensleeves` 共用旋律
   - 现阶段先优先扩新的 melody 页面
 
-下一步分工仍然是：
+下一步如果继续扩 western 曲库，仍建议保持这套分工：
 
 - 国外 VPN：
-  - 如果继续研究，只做更大范围的 western 候选扩池与需求验证
+  - 只做更大范围的 western 候选扩池与需求验证
 - 中国 VPN：
   - 回到快乐谱继续扩新候选
   - 导歌

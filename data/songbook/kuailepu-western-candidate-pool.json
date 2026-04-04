@@ -2,7 +2,7 @@
   "generatedOn": "2026-04-04",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "Second-pass US-VPN screening ranked the current discovery queue. Home on the Range is the strongest next import target, La Cucaracha is a viable backup, and Drinking Song should stay behind them because its western intent is more title-ambiguous and its playable Kuailepu instrument set is narrower.",
+  "nextStep": "The second-pass US-screened queue has now been imported and passed China-network preflight compare. There is no remaining screen-next item in this pool; expand China-network discovery again before the next western-demand round.",
   "seedQueries": [
     "Joy to the World",
     "The First Noel",
@@ -37,10 +37,10 @@
   ],
   "summary": {
     "uniqueResults": 30,
-    "alreadyPublic": 9,
+    "alreadyPublic": 12,
     "newCandidatesWithLatinTitles": 14,
-    "immediateScreeningCandidates": 3,
-    "skipForNowCandidates": 17
+    "immediateScreeningCandidates": 0,
+    "skipForNowCandidates": 18
   },
   "foreignVpnScreening": {
     "screenedOn": "2026-04-04",
@@ -78,7 +78,7 @@
         "notes": "Useful discovery for future manual search, but not a new melody page."
       }
     ],
-    "conclusion": "The strongest newly discovered candidates are Home on the Range, La Cucaracha, and Drinking Song. Most other recognizable hits were already public, duplicate-melody aliases, or lacked usable public instruments."
+    "conclusion": "The strongest newly discovered candidates were Home on the Range, La Cucaracha, and Drinking Song. All three have now been imported successfully; most other recognizable hits were already public, duplicate-melody aliases, or lacked usable public instruments."
   },
   "foreignVpnScreeningSecondPass": {
     "screenedOn": "2026-04-04",
@@ -91,7 +91,8 @@
     "recommendedNextImport": "Home on the Range",
     "viableBackup": "La Cucaracha",
     "lowerPriorityBackup": "Drinking Song",
-    "conclusion": "Home on the Range shows the clearest western beginner-instrument teaching footprint. La Cucaracha also has clear recorder / tin-whistle / ocarina visibility, but its novelty profile is slightly noisier. Drinking Song is recognizable as Verdi's Libiamo, yet the title is more ambiguous and the current Kuailepu page exposes a narrower playable instrument set than the strongest candidates."
+    "outcome": "All three ranked candidates were imported and passed preflight compare on 2026-04-04.",
+    "conclusion": "Home on the Range showed the clearest western beginner-instrument teaching footprint. La Cucaracha also had clear recorder / tin-whistle / ocarina visibility, and Drinking Song remained usable despite a more ambiguous title. All three were eventually imported successfully."
   },
   "candidates": [
     {
@@ -207,48 +208,54 @@
       "songName": "牧场上的家",
       "aliasName": "",
       "searchResultTitle": "牧场上的家 牧场上的家",
+      "existingPublicSlug": "home-on-the-range",
+      "publicTitle": "Home on the Range",
       "candidateEnglishTitle": "Home on the Range",
       "lyricLanguage": "cjk-only",
       "rhythm": "",
       "keynote": "",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "public-already-imported",
       "rightsRisk": "public-domain",
       "discoveredByQuery": "牧场上的家",
       "usScreeningDecision": "top-priority",
-      "notes": "Second-pass China-network discovery. US-side research shows a clear recorder / tin-whistle teaching footprint and strong beginner-friendly American-folk identity. Lyrics are Chinese-only on Kuailepu, so the public page would hide them by default."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The Kuailepu page only carries Chinese lyrics, so the public page keeps lyrics hidden by default."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/qQYsq1QvG.html",
       "songName": "拉库卡拉查",
       "aliasName": "",
       "searchResultTitle": "拉库卡拉查 拉库卡拉查",
+      "existingPublicSlug": "la-cucaracha",
+      "publicTitle": "La Cucaracha",
       "candidateEnglishTitle": "La Cucaracha",
       "lyricLanguage": "none",
       "rhythm": "3/4",
       "keynote": "1=F",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "public-already-imported",
       "rightsRisk": "public-domain",
       "discoveredByQuery": "拉库卡拉查",
       "usScreeningDecision": "viable-backup",
-      "notes": "US-side research shows clear recorder / tin-whistle / ocarina visibility and strong tune recognition. It looks viable as a backup candidate, though its novelty / children's-song profile is slightly noisier than Home on the Range."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/HHvYd1B3f.html",
       "songName": "饮酒歌",
       "aliasName": "",
       "searchResultTitle": "饮酒歌 威尔第",
+      "existingPublicSlug": "drinking-song",
+      "publicTitle": "Drinking Song",
       "candidateEnglishTitle": "Drinking Song",
-      "lyricLanguage": "none",
+      "lyricLanguage": "cjk-only",
       "rhythm": "3/8",
       "keynote": "1=bB",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "public-already-imported",
       "rightsRisk": "public-domain",
       "discoveredByQuery": "饮酒歌",
       "usScreeningDecision": "lower-priority-backup",
-      "notes": "US-side research confirms recognition through Verdi's Libiamo / La Traviata, but the raw title 'Drinking Song' is more ambiguous on the western web and this Kuailepu page exposes a narrower playable instrument set than the strongest candidates."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The source page carries only Chinese lyrics, so the public page keeps lyrics hidden by default."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/DDWml1tVr.html",

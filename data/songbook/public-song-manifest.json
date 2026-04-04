@@ -502,5 +502,47 @@
     "family": "holiday",
     "featuredRank": 72,
     "published": true
+  },
+  {
+    "id": "home-on-the-range",
+    "slug": "home-on-the-range",
+    "family": "folk",
+    "featuredRank": 73,
+    "published": true
+  },
+  {
+    "id": "la-cucaracha",
+    "slug": "la-cucaracha",
+    "family": "folk",
+    "featuredRank": 74,
+    "published": true
+  },
+  {
+    "id": "drinking-song",
+    "slug": "drinking-song",
+    "family": "classical",
+    "featuredRank": 75,
+    "published": true
+  },
+  {
+    "id": "edelweiss",
+    "slug": "edelweiss",
+    "family": "song",
+    "featuredRank": 76,
+    "published": true
+  },
+  {
+    "id": "el-condor-pasa",
+    "slug": "el-condor-pasa",
+    "family": "folk",
+    "featuredRank": 77,
+    "published": true
+  },
+  {
+    "id": "happy-new-year",
+    "slug": "happy-new-year",
+    "family": "holiday",
+    "featuredRank": 78,
+    "published": true
   }
 ]

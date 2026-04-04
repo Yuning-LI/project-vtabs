@@ -124,6 +124,26 @@
 - 中国网络下已经对这首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 一致
 - 当前这首歌导入自快乐谱页 `普世歡騰 / 敬拜頌讚`，按英文常用名映射为 `Joy to the World`；纯中文歌词仍按公开规则默认隐藏
+- 本轮后续又新增并通过 preflight compare 的 3 首 western 候选：
+  - `home-on-the-range`
+  - `la-cucaracha`
+  - `drinking-song`
+- 中国网络下已经对这 3 首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 一致
+- 其中：
+  - `Home on the Range` 导入自 `牧场上的家`
+  - `La Cucaracha` 当前为器乐页
+  - `Drinking Song` 导入自 `饮酒歌 / 威尔第`，纯中文歌词仍按公开规则默认隐藏
+- 本轮后续又新增并通过 preflight compare 的 3 首直接导入候选：
+  - `edelweiss`
+  - `el-condor-pasa`
+  - `happy-new-year`
+- 中国网络下已经对这 3 首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 一致
+- 其中：
+  - `Edelweiss` 导入自 `雪绒花 Edelweiss` 页，当前歌词为英文
+  - `El Condor Pasa` 导入自 `老鹰之歌 If I Could (El Condor Pasa)` 器乐页
+  - `Happy New Year` 导入自 `新年好 Happy New Year` 页，当前为中英混合歌词
 - 截至当前工作区：
   - 本地分支仍可能存在未 push 提交。
   - 准备上线或继续收尾前，先检查：
@@ -336,26 +356,19 @@ npm run preflight:kuailepu-publish -- <slug...>
 这份候选池当前摘要是：
 
 - `30` 条 unique results
-- `9` 条已是公开曲库
-- `3` 条 `screen-next`
-- `17` 条 `skip-for-now`
+- `12` 条已是公开曲库
+- `0` 条 `screen-next`
+- `18` 条 `skip-for-now`
 
 这轮国外 VPN 筛完后，又在中国网络下补做了一轮扩池。当前结论是：
 
-1. 当前新的 `screen-next` 有 3 个：
-   - `Home on the Range`
-   - `La Cucaracha`
-   - `Drinking Song`
-2. 美国侧第二轮筛选后的优先级是：
-   - `Home on the Range`
-   - `La Cucaracha`
-   - `Drinking Song`
-3. `Home on the Range` 是当前最值得进入下一轮导歌链的目标
-4. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
-5. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
-6. `Lullaby of the Manifold` 已基本排除出当前队列
-7. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
-8. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
+1. `Home on the Range`、`La Cucaracha`、`Drinking Song` 已经导入并通过 preflight compare，不再属于待筛候选
+2. 当前这份候选池里已经没有剩余 `screen-next`
+3. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
+4. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
+5. `Lullaby of the Manifold` 已基本排除出当前队列
+6. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
+7. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
 
 补充：
 
@@ -413,11 +426,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：72
-- 全部候选：72
-- public manifest：72
-- raw JSON：72
-- 可提交轻量导入：65
+- 公开 song pages：78
+- 全部候选：78
+- public manifest：78
+- raw JSON：78
+- 可提交轻量导入：72
 
 不要拿这些数字互相强行对应。
 
@@ -458,4 +471,4 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 13. 新对话可直接复制的起始提示词
 
-`Continue on the runtime-backed Kuailepu song-page architecture. Before changing anything, read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference-source wording. The current public instrument set is o12, o6, r8b, r8g, and w6; the current public library count is 72 songs; pure Chinese lyrics must stay hidden publicly and must not reappear through query params. Metronome is public as a docked toolbar above the fingering chart, not as a blocking modal. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first; if it needs Google or western keyword research, ask for a foreign VPN first. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD to inspect unpushed local commits. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Continue on the runtime-backed Kuailepu song-page architecture. Before changing anything, read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference-source wording. The current public instrument set is o12, o6, r8b, r8g, and w6; the current public library count is 78 songs; pure Chinese lyrics must stay hidden publicly and must not reappear through query params. Metronome is public as a docked toolbar above the fingering chart, not as a blocking modal. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first; if it needs Google or western keyword research, ask for a foreign VPN first. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD to inspect unpushed local commits. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`

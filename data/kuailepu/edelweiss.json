@@ -1,0 +1,36 @@
+{
+  "id": "edelweiss",
+  "slug": "edelweiss",
+  "title": "Edelweiss",
+  "description": "Edelweiss melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Richard Rodgers.",
+  "published": false,
+  "alignedLyrics": [
+    "E- del- weiss, E- dev- weiss, ev- ery morn- ing you greet me,",
+    "Small and white, clean and bright, you look hap- ppy to meet me.",
+    "Blossom of snow may you bloom and grow, bloom and grow for- ev- er.",
+    "E- del- weiss, E- del- weiss, Bless my home- land for- ev- er!"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/nEuye17kx.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song nEuye17kx on 2026-04-04."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "3 - 5 | 2' - - | 1' - 5 | 4 - - | 3 - 3 | 3 4 5 | 6 - - | 5 - - |",
+    "3 - 5 | 2' - - | 1' - 5 | 4 - - | 3 - 5 | 5 6 7 | 1' - - | 1' - - |",
+    "2' - 5 | 7 6 5 | 3 - 5 | 1' - - | 6 - 1' | 2' - 1' | 7 - - | 5 - - |",
+    "3 - 5 | 2' - - | 1' - 5 | 4 - - | 3 - 5 | 5 6 7 | 1' - - | 1' - 0 | | |"
+  ]
+}

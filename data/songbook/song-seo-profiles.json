@@ -574,5 +574,53 @@
     ],
     "background": "Joy to the World is one of the strongest Christmas hymn search terms in English, so it fits naturally as a holiday melody page for players who want a readable version on ocarina, recorder, or tin whistle without staff-heavy notation.",
     "practice": "The tune is useful for bright phrase entry, repeated-note control, steady 2/4 pulse, and confident holiday sing-along pacing across familiar carol phrases."
+  },
+  "home-on-the-range": {
+    "searchTerms": [
+      "Home on the Range ocarina tabs",
+      "Home on the Range recorder notes"
+    ],
+    "background": "Home on the Range is one of the best-known American folk and cowboy-song melodies, so it fits naturally as a western-friendly melody page for players who want a readable tune on ocarina, recorder, or tin whistle without staff-heavy notation.",
+    "practice": "Its broad singable line is useful for connected phrasing, breath pacing, and steady melody reading across repeated folk-style phrases."
+  },
+  "la-cucaracha": {
+    "searchTerms": [
+      "La Cucaracha ocarina tabs",
+      "La Cucaracha recorder notes"
+    ],
+    "background": "La Cucaracha is one of the most recognizable Mexican folk melodies, so it works well as a lively tune page for players searching for fast-to-read note labels on ocarina, recorder, or tin whistle.",
+    "practice": "The tune is useful for quick repeated-note control, upbeat dance pulse, and cleaner articulation across short energetic phrases."
+  },
+  "drinking-song": {
+    "searchTerms": [
+      "Drinking Song ocarina tabs",
+      "Libiamo recorder notes"
+    ],
+    "background": "Drinking Song, known through Verdi's Libiamo from La Traviata, is a familiar public-domain opera melody that fits a melody-first page for players who want readable note labels instead of vocal score formatting.",
+    "practice": "It supports brisk phrase pickup control, lighter dance-like pulse, and confident interval reading across a brighter operatic melody."
+  },
+  "edelweiss": {
+    "searchTerms": [
+      "Edelweiss ocarina tabs",
+      "Edelweiss recorder notes"
+    ],
+    "background": "Edelweiss is one of the most recognisable melodies from The Sound of Music, so it fits naturally as a lyrical song page for players who want a clean melody-first version on ocarina, recorder, or tin whistle.",
+    "practice": "Its gentle stepwise line is useful for legato phrasing, breath pacing, and keeping a warm singing tone across slower connected phrases."
+  },
+  "el-condor-pasa": {
+    "searchTerms": [
+      "El Condor Pasa ocarina tabs",
+      "El Condor Pasa recorder notes"
+    ],
+    "background": "El Condor Pasa is one of the best-known Andean folk melodies, so it works well as an evergreen melody page for ocarina, recorder, and tin whistle players who want readable note labels instead of staff-heavy arrangements.",
+    "practice": "The tune is useful for breath shaping, phrase connection, and steady interval reading across a calm but distinctive folk melody."
+  },
+  "happy-new-year": {
+    "searchTerms": [
+      "Happy New Year ocarina tabs",
+      "Happy New Year recorder notes"
+    ],
+    "background": "Happy New Year is a seasonal melody with clear celebration intent, so it fits naturally as a holiday page for players looking for an easy-to-read tune on ocarina, recorder, or tin whistle around year-end gatherings.",
+    "practice": "It is useful for steady sing-along pacing, repeated phrase control, and keeping a bright holiday pulse without dense technical demands."
   }
 }

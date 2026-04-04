@@ -1,0 +1,33 @@
+{
+  "id": "home-on-the-range",
+  "slug": "home-on-the-range",
+  "title": "Home on the Range",
+  "description": "Home on the Range melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "我的 家 在 牧 场， 那儿 有 水 牛 游 荡， 还 有 快 乐的 小 鹿和 羚 羊 _ 那 儿 多 么 欢 畅, 那 儿 没 有 悲 伤， 辽 阔 天 _ 空 多 么 晴 朗。 _ 家， 牧 场 我的 家 _， 那儿 有 快 乐 的 小 鹿， 羚 羊 _， 那 儿 多 么 欢 畅, 那 儿 没 有 悲 伤， 辽 阔 天 _ 空 多 么 晴 朗。 _"
+  ],
+  "extraLyrics": [
+    "当 黄 昏 过 去， 夜 幕 笼 罩 大 地， 天 上 星 星 闪 烁着 光 芒 _ 星 空 多 么 壮 丽， 令 人 无 限 神 往， 但 是 比 不 上 我 的 牧 场。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/g7jGe1BCJ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song g7jGe1BCJ on 2026-04-04."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": ""
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "5, - | 5, - 1 - 2 - | 3 - - - 1 7, | 6, - 4 - 4 - | 4 - - - 4 4 | 5 - - - 1 - | 1 - 7, - 1 - | 2 - - - - - | 2 - - - 5, 5, | 5, - 1 - 2 - | 3 - - - 1 7, | 6, - 4 - 4 - | 4 - - - 4 4 | 3 - - 2 1 - | 7, - 1 - 2 - | 1 - - - - - | 1 - - - - - | 5 - - - - - | 4 - 3 - - 2 | 3 - - - - - | 3 - - - 2 2 | 1 - 1 - 1 - | 1 - 7, - 1 - | 2 - - - - - | 2 - - - 5, 5, | 5, - 1 - 2 - | 3 - - - 1 7, | 6, - 4 - 4 - | 4 - - - 4 4 | 3 - - 2 1 - | 7, - 1 - 2 - | 1 - - - - - | 1 - - - - - | | |"
+  ]
+}
