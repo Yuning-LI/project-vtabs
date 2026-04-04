@@ -155,21 +155,20 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 text-sm text-stone-700">
-            <span className="font-medium text-stone-900">
-              Showing {filteredSongs.length} of {songs.length} songs
-            </span>
-            {activeFilters.map(label => (
-              <span key={label} className="page-warm-pill px-3 py-1 text-xs font-semibold">
-                {label}
-              </span>
-            ))}
-            {normalizedQuery ? (
-              <span className="page-warm-pill px-3 py-1 text-xs font-semibold">
-                Search: {query.trim()}
-              </span>
-            ) : null}
-          </div>
+          {activeFilters.length > 0 || normalizedQuery ? (
+            <div className="flex flex-wrap items-center gap-2 text-sm text-stone-700">
+              {activeFilters.map(label => (
+                <span key={label} className="page-warm-pill px-3 py-1 text-xs font-semibold">
+                  {label}
+                </span>
+              ))}
+              {normalizedQuery ? (
+                <span className="page-warm-pill px-3 py-1 text-xs font-semibold">
+                  Search: {query.trim()}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </section>
 

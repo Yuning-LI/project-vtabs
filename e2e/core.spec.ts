@@ -44,7 +44,6 @@ test.describe('runtime-backed song pages', () => {
 
     await search.fill('fur elise')
     await expect(page.getByText('Search: fur elise')).toBeVisible()
-    await expect(page.getByText(/Showing 1 of \d+ songs/)).toBeVisible()
     await expect(page.locator('a[href="/song/fur-elise"]')).toHaveCount(1)
 
     await search.fill('twinkle')
