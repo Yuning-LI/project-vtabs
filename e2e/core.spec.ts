@@ -74,6 +74,7 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('region', { name: 'Function Zone' })).toBeVisible()
+    await expect(page.locator('[data-function-zone-ready="1"]')).toHaveCount(1)
     await expect(page.getByText('Function Zone')).toHaveCount(0)
     await expect(page.getByText('Quick Setup')).toHaveCount(0)
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
@@ -81,14 +82,18 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('compact')
     await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('10')
     await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveCount(0)
-    await expect(page.getByRole('link', { name: 'Note View: Letter Notes' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Note View: Letter Notes' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
-    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
-    await expect(page.getByRole('link', { name: 'Metronome: Off' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Metronome: Off' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    await expect(page.getByRole('button', { name: 'Measure Numbers: On' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
@@ -118,7 +123,7 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
-    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(
       page.getByText(
         'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
@@ -140,7 +145,7 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('w6')
-    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(
       page.getByText(
         'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
@@ -176,18 +181,19 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')
     await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('12')
-    await expect(page.getByRole('link', { name: 'Lyrics: Off' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Lyrics: Off' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
-    await expect(page.getByRole('link', { name: 'Measure Numbers: On' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Measure Numbers: On' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
 
-    await page.getByRole('link', { name: 'Lyrics: On' }).click()
+    await expect(page.locator('[data-function-zone-ready="1"]')).toHaveCount(1)
+    await page.getByRole('button', { name: 'Lyrics: On' }).click()
     await expect(page).toHaveURL(
-      'http://127.0.0.1:3000/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+      'http://127.0.0.1:3000/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=on&measure_layout=mono&sheet_scale=12'
     )
 
     await page.goto(
@@ -198,6 +204,23 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
 
     await expectRuntimeSheet(page, 'row-row-row-your-boat')
+  })
+
+  test('function-zone state changes do not trap browser back inside the detail page', async ({
+    page
+  }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
+
+    await page.locator('a[href="/song/ode-to-joy"]').click()
+    await expect(page).toHaveURL('http://127.0.0.1:3000/song/ode-to-joy')
+
+    await expect(page.locator('[data-function-zone-ready="1"]')).toHaveCount(1)
+    await page.getByRole('button', { name: 'Measure Numbers: Off' }).click()
+    await expect(page).toHaveURL('http://127.0.0.1:3000/song/ode-to-joy?show_measure_num=off')
+
+    await page.goBack()
+    await expect(page).toHaveURL('http://127.0.0.1:3000/')
+    await expect(page.getByRole('heading', { name: 'Browse Melody Pages' })).toBeVisible()
   })
 
   test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({
@@ -217,9 +240,9 @@ test.describe('runtime-backed song pages', () => {
     })
 
     await expect(page.getByRole('combobox', { name: 'Practice Tool' })).toHaveCount(0)
-    await expect(page.getByRole('link', { name: 'Metronome: On' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Metronome: On' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
@@ -274,7 +297,7 @@ test.describe('runtime-backed song pages', () => {
       waitUntil: 'domcontentloaded'
     })
 
-    await expect(page.getByRole('link', { name: /Lyrics:/ })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /Lyrics:/ })).toHaveCount(0)
 
     const frame = page.locator('iframe[title="Happy Birthday to You Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -293,7 +316,7 @@ test.describe('runtime-backed song pages', () => {
       waitUntil: 'domcontentloaded'
     })
 
-    await expect(page.getByRole('link', { name: /Lyrics:/ })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /Lyrics:/ })).toHaveCount(0)
 
     const frame = page.locator('iframe[title="Spring Song Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
@@ -315,9 +338,9 @@ test.describe('runtime-backed song pages', () => {
       '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&note_label_mode=number'
     )
 
-    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
@@ -336,9 +359,9 @@ test.describe('runtime-backed song pages', () => {
     )
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
-    await expect(page.getByRole('link', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
-      'aria-current',
-      'page'
+    await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
     )
     await expectRuntimeSheet(page, 'ode-to-joy')
   })

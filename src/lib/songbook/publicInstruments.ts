@@ -21,6 +21,8 @@ export type PublicSongPageQueryState = {
   practiceTool?: 'metronome' | null
 }
 
+const DEFAULT_PUBLIC_SHOW_MEASURE_NUM = 'on'
+
 type RuntimeInstrumentCarrier = {
   instrumentFingerings?: Array<{
     instrument?: string | null
@@ -112,7 +114,7 @@ export function buildSongPageHref(
     params.set('show_lyric', input.showLyric)
   }
 
-  if (input.showMeasureNum) {
+  if (input.showMeasureNum && input.showMeasureNum !== DEFAULT_PUBLIC_SHOW_MEASURE_NUM) {
     params.set('show_measure_num', input.showMeasureNum)
   }
 

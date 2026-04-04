@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export type SongPageFunctionZoneSelectOption = {
   value: string
@@ -36,16 +36,26 @@ export default function SongPageFunctionZone({
   selects,
   toggles
 }: SongPageFunctionZoneProps) {
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(() => {
+    setIsReady(true)
+  }, [])
+
   function navigate(href: string) {
     if (!href) {
       return
     }
 
-    window.location.assign(href)
+    window.location.replace(href)
   }
 
   return (
-    <section className="page-function-zone" aria-label="Function Zone">
+    <section
+      className="page-function-zone"
+      aria-label="Function Zone"
+      data-function-zone-ready={isReady ? '1' : '0'}
+    >
       <div className="page-function-zone-grid">
         {selects.map(control => (
           <label key={control.id} className="page-function-zone-field">
@@ -77,19 +87,20 @@ export default function SongPageFunctionZone({
             <span className="page-function-zone-label">{control.label}</span>
             <div className="page-function-zone-toggle-list">
               {control.options.map(option => (
-                <Link
+                <button
                   key={`${control.id}-${option.label}`}
-                  href={option.href}
+                  type="button"
                   aria-label={`${control.label}: ${option.label}`}
-                  aria-current={option.isActive ? 'page' : undefined}
+                  aria-pressed={option.isActive}
                   className={
                     option.isActive
                       ? 'page-function-zone-toggle page-function-zone-toggle-active'
                       : 'page-function-zone-toggle'
                   }
+                  onClick={() => navigate(option.href)}
                 >
                   {option.label}
-                </Link>
+                </button>
               ))}
             </div>
           </div>

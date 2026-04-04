@@ -701,11 +701,20 @@ function applyRuntimeDefaults(
       : shouldHideLyricTrackByDefault(payload)
         ? 'off'
         : normalizeToggle(undefined, payload.show_lyric, 'on')
-  next.show_measure_num = normalizeToggle(
-    state?.show_measure_num,
-    payload.show_measure_num,
-    'off'
-  )
+  /**
+   * 公开 song page 的小节号默认值不再沿用快乐谱快照里原本保存的开关。
+   *
+   * 原因：
+   * - raw JSON 里的 `show_measure_num` 更像“源站当时保存下来的页面偏好”
+   * - 当前英文公开页面向的是 western 读谱习惯
+   * - 这类用户通常会把 bar / measure numbers 当成练习和定位用的常规辅助信息
+   *
+   * 所以公开页这里统一收口为：
+   * - 显式 query 仍然优先
+   * - 默认值改为 `on`
+   * - 不再被 payload 根层历史偏好牵着走
+   */
+  next.show_measure_num = normalizeToggle(state?.show_measure_num, undefined, 'on')
   next.measure_layout = state?.measure_layout ?? payload.measure_layout ?? 'compact'
   next.no_check_href = true
   next.no_preference_instrument = true
