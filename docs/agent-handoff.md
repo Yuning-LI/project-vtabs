@@ -318,6 +318,20 @@ npm run preflight:kuailepu-publish -- <slug...>
    - 建议一起搜：`O Tannenbaum`、`圣诞树`、`哦，圣诞树`
 4. `Brahms' Lullaby`
    - 建议一起搜：`Brahms Lullaby`、`勃拉姆斯摇篮曲`、`摇篮曲`、`Wiegenlied`
+5. `Away in a Manger`
+   - 建议一起搜：`远远在马槽里`、`马槽圣婴`
+6. `Loch Lomond`
+   - 建议一起搜：`The Bonnie Banks o' Loch Lomond`
+7. `Annie Laurie`
+   - 建议一起搜：`安妮劳丽`
+8. `The Ash Grove`
+   - 建议一起搜：`Llwyn Onn`
+
+补充：
+
+- 2026-04-04 在美国 VPN 下直接请求快乐谱搜索接口时，`curl` 返回 `SSL_ERROR_SYSCALL`。
+- 现阶段仍把美国侧当成“western 候选池研究环境”，不要把它当作稳定的快乐谱导歌环境。
+- `What Child Is This` 暂不建议优先做，因为它和当前已上线的 `Greensleeves` 共用旋律；先优先扩新的 melody 页面。
 5. `Angels We Have Heard on High`
    - 建议一起搜：`天使歌唱在高天`、`天使歌唱在高天上`
 6. `Away in a Manger`

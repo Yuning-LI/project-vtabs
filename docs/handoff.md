@@ -839,6 +839,88 @@
 
 当前建议先按上面顺序尝试，不要一开始就追太多难度更高、页面定位也更窄的候选。
 
+### 17.1.1.1 2026-04-04 美国 VPN 下补充结论
+
+- 当前美国 VPN 下不适合继续直接打快乐谱导歌链。
+- 这轮实测：
+  - 直接请求 `https://www.kuaiyuepu.com/web/song.php?action=search`
+  - `curl` 返回：
+    - `LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.kuaiyuepu.com:443`
+- 所以当前更稳妥的分工仍然是：
+  - 美国 VPN：
+    - 做 western 搜索词研究
+    - 做下一批候选池筛选
+    - 和现有公开曲库去重
+  - 中国 VPN：
+    - 实际搜快乐谱
+    - 导歌
+    - 跑 preflight compare
+
+### 17.1.1.2 2026-04-04 美国 VPN 下整理出的下一批候选优先级
+
+这轮美国侧研究后，下一批候选建议按两档来做。
+
+第一档先做“高流量圣诞曲”：
+
+1. `joy-to-the-world`
+   - 原因：
+     - western 圣诞搜索面很宽
+     - ocarina / tin whistle / recorder 都有明确现成 tabs / notes 需求
+2. `the-first-noel`
+   - 原因：
+     - 圣诞季 evergreen
+     - 和当前 holiday family 定位高度一致
+3. `away-in-a-manger`
+   - 原因：
+     - beginner-friendly
+     - whistle / recorder 搜索意图也很自然
+4. `o-come-all-ye-faithful`
+   - 原因：
+     - 圣诞标准曲
+     - 不依赖过窄的单一乐器人群
+5. `good-king-wenceslas`
+   - 原因：
+     - holiday 长尾稳定
+     - melody 结构对当前站点友好
+6. `jolly-old-saint-nicholas`
+   - 原因：
+     - 美国用户认知强
+     - 对 beginner ocarina / recorder 搜索也友好
+
+第二档做“全年 folk / classical evergreen”：
+
+1. `loch-lomond`
+   - 原因：
+     - 传统苏格兰民歌，western folk 识别度高
+     - tin whistle / recorder 搜索天然匹配
+2. `annie-laurie`
+   - 原因：
+     - 传统苏格兰歌，tin whistle 侧已有现成需求信号
+     - 适合继续扩 Scottish / Irish folk 面
+3. `the-ash-grove`
+   - 原因：
+     - 传统威尔士民歌
+     - 适合补 recorder / ocarina 的 lyrical folk 页
+4. `the-last-rose-of-summer`
+   - 原因：
+     - 传统爱尔兰旋律
+     - tin whistle 侧已有现成需求信号
+5. `my-bonnie-lies-over-the-ocean`
+   - 原因：
+     - 英语儿童 / folk 认知强
+     - 适合 beginner 搜索入口
+6. `drink-to-me-only-with-thine-eyes`
+   - 原因：
+     - 英美传统曲目认知稳定
+     - 页面定位偏 lyrical folk，和现有库互补
+
+当前不建议优先做的别名型候选：
+
+- `what-child-is-this`
+  - 原因：
+    - 本质上与当前已上线的 `greensleeves` 共用旋律
+    - 现阶段先优先扩“新旋律页”，不要重新走重复入口路线
+
 ### 17.1.2 以后什么时候要做“数百首曲库”架构调整
 
 如果后续公开曲库继续扩大，出现下面任意一类信号，就要从当前“文件为主”的轻量方案升级到下一层内容工程化：
