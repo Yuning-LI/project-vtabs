@@ -2,7 +2,7 @@
   "generatedOn": "2026-04-04",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "Foreign-VPN screening completed. No current screen-next item is ready for import; continue China-network discovery for more western public-domain candidates, and keep Tennessee Waltz / The Last Waltz only as traffic-reference titles.",
+  "nextStep": "Foreign-VPN screening closed out the first pass. China-network second-pass discovery found Home on the Range as the next western public-domain candidate to screen under a foreign VPN; Salut d'Amour was found on Kuailepu but cannot enter the current queue because the page only exposes instrument=none.",
   "seedQueries": [
     "Joy to the World",
     "The First Noel",
@@ -36,11 +36,11 @@
     "The South Wind"
   ],
   "summary": {
-    "uniqueResults": 25,
+    "uniqueResults": 27,
     "alreadyPublic": 9,
     "newCandidatesWithLatinTitles": 14,
-    "immediateScreeningCandidates": 0,
-    "skipForNowCandidates": 14
+    "immediateScreeningCandidates": 1,
+    "skipForNowCandidates": 15
   },
   "foreignVpnScreening": {
     "screenedOn": "2026-04-04",
@@ -58,6 +58,24 @@
       "Lullaby of the Manifold"
     ],
     "conclusion": "This first-pass screened set does not produce a clean next import candidate under the current public-domain-first strategy."
+  },
+  "chinaSecondPassDiscovery": {
+    "screenedOn": "2026-04-04",
+    "network": "China-reachable Kuailepu search",
+    "promisingNewCandidates": [
+      "Home on the Range"
+    ],
+    "blockedCandidates": [
+      "Salut d'Amour"
+    ],
+    "duplicateAliasFinds": [
+      {
+        "query": "伦敦德里小调",
+        "existingPublicSlug": "londonderry-air",
+        "notes": "Useful discovery for future manual search, but not a new melody page."
+      }
+    ],
+    "conclusion": "The strongest newly discovered candidate is Home on the Range; most other recognizable hits were already public, duplicate-melody aliases, or lacked usable public instruments."
   },
   "candidates": [
     {
@@ -167,6 +185,37 @@
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
       "notes": "Already public as Jolly Old Saint Nicholas."
+    },
+    {
+      "href": "https://www.kuaiyuepu.com/jianpu/g7jGe1BCJ.html",
+      "songName": "牧场上的家",
+      "aliasName": "",
+      "searchResultTitle": "牧场上的家 牧场上的家",
+      "candidateEnglishTitle": "Home on the Range",
+      "lyricLanguage": "cjk-only",
+      "rhythm": "",
+      "keynote": "",
+      "supportsPublicInstruments": true,
+      "status": "screen-next",
+      "rightsRisk": "public-domain",
+      "discoveredByQuery": "牧场上的家",
+      "notes": "Second-pass China-network discovery. Strong American standard with usable public instruments; lyrics are Chinese-only on Kuailepu so public page would hide them by default."
+    },
+    {
+      "href": "https://www.kuaiyuepu.com/jianpu/DDWml1tVr.html",
+      "songName": "爱的礼赞",
+      "aliasName": "",
+      "searchResultTitle": "爱的礼赞 爱德华 埃尔加",
+      "candidateEnglishTitle": "Salut d'Amour",
+      "lyricLanguage": "none",
+      "rhythm": "4/4",
+      "keynote": "1=D",
+      "supportsPublicInstruments": false,
+      "status": "skip-for-now",
+      "rightsRisk": "public-domain",
+      "screeningDecision": "no-public-instruments",
+      "discoveredByQuery": "爱的礼赞",
+      "notes": "Recognizable Elgar public-domain title, but this Kuailepu page exposes only instrument=none, so it cannot become a public fingering page under the current product rules."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/l3Xxg1z9D.html",

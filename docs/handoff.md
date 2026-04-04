@@ -797,18 +797,22 @@
 
 这份文件不是快乐谱全站 `6000+` 首曲目的完整清单，而是当前产品更相关的第一版 western 子集。当前统计是：
 
-- `uniqueResults = 25`
+- `uniqueResults = 27`
 - `alreadyPublic = 9`
 - `newCandidatesWithLatinTitles = 14`
-- `immediateScreeningCandidates = 0`
-- `skipForNowCandidates = 14`
+- `immediateScreeningCandidates = 1`
+- `skipForNowCandidates = 15`
 
-这轮在国外 VPN 下已经完成第一轮 western 流量与可用性筛选。当前结论是：
+这轮在国外 VPN 下已经完成第一轮 western 流量与可用性筛选，随后又在中国网络下补做了一轮扩池。当前结论是：
 
-1. 这批首轮 `screen-next` 里没有一首能直接进入当前公版导歌队列
+1. 首轮 `screen-next` 已全部收口
+2. 中国网络第二轮新增出 1 个新的 `screen-next`：
+   - `Home on the Range`
+3. 这首歌当前是最值得下一次切到国外 VPN 后继续看 western 需求的候选
 2. `The Last Waltz` 与 `Tennessee Waltz` 只保留为 western 需求参考标题
 3. `Vientos Suaves` 与 `Polska` 暂时保留，但都缺少足够清晰的单曲 landing-page 身份
 4. `Lullaby of the Manifold` 已基本确认偏现代版权曲，不再属于当前导歌队列
+5. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
 
 当前已明确更适合先跳过的代表项有：
 

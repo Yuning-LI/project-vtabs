@@ -335,17 +335,18 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 这份候选池当前摘要是：
 
-- `25` 条 unique results
+- `27` 条 unique results
 - `9` 条已是公开曲库
-- `0` 条 `screen-next`
-- `14` 条 `skip-for-now`
+- `1` 条 `screen-next`
+- `15` 条 `skip-for-now`
 
-这轮国外 VPN 筛完后的结论是：
+这轮国外 VPN 筛完后，又在中国网络下补做了一轮扩池。当前结论是：
 
-1. 当前没有一首能直接进入下一轮公版导歌
+1. 当前唯一新的 `screen-next` 是 `Home on the Range`
 2. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
 3. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
 4. `Lullaby of the Manifold` 已基本排除出当前队列
+5. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
 
 补充：
 
