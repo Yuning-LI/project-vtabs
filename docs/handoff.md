@@ -109,6 +109,12 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自快乐谱页 `欢乐圣诞`，按旋律身份映射为 `Jolly Old Saint Nicholas` 公开；当前为器乐页，无公开歌词
+- 截至当前工作区：
+  - 本地分支仍存在未 push 提交。
+  - 新对话接手或准备上线前，先执行：
+    - `git status --short --branch`
+    - `git log --oneline origin/main..HEAD`
+  - 不要跳过这一步直接 push，因为本地提交数量会随着后续文档或导歌收尾继续变化。
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -898,11 +904,6 @@
    - 原因：
      - holiday 长尾稳定
      - melody 结构对当前站点友好
-6. `jolly-old-saint-nicholas`
-   - 原因：
-     - 美国用户认知强
-     - 对 beginner ocarina / recorder 搜索也友好
-
 第二档做“全年 folk / classical evergreen”：
 
 1. `loch-lomond`
@@ -936,6 +937,11 @@
   - 原因：
     - 本质上与当前已上线的 `greensleeves` 共用旋律
     - 现阶段先优先扩“新旋律页”，不要重新走重复入口路线
+
+当前已从这份候选池落地完成：
+
+- `jolly-old-saint-nicholas`
+  - 现已导入并通过中国网络下 `5 / 5` 公开乐器 parity
 
 ### 17.1.2 以后什么时候要做“数百首曲库”架构调整
 
@@ -979,24 +985,21 @@
 
 ## 18. 当前工作区剩余状态
 
-到 2026-04-02 这次交接整理时，当前工作区待提交的是下面这组同一主题的改动：
+到 2026-04-04 当前交接时，核心产品链路没有额外必须收尾的代码主线：
 
-- Playwright 修复：
-  - `playwright.config.ts`
-  - `e2e/core.spec.ts`
-- 详情页 runtime loading 修复：
-  - `src/components/song/KuailepuRuntimeFrame.tsx`
-  - `src/components/song/KuailepuLegacyRuntimePage.tsx`
-- `/k-static` 静态同步链：
-  - `scripts/sync-kuailepu-static.mjs`
-  - `package.json`
-  - `public/k-static/**`
-  - `vendor/kuailepu-static/**`
-- favicon 补齐：
-  - `src/app/icon.svg`
-  - `public/favicon.ico`
-  - `src/app/layout.tsx`
-- runtime 英文标点规范化：
-  - `src/lib/kuailepu/runtime.ts`
+- 公开 `/song/<slug>` 仍是 deployable raw JSON + 原始 Kuailepu runtime。
+- 默认 `letter`、可选 `number`、发布前 gate 仍看 `number`。
+- 公开最小乐器集仍是：
+  - `o12`
+  - `o6`
+  - `r8b`
+  - `r8g`
+  - `w6`
+- 功能区与节拍器当前已经公开并经过本地回归。
+- 当前最需要注意的“剩余状态”不是再改主链，而是：
+  - 本地分支可能比远端超前
+  - 新对话接手前先看 `git status --short --branch`
+  - 准备上线前先看 `git log --oneline origin/main..HEAD`
+  - 确认每个本地提交都属于应上线内容后再 push
 
 `tsconfig.tsbuildinfo`、调试截图、`.tmp` 文件、临时日志都属于噪音，不应带入提交。

@@ -58,12 +58,12 @@
 
 ## 当前真实状态
 
-以 2026-04-01 当前工作区为准：
+以 2026-04-04 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 60 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 71 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -258,29 +258,25 @@
   - 前台也不显示 `Lyrics` 开关
   - 即使手动拼 `show_lyric=on`，公开页也不应重新暴露纯中文歌词
 
-## 这次收口前的待提交内容
+## 当前交接前的剩余注意事项
 
-到 2026-04-02 这次整理交接时，当前工作区待提交的是一整组同一主题的改动，不是只剩 `runtime.ts`：
+到 2026-04-04 当前交接时，核心 runtime 主链、多乐器公开、功能区、节拍器、SEO 文案和最新一轮导歌都已经收口完成；当前更重要的是把“仓库状态”交接清楚，而不是继续临时重构主链。
 
-- Playwright 修复：
-  - `playwright.config.ts`
-  - `e2e/core.spec.ts`
-- 详情页 runtime loading 修复：
-  - `src/components/song/KuailepuRuntimeFrame.tsx`
-  - `src/components/song/KuailepuLegacyRuntimePage.tsx`
-- `/k-static` 静态同步链：
-  - `scripts/sync-kuailepu-static.mjs`
-  - `package.json`
-  - `public/k-static/**`
-  - `vendor/kuailepu-static/**`
-- favicon 补齐：
-  - `src/app/icon.svg`
-  - `public/favicon.ico`
-  - `src/app/layout.tsx`
-- runtime 英文化排版净化：
-  - `src/lib/kuailepu/runtime.ts`
-
-`tsconfig.tsbuildinfo` 属于生成噪音，不应进入提交；调试截图和 `.tmp` / 临时日志也不应重新带回工作区。
+- 当前公开曲库数量是 `71` 首。
+- 最近一轮新增公开曲包括：
+  - `aura-lee`
+  - `simple-gifts`
+  - `the-south-wind`
+  - `lough-leane`
+  - `romance-damour`
+  - `wellerman`
+  - `bella-ciao`
+  - `jolly-old-saint-nicholas`
+- 新对话或准备上线前，先执行：
+  - `git status --short --branch`
+  - `git log --oneline origin/main..HEAD`
+- 如果本地分支比远端超前，不要直接假设“只差一次 push”；先逐个确认这些本地提交是否都已经过当前任务需要的复核。
+- `tsconfig.tsbuildinfo`、调试截图、`.tmp` 文件、临时日志都属于噪音，不应重新带入提交。
 
 ## 架构真相
 
