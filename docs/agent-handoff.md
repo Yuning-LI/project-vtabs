@@ -42,6 +42,7 @@
   - canonical
   - `robots`
   - `google-site-verification`
+- 首页与 song page metadata title 现已进一步覆盖 recorder / tin whistle 搜索意图，不再只写 `Ocarina Tabs`
 - Vercel 线上已实测通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`

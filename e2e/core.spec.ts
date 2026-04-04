@@ -21,8 +21,12 @@ test.describe('runtime-backed song pages', () => {
     await page.goto('/')
 
     await expect(page).toHaveTitle(/Play By Fingering/)
-    await expect(page.getByRole('heading', { name: 'Ocarina Letter Tabs' })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Browse Ocarina Songs' })).toBeVisible()
+    await expect(
+      page.getByRole('heading', {
+        name: 'Ocarina Tabs, Recorder Notes, and Tin Whistle Letter Notes'
+      })
+    ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Browse Melody Pages' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
     await expect(page.getByText('reference source')).toHaveCount(0)
 

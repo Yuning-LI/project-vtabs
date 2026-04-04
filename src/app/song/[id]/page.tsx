@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     presentation?.metaDescription ||
     `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument views.`
   return {
-    title: `${songName} Ocarina Tabs | Letter Notes & Fingering Chart`,
+    title: `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
     description,
     alternates: {
       canonical: `${siteUrl}/song/${song?.slug || id}`

@@ -55,6 +55,9 @@
   - 首页 canonical 已显式补齐
   - `icon.svg` 不应再进入 sitemap
   - 不再依赖 `next-sitemap` 或提交到仓库里的静态 `public/sitemap*.xml`
+- 首页与 song page metadata title 现已进一步覆盖多乐器搜索意图：
+  - 首页 title 会同时覆盖 `ocarina tabs`、`recorder notes`、`tin whistle letter notes`
+  - song page title 不再只写 `Ocarina Tabs`
 - 线上 `https://www.playbyfingering.com/` 已实际检查通过：
   - `/song/ode-to-joy`
   - `/song/jasmine-flower`
