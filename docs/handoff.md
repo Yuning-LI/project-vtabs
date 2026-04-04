@@ -779,7 +779,8 @@
 
 如果下一轮任务是“继续扩充曲库”，当前上下文要记住：
 
-- 国外 ocarina 流量较高的公版曲目候选名单已经整理过一轮
+- 中国网络下已经整理出一版快乐谱 western 候选池：
+  - `data/songbook/kuailepu-western-candidate-pool.json`
 - 但快乐谱站内搜索对这些英文/中文标题的命中率很差，经常返回同一批兜底推荐
 - 2026-04-04 在美国 VPN 下实测：
   - `npm run search:kuailepu -- "Joy to the World"` 返回 `ERR_CONNECTION_CLOSED`
@@ -788,167 +789,61 @@
 - 真正开始导入前，仍然必须先跑 `npm run preflight:kuailepu-publish -- <slug...>`
 - 如果 preflight 报登录失效，就先让人工执行 `npm run login:kuailepu`
 
-### 17.1.1 回到中国 VPN 后优先尝试的 western 公版候选
+### 17.1.1 2026-04-04 中国 VPN 下已落地的快乐谱 western 候选池
 
-这份队列用于“美国 VPN 做研究，中国 VPN 做导歌”的分工，不是说这些歌已经确认在快乐谱一定能搜到。
+这轮中国网络下已经把“快乐谱里能找到的 western 相关候选”收口成一份文件：
 
-当前更值得优先试的候选是：
+- `data/songbook/kuailepu-western-candidate-pool.json`
 
-1. `joy-to-the-world`
-   - 英文标题：
-     - `Joy to the World`
-   - 建议一并尝试的中文 / 变体：
-     - `普世欢腾`
-     - `普天同庆`
-   - 优先原因：
-     - western Christmas 流量很大
-     - 同时容易覆盖 `ocarina tabs`、`ocarina notes`、`tin whistle notes`
-2. `the-first-noel`
-   - 英文标题：
-     - `The First Noel`
-     - `The First Nowell`
-   - 建议一并尝试的中文 / 变体：
-     - `第一支圣诞歌`
-     - `第一首圣诞歌`
-   - 优先原因：
-     - 圣诞季搜索意图稳定
-     - ocarina 用户侧已有现成 tabs 需求信号
-3. `o-christmas-tree`
-   - 英文标题：
-     - `O Christmas Tree`
-     - `O Tannenbaum`
-   - 建议一并尝试的中文 / 变体：
-     - `圣诞树`
-     - `哦，圣诞树`
-   - 优先原因：
-     - 同时适合 recorder / tin whistle / ocarina
-     - 英文名和德文名都值得搜
-4. `brahms-lullaby`
-   - 英文标题：
-     - `Brahms' Lullaby`
-     - `Brahms Lullaby`
-     - `Lullaby`
-   - 建议一并尝试的中文 / 变体：
-     - `勃拉姆斯摇篮曲`
-     - `摇篮曲`
-     - `Wiegenlied`
-   - 优先原因：
-     - 非节日曲，全年可吃到 beginner / lullaby 搜索
-     - 对 recorder 初学者意图也比较友好
-5. `angels-we-have-heard-on-high`
-   - 英文标题：
-     - `Angels We Have Heard on High`
-   - 建议一并尝试的中文 / 变体：
-     - `天使歌唱在高天`
-     - `天使歌唱在高天上`
-   - 优先原因：
-     - 圣诞季搜索强
-     - tin whistle / recorder 也有自然匹配度
-6. `away-in-a-manger`
-   - 英文标题：
-     - `Away in a Manger`
-   - 建议一并尝试的中文 / 变体：
-     - `远远在马槽里`
-     - `马槽圣婴`
-   - 优先原因：
-     - 属于 western 用户熟悉的圣诞入门曲
-     - melody 简单，适合当前站点定位
-7. `we-three-kings`
-   - 英文标题：
-     - `We Three Kings`
-     - `We Three Kings of Orient Are`
-   - 建议一并尝试的中文 / 变体：
-     - `三位君王`
-     - `东方三博士`
-   - 优先原因：
-     - 圣诞相关长尾明确
-     - 适合作为第二梯队候选
+这份文件不是快乐谱全站 `6000+` 首曲目的完整清单，而是当前产品更相关的第一版 western 子集。当前统计是：
 
-当前建议先按上面顺序尝试，不要一开始就追太多难度更高、页面定位也更窄的候选。
+- `uniqueResults = 25`
+- `alreadyPublic = 9`
+- `newCandidatesWithLatinTitles = 14`
+- `immediateScreeningCandidates = 5`
+- `skipForNowCandidates = 9`
 
-### 17.1.1.1 2026-04-04 美国 VPN 下补充结论
+当前最值得在国外 VPN 下继续做 western 流量筛选的是：
 
-- 当前美国 VPN 下不适合继续直接打快乐谱导歌链。
-- 这轮实测：
-  - 直接请求 `https://www.kuaiyuepu.com/web/song.php?action=search`
-  - `curl` 返回：
-    - `LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.kuaiyuepu.com:443`
-- 所以当前更稳妥的分工仍然是：
-  - 美国 VPN：
-    - 做 western 搜索词研究
-    - 做下一批候选池筛选
-    - 和现有公开曲库去重
-  - 中国 VPN：
-    - 实际搜快乐谱
-    - 导歌
-    - 跑 preflight compare
+1. `Vientos Suaves`
+2. `Polska`
+3. `Lullaby of the Manifold`
+4. `The Last Waltz`
+5. `Tennesseee Waltz`
 
-### 17.1.1.2 2026-04-04 美国 VPN 下整理出的下一批候选优先级
+当前已明确更适合先跳过的代表项有：
 
-这轮美国侧研究后，下一批候选建议按两档来做。
+- `O son do ar`
+  - 已有作曲者 `Bieito Romero`，更像现代版权曲
+- `The Imperial March`
+  - 识别度高，但不属于当前公版扩曲范围
+- `Waltz No.2`
+  - 标题强，但版权风险高
+- `Hymn To The Sea`
+  - 现代电影配乐，不在当前队列
+- `Merry Christmas Mr. Lawrence`
+  - 现代作品，不在当前队列
 
-第一档先做“高流量圣诞曲”：
+这轮候选池里已落地完成并不应再重复导入的有：
 
-1. `joy-to-the-world`
-   - 原因：
-     - western 圣诞搜索面很宽
-     - ocarina / tin whistle / recorder 都有明确现成 tabs / notes 需求
-2. `the-first-noel`
-   - 原因：
-     - 圣诞季 evergreen
-     - 和当前 holiday family 定位高度一致
-3. `away-in-a-manger`
-   - 原因：
-     - beginner-friendly
-     - whistle / recorder 搜索意图也很自然
-4. `o-come-all-ye-faithful`
-   - 原因：
-     - 圣诞标准曲
-     - 不依赖过窄的单一乐器人群
-5. `good-king-wenceslas`
-   - 原因：
-     - holiday 长尾稳定
-     - melody 结构对当前站点友好
-第二档做“全年 folk / classical evergreen”：
-
-1. `loch-lomond`
-   - 原因：
-     - 传统苏格兰民歌，western folk 识别度高
-     - tin whistle / recorder 搜索天然匹配
-2. `annie-laurie`
-   - 原因：
-     - 传统苏格兰歌，tin whistle 侧已有现成需求信号
-     - 适合继续扩 Scottish / Irish folk 面
-3. `the-ash-grove`
-   - 原因：
-     - 传统威尔士民歌
-     - 适合补 recorder / ocarina 的 lyrical folk 页
-4. `the-last-rose-of-summer`
-   - 原因：
-     - 传统爱尔兰旋律
-     - tin whistle 侧已有现成需求信号
-5. `my-bonnie-lies-over-the-ocean`
-   - 原因：
-     - 英语儿童 / folk 认知强
-     - 适合 beginner 搜索入口
-6. `drink-to-me-only-with-thine-eyes`
-   - 原因：
-     - 英美传统曲目认知稳定
-     - 页面定位偏 lyrical folk，和现有库互补
-
-当前不建议优先做的别名型候选：
-
-- `what-child-is-this`
-  - 原因：
-    - 本质上与当前已上线的 `greensleeves` 共用旋律
-    - 现阶段先优先扩“新旋律页”，不要重新走重复入口路线
-
-当前已从这份候选池落地完成：
-
-- `jolly-old-saint-nicholas`
-  - 现已导入并通过中国网络下 `5 / 5` 公开乐器 parity
 - `joy-to-the-world`
-  - 现已导入并通过中国网络下 `5 / 5` 公开乐器 parity
+- `jolly-old-saint-nicholas`
+
+另外：
+
+- `what-child-is-this` 仍不建议优先做
+  - 它和当前已上线的 `greensleeves` 共用旋律
+  - 现阶段先优先扩新的 melody 页面
+
+下一步分工仍然是：
+
+- 国外 VPN：
+  - 基于这份候选池看 western 搜索需求
+  - 做 import 优先级排序
+- 中国 VPN：
+  - 在确定优先级后继续搜快乐谱上下文
+  - 导歌
+  - 跑 preflight compare
 
 ### 17.1.2 以后什么时候要做“数百首曲库”架构调整
 
