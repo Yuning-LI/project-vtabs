@@ -149,6 +149,11 @@
 - 其中：
   - `Spanish Bullfighting Tune` 导入自 `西班牙斗牛曲 玛奎纳` 器乐页，无公开歌词
   - `Woodpecker Polka` 导入自 `啄木鸟波尔卡 Woodpecker Polka` 器乐页，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 1 首器乐候选：
+  - `blacksmith-polka`
+- 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 组合一致
+- 当前这首歌导入自 `铁匠波尔卡 / 陶笛二重奏` 页；来源作曲者字段为 `约瑟夫·施特劳斯`，公开页按纯器乐曲处理，无公开歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -356,17 +361,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 79`
+- `songCatalog.length = 80`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 79`
+- `allSongCatalog.length = 80`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 79`
+- `data/songbook/public-song-manifest.json = 80`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 79`
+- `data/kuailepu-runtime/*.json = 80`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 79`
+- `reference/songs/*.json = 80`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 73`
+- `data/kuailepu/*.json = 74`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

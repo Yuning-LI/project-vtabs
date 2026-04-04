@@ -551,5 +551,12 @@
     "family": "dance",
     "featuredRank": 79,
     "published": true
+  },
+  {
+    "id": "blacksmith-polka",
+    "slug": "blacksmith-polka",
+    "family": "dance",
+    "featuredRank": 80,
+    "published": true
   }
 ]
