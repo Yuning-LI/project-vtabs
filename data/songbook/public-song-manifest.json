@@ -525,38 +525,31 @@
     "published": true
   },
   {
-    "id": "edelweiss",
-    "slug": "edelweiss",
-    "family": "song",
-    "featuredRank": 76,
-    "published": true
-  },
-  {
     "id": "el-condor-pasa",
     "slug": "el-condor-pasa",
     "family": "folk",
-    "featuredRank": 77,
+    "featuredRank": 76,
     "published": true
   },
   {
     "id": "happy-new-year",
     "slug": "happy-new-year",
     "family": "holiday",
-    "featuredRank": 78,
+    "featuredRank": 77,
     "published": true
   },
   {
     "id": "spanish-bullfighting-tune",
     "slug": "spanish-bullfighting-tune",
     "family": "march",
-    "featuredRank": 79,
+    "featuredRank": 78,
     "published": true
   },
   {
     "id": "woodpecker-polka",
     "slug": "woodpecker-polka",
     "family": "dance",
-    "featuredRank": 80,
+    "featuredRank": 79,
     "published": true
   }
 ]
