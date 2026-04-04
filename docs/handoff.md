@@ -85,6 +85,14 @@
   - `Aura Lee` 的快乐谱页明确带有英文别名 `Aura Lee`
   - `Simple Gifts` 当前为器乐版，无公开歌词
   - `The South Wind` 当前为英文标题器乐版，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 2 首公版曲：
+  - `lough-leane`
+  - `romance-damour`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Lough Leane` 当前为英文标题器乐版，无公开歌词
+  - `Romance d'Amour` 当前导入自 `爱的罗曼史 / 《禁忌的游戏》插曲` 器乐页，无公开歌词
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -286,17 +294,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 66`
+- `songCatalog.length = 68`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 66`
+- `allSongCatalog.length = 68`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 66`
+- `data/songbook/public-song-manifest.json = 68`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 66`
+- `data/kuailepu-runtime/*.json = 68`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 66`
+- `reference/songs/*.json = 68`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 60`
+- `data/kuailepu/*.json = 62`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

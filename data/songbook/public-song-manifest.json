@@ -460,5 +460,19 @@
     "family": "folk",
     "featuredRank": 66,
     "published": true
+  },
+  {
+    "id": "lough-leane",
+    "slug": "lough-leane",
+    "family": "folk",
+    "featuredRank": 67,
+    "published": true
+  },
+  {
+    "id": "romance-damour",
+    "slug": "romance-damour",
+    "family": "classical",
+    "featuredRank": 68,
+    "published": true
   }
 ]

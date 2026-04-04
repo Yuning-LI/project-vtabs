@@ -97,6 +97,14 @@
   - `Aura Lee` 为明确英文别名页
   - `Simple Gifts` 为无公开歌词的器乐页
   - `The South Wind` 为英文标题器乐页
+- 本轮后续又新增并通过 preflight compare 的 2 首公版曲：
+  - `lough-leane`
+  - `romance-damour`
+- 中国网络下已经对这 2 首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 一致
+- 其中：
+  - `Lough Leane` 为英文标题器乐页
+  - `Romance d'Amour` 当前导入自 `爱的罗曼史 / 《禁忌的游戏》插曲` 器乐页
 
 ## 2. 接手后必须先知道的事
 

@@ -526,5 +526,21 @@
     ],
     "background": "The South Wind is a traditional Irish melody that fits very naturally with whistle and recorder search intent, while still giving ocarina players a clear folk tune in a melody-first format.",
     "practice": "It is useful for phrase shaping, cleaner ornament-free folk reading, and steady air support across longer flowing lines."
+  },
+  "lough-leane": {
+    "searchTerms": [
+      "Lough Leane ocarina tabs",
+      "Lough Leane tin whistle notes"
+    ],
+    "background": "Lough Leane is a traditional Irish melody that fits whistle, recorder, and ocarina search intent well because players often want a calm folk tune with a clear singable line instead of dense ornamented notation.",
+    "practice": "It is especially useful for breath planning, connected phrasing, and a steady folk-style tone across longer lines."
+  },
+  "romance-damour": {
+    "searchTerms": [
+      "Romance d'Amour ocarina tabs",
+      "Spanish Romance recorder notes"
+    ],
+    "background": "Romance d'Amour, also widely recognised as Spanish Romance, is one of the most searched lyrical guitar-style melodies, so it works well as a melody-first page for ocarina, recorder, and tin whistle players who want a readable version of the theme.",
+    "practice": "The melody is useful for legato phrasing, expressive tone control, and clean position changes without the pace of a fast showpiece."
   }
 }
