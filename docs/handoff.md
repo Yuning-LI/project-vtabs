@@ -109,6 +109,11 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自快乐谱页 `欢乐圣诞`，按旋律身份映射为 `Jolly Old Saint Nicholas` 公开；当前为器乐页，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 1 首 holiday / hymn 候选：
+  - `joy-to-the-world`
+- 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 组合一致
+- 当前这首歌导入自快乐谱页 `普世歡騰 / 敬拜頌讚`，按英文常用名映射为 `Joy to the World` 公开；由于该页歌词为纯中文，公开页将继续默认隐藏歌词且不显示歌词开关
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -316,15 +321,15 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 71`
+- `songCatalog.length = 72`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 71`
+- `allSongCatalog.length = 72`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 71`
+- `data/songbook/public-song-manifest.json = 72`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 71`
+- `data/kuailepu-runtime/*.json = 72`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 71`
+- `reference/songs/*.json = 72`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
 - `data/kuailepu/*.json = 65`
   - 可提交的轻量导入数量。
@@ -941,6 +946,8 @@
 当前已从这份候选池落地完成：
 
 - `jolly-old-saint-nicholas`
+  - 现已导入并通过中国网络下 `5 / 5` 公开乐器 parity
+- `joy-to-the-world`
   - 现已导入并通过中国网络下 `5 / 5` 公开乐器 parity
 
 ### 17.1.2 以后什么时候要做“数百首曲库”架构调整

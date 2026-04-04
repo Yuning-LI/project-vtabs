@@ -495,5 +495,12 @@
     "family": "holiday",
     "featuredRank": 71,
     "published": true
+  },
+  {
+    "id": "joy-to-the-world",
+    "slug": "joy-to-the-world",
+    "family": "holiday",
+    "featuredRank": 72,
+    "published": true
   }
 ]

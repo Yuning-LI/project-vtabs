@@ -1,0 +1,39 @@
+{
+  "id": "joy-to-the-world",
+  "slug": "joy-to-the-world",
+  "title": "Joy to the World",
+  "description": "Joy to the World melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "普 世 歡 騰！ 救 主 下 降， 大 地 來 迎 君 王。 惟",
+    "願 _ 眾 _ 心 _ _ 預 備 _ 地 _ 方， _ _ 諸 天 萬 物 歌 _ 唱，",
+    "諸 _ 天 萬 物 歌 _ 唱， 諸 _ 天 _ 諸 天 _ _ 萬 物 歌 唱。"
+  ],
+  "extraLyrics": [
+    "普 世 歡 騰！ 主 治 萬 方， 民 眾 首 當 歌 唱。 沃 野 _ 洪 _ 濤 _ _ 山 石 _ 平 _ 原， _ _ 響 應 歌 聲 嘹 _ 亮， 響 _ 應 歌 聲 嘹 _ 亮， 響 _ 應 _ 響 應 _ _ 歌 聲 嘹 亮。",
+    "罪 惡 憂 愁 不 容 增 長， 世 途 荊 棘 消 亡。 化 詛 _ 為 _ 恩， _ _ 無 論 _ 遠 _ 近， _ _ 到 處 恩 澤 流 _ 長， 到 _ 處 恩 澤 流 _ 長， 到 _ 處 _ 到 處 _ _ 恩 澤 流 長。",
+    "主 籍 真 理 治 理 萬 方， 要 使 萬 邦 證 明。 上 主 _ 公 _ 義， _ _ 無 限 _ 榮 _ 光， _ _ 主 愛 何 等 奇 _ 妙， 主 _ 愛 何 等 奇 _ 妙， 主 _ 愛 _ 主 愛 _ _ 何 等 奇 妙。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/U0yAr1sAq.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song U0yAr1sAq on 2026-04-04."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "1' - - - 7 - - 6 | 5 - - - - - 4 - | 3 - - - 2 - - - | 1 - - - - - 5 - | 6 - - - - - 6 - | 7 - - - - - 7 - | 1' - - - - - 1' - |",
+    "1' - 7 - 6 - 5 - | 5 - - 4 3 - 1' - | 1' - 7 - 6 - 5 - | 5 - - 4 3 - 3 - | 3 - 3 - 3 - 3 4 | 5 - - - - -",
+    "4 3 | 2 - 2 - 2 - 2 3 | 4 - - - - - 3 2 | 1 - 1' - - - 6 - | 5 - - 4 3 - 4 - | 3 - - - 2 - - - | 1 - - - - - - - | | |"
+  ]
+}
