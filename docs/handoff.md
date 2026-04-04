@@ -810,7 +810,14 @@
    - `Home on the Range`
    - `La Cucaracha`
    - `Drinking Song`
-3. 这 3 首都值得下一次切到国外 VPN 后一起看 western 需求
+3. 美国侧第二轮筛选后的当前优先级是：
+   - `Home on the Range`
+   - `La Cucaracha`
+   - `Drinking Song`
+4. 其中：
+   - `Home on the Range` 是当前最值得进入下一轮导歌链的目标
+   - `La Cucaracha` 是可行备选
+   - `Drinking Song` 继续保留，但因为标题更泛、快乐谱页公开乐器也更窄，所以优先级最低
 2. `The Last Waltz` 与 `Tennessee Waltz` 只保留为 western 需求参考标题
 3. `Vientos Suaves` 与 `Polska` 暂时保留，但都缺少足够清晰的单曲 landing-page 身份
 4. `Lullaby of the Manifold` 已基本确认偏现代版权曲，不再属于当前导歌队列

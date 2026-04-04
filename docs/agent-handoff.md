@@ -346,11 +346,16 @@ npm run preflight:kuailepu-publish -- <slug...>
    - `Home on the Range`
    - `La Cucaracha`
    - `Drinking Song`
-2. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
-3. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
-4. `Lullaby of the Manifold` 已基本排除出当前队列
-5. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
-6. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
+2. 美国侧第二轮筛选后的优先级是：
+   - `Home on the Range`
+   - `La Cucaracha`
+   - `Drinking Song`
+3. `Home on the Range` 是当前最值得进入下一轮导歌链的目标
+4. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
+5. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
+6. `Lullaby of the Manifold` 已基本排除出当前队列
+7. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
+8. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
 
 补充：
 
