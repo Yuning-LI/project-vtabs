@@ -2,7 +2,7 @@
   "generatedOn": "2026-04-04",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "Use this pool under a foreign VPN to evaluate western search demand before import decisions.",
+  "nextStep": "Foreign-VPN screening completed. No current screen-next item is ready for import; continue China-network discovery for more western public-domain candidates, and keep Tennessee Waltz / The Last Waltz only as traffic-reference titles.",
   "seedQueries": [
     "Joy to the World",
     "The First Noel",
@@ -39,8 +39,25 @@
     "uniqueResults": 25,
     "alreadyPublic": 9,
     "newCandidatesWithLatinTitles": 14,
-    "immediateScreeningCandidates": 5,
-    "skipForNowCandidates": 9
+    "immediateScreeningCandidates": 0,
+    "skipForNowCandidates": 14
+  },
+  "foreignVpnScreening": {
+    "screenedOn": "2026-04-04",
+    "network": "US VPN / western-web research",
+    "readyToImportNext": [],
+    "trafficReferenceOnly": [
+      "The Last Waltz",
+      "Tennessee Waltz"
+    ],
+    "holdForDiscovery": [
+      "Vientos Suaves",
+      "Polska"
+    ],
+    "removeFromQueue": [
+      "Lullaby of the Manifold"
+    ],
+    "conclusion": "This first-pass screened set does not produce a clean next import candidate under the current public-domain-first strategy."
   },
   "candidates": [
     {
@@ -160,9 +177,10 @@
       "rhythm": "3/4",
       "keynote": "1=F",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "skip-for-now",
       "rightsRisk": "unclear",
-      "notes": "Spanish title with no composer field. Good candidate for later western demand screening and manual rights review."
+      "screeningDecision": "hold-no-clear-western-demand",
+      "notes": "US-side western searches do not surface a clear canonical tune identity; results skew toward generic ambient/music pages. Hold until a stronger title match or composer identity is found."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/YgQ4f1iWp.html",
@@ -173,9 +191,10 @@
       "rhythm": "6/8",
       "keynote": "1=F",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "skip-for-now",
       "rightsRisk": "unclear",
-      "notes": "Generic folk-dance title with no composer field. Worth checking western folk search demand and public-domain status."
+      "screeningDecision": "hold-ambiguous-title",
+      "notes": "Western results treat 'polska' mainly as a dance genre rather than one specific melody, so it is too ambiguous to prioritize as a standalone SEO page."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/WaCWv1E3v.html",
@@ -186,9 +205,10 @@
       "rhythm": "6/8",
       "keynote": "1=G",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
-      "rightsRisk": "unclear",
-      "notes": "English title is attractive, but rights and recognition are unclear. Keep for later screening, not direct import."
+      "status": "skip-for-now",
+      "rightsRisk": "copyrighted",
+      "screeningDecision": "remove-modern-copyrighted",
+      "notes": "Western-web results point to a recent Warframe track rather than a public-domain standard. Remove from the current import queue."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/ItyWq16I3.html",
@@ -199,9 +219,10 @@
       "rhythm": "3/4",
       "keynote": "1=G",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "skip-for-now",
       "rightsRisk": "likely-copyrighted",
-      "notes": "Strong English title but likely outside public-domain scope. Keep only as western-demand reference, not import priority."
+      "screeningDecision": "traffic-reference-only",
+      "notes": "Western results are dominated by the well-known modern pop song title, which is useful as demand reference but not aligned with the current public-domain import strategy."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/HhI9l18KJ.html",
@@ -212,9 +233,11 @@
       "rhythm": "3/4",
       "keynote": "1=C",
       "supportsPublicInstruments": true,
-      "status": "screen-next",
+      "status": "skip-for-now",
       "rightsRisk": "likely-copyrighted",
-      "notes": "Potentially high western recognition but likely not public domain. Keep in pool for traffic study only."
+      "canonicalWesternTitle": "Tennessee Waltz",
+      "screeningDecision": "traffic-reference-only",
+      "notes": "Strong western demand signal across tin whistle / recorder tutorials, but the tune is a modern copyrighted standard rather than a clean public-domain import target."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/Cdj5t1n6e.html",
