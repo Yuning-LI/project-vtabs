@@ -542,5 +542,21 @@
     ],
     "background": "Romance d'Amour, also widely recognised as Spanish Romance, is one of the most searched lyrical guitar-style melodies, so it works well as a melody-first page for ocarina, recorder, and tin whistle players who want a readable version of the theme.",
     "practice": "The melody is useful for legato phrasing, expressive tone control, and clean position changes without the pace of a fast showpiece."
+  },
+  "wellerman": {
+    "searchTerms": [
+      "Wellerman ocarina tabs",
+      "Wellerman tin whistle notes"
+    ],
+    "background": "Wellerman is one of the most searched sea shanty melodies on the modern web, so it is a strong evergreen folk page for players looking for a readable version on ocarina, recorder, or tin whistle.",
+    "practice": "Its repetitive chorus shape makes it useful for pulse control, breath pacing, and steady phrase repetition without dense ornamentation."
+  },
+  "bella-ciao": {
+    "searchTerms": [
+      "Bella Ciao ocarina tabs",
+      "Bella Ciao recorder notes"
+    ],
+    "background": "Bella Ciao is one of the most recognisable Italian folk and resistance melodies, so it fits very naturally as a melody-first page for players searching across ocarina, recorder, and tin whistle.",
+    "practice": "The tune is useful for phrase repetition, clean articulation, and keeping a steady march-like pulse across a familiar folk melody."
   }
 }

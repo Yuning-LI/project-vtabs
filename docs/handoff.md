@@ -93,6 +93,14 @@
 - 其中：
   - `Lough Leane` 当前为英文标题器乐版，无公开歌词
   - `Romance d'Amour` 当前导入自 `爱的罗曼史 / 《禁忌的游戏》插曲` 器乐页，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 2 首高流量 folk 候选：
+  - `wellerman`
+  - `bella-ciao`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Wellerman` 的快乐谱页明确使用英文标题 `Wellerman`
+  - `Bella Ciao` 当前导入自 `啊朋友再见` 页；由于该页歌词为纯中文，公开页将继续默认隐藏歌词且不显示歌词开关
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -294,17 +302,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 68`
+- `songCatalog.length = 70`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 68`
+- `allSongCatalog.length = 70`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 68`
+- `data/songbook/public-song-manifest.json = 70`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 68`
+- `data/kuailepu-runtime/*.json = 70`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 68`
+- `reference/songs/*.json = 70`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 62`
+- `data/kuailepu/*.json = 64`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

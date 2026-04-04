@@ -474,5 +474,19 @@
     "family": "classical",
     "featuredRank": 68,
     "published": true
+  },
+  {
+    "id": "wellerman",
+    "slug": "wellerman",
+    "family": "folk",
+    "featuredRank": 69,
+    "published": true
+  },
+  {
+    "id": "bella-ciao",
+    "slug": "bella-ciao",
+    "family": "folk",
+    "featuredRank": 70,
+    "published": true
   }
 ]
