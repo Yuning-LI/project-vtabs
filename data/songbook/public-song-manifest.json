@@ -439,5 +439,26 @@
     "family": "classical",
     "featuredRank": 63,
     "published": true
+  },
+  {
+    "id": "aura-lee",
+    "slug": "aura-lee",
+    "family": "folk",
+    "featuredRank": 64,
+    "published": true
+  },
+  {
+    "id": "simple-gifts",
+    "slug": "simple-gifts",
+    "family": "folk",
+    "featuredRank": 65,
+    "published": true
+  },
+  {
+    "id": "the-south-wind",
+    "slug": "the-south-wind",
+    "family": "folk",
+    "featuredRank": 66,
+    "published": true
   }
 ]

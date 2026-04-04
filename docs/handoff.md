@@ -73,6 +73,19 @@
   - 当前 `public-song` 默认已从 28 个模板脚本收缩到 6 个，`full-template` 仍保留完整恢复入口
   - 当前建议先停在这版，不再继续激进扩大 stub 范围
 
+### 1.1.1 2026-04-04 最新导歌补充
+
+- 本轮新增并通过 preflight compare 的 3 首公版曲：
+  - `aura-lee`
+  - `simple-gifts`
+  - `the-south-wind`
+- 中国网络下已对这 3 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 组合一致
+- 其中：
+  - `Aura Lee` 的快乐谱页明确带有英文别名 `Aura Lee`
+  - `Simple Gifts` 当前为器乐版，无公开歌词
+  - `The South Wind` 当前为英文标题器乐版，无公开歌词
+
 ### 1.2 2026-04-03 多乐器最新补充
 
 - 公开 song page 已经支持最小多乐器切换：
@@ -273,17 +286,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 63`
+- `songCatalog.length = 66`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 63`
+- `allSongCatalog.length = 66`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 63`
+- `data/songbook/public-song-manifest.json = 66`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 63`
+- `data/kuailepu-runtime/*.json = 66`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 63`
+- `reference/songs/*.json = 66`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 57`
+- `data/kuailepu/*.json = 60`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

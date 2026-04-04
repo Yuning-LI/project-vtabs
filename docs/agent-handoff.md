@@ -85,6 +85,19 @@
   - 仍复用快乐谱原始 metronome 脚本
   - 公开页会把它改造成停靠在谱面上方的英文工具条，不再以遮挡谱面的弹窗出现
 
+## 最新补充（2026-04-04）
+
+- 本轮又新增并通过 preflight compare 的 3 首公版曲：
+  - `aura-lee`
+  - `simple-gifts`
+  - `the-south-wind`
+- 中国网络下已经对这 3 首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `15 / 15` 一致
+- 其中：
+  - `Aura Lee` 为明确英文别名页
+  - `Simple Gifts` 为无公开歌词的器乐页
+  - `The South Wind` 为英文标题器乐页
+
 ## 2. 接手后必须先知道的事
 
 - 站点前台目标用户是 Google 来的 western 用户。
@@ -352,11 +365,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：63
-- 全部候选：63
-- public manifest：63
-- raw JSON：63
-- 可提交轻量导入：57
+- 公开 song pages：66
+- 全部候选：66
+- public manifest：66
+- raw JSON：66
+- 可提交轻量导入：60
 
 不要拿这些数字互相强行对应。
 

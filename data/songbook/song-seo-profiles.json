@@ -502,5 +502,29 @@
     ],
     "background": "Spring Song by Mendelssohn is a familiar light classical melody that attracts players looking for a gentler concert-style piece than a march or holiday tune, while still staying readable in a melody-first format.",
     "practice": "It is useful for controlled phrasing, even tone, and smoother melodic connection across a calm classical line."
+  },
+  "aura-lee": {
+    "searchTerms": [
+      "Aura Lee ocarina tabs",
+      "Aura Lee recorder notes"
+    ],
+    "background": "Aura Lee is a well-known 19th-century American song melody, and it remains a useful evergreen public-domain page for players who want a lyrical tune that also fits recorder and tin whistle searches.",
+    "practice": "The melody is especially good for steady phrase connection, even breath support, and a singing tone instead of fast technical playing."
+  },
+  "simple-gifts": {
+    "searchTerms": [
+      "Simple Gifts ocarina tabs",
+      "Simple Gifts tin whistle notes"
+    ],
+    "background": "Simple Gifts is one of the most recognisable American Shaker tunes, so it works well as a clean public-domain melody page for players searching across ocarina, recorder, and tin whistle.",
+    "practice": "Its balanced phrase shape makes it practical for articulation control, moderate breath planning, and comfortable melodic reading."
+  },
+  "the-south-wind": {
+    "searchTerms": [
+      "The South Wind tin whistle notes",
+      "The South Wind recorder notes"
+    ],
+    "background": "The South Wind is a traditional Irish melody that fits very naturally with whistle and recorder search intent, while still giving ocarina players a clear folk tune in a melody-first format.",
+    "practice": "It is useful for phrase shaping, cleaner ornament-free folk reading, and steady air support across longer flowing lines."
   }
 }
