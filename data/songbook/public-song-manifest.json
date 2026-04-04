@@ -488,5 +488,12 @@
     "family": "folk",
     "featuredRank": 70,
     "published": true
+  },
+  {
+    "id": "jolly-old-saint-nicholas",
+    "slug": "jolly-old-saint-nicholas",
+    "family": "holiday",
+    "featuredRank": 71,
+    "published": true
   }
 ]

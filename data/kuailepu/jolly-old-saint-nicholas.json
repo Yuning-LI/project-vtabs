@@ -1,0 +1,32 @@
+{
+  "id": "jolly-old-saint-nicholas",
+  "slug": "jolly-old-saint-nicholas",
+  "title": "Jolly Old Saint Nicholas",
+  "description": "Jolly Old Saint Nicholas melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/qC4Nl1kvd.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song qC4Nl1kvd on 2026-04-04."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 110,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "5 - - 4 3 - 2 - | 1 - 2 - 3 - 1 - | 2 3 4 2 3 - - 2 |",
+    "1 - 7, - 1 - - - | 5 - - 4 3 - 2 - | 1 - 2 - 3 - 1 - |",
+    "2 3 4 2 3 - - 2 | 1 - 7, - 1 - - - | 2 - - 4 2 - |",
+    "3 - - 4 5 - 2 - | 3 4 5 - 6 7 1' - | 7 - 6 - 5 - - - |",
+    "5 - - 4 3 - 2 - | 1 - 2 - 3 - 1 - | 6 6 6 6 5 - - 4 |",
+    "3 - 2 - 1 - - - |"
+  ]
+}

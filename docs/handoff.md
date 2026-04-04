@@ -104,6 +104,11 @@
 - 其中：
   - `Wellerman` 的快乐谱页明确使用英文标题 `Wellerman`
   - `Bella Ciao` 当前导入自 `啊朋友再见` 页；由于该页歌词为纯中文，公开页将继续默认隐藏歌词且不显示歌词开关
+- 本轮后续又新增并通过 preflight compare 的 1 首 holiday 候选：
+  - `jolly-old-saint-nicholas`
+- 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 组合一致
+- 当前这首歌导入自快乐谱页 `欢乐圣诞`，按旋律身份映射为 `Jolly Old Saint Nicholas` 公开；当前为器乐页，无公开歌词
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -305,17 +310,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 70`
+- `songCatalog.length = 71`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 70`
+- `allSongCatalog.length = 71`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 70`
+- `data/songbook/public-song-manifest.json = 71`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 70`
+- `data/kuailepu-runtime/*.json = 71`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 70`
+- `reference/songs/*.json = 71`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 64`
+- `data/kuailepu/*.json = 65`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

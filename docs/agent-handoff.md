@@ -114,6 +114,11 @@
 - 其中：
   - `Wellerman` 为英文标题页
   - `Bella Ciao` 当前导入自 `啊朋友再见` 页，纯中文歌词仍按公开规则默认隐藏
+- 本轮后续又新增并通过 preflight compare 的 1 首 holiday 曲：
+  - `jolly-old-saint-nicholas`
+- 中国网络下已经对这首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 一致
+- 当前这首歌导入自快乐谱页 `欢乐圣诞`，按旋律身份映射为 `Jolly Old Saint Nicholas`
 
 ## 2. 接手后必须先知道的事
 
