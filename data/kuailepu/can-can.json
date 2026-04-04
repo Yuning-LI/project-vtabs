@@ -2,13 +2,13 @@
   "id": "can-can",
   "slug": "can-can",
   "title": "Can-Can",
-  "description": "Offenbach's high-recognition Can-Can theme, imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
-  "published": true,
+  "description": "Can-Can melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 雅克·奥芬巴赫.",
+  "published": false,
   "source": {
     "title": "Kuailepu detail-page snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/87Ofi18Bl.html",
     "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 87Ofi18Bl on 2026-03-30."
+    "note": "Raw context captured from Kuailepu song 87Ofi18Bl on 2026-04-04."
   },
   "meta": {
     "key": "1 = C",
@@ -17,8 +17,8 @@
   },
   "review": {
     "status": "pending",
-    "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

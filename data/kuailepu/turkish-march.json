@@ -3,12 +3,12 @@
   "slug": "turkish-march",
   "title": "Turkish March",
   "description": "Turkish March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 莫扎特.",
-  "published": true,
+  "published": false,
   "source": {
     "title": "Kuailepu detail-page snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/9z2xc1sms.html",
     "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 9z2xc1sms on 2026-03-28."
+    "note": "Raw context captured from Kuailepu song 9z2xc1sms on 2026-04-04."
   },
   "meta": {
     "key": "1 = bE",
@@ -17,7 +17,7 @@
   },
   "review": {
     "status": "pending",
-    "checkedOn": "2026-03-28",
+    "checkedOn": "2026-04-04",
     "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 63,

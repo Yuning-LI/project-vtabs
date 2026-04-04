@@ -134,6 +134,22 @@
   - `Edelweiss` 导入自 `雪绒花 Edelweiss` 页，当前歌词为英文
   - `El Condor Pasa` 导入自 `老鹰之歌 If I Could (El Condor Pasa)` 器乐页，无公开歌词
   - `Happy New Year` 导入自 `新年好 Happy New Year` 页，当前为中英混合歌词
+- 本轮后续又补齐并通过 preflight compare 的 3 首既有公开曲：
+  - `santa-lucia`
+  - `turkish-march`
+  - `can-can`
+- 这 3 首原本已在公开内容层，这次补齐为快乐谱 raw JSON 主链并完成中国网络下的 compare：
+  - `Santa Lucia`
+  - `Turkish March`
+  - `Can-Can`
+- 本轮后续又新增并通过 preflight compare 的 2 首器乐候选：
+  - `spanish-bullfighting-tune`
+  - `woodpecker-polka`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Spanish Bullfighting Tune` 导入自 `西班牙斗牛曲 玛奎纳` 器乐页，无公开歌词
+  - `Woodpecker Polka` 导入自 `啄木鸟波尔卡 Woodpecker Polka` 器乐页，无公开歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -341,17 +357,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 78`
+- `songCatalog.length = 80`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 78`
+- `allSongCatalog.length = 80`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 78`
+- `data/songbook/public-song-manifest.json = 80`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 78`
+- `data/kuailepu-runtime/*.json = 80`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 78`
+- `reference/songs/*.json = 80`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 72`
+- `data/kuailepu/*.json = 74`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

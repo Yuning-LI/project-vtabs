@@ -2,13 +2,13 @@
   "id": "santa-lucia",
   "slug": "santa-lucia",
   "title": "Santa Lucia",
-  "description": "Traditional Neapolitan song imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
-  "published": true,
+  "description": "Santa Lucia melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
   "source": {
     "title": "Kuailepu detail-page snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/43XNs17ST.html",
     "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 43XNs17ST on 2026-03-29."
+    "note": "Raw context captured from Kuailepu song 43XNs17ST on 2026-04-04."
   },
   "meta": {
     "key": "1 = C",
@@ -17,8 +17,8 @@
   },
   "review": {
     "status": "pending",
-    "checkedOn": "2026-03-29",
-    "note": "Surfaced on the site as a pending review page. Manual melody review is still required before treating this as a trusted production melody."
+    "checkedOn": "2026-04-04",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

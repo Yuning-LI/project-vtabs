@@ -622,5 +622,21 @@
     ],
     "background": "Happy New Year is a seasonal melody with clear celebration intent, so it fits naturally as a holiday page for players looking for an easy-to-read tune on ocarina, recorder, or tin whistle around year-end gatherings.",
     "practice": "It is useful for steady sing-along pacing, repeated phrase control, and keeping a bright holiday pulse without dense technical demands."
+  },
+  "spanish-bullfighting-tune": {
+    "searchTerms": [
+      "Spanish Bullfighting Tune ocarina tabs",
+      "pasodoble recorder notes"
+    ],
+    "background": "Spanish Bullfighting Tune is a brisk pasodoble-style melody with clear public-domain band and parade recognition, so it works as a lively instrumental page for players who want fast readable note labels on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for sharper articulation, march-like pulse control, and cleaner interval reading across a brighter high-energy melody."
+  },
+  "woodpecker-polka": {
+    "searchTerms": [
+      "Woodpecker Polka ocarina tabs",
+      "Woodpecker Polka recorder notes"
+    ],
+    "background": "Woodpecker Polka is a recognizable novelty dance tune that fits a melody-first instrumental page for players looking for a lighter public-domain repertoire option on ocarina, recorder, or tin whistle.",
+    "practice": "The tune supports quick articulation, repeated-note control, and steadier dance pacing without the denser phrase length of a long concert piece."
   }
 }
