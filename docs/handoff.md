@@ -733,11 +733,92 @@
 
 - 国外 ocarina 流量较高的公版曲目候选名单已经整理过一轮
 - 但快乐谱站内搜索对这些英文/中文标题的命中率很差，经常返回同一批兜底推荐
+- 2026-04-04 在美国 VPN 下实测：
+  - `npm run search:kuailepu -- "Joy to the World"` 返回 `ERR_CONNECTION_CLOSED`
+  - 说明当前美国侧网络更适合做 western 关键词调研，不适合直接做快乐谱导歌
 - 所以继续加歌时，不能只依赖现有搜索脚本结果，可能要人工浏览或换别名再搜
 - 真正开始导入前，仍然必须先跑 `npm run preflight:kuailepu-publish -- <slug...>`
 - 如果 preflight 报登录失效，就先让人工执行 `npm run login:kuailepu`
 
-### 17.1.1 以后什么时候要做“数百首曲库”架构调整
+### 17.1.1 回到中国 VPN 后优先尝试的 western 公版候选
+
+这份队列用于“美国 VPN 做研究，中国 VPN 做导歌”的分工，不是说这些歌已经确认在快乐谱一定能搜到。
+
+当前更值得优先试的候选是：
+
+1. `joy-to-the-world`
+   - 英文标题：
+     - `Joy to the World`
+   - 建议一并尝试的中文 / 变体：
+     - `普世欢腾`
+     - `普天同庆`
+   - 优先原因：
+     - western Christmas 流量很大
+     - 同时容易覆盖 `ocarina tabs`、`ocarina notes`、`tin whistle notes`
+2. `the-first-noel`
+   - 英文标题：
+     - `The First Noel`
+     - `The First Nowell`
+   - 建议一并尝试的中文 / 变体：
+     - `第一支圣诞歌`
+     - `第一首圣诞歌`
+   - 优先原因：
+     - 圣诞季搜索意图稳定
+     - ocarina 用户侧已有现成 tabs 需求信号
+3. `o-christmas-tree`
+   - 英文标题：
+     - `O Christmas Tree`
+     - `O Tannenbaum`
+   - 建议一并尝试的中文 / 变体：
+     - `圣诞树`
+     - `哦，圣诞树`
+   - 优先原因：
+     - 同时适合 recorder / tin whistle / ocarina
+     - 英文名和德文名都值得搜
+4. `brahms-lullaby`
+   - 英文标题：
+     - `Brahms' Lullaby`
+     - `Brahms Lullaby`
+     - `Lullaby`
+   - 建议一并尝试的中文 / 变体：
+     - `勃拉姆斯摇篮曲`
+     - `摇篮曲`
+     - `Wiegenlied`
+   - 优先原因：
+     - 非节日曲，全年可吃到 beginner / lullaby 搜索
+     - 对 recorder 初学者意图也比较友好
+5. `angels-we-have-heard-on-high`
+   - 英文标题：
+     - `Angels We Have Heard on High`
+   - 建议一并尝试的中文 / 变体：
+     - `天使歌唱在高天`
+     - `天使歌唱在高天上`
+   - 优先原因：
+     - 圣诞季搜索强
+     - tin whistle / recorder 也有自然匹配度
+6. `away-in-a-manger`
+   - 英文标题：
+     - `Away in a Manger`
+   - 建议一并尝试的中文 / 变体：
+     - `远远在马槽里`
+     - `马槽圣婴`
+   - 优先原因：
+     - 属于 western 用户熟悉的圣诞入门曲
+     - melody 简单，适合当前站点定位
+7. `we-three-kings`
+   - 英文标题：
+     - `We Three Kings`
+     - `We Three Kings of Orient Are`
+   - 建议一并尝试的中文 / 变体：
+     - `三位君王`
+     - `东方三博士`
+   - 优先原因：
+     - 圣诞相关长尾明确
+     - 适合作为第二梯队候选
+
+当前建议先按上面顺序尝试，不要一开始就追太多难度更高、页面定位也更窄的候选。
+
+### 17.1.2 以后什么时候要做“数百首曲库”架构调整
 
 如果后续公开曲库继续扩大，出现下面任意一类信号，就要从当前“文件为主”的轻量方案升级到下一层内容工程化：
 

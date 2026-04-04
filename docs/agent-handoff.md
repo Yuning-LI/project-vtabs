@@ -283,7 +283,26 @@ npm run preflight:kuailepu-publish -- <slug...>
 当前额外背景：
 
 - 这轮已经整理过一份“国外 ocarina 流量较高的公版曲目候选名单”。
+- 2026-04-04 在美国 VPN 下实测，`npm run search:kuailepu -- "Joy to the World"` 直接报 `ERR_CONNECTION_CLOSED`。
+- 这说明当前美国侧更适合做 western 搜索词和候选池研究，不适合直接跑快乐谱导歌。
 - 但快乐谱站内搜索对不少候选曲命中很差，继续加歌时要准备英文名、中文名、别名、标题变体一起试，必要时人工导航。
+
+当前回到中国 VPN 后更值得优先尝试的候选：
+
+1. `Joy to the World`
+   - 建议一起搜：`普世欢腾`、`普天同庆`
+2. `The First Noel`
+   - 建议一起搜：`The First Nowell`、`第一支圣诞歌`、`第一首圣诞歌`
+3. `O Christmas Tree`
+   - 建议一起搜：`O Tannenbaum`、`圣诞树`、`哦，圣诞树`
+4. `Brahms' Lullaby`
+   - 建议一起搜：`Brahms Lullaby`、`勃拉姆斯摇篮曲`、`摇篮曲`、`Wiegenlied`
+5. `Angels We Have Heard on High`
+   - 建议一起搜：`天使歌唱在高天`、`天使歌唱在高天上`
+6. `Away in a Manger`
+   - 建议一起搜：`远远在马槽里`、`马槽圣婴`
+7. `We Three Kings`
+   - 建议一起搜：`We Three Kings of Orient Are`、`三位君王`、`东方三博士`
 
 ## 9. 如果用户让你“改字母谱效果”
 
