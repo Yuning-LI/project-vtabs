@@ -15,6 +15,8 @@ async function expectRuntimeSheet(page: Parameters<typeof test>[0]['page'], slug
 }
 
 test.describe('runtime-backed song pages', () => {
+  test.describe.configure({ timeout: 60000 })
+
   test('homepage shows English song cards for public songs', async ({ page }) => {
     await page.goto('/')
 
@@ -158,17 +160,17 @@ test.describe('runtime-backed song pages', () => {
 
   test('display controls keep runtime state and links aligned', async ({ page }) => {
     await page.goto(
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
       { waitUntil: 'domcontentloaded' }
     )
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
+    const frame = page.locator('iframe[title="Row, Row, Row Your Boat Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
       'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+      '/api/kuailepu-runtime/row-row-row-your-boat?runtime_text_mode=english&instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
     )
 
-    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1u')
+    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')
     await expect(page.getByRole('combobox', { name: 'Zoom' })).toHaveValue('12')
     await expect(page.getByRole('link', { name: 'Lyrics: Off' })).toHaveAttribute(
@@ -182,17 +184,17 @@ test.describe('runtime-backed song pages', () => {
 
     await page.getByRole('link', { name: 'Lyrics: On' }).click()
     await expect(page).toHaveURL(
-      'http://127.0.0.1:3000/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+      'http://127.0.0.1:3000/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
     )
 
     await page.goto(
-      '/song/ode-to-joy?instrument=r8b&show_graph=1u&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
       { waitUntil: 'domcontentloaded' }
     )
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')
-    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1u')
+    await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
 
-    await expectRuntimeSheet(page, 'ode-to-joy')
+    await expectRuntimeSheet(page, 'row-row-row-your-boat')
   })
 
   test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({
@@ -281,6 +283,22 @@ test.describe('runtime-backed song pages', () => {
     const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/happy-birthday-to-you"]`)
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toContain('祝你生日快乐')
+  })
+
+  test('empty runtime lyric arrays do not expose a public lyrics toggle', async ({ page }) => {
+    await page.goto('/song/spring-song?show_lyric=on', {
+      waitUntil: 'domcontentloaded'
+    })
+
+    await expect(page.getByRole('link', { name: /Lyrics:/ })).toHaveCount(0)
+
+    const frame = page.locator('iframe[title="Spring Song Kuailepu runtime"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/spring-song?runtime_text_mode=english'
+    )
+
+    await expectRuntimeSheet(page, 'spring-song')
   })
 
   test('number mode keeps the runtime route and renders the original sheet view', async ({

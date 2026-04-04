@@ -273,17 +273,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 60`
+- `songCatalog.length = 63`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 60`
+- `allSongCatalog.length = 63`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 60`
+- `data/songbook/public-song-manifest.json = 63`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 60`
+- `data/kuailepu-runtime/*.json = 63`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 60`
+- `reference/songs/*.json = 63`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 54`
+- `data/kuailepu/*.json = 57`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：
@@ -736,6 +736,25 @@
 - 所以继续加歌时，不能只依赖现有搜索脚本结果，可能要人工浏览或换别名再搜
 - 真正开始导入前，仍然必须先跑 `npm run preflight:kuailepu-publish -- <slug...>`
 - 如果 preflight 报登录失效，就先让人工执行 `npm run login:kuailepu`
+
+### 17.1.1 以后什么时候要做“数百首曲库”架构调整
+
+如果后续公开曲库继续扩大，出现下面任意一类信号，就要从当前“文件为主”的轻量方案升级到下一层内容工程化：
+
+- 公开曲库接近 `200-300` 首，而且还准备继续快速扩
+- 首页列表、搜索、筛选、字母跳转开始明显变慢
+- `next build`、静态生成、sitemap、校验脚本已经开始影响日常发布效率
+- 部署包体积、构建时长或平台资源占用开始接近限制
+- 维护 `public-song-manifest.json`、`song-seo-profiles.json` 等文件已经明显吃力
+
+建议操作顺序：
+
+1. 先把首页 song list 改成分页、分段加载或更轻量的索引下发
+2. 再把搜索索引从完整 `songCatalog` 视图中拆出来
+3. 再把 song catalog 从“模块级全量常驻”逐步改成更明确的文件级按需读取
+4. 如果曲库规模继续膨胀，再评估数据库或正式内容索引层
+
+当前不要抢先做这轮调整；在这些信号真正出现前，仍优先扩曲、做 SEO、保持 runtime 主链稳定。
 
 ### 17.2 当前最近已完成的收尾
 

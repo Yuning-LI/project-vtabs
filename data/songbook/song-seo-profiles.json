@@ -478,5 +478,29 @@
     ],
     "background": "Wild Rose is presented here as a lyrical song melody for players looking for a singable tune rather than a fast technical showpiece.",
     "practice": "It supports expressive phrasing, even tone, and comfortable melodic reading."
+  },
+  "oh-susanna": {
+    "searchTerms": [
+      "Oh Susanna ocarina tabs",
+      "Oh Susanna recorder notes"
+    ],
+    "background": "Oh Susanna is one of the best-known American folk songs, so it remains a strong evergreen search target for players who want a lively public-domain melody on ocarina, recorder, or tin whistle.",
+    "practice": "Its upbeat phrase motion is useful for steady pulse, repeated-note control, and cleaner jumps than a very small-range nursery song."
+  },
+  "row-row-row-your-boat": {
+    "searchTerms": [
+      "Row Row Row Your Boat ocarina tabs",
+      "Row Row Row Your Boat recorder notes"
+    ],
+    "background": "Row, Row, Row Your Boat is one of the most recognisable beginner nursery songs in English, so it fits very naturally as a melody-first page for players searching for an easy, familiar tune.",
+    "practice": "The short repeated phrases make it especially practical for first-note reading, lyric timing, and simple breath planning."
+  },
+  "spring-song": {
+    "searchTerms": [
+      "Spring Song Mendelssohn ocarina tabs",
+      "Spring Song Mendelssohn letter notes"
+    ],
+    "background": "Spring Song by Mendelssohn is a familiar light classical melody that attracts players looking for a gentler concert-style piece than a march or holiday tune, while still staying readable in a melody-first format.",
+    "practice": "It is useful for controlled phrasing, even tone, and smoother melodic connection across a calm classical line."
   }
 }

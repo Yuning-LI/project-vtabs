@@ -4,7 +4,7 @@
 
 ## Current Audit
 
-以 2026-04-03 当前工作区为准，`data/kuailepu-runtime/*.json` 的 60 首公开曲目全部包含同一组快乐谱乐器入口：
+以 2026-04-04 当前工作区为准，`data/kuailepu-runtime/*.json` 的 63 首公开曲目全部包含同一组快乐谱乐器入口：
 
 - `o12` 十二孔陶笛
 - `o6` 六孔陶笛
@@ -25,7 +25,7 @@
 
 换句话说：
 
-- 当前公开 60 首歌不存在“只支持少数几首 recorder / whistle”的数据缺口。
+- 当前公开 63 首歌不存在“只支持少数几首 recorder / whistle”的数据缺口。
 - 从 deployable raw JSON 角度看，`o6` / `r8b` / `r8g` / `w6` 都具备公开产品化的前提。
 
 ## Product Recommendation

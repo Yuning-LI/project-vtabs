@@ -333,11 +333,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：60
-- 全部候选：60
-- public manifest：60
-- raw JSON：60
-- 可提交轻量导入：54
+- 公开 song pages：63
+- 全部候选：63
+- public manifest：63
+- raw JSON：63
+- 可提交轻量导入：57
 
 不要拿这些数字互相强行对应。
 

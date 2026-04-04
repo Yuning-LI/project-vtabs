@@ -418,5 +418,26 @@
     "family": "folk",
     "featuredRank": 60,
     "published": true
+  },
+  {
+    "id": "oh-susanna",
+    "slug": "oh-susanna",
+    "family": "folk",
+    "featuredRank": 61,
+    "published": true
+  },
+  {
+    "id": "row-row-row-your-boat",
+    "slug": "row-row-row-your-boat",
+    "family": "nursery",
+    "featuredRank": 62,
+    "published": true
+  },
+  {
+    "id": "spring-song",
+    "slug": "spring-song",
+    "family": "classical",
+    "featuredRank": 63,
+    "published": true
   }
 ]

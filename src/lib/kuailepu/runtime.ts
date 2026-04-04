@@ -934,7 +934,10 @@ function extractPayloadLyricText(payload: KuailepuRuntimePayload) {
 
   for (const candidate of candidates) {
     if (typeof candidate === 'string' && candidate.trim()) {
-      return candidate
+      const normalized = normalizeLyricCandidate(candidate)
+      if (normalized) {
+        return normalized
+      }
     }
     if (Array.isArray(candidate)) {
       const text = candidate.filter(Boolean).join('\n').trim()
@@ -945,6 +948,29 @@ function extractPayloadLyricText(payload: KuailepuRuntimePayload) {
   }
 
   return ''
+}
+
+function normalizeLyricCandidate(candidate: string) {
+  const trimmed = candidate.trim()
+  if (!trimmed) {
+    return ''
+  }
+
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    try {
+      const parsed = JSON.parse(trimmed) as unknown
+      if (Array.isArray(parsed)) {
+        return parsed
+          .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+          .join('\n')
+          .trim()
+      }
+    } catch {
+      // Fall back to the original string when the lyric field is not valid JSON text.
+    }
+  }
+
+  return trimmed
 }
 
 /**
