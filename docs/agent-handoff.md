@@ -335,18 +335,22 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 这份候选池当前摘要是：
 
-- `27` 条 unique results
+- `30` 条 unique results
 - `9` 条已是公开曲库
-- `1` 条 `screen-next`
-- `15` 条 `skip-for-now`
+- `3` 条 `screen-next`
+- `17` 条 `skip-for-now`
 
 这轮国外 VPN 筛完后，又在中国网络下补做了一轮扩池。当前结论是：
 
-1. 当前唯一新的 `screen-next` 是 `Home on the Range`
+1. 当前新的 `screen-next` 有 3 个：
+   - `Home on the Range`
+   - `La Cucaracha`
+   - `Drinking Song`
 2. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
 3. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
 4. `Lullaby of the Manifold` 已基本排除出当前队列
 5. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
+6. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
 
 补充：
 

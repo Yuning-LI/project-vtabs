@@ -2,7 +2,7 @@
   "generatedOn": "2026-04-04",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "Foreign-VPN screening closed out the first pass. China-network second-pass discovery found Home on the Range as the next western public-domain candidate to screen under a foreign VPN; Salut d'Amour was found on Kuailepu but cannot enter the current queue because the page only exposes instrument=none.",
+  "nextStep": "Foreign-VPN screening closed out the first pass. China-network follow-up discovery expanded the next US-side screening queue to Home on the Range, La Cucaracha, and Drinking Song; Salut d'Amour and G Major Minuet stay blocked because their Kuailepu pages do not expose a usable public-instrument set.",
   "seedQueries": [
     "Joy to the World",
     "The First Noel",
@@ -36,11 +36,11 @@
     "The South Wind"
   ],
   "summary": {
-    "uniqueResults": 27,
+    "uniqueResults": 30,
     "alreadyPublic": 9,
     "newCandidatesWithLatinTitles": 14,
-    "immediateScreeningCandidates": 1,
-    "skipForNowCandidates": 15
+    "immediateScreeningCandidates": 3,
+    "skipForNowCandidates": 17
   },
   "foreignVpnScreening": {
     "screenedOn": "2026-04-04",
@@ -63,10 +63,13 @@
     "screenedOn": "2026-04-04",
     "network": "China-reachable Kuailepu search",
     "promisingNewCandidates": [
-      "Home on the Range"
+      "Home on the Range",
+      "La Cucaracha",
+      "Drinking Song"
     ],
     "blockedCandidates": [
-      "Salut d'Amour"
+      "Salut d'Amour",
+      "G Major Minuet"
     ],
     "duplicateAliasFinds": [
       {
@@ -75,7 +78,7 @@
         "notes": "Useful discovery for future manual search, but not a new melody page."
       }
     ],
-    "conclusion": "The strongest newly discovered candidate is Home on the Range; most other recognizable hits were already public, duplicate-melody aliases, or lacked usable public instruments."
+    "conclusion": "The strongest newly discovered candidates are Home on the Range, La Cucaracha, and Drinking Song. Most other recognizable hits were already public, duplicate-melody aliases, or lacked usable public instruments."
   },
   "candidates": [
     {
@@ -202,6 +205,36 @@
       "notes": "Second-pass China-network discovery. Strong American standard with usable public instruments; lyrics are Chinese-only on Kuailepu so public page would hide them by default."
     },
     {
+      "href": "https://www.kuaiyuepu.com/jianpu/qQYsq1QvG.html",
+      "songName": "拉库卡拉查",
+      "aliasName": "",
+      "searchResultTitle": "拉库卡拉查 拉库卡拉查",
+      "candidateEnglishTitle": "La Cucaracha",
+      "lyricLanguage": "none",
+      "rhythm": "3/4",
+      "keynote": "1=F",
+      "supportsPublicInstruments": true,
+      "status": "screen-next",
+      "rightsRisk": "public-domain",
+      "discoveredByQuery": "拉库卡拉查",
+      "notes": "Recognizable Mexican folk standard with usable public instruments and no public lyric-track exposure risk. Good backup candidate for later US-side demand screening."
+    },
+    {
+      "href": "https://www.kuaiyuepu.com/jianpu/HHvYd1B3f.html",
+      "songName": "饮酒歌",
+      "aliasName": "",
+      "searchResultTitle": "饮酒歌 威尔第",
+      "candidateEnglishTitle": "Drinking Song",
+      "lyricLanguage": "none",
+      "rhythm": "3/8",
+      "keynote": "1=bB",
+      "supportsPublicInstruments": true,
+      "status": "screen-next",
+      "rightsRisk": "public-domain",
+      "discoveredByQuery": "饮酒歌",
+      "notes": "Recognizable Verdi public-domain title. This Kuailepu page exposes a narrower playable instrument set than the current standard public five, so keep it as a secondary backup candidate rather than the top priority."
+    },
+    {
       "href": "https://www.kuaiyuepu.com/jianpu/DDWml1tVr.html",
       "songName": "爱的礼赞",
       "aliasName": "",
@@ -216,6 +249,22 @@
       "screeningDecision": "no-public-instruments",
       "discoveredByQuery": "爱的礼赞",
       "notes": "Recognizable Elgar public-domain title, but this Kuailepu page exposes only instrument=none, so it cannot become a public fingering page under the current product rules."
+    },
+    {
+      "href": "https://www.kuaiyuepu.com/jianpu/leoVi11R5.html",
+      "songName": "G大调小步舞曲",
+      "aliasName": "",
+      "searchResultTitle": "G大调小步舞曲 G大调小步舞曲",
+      "candidateEnglishTitle": "G Major Minuet",
+      "lyricLanguage": "none",
+      "rhythm": "4/4",
+      "keynote": "1=G",
+      "supportsPublicInstruments": false,
+      "status": "skip-for-now",
+      "rightsRisk": "public-domain",
+      "screeningDecision": "no-public-instruments",
+      "discoveredByQuery": "G大调小步舞曲",
+      "notes": "Recognizable classical beginner title, but this Kuailepu page only exposes o3 / b6 / p8 beyond none, so it does not fit the current public instrument rollout."
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/l3Xxg1z9D.html",
