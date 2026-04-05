@@ -726,5 +726,29 @@
     ],
     "background": "The Hawthorn Tree is a lyrical waltz-like melody with broad name recognition in Russian-song repertoire, so it works as a melody-first page for players wanting a gentler instrumental option on ocarina, recorder, or tin whistle.",
     "practice": "It helps with three-beat pulse control, smoother phrase connection, and maintaining intonation through longer rising lines."
+  },
+  "hej-sokoly": {
+    "searchTerms": [
+      "Hej Sokoly ocarina tabs",
+      "Hej Sokoly recorder notes"
+    ],
+    "background": "Hej Sokoly is a traditional Polish-Ukrainian folk melody with a strong singable contour, so it fits a melody-first page for players who want a readable folk tune on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for phrase pacing, steady pulse control, and keeping repeated melodic returns clean across a moderate range."
+  },
+  "irish-morning-wind": {
+    "searchTerms": [
+      "Irish Morning Wind ocarina tabs",
+      "Irish Morning Wind tin whistle notes"
+    ],
+    "background": "Irish Morning Wind is a gentle Irish-style instrumental melody that fits whistle, recorder, and ocarina search intent well because players often want a calm folk tune with clear note labels instead of staff notation.",
+    "practice": "It supports breath pacing, connected phrasing, and smoother note-to-note movement without heavy technical demands."
+  },
+  "dancing-doll-and-teddy-bear": {
+    "searchTerms": [
+      "Dancing Doll and Teddy Bear ocarina tabs",
+      "Dancing Doll and Teddy Bear letter notes"
+    ],
+    "background": "Dancing Doll and Teddy Bear is a compact nursery-style melody from a Polish children-song tradition, so it works well as a beginner-friendly page for players looking for short readable note labels on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for beginner repetition, quick phrase recognition, and clean finger changes across a short easy tune."
   }
 }
