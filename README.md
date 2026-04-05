@@ -137,17 +137,17 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 94`
+- `songCatalog.length = 96`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 94`
+- `allSongCatalog.length = 96`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 94`
+- `data/songbook/public-song-manifest.json = 96`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 94`
+- `data/kuailepu-runtime/*.json = 96`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 94`
+- `reference/songs/*.json = 96`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 88`
+- `data/kuailepu/*.json = 90`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -211,7 +211,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 94 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 96 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`

@@ -1,0 +1,32 @@
+{
+  "id": "irish-blackbird",
+  "slug": "irish-blackbird",
+  "title": "Irish Blackbird",
+  "description": "Irish Blackbird melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/I4m8f1lYJ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song I4m8f1lYJ on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 2 | 3 - 2 1 2 - 3 5 | 6, - - - 5 - 1' 5 | 6, - 5 3 2 - 1 2 |",
+    "3 - - - - - 1 2 | 3 - 2 1 2 - 3 5 | 6 - - - 5 - 1' 5 | 6 - 5 3 2 - - 1 |",
+    "1 - - - - - 5 - | 1' - 7 5 6 - 1' 6 | 7 - - - 5 - 3 5 | 6 - 5 3 5 6 1' 2' |",
+    "3' - - - - - 5 - | 1' - 7 5 6 - 1' 6 | 7 - - - 5 - 3 5 | 6 - 5 3 5 6 1' 2' |",
+    "1' - - - - - 1 2 | 3 - 2 1 2 - 3 5 | 6 - - - 5 - 1' 5 | 6 - 5 3 2 - 1 2 |",
+    "3 - - - - - 1 2 | 3 - 2 1 2 - 3 5 | 6 - - - 5 - 1' 5 | 6 - 5 3 2 - - 1 | 1 - - - - - - - | | |"
+  ]
+}

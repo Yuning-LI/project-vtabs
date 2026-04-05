@@ -750,5 +750,21 @@
     ],
     "background": "Dancing Doll and Teddy Bear is a compact nursery-style melody from a Polish children-song tradition, so it works well as a beginner-friendly page for players looking for short readable note labels on ocarina, recorder, or tin whistle.",
     "practice": "It is useful for beginner repetition, quick phrase recognition, and clean finger changes across a short easy tune."
+  },
+  "grandfathers-clock": {
+    "searchTerms": [
+      "Grandfather's Clock ocarina tabs",
+      "Grandfather's Clock recorder notes"
+    ],
+    "background": "Grandfather's Clock is a classic nineteenth-century song melody with strong name recognition, so it fits well as a melody-first page for players who want a familiar old tune on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for steady phrase pacing, moderate range control, and keeping repeated returns even across a singable lyric-like line."
+  },
+  "irish-blackbird": {
+    "searchTerms": [
+      "Irish Blackbird ocarina tabs",
+      "Irish Blackbird tin whistle notes"
+    ],
+    "background": "Irish Blackbird is a compact Irish-style melody that fits whistle, recorder, and ocarina search intent well because players often want another folk tune with clear note labels and a lighter dance-like contour.",
+    "practice": "It supports articulation, repeated phrase handling, and cleaner note-to-note movement at a moderate folk tempo."
   }
 }

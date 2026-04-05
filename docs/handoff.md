@@ -408,24 +408,26 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 94`
+- `songCatalog.length = 96`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 94`
+- `allSongCatalog.length = 96`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 94`
+- `data/songbook/public-song-manifest.json = 96`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 94`
+- `data/kuailepu-runtime/*.json = 96`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 94`
+- `reference/songs/*.json = 96`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 88`
+- `data/kuailepu/*.json = 90`
 
 ## 5.5 2026-04-05 新增可公开曲目
 
-- 本轮新导入并通过 preflight compare 的 3 首歌：
+- 本轮新导入并通过 preflight compare 的 5 首歌：
   - `Hej Sokoly`
   - `Irish Morning Wind`
   - `Dancing Doll and Teddy Bear`
+  - `Grandfather's Clock`
+  - `Irish Blackbird`
 - 导入结果：
   - 都已写入 `reference/songs`
   - 都已写入 `data/kuailepu-runtime`
