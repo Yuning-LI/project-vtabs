@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import {
   hasPublicKuailepuLyricToggle,
-  loadKuailepuSongPayload,
-  resolveKuailepuRuntimeState
+  loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
 import { siteUrl } from '@/lib/site'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
@@ -14,7 +13,6 @@ import {
   normalizePublicSongInstrument,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
-import { buildPublicRuntimeControlConfig } from '@/lib/songbook/publicRuntimeControls'
 
 export const dynamicParams = false
 
@@ -93,43 +91,25 @@ export default function SongPage({
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
     activeInstrument
   )
-  const graphOptions = (runtimePayload.instrumentFingerings ?? [])
-    .find(option => option.instrument === activeInstrument.id)
-    ?.graphList?.map(option => option.value?.trim())
-    .filter((value): value is string => Boolean(value)) ?? []
   const queryState: PublicSongPageQueryState = {
     instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
     noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
-    showGraph: normalizeExplicitShowGraph(searchParams?.show_graph, graphOptions),
+    showGraph: searchParams?.show_graph ?? null,
     showLyric: hasPublicLyricToggle ? normalizeToggleParam(searchParams?.show_lyric) : null,
     showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
     measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
     sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList),
     practiceTool: normalizePracticeTool(searchParams?.practice_tool)
   }
-  const effectiveState = resolveKuailepuRuntimeState(runtimePayload, {
-    instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
-    note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode),
-    show_graph: queryState.showGraph ?? null,
-    show_lyric: queryState.showLyric ?? null,
-    show_measure_num: queryState.showMeasureNum ?? null,
-    measure_layout: queryState.measureLayout ?? null,
-    sheet_scale: queryState.sheetScale ?? null
+  const basePresentation = getSongPresentation(song, {
+    publicLyricsAvailable: hasPublicLyricToggle
   })
-  const controlConfig = buildPublicRuntimeControlConfig(
-    runtimePayload,
-    activeInstrument.id,
-    effectiveState
+  const presentationByInstrument = Object.fromEntries(
+    supportedInstruments.map(instrument => [
+      instrument.id,
+      adaptPresentationForInstrument(basePresentation, instrument)
+    ])
   )
-  const frameState = {
-    instrument: activeInstrument.id === 'o12' ? null : activeInstrument.id,
-    note_label_mode: normalizeNoteLabelMode(searchParams?.note_label_mode),
-    show_graph: queryState.showGraph ?? null,
-    show_lyric: queryState.showLyric ?? null,
-    show_measure_num: queryState.showMeasureNum ?? null,
-    measure_layout: queryState.measureLayout ?? null,
-    sheet_scale: queryState.sheetScale ?? null
-  }
 
   /**
    * 详情页当前只有两个公开阅读模式：
@@ -144,25 +124,16 @@ export default function SongPage({
   return (
     <KuailepuLegacyRuntimePage
       songId={song.slug}
-      title={shellSeo.title}
-      subtitle={shellSeo.subtitle}
-      seo={shellSeo}
-      activeInstrument={activeInstrument}
       supportedInstruments={supportedInstruments}
-      state={frameState}
       queryState={queryState}
-      controlConfig={controlConfig}
+      presentationByInstrument={presentationByInstrument}
+      runtimeControlPayload={{
+        instrumentFingerings: runtimePayload.instrumentFingerings,
+        sheetScaleList: runtimePayload.sheetScaleList
+      }}
       hasLyricToggle={hasPublicLyricToggle}
     />
   )
-}
-
-function normalizeNoteLabelMode(value: string | undefined) {
-  if (value === 'number' || value === 'graph' || value === 'letter') {
-    return value
-  }
-
-  return 'letter'
 }
 
 function normalizeExplicitNoteLabelMode(value: string | undefined) {
@@ -189,21 +160,6 @@ function normalizeMeasureLayout(value: string | undefined) {
   return null
 }
 
-function normalizeExplicitShowGraph(value: string | undefined, graphOptions: string[]) {
-  if (!value) {
-    return null
-  }
-
-  if (value === 'off') {
-    return value
-  }
-
-  if (value === 'on') {
-    return graphOptions[0] ?? null
-  }
-
-  return graphOptions.includes(value) ? value : null
-}
 
 function normalizeSheetScale(value: string | undefined, sheetScaleList: number[] | undefined) {
   if (!value) {

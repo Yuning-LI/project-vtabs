@@ -30,11 +30,13 @@ export type SongPageFunctionZoneToggleControl = {
 type SongPageFunctionZoneProps = {
   selects: SongPageFunctionZoneSelectControl[]
   toggles: SongPageFunctionZoneToggleControl[]
+  onNavigate?: (href: string) => void
 }
 
 export default function SongPageFunctionZone({
   selects,
-  toggles
+  toggles,
+  onNavigate
 }: SongPageFunctionZoneProps) {
   const [isReady, setIsReady] = useState(false)
 
@@ -44,6 +46,11 @@ export default function SongPageFunctionZone({
 
   function navigate(href: string) {
     if (!href) {
+      return
+    }
+
+    if (onNavigate) {
+      onNavigate(href)
       return
     }
 

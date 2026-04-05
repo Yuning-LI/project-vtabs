@@ -1,12 +1,18 @@
+'use client'
+
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtime'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import {
   buildSongPageHref,
   type PublicSongPageQueryState,
   type PublicSongInstrument
 } from '@/lib/songbook/publicInstruments'
-import type { PublicRuntimeControlConfig } from '@/lib/songbook/publicRuntimeControls'
+import {
+  buildPublicRuntimeControlConfig,
+  getPublicRuntimeGraphOptions,
+  type PublicRuntimeControlConfig
+} from '@/lib/songbook/publicRuntimeControls'
 import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
 import SongPageFunctionZone, {
   type SongPageFunctionZoneSelectControl,
@@ -15,15 +21,21 @@ import SongPageFunctionZone, {
 
 type KuailepuLegacyRuntimePageProps = {
   songId: string
-  title: string
-  subtitle?: string | null
-  seo: SongPresentation
-  activeInstrument: PublicSongInstrument
   supportedInstruments: PublicSongInstrument[]
   queryState: PublicSongPageQueryState
-  controlConfig: PublicRuntimeControlConfig
+  presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
+  runtimeControlPayload: {
+    instrumentFingerings?: Array<{
+      instrument: string
+      instrumentName?: string
+      graphList?: Array<{
+        name?: string
+        value?: string
+      }>
+    }>
+    sheetScaleList?: number[]
+  }
   hasLyricToggle: boolean
-  state?: KuailepuRuntimeState | null
 }
 
 /**
@@ -39,48 +51,137 @@ type KuailepuLegacyRuntimePageProps = {
  */
 export default function KuailepuLegacyRuntimePage({
   songId,
-  title,
-  subtitle = null,
-  seo,
-  activeInstrument,
   supportedInstruments,
   queryState,
-  controlConfig,
+  presentationByInstrument,
+  runtimeControlPayload,
   hasLyricToggle,
-  state = null
 }: KuailepuLegacyRuntimePageProps) {
-  const params = new URLSearchParams()
-  params.set('runtime_text_mode', 'english')
-  if (state?.instrument) params.set('instrument', state.instrument)
-  if (state?.fingering) params.set('fingering', state.fingering)
-  if (state?.fingering_index !== null && state?.fingering_index !== undefined) {
-    params.set('fingering_index', String(state.fingering_index))
-  }
-  if (state?.show_graph) params.set('show_graph', state.show_graph)
-  if (state?.show_lyric) params.set('show_lyric', state.show_lyric)
-  if (state?.show_measure_num) params.set('show_measure_num', state.show_measure_num)
-  if (state?.measure_layout) params.set('measure_layout', state.measure_layout)
-  if (state?.sheet_scale !== null && state?.sheet_scale !== undefined) {
-    params.set('sheet_scale', String(state.sheet_scale))
-  }
-  if (state?.note_label_mode && state.note_label_mode !== 'letter') {
-    params.set('note_label_mode', state.note_label_mode)
-  }
-  if (queryState.practiceTool === 'metronome') {
-    params.set('public_feature', 'metronome')
-  }
-
-  const query = params.toString()
-  const frameSrc = query
-    ? `/api/kuailepu-runtime/${songId}?${query}`
-    : `/api/kuailepu-runtime/${songId}`
-  const loadingId = `kuailepu-runtime-${songId}-loading`
+  const [currentQueryState, setCurrentQueryState] = useState(queryState)
+  const activeInstrument = useMemo(
+    () =>
+      supportedInstruments.find(instrument => instrument.id === currentQueryState.instrumentId) ??
+      supportedInstruments.find(instrument => instrument.id === 'o12') ??
+      supportedInstruments[0],
+    [currentQueryState.instrumentId, supportedInstruments]
+  )
+  const graphOptions = useMemo(
+    () => getPublicRuntimeGraphOptions(runtimeControlPayload, activeInstrument.id),
+    [runtimeControlPayload, activeInstrument.id]
+  )
+  const normalizedQueryState: PublicSongPageQueryState = useMemo(
+    () => ({
+      instrumentId:
+        currentQueryState.instrumentId === activeInstrument.id ? activeInstrument.id : null,
+      noteLabelMode: normalizeExplicitNoteLabelMode(currentQueryState.noteLabelMode),
+      showGraph: normalizeExplicitShowGraph(
+        currentQueryState.showGraph,
+        graphOptions.map(item => item.value)
+      ),
+      showLyric: hasLyricToggle ? normalizeToggleParam(currentQueryState.showLyric) : null,
+      showMeasureNum: normalizeToggleParam(currentQueryState.showMeasureNum),
+      measureLayout: normalizeMeasureLayout(currentQueryState.measureLayout),
+      sheetScale: normalizeSheetScale(
+        currentQueryState.sheetScale,
+        runtimeControlPayload.sheetScaleList
+      ),
+      practiceTool: normalizePracticeTool(currentQueryState.practiceTool)
+    }),
+    [
+      activeInstrument.id,
+      currentQueryState,
+      graphOptions,
+      hasLyricToggle,
+      runtimeControlPayload.sheetScaleList
+    ]
+  )
   const noteLabelMode =
-    state?.note_label_mode === 'letter' ||
-    state?.note_label_mode === 'number' ||
-    state?.note_label_mode === 'graph'
-      ? state.note_label_mode
+    normalizedQueryState.noteLabelMode === 'number' ||
+    normalizedQueryState.noteLabelMode === 'graph'
+      ? normalizedQueryState.noteLabelMode
       : 'letter'
+  const controlConfig = useMemo(
+    () =>
+      buildPublicRuntimeControlConfig(runtimeControlPayload, activeInstrument.id, {
+        show_graph: normalizedQueryState.showGraph ?? null,
+        show_lyric: (normalizedQueryState.showLyric ?? 'on') as 'on' | 'off',
+        show_measure_num: (normalizedQueryState.showMeasureNum ?? 'on') as 'on' | 'off',
+        measure_layout: normalizedQueryState.measureLayout ?? 'compact',
+        sheet_scale: normalizedQueryState.sheetScale ?? 10
+      }),
+    [activeInstrument.id, normalizedQueryState, runtimeControlPayload]
+  )
+  const seo =
+    presentationByInstrument[activeInstrument.id] ??
+    presentationByInstrument['o12'] ??
+    Object.values(presentationByInstrument)[0] ?? {
+      title: songId,
+      subtitle: null,
+      familyLabel: 'Melody Page',
+      difficultyLabel: 'Unknown',
+      keyLabel: '',
+      meterLabel: '',
+      tempoLabel: '',
+      overview: '',
+      background: '',
+      practiceNotes: '',
+      includes: [],
+      faqs: [],
+      metaDescription: ''
+    }
+  const title = seo.title
+  const subtitle = seo.subtitle
+  const params = useMemo(() => {
+    const next = new URLSearchParams()
+    next.set('runtime_text_mode', 'english')
+    if (activeInstrument.id !== 'o12') {
+      next.set('instrument', activeInstrument.id)
+    }
+    if (noteLabelMode !== 'letter') {
+      next.set('note_label_mode', noteLabelMode)
+    }
+    if (normalizedQueryState.showGraph) {
+      next.set('show_graph', normalizedQueryState.showGraph)
+    }
+    if (normalizedQueryState.showLyric) {
+      next.set('show_lyric', normalizedQueryState.showLyric)
+    }
+    if (normalizedQueryState.showMeasureNum) {
+      next.set('show_measure_num', normalizedQueryState.showMeasureNum)
+    }
+    if (normalizedQueryState.measureLayout) {
+      next.set('measure_layout', normalizedQueryState.measureLayout)
+    }
+    if (
+      normalizedQueryState.sheetScale !== null &&
+      normalizedQueryState.sheetScale !== undefined &&
+      normalizedQueryState.sheetScale !== ''
+    ) {
+      next.set('sheet_scale', String(normalizedQueryState.sheetScale))
+    }
+    if (normalizedQueryState.practiceTool === 'metronome') {
+      next.set('public_feature', 'metronome')
+    }
+    return next
+  }, [activeInstrument.id, normalizedQueryState, noteLabelMode])
+  const query = params.toString()
+  const frameSrc = query ? `/api/kuailepu-runtime/${songId}?${query}` : `/api/kuailepu-runtime/${songId}`
+  const loadingId = `kuailepu-runtime-${songId}-loading`
+
+  function navigateWithinSongPage(href: string) {
+    if (!href || typeof window === 'undefined') {
+      return
+    }
+
+    const nextUrl = new URL(href, window.location.origin)
+    if (nextUrl.pathname !== `/song/${songId}`) {
+      window.location.replace(nextUrl.toString())
+      return
+    }
+
+    setCurrentQueryState(parseSongPageQueryState(nextUrl))
+    window.history.replaceState(window.history.state, '', nextUrl.pathname + nextUrl.search)
+  }
 
   const instrumentSelect =
     supportedInstruments.length > 1
@@ -93,9 +194,10 @@ export default function KuailepuLegacyRuntimePage({
             label: instrument.shortLabel,
             href: buildSongPageHref({
               songId,
-              ...queryState,
+              ...normalizedQueryState,
               instrumentId: instrument.id,
-              noteLabelMode
+              noteLabelMode,
+              showGraph: null
             })
           }))
         }
@@ -110,7 +212,7 @@ export default function KuailepuLegacyRuntimePage({
         : (controlConfig.activeGraphValue ?? 'chart-on'),
     options: buildFingeringChartSelectOptions({
       songId,
-      queryState,
+      queryState: normalizedQueryState,
       noteLabelMode,
       activeInstrument,
       controlConfig
@@ -129,7 +231,7 @@ export default function KuailepuLegacyRuntimePage({
       label: option.label,
       href: buildSongPageHref({
         songId,
-        ...queryState,
+        ...normalizedQueryState,
         instrumentId: activeInstrument.id,
         noteLabelMode,
         measureLayout: option.value
@@ -146,7 +248,7 @@ export default function KuailepuLegacyRuntimePage({
       label: option.label,
       href: buildSongPageHref({
         songId,
-        ...queryState,
+        ...normalizedQueryState,
         instrumentId: activeInstrument.id,
         noteLabelMode,
         sheetScale: option.value
@@ -170,7 +272,7 @@ export default function KuailepuLegacyRuntimePage({
           label: 'Letter Notes',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode: 'letter'
           }),
@@ -180,7 +282,7 @@ export default function KuailepuLegacyRuntimePage({
           label: 'Numbered Notes',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode: 'number'
           }),
@@ -198,7 +300,7 @@ export default function KuailepuLegacyRuntimePage({
                 label: 'On',
                 href: buildSongPageHref({
                   songId,
-                  ...queryState,
+                  ...normalizedQueryState,
                   instrumentId: activeInstrument.id,
                   noteLabelMode,
                   showLyric: 'on'
@@ -209,7 +311,7 @@ export default function KuailepuLegacyRuntimePage({
                 label: 'Off',
                 href: buildSongPageHref({
                   songId,
-                  ...queryState,
+                  ...normalizedQueryState,
                   instrumentId: activeInstrument.id,
                   noteLabelMode,
                   showLyric: 'off'
@@ -228,7 +330,7 @@ export default function KuailepuLegacyRuntimePage({
           label: 'On',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode,
             showMeasureNum: 'on'
@@ -239,7 +341,7 @@ export default function KuailepuLegacyRuntimePage({
           label: 'Off',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode,
             showMeasureNum: 'off'
@@ -256,23 +358,23 @@ export default function KuailepuLegacyRuntimePage({
           label: 'On',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode,
             practiceTool: 'metronome'
           }),
-          isActive: queryState.practiceTool === 'metronome'
+          isActive: normalizedQueryState.practiceTool === 'metronome'
         },
         {
           label: 'Off',
           href: buildSongPageHref({
             songId,
-            ...queryState,
+            ...normalizedQueryState,
             instrumentId: activeInstrument.id,
             noteLabelMode,
             practiceTool: null
           }),
-          isActive: queryState.practiceTool !== 'metronome'
+          isActive: normalizedQueryState.practiceTool !== 'metronome'
         }
       ]
     }
@@ -305,7 +407,11 @@ export default function KuailepuLegacyRuntimePage({
             <span className="page-warm-pill px-3 py-1">{activeInstrument.label}</span>
           </div>
           <div className="mt-4 border-t border-[rgba(154,126,91,0.18)] pt-4">
-            <SongPageFunctionZone selects={selects} toggles={toggles} />
+            <SongPageFunctionZone
+              selects={selects}
+              toggles={toggles}
+              onNavigate={navigateWithinSongPage}
+            />
           </div>
         </section>
 
@@ -367,6 +473,91 @@ export default function KuailepuLegacyRuntimePage({
       </div>
     </main>
   )
+}
+
+function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
+  return {
+    instrumentId: normalizeInstrumentId(url.searchParams.get('instrument')),
+    noteLabelMode: normalizeExplicitNoteLabelMode(url.searchParams.get('note_label_mode')),
+    showGraph: url.searchParams.get('show_graph'),
+    showLyric: normalizeToggleParam(url.searchParams.get('show_lyric')),
+    showMeasureNum: normalizeToggleParam(url.searchParams.get('show_measure_num')),
+    measureLayout: normalizeMeasureLayout(url.searchParams.get('measure_layout')),
+    sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),
+    practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool'))
+  }
+}
+
+function normalizeInstrumentId(value: string | null) {
+  if (value === 'o12' || value === 'o6' || value === 'r8b' || value === 'r8g' || value === 'w6') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeExplicitNoteLabelMode(value: string | null | undefined) {
+  if (value === 'number' || value === 'graph') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeToggleParam(value: string | null | undefined) {
+  if (value === 'on' || value === 'off') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeMeasureLayout(value: string | null | undefined) {
+  if (value === 'compact' || value === 'mono') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeExplicitShowGraph(
+  value: string | null | undefined,
+  graphOptions: string[]
+) {
+  if (!value) {
+    return null
+  }
+
+  if (value === 'off') {
+    return value
+  }
+
+  if (value === 'on') {
+    return graphOptions[0] ?? null
+  }
+
+  return graphOptions.includes(value) ? value : null
+}
+
+function normalizeSheetScale(
+  value: string | number | null | undefined,
+  sheetScaleList?: number[]
+) {
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
+
+  const normalized = String(value)
+  const available = new Set((sheetScaleList ?? []).map(item => String(item)))
+  if (available.size > 0) {
+    return available.has(normalized) ? normalized : null
+  }
+
+  return /^\d+$/.test(normalized) ? normalized : null
+}
+
+function normalizePracticeTool(value: string | null | undefined) {
+  return value === 'metronome' ? 'metronome' : null
 }
 
 function buildFingeringChartSelectOptions(input: {
