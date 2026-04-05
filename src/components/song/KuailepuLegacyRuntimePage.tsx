@@ -328,34 +328,6 @@ export default function KuailepuLegacyRuntimePage({
         ]
       : []),
     {
-      id: 'note-range',
-      label: 'Note Range',
-      options: [
-        {
-          label: 'On',
-          href: buildSongPageHref({
-            songId,
-            ...normalizedQueryState,
-            instrumentId: activeInstrument.id,
-            noteLabelMode,
-            showNoteRange: 'on'
-          }),
-          isActive: controlConfig.activeShowNoteRange === 'on'
-        },
-        {
-          label: 'Off',
-          href: buildSongPageHref({
-            songId,
-            ...normalizedQueryState,
-            instrumentId: activeInstrument.id,
-            noteLabelMode,
-            showNoteRange: 'off'
-          }),
-          isActive: controlConfig.activeShowNoteRange === 'off'
-        }
-      ]
-    },
-    {
       id: 'measure-numbers',
       label: 'Measure Numbers',
       options: [
