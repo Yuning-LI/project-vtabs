@@ -1,0 +1,34 @@
+{
+  "id": "the-internationale",
+  "slug": "the-internationale",
+  "title": "The Internationale",
+  "description": "The Internationale melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 比尔.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Apo4d16d4.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Apo4d16d4 on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "5 - - - | 1' - - - - - 7 - 2' - 1' - 5 - 3 - | 6 - - - - - - - 4 - - - 0 0 6 - | 2' - - - - - 1' - 7 - 6 - 5 - 4 - | 3 - - - - - - - - - - - 5 - - - |",
+    "1' - - - - - 7 - 2' - 1' - 5 - 3 - | 6 - - - - - - - 4 - 6 - 2' - 1' - | 7 - - - 2' - - - 4' - - - 7 - - - | 1' - - - - - - - 1' - 0 0 3' - 2' - |",
+    "7 - - - - - - - 6 - 7 - 1' - 6 - | 7 - - - - - - - 5 - 5 - #4 - 5 - | 6 - - - - - 6 - 2' - - - - - 1' - | 7 - - - - - - - 7 - 0 0 2' - - - |",
+    "2' - - - - - 7 - 5 - 5 - #4 - 5 - | 3' - - - - - - - 1' - 6 - 7 - 1' - | 7 - - - 2' - - - 1' - - - 6 - - - | 5 - - - - - - - 5 - 0 0 3' - 2' - |",
+    "1' - - - - - - - 5 - - - - - 3 - | 6 - - - - - - - 4 - 0 0 2' - 1' - | 7 - - - - - - - 6 - - - 5 - - - | 5 - - - - - - - 5 - 0 0 5 - - - | 3' - - - - - - - 2' - - - 5 - - - |",
+    "1' - - - - - - - 7 - - - - - 7 - | 6 - - - - - #5 - 6 - - - 2' - - - | 2' - - - - - - - 2' - 0 0 3' - - 2' | 1' - - - - - - - 5 - - - - - 3 - | 6 - - - - - - - 4 - 0 0 2' - - 1' |",
+    "7 - - - - - - - 6 - - - 5 - - - | 3' - - - - - - - - - - - 3' - - - | 5' - - - - - - - 4' - - - 3' - - - | 2' - - - - - 3' - 4' - - - 0 0 4' - | 3' - - - - - 3' - 2' - - - - - 2' - |",
+    "1' - - - - - - - - - - - | | |"
+  ]
+}

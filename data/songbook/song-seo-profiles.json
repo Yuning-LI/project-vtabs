@@ -646,5 +646,21 @@
     ],
     "background": "Loch Lomond is a traditional Scottish folk song with broad name recognition and a simple melodic contour, so it fits well as a melody-first page for ocarina, recorder, and tin whistle players looking for a familiar public-domain tune.",
     "practice": "It works well for breath pacing, phrase shaping, and steady note-to-note movement across a moderate folk-song range."
+  },
+  "grenadiers-march": {
+    "searchTerms": [
+      "Grenadiers March ocarina tabs",
+      "Grenadiers March recorder notes"
+    ],
+    "background": "Grenadiers March is a compact march-style melody that fits instrument-first search intent well because players often want a direct, readable note page for a bright ceremonial tune on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for repeated articulation, short-phrase control, and keeping even pulse through quick march motion."
+  },
+  "the-internationale": {
+    "searchTerms": [
+      "The Internationale ocarina tabs",
+      "The Internationale recorder notes"
+    ],
+    "background": "The Internationale has strong name recognition as a public ceremonial song, so it works as a melody-first page for players who want a clean note view on ocarina, recorder, or tin whistle without relying on lyric display.",
+    "practice": "It supports phrase-breath planning, octave control, and steady march-like pacing across a familiar singable line."
   }
 }

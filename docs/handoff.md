@@ -159,6 +159,14 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自 `罗莽湖畔 / 苏格兰民谣` 页；来源作曲者字段为空，公开页按传统苏格兰民谣处理，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 2 首候选：
+  - `grenadiers-march`
+  - `the-internationale`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Grenadiers March` 导入自 `掷弹兵进行曲` 页，来源作曲者字段为空，公开页按器乐进行曲处理
+  - `The Internationale` 导入自 `国际歌 / 比尔` 页，公开页按旋律页处理，无公开歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -366,17 +374,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 81`
+- `songCatalog.length = 83`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 81`
+- `allSongCatalog.length = 83`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 81`
+- `data/songbook/public-song-manifest.json = 83`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 81`
+- `data/kuailepu-runtime/*.json = 83`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 81`
+- `reference/songs/*.json = 83`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 75`
+- `data/kuailepu/*.json = 77`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

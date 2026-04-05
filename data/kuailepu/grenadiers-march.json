@@ -1,0 +1,29 @@
+{
+  "id": "grenadiers-march",
+  "slug": "grenadiers-march",
+  "title": "Grenadiers March",
+  "description": "Grenadiers March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/6QyGr1jkX.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 6QyGr1jkX on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = E",
+    "tempo": 120,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 64,
+  "notation": [
+    "0 0 0 0 0 0 5 - | 1' - 5 - 1' - 2' - | 3' - - - 2' - 3' 4' | 5' - 1' - 3' 2' 1' 7 |",
+    "1' - - - 0 0 5 - | 1' - 5 - 1' - 2' - | 3' - - - 2' - 3' 4' | 5' - 1' - 3' 2' 1' 7 | 1' - - - 0 0 3' 4' | 5' - - 6' 5' - 4' - | 3' - - 4' 5' - 1' - | 1' - 2' 3' 4' - 3' - | 2' - - -",
+    "0 0 5 - | 1' - 5 - 1' - 2' - | 3' - - - 2' - 3' 4' | 5' - 1' - 3' 2' 1' 7 | 1' - - - - - 0 0 | | |"
+  ]
+}
