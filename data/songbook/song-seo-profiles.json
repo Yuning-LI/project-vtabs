@@ -662,5 +662,13 @@
     ],
     "background": "The Internationale has strong name recognition as a public ceremonial song, so it works as a melody-first page for players who want a clean note view on ocarina, recorder, or tin whistle without relying on lyric display.",
     "practice": "It supports phrase-breath planning, octave control, and steady march-like pacing across a familiar singable line."
+  },
+  "russian-national-anthem": {
+    "searchTerms": [
+      "Russian National Anthem ocarina tabs",
+      "Russian National Anthem recorder notes"
+    ],
+    "background": "The Russian National Anthem has clear global name recognition and a broad ceremonial melody, so it fits a melody-first note page for ocarina, recorder, or tin whistle players looking for a readable instrumental view.",
+    "practice": "It is useful for phrase support, wider-range control, and keeping a firm anthem-style pulse across longer sustained lines."
   }
 }

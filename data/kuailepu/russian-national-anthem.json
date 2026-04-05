@@ -1,0 +1,56 @@
+{
+  "id": "russian-national-anthem",
+  "slug": "russian-national-anthem",
+  "title": "Russian National Anthem",
+  "description": "Russian National Anthem melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "俄 罗 斯 啊 我 们 的 神 圣 的 祖 国， 俄",
+    "罗 斯 啊 亲 爱 的 父 母 之 邦。 你",
+    "刚 强 的 意 志， 你 辉 煌 的 声 誉， 是你 永 恒 的 财 富 将",
+    "万 古 流 芳！ 为 自 _ 由 的 祖 _ 国，",
+    "来 高 _ 声 _ 颂 _ 扬 各 民 族 友 谊 的",
+    "可 靠 保 障。 让 先 _ 辈 的 功 _ 业，",
+    "让 人 _ 民 的 智 _ 慧 引 导 着 我 们 向",
+    "胜 利",
+    "远 方。 从 胜 利",
+    "",
+    "远 方。 _ _",
+    ""
+  ],
+  "extraLyrics": [
+    "从 南 方 的 海 岸 到 北 极 的 边 疆， 你 森 林 啊 苍 茫， 你 田 野 宽 广。 你 屹 立 在 世 上， 你 举 世 啊 无 双， 是 上 帝 所 佑 护 的 可 爱 家 乡！ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 给",
+    "给 生 活 以 希 望， 给 理 想 以 翅 膀， 你 未 来 的 岁 月 更 光 芒 万 丈。 也 无 论 是 过 去， 也 无 论 是 将 来， 哦， 忠 诚 于 祖 国 就有 无 穷 力 量！"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/FFtgf1rrL.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song FFtgf1rrL on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 5 - | 1' - - - 5 - - 6 7 - - - 3 - - 3 | 6 - - - 5 - - 4 5 - - - 1 - - 1 |",
+    "2 - - - 2 - - 3 4 - - - 4 - - 5 | 6 - - - 7 - - 1' 2' - - - - - 5 - |",
+    "3' - - - 2' - - 1' 2' - - - 5 - - 5 | 1' - - - 7 - - 6 7 - - - 3 - - 3 | 6 - - - 5 - - 4 5 - - - 1 - - 1 |",
+    "1' - - - 7 - - 6 5 - - - - - - - | 3' - - - - - - - 2' - 1' - 7 - 1' - | 2' - - - - - 5 - 5 - - - - - - - |",
+    "1' - - - - - - - 7 - 6 - 5 - 6 - | 7 - - - - - 3 - 3 - - - 0 0 0 0 | 1' - - - 6 - - 7 1' - - - 6 - - 7 |",
+    "1' - - - 6 - - 1' 4' - - - - - 0 0 | 4' - - - - - - - 3' - 2' - 1' - 2' - | 3' - - - - - 1' - 1' - - - - - - - |",
+    "2' - - - - - - - 1' - 7 - 6 - 7 - | 1' - - - - - 6 - 6 - - - - - - - | 1' - - - 7 - 6 - 5 - - - 1 - - 1 |",
+    "1, - - - 2 - - -",
+    "1' - - - 7 - - 6 5 - - - 0 0 5 -",
+    "|",
+    "5 - - - - - - - 6 - - - 7 - - - | 1' - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}
