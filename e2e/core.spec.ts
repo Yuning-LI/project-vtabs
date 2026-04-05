@@ -206,7 +206,7 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'row-row-row-your-boat')
   })
 
-  test('function-zone state changes do not trap browser back inside the detail page', async ({
+  test('function-zone state changes stay inside the current song page without a top-level reload', async ({
     page
   }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' })
@@ -215,12 +215,30 @@ test.describe('runtime-backed song pages', () => {
     await expect(page).toHaveURL('http://127.0.0.1:3000/song/ode-to-joy')
 
     await expect(page.locator('[data-function-zone-ready="1"]')).toHaveCount(1)
+    const navigationCountBefore = await page.evaluate(() => performance.getEntriesByType('navigation').length)
+    await page.evaluate(() => {
+      const original = window.history.replaceState.bind(window.history)
+      ;(window as typeof window & { __functionZoneReplaceCount?: number }).__functionZoneReplaceCount =
+        0
+      window.history.replaceState = (...args) => {
+        ;(window as typeof window & { __functionZoneReplaceCount?: number }).__functionZoneReplaceCount =
+          ((window as typeof window & { __functionZoneReplaceCount?: number }).__functionZoneReplaceCount ?? 0) + 1
+        return original(...args)
+      }
+    })
     await page.getByRole('button', { name: 'Measure Numbers: Off' }).click()
     await expect(page).toHaveURL('http://127.0.0.1:3000/song/ode-to-joy?show_measure_num=off')
-
-    await page.goBack()
-    await expect(page).toHaveURL('http://127.0.0.1:3000/')
-    await expect(page.getByRole('heading', { name: 'Browse Melody Pages' })).toBeVisible()
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () =>
+            (window as typeof window & { __functionZoneReplaceCount?: number }).__functionZoneReplaceCount ?? 0
+        )
+      )
+      .toBeGreaterThan(0)
+    await expect
+      .poll(() => page.evaluate(() => performance.getEntriesByType('navigation').length))
+      .toBe(navigationCountBefore)
   })
 
   test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({

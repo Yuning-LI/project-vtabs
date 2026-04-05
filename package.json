@@ -26,6 +26,7 @@
     "compare:kuailepu-runtime": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/compare-kuailepu-runtime-live.ts",
     "search:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/search-kuailepu-song.ts",
     "import:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/import-kuailepu-song.ts",
+    "prepare:song-ingest": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts",
     "test:e2e": "playwright test",
     "prepare": "husky"
   },

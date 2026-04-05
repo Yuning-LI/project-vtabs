@@ -575,8 +575,21 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 - 已新增内部文档：
   - `docs/song-ingest-input-spec.md`
+- 当前还新增了一个最小可执行工具：
+  - `scripts/prepare-song-ingest.ts`
+  - `npm run prepare:song-ingest -- <input.musicxml> ...`
 - 这份文档用于后续把 `MusicXML` / `MIDI` / 人工简谱资料整理成适合 happi123 / 快乐谱制谱的基础输入，不属于公开前台的一部分。
 - 当前执行建议：
   - 优先收 `MusicXML`
   - 其次收 `MIDI`
   - 图片或 PDF 简谱仅作人工兜底
+- 这版工具当前会先产出内部 draft JSON：
+  - 推荐标题 / slug
+  - 推荐 keynote / tonicMidi
+  - 结构化简谱行
+  - 对齐歌词行
+  - happi123 基础输入文本
+- 当前仍不支持：
+  - `.mxl` 压缩 MusicXML
+  - `MIDI` 自动选主旋律轨
+  - 复杂多声部 / 和弦 / grace note / tuplet 的完整保真

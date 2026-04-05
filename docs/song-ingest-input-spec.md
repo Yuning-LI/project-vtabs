@@ -85,6 +85,34 @@
 5. 再复制到 happi123 / 快乐谱制谱入口生成完整上下文
 6. 导回本仓库做 compare / preflight / publish
 
+## 当前已落地的第一步工具
+
+仓库里现在已经有一个最小可执行的 MusicXML draft 工具：
+
+```bash
+npm run prepare:song-ingest -- <input.musicxml> [--title=...] [--slug=...] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/<slug>.json]
+```
+
+当前这一步的定位：
+
+- 只做内部 draft，不直接发布到公开 song page
+- 当前只支持未压缩的 `MusicXML` / `.xml`
+- 会输出：
+  - 推荐标题 / slug
+  - 推荐 keynote / tonicMidi
+  - 结构化简谱行
+  - 对齐歌词行
+  - happi123 可继续人工整理的基础文本
+  - 当前识别到的风险 / 警告
+
+当前暂不覆盖：
+
+- `MIDI` 自动选主旋律轨
+- `.mxl` 压缩 MusicXML
+- 复杂多声部 / 和弦 / grace note / tuplet 的完整等价转换
+
+但它已经足够作为“你发我 MusicXML，我先快速整理出内部基础输入”的第一版工作台。
+
 ## 当前不做的事情
 
 - 不直接把 `MusicXML` 当公开 song page 的生产格式

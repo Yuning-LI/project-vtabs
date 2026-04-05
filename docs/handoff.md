@@ -439,13 +439,25 @@
 
 - 已新增一份后续待做文档：
   - `docs/song-ingest-input-spec.md`
+- 当前还新增了一个最小可执行工具：
+  - `scripts/prepare-song-ingest.ts`
+  - `npm run prepare:song-ingest -- <input.musicxml> ...`
 - 这份文档的定位不是公开产品文案，而是给后续“快乐谱里没有的歌，如何从 MusicXML / MIDI / 简谱资料半自动补齐”的内部执行规范。
 - 当前建议顺序：
   - `MusicXML` 作为优先输入
   - `MIDI` 作为备选输入
   - 纯图片简谱只作为最后人工兜底
 - 真正开始做 happi123 / 快乐谱制谱自动化前，先按这份输入规范收集原始资料，避免后续每首歌重新猜字段。
-  - 可提交的轻量导入数量。
+- 当前这版工具会先把 `MusicXML` 转成内部 draft JSON，产出：
+  - 推荐标题 / slug
+  - 推荐 keynote / tonicMidi
+  - 结构化简谱行
+  - 对齐歌词行
+  - happi123 可继续人工整理的基础文本
+- 当前仍不支持：
+  - `.mxl` 压缩 MusicXML
+  - `MIDI` 轨道自动抽旋律
+  - 复杂多声部 / 和弦 / grace note / tuplet 的完整保真转换
 
 为什么数量会不一致：
 
