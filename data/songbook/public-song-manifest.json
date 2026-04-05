@@ -558,5 +558,12 @@
     "family": "dance",
     "featuredRank": 80,
     "published": true
+  },
+  {
+    "id": "loch-lomond",
+    "slug": "loch-lomond",
+    "family": "folk",
+    "featuredRank": 81,
+    "published": true
   }
 ]

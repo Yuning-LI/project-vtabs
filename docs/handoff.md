@@ -154,6 +154,11 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自 `铁匠波尔卡 / 陶笛二重奏` 页；来源作曲者字段为 `约瑟夫·施特劳斯`，公开页按纯器乐曲处理，无公开歌词
+- 本轮后续又新增并通过 preflight compare 的 1 首 folk 候选：
+  - `loch-lomond`
+- 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 组合一致
+- 当前这首歌导入自 `罗莽湖畔 / 苏格兰民谣` 页；来源作曲者字段为空，公开页按传统苏格兰民谣处理，无公开歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -361,17 +366,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 80`
+- `songCatalog.length = 81`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 80`
+- `allSongCatalog.length = 81`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 80`
+- `data/songbook/public-song-manifest.json = 81`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 80`
+- `data/kuailepu-runtime/*.json = 81`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 80`
+- `reference/songs/*.json = 81`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 74`
+- `data/kuailepu/*.json = 75`
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

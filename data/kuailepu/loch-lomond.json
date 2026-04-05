@@ -1,0 +1,28 @@
+{
+  "id": "loch-lomond",
+  "slug": "loch-lomond",
+  "title": "Loch Lomond",
+  "description": "Loch Lomond melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/HlWNs1y3b.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song HlWNs1y3b on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "2 3 | 5 - 5 6 7 - 6 5 | 6 - 6 5 3 - 2 3 5 - | 5 - 5 - 7 2' | 3' - - - 2' - 2' 2' |",
+    "3' 3' 3' 2' 7 - 7 2' | 1' 7 6 5 3 - 2 3 | 5 5 7 2' 3' - 2' 7 | 6 - - - 5 - - - | | |"
+  ]
+}
