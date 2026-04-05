@@ -14,11 +14,16 @@ type LibrarySong = {
 type LibraryBrowserProps = {
   songs: LibrarySong[]
   familyFilters: string[]
+  embedded?: boolean
 }
 
 type SortMode = 'featured' | 'az'
 
-export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserProps) {
+export default function LibraryBrowser({
+  songs,
+  familyFilters,
+  embedded = false
+}: LibraryBrowserProps) {
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
@@ -77,16 +82,35 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
 
   return (
     <>
-      <section className="page-warm-panel-soft mb-6 p-5 md:p-6">
-        <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h3 className="text-lg font-bold text-stone-900">Find a Song Faster</h3>
-              <p className="mt-1 text-sm leading-6 text-stone-700">
-                Search by title, short name, or song family, then switch between featured order and A–Z browsing.
-              </p>
+      <section
+        className={
+          embedded
+            ? 'mt-3 border-t border-[rgba(154,126,91,0.18)] pt-3'
+            : 'page-warm-panel-soft mb-4 p-4 md:p-4'
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-2 xl:flex-1 xl:pr-4">
+              <input
+                type="search"
+                value={query}
+                onChange={event => setQuery(event.target.value)}
+                placeholder="Search titles like fur elise, twinkle, scarborough, or jingle bells"
+                className="page-warm-input w-full xl:max-w-[40rem]"
+                aria-label="Search song titles"
+              />
+              {query ? (
+                <button
+                  type="button"
+                  onClick={() => setQuery('')}
+                  className="page-warm-pill-muted px-4 py-3 text-sm font-semibold"
+                >
+                  Clear
+                </button>
+              ) : null}
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 xl:shrink-0">
               <button
                 type="button"
                 onClick={() => setSortMode('featured')}
@@ -112,47 +136,25 @@ export default function LibraryBrowser({ songs, familyFilters }: LibraryBrowserP
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center">
-              <input
-                type="search"
-                value={query}
-                onChange={event => setQuery(event.target.value)}
-                placeholder="Search titles like fur elise, twinkle, scarborough, or jingle bells"
-                className="page-warm-input w-full"
-                aria-label="Search song titles"
-              />
-              {query ? (
+          <div className="flex flex-wrap gap-2">
+            {['All', ...familyFilters].map(label => {
+              const isActive = label === activeFamily
+
+              return (
                 <button
+                  key={label}
                   type="button"
-                  onClick={() => setQuery('')}
-                  className="page-warm-pill-muted px-4 py-3 text-sm font-semibold"
+                  onClick={() => setActiveFamily(label)}
+                  className={
+                    isActive
+                      ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
+                      : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold'
+                  }
                 >
-                  Clear Search
+                  {label}
                 </button>
-              ) : null}
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {['All', ...familyFilters].map(label => {
-                const isActive = label === activeFamily
-
-                return (
-                  <button
-                    key={label}
-                    type="button"
-                    onClick={() => setActiveFamily(label)}
-                    className={
-                      isActive
-                        ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                        : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold'
-                    }
-                  >
-                    {label}
-                  </button>
-                )
-              })}
-            </div>
+              )
+            })}
           </div>
 
           {activeFilters.length > 0 || normalizedQuery ? (

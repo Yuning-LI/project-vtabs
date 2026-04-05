@@ -6,7 +6,7 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes',
   description:
-    'Letter-note melody pages for ocarina, recorder, and tin whistle, with fingering charts, optional numbered notes, and switchable instrument views on supported songs.',
+    'PlayByFingering offers letter-note melody pages for ocarina, recorder, and tin whistle, with fingering charts, optional numbered notes, and switchable instrument views on supported songs.',
   alternates: {
     canonical: '/'
   },
@@ -52,25 +52,17 @@ export default function Home() {
   return (
     <main className="page-warm-shell">
       <section className="page-warm-container">
-        <div className="page-warm-hero px-6 py-5 md:px-8 md:py-6">
-          <h1 className="text-[2rem] font-black tracking-tight text-stone-900 md:text-[3.25rem]">
-            Letter-note melody pages for ocarina, recorder, and tin whistle
+        <div className="page-warm-hero px-5 py-3 md:px-7 md:py-4">
+          <h1 className="text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
+            PlayByFingering
           </h1>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-stone-700 md:text-base">
-            Browse songs with fingering charts, optional numbered notes, and switchable
-            instrument views on supported pages.
+          <p className="mt-1.5 text-sm leading-6 text-stone-700 md:text-[0.95rem]">
+            Letter-note melody pages for ocarina, recorder, and tin whistle, with fingering
+            charts, optional numbered notes, and switchable instrument views on supported songs.
           </p>
-        </div>
-      </section>
 
-      <section className="page-warm-container pt-0">
-        <div className="mb-3 flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-bold text-stone-900">Browse Songs</h2>
-          </div>
+          <LibraryBrowser songs={librarySongs} familyFilters={familyFilters} embedded />
         </div>
-
-        <LibraryBrowser songs={librarySongs} familyFilters={familyFilters} />
 
         <section className="page-warm-panel mt-10 p-6 md:p-7">
           <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>

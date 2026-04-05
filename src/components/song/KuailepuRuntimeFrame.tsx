@@ -98,7 +98,7 @@ export default function KuailepuRuntimeFrame({
           html.offsetHeight || 0
         )
 
-        return (measuredBottom > 0 ? measuredBottom : fallbackHeight) + 24
+        return (measuredBottom > 0 ? measuredBottom : fallbackHeight) + 2
       } catch {
         return null
       }

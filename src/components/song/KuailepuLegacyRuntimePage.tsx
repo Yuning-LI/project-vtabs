@@ -388,10 +388,10 @@ export default function KuailepuLegacyRuntimePage({
   return (
     <main className="page-warm-shell">
       <div className="page-warm-container">
-        <section className="page-warm-hero mb-4 px-5 py-5 md:px-7 md:py-6">
+        <section className="page-warm-hero mb-3 px-5 py-4 md:px-7 md:py-[1.125rem]">
           <Link
             href="/"
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-stone-900 bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-stone-900 bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
           >
             <span aria-hidden="true" className="text-base leading-none">←</span>
             <span>Back to Song Library</span>
@@ -403,15 +403,9 @@ export default function KuailepuLegacyRuntimePage({
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-2 max-w-3xl text-sm leading-7 text-stone-600">{subtitle}</p>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-stone-600">{subtitle}</p>
           ) : null}
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium">
-            <span className="page-warm-pill px-3 py-1">Key {seo.keyLabel}</span>
-            <span className="page-warm-pill px-3 py-1">{seo.meterLabel}</span>
-            <span className="page-warm-pill px-3 py-1">{seo.tempoLabel}</span>
-            <span className="page-warm-pill px-3 py-1">{activeInstrument.label}</span>
-          </div>
-          <div className="mt-4 border-t border-[rgba(154,126,91,0.18)] pt-4">
+          <div className="mt-3 border-t border-[rgba(154,126,91,0.18)] pt-3">
             <SongPageFunctionZone
               selects={selects}
               toggles={toggles}

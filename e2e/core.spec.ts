@@ -23,10 +23,10 @@ test.describe('runtime-backed song pages', () => {
     await expect(page).toHaveTitle(/Play By Fingering/)
     await expect(
       page.getByRole('heading', {
-        name: 'Letter-note melody pages for ocarina, recorder, and tin whistle'
+        name: 'PlayByFingering'
       })
     ).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Browse Songs' })).toBeVisible()
+    await expect(page.getByRole('searchbox', { name: 'Search song titles' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
     await expect(page.getByText('reference source')).toHaveCount(0)
 
@@ -121,7 +121,6 @@ test.describe('runtime-backed song pages', () => {
   test('instrument mode keeps the runtime route and shell copy aligned', async ({ page }) => {
     await page.goto('/song/ode-to-joy?instrument=r8b', { waitUntil: 'domcontentloaded' })
 
-    await expect(page.getByText('English 8-Hole Recorder', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(
@@ -143,7 +142,6 @@ test.describe('runtime-backed song pages', () => {
   test('tin whistle mode keeps the runtime route and shell copy aligned', async ({ page }) => {
     await page.goto('/song/ode-to-joy?instrument=w6', { waitUntil: 'domcontentloaded' })
 
-    await expect(page.getByText('Irish Tin Whistle', { exact: true })).toBeVisible()
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('w6')
     await expect(page.getByRole('button', { name: 'Note View: Numbered Notes' })).toBeVisible()
     await expect(

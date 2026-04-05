@@ -1063,10 +1063,6 @@ body {
   overflow-y: hidden !important;
 }
 
-body {
-  min-height: 100vh;
-}
-
 ${hiddenSelectors.join(',\n')} {
   display: none !important;
 }
@@ -1074,6 +1070,9 @@ ${hiddenSelectors.join(',\n')} {
 .flex-body {
   display: block !important;
   min-height: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 
 #sheet {
@@ -2124,7 +2123,7 @@ function buildRuntimeBridgeScript(
       body ? body.offsetHeight : 0,
       html ? html.offsetHeight : 0
     );
-    var height = measuredBottom > 0 ? measuredBottom + 4 : fallbackHeight;
+    var height = measuredBottom > 0 ? measuredBottom + 1 : fallbackHeight;
 
     if (window.parent) {
       window.parent.postMessage(
