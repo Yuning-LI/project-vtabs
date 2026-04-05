@@ -172,6 +172,11 @@
 - 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
   - `5 / 5` 组合一致
 - 当前这首歌导入自 `俄罗斯联邦国歌(俄罗斯，我们神圣的祖国)` 页；来源作曲者字段为空，公开页保持歌词隐藏
+- 本轮后续又新增并通过 preflight compare 的 1 首 march 候选：
+  - `parade-of-the-wooden-soldiers`
+- 中国网络下已对这首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `5 / 5` 组合一致
+- 当前这首歌导入自 `木偶兵进行曲` 页；来源作曲者字段为 `L·拉塞尔`，公开页按器乐进行曲处理，无公开歌词
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -379,17 +384,28 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 84`
+- `songCatalog.length = 85`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 84`
+- `allSongCatalog.length = 85`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 84`
+- `data/songbook/public-song-manifest.json = 85`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 84`
+- `data/kuailepu-runtime/*.json = 85`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 84`
+- `reference/songs/*.json = 85`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 78`
+- `data/kuailepu/*.json = 79`
+
+## 6.5 自制曲输入规范草案
+
+- 已新增一份后续待做文档：
+  - `docs/song-ingest-input-spec.md`
+- 这份文档的定位不是公开产品文案，而是给后续“快乐谱里没有的歌，如何从 MusicXML / MIDI / 简谱资料半自动补齐”的内部执行规范。
+- 当前建议顺序：
+  - `MusicXML` 作为优先输入
+  - `MIDI` 作为备选输入
+  - 纯图片简谱只作为最后人工兜底
+- 真正开始做 happi123 / 快乐谱制谱自动化前，先按这份输入规范收集原始资料，避免后续每首歌重新猜字段。
   - 可提交的轻量导入数量。
 
 为什么数量会不一致：

@@ -586,5 +586,12 @@
     "family": "song",
     "featuredRank": 84,
     "published": true
+  },
+  {
+    "id": "parade-of-the-wooden-soldiers",
+    "slug": "parade-of-the-wooden-soldiers",
+    "family": "march",
+    "featuredRank": 85,
+    "published": true
   }
 ]

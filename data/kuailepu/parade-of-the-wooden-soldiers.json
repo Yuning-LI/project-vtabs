@@ -1,0 +1,49 @@
+{
+  "id": "parade-of-the-wooden-soldiers",
+  "slug": "parade-of-the-wooden-soldiers",
+  "title": "Parade of the Wooden Soldiers",
+  "description": "Parade of the Wooden Soldiers melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: L·拉塞尔.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Seopo1esU.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Seopo1esU on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "5 - | 3 - 5 - 5 - 5 - | 4 - 5 - 5 - 5 - |",
+    "3 - 5 - 7 - 6 - | 5 #4 n4 3 2 - 5 - |",
+    "3 - 5 - 5 - 5 - | 2 - 7 - 7 - 7 - | 6 - 0 0 6 - - - 2' - 0 0 |",
+    "5 - 0 0 0 0 5 - | 3 - 5 - 5 - 5 - | 4 - 5 - 5 - 5 - |",
+    "3 - 5 - 7 - 6 - | 5 #4 n4 3 2 - 5 - |",
+    "5 - 5 - 5 - 3 - | 2 - 7 - 7 - 7 - | 6 - 0 0 6 - - - 2' - 0 0 |",
+    "5 - 0 0 0 0 5 5 | 5 - - - - - 5 5 | 5 - - - - - - - |",
+    "5 1' 3 - 6 - 5 - | 5 1' 3 - 6 - 5 - |",
+    "5 - - 5 5 - 1' - | 1' - 7 - b7 - - - |",
+    "5 2' 4 - 6 - 5 - | 5 2' 4 - 6 - 5 - |",
+    "5 - - 5 5 - 2' - | 2' - 1' - b1' - - - |",
+    "5 1' 3 - 6 - 5 - | 5 1' 3 - 6 - 5 - |",
+    "5 - - 5 5 - 1' - | 1' - 7 - b7 - - - |",
+    "7 7 7 - 7 7 7 - | 7 7 7 - 7 7 7 - |",
+    "7 - 7 - 7 6 5 #4 | 3 - - - 0 0 0 0 |",
+    "5 1' 3 - 6 - 5 - | 5 1' 3 - 6 - 5 - |",
+    "5 - - 5 5 - 1' - | 1' - 7 - b7 - - - |",
+    "5 2' 4 - 6 - 5 - | 5 2' 4 - 6 - 5 - |",
+    "5 - - 5 5 - 2' - | 2' - 1' - b1' - - - |",
+    "5 1' 3 - 6 - 5 - | 5 1' 3 - 6 - 5 - |",
+    "5 - - 5 5 - 3' - | 3' - 2' - 2' - - - |",
+    "1' - - 1' 1' - 6 - | 6 - 5 - 4 - 3 - |",
+    "2 3 4 5 6 - 7 - | 1' - 0 0 0 0 | | |"
+  ]
+}

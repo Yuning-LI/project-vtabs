@@ -63,7 +63,7 @@
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 84 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 85 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -137,17 +137,17 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 84`
+- `songCatalog.length = 85`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 84`
+- `allSongCatalog.length = 85`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 84`
+- `data/songbook/public-song-manifest.json = 85`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 84`
+- `data/kuailepu-runtime/*.json = 85`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 84`
+- `reference/songs/*.json = 85`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 78`
+- `data/kuailepu/*.json = 79`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -211,7 +211,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 84 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 85 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`
@@ -262,7 +262,7 @@
 
 到 2026-04-04 当前交接时，核心 runtime 主链、多乐器公开、功能区、节拍器、SEO 文案和最新一轮导歌都已经收口完成；当前更重要的是把“仓库状态”交接清楚，而不是继续临时重构主链。
 
-- 当前公开曲库数量是 `84` 首。
+- 当前公开曲库数量是 `85` 首。
 - 最近一轮新增公开曲包括：
   - `aura-lee`
   - `simple-gifts`
@@ -285,6 +285,7 @@
   - `grenadiers-march`
   - `the-internationale`
   - `russian-national-anthem`
+  - `parade-of-the-wooden-soldiers`
 - 新对话或准备上线前，先执行：
   - `git status --short --branch`
   - `git log --oneline origin/main..HEAD`
