@@ -33,6 +33,14 @@ export default function KuailepuPreviewIndexPage() {
             yet part of the published catalog unless the song is separately added into the production
             `SongDoc` data.
           </p>
+          <div className="mt-5">
+            <Link
+              href="/dev/song-import-dashboard"
+              className="inline-flex items-center rounded-full border border-stone-300 bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800"
+            >
+              Open Song Import Dashboard
+            </Link>
+          </div>
         </section>
 
         <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

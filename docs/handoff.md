@@ -507,6 +507,12 @@
   - 当前文件优先的 song SEO profile 真相文件。
 - `reference/songs/*.json`
   - 本地导歌 / 调试 fallback。
+- `src/app/dev/song-import-dashboard/page.tsx`
+  - 内部导歌控制台入口。
+  - 聚合 public manifest、SEO profile、deployable raw JSON、compact SongDoc、candidate pool 和 git 状态。
+- `src/lib/songbook/importDashboard.ts`
+  - 内部导歌控制台的数据聚合层。
+  - 负责输出 release issue、recent imports、candidate pool snapshot。
 
 ### 6.3 SEO 与前台英文文案层
 
@@ -534,6 +540,9 @@
   - 校验 public manifest、SongDoc、deployable raw JSON 之间是否一致。
 - `scripts/doctor-song.ts`
   - 快速输出单曲公开状态、歌词可见性、公开乐器、SEO 基本信息。
+- `/dev/song-import-dashboard`
+  - 内部网页入口。
+  - 适合先看“这轮导歌之后还有哪些 manifest / SEO / runtime 缺口”，再决定是否继续导入或准备发布。
 - `scripts/login-kuailepu.ts`
   - 建立或刷新登录态。
 - `scripts/search-kuailepu-song.ts`

@@ -288,6 +288,11 @@
   - 读取 public manifest，给 catalog / 首页 / presentation / 脚本层复用
 - `src/lib/songbook/seoProfiles.ts`
   - 读取 song SEO profiles，给 presentation / 校验脚本 / doctor 脚本复用
+- `src/app/dev/song-import-dashboard/page.tsx`
+  - 内部导歌控制台页面
+  - 聚合 manifest / SEO / runtime raw / compact SongDoc / candidate pool / git 状态
+- `src/lib/songbook/importDashboard.ts`
+  - 内部导歌控制台的数据聚合层
 - `src/components/song/KuailepuLegacyRuntimePage.tsx`
   - 详情页外壳，不是 runtime 本体
 - `src/components/song/KuailepuRuntimeFrame.tsx`
