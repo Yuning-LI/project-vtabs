@@ -593,5 +593,19 @@
     "family": "march",
     "featuredRank": 85,
     "published": true
+  },
+  {
+    "id": "katyusha",
+    "slug": "katyusha",
+    "family": "song",
+    "featuredRank": 86,
+    "published": true
+  },
+  {
+    "id": "moscow-nights",
+    "slug": "moscow-nights",
+    "family": "song",
+    "featuredRank": 87,
+    "published": true
   }
 ]

@@ -1,0 +1,30 @@
+{
+  "id": "katyusha",
+  "slug": "katyusha",
+  "title": "Katyusha",
+  "description": "Katyusha melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/ug2pf1xU3.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song ug2pf1xU3 on 2026-04-05."
+  },
+  "meta": {
+    "key": "1=A4",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "6, - - - - - 7, - | 1 - - - - - 6, - | 1 - - - 7, - - 6, | 7, - - - 3, - - - | 7, - - - - - 1 - | 2 - - - - - 7, 7, | 2 - 2 2 1 - 7, - | 6, - - - - - - - |",
+    "3 - - - 6 - - 6 | 5 - - - 6 - - 5 | 4 - - - 3 - 2 - | 3 - - - 6, - - - | 0 0 4 - - - 2 2 | 3 - - - - - 1 1 | 7, - 3, 3, 1 - 7, - | 6, - - - - - - - |",
+    "3 - - - 6 - - 6 | 5 - - - 6 - - 5 | 4 - - - 3 - 2 - | 3 - - - 6, - - - | 0 0 4 - - - 2 2 | 3 - - - - - 1 1 | 1, - - - 2, - - - 3, - - - 4 - - - 7, - 3, 3, 1 - 7, - | 6, - - - - - - - |",
+    "5 - - - 3 - - - 3 - 3 - | #4 - 5 - - - - - | 6 - - - - - - - | 6 - - - - - - - | 6 - - - - - - - | 6 - - - | | |"
+  ]
+}

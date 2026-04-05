@@ -678,5 +678,21 @@
     ],
     "background": "Parade of the Wooden Soldiers is a brisk novelty march with recognizable concert-band character, so it works well as a melody-first page for players looking for a lighter public-domain march on ocarina, recorder, or tin whistle.",
     "practice": "It is useful for short-note articulation, march pulse consistency, and managing quick phrase turns without losing rhythmic clarity."
+  },
+  "katyusha": {
+    "searchTerms": [
+      "Katyusha ocarina tabs",
+      "Katyusha recorder notes"
+    ],
+    "background": "Katyusha remains a widely recognized marching-style song melody, so it works as a melody-first page for players who want a clean instrumental note view on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for even articulation, phrase pacing, and keeping a quick two-beat pulse across repeated melodic turns."
+  },
+  "moscow-nights": {
+    "searchTerms": [
+      "Moscow Nights ocarina tabs",
+      "Moscow Nights recorder notes"
+    ],
+    "background": "Moscow Nights is a familiar lyrical melody with steady phrase flow, so it fits a melody-first page for players looking for a softer instrumental option on ocarina, recorder, or tin whistle.",
+    "practice": "It helps with breath support, smoother phrase shaping, and keeping longer melodic lines centered without rushing."
   }
 }
