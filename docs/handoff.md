@@ -193,6 +193,14 @@
 - 其中：
   - `Troika` 导入自 `三套车` 页；来源作曲者字段为空，公开页保持歌词隐藏
   - `The Pathway` 导入自 `小路（苏）` 页；来源作曲者字段为空，公开页保持歌词隐藏
+- 本轮后续又新增并通过 preflight compare 的 2 首 song 候选：
+  - `red-berries-blossom`
+  - `the-hawthorn-tree`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Red Berries Blossom` 导入自 `红莓花儿开` 页；来源作曲者字段为 `苏 伊·杜那耶夫斯基`
+  - `The Hawthorn Tree` 导入自 `山楂树` 页；来源作曲者字段为空，公开页保持歌词隐藏
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -400,17 +408,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 89`
+- `songCatalog.length = 91`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 89`
+- `allSongCatalog.length = 91`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 89`
+- `data/songbook/public-song-manifest.json = 91`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 89`
+- `data/kuailepu-runtime/*.json = 91`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 89`
+- `reference/songs/*.json = 91`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 83`
+- `data/kuailepu/*.json = 85`
 
 ## 6.5 自制曲输入规范草案
 

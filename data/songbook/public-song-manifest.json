@@ -621,5 +621,19 @@
     "family": "song",
     "featuredRank": 89,
     "published": true
+  },
+  {
+    "id": "red-berries-blossom",
+    "slug": "red-berries-blossom",
+    "family": "song",
+    "featuredRank": 90,
+    "published": true
+  },
+  {
+    "id": "the-hawthorn-tree",
+    "slug": "the-hawthorn-tree",
+    "family": "song",
+    "featuredRank": 91,
+    "published": true
   }
 ]
