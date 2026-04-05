@@ -9,10 +9,12 @@ type SongImportDashboardProps = {
 }
 
 type SongScope = 'all' | 'issues' | 'public' | 'imports' | 'pending'
+type CandidateScope = 'all' | 'next' | 'open' | 'blocked' | 'imported'
 
 export default function SongImportDashboard({ data }: SongImportDashboardProps) {
   const [query, setQuery] = useState('')
   const [scope, setScope] = useState<SongScope>('issues')
+  const [candidateScope, setCandidateScope] = useState<CandidateScope>('open')
   const deferredQuery = useDeferredValue(query)
   const normalizedQuery = deferredQuery.trim().toLowerCase()
 
@@ -48,6 +50,24 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
   })
 
   const filteredCandidates = data.candidatePool.rows.filter(candidate => {
+    if (candidateScope === 'next' && candidate.workflowStatus !== 'queued') {
+      return false
+    }
+    if (candidateScope === 'open' && candidate.workflowStatus !== 'queued' && candidate.workflowStatus !== 'hold') {
+      return false
+    }
+    if (
+      candidateScope === 'blocked' &&
+      candidate.workflowStatus !== 'blocked' &&
+      candidate.workflowStatus !== 'reference-only' &&
+      candidate.workflowStatus !== 'duplicate'
+    ) {
+      return false
+    }
+    if (candidateScope === 'imported' && candidate.workflowStatus !== 'imported-public') {
+      return false
+    }
+
     if (!normalizedQuery) {
       return true
     }
@@ -55,9 +75,17 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
     return [
       candidate.songName,
       candidate.aliasName ?? '',
+      candidate.searchResultTitle ?? '',
       candidate.currentSlug ?? '',
       candidate.publicTitle ?? '',
-      candidate.status ?? ''
+      candidate.recommendedTitle ?? '',
+      candidate.recommendedSlug ?? '',
+      candidate.status ?? '',
+      candidate.workflowStatus,
+      candidate.statusReason,
+      candidate.rightsRisk ?? '',
+      candidate.nextAction ?? '',
+      candidate.notes ?? ''
     ]
       .join(' ')
       .toLowerCase()
@@ -83,12 +111,18 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
         </p>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
         <SummaryCard label="Public Songs" value={String(data.summary.publicSongs)} detail={`${data.summary.publicManifestEntries} manifest entries`} />
         <SummaryCard label="Import-Backed" value={String(data.summary.importBackedPublicSongs)} detail={`${data.summary.compactDocs} compact docs`} />
         <SummaryCard label="Deployable Raw" value={String(data.summary.runtimeRaw)} detail={`${data.summary.referenceRaw} local raw snapshots`} />
         <SummaryCard label="Pending Review" value={String(data.summary.pendingReview)} detail="Import docs still marked pending" tone="warn" />
         <SummaryCard label="Release Issues" value={String(data.summary.releaseIssues)} detail="Public-song consistency gaps" tone={data.summary.releaseIssues > 0 ? 'danger' : 'ok'} />
+        <SummaryCard
+          label="Candidate Queue"
+          value={String(data.candidatePool.nextImportCandidates.length)}
+          detail={`${data.candidatePool.workflowSummary.hold ?? 0} hold, ${data.candidatePool.workflowSummary.blocked ?? 0} blocked`}
+          tone={data.candidatePool.nextImportCandidates.length > 0 ? 'ok' : 'warn'}
+        />
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -193,6 +227,12 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
           </div>
         </div>
 
+        {data.candidatePool.nextStep ? (
+          <div className="mt-4 rounded-3xl border border-stone-200 bg-stone-50 px-4 py-4 text-sm leading-7 text-stone-700">
+            {data.candidatePool.nextStep}
+          </div>
+        ) : null}
+
         {data.candidatePool.summary ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {Object.entries(data.candidatePool.summary).map(([key, value]) => (
@@ -203,12 +243,76 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
           </div>
         ) : null}
 
+        <div className="mt-4 flex flex-wrap gap-2">
+          {Object.entries(data.candidatePool.workflowSummary).map(([key, value]) => (
+            <div key={key} className="page-warm-pill px-3 py-1 text-sm font-semibold text-stone-800">
+              {humanizeKey(key)}: {String(value)}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          {Object.entries(data.candidatePool.reasonSummary).map(([key, value]) => (
+            <div key={key} className="page-warm-pill-muted px-3 py-1 text-sm">
+              <span className="font-semibold text-stone-800">{humanizeKey(key)}:</span> {String(value)}
+            </div>
+          ))}
+        </div>
+
+        <section className="mt-5 rounded-[28px] bg-stone-50 px-5 py-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-lg font-bold text-stone-900">Next Import Queue</h3>
+              <p className="mt-1 text-sm text-stone-600">Candidates explicitly marked ready for a China-network import run.</p>
+            </div>
+            <div className="page-warm-pill-muted px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
+              {data.candidatePool.nextImportCandidates.length} ready
+            </div>
+          </div>
+
+          {data.candidatePool.nextImportCandidates.length > 0 ? (
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              {data.candidatePool.nextImportCandidates.map(candidate => (
+                <div key={candidate.href} className="rounded-3xl bg-white px-4 py-4 shadow-[0_10px_24px_rgba(84,58,32,0.06)]">
+                  <div className="font-semibold text-stone-900">{candidate.recommendedTitle ?? candidate.songName}</div>
+                  <div className="mt-1 text-sm text-stone-600">{candidate.recommendedSlug ?? 'No slug yet'}</div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <StatePill label={humanizeKey(candidate.workflowStatus)} tone="ok" />
+                    <StatePill label={humanizeKey(candidate.statusReason)} tone={toneForCandidateReason(candidate.statusReason)} />
+                    {candidate.supportsPublicInstruments === true ? <StatePill label="5 instruments ready" tone="ok" /> : null}
+                  </div>
+                  <div className="mt-3 text-sm leading-7 text-stone-600">{candidate.notes ?? candidate.nextAction ?? 'No note.'}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 rounded-3xl border border-dashed border-stone-300 bg-white px-4 py-5 text-sm leading-7 text-stone-600">
+              No candidate is currently marked <code>queued</code>. The next expansion step is a fresh China-network discovery pass before another western-demand round.
+            </div>
+          )}
+        </section>
+
         <div className="mt-5 overflow-x-auto">
+          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-2">
+              <ScopeButton active={candidateScope === 'open'} onClick={() => setCandidateScope('open')} label="Open" />
+              <ScopeButton active={candidateScope === 'next'} onClick={() => setCandidateScope('next')} label="Queued" />
+              <ScopeButton active={candidateScope === 'blocked'} onClick={() => setCandidateScope('blocked')} label="Blocked" />
+              <ScopeButton active={candidateScope === 'imported'} onClick={() => setCandidateScope('imported')} label="Imported" />
+              <ScopeButton active={candidateScope === 'all'} onClick={() => setCandidateScope('all')} label="All Rows" />
+            </div>
+
+            <div className="page-warm-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
+              {filteredCandidates.length} rows
+            </div>
+          </div>
+
           <table className="min-w-full border-separate border-spacing-y-3">
             <thead>
               <tr className="text-left text-xs uppercase tracking-[0.14em] text-stone-500">
                 <th className="px-3 py-2">Candidate</th>
-                <th className="px-3 py-2">Status</th>
+                <th className="px-3 py-2">Workflow</th>
+                <th className="px-3 py-2">Recommendation</th>
                 <th className="px-3 py-2">Current Mapping</th>
                 <th className="px-3 py-2">Source</th>
               </tr>
@@ -343,23 +447,34 @@ function CandidateRow({ candidate }: { candidate: ImportDashboardCandidateRow })
       <td className="rounded-l-3xl px-3 py-4 align-top">
         <div className="font-semibold text-stone-900">{candidate.songName}</div>
         <div className="mt-1 text-sm text-stone-600">{candidate.aliasName ?? 'No alias'}</div>
+        {candidate.searchResultTitle ? <div className="mt-1 text-xs text-stone-500">{candidate.searchResultTitle}</div> : null}
       </td>
       <td className="px-3 py-4 align-top">
         <div className="flex flex-wrap gap-2">
-          {candidate.status ? <StatePill label={candidate.status} tone={candidate.isCurrentlyPublic ? 'ok' : 'muted'} /> : null}
+          <StatePill label={humanizeKey(candidate.workflowStatus)} tone={toneForCandidateWorkflow(candidate.workflowStatus)} />
+          <StatePill label={humanizeKey(candidate.statusReason)} tone={toneForCandidateReason(candidate.statusReason)} />
           {candidate.supportsPublicInstruments === true ? <StatePill label="5 instruments ready" tone="ok" /> : null}
           {candidate.supportsPublicInstruments === false ? <StatePill label="Instrument gap" tone="warn" /> : null}
+          {candidate.rightsRisk ? <StatePill label={humanizeKey(candidate.rightsRisk)} tone={toneForRightsRisk(candidate.rightsRisk)} /> : null}
         </div>
+        <div className="mt-3 text-sm leading-7 text-stone-600">{candidate.nextAction ?? candidate.status ?? 'No workflow note'}</div>
+      </td>
+      <td className="px-3 py-4 align-top text-sm text-stone-700">
+        <div className="font-semibold text-stone-900">{candidate.recommendedTitle ?? 'No canonical title yet'}</div>
+        <div className="mt-1 text-stone-600">{candidate.recommendedSlug ?? 'No slug yet'}</div>
+        <div className="mt-1 text-stone-500">Checked: {candidate.lastCheckedOn ?? 'N/A'}</div>
       </td>
       <td className="px-3 py-4 align-top text-sm text-stone-700">
         <div>{candidate.currentSlug ?? 'Not mapped'}</div>
         <div className="mt-1 text-stone-500">{candidate.publicTitle ?? 'No public title'}</div>
+        {candidate.isCurrentlyPublic ? <div className="mt-2"><StatePill label="Live public page" tone="ok" /></div> : null}
       </td>
       <td className="rounded-r-3xl px-3 py-4 align-top text-sm">
         <div className="flex flex-col gap-2">
           <a href={candidate.href} target="_blank" rel="noreferrer" className="font-semibold text-stone-900 underline underline-offset-4">
             Candidate source
           </a>
+          {candidate.sourceSongUuid ? <div className="text-stone-500">UUID: {candidate.sourceSongUuid}</div> : null}
           {candidate.currentSlug ? (
             <Link href={`/song/${candidate.currentSlug}`} className="text-stone-700 underline underline-offset-4">
               Current public page
@@ -394,6 +509,54 @@ function StatePill(props: { label: string; tone: 'ok' | 'warn' | 'danger' | 'mut
 function humanizeKey(value: string) {
   return value
     .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/_/g, ' ')
+    .replace(/[-_]/g, ' ')
     .replace(/\b\w/g, char => char.toUpperCase())
+}
+
+function toneForCandidateWorkflow(value: ImportDashboardCandidateRow['workflowStatus']) {
+  if (value === 'queued' || value === 'imported-public') {
+    return 'ok' as const
+  }
+  if (value === 'hold') {
+    return 'warn' as const
+  }
+  if (value === 'blocked') {
+    return 'danger' as const
+  }
+  if (value === 'reference-only') {
+    return 'accent' as const
+  }
+
+  return 'muted' as const
+}
+
+function toneForCandidateReason(value: ImportDashboardCandidateRow['statusReason']) {
+  if (value === 'already-public') {
+    return 'ok' as const
+  }
+  if (value === 'ambiguous-identity' || value === 'unclear-identity' || value === 'no-public-instruments') {
+    return 'warn' as const
+  }
+  if (value === 'traffic-reference-only') {
+    return 'accent' as const
+  }
+  if (value === 'copyright-risk') {
+    return 'danger' as const
+  }
+
+  return 'muted' as const
+}
+
+function toneForRightsRisk(value: string) {
+  if (value === 'public-domain') {
+    return 'ok' as const
+  }
+  if (value === 'unclear') {
+    return 'warn' as const
+  }
+  if (value.includes('copyright')) {
+    return 'danger' as const
+  }
+
+  return 'muted' as const
 }

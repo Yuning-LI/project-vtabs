@@ -14,13 +14,43 @@ type CompactSongDoc = SongDoc & {
   }
 }
 
+type CandidateWorkflowStatus =
+  | 'queued'
+  | 'hold'
+  | 'blocked'
+  | 'reference-only'
+  | 'duplicate'
+  | 'imported-public'
+
+type CandidateStatusReason =
+  | 'already-public'
+  | 'no-public-instruments'
+  | 'ambiguous-identity'
+  | 'unclear-identity'
+  | 'copyright-risk'
+  | 'traffic-reference-only'
+  | 'duplicate-title'
+  | 'unknown'
+
 type CandidatePoolEntry = {
   href?: string
   songName?: string
   aliasName?: string
+  searchResultTitle?: string
+  candidateEnglishTitle?: string
+  canonicalWesternTitle?: string
   publicTitle?: string
   existingPublicSlug?: string
+  recommendedTitle?: string
+  recommendedSlug?: string
   status?: string
+  workflowStatus?: string
+  statusReason?: string
+  screeningDecision?: string
+  rightsRisk?: string
+  sourceSongUuid?: string
+  lastCheckedOn?: string
+  nextAction?: string
   supportsPublicInstruments?: boolean
   notes?: string
 }
@@ -47,11 +77,20 @@ export type ImportDashboardSongRow = {
 
 export type ImportDashboardCandidateRow = {
   href: string
+  sourceSongUuid: string | null
   songName: string
   aliasName: string | null
+  searchResultTitle: string | null
   currentSlug: string | null
   publicTitle: string | null
+  recommendedTitle: string | null
+  recommendedSlug: string | null
   status: string | null
+  workflowStatus: CandidateWorkflowStatus
+  statusReason: CandidateStatusReason
+  rightsRisk: string | null
+  nextAction: string | null
+  lastCheckedOn: string | null
   supportsPublicInstruments: boolean | null
   notes: string | null
   isCurrentlyPublic: boolean
@@ -78,7 +117,11 @@ export type SongImportDashboardData = {
   recentImports: ImportDashboardSongRow[]
   candidatePool: {
     generatedOn: string | null
+    nextStep: string | null
     summary: Record<string, number | string> | null
+    workflowSummary: Partial<Record<CandidateWorkflowStatus, number>>
+    reasonSummary: Partial<Record<CandidateStatusReason, number>>
+    nextImportCandidates: ImportDashboardCandidateRow[]
     rows: ImportDashboardCandidateRow[]
   }
 }
@@ -211,13 +254,18 @@ function loadCandidatePool(sourceUrlToSlug: Map<string, string>) {
   if (!fs.existsSync(candidatePoolPath)) {
     return {
       generatedOn: null,
+      nextStep: null,
       summary: null,
+      workflowSummary: {},
+      reasonSummary: {},
+      nextImportCandidates: [] as ImportDashboardCandidateRow[],
       rows: [] as ImportDashboardCandidateRow[]
     }
   }
 
   const parsed = JSON.parse(fs.readFileSync(candidatePoolPath, 'utf8')) as {
     generatedOn?: string
+    nextStep?: string
     summary?: Record<string, number | string>
     candidates?: CandidatePoolEntry[]
   }
@@ -225,17 +273,38 @@ function loadCandidatePool(sourceUrlToSlug: Map<string, string>) {
   const rows = (parsed.candidates ?? [])
     .map(candidate => {
       const href = normalizeSourceUrl(candidate.href)
-      const currentSlug = href ? sourceUrlToSlug.get(href) ?? candidate.existingPublicSlug ?? null : null
-      const publicTitle = candidate.publicTitle?.trim() || null
-      const songName = candidate.songName?.trim() || currentSlug || 'Untitled candidate'
+      const workflowStatus = resolveCandidateWorkflowStatus(candidate)
+      const statusReason = resolveCandidateStatusReason(candidate, workflowStatus)
+      const currentSlug = firstNonEmpty(
+        href ? sourceUrlToSlug.get(href) : null,
+        candidate.existingPublicSlug,
+        candidate.recommendedSlug
+      )
+      const publicTitle = firstNonEmpty(candidate.publicTitle, candidate.recommendedTitle)
+      const recommendedTitle = firstNonEmpty(
+        candidate.recommendedTitle,
+        candidate.publicTitle,
+        candidate.candidateEnglishTitle,
+        candidate.canonicalWesternTitle
+      )
+      const songName = firstNonEmpty(candidate.songName, recommendedTitle, currentSlug) ?? 'Untitled candidate'
 
       return {
         href: href ?? '',
+        sourceSongUuid: firstNonEmpty(candidate.sourceSongUuid, href ? extractKuailepuSongUuid(href) : null),
         songName,
         aliasName: candidate.aliasName?.trim() || null,
+        searchResultTitle: candidate.searchResultTitle?.trim() || null,
         currentSlug,
         publicTitle,
+        recommendedTitle,
+        recommendedSlug: firstNonEmpty(candidate.recommendedSlug, candidate.existingPublicSlug, currentSlug),
         status: candidate.status?.trim() || null,
+        workflowStatus,
+        statusReason,
+        rightsRisk: candidate.rightsRisk?.trim() || null,
+        nextAction: candidate.nextAction?.trim() || null,
+        lastCheckedOn: firstNonEmpty(candidate.lastCheckedOn, parsed.generatedOn),
         supportsPublicInstruments:
           typeof candidate.supportsPublicInstruments === 'boolean'
             ? candidate.supportsPublicInstruments
@@ -245,10 +314,19 @@ function loadCandidatePool(sourceUrlToSlug: Map<string, string>) {
       }
     })
     .filter(row => row.href.length > 0)
+    .sort(compareCandidateRows)
+
+  const workflowSummary = countBy(rows, row => row.workflowStatus)
+  const reasonSummary = countBy(rows, row => row.statusReason)
+  const nextImportCandidates = rows.filter(row => row.workflowStatus === 'queued')
 
   return {
     generatedOn: parsed.generatedOn ?? null,
+    nextStep: parsed.nextStep?.trim() || null,
     summary: parsed.summary ?? null,
+    workflowSummary,
+    reasonSummary,
+    nextImportCandidates,
     rows
   }
 }
@@ -304,6 +382,121 @@ function normalizeSourceUrl(value: string | null | undefined) {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : null
 }
 
+function firstNonEmpty(...values: Array<string | null | undefined>) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim().length > 0) {
+      return value.trim()
+    }
+  }
+
+  return null
+}
+
+function resolveCandidateWorkflowStatus(candidate: CandidatePoolEntry): CandidateWorkflowStatus {
+  const normalized = normalizeCandidateWorkflowStatus(candidate.workflowStatus)
+  if (normalized) {
+    return normalized
+  }
+
+  if (candidate.status === 'public-already-imported') {
+    return 'imported-public'
+  }
+
+  if (candidate.status === 'skip-for-now') {
+    if (candidate.screeningDecision === 'traffic-reference-only') {
+      return 'reference-only'
+    }
+
+    if (candidate.notes?.toLowerCase().includes('duplicate')) {
+      return 'duplicate'
+    }
+
+    if (
+      candidate.screeningDecision === 'no-public-instruments' ||
+      candidate.rightsRisk === 'copyrighted' ||
+      candidate.rightsRisk === 'likely-copyrighted'
+    ) {
+      return 'blocked'
+    }
+
+    return 'hold'
+  }
+
+  return 'hold'
+}
+
+function resolveCandidateStatusReason(
+  candidate: CandidatePoolEntry,
+  workflowStatus: CandidateWorkflowStatus
+): CandidateStatusReason {
+  const normalized = normalizeCandidateStatusReason(candidate.statusReason)
+  if (normalized) {
+    return normalized
+  }
+
+  if (workflowStatus === 'imported-public') {
+    return 'already-public'
+  }
+
+  if (workflowStatus === 'duplicate') {
+    return 'duplicate-title'
+  }
+
+  if (candidate.screeningDecision === 'no-public-instruments') {
+    return 'no-public-instruments'
+  }
+
+  if (
+    candidate.screeningDecision === 'hold-no-clear-western-demand' ||
+    candidate.screeningDecision === 'hold-ambiguous-title'
+  ) {
+    return 'ambiguous-identity'
+  }
+
+  if (candidate.screeningDecision === 'traffic-reference-only') {
+    return 'traffic-reference-only'
+  }
+
+  if (
+    candidate.screeningDecision === 'remove-modern-copyrighted' ||
+    candidate.rightsRisk === 'copyrighted' ||
+    candidate.rightsRisk === 'likely-copyrighted'
+  ) {
+    return 'copyright-risk'
+  }
+
+  if (workflowStatus === 'hold') {
+    return 'unclear-identity'
+  }
+
+  return 'unknown'
+}
+
+function normalizeCandidateWorkflowStatus(value: string | null | undefined) {
+  if (value === 'queued' || value === 'hold' || value === 'blocked' || value === 'reference-only' || value === 'duplicate' || value === 'imported-public') {
+    return value
+  }
+
+  return null
+}
+
+function normalizeCandidateStatusReason(value: string | null | undefined) {
+  if (
+    value === 'already-public' ||
+    value === 'no-public-instruments' ||
+    value === 'ambiguous-identity' ||
+    value === 'unclear-identity' ||
+    value === 'copyright-risk' ||
+    value === 'traffic-reference-only' ||
+    value === 'duplicate-title' ||
+    value === 'unknown'
+  ) {
+    return value
+  }
+
+  return null
+}
+
 function compareDashboardRows(left: ImportDashboardSongRow, right: ImportDashboardSongRow) {
   if (left.issueFlags.length !== right.issueFlags.length) {
     return right.issueFlags.length - left.issueFlags.length
@@ -329,6 +522,40 @@ function compareRecentImports(left: ImportDashboardSongRow, right: ImportDashboa
   }
 
   return left.slug.localeCompare(right.slug)
+}
+
+function compareCandidateRows(left: ImportDashboardCandidateRow, right: ImportDashboardCandidateRow) {
+  const statusOrder: CandidateWorkflowStatus[] = [
+    'queued',
+    'hold',
+    'blocked',
+    'reference-only',
+    'duplicate',
+    'imported-public'
+  ]
+
+  const leftIndex = statusOrder.indexOf(left.workflowStatus)
+  const rightIndex = statusOrder.indexOf(right.workflowStatus)
+
+  if (leftIndex !== rightIndex) {
+    return leftIndex - rightIndex
+  }
+
+  const leftDate = left.lastCheckedOn ?? ''
+  const rightDate = right.lastCheckedOn ?? ''
+  if (leftDate !== rightDate) {
+    return rightDate.localeCompare(leftDate)
+  }
+
+  return left.songName.localeCompare(right.songName)
+}
+
+function countBy<T, K extends string>(rows: T[], getKey: (row: T) => K) {
+  return rows.reduce<Partial<Record<K, number>>>((counts, row) => {
+    const key = getKey(row)
+    counts[key] = (counts[key] ?? 0) + 1
+    return counts
+  }, {})
 }
 
 function runGitCommand(args: string[]) {

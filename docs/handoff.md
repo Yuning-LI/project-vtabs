@@ -917,24 +917,48 @@
 
 - `data/songbook/kuailepu-western-candidate-pool.json`
 
-这份文件不是快乐谱全站 `6000+` 首曲目的完整清单，而是当前产品更相关的第一版 western 子集。当前统计是：
+这份文件不是快乐谱全站 `6000+` 首曲目的完整清单，而是当前产品更相关的第一版 western 子集。当前这份文件已经升级为 `schemaVersion = 2`，接手时不要只看旧 `status`，而要优先看：
+
+- `workflowStatus`
+- `statusReason`
+- `recommendedTitle`
+- `recommendedSlug`
+- `lastCheckedOn`
+
+当前统计是：
 
 - `uniqueResults = 30`
 - `alreadyPublic = 12`
 - `newCandidatesWithLatinTitles = 14`
 - `immediateScreeningCandidates = 0`
 - `skipForNowCandidates = 18`
+- `queuedCandidates = 0`
+- `holdCandidates = 4`
+- `blockedCandidates = 11`
+- `referenceOnlyCandidates = 2`
+- `duplicateCandidates = 1`
 
 这轮在国外 VPN 下已经完成第一轮 western 流量与可用性筛选，随后又在中国网络下补做了一轮扩池。当前结论是：
 
-1. 首轮 `screen-next` 已全部收口
+1. 首轮 `screen-next` 已全部收口；当前 `workflowStatus=queued` 为空
 2. 中国网络后续扩池并结合美国侧第二轮筛选后，`Home on the Range`、`La Cucaracha`、`Drinking Song` 都已经导入并通过 preflight compare
-3. 当前这份候选池里已经没有剩余 `screen-next`
+3. 当前这份候选池里已经没有剩余待直接导入项；下一轮应先重新做中国网络扩池
 4. `The Last Waltz` 与 `Tennessee Waltz` 只保留为 western 需求参考标题
 5. `Vientos Suaves` 与 `Polska` 暂时保留，但都缺少足够清晰的单曲 landing-page 身份
 6. `Lullaby of the Manifold` 已基本确认偏现代版权曲，不再属于当前导歌队列
 7. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
 8. `G Major Minuet` 也在快乐谱能找到，但该页缺少当前公开乐器集对应的可用图谱，当前同样不进入队列
+
+内部控制台现已可直接查看这份候选池：
+
+- `/dev/song-import-dashboard`
+
+该页会显示：
+
+- 当前 `workflowStatus` 分布
+- 当前 `statusReason` 分布
+- `queued` 导入队列
+- 每条候选的推荐标题、推荐 slug、当前映射、source UUID 与最近检查日期
 
 当前已明确更适合先跳过的代表项有：
 

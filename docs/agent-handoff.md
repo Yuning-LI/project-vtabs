@@ -421,6 +421,9 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 - 中国网络下已经把快乐谱 western 相关候选收口到：
   - `data/songbook/kuailepu-western-candidate-pool.json`
+- 这份候选池现在是 `schemaVersion = 2`：
+  - 不要只看旧 `status`
+  - 优先看 `workflowStatus`、`statusReason`、`recommendedTitle`、`recommendedSlug`、`lastCheckedOn`
 - 2026-04-04 在美国 VPN 下实测，`npm run search:kuailepu -- "Joy to the World"` 直接报 `ERR_CONNECTION_CLOSED`。
 - 这说明当前美国侧更适合做 western 搜索词和候选池研究，不适合直接跑快乐谱导歌。
 - 但快乐谱站内搜索对不少候选曲命中很差，继续加歌时要准备英文名、中文名、别名、标题变体一起试，必要时人工导航。
@@ -429,18 +432,35 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 - `30` 条 unique results
 - `12` 条已是公开曲库
-- `0` 条 `screen-next`
+- `0` 条 `queued`
+- `4` 条 `hold`
+- `11` 条 `blocked`
+- `2` 条 `reference-only`
+- `1` 条 `duplicate`
 - `18` 条 `skip-for-now`
 
 这轮国外 VPN 筛完后，又在中国网络下补做了一轮扩池。当前结论是：
 
 1. `Home on the Range`、`La Cucaracha`、`Drinking Song` 已经导入并通过 preflight compare，不再属于待筛候选
-2. 当前这份候选池里已经没有剩余 `screen-next`
+2. 当前这份候选池里已经没有剩余 `queued` 候选；下一轮先重做中国网络扩池
 3. `The Last Waltz` 和 `Tennessee Waltz` 只保留为 western 需求参考标题
 4. `Vientos Suaves` 和 `Polska` 继续留在池里，但都缺少足够清晰的单曲身份
 5. `Lullaby of the Manifold` 已基本排除出当前队列
 6. `Salut d'Amour` 虽然在快乐谱能找到，但该页只有 `instrument=none`，当前不能进入公开曲页队列
 7. `G Major Minuet` 也能找到，但缺少当前公开乐器集对应的可用图谱，当前不能进入公开曲页队列
+
+内部查看入口：
+
+- `/dev/song-import-dashboard`
+
+这页现在会把候选池状态化展示出来，包括：
+
+- `workflowStatus`
+- `statusReason`
+- 推荐标题 / slug
+- 当前 public 映射
+- source UUID
+- 最近检查日期
 
 补充：
 

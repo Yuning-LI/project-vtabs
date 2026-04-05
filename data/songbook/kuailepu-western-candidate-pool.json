@@ -1,8 +1,17 @@
 {
+  "schemaVersion": 2,
   "generatedOn": "2026-04-04",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "The second-pass US-screened queue has now been imported and passed China-network preflight compare. There is no remaining screen-next item in this pool; expand China-network discovery again before the next western-demand round.",
+  "nextStep": "Read workflowStatus and statusReason instead of only the legacy status field. The queued import list is currently empty, so the next round should start with a fresh China-network discovery pass before another western-demand screen.",
+  "workflowStatusGuide": {
+    "queued": "Ready for China-network import plus preflight compare.",
+    "hold": "Keep in the pool, but identity or demand still needs another pass.",
+    "blocked": "Not importable under the current product and rights guardrails.",
+    "reference-only": "Useful as demand reference, not as an import target.",
+    "duplicate": "Duplicate or redundant page that should not become its own import target.",
+    "imported-public": "Already imported and live in the public catalog."
+  },
   "seedQueries": [
     "Joy to the World",
     "The First Noel",
@@ -40,7 +49,13 @@
     "alreadyPublic": 12,
     "newCandidatesWithLatinTitles": 14,
     "immediateScreeningCandidates": 0,
-    "skipForNowCandidates": 18
+    "skipForNowCandidates": 18,
+    "queuedCandidates": 0,
+    "holdCandidates": 4,
+    "blockedCandidates": 11,
+    "referenceOnlyCandidates": 2,
+    "duplicateCandidates": 1,
+    "importedPublicCandidates": 12
   },
   "foreignVpnScreening": {
     "screenedOn": "2026-04-04",
@@ -105,7 +120,14 @@
       "lyricLanguage": "cjk-only",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Mapped to Joy to the World; public page hides the Chinese-only lyric track."
+      "notes": "Mapped to Joy to the World; public page hides the Chinese-only lyric track.",
+      "sourceSongUuid": "U0yAr1sAq",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Joy to the World",
+      "recommendedSlug": "joy-to-the-world",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/jyz9m1QbT.html",
@@ -117,7 +139,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public as Wedding March."
+      "notes": "Already public as Wedding March.",
+      "sourceSongUuid": "jyz9m1QbT",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Wedding March",
+      "recommendedSlug": "wedding-march",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/MFoLe13QR.html",
@@ -129,7 +158,14 @@
       "lyricLanguage": "has-latin",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public."
+      "notes": "Already public.",
+      "sourceSongUuid": "MFoLe13QR",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "We Wish You a Merry Christmas",
+      "recommendedSlug": "we-wish-you-a-merry-christmas",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/UTNss1UBw.html",
@@ -141,7 +177,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public."
+      "notes": "Already public.",
+      "sourceSongUuid": "UTNss1UBw",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Wellerman",
+      "recommendedSlug": "wellerman",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/SN2os1L8t.html",
@@ -153,7 +196,14 @@
       "lyricLanguage": "has-latin",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public; pure Chinese lyric track stays hidden."
+      "notes": "Already public; pure Chinese lyric track stays hidden.",
+      "sourceSongUuid": "SN2os1L8t",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Bella Ciao",
+      "recommendedSlug": "bella-ciao",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/mKRKc1U9D.html",
@@ -165,7 +215,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public as Romance d'Amour / Spanish Romance."
+      "notes": "Already public as Romance d'Amour / Spanish Romance.",
+      "sourceSongUuid": "mKRKc1U9D",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Romance d'Amour",
+      "recommendedSlug": "romance-damour",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/3ROuv1NYN.html",
@@ -177,7 +234,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public."
+      "notes": "Already public.",
+      "sourceSongUuid": "3ROuv1NYN",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Lough Leane",
+      "recommendedSlug": "lough-leane",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/JeqZc1VdO.html",
@@ -189,7 +253,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public as lullaby; title remains non-English in content layer."
+      "notes": "Already public as lullaby; title remains non-English in content layer.",
+      "sourceSongUuid": "JeqZc1VdO",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Lullaby",
+      "recommendedSlug": "lullaby",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/qC4Nl1kvd.html",
@@ -201,7 +272,14 @@
       "lyricLanguage": "other",
       "supportsPublicInstruments": true,
       "status": "public-already-imported",
-      "notes": "Already public as Jolly Old Saint Nicholas."
+      "notes": "Already public as Jolly Old Saint Nicholas.",
+      "sourceSongUuid": "qC4Nl1kvd",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Jolly Old Saint Nicholas",
+      "recommendedSlug": "jolly-old-saint-nicholas",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/g7jGe1BCJ.html",
@@ -219,7 +297,14 @@
       "rightsRisk": "public-domain",
       "discoveredByQuery": "牧场上的家",
       "usScreeningDecision": "top-priority",
-      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The Kuailepu page only carries Chinese lyrics, so the public page keeps lyrics hidden by default."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The Kuailepu page only carries Chinese lyrics, so the public page keeps lyrics hidden by default.",
+      "sourceSongUuid": "g7jGe1BCJ",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Home on the Range",
+      "recommendedSlug": "home-on-the-range",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/qQYsq1QvG.html",
@@ -237,7 +322,14 @@
       "rightsRisk": "public-domain",
       "discoveredByQuery": "拉库卡拉查",
       "usScreeningDecision": "viable-backup",
-      "notes": "Imported and published after second-pass China discovery plus US-side demand screening."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening.",
+      "sourceSongUuid": "qQYsq1QvG",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "La Cucaracha",
+      "recommendedSlug": "la-cucaracha",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/HHvYd1B3f.html",
@@ -255,7 +347,14 @@
       "rightsRisk": "public-domain",
       "discoveredByQuery": "饮酒歌",
       "usScreeningDecision": "lower-priority-backup",
-      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The source page carries only Chinese lyrics, so the public page keeps lyrics hidden by default."
+      "notes": "Imported and published after second-pass China discovery plus US-side demand screening. The source page carries only Chinese lyrics, so the public page keeps lyrics hidden by default.",
+      "sourceSongUuid": "HHvYd1B3f",
+      "workflowStatus": "imported-public",
+      "statusReason": "already-public",
+      "recommendedTitle": "Drinking Song",
+      "recommendedSlug": "drinking-song",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "none"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/DDWml1tVr.html",
@@ -271,7 +370,14 @@
       "rightsRisk": "public-domain",
       "screeningDecision": "no-public-instruments",
       "discoveredByQuery": "爱的礼赞",
-      "notes": "Recognizable Elgar public-domain title, but this Kuailepu page exposes only instrument=none, so it cannot become a public fingering page under the current product rules."
+      "notes": "Recognizable Elgar public-domain title, but this Kuailepu page exposes only instrument=none, so it cannot become a public fingering page under the current product rules.",
+      "sourceSongUuid": "DDWml1tVr",
+      "workflowStatus": "blocked",
+      "statusReason": "no-public-instruments",
+      "recommendedTitle": "Salut d'Amour",
+      "recommendedSlug": "salut-damour",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "wait-for-broader-instrument-rollout"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/leoVi11R5.html",
@@ -287,7 +393,14 @@
       "rightsRisk": "public-domain",
       "screeningDecision": "no-public-instruments",
       "discoveredByQuery": "G大调小步舞曲",
-      "notes": "Recognizable classical beginner title, but this Kuailepu page only exposes o3 / b6 / p8 beyond none, so it does not fit the current public instrument rollout."
+      "notes": "Recognizable classical beginner title, but this Kuailepu page only exposes o3 / b6 / p8 beyond none, so it does not fit the current public instrument rollout.",
+      "sourceSongUuid": "leoVi11R5",
+      "workflowStatus": "blocked",
+      "statusReason": "no-public-instruments",
+      "recommendedTitle": "G Major Minuet",
+      "recommendedSlug": "g-major-minuet",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "wait-for-broader-instrument-rollout"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/l3Xxg1z9D.html",
@@ -301,7 +414,14 @@
       "status": "skip-for-now",
       "rightsRisk": "unclear",
       "screeningDecision": "hold-no-clear-western-demand",
-      "notes": "US-side western searches do not surface a clear canonical tune identity; results skew toward generic ambient/music pages. Hold until a stronger title match or composer identity is found."
+      "notes": "US-side western searches do not surface a clear canonical tune identity; results skew toward generic ambient/music pages. Hold until a stronger title match or composer identity is found.",
+      "sourceSongUuid": "l3Xxg1z9D",
+      "workflowStatus": "hold",
+      "statusReason": "ambiguous-identity",
+      "recommendedTitle": "Vientos Suaves",
+      "recommendedSlug": "vientos-suaves",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "recheck-after-stronger-title-match"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/YgQ4f1iWp.html",
@@ -315,7 +435,14 @@
       "status": "skip-for-now",
       "rightsRisk": "unclear",
       "screeningDecision": "hold-ambiguous-title",
-      "notes": "Western results treat 'polska' mainly as a dance genre rather than one specific melody, so it is too ambiguous to prioritize as a standalone SEO page."
+      "notes": "Western results treat 'polska' mainly as a dance genre rather than one specific melody, so it is too ambiguous to prioritize as a standalone SEO page.",
+      "sourceSongUuid": "YgQ4f1iWp",
+      "workflowStatus": "hold",
+      "statusReason": "ambiguous-identity",
+      "recommendedTitle": "Polska",
+      "recommendedSlug": "polska",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "recheck-after-stronger-title-match"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/WaCWv1E3v.html",
@@ -329,7 +456,14 @@
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
       "screeningDecision": "remove-modern-copyrighted",
-      "notes": "Western-web results point to a recent Warframe track rather than a public-domain standard. Remove from the current import queue."
+      "notes": "Western-web results point to a recent Warframe track rather than a public-domain standard. Remove from the current import queue.",
+      "sourceSongUuid": "WaCWv1E3v",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "Lullaby of the Manifold",
+      "recommendedSlug": "lullaby-of-the-manifold",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/ItyWq16I3.html",
@@ -343,7 +477,14 @@
       "status": "skip-for-now",
       "rightsRisk": "likely-copyrighted",
       "screeningDecision": "traffic-reference-only",
-      "notes": "Western results are dominated by the well-known modern pop song title, which is useful as demand reference but not aligned with the current public-domain import strategy."
+      "notes": "Western results are dominated by the well-known modern pop song title, which is useful as demand reference but not aligned with the current public-domain import strategy.",
+      "sourceSongUuid": "ItyWq16I3",
+      "workflowStatus": "reference-only",
+      "statusReason": "traffic-reference-only",
+      "recommendedTitle": "The Last Waltz",
+      "recommendedSlug": "the-last-waltz",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-for-demand-reference-only"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/HhI9l18KJ.html",
@@ -358,7 +499,14 @@
       "rightsRisk": "likely-copyrighted",
       "canonicalWesternTitle": "Tennessee Waltz",
       "screeningDecision": "traffic-reference-only",
-      "notes": "Strong western demand signal across tin whistle / recorder tutorials, but the tune is a modern copyrighted standard rather than a clean public-domain import target."
+      "notes": "Strong western demand signal across tin whistle / recorder tutorials, but the tune is a modern copyrighted standard rather than a clean public-domain import target.",
+      "sourceSongUuid": "HhI9l18KJ",
+      "workflowStatus": "reference-only",
+      "statusReason": "traffic-reference-only",
+      "recommendedTitle": "Tennessee Waltz",
+      "recommendedSlug": "tennessee-waltz",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-for-demand-reference-only"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/Cdj5t1n6e.html",
@@ -371,7 +519,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Composer field is Bieito Romero. Not a public-domain expansion target."
+      "notes": "Composer field is Bieito Romero. Not a public-domain expansion target.",
+      "sourceSongUuid": "Cdj5t1n6e",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "O son do ar",
+      "recommendedSlug": "o-son-do-ar",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/dUHct1ePd.html",
@@ -384,7 +539,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Sound Horizon credit present. Not aligned with current public-domain western catalog strategy."
+      "notes": "Sound Horizon credit present. Not aligned with current public-domain western catalog strategy.",
+      "sourceSongUuid": "dUHct1ePd",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": null,
+      "recommendedSlug": null,
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/AXG0h19gt.html",
@@ -397,7 +559,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "High recognition but not usable for the current public-domain expansion strategy."
+      "notes": "High recognition but not usable for the current public-domain expansion strategy.",
+      "sourceSongUuid": "AXG0h19gt",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "The Imperial March",
+      "recommendedSlug": "the-imperial-march",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/8YH0g1Nsr.html",
@@ -410,7 +579,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "unclear",
-      "notes": "English title but weak western search intent and unclear rights."
+      "notes": "English title but weak western search intent and unclear rights.",
+      "sourceSongUuid": "8YH0g1Nsr",
+      "workflowStatus": "hold",
+      "statusReason": "unclear-identity",
+      "recommendedTitle": "INTERMISSION-March of DYNA",
+      "recommendedSlug": "intermission-march-of-dyna",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "recheck-if-better-metadata-appears"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/wcH0g1pf2.html",
@@ -423,7 +599,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "unclear",
-      "notes": "Duplicate title / likely duplicate source. Skip for now."
+      "notes": "Duplicate title / likely duplicate source. Skip for now.",
+      "sourceSongUuid": "wcH0g1pf2",
+      "workflowStatus": "duplicate",
+      "statusReason": "duplicate-title",
+      "recommendedTitle": "INTERMISSION-March of DYNA",
+      "recommendedSlug": "intermission-march-of-dyna",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "skip-duplicate-page"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/oa6Zq12vI.html",
@@ -436,7 +619,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "likely-copyrighted",
-      "notes": "Strong title recognition but not aligned with current public-domain catalog expansion."
+      "notes": "Strong title recognition but not aligned with current public-domain catalog expansion.",
+      "sourceSongUuid": "oa6Zq12vI",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "Waltz No.2",
+      "recommendedSlug": "waltz-no-2",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/FO0Wb1fdo.html",
@@ -449,7 +639,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Titanic-related modern film music; not for the current public-domain queue."
+      "notes": "Titanic-related modern film music; not for the current public-domain queue.",
+      "sourceSongUuid": "FO0Wb1fdo",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "Hymn To The Sea",
+      "recommendedSlug": "hymn-to-the-sea",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/rMTJr1RKg.html",
@@ -462,7 +659,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Modern film score title. Keep out of the current queue."
+      "notes": "Modern film score title. Keep out of the current queue.",
+      "sourceSongUuid": "rMTJr1RKg",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "Hymn To The Sea",
+      "recommendedSlug": "hymn-to-the-sea",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/04eec12aU.html",
@@ -475,7 +679,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Strong title recognition but clearly outside the current public-domain scope."
+      "notes": "Strong title recognition but clearly outside the current public-domain scope.",
+      "sourceSongUuid": "04eec12aU",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": "Merry Christmas Mr. Lawrence",
+      "recommendedSlug": "merry-christmas-mr-lawrence",
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/3Lm7u1WlD.html",
@@ -488,7 +699,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "copyrighted",
-      "notes": "Context points to modern artist material rather than a clear public-domain lullaby."
+      "notes": "Context points to modern artist material rather than a clear public-domain lullaby.",
+      "sourceSongUuid": "3Lm7u1WlD",
+      "workflowStatus": "blocked",
+      "statusReason": "copyright-risk",
+      "recommendedTitle": null,
+      "recommendedSlug": null,
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "keep-out-of-public-import-queue"
     },
     {
       "href": "https://www.kuaiyuepu.com/jianpu/JDnZn15iB.html",
@@ -501,7 +719,14 @@
       "supportsPublicInstruments": true,
       "status": "skip-for-now",
       "rightsRisk": "unclear",
-      "notes": "Identity unclear and not enough English/western demand signal for current queue."
+      "notes": "Identity unclear and not enough English/western demand signal for current queue.",
+      "sourceSongUuid": "JDnZn15iB",
+      "workflowStatus": "hold",
+      "statusReason": "unclear-identity",
+      "recommendedTitle": null,
+      "recommendedSlug": null,
+      "lastCheckedOn": "2026-04-04",
+      "nextAction": "recheck-if-better-metadata-appears"
     }
   ]
 }
