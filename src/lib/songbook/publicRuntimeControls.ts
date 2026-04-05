@@ -13,6 +13,7 @@ export type PublicRuntimeControlConfig = {
   activeGraphVisibility: 'on' | 'off'
   activeGraphValue: string | null
   activeShowLyric: 'on' | 'off'
+  activeShowNoteRange: 'on' | 'off'
   activeShowMeasureNum: 'on' | 'off'
   activeMeasureLayout: 'compact' | 'mono'
   activeSheetScale: string
@@ -42,7 +43,12 @@ export function buildPublicRuntimeControlConfig(
   instrumentId: PublicSongInstrumentId,
   state: Pick<
     KuailepuRuntimeState,
-    'show_graph' | 'show_lyric' | 'show_measure_num' | 'measure_layout' | 'sheet_scale'
+    | 'show_graph'
+    | 'show_lyric'
+    | 'show_note_range'
+    | 'show_measure_num'
+    | 'measure_layout'
+    | 'sheet_scale'
   >
 ): PublicRuntimeControlConfig {
   const graphOptions = getPublicRuntimeGraphOptions(payload, instrumentId)
@@ -56,6 +62,7 @@ export function buildPublicRuntimeControlConfig(
     activeGraphVisibility: state.show_graph === 'off' ? 'off' : 'on',
     activeGraphValue,
     activeShowLyric: state.show_lyric === 'off' ? 'off' : 'on',
+    activeShowNoteRange: state.show_note_range === 'on' ? 'on' : 'off',
     activeShowMeasureNum: state.show_measure_num === 'on' ? 'on' : 'off',
     activeMeasureLayout: state.measure_layout === 'mono' ? 'mono' : 'compact',
     activeSheetScale: String(state.sheet_scale ?? 10)

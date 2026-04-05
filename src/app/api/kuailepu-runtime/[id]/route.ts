@@ -43,6 +43,7 @@ export async function GET(
     fingering_index: searchParams.get('fingering_index'),
     show_graph: searchParams.get('show_graph'),
     show_lyric: searchParams.get('show_lyric'),
+    show_note_range: searchParams.get('show_note_range'),
     show_measure_num: searchParams.get('show_measure_num'),
     measure_layout: searchParams.get('measure_layout'),
     sheet_scale: searchParams.get('sheet_scale'),

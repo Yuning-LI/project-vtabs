@@ -39,6 +39,7 @@ export type KuailepuRuntimeState = {
   fingering_index?: string | number | null
   show_graph?: string | null
   show_lyric?: string | null
+  show_note_range?: string | null
   show_measure_num?: string | null
   measure_layout?: string | null
   sheet_scale?: string | number | null
@@ -82,6 +83,7 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
   fingering_index?: string | number | null
   show_graph?: string
   show_lyric?: string
+  show_note_range?: string
   show_measure_num?: string
   measure_layout?: string
   sheet_scale?: string | number | null
@@ -209,6 +211,7 @@ export function resolveKuailepuRuntimeState(
     fingering_index: resolved.fingering_index ?? null,
     show_graph: resolved.show_graph ?? null,
     show_lyric: resolved.show_lyric ?? null,
+    show_note_range: resolved.show_note_range ?? null,
     show_measure_num: resolved.show_measure_num ?? null,
     measure_layout: resolved.measure_layout ?? null,
     sheet_scale: resolved.sheet_scale ?? null,
@@ -701,6 +704,7 @@ function applyRuntimeDefaults(
       : shouldHideLyricTrackByDefault(payload)
         ? 'off'
         : normalizeToggle(undefined, payload.show_lyric, 'on')
+  next.show_note_range = normalizeToggle(state?.show_note_range, payload.show_note_range, 'off')
   /**
    * 公开 song page 的小节号默认值不再沿用快乐谱快照里原本保存的开关。
    *

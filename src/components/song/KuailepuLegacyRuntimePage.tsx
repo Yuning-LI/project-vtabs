@@ -79,6 +79,7 @@ export default function KuailepuLegacyRuntimePage({
         graphOptions.map(item => item.value)
       ),
       showLyric: hasLyricToggle ? normalizeToggleParam(currentQueryState.showLyric) : null,
+      showNoteRange: normalizeToggleParam(currentQueryState.showNoteRange),
       showMeasureNum: normalizeToggleParam(currentQueryState.showMeasureNum),
       measureLayout: normalizeMeasureLayout(currentQueryState.measureLayout),
       sheetScale: normalizeSheetScale(
@@ -105,6 +106,7 @@ export default function KuailepuLegacyRuntimePage({
       buildPublicRuntimeControlConfig(runtimeControlPayload, activeInstrument.id, {
         show_graph: normalizedQueryState.showGraph ?? null,
         show_lyric: (normalizedQueryState.showLyric ?? 'on') as 'on' | 'off',
+        show_note_range: (normalizedQueryState.showNoteRange ?? 'off') as 'on' | 'off',
         show_measure_num: (normalizedQueryState.showMeasureNum ?? 'on') as 'on' | 'off',
         measure_layout: normalizedQueryState.measureLayout ?? 'compact',
         sheet_scale: normalizedQueryState.sheetScale ?? 10
@@ -145,6 +147,9 @@ export default function KuailepuLegacyRuntimePage({
     }
     if (normalizedQueryState.showLyric) {
       next.set('show_lyric', normalizedQueryState.showLyric)
+    }
+    if (normalizedQueryState.showNoteRange) {
+      next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
     if (normalizedQueryState.showMeasureNum) {
       next.set('show_measure_num', normalizedQueryState.showMeasureNum)
@@ -323,6 +328,34 @@ export default function KuailepuLegacyRuntimePage({
         ]
       : []),
     {
+      id: 'note-range',
+      label: 'Note Range',
+      options: [
+        {
+          label: 'On',
+          href: buildSongPageHref({
+            songId,
+            ...normalizedQueryState,
+            instrumentId: activeInstrument.id,
+            noteLabelMode,
+            showNoteRange: 'on'
+          }),
+          isActive: controlConfig.activeShowNoteRange === 'on'
+        },
+        {
+          label: 'Off',
+          href: buildSongPageHref({
+            songId,
+            ...normalizedQueryState,
+            instrumentId: activeInstrument.id,
+            noteLabelMode,
+            showNoteRange: 'off'
+          }),
+          isActive: controlConfig.activeShowNoteRange === 'off'
+        }
+      ]
+    },
+    {
       id: 'measure-numbers',
       label: 'Measure Numbers',
       options: [
@@ -481,6 +514,7 @@ function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
     noteLabelMode: normalizeExplicitNoteLabelMode(url.searchParams.get('note_label_mode')),
     showGraph: url.searchParams.get('show_graph'),
     showLyric: normalizeToggleParam(url.searchParams.get('show_lyric')),
+    showNoteRange: normalizeToggleParam(url.searchParams.get('show_note_range')),
     showMeasureNum: normalizeToggleParam(url.searchParams.get('show_measure_num')),
     measureLayout: normalizeMeasureLayout(url.searchParams.get('measure_layout')),
     sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),

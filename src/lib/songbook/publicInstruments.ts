@@ -15,6 +15,7 @@ export type PublicSongPageQueryState = {
   noteLabelMode?: string | null
   showGraph?: string | null
   showLyric?: 'on' | 'off' | null
+  showNoteRange?: 'on' | 'off' | null
   showMeasureNum?: 'on' | 'off' | null
   measureLayout?: 'compact' | 'mono' | null
   sheetScale?: string | number | null
@@ -112,6 +113,10 @@ export function buildSongPageHref(
 
   if (input.showLyric) {
     params.set('show_lyric', input.showLyric)
+  }
+
+  if (input.showNoteRange === 'on') {
+    params.set('show_note_range', 'on')
   }
 
   if (input.showMeasureNum && input.showMeasureNum !== DEFAULT_PUBLIC_SHOW_MEASURE_NUM) {

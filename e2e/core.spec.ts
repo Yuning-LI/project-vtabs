@@ -91,6 +91,10 @@ test.describe('runtime-backed song pages', () => {
       'aria-pressed',
       'true'
     )
+    await expect(page.getByRole('button', { name: 'Note Range: Off' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
     await expect(page.getByRole('button', { name: 'Measure Numbers: On' })).toHaveAttribute(
       'aria-pressed',
       'true'
@@ -168,14 +172,14 @@ test.describe('runtime-backed song pages', () => {
 
   test('display controls keep runtime state and links aligned', async ({ page }) => {
     await page.goto(
-      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_note_range=on&show_measure_num=on&measure_layout=mono&sheet_scale=12',
       { waitUntil: 'domcontentloaded' }
     )
 
     const frame = page.locator('iframe[title="Row, Row, Row Your Boat Kuailepu runtime"]')
     await expect(frame).toHaveAttribute(
       'src',
-      '/api/kuailepu-runtime/row-row-row-your-boat?runtime_text_mode=english&instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
+      '/api/kuailepu-runtime/row-row-row-your-boat?runtime_text_mode=english&instrument=r8b&show_graph=1d&show_lyric=off&show_note_range=on&show_measure_num=on&measure_layout=mono&sheet_scale=12'
     )
 
     await expect(page.getByRole('combobox', { name: 'Fingering Chart' })).toHaveValue('1d')
@@ -189,15 +193,19 @@ test.describe('runtime-backed song pages', () => {
       'aria-pressed',
       'true'
     )
+    await expect(page.getByRole('button', { name: 'Note Range: On' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
 
     await expect(page.locator('[data-function-zone-ready="1"]')).toHaveCount(1)
-    await page.getByRole('button', { name: 'Lyrics: On' }).click()
+    await page.getByRole('button', { name: 'Note Range: Off' }).click()
     await expect(page).toHaveURL(
-      'http://127.0.0.1:3000/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=on&measure_layout=mono&sheet_scale=12'
+      'http://127.0.0.1:3000/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&measure_layout=mono&sheet_scale=12'
     )
 
     await page.goto(
-      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
+      '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_note_range=on&show_measure_num=on&measure_layout=mono&sheet_scale=12',
       { waitUntil: 'domcontentloaded' }
     )
     await expect(page.getByRole('combobox', { name: 'Layout' })).toHaveValue('mono')

@@ -55,6 +55,7 @@ export default function SongPage({
     note_label_mode?: string
     show_graph?: string
     show_lyric?: string
+    show_note_range?: string
     show_measure_num?: string
     measure_layout?: string
     sheet_scale?: string
@@ -96,6 +97,7 @@ export default function SongPage({
     noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
     showGraph: searchParams?.show_graph ?? null,
     showLyric: hasPublicLyricToggle ? normalizeToggleParam(searchParams?.show_lyric) : null,
+    showNoteRange: normalizeToggleParam(searchParams?.show_note_range),
     showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
     measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
     sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList),
