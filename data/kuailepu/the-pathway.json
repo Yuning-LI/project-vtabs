@@ -1,0 +1,61 @@
+{
+  "id": "the-pathway",
+  "slug": "the-pathway",
+  "title": "The Pathway",
+  "description": "The Pathway melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "一 条 小 路 _ 曲 曲 弯 弯 细 又 长， 一 直 通 往 迷 雾 的 远 _",
+    "方。",
+    "我 要 沿 着 _ 这 条 细 长 的 小 _ 路， 跟 着 我 的 爱 人 上 战",
+    "场。",
+    "我 要 场。",
+    "一",
+    "条。",
+    "小 路 _ 曲 曲 弯 弯 细 又 长， 我 的 小 路 伸 向 _ 远 _ 方。 请",
+    "你",
+    "带 领 _ 我 吧 我 的 _ 小 路 呀， 跟 着 爱 人到 遥 远的 边 _ 疆。 _",
+    "_",
+    "疆 _ _",
+    "_",
+    "_"
+  ],
+  "extraLyrics": [
+    "纷 纷。 雪 花 _ 掩 盖了 他 的 足 _ 迹， 没 有 脚 步也 听 不 到 歌 _ 声。 在 那 一 片 _ 宽 广 银 色 的 原 野 上， 只 有 一 条 小 路 孤 零 零。 在 那 零。",
+    "他 在。 冒 着 _ 枪 林 弹 雨的 危 _ 险， 实 在 叫 我 心 中 _ 挂 _ 牵。 我 要 变 成 _ 一 只 伶 俐 的 小 _ 鸟， 立 刻 飞 到 爱 人的 身 _ 边。 我 要 边。",
+    "在 这。 大 雪 _ 纷 纷 飞 舞的 早 _ 晨， 战 斗 还 在 残 酷 的 进 _ 行。 我 要 勇 敢 的 为 他 包 扎 _ 伤 _ 口， 从 那 炮 火中 救 他 出 _ 来。 我 要 来。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Latah1HyV.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Latah1HyV on 2026-04-05."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4 3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "6, - 1 - | 3 - - - - - 2 1 | 2 - - 3 1 - 2 - | 1 - 7, - 6, - - - - - 0 0 | 2 - - 6, 2 - 3 - | 4 - 5 4 3 - 2 - |",
+    "1 - - - - - 0 0",
+    "5 - 1 - | 6 - - - - - 5 4 | 3 - 6, - 6 - 5 6 | 4 - 3 - 2 - - - - - 0 0 | 3 - 6, - 5 - 4 - | 3 - 1 - 2 - 7, - |",
+    "1 - - -",
+    "6, - - - - - 0 0 5 - 1 - |",
+    "2 - - -",
+    "6, - - - - - 0 0",
+    "6, - 1 - | 3 - - - - - 2 1 | 2 - - 3 1 - 2 - | 1 - 7, - 6, - - - - - 0 0 | 2 - - 6, 2 - 3 - | 4 - 5 4 3 - 2 - |",
+    "1 - - - - - 0 0",
+    "5 - 1 - | 6 - - - - - 5 4 | 3 - 6, - 6 - 5 6 | 5 - 4 - 2 - - - - - 0 0 | 3 - 6, - 5 - 4 - | 3 - 1 - 2 - 7, - |",
+    "1 - - -",
+    "6, - - - - - 0 0 5 - 1 - |",
+    "2 - - -",
+    "6, - - - - - 0 0 | | |"
+  ]
+}

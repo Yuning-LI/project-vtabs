@@ -607,5 +607,19 @@
     "family": "song",
     "featuredRank": 87,
     "published": true
+  },
+  {
+    "id": "troika",
+    "slug": "troika",
+    "family": "song",
+    "featuredRank": 88,
+    "published": true
+  },
+  {
+    "id": "the-pathway",
+    "slug": "the-pathway",
+    "family": "song",
+    "featuredRank": 89,
+    "published": true
   }
 ]

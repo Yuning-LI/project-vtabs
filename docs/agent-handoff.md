@@ -195,6 +195,14 @@
 - 其中：
   - `Katyusha` 导入自 `喀秋莎` 页；来源作曲者字段为空，公开页按旋律页处理
   - `Moscow Nights` 导入自 `莫斯科郊外的晚上` 页；来源作曲者字段为 `瓦西里·索洛维约夫·谢多伊`，公开页保持歌词隐藏
+- 本轮后续又新增并通过 preflight compare 的 2 首 song 候选：
+  - `troika`
+  - `the-pathway`
+- 中国网络下已经对这 2 首歌 x 5 个公开乐器完成 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 一致
+- 其中：
+  - `Troika` 导入自 `三套车` 页；来源作曲者字段为空，公开页保持歌词隐藏
+  - `The Pathway` 导入自 `小路（苏）` 页；来源作曲者字段为空，公开页保持歌词隐藏
 - 截至当前工作区：
   - 本地分支仍可能存在未 push 提交。
   - 准备上线或继续收尾前，先检查：
@@ -477,11 +485,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：87
-- 全部候选：87
-- public manifest：87
-- raw JSON：87
-- 可提交轻量导入：81
+- 公开 song pages：89
+- 全部候选：89
+- public manifest：89
+- raw JSON：89
+- 可提交轻量导入：83
 
 不要拿这些数字互相强行对应。
 
@@ -522,7 +530,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 13. 新对话可直接复制的起始提示词
 
-`Continue on the runtime-backed Kuailepu song-page architecture. Before changing anything, read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference-source wording. The current public instrument set is o12, o6, r8b, r8g, and w6; the current public library count is 87 songs; pure Chinese lyrics must stay hidden publicly and must not reappear through query params. Metronome is public as a docked toolbar above the fingering chart, not as a blocking modal. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first; if it needs Google or western keyword research, ask for a foreign VPN first. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD to inspect unpushed local commits. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Continue on the runtime-backed Kuailepu song-page architecture. Before changing anything, read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference-source wording. The current public instrument set is o12, o6, r8b, r8g, and w6; the current public library count is 89 songs; pure Chinese lyrics must stay hidden publicly and must not reappear through query params. Metronome is public as a docked toolbar above the fingering chart, not as a blocking modal. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first; if it needs Google or western keyword research, ask for a foreign VPN first. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD to inspect unpushed local commits. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ## 14. 自制曲输入规范草案
 

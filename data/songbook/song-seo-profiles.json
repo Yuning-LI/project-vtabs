@@ -694,5 +694,21 @@
     ],
     "background": "Moscow Nights is a familiar lyrical melody with steady phrase flow, so it fits a melody-first page for players looking for a softer instrumental option on ocarina, recorder, or tin whistle.",
     "practice": "It helps with breath support, smoother phrase shaping, and keeping longer melodic lines centered without rushing."
+  },
+  "troika": {
+    "searchTerms": [
+      "Troika ocarina tabs",
+      "Troika recorder notes"
+    ],
+    "background": "Troika is a recognizable Russian song melody with broad singable motion, so it works as a melody-first page for players who want a steady lyrical tune on ocarina, recorder, or tin whistle.",
+    "practice": "It is useful for phrase continuity, sustained-note control, and keeping an even singing line through longer four-beat phrases."
+  },
+  "the-pathway": {
+    "searchTerms": [
+      "The Pathway ocarina tabs",
+      "The Pathway recorder notes"
+    ],
+    "background": "The Pathway is a familiar Soviet-era melody with gentle forward motion, so it fits a melody-first page for players looking for another moderate-tempo instrumental option on ocarina, recorder, or tin whistle.",
+    "practice": "It supports smoother transitions across phrase sections and helps with breath pacing through mixed short and sustained notes."
   }
 }

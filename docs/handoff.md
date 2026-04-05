@@ -185,6 +185,14 @@
 - 其中：
   - `Katyusha` 导入自 `喀秋莎` 页；来源作曲者字段为空，公开页按旋律页处理，无公开歌词
   - `Moscow Nights` 导入自 `莫斯科郊外的晚上` 页；来源作曲者字段为 `瓦西里·索洛维约夫·谢多伊`，公开页保持歌词隐藏
+- 本轮后续又新增并通过 preflight compare 的 2 首 song 候选：
+  - `troika`
+  - `the-pathway`
+- 中国网络下已对这 2 首歌的 5 个公开乐器补跑 live-vs-local `number` 模式 hash 对照：
+  - `10 / 10` 组合一致
+- 其中：
+  - `Troika` 导入自 `三套车` 页；来源作曲者字段为空，公开页保持歌词隐藏
+  - `The Pathway` 导入自 `小路（苏）` 页；来源作曲者字段为空，公开页保持歌词隐藏
 - 截至当前工作区：
   - 本地分支仍存在未 push 提交。
   - 新对话接手或准备上线前，先执行：
@@ -392,17 +400,17 @@
 
 以本轮收尾时的工作区为准：
 
-- `songCatalog.length = 87`
+- `songCatalog.length = 89`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 87`
+- `allSongCatalog.length = 89`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 87`
+- `data/songbook/public-song-manifest.json = 89`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 87`
+- `data/kuailepu-runtime/*.json = 89`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 87`
+- `reference/songs/*.json = 89`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 81`
+- `data/kuailepu/*.json = 83`
 
 ## 6.5 自制曲输入规范草案
 
