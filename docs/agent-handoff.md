@@ -2,6 +2,11 @@
 
 这份文档是给“新开对话时的 AI / 新接手时的程序员”的速接版说明。它比 `docs/handoff.md` 更短，但信息密度更高，重点是快速建立正确心智模型，避免按旧上下文乱改。
 
+如果任务涉及内部打印 PDF、私有版权曲存档、或 `MusicXML` 输入链，额外继续看：
+
+- `docs/internal-print-workflow.md`
+- `docs/song-ingest-input-spec.md`
+
 ## 1. 一句话真相
 
 当前公开 `/song/<slug>` 页面已经统一走“快乐谱 raw JSON + 快乐谱原始 runtime 渲染逻辑”的路线，默认显示字母谱，简谱作为可选模式保留，`captured SVG` 只剩调试价值。
@@ -217,6 +222,24 @@
     - `git status --short --branch`
     - `git log --oneline origin/main..HEAD`
 
+## 最新补充（2026-04-05）
+
+- 已新增内部打印预览页：
+  - `/dev/print/song/<slug>`
+- 已新增本地 PDF 导出脚本：
+  - `npm run export:print-pdf -- --slug <slug> ...`
+- 当前打印链不是恢复快乐谱自己的打印后端，而是：
+  - 继续复用 deployable raw JSON + 原始 Kuailepu runtime 出谱
+  - 本站自己提供打印页壳与 PDF 导出
+- 当前打印页已支持轻量站点导流文案：
+  - `playbyfingering.com`
+- 这条链当前仍是本地内部工具：
+  - 不要在公开前台暴露打印入口
+  - `exports/` 与 `private/` 必须保持本地，不进 git
+- 如果后续要处理未收录版权曲：
+  - 先按 `docs/song-ingest-input-spec.md` 收原始谱源
+  - 再按 `docs/internal-print-workflow.md` 走私有打印链
+
 ## 2. 接手后必须先知道的事
 
 - 站点前台目标用户是 Google 来的 western 用户。
@@ -281,7 +304,7 @@
   - 负责 publish / featured 排序 / family
 - `data/songbook/song-seo-profiles.json`
   - 当前 song-specific SEO profile 真相文件
-  - 负责 `searchTerms` / `background` / `practice`
+  - 负责 `searchTerms` / `aliases` / `background` / `practice`
 - `src/lib/kuailepu/runtime.ts`
   - 当前 runtime 兼容和字母谱覆盖层核心
 - `src/lib/songbook/publicManifest.ts`
@@ -505,6 +528,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 - 不暴露第三方来源
 - 首页列表只显示歌名
 - 当前常用搜索词不只限于 `ocarina tabs`，还会用第二搜索词补 `ocarina notes`、`recorder notes`、`tin whistle notes`
+- 如果歌曲存在稳定英文别名、译名或常见副标题，新增 / 上线时应同步写进 `data/songbook/song-seo-profiles.json` 的 `aliases`，让站内搜索和 song page SEO 一起覆盖
 
 ## 11. 常见错误心智模型
 
@@ -566,10 +590,17 @@ npm run preflight:kuailepu-publish -- <slug...>
   `Kit.context.setContext -> Song.draw()/Song.compile() -> hc.parse -> renderSheet`
   判断主链依赖，不要把 HC 误当成“单纯 SVG renderer”来删东西
   - 当前建议先停在这版，不要继续无上限扩张 compatibility stub
+- 2026-04-05 还新增了一条内部打印工作流：
+  - `/dev/print/song/<slug>`
+  - `npm run export:print-pdf -- --slug <slug> ...`
+  - 这条链继续复用 deployable raw JSON + 原始 runtime 出谱，不是恢复快乐谱旧打印后端
+  - 当前 sample PDF 已在本地导出过：
+    - `exports/print-pdf/twinkle-twinkle-little-star-o12-letter.pdf`
+  - `exports/` 与 `private/` 必须保持本地，不进入 git
 
 ## 13. 新对话可直接复制的起始提示词
 
-`Continue on the runtime-backed Kuailepu song-page architecture. Before changing anything, read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference-source wording. The current public instrument set is o12, o6, r8b, r8g, and w6; the current public library count is 96 songs; pure Chinese lyrics must stay hidden publicly and must not reappear through query params. Metronome is public as a docked toolbar above the fingering chart, not as a blocking modal. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first; if it needs Google or western keyword research, ask for a foreign VPN first. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD to inspect unpushed local commits. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 96 songs. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ## 14. 自制曲输入规范草案
 

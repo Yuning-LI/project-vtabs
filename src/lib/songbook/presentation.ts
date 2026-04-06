@@ -4,6 +4,7 @@ import type { PublicSongFamily, SongDoc } from './types'
 
 export type SongPresentation = {
   title: string
+  aliases: string[]
   subtitle: string
   metaDescription: string
   overview: string
@@ -76,17 +77,25 @@ export function getSongPresentation(
   const meterLabel = song.meta.meter.trim()
   const tempoLabel = `${song.meta.tempo} BPM`
   const difficultyLabel = getDifficultyLabel(song)
+  const aliases = profile.aliases ?? []
   const lyricsAvailable =
     typeof options?.publicLyricsAvailable === 'boolean'
       ? options.publicLyricsAvailable
       : hasLyrics(song)
 
-  const metaDescription = lyricsAvailable
+  const metaDescriptionBase = lyricsAvailable
     ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
     : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
+  const metaDescription = [
+    metaDescriptionBase,
+    aliases.length > 0 ? `Also known as ${formatAliasList(aliases)}.` : ''
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   const overview = [
     `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported ocarina, recorder, and tin whistle variants on this page.`,
+    aliases.length > 0 ? `${title} is also commonly searched as ${formatAliasList(aliases)}.` : '',
     buildSearchIntentSentence({
       familyLabel,
       difficultyLabel,
@@ -153,11 +162,20 @@ export function getSongPresentation(
         lyricsAvailable,
         practice: profile.practice
       })
-    }
+    },
+    ...(aliases.length > 0
+      ? [
+          {
+            question: `Is ${title} also known as ${formatAliasList(aliases)}?`,
+            answer: `Yes. Players often search for this melody under ${formatAliasList(aliases)}, but this page keeps the same tune under the title ${title} while preserving the same letter-note, numbered-note, and fingering support layout.`
+          }
+        ]
+      : [])
   ]
 
   return {
     title,
+    aliases,
     subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.`,
     metaDescription,
     overview,
@@ -182,6 +200,18 @@ function buildSearchIntentSentence(input: {
   const difficultyLabel = input.difficultyLabel.toLowerCase()
 
   return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still keeping a ${difficultyLabel} reading flow for this ${familyLabel} melody.`
+}
+
+function formatAliasList(aliases: string[]) {
+  if (aliases.length <= 1) {
+    return aliases[0] ?? ''
+  }
+
+  if (aliases.length === 2) {
+    return `${aliases[0]} and ${aliases[1]}`
+  }
+
+  return `${aliases.slice(0, -1).join(', ')}, and ${aliases[aliases.length - 1]}`
 }
 
 function buildLayoutSentence(input: {
@@ -413,6 +443,7 @@ function getSongSeoProfile(slug: string, title: string, family: PublicSongFamily
   // - 页面不会因为漏配 profile 而出现中文或业务无关内容
   return {
     searchTerms: [`${title} ocarina tabs`, `${title} letter notes`],
+    aliases: [],
     background: getFallbackBackgroundSentence(family, title),
     practice: getFallbackPracticeSentence(family)
   }

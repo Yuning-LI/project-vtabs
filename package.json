@@ -27,6 +27,7 @@
     "search:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/search-kuailepu-song.ts",
     "import:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/import-kuailepu-song.ts",
     "prepare:song-ingest": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts",
+    "export:print-pdf": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-print-song-pdf.ts",
     "test:e2e": "playwright test",
     "prepare": "husky"
   },

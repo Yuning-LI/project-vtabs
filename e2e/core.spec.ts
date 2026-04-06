@@ -53,6 +53,25 @@ test.describe('runtime-backed song pages', () => {
     await search.fill('scarborough')
     await expect(page.getByText('Search: scarborough')).toBeVisible()
     await expect(page.locator('a[href="/song/scarborough-fair"]')).toHaveCount(1)
+
+    await search.fill('to alice')
+    await expect(page.getByText('Search: to alice')).toBeVisible()
+    await expect(page.locator('a[href="/song/fur-elise"]')).toHaveCount(1)
+
+    await search.fill('canon in d')
+    await expect(page.getByText('Search: canon in d')).toBeVisible()
+    await expect(page.locator('a[href="/song/canon"]')).toHaveCount(1)
+  })
+
+  test('song page SEO copy can surface alias searches without changing the public title', async ({
+    page
+  }) => {
+    await page.goto('/song/fur-elise', { waitUntil: 'domcontentloaded' })
+
+    await expect(page).toHaveTitle(/To Alice/)
+    await expect(page.getByRole('heading', { level: 1, name: 'Für Elise' })).toBeVisible()
+    await expect(page.getByText('also commonly searched as To Alice')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Is Für Elise also known as To Alice and Bagatelle No. 25 in A minor?' })).toBeVisible()
   })
 
   test('song page renders the English shell around the runtime iframe', async ({ page }) => {
@@ -303,6 +322,29 @@ test.describe('runtime-backed song pages', () => {
 
     const visibleText = await runtime.locator('body').innerText()
     expect(visibleText).not.toMatch(/[\u3400-\u9fff]/)
+  })
+
+  test('internal print preview renders a printable runtime sheet without public page chrome', async ({
+    page
+  }) => {
+    await page.goto('/dev/print/song/twinkle-twinkle-little-star', {
+      waitUntil: 'domcontentloaded'
+    })
+
+    await expect(page.getByText('Internal Print Preview')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Open Public Page' })).toBeVisible()
+    await expect(page.getByText('Use the browser print dialog or the export script.')).toBeVisible()
+    await expect(page.getByText('Back to Song Library')).toHaveCount(0)
+
+    const frame = page.locator('iframe[title="Twinkle, Twinkle, Little Star Kuailepu runtime"]')
+    const frameSrc = await frame.getAttribute('src')
+    expect(frameSrc).toContain('/api/kuailepu-runtime/twinkle-twinkle-little-star?')
+    expect(frameSrc).toContain('runtime_text_mode=english')
+    expect(frameSrc).toContain('show_lyric=off')
+    expect(frameSrc).toContain('show_measure_num=on')
+    expect(frameSrc).toContain('measure_layout=compact')
+
+    await expectRuntimeSheet(page, 'twinkle-twinkle-little-star')
   })
 
   test('pure Chinese runtime lyrics stay hidden and do not expose a public lyrics toggle', async ({

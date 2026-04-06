@@ -7,6 +7,7 @@ type LibrarySong = {
   id: string
   slug: string
   title: string
+  aliases?: string[]
   familyLabel: string
   featuredRank: number
 }
@@ -43,7 +44,7 @@ export default function LibraryBrowser({
         }
 
         const haystack = normalizeLibrarySearchText(
-          [song.title, song.slug, song.id, song.familyLabel].join(' ')
+          [song.title, song.slug, song.id, song.familyLabel, ...(song.aliases ?? [])].join(' ')
         )
 
         if (haystack.includes(normalizedQuery)) {
@@ -96,7 +97,7 @@ export default function LibraryBrowser({
                 type="search"
                 value={query}
                 onChange={event => setQuery(event.target.value)}
-                placeholder="Search titles like fur elise, twinkle, scarborough, or jingle bells"
+                placeholder="Search titles like fur elise, to alice, twinkle, scarborough, or jingle bells"
                 className="page-warm-input w-full xl:max-w-[40rem]"
                 aria-label="Search song titles"
               />

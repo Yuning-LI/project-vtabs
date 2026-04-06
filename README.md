@@ -21,6 +21,11 @@
 
 - `docs/public-runtime-asset-profiles.md`
 
+如果任务涉及“内部打印 PDF”“未授权版权曲本地工作流”或 `MusicXML` 私有输入，额外继续看：
+
+- `docs/internal-print-workflow.md`
+- `docs/song-ingest-input-spec.md`
+
 ## 网络协作规则
 
 - 快乐谱相关动作：
@@ -58,12 +63,12 @@
 
 ## 当前真实状态
 
-以 2026-04-04 当前工作区为准：
+以 2026-04-05 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 91 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 96 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -175,6 +180,7 @@
   - 当前 song-specific SEO profile 真相文件。
   - 负责：
     - `searchTerms`
+    - `aliases`
     - `background`
     - `practice`
 - `src/lib/songbook/seoProfiles.ts`
@@ -182,6 +188,25 @@
   - 给 `presentation.ts`、`validate-content.ts`、`doctor-song.ts` 复用。
 
 `presentation.ts` 现在只保留 fallback 生成逻辑；如果新歌暂时没配显式 SEO profile，页面不会空掉，但 `validate:content` 会对公开歌曲给出 warning。
+
+## 当前内部打印工作流
+
+- 已新增内部打印预览页：
+  - `/dev/print/song/<slug>`
+- 已新增本地 PDF 导出脚本：
+  - `npm run export:print-pdf -- --slug <slug> ...`
+- 这条链当前是“内部工具”，不是公开产品入口：
+  - 继续复用 deployable raw JSON + 原始 Kuailepu runtime 主链出谱
+  - 我们自己控制打印页壳、纸张方向和 PDF 导出
+  - 当前不向前台公开打印按钮
+- 当前打印 PDF 已支持加入站点导流文案：
+  - `playbyfingering.com`
+- 当前仓库管理规则：
+  - `exports/` 必须本地保留，不提交
+  - `private/` 必须本地保留，不提交
+  - `reference/` 继续只用于本地研究和调试
+- 更完整的内部执行规范见：
+  - `docs/internal-print-workflow.md`
 
 ## 当前前台文案口径
 
@@ -260,9 +285,9 @@
 
 ## 当前交接前的剩余注意事项
 
-到 2026-04-04 当前交接时，核心 runtime 主链、多乐器公开、功能区、节拍器、SEO 文案和最新一轮导歌都已经收口完成；当前更重要的是把“仓库状态”交接清楚，而不是继续临时重构主链。
+到 2026-04-05 当前交接时，核心 runtime 主链、多乐器公开、功能区、节拍器、SEO 文案、最新一轮导歌和内部打印工作流都已经收口完成；当前更重要的是把“仓库状态”交接清楚，而不是继续临时重构主链。
 
-- 当前公开曲库数量是 `91` 首。
+- 当前公开曲库数量是 `96` 首。
 - 最近一轮新增公开曲包括：
   - `aura-lee`
   - `simple-gifts`
@@ -607,6 +632,9 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - `presentation.ts` 里的 `searchTerms` 现已按“主词 + 次词”收口：
   - `searchTerms[0]` 通常是主查询，例如 `song name ocarina tabs`
   - `searchTerms[1]` 用来覆盖第二搜索意图，例如 `song name recorder notes` 或 `song name ocarina notes`
+- 如果某首歌存在稳定英文别名、译名或常用副标题，新增或上线时应同步补进 `data/songbook/song-seo-profiles.json` 的 `aliases`：
+  - 让首页列表页搜索能命中别名
+  - 让详情页 title / description / 正文自然覆盖别名搜索
 - 禁止在前台写：
   - “参考了快乐谱”
   - “来源是快乐谱”

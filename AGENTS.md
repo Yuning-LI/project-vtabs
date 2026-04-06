@@ -10,8 +10,14 @@ Before doing any substantial work in a new conversation, read these files in ord
 4. `docs/kuailepu-compatibility-roadmap.md`
 5. `docs/manual-runtime-qa-checklist.md`
 6. `src/lib/kuailepu/runtime.ts`
+7. `docs/instrument-rollout-plan.md`
 
 If the task touches Kuailepu compatibility, song import, publishing, letter mode, or SEO copy, this reading order is mandatory.
+
+If the task touches internal print/PDF export, copyrighted-song local workflow, or `MusicXML` ingest, also read:
+
+- `docs/internal-print-workflow.md`
+- `docs/song-ingest-input-spec.md`
 
 ## Product Truth
 
@@ -19,6 +25,7 @@ If the task touches Kuailepu compatibility, song import, publishing, letter mode
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
 - `reference/songs/<slug>.json` is now local fallback for import/debug only.
 - The deployable runtime archive lives in `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
+- Internal print preview currently lives at `/dev/print/song/<slug>` and stays internal-only.
 - Default reading mode is `letter`.
 - Public optional backup mode is `number`.
 - Do not restore `both` mode.
@@ -32,6 +39,11 @@ If the task touches Kuailepu compatibility, song import, publishing, letter mode
 - Homepage song cards should show the song title only.
 
 ## Before Adding Or Publishing Songs
+
+If a song has stable English aliases, translated names, or common alternate titles, update `data/songbook/song-seo-profiles.json` with `aliases` before publishing so:
+
+- homepage library search can match those aliases
+- song page title / description / body can naturally cover alias searches
 
 Run the automated preflight:
 

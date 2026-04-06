@@ -118,6 +118,7 @@ export default function KuailepuLegacyRuntimePage({
     presentationByInstrument['o12'] ??
     Object.values(presentationByInstrument)[0] ?? {
       title: songId,
+      aliases: [],
       subtitle: null,
       familyLabel: 'Melody Page',
       difficultyLabel: 'Unknown',

@@ -2,6 +2,11 @@
 
 这份文档写给“第一次接手这个项目的新程序员”。目标不是概述，而是尽量把当前业务、架构、上线流程、注意事项写成可直接执行的说明。
 
+如果任务涉及内部打印 PDF、未授权版权曲的本地存档、或 `MusicXML` 私有输入链，额外继续阅读：
+
+- `docs/internal-print-workflow.md`
+- `docs/song-ingest-input-spec.md`
+
 ## 1. 项目当前是什么
 
 这是一个面向 Google 搜索流量和 western 用户、以 ocarina 为主并已公开支持 recorder / tin whistle 的 melody song page 站点。
@@ -207,6 +212,24 @@
     - `git status --short --branch`
     - `git log --oneline origin/main..HEAD`
   - 不要跳过这一步直接 push，因为本地提交数量会随着后续文档或导歌收尾继续变化。
+
+### 1.1.2 2026-04-05 内部打印工作流补充
+
+- 已新增内部打印预览页：
+  - `/dev/print/song/<slug>`
+- 已新增本地 PDF 导出脚本：
+  - `npm run export:print-pdf -- --slug <slug> ...`
+- 这条打印链不是恢复快乐谱原生“获取打印谱”后端，而是：
+  - 继续复用当前 deployable raw JSON + 原始 Kuailepu runtime 主链出谱
+  - 由本站自己提供打印页壳、纸张方向和 PDF 导出
+- 当前打印页已支持轻量站点导流文案：
+  - `playbyfingering.com`
+- 当前执行边界：
+  - 打印工具只供本地内部使用
+  - 当前不要在公开 song page 暴露打印入口
+  - `exports/` 与 `private/` 必须保持本地，不进入 git
+- 相关执行规范已经单独写入：
+  - `docs/internal-print-workflow.md`
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -458,6 +481,9 @@
   - `.mxl` 压缩 MusicXML
   - `MIDI` 轨道自动抽旋律
   - 复杂多声部 / 和弦 / grace note / tuplet 的完整保真转换
+- 如果只是本地打印或内部版权评估，当前不必先接 happi123：
+  - 可以先把 MusicXML 整成内部 draft
+  - 再走 `/dev/print/song/<slug>` 或后续私有打印页导出 PDF
 
 为什么数量会不一致：
 
@@ -517,6 +543,10 @@
   - 当前文件优先的公开内容层真相文件。
 - `data/songbook/song-seo-profiles.json`
   - 当前文件优先的 song SEO profile 真相文件。
+  - 除 `searchTerms` 外，如果某首歌存在稳定英文别名，也应同步维护 `aliases`。
+  - 这些 aliases 现在会同时服务：
+    - 首页列表页站内搜索
+    - song page 的 title / description / 正文 alias 覆盖
 - `reference/songs/*.json`
   - 本地导歌 / 调试 fallback。
 - `src/app/dev/song-import-dashboard/page.tsx`
@@ -799,6 +829,7 @@
 
 - `presentation.ts` 里的 `searchTerms[0]` 是主搜索词，通常承接 `ocarina tabs`
 - `searchTerms[1]` 是第二搜索词，用来补 `ocarina notes` / `recorder notes` / `tin whistle notes` 这类次意图
+- 如果歌曲存在稳定英文别名、译名或常见副标题，新增 / 上线时应同时补 `aliases`，不要只写正文不补站内搜索入口。
 - 当前文案不应再把所有详情页都写成只支持 `12-hole AC ocarina`
 
 ### 13.3 明确禁止
@@ -1050,7 +1081,7 @@
 
 ## 18. 当前工作区剩余状态
 
-到 2026-04-04 当前交接时，核心产品链路没有额外必须收尾的代码主线：
+到 2026-04-05 当前交接时，核心产品链路没有额外必须收尾的公开主线：
 
 - 公开 `/song/<slug>` 仍是 deployable raw JSON + 原始 Kuailepu runtime。
 - 默认 `letter`、可选 `number`、发布前 gate 仍看 `number`。
@@ -1061,6 +1092,10 @@
   - `r8g`
   - `w6`
 - 功能区与节拍器当前已经公开并经过本地回归。
+- 内部打印链当前也已落地：
+  - `/dev/print/song/<slug>`
+  - `npm run export:print-pdf -- --slug <slug> ...`
+  - 当前只供本地使用，不向公开前台暴露
 - 当前最需要注意的“剩余状态”不是再改主链，而是：
   - 本地分支可能比远端超前
   - 新对话接手前先看 `git status --short --branch`
@@ -1068,3 +1103,9 @@
   - 确认每个本地提交都属于应上线内容后再 push
 
 `tsconfig.tsbuildinfo`、调试截图、`.tmp` 文件、临时日志都属于噪音，不应带入提交。
+
+## 19. 新对话初始化指令
+
+下面这条可以直接复制给新对话：
+
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 96 songs. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`

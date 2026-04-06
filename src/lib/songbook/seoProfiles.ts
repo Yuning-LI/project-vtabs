@@ -3,6 +3,7 @@ import path from 'node:path'
 
 export type SongSeoProfile = {
   searchTerms: string[]
+  aliases?: string[]
   background: string
   practice: string
 }
@@ -67,6 +68,11 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
     searchTerms: candidate.searchTerms
       .map(term => (typeof term === 'string' ? term.trim() : ''))
       .filter(term => term.length > 0),
+    aliases: Array.isArray(candidate.aliases)
+      ? candidate.aliases
+          .map(alias => (typeof alias === 'string' ? alias.trim() : ''))
+          .filter(alias => alias.length > 0)
+      : [],
     background: candidate.background.trim(),
     practice: candidate.practice.trim()
   }

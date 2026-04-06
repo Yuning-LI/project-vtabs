@@ -8,6 +8,9 @@
     "practice": "Its repeating phrase pattern makes it especially useful for first-note reading, clean finger changes, lyric timing, and steady beginner breath control across the same short melodic cell."
   },
   "ode-to-joy": {
+    "aliases": [
+      "Beethoven's 9th theme"
+    ],
     "searchTerms": [
       "Ode to Joy ocarina tabs",
       "Ode to Joy tin whistle notes"
@@ -56,6 +59,9 @@
     "practice": "Its lyrical contour is especially useful for phrasing, breath planning, and quiet tone control."
   },
   "auld-lang-syne": {
+    "aliases": [
+      "Old Lang Syne"
+    ],
     "searchTerms": [
       "Auld Lang Syne ocarina tabs",
       "Auld Lang Syne recorder notes"
@@ -72,6 +78,10 @@
     "practice": "Its slower pace makes it effective for breath control, tone warmth, phrase connection, and gentle legato playing without rushing the carol line."
   },
   "fur-elise": {
+    "aliases": [
+      "To Alice",
+      "Bagatelle No. 25 in A minor"
+    ],
     "searchTerms": [
       "Fur Elise ocarina tabs",
       "Fur Elise ocarina letter notes"
@@ -136,6 +146,10 @@
     "practice": "It is especially practical for seasonal sing-along playing and phrase-based repetition."
   },
   "canon": {
+    "aliases": [
+      "Canon in D",
+      "Pachelbel Canon"
+    ],
     "searchTerms": [
       "Canon in D ocarina tabs",
       "Canon in D ocarina notes"
@@ -168,6 +182,9 @@
     "practice": "This tune is especially useful for breath timing, softer dynamics, and connected phrasing."
   },
   "jasmine-flower": {
+    "aliases": [
+      "Mo Li Hua"
+    ],
     "searchTerms": [
       "Jasmine Flower ocarina tabs",
       "Mo Li Hua ocarina letter notes"
@@ -184,6 +201,9 @@
     "practice": "It gives stronger finger-speed demands and is better suited to players already comfortable with faster note reading."
   },
   "frere-jacques": {
+    "aliases": [
+      "Brother John"
+    ],
     "searchTerms": [
       "Frere Jacques ocarina tabs",
       "Frere Jacques letter notes"
@@ -192,6 +212,9 @@
     "practice": "Its repeated section design makes it ideal for beginners practicing note recall and phrase repetition."
   },
   "god-rest-you-merry-gentlemen": {
+    "aliases": [
+      "God Rest Ye Merry, Gentlemen"
+    ],
     "searchTerms": [
       "God Rest You Merry Gentlemen ocarina tabs",
       "God Rest You Merry Gentlemen ocarina notes"
@@ -200,6 +223,10 @@
     "practice": "The line gives useful practice in phrase weight, minor-mode feeling, and controlled breath placement."
   },
   "going-home": {
+    "aliases": [
+      "Largo from the New World Symphony",
+      "From the New World Symphony"
+    ],
     "searchTerms": [
       "Going Home ocarina tabs",
       "Going Home letter notes"
@@ -216,6 +243,10 @@
     "practice": "Its flowing contour supports breath control, legato playing, expressive phrase shaping, and a more vocal folk-song feel than a simple beginner nursery tune."
   },
   "habanera": {
+    "aliases": [
+      "Carmen Habanera",
+      "L'amour est un oiseau rebelle"
+    ],
     "searchTerms": [
       "Habanera ocarina tabs",
       "Habanera Carmen letter notes"
@@ -264,6 +295,9 @@
     "practice": "The melody is approachable for first songs while still giving enough motion to feel musical."
   },
   "londonderry-air": {
+    "aliases": [
+      "Danny Boy"
+    ],
     "searchTerms": [
       "Londonderry Air ocarina tabs",
       "Danny Boy melody ocarina notes"
@@ -280,6 +314,10 @@
     "practice": "It supports phrasing, tone stability, and easy melodic memorization."
   },
   "lullaby": {
+    "aliases": [
+      "Brahms' Lullaby",
+      "Wiegenlied"
+    ],
     "searchTerms": [
       "Lullaby ocarina tabs",
       "Lullaby letter notes"
@@ -312,6 +350,9 @@
     "practice": "It is most useful for sustained tone, patient breath timing, and phrase control."
   },
   "old-folks-at-home": {
+    "aliases": [
+      "Swanee River"
+    ],
     "searchTerms": [
       "Old Folks at Home ocarina tabs",
       "Swanee River ocarina letter notes"
@@ -360,6 +401,9 @@
     "practice": "This page supports smooth phrasing, breath control, and a rounded vocal-like tone."
   },
   "schubert-serenade": {
+    "aliases": [
+      "Ständchen"
+    ],
     "searchTerms": [
       "Schubert Serenade ocarina tabs",
       "Schubert Serenade ocarina notes"
@@ -392,6 +436,9 @@
     "practice": "It supports graceful phrasing, tone control, and moderate expressive shaping."
   },
   "the-trout": {
+    "aliases": [
+      "Die Forelle"
+    ],
     "searchTerms": [
       "The Trout ocarina tabs",
       "Schubert The Trout letter notes"
@@ -400,6 +447,9 @@
     "practice": "It gives useful work in light articulation, phrase motion, and moderate classical-style movement."
   },
   "traumerei": {
+    "aliases": [
+      "Dreaming"
+    ],
     "searchTerms": [
       "Traumerei ocarina tabs",
       "Traumerei letter notes"
@@ -408,6 +458,9 @@
     "practice": "It is especially good for tone shaping, quiet dynamics, and longer phrase control."
   },
   "turkish-march": {
+    "aliases": [
+      "Rondo alla Turca"
+    ],
     "searchTerms": [
       "Turkish March ocarina tabs",
       "Mozart Turkish March letter notes"
@@ -456,6 +509,10 @@
     "practice": "It emphasizes ceremonial pulse, phrase control, and clear note transitions."
   },
   "wedding-march": {
+    "aliases": [
+      "Bridal Chorus",
+      "Here Comes the Bride"
+    ],
     "searchTerms": [
       "Wedding March ocarina tabs",
       "Mendelssohn Wedding March ocarina notes"
@@ -496,6 +553,9 @@
     "practice": "The short repeated phrases make it especially practical for first-note reading, lyric timing, and simple breath planning."
   },
   "spring-song": {
+    "aliases": [
+      "Frühlingslied"
+    ],
     "searchTerms": [
       "Spring Song Mendelssohn ocarina tabs",
       "Spring Song Mendelssohn letter notes"
@@ -536,6 +596,11 @@
     "practice": "It is especially useful for breath planning, connected phrasing, and a steady folk-style tone across longer lines."
   },
   "romance-damour": {
+    "aliases": [
+      "Spanish Romance",
+      "Romance Anonimo",
+      "Jeux Interdits Theme"
+    ],
     "searchTerms": [
       "Romance d'Amour ocarina tabs",
       "Spanish Romance recorder notes"
@@ -592,6 +657,11 @@
     "practice": "The tune is useful for quick repeated-note control, upbeat dance pulse, and cleaner articulation across short energetic phrases."
   },
   "drinking-song": {
+    "aliases": [
+      "Libiamo",
+      "Libiamo ne' lieti calici",
+      "Brindisi"
+    ],
     "searchTerms": [
       "Drinking Song ocarina tabs",
       "Libiamo recorder notes"
@@ -656,6 +726,9 @@
     "practice": "It is useful for repeated articulation, short-phrase control, and keeping even pulse through quick march motion."
   },
   "the-internationale": {
+    "aliases": [
+      "Internationale"
+    ],
     "searchTerms": [
       "The Internationale ocarina tabs",
       "The Internationale recorder notes"

@@ -13,6 +13,13 @@ import {
   normalizePublicSongInstrument,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
+import {
+  normalizeExplicitNoteLabelMode,
+  normalizeMeasureLayout,
+  normalizePracticeTool,
+  normalizeSheetScale,
+  normalizeToggleParam
+} from '@/lib/songbook/songPageQueryState'
 
 export const dynamicParams = false
 
@@ -29,11 +36,19 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     ? getSongPresentation(song, { publicLyricsAvailable })
     : null
   const songName = presentation?.title || song?.title || 'Song'
+  const primaryAlias = presentation?.aliases?.[0] ?? null
   const description =
     presentation?.metaDescription ||
-    `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument views.`
+    [
+      `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument views.`,
+      primaryAlias ? `Also known as ${primaryAlias}.` : ''
+    ]
+      .filter(Boolean)
+      .join(' ')
   return {
-    title: `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
+    title: primaryAlias
+      ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
+      : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
     description,
     alternates: {
       canonical: `${siteUrl}/song/${song?.slug || id}`
@@ -136,50 +151,4 @@ export default function SongPage({
       hasLyricToggle={hasPublicLyricToggle}
     />
   )
-}
-
-function normalizeExplicitNoteLabelMode(value: string | undefined) {
-  if (value === 'number' || value === 'graph') {
-    return value
-  }
-
-  return null
-}
-
-function normalizeToggleParam(value: string | undefined) {
-  if (value === 'on' || value === 'off') {
-    return value
-  }
-
-  return null
-}
-
-function normalizeMeasureLayout(value: string | undefined) {
-  if (value === 'compact' || value === 'mono') {
-    return value
-  }
-
-  return null
-}
-
-
-function normalizeSheetScale(value: string | undefined, sheetScaleList: number[] | undefined) {
-  if (!value) {
-    return null
-  }
-
-  const available = new Set((sheetScaleList ?? []).map(item => String(item)))
-  if (available.size > 0) {
-    return available.has(value) ? value : null
-  }
-
-  return /^\d+$/.test(value) ? value : null
-}
-
-function normalizePracticeTool(value: string | undefined) {
-  if (value === 'metronome') {
-    return value
-  }
-
-  return null
 }

@@ -7,6 +7,10 @@ type KuailepuRuntimeFrameProps = {
   title: string
   frameSrc: string
   loadingId: string
+  panelClassName?: string
+  iframeClassName?: string
+  overlayClassName?: string
+  initialHeight?: number
 }
 
 /**
@@ -23,7 +27,11 @@ export default function KuailepuRuntimeFrame({
   songId,
   title,
   frameSrc,
-  loadingId
+  loadingId,
+  panelClassName,
+  iframeClassName,
+  overlayClassName,
+  initialHeight = 900
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -207,12 +215,16 @@ export default function KuailepuRuntimeFrame({
   }, [frameSrc, songId])
 
   return (
-    <section className="page-warm-panel relative overflow-hidden">
+    <section className={panelClassName ?? 'page-warm-panel relative overflow-hidden'}>
       {isLoading ? (
         <div
           id={loadingId}
           data-runtime-loading="true"
-          className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[rgba(255,251,245,0.94)] px-6 text-center transition-opacity duration-300"
+          className={
+            overlayClassName
+              ? `pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center transition-opacity duration-300 ${overlayClassName}`
+              : 'pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[rgba(255,251,245,0.94)] px-6 text-center transition-opacity duration-300'
+          }
         >
           <div className="max-w-md">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
@@ -229,8 +241,8 @@ export default function KuailepuRuntimeFrame({
         title={`${title} Kuailepu runtime`}
         src={frameSrc}
         scrolling="no"
-        className="block w-full border-0"
-        style={{ height: '900px' }}
+        className={iframeClassName ?? 'block w-full border-0'}
+        style={{ height: `${initialHeight}px` }}
       />
     </section>
   )
