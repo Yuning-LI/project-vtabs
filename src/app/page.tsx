@@ -34,6 +34,7 @@ export default function Home() {
       id: song.id,
       slug: song.slug,
       title: presentation.title,
+      aliases: presentation.aliases,
       familyLabel: presentation.familyLabel,
       featuredRank: index + 1
     }
