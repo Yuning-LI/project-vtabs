@@ -277,6 +277,10 @@ export function buildKuailepuRuntimeHtml(input: {
         `<title>${escapeHtml(pageTitle)} - Kuailepu Runtime Preview</title>`
       )
       .replace(
+        /<link\s+rel="Shortcut Icon"\s+href="\/static\/img\/favicon\.ico"\s+type="image\/x-icon"\s*\/?>/i,
+        '<link rel="icon" href="/favicon.ico" type="image/x-icon" />'
+      )
+      .replace(
         /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i,
         `$1var context = Kit.context.setContext(${safePayload});$2`
       )
