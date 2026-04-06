@@ -13,6 +13,7 @@ playwright-report
 test-results
 exports/
 private/
+staff-sources/
 # Local research and competitor-reference material.
 # Must never be committed or exposed in production.
 reference/

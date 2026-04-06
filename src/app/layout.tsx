@@ -12,7 +12,10 @@ export const metadata: Metadata = {
     follow: true
   },
   verification: {
-    google: googleSiteVerification
+    google: googleSiteVerification,
+    other: {
+      'p:domain_verify': 'f96d1058665f0cbbf2452a0a5fa3fc57'
+    }
   },
   icons: {
     icon: '/icon.svg'

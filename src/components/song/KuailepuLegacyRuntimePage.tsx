@@ -10,8 +10,7 @@ import {
 } from '@/lib/songbook/publicInstruments'
 import {
   buildPublicRuntimeControlConfig,
-  getPublicRuntimeGraphOptions,
-  type PublicRuntimeControlConfig
+  getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
 import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
 import SongPageFunctionZone, {
@@ -209,20 +208,32 @@ export default function KuailepuLegacyRuntimePage({
         }
       : null
 
-  const fingeringChartSelect = {
-    id: 'fingering-chart',
-    label: 'Fingering Chart',
-    value:
-      controlConfig.activeGraphVisibility === 'off'
-        ? 'off'
-        : (controlConfig.activeGraphValue ?? 'chart-on'),
-    options: buildFingeringChartSelectOptions({
-      songId,
-      queryState: normalizedQueryState,
-      noteLabelMode,
-      activeInstrument,
-      controlConfig
-    })
+  const noteViewSelect = {
+    id: 'note-view',
+    label: 'Note View',
+    value: noteLabelMode,
+    options: [
+      {
+        value: 'letter',
+        label: 'Letter Notes',
+        href: buildSongPageHref({
+          songId,
+          ...normalizedQueryState,
+          instrumentId: activeInstrument.id,
+          noteLabelMode: 'letter'
+        })
+      },
+      {
+        value: 'number',
+        label: 'Numbered Notes',
+        href: buildSongPageHref({
+          songId,
+          ...normalizedQueryState,
+          instrumentId: activeInstrument.id,
+          noteLabelMode: 'number'
+        })
+      }
+    ]
   }
 
   const layoutSelect = {
@@ -245,6 +256,26 @@ export default function KuailepuLegacyRuntimePage({
     }))
   }
 
+  const chartDirectionSelect =
+    controlConfig.graphOptions.length > 1
+      ? {
+          id: 'chart-direction',
+          label: 'Chart Direction',
+          value: controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]!.value,
+          options: controlConfig.graphOptions.map(option => ({
+            value: option.value,
+            label: option.label,
+            href: buildSongPageHref({
+              songId,
+              ...normalizedQueryState,
+              instrumentId: activeInstrument.id,
+              noteLabelMode,
+              showGraph: option.value
+            })
+          }))
+        }
+      : null
+
   const zoomSelect = {
     id: 'zoom',
     label: 'Zoom',
@@ -264,35 +295,40 @@ export default function KuailepuLegacyRuntimePage({
 
   const selects: SongPageFunctionZoneSelectControl[] = [
     ...(instrumentSelect ? [instrumentSelect] : []),
-    fingeringChartSelect,
+    noteViewSelect,
+    ...(chartDirectionSelect ? [chartDirectionSelect] : []),
     layoutSelect,
     zoomSelect
   ]
 
   const toggles: SongPageFunctionZoneToggleControl[] = [
     {
-      id: 'note-view',
-      label: 'Note View',
+      id: 'fingering-chart',
+      label: 'Fingering Chart',
+      variant: 'switch',
       options: [
         {
-          label: 'Letter Notes',
+          label: 'On',
           href: buildSongPageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
-            noteLabelMode: 'letter'
+            noteLabelMode,
+            showGraph:
+              controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]?.value ?? 'on'
           }),
-          isActive: noteLabelMode === 'letter'
+          isActive: controlConfig.activeGraphVisibility === 'on'
         },
         {
-          label: 'Numbered Notes',
+          label: 'Off',
           href: buildSongPageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
-            noteLabelMode: 'number'
+            noteLabelMode,
+            showGraph: 'off'
           }),
-          isActive: noteLabelMode === 'number'
+          isActive: controlConfig.activeGraphVisibility === 'off'
         }
       ]
     },
@@ -331,6 +367,7 @@ export default function KuailepuLegacyRuntimePage({
     {
       id: 'measure-numbers',
       label: 'Measure Numbers',
+      variant: 'switch',
       options: [
         {
           label: 'On',
@@ -359,6 +396,7 @@ export default function KuailepuLegacyRuntimePage({
     {
       id: 'metronome',
       label: 'Metronome',
+      variant: 'switch',
       options: [
         {
           label: 'On',
@@ -404,7 +442,7 @@ export default function KuailepuLegacyRuntimePage({
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-2 max-w-4xl text-sm leading-6 text-stone-600">{subtitle}</p>
+            <p className="mt-2 text-sm leading-6 text-stone-600">{subtitle}</p>
           ) : null}
           <div className="mt-3 border-t border-[rgba(154,126,91,0.18)] pt-3">
             <SongPageFunctionZone
@@ -559,68 +597,4 @@ function normalizeSheetScale(
 
 function normalizePracticeTool(value: string | null | undefined) {
   return value === 'metronome' ? 'metronome' : null
-}
-
-function buildFingeringChartSelectOptions(input: {
-  songId: string
-  queryState: PublicSongPageQueryState
-  noteLabelMode: 'letter' | 'number' | 'graph'
-  activeInstrument: PublicSongInstrument
-  controlConfig: PublicRuntimeControlConfig
-}) {
-  const { songId, queryState, noteLabelMode, activeInstrument, controlConfig } = input
-
-  if (controlConfig.graphOptions.length > 1) {
-    return [
-      {
-        value: 'off',
-        label: 'Chart Off',
-        href: buildSongPageHref({
-          songId,
-          ...queryState,
-          instrumentId: activeInstrument.id,
-          noteLabelMode,
-          showGraph: 'off'
-        })
-      },
-      ...controlConfig.graphOptions.map(option => ({
-        value: option.value,
-        label: option.label,
-        href: buildSongPageHref({
-          songId,
-          ...queryState,
-          instrumentId: activeInstrument.id,
-          noteLabelMode,
-          showGraph: option.value
-        })
-      }))
-    ]
-  }
-
-  const chartOnValue = controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]?.value ?? 'on'
-
-  return [
-    {
-      value: chartOnValue,
-      label: 'Chart On',
-      href: buildSongPageHref({
-        songId,
-        ...queryState,
-        instrumentId: activeInstrument.id,
-        noteLabelMode,
-        showGraph: chartOnValue
-      })
-    },
-    {
-      value: 'off',
-      label: 'Chart Off',
-      href: buildSongPageHref({
-        songId,
-        ...queryState,
-        instrumentId: activeInstrument.id,
-        noteLabelMode,
-        showGraph: 'off'
-      })
-    }
-  ]
 }
