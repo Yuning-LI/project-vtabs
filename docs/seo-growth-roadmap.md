@@ -93,10 +93,17 @@
 - 已新增公开 `/learn` 总入口与数据驱动 learn route。
 - 已落地的公开 guide / hub 页面当前包括：
   - `12-hole-ocarina-letter-notes`
+  - `6-hole-ocarina-letter-notes`
+  - `easy-12-hole-ocarina-songs`
   - `recorder-letter-notes`
+  - `easy-christmas-recorder-songs`
   - `tin-whistle-letter-notes`
+  - `easy-ocarina-songs-for-beginners`
+  - `easy-6-hole-ocarina-songs`
+  - `easy-christmas-ocarina-songs`
   - `easy-recorder-songs-for-beginners`
   - `easy-tin-whistle-songs`
+  - `easy-christmas-tin-whistle-songs`
   - `nursery-rhyme-letter-notes`
   - `easy-classical-letter-note-songs`
   - `music-class-songs-for-beginners`
@@ -110,13 +117,17 @@
   - `how-to-read-letter-notes`
   - `celtic-tin-whistle-songs`
   - `march-and-parade-letter-note-songs`
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
 - 首页已补 Learn 入口和公开 FAQ / ItemList / WebSite JSON-LD。
-- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs`、`wedding-and-ceremony-letter-note-songs`、`calm-and-lyrical-letter-note-songs` 等更窄意图入口，不再只突出最早一批基础页。
+- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs`、`patriotic-and-anthem-letter-note-songs`、`world-folk-letter-note-songs`、`wedding-and-ceremony-letter-note-songs`、`calm-and-lyrical-letter-note-songs`，以及更明显的 ocarina 初学者入口 `6-hole-ocarina-letter-notes`、`easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners`、`easy-6-hole-ocarina-songs`、`easy-christmas-ocarina-songs`，不再只突出最早一批基础页。
 - sitemap 已自动覆盖 `/learn` 与所有 guide 页面。
 - song page 已接入 related guides / more songs to explore，不需要改 runtime 即可形成更长浏览路径。
-- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口；婚礼 / ceremony 相关曲目则额外导向 `wedding-and-ceremony-letter-note-songs`；慢板 / 抒情 / reflective 曲目则额外导向 `calm-and-lyrical-letter-note-songs`。
+- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口；婚礼 / ceremony 相关曲目则额外导向 `wedding-and-ceremony-letter-note-songs`；爱国 / anthem / ceremonial 相关曲目则额外导向 `patriotic-and-anthem-letter-note-songs`；国际 folk / traditional 相关曲目则额外导向 `world-folk-letter-note-songs`；慢板 / 抒情 / reflective 曲目则额外导向 `calm-and-lyrical-letter-note-songs`；一批适合初学者的 ocarina 曲目则额外导向 `easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners` 与 `6-hole-ocarina-letter-notes`；holiday 曲目则会额外导向 `easy-christmas-ocarina-songs`。
+- `6-hole-ocarina-letter-notes` 与 `easy-6-hole-ocarina-songs` 这类页面允许 song card 直接链接到同一个公开 `/song/<slug>` 页面，但预先带上 `?instrument=o6`，属于 SEO 入口层参数适配，不改变公开 runtime 行为。
+- `recorder-letter-notes`、`easy-recorder-songs-for-beginners`、`easy-christmas-recorder-songs` 现已允许 song card 直接链接到同一个公开 `/song/<slug>` 页面并预选 `?instrument=r8b`；`tin-whistle-letter-notes`、`easy-tin-whistle-songs`、`celtic-tin-whistle-songs`、`easy-christmas-tin-whistle-songs` 则会预选 `?instrument=w6`。这同样属于 SEO 入口层参数适配，不改变公开 runtime 核心行为。
 
 ### Phase 2：高潜力 song page 文案深化
 
@@ -227,6 +238,7 @@
   - `hej-sokoly`
   - `irish-morning-wind`
   - `irish-blackbird`
+- 当前 published songs 的 `overview` 已全部补齐，`public-song-manifest` 范围内 96 首公开歌曲现在都已有 song-specific opening paragraph；后续这条线可以从“补覆盖”转到“继续精修高价值曲目的文案质量”和“补更多高意图公开入口页”。
 - 已补齐当前全部 published songs 的 `metaTitle` 覆盖，`public-song-manifest` 当前为 0 缺口。
 - 已开始给高潜力落地页补第一批定制 `overview` 首段，当前覆盖：
   - `twinkle-twinkle-little-star`
@@ -243,6 +255,11 @@
   - `frere-jacques`
   - `greensleeves`
   - `london-bridge`
+- 已继续补第二、第三批定制 `overview` 首段；当前 published songs 里已有 52 首带 song-specific opening paragraph。新增覆盖包括：
+  - `mary-had-a-little-lamb` / `yankee-doodle` / `can-can` / `american-patrol` / `arirang` / `auld-lang-syne-english` / `deck-the-halls` / `do-your-ears-hang-low` / `god-rest-you-merry-gentlemen` / `long-long-ago`
+  - `minuet-in-g` / `moonlight-sonata` / `old-macdonald` / `red-river-valley` / `santa-lucia` / `schubert-serenade` / `scotland-the-brave` / `we-wish-you-a-merry-christmas` / `wedding-march` / `were-you-there`
+  - `home-sweet-home` / `flight-of-the-bumblebee` / `going-home` / `habanera` / `londonderry-air` / `lullaby` / `on-wings-of-song` / `sakura-sakura` / `swan-lake` / `traumerei`
+  - `cavalry-march` / `twinkle-variations` / `wedding-march-alt` / `oh-susanna` / `row-row-row-your-boat` / `spring-song` / `simple-gifts` / `wellerman`
 - 当前仍然只动 SEO 文案外壳，不动公开曲谱和 runtime 核心逻辑。
 
 ### Phase 3：更多意图型公开页

@@ -216,6 +216,22 @@
     - `git status --short --branch`
     - `git log --oneline origin/main..HEAD`
   - 不要跳过这一步直接 push，因为本地提交数量会随着后续文档或导歌收尾继续变化。
+- 公开增长路线这边，自上次 `origin/main` push 之后，本地又新增了 30 个公开页面：
+  - `1` 个 `/learn` 总入口
+  - `29` 个 `/learn/[slug]` guide / hub 页面
+- 当前最新一轮新增和补强的是 instrument-accurate landing 入口层：
+  - `6-hole-ocarina-letter-notes`
+  - `easy-ocarina-songs-for-beginners`
+  - `easy-6-hole-ocarina-songs`
+  - `easy-12-hole-ocarina-songs`
+  - `easy-christmas-ocarina-songs`
+  - `easy-christmas-recorder-songs`
+  - `easy-christmas-tin-whistle-songs`
+- 其中：
+  - `6-hole-ocarina-letter-notes` / `easy-6-hole-ocarina-songs` 的 song card 允许直接打开同一个公开 `/song/<slug>` 页面并预选 `?instrument=o6`
+  - `recorder-letter-notes` / `easy-recorder-songs-for-beginners` / `easy-christmas-recorder-songs` 会优先把 song card 打到 `?instrument=r8b`
+  - `tin-whistle-letter-notes` / `easy-tin-whistle-songs` / `celtic-tin-whistle-songs` / `easy-christmas-tin-whistle-songs` 会优先把 song card 打到 `?instrument=w6`
+- 这属于公开 SEO 入口页参数适配，不是新增第二条详情页路线，也没有改 runtime 核心行为。
 
 ### 1.1.2 2026-04-05 内部打印工作流补充
 
@@ -1232,11 +1248,16 @@
   - `march-and-parade-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
+- learn 入口当前又继续补了更窄意图的专题页：
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
 - learn / 首页的 featured guides 也已补上更窄的主题入口：
   - `folk-songs-for-beginners`
   - `celtic-tin-whistle-songs`
   - `how-to-read-letter-notes`
   - `march-and-parade-letter-note-songs`
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
 - `src/lib/learn/content.ts` 的 song page related guides 规则也已细化：
@@ -1245,6 +1266,8 @@
   - folk / hymn 更优先导向 folk / hymn / adult beginner 入口，Celtic / Irish folk 会额外导向 whistle 专题入口
   - classical 更优先导向 reading / instrument hub / adult beginner 入口
   - march 更优先导向 `march-and-parade-letter-note-songs` / classical / classroom 入口
+  - `yankee-doodle` / `american-patrol` / `scotland-the-brave` / `cavalry-march` / `grenadiers-march` / `the-internationale` / `russian-national-anthem` / `katyusha` 会额外导向 `patriotic-and-anthem-letter-note-songs`
+  - `arirang` / `jasmine-flower` / `sakura-sakura` / `bella-ciao` / `la-cucaracha` / `el-condor-pasa` / `hej-sokoly` / `moscow-nights` / `troika` / `red-berries-blossom` / `the-hawthorn-tree` 会额外导向 `world-folk-letter-note-songs`
   - `canon` / `wedding-march` / `wedding-march-alt` / `amazing-grace` / `air-on-the-g-string` / `going-home` 会额外导向 `wedding-and-ceremony-letter-note-songs`
   - `amazing-grace` / `air-on-the-g-string` / `going-home` / `greensleeves` / `londonderry-air` / `lullaby` / `moonlight-sonata` / `on-wings-of-song` / `sakura-sakura` / `santa-lucia` / `scarborough-fair` / `schubert-serenade` / `traumerei` 会额外导向 `calm-and-lyrical-letter-note-songs`
 - `data/songbook/song-seo-profiles.json` 已补第三批高潜力 song profile：
@@ -1302,7 +1325,13 @@
   - `canon`
   - `frere-jacques`
   - `greensleeves`
+- 此后又继续补了两批定制 `overview`，当前 published songs 里已有 52 首使用 song-specific opening paragraph。新增覆盖包括：
+  - `mary-had-a-little-lamb` / `yankee-doodle` / `can-can` / `american-patrol` / `arirang` / `auld-lang-syne-english` / `deck-the-halls` / `do-your-ears-hang-low` / `god-rest-you-merry-gentlemen` / `long-long-ago`
+  - `minuet-in-g` / `moonlight-sonata` / `old-macdonald` / `red-river-valley` / `santa-lucia` / `schubert-serenade` / `scotland-the-brave` / `we-wish-you-a-merry-christmas` / `wedding-march` / `were-you-there`
+  - `home-sweet-home` / `flight-of-the-bumblebee` / `going-home` / `habanera` / `londonderry-air` / `lullaby` / `on-wings-of-song` / `sakura-sakura` / `swan-lake` / `traumerei`
+  - `cavalry-march` / `twinkle-variations` / `wedding-march-alt` / `oh-susanna` / `row-row-row-your-boat` / `spring-song` / `simple-gifts` / `wellerman`
   - `london-bridge`
+- 此后又继续把 remaining published songs 的 `overview` 全部补齐；当前 `public-song-manifest` 范围内 96 首公开歌曲都已有 song-specific opening paragraph，后续可以把重点从“补覆盖”转到“继续精修高价值曲目文案”和“补更多高意图公开专题页”。
 - 当前阶段默认仍只允许继续做：
   - learn / hub / guide / blog-style 页面
   - song page title / meta / 首屏文案 / FAQ / related guides / 结构化数据

@@ -5,9 +5,9 @@ import { getFeaturedLearnGuideCards, getLearnGuideCards, getLearnGuideUrl } from
 import { siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Learn | Beginner Hubs, Instrument Guides and Song Pathways',
+  title: 'Learn | Beginner Song Guides, Instrument Guides and Song Pathways',
   description:
-    'Browse beginner hubs and practical learning guides for ocarina, recorder, and tin whistle players, with direct paths into the public song library.',
+    'Browse beginner song guides and practical learning guides for ocarina, recorder, and tin whistle players, with direct paths into the public song library.',
   alternates: {
     canonical: `${siteUrl}/learn`
   },
@@ -51,11 +51,11 @@ export default function LearnIndexPage() {
             Learn Section
           </div>
           <h1 className="mt-3 text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
-            Beginner Hubs and Practical Music Guides
+            Beginner Song Guides and Practical Music Guides
           </h1>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700 md:text-[0.98rem]">
             This section gives search visitors a clearer way into the site than a mixed song list
-            alone. It combines instrument hubs, beginner entry pages, and blog-style learning
+            alone. It combines instrument guides, beginner entry pages, and blog-style learning
             guides that still lead directly into the same public song detail pages.
           </p>
         </section>
@@ -64,7 +64,7 @@ export default function LearnIndexPage() {
           <h2 className="text-2xl font-bold text-stone-900">Featured Entry Pages</h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
             Start with the narrowest page that matches your search intent: instrument-specific
-            hubs for ocarina, recorder, or tin whistle, a lyric-focused route, or a broader guide
+            guides for ocarina, recorder, or tin whistle, a lyric-focused route, or a broader guide
             for beginners and music education.
           </p>
           <div className="mt-6">

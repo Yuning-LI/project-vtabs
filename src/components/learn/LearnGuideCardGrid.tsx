@@ -17,7 +17,7 @@ export default function LearnGuideCardGrid({ guides }: LearnGuideCardGridProps) 
           className="page-warm-card-link flex h-full flex-col p-5"
         >
           <div className="page-warm-pill-muted w-fit px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em]">
-            {guide.kind === 'hub' ? 'Hub Page' : 'Learning Guide'}
+            {guide.kind === 'hub' ? 'Topic Guide' : 'Learning Guide'}
           </div>
           <h3 className="mt-4 text-xl font-bold leading-tight text-stone-900">{guide.title}</h3>
           <p className="mt-3 text-sm leading-7 text-stone-700">{guide.description}</p>

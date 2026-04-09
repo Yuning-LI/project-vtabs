@@ -220,6 +220,26 @@
 - 其中：
   - `Red Berries Blossom` 导入自 `红莓花儿开` 页；来源作曲者字段为 `苏 伊·杜那耶夫斯基`
   - `The Hawthorn Tree` 导入自 `山楂树` 页；来源作曲者字段为空，公开页保持歌词隐藏
+- 公开增长路线仍在继续，但边界没有变：
+  - 可以继续新增公开 `learn / hub / guide` 页面
+  - 可以继续增强 song page metadata / overview / related guides
+  - 如果要动公开 runtime、iframe、指法图谱或曲谱核心行为，必须先问用户
+- 自上次 `origin/main` push 之后，当前本地公开增长层累计新增了 30 个公开页面：
+  - `1` 个 `/learn` 总入口
+  - `29` 个 `/learn/[slug]` 页面
+- 最新一轮新增和补强的是 instrument-accurate landing 入口层：
+  - `6-hole-ocarina-letter-notes`
+  - `easy-ocarina-songs-for-beginners`
+  - `easy-6-hole-ocarina-songs`
+  - `easy-12-hole-ocarina-songs`
+  - `easy-christmas-ocarina-songs`
+  - `easy-christmas-recorder-songs`
+  - `easy-christmas-tin-whistle-songs`
+- 这些入口页允许把 song card 直接链接到同一个公开 `/song/<slug>` 页面，但预先带上更匹配的乐器参数：
+  - `?instrument=o6`
+  - `?instrument=r8b`
+  - `?instrument=w6`
+- 这只是 landing page 与公开详情页的一致性适配，不是新增第二条公开详情页路线。
 - 截至当前工作区：
   - 本地分支仍可能存在未 push 提交。
   - 准备上线或继续收尾前，先检查：
@@ -266,6 +286,8 @@
   - `how-to-read-letter-notes`
   - `celtic-tin-whistle-songs`
   - `march-and-parade-letter-note-songs`
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
 - 首页现在已经显式挂出 learn 入口，并补了 FAQ / WebSite / ItemList JSON-LD：
@@ -278,6 +300,8 @@
 - `src/lib/learn/content.ts` 当前还补了更细的专题导流：
   - Celtic / Irish folk 相关曲目会额外导向 `celtic-tin-whistle-songs`
   - march 曲目会额外导向 `march-and-parade-letter-note-songs`
+  - `yankee-doodle` / `american-patrol` / `scotland-the-brave` / `cavalry-march` / `grenadiers-march` / `the-internationale` / `russian-national-anthem` / `katyusha` 会额外导向 `patriotic-and-anthem-letter-note-songs`
+  - `arirang` / `jasmine-flower` / `sakura-sakura` / `bella-ciao` / `la-cucaracha` / `el-condor-pasa` / `hej-sokoly` / `moscow-nights` / `troika` / `red-berries-blossom` / `the-hawthorn-tree` 会额外导向 `world-folk-letter-note-songs`
   - `canon` / `wedding-march` / `wedding-march-alt` / `amazing-grace` / `air-on-the-g-string` / `going-home` 会额外导向 `wedding-and-ceremony-letter-note-songs`
   - `amazing-grace` / `air-on-the-g-string` / `going-home` / `greensleeves` / `londonderry-air` / `lullaby` / `moonlight-sonata` / `on-wings-of-song` / `sakura-sakura` / `santa-lucia` / `scarborough-fair` / `schubert-serenade` / `traumerei` 会额外导向 `calm-and-lyrical-letter-note-songs`
 - song SEO profile 当前已支持 per-song `metaTitle`，并已补强两批高潜力歌曲。
@@ -291,6 +315,11 @@
   - `scarborough-fair`
   - `auld-lang-syne`
   - `silent-night`
+- 此后又继续补了两批定制 `overview`，当前 published songs 里已有 52 首使用 song-specific opening paragraph。新增覆盖包括：
+  - `mary-had-a-little-lamb` / `yankee-doodle` / `can-can` / `american-patrol` / `arirang` / `auld-lang-syne-english` / `deck-the-halls` / `do-your-ears-hang-low` / `god-rest-you-merry-gentlemen` / `long-long-ago`
+  - `minuet-in-g` / `moonlight-sonata` / `old-macdonald` / `red-river-valley` / `santa-lucia` / `schubert-serenade` / `scotland-the-brave` / `we-wish-you-a-merry-christmas` / `wedding-march` / `were-you-there`
+  - `home-sweet-home` / `flight-of-the-bumblebee` / `going-home` / `habanera` / `londonderry-air` / `lullaby` / `on-wings-of-song` / `sakura-sakura` / `swan-lake` / `traumerei`
+  - `cavalry-march` / `twinkle-variations` / `wedding-march-alt` / `oh-susanna` / `row-row-row-your-boat` / `spring-song` / `simple-gifts` / `wellerman`
   - `fur-elise`
   - `air-on-the-g-string`
   - `canon`
@@ -340,6 +369,7 @@
   - `irish-morning-wind`
   - `irish-blackbird`
 - 当前已补齐全部 published songs 的 `metaTitle`，对 `public-song-manifest` 统计后当前是 0 缺口。
+- 当前也已补齐全部 published songs 的 `overview`，`public-song-manifest` 范围内 96 首公开歌曲现在都已有 song-specific opening paragraph。
 - 第二批已明确补强的 seasonal / folk 候选包括：
   - `scarborough-fair`
   - `auld-lang-syne`
@@ -763,17 +793,22 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `hymns-and-spiritual-letter-note-songs`
   - `celtic-tin-whistle-songs`
   - `march-and-parade-letter-note-songs`
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
 - learn / 首页的 featured guides 也已补上更窄的主题入口：
   - `folk-songs-for-beginners`
   - `celtic-tin-whistle-songs`
   - `how-to-read-letter-notes`
   - `march-and-parade-letter-note-songs`
+  - `patriotic-and-anthem-letter-note-songs`
+  - `world-folk-letter-note-songs`
 - `src/lib/learn/content.ts` 当前 related guides 推荐规则已经按 song family 做更明确映射：
   - nursery / song
   - holiday
   - folk / hymn，并给部分 Celtic / Irish folk 歌曲额外导向 whistle 专题页
   - classical
   - march
+  - world folk / traditional，并给 `arirang` / `jasmine-flower` / `sakura-sakura` / `bella-ciao` / `la-cucaracha` / `el-condor-pasa` / `hej-sokoly` / `moscow-nights` / `troika` / `red-berries-blossom` / `the-hawthorn-tree` 额外导向 `world-folk-letter-note-songs`
   目标是让 Pinterest / Reddit / 搜索流量落到单曲页后，有更贴题的下一跳入口，而不是只回首页。
 
 - 最新补强的第三批 song SEO profiles 包括：
