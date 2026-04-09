@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -57,6 +57,11 @@ export default function KuailepuLegacyRuntimePage({
   hasLyricToggle,
 }: KuailepuLegacyRuntimePageProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
+
+  useEffect(() => {
+    setCurrentQueryState(queryState)
+  }, [queryState])
+
   const activeInstrument = useMemo(
     () =>
       supportedInstruments.find(instrument => instrument.id === currentQueryState.instrumentId) ??
@@ -185,7 +190,6 @@ export default function KuailepuLegacyRuntimePage({
     }
 
     setCurrentQueryState(parseSongPageQueryState(nextUrl))
-    window.history.replaceState(window.history.state, '', nextUrl.pathname + nextUrl.search)
   }
 
   const instrumentSelect =
@@ -337,6 +341,7 @@ export default function KuailepuLegacyRuntimePage({
           {
             id: 'lyrics',
             label: 'Lyrics',
+            variant: 'switch',
             options: [
               {
                 label: 'On',

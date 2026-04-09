@@ -207,7 +207,7 @@ test.describe('runtime-backed song pages', () => {
       'true'
     )
     await expect(page.getByRole('button', { name: 'Fingering Chart: On' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Lyrics: On' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Lyrics: Off' })).toBeVisible()
 
     await page.goto(
       '/song/row-row-row-your-boat?instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12',
@@ -221,6 +221,24 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1d')
 
     await expectRuntimeSheet(page, 'row-row-row-your-boat')
+  })
+
+  test('function zone interactions do not add extra browser history entries', async ({ page }) => {
+    await page.goto('/', { waitUntil: 'domcontentloaded' })
+
+    await page.getByRole('link', { name: 'Row, Row, Row Your Boat', exact: true }).click()
+    await expect(page).toHaveURL(/\/song\/row-row-row-your-boat$/)
+
+    const historyBeforeOps = await page.evaluate(() => window.history.length)
+
+    await page.getByRole('combobox', { name: 'Zoom' }).selectOption('12')
+    await expect(page).toHaveURL(/\/song\/row-row-row-your-boat$/)
+
+    const historyAfterOps = await page.evaluate(() => window.history.length)
+    expect(historyAfterOps).toBe(historyBeforeOps)
+
+    await page.goBack()
+    await expect(page).toHaveURL(/\/$/)
   })
 
   test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({

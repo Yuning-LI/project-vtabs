@@ -1,5 +1,6 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 type KuailepuRuntimeFrameProps = {
@@ -8,9 +9,20 @@ type KuailepuRuntimeFrameProps = {
   frameSrc: string
   loadingId: string
   panelClassName?: string
+  panelStyle?: CSSProperties
   iframeClassName?: string
+  iframeStyle?: CSSProperties
   overlayClassName?: string
   initialHeight?: number
+  fitHeight?: number
+  fitTopPadding?: number
+  runtimeTextHideRules?: RuntimeTextHideRule[]
+}
+
+type RuntimeTextHideRule = {
+  match: string
+  mode?: 'contains' | 'exact'
+  hideNextNumericSibling?: boolean
 }
 
 /**
@@ -29,12 +41,21 @@ export default function KuailepuRuntimeFrame({
   frameSrc,
   loadingId,
   panelClassName,
+  panelStyle,
   iframeClassName,
+  iframeStyle,
   overlayClassName,
-  initialHeight = 900
+  initialHeight = 900,
+  fitHeight,
+  fitTopPadding = 0,
+  runtimeTextHideRules
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
+  const previousFrameSrcRef = useRef(frameSrc)
+  const previousSongIdRef = useRef(songId)
   const [isLoading, setIsLoading] = useState(true)
+  const [frameHeight, setFrameHeight] = useState(initialHeight)
+  const [frameElementSrc, setFrameElementSrc] = useState(frameSrc)
 
   useEffect(() => {
     const frame = frameRef.current
@@ -43,9 +64,11 @@ export default function KuailepuRuntimeFrame({
     }
 
     setIsLoading(true)
+    setFrameHeight(initialHeight)
 
     let destroyed = false
     let resizeObserver: ResizeObserver | null = null
+    let mutationObserver: MutationObserver | null = null
     let sheetPollTimer: number | null = null
     const timeoutIds: number[] = []
 
@@ -112,6 +135,85 @@ export default function KuailepuRuntimeFrame({
       }
     }
 
+    function normalizeRuntimeText(value: string | null | undefined) {
+      return (value ?? '').replace(/\s+/g, ' ').trim().toLowerCase()
+    }
+
+    function hideRuntimeTextElement(element: Element | null) {
+      if (!element) {
+        return
+      }
+
+      const svgGroup = typeof element.closest === 'function' ? element.closest('g') : null
+      element.setAttribute('display', 'none')
+      element.setAttribute('visibility', 'hidden')
+      element.setAttribute('opacity', '0')
+      element.setAttribute('fill-opacity', '0')
+      if ('style' in element) {
+        const styleTarget = element as HTMLElement | SVGElement
+        styleTarget.style.display = 'none'
+        styleTarget.style.visibility = 'hidden'
+        styleTarget.style.opacity = '0'
+      }
+      if (svgGroup) {
+        svgGroup.setAttribute('display', 'none')
+        svgGroup.setAttribute('visibility', 'hidden')
+        svgGroup.setAttribute('opacity', '0')
+        if ('style' in svgGroup) {
+          const groupStyleTarget = svgGroup as SVGElement
+          groupStyleTarget.style.display = 'none'
+          groupStyleTarget.style.visibility = 'hidden'
+          groupStyleTarget.style.opacity = '0'
+        }
+      }
+    }
+
+    function applyRuntimeTextHides() {
+      if (!runtimeTextHideRules?.length) {
+        return
+      }
+
+      try {
+        const currentFrame = frameRef.current
+        const doc = currentFrame?.contentDocument
+        if (!doc) {
+          return
+        }
+
+        const candidates = Array.from(doc.querySelectorAll('text, tspan, div, span, p')).filter(
+          candidate => candidate.tagName.toLowerCase() === 'text' || candidate.childElementCount === 0
+        )
+        runtimeTextHideRules.forEach(rule => {
+          const expected = normalizeRuntimeText(rule.match)
+          candidates.forEach(candidate => {
+            const text = normalizeRuntimeText(candidate.textContent)
+            if (!text) {
+              return
+            }
+
+            const isMatch =
+              rule.mode === 'exact' ? text === expected : text.includes(expected)
+            if (!isMatch) {
+              return
+            }
+
+            hideRuntimeTextElement(candidate)
+            if (!rule.hideNextNumericSibling) {
+              return
+            }
+
+            const nextTextElement = candidate.nextElementSibling
+            const nextText = normalizeRuntimeText(nextTextElement?.textContent)
+            if (/^\d+$/.test(nextText)) {
+              hideRuntimeTextElement(nextTextElement)
+            }
+          })
+        })
+      } catch {
+        return
+      }
+    }
+
     function applyFrameHeight(height: number | null) {
       const currentFrame = frameRef.current
       if (!Number.isFinite(height) || !height || height <= 200) {
@@ -120,13 +222,16 @@ export default function KuailepuRuntimeFrame({
       if (!currentFrame) {
         return
       }
-      currentFrame.style.height = `${Math.ceil(height)}px`
+      const nextHeight = Math.ceil(height)
+      currentFrame.style.height = `${nextHeight}px`
+      setFrameHeight(nextHeight)
       if (height > 300) {
         hideLoading()
       }
     }
 
     function syncFrameHeight() {
+      applyRuntimeTextHides()
       if (hasRenderedSheet()) {
         hideLoading()
       }
@@ -166,8 +271,18 @@ export default function KuailepuRuntimeFrame({
           timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
         })
 
+        mutationObserver?.disconnect()
+        mutationObserver = new MutationObserver(() => {
+          timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
+        })
+
         if (doc.body) {
           resizeObserver.observe(doc.body)
+          mutationObserver.observe(doc.body, {
+            childList: true,
+            subtree: true,
+            characterData: true
+          })
         }
         if (doc.documentElement) {
           resizeObserver.observe(doc.documentElement)
@@ -207,15 +322,71 @@ export default function KuailepuRuntimeFrame({
       window.removeEventListener('message', onMessage)
       window.removeEventListener('resize', scheduleSyncBursts)
       resizeObserver?.disconnect()
+      mutationObserver?.disconnect()
       if (sheetPollTimer !== null) {
         window.clearInterval(sheetPollTimer)
       }
       timeoutIds.forEach(timeoutId => window.clearTimeout(timeoutId))
     }
-  }, [frameSrc, songId])
+  }, [frameSrc, initialHeight, runtimeTextHideRules, songId])
+
+  useEffect(() => {
+    const previousSongId = previousSongIdRef.current
+    if (previousSongId !== songId) {
+      previousSongIdRef.current = songId
+      previousFrameSrcRef.current = frameSrc
+      setFrameElementSrc(frameSrc)
+      setIsLoading(true)
+      setFrameHeight(initialHeight)
+      return
+    }
+
+    const previousFrameSrc = previousFrameSrcRef.current
+    if (previousFrameSrc === frameSrc) {
+      return
+    }
+
+    previousFrameSrcRef.current = frameSrc
+    setIsLoading(true)
+    setFrameHeight(initialHeight)
+
+    if (typeof window === 'undefined') {
+      setFrameElementSrc(frameSrc)
+      return
+    }
+
+    const frame = frameRef.current
+    if (!frame) {
+      setFrameElementSrc(frameSrc)
+      return
+    }
+
+    const nextSrc = new URL(frameSrc, window.location.origin).toString()
+    const currentLocation = frame.contentWindow?.location?.href
+    if (!currentLocation || currentLocation === 'about:blank') {
+      setFrameElementSrc(frameSrc)
+      return
+    }
+
+    try {
+      frame.contentWindow.location.replace(nextSrc)
+    } catch {
+      setFrameElementSrc(frameSrc)
+    }
+  }, [frameSrc, initialHeight, songId])
+
+  const availableFitHeight = fitHeight ? Math.max(0, fitHeight - fitTopPadding) : null
+  const fittedScale =
+    availableFitHeight && frameHeight > 0
+      ? Math.min(1, Number((availableFitHeight / frameHeight).toFixed(4)))
+      : 1
+  const fittedWidth = fittedScale < 1 ? `${100 / fittedScale}%` : '100%'
 
   return (
-    <section className={panelClassName ?? 'page-warm-panel relative overflow-hidden'}>
+    <section
+      className={panelClassName ?? 'page-warm-panel relative overflow-hidden'}
+      style={panelStyle}
+    >
       {isLoading ? (
         <div
           id={loadingId}
@@ -239,10 +410,17 @@ export default function KuailepuRuntimeFrame({
       <iframe
         ref={frameRef}
         title={`${title} Kuailepu runtime`}
-        src={frameSrc}
+        src={frameElementSrc}
         scrolling="no"
         className={iframeClassName ?? 'block w-full border-0'}
-        style={{ height: `${initialHeight}px` }}
+        style={{
+          marginTop: fitTopPadding > 0 ? `${fitTopPadding}px` : undefined,
+          height: `${frameHeight}px`,
+          width: fittedWidth,
+          transform: fittedScale < 1 ? `scale(${fittedScale})` : undefined,
+          transformOrigin: fittedScale < 1 ? 'top left' : undefined,
+          ...iframeStyle
+        }}
       />
     </section>
   )

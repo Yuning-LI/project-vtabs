@@ -66,6 +66,8 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
   song_name?: string
   alias_name?: string
   song_pinyin?: string
+  keynote?: string
+  rhythm?: string
   lyric?: unknown
   lyric_text?: unknown
   music_composer?: string
