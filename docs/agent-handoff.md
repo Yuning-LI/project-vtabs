@@ -224,10 +224,10 @@
   - 可以继续新增公开 `learn / hub / guide` 页面
   - 可以继续增强 song page metadata / overview / related guides
   - 如果要动公开 runtime、iframe、指法图谱或曲谱核心行为，必须先问用户
-- 自上次 `origin/main` push 之后，当前本地公开增长层累计新增了 30 个公开页面：
+- 当前公开 `learn` 体系累计已有 32 个公开页面：
   - `1` 个 `/learn` 总入口
-  - `29` 个 `/learn/[slug]` 页面
-- 最新一轮新增和补强的是 instrument-accurate landing 入口层：
+  - `31` 个 `/learn/[slug]` 页面
+- 最近一轮已推送的是 instrument-accurate landing 入口层：
   - `6-hole-ocarina-letter-notes`
   - `easy-ocarina-songs-for-beginners`
   - `easy-6-hole-ocarina-songs`
@@ -240,6 +240,15 @@
   - `?instrument=r8b`
   - `?instrument=w6`
 - 这只是 landing page 与公开详情页的一致性适配，不是新增第二条公开详情页路线。
+- `b190dea` 之后追加的最新公开页包括：
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
+- 这两个入口页继续只做公开 SEO / 导流壳层，不改变公开 runtime：
+  - `lullaby-and-bedtime-letter-note-songs` 面向 lullaby / bedtime / quiet practice 意图
+  - `dance-and-waltz-letter-note-songs` 面向 dance / polka / waltz-like melody 意图
+- `src/lib/learn/content.ts` 的 related guides 规则也继续补强：
+  - `lullaby` / `moonlight-sonata` / `schubert-serenade` / `traumerei` / `air-on-the-g-string` / `moscow-nights` / `going-home` / `sakura-sakura` 会优先导向 `lullaby-and-bedtime-letter-note-songs`
+  - `can-can` / `habanera` / `woodpecker-polka` / `blacksmith-polka` / `the-hawthorn-tree` / `dancing-doll-and-teddy-bear` / `swan-lake` / `turkish-march` 会优先导向 `dance-and-waltz-letter-note-songs`
 - 截至当前工作区：
   - 本地分支仍可能存在未 push 提交。
   - 准备上线或继续收尾前，先检查：
@@ -288,6 +297,8 @@
   - `march-and-parade-letter-note-songs`
   - `patriotic-and-anthem-letter-note-songs`
   - `world-folk-letter-note-songs`
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
 - 首页现在已经显式挂出 learn 入口，并补了 FAQ / WebSite / ItemList JSON-LD：
@@ -795,6 +806,8 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `march-and-parade-letter-note-songs`
   - `patriotic-and-anthem-letter-note-songs`
   - `world-folk-letter-note-songs`
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
 - learn / 首页的 featured guides 也已补上更窄的主题入口：
   - `folk-songs-for-beginners`
   - `celtic-tin-whistle-songs`
@@ -809,6 +822,8 @@ npm run preflight:kuailepu-publish -- <slug...>
   - classical
   - march
   - world folk / traditional，并给 `arirang` / `jasmine-flower` / `sakura-sakura` / `bella-ciao` / `la-cucaracha` / `el-condor-pasa` / `hej-sokoly` / `moscow-nights` / `troika` / `red-berries-blossom` / `the-hawthorn-tree` 额外导向 `world-folk-letter-note-songs`
+  - lullaby / bedtime，并给 `lullaby` / `moonlight-sonata` / `schubert-serenade` / `traumerei` / `air-on-the-g-string` / `moscow-nights` / `going-home` / `sakura-sakura` 额外导向 `lullaby-and-bedtime-letter-note-songs`
+  - dance / polka / waltz-like，并给 `can-can` / `habanera` / `woodpecker-polka` / `blacksmith-polka` / `the-hawthorn-tree` / `dancing-doll-and-teddy-bear` / `swan-lake` / `turkish-march` 额外导向 `dance-and-waltz-letter-note-songs`
   目标是让 Pinterest / Reddit / 搜索流量落到单曲页后，有更贴题的下一跳入口，而不是只回首页。
 
 - 最新补强的第三批 song SEO profiles 包括：

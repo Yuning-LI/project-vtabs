@@ -121,11 +121,16 @@
   - `world-folk-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
+- 当前公开 `learn` 体系共 `32` 个页面：
+  - `1` 个 `/learn` 总入口
+  - `31` 个 `/learn/[slug]` 页面
 - 首页已补 Learn 入口和公开 FAQ / ItemList / WebSite JSON-LD。
-- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs`、`patriotic-and-anthem-letter-note-songs`、`world-folk-letter-note-songs`、`wedding-and-ceremony-letter-note-songs`、`calm-and-lyrical-letter-note-songs`，以及更明显的 ocarina 初学者入口 `6-hole-ocarina-letter-notes`、`easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners`、`easy-6-hole-ocarina-songs`、`easy-christmas-ocarina-songs`，不再只突出最早一批基础页。
+- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs`、`patriotic-and-anthem-letter-note-songs`、`world-folk-letter-note-songs`、`wedding-and-ceremony-letter-note-songs`、`calm-and-lyrical-letter-note-songs`、`lullaby-and-bedtime-letter-note-songs`、`dance-and-waltz-letter-note-songs`，以及更明显的 ocarina 初学者入口 `6-hole-ocarina-letter-notes`、`easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners`、`easy-6-hole-ocarina-songs`、`easy-christmas-ocarina-songs`，不再只突出最早一批基础页。
 - sitemap 已自动覆盖 `/learn` 与所有 guide 页面。
 - song page 已接入 related guides / more songs to explore，不需要改 runtime 即可形成更长浏览路径。
-- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口；婚礼 / ceremony 相关曲目则额外导向 `wedding-and-ceremony-letter-note-songs`；爱国 / anthem / ceremonial 相关曲目则额外导向 `patriotic-and-anthem-letter-note-songs`；国际 folk / traditional 相关曲目则额外导向 `world-folk-letter-note-songs`；慢板 / 抒情 / reflective 曲目则额外导向 `calm-and-lyrical-letter-note-songs`；一批适合初学者的 ocarina 曲目则额外导向 `easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners` 与 `6-hole-ocarina-letter-notes`；holiday 曲目则会额外导向 `easy-christmas-ocarina-songs`。
+- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口；婚礼 / ceremony 相关曲目则额外导向 `wedding-and-ceremony-letter-note-songs`；爱国 / anthem / ceremonial 相关曲目则额外导向 `patriotic-and-anthem-letter-note-songs`；国际 folk / traditional 相关曲目则额外导向 `world-folk-letter-note-songs`；慢板 / 抒情 / reflective 曲目则额外导向 `calm-and-lyrical-letter-note-songs`；摇篮曲 / bedtime / quiet-practice 曲目则额外导向 `lullaby-and-bedtime-letter-note-songs`；dance / polka / waltz-like 曲目则额外导向 `dance-and-waltz-letter-note-songs`；一批适合初学者的 ocarina 曲目则额外导向 `easy-12-hole-ocarina-songs`、`easy-ocarina-songs-for-beginners` 与 `6-hole-ocarina-letter-notes`；holiday 曲目则会额外导向 `easy-christmas-ocarina-songs`。
 - `6-hole-ocarina-letter-notes` 与 `easy-6-hole-ocarina-songs` 这类页面允许 song card 直接链接到同一个公开 `/song/<slug>` 页面，但预先带上 `?instrument=o6`，属于 SEO 入口层参数适配，不改变公开 runtime 行为。
 - `recorder-letter-notes`、`easy-recorder-songs-for-beginners`、`easy-christmas-recorder-songs` 现已允许 song card 直接链接到同一个公开 `/song/<slug>` 页面并预选 `?instrument=r8b`；`tin-whistle-letter-notes`、`easy-tin-whistle-songs`、`celtic-tin-whistle-songs`、`easy-christmas-tin-whistle-songs` 则会预选 `?instrument=w6`。这同样属于 SEO 入口层参数适配，不改变公开 runtime 核心行为。
 

@@ -113,7 +113,9 @@ const FEATURED_GUIDE_SLUGS = [
   'patriotic-and-anthem-letter-note-songs',
   'world-folk-letter-note-songs',
   'wedding-and-ceremony-letter-note-songs',
-  'calm-and-lyrical-letter-note-songs'
+  'calm-and-lyrical-letter-note-songs',
+  'lullaby-and-bedtime-letter-note-songs',
+  'dance-and-waltz-letter-note-songs'
 ] as const
 
 const CELTIC_TIN_WHISTLE_SONG_SLUGS = new Set([
@@ -174,6 +176,28 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'scarborough-fair',
   'schubert-serenade',
   'traumerei'
+])
+
+const LULLABY_BEDTIME_SONG_SLUGS = new Set([
+  'lullaby',
+  'moonlight-sonata',
+  'schubert-serenade',
+  'traumerei',
+  'air-on-the-g-string',
+  'moscow-nights',
+  'going-home',
+  'sakura-sakura'
+])
+
+const DANCE_WALTZ_SONG_SLUGS = new Set([
+  'can-can',
+  'habanera',
+  'woodpecker-polka',
+  'blacksmith-polka',
+  'the-hawthorn-tree',
+  'dancing-doll-and-teddy-bear',
+  'swan-lake',
+  'turkish-march'
 ])
 
 const EASY_OCARINA_SONG_SLUGS = new Set([
@@ -2282,6 +2306,140 @@ const learnGuideDefinitions: LearnGuideDefinition[] = [
       'hymns-and-spiritual-letter-note-songs',
       'easy-classical-letter-note-songs'
     ]
+  },
+  {
+    slug: 'lullaby-and-bedtime-letter-note-songs',
+    kind: 'hub',
+    title: 'Lullaby and Bedtime Letter Note Songs',
+    description:
+      'A public guide for lullabies, bedtime melodies, and other quiet letter-note songs with fingering support and slower, calmer practice material.',
+    heroLabel: 'Bedtime Song Guide',
+    intro: [
+      'Some visitors are specifically looking for lullabies, bedtime melodies, or other songs that feel gentle enough for quiet home playing. They are not searching for a mixed song list or a faster beginner set.',
+      'This guide answers that intent with a smaller group of calm public song pages, so players can move straight into readable letter notes, keep the fingering chart on, and stay inside the same public song workflow.'
+    ],
+    featuredSongSlugs: [
+      'lullaby',
+      'moonlight-sonata',
+      'schubert-serenade',
+      'traumerei',
+      'air-on-the-g-string',
+      'moscow-nights'
+    ],
+    sections: [
+      {
+        title: 'Best Bedtime Songs To Open First',
+        paragraphs: [
+          'The best starting pages here are the ones with a gentle contour and enough familiarity that the player can stay focused on breath, tone, and smooth phrase endings. Brahms Lullaby, Traumerei, and Air on the G String are strong first choices for that reason.',
+          'They feel calm and readable without pushing the player into fast ornaments, march-like rhythm, or a crowded score.'
+        ],
+        songSlugs: ['lullaby', 'traumerei', 'air-on-the-g-string', 'schubert-serenade']
+      },
+      {
+        title: 'How To Use These Pages For Quiet Practice',
+        paragraphs: [
+          'These songs work best when they are treated as phrase-shape and tone-control practice, not as speed exercises. A bedtime melody becomes more useful when the player keeps the line connected, leaves space at cadences, and uses the slower pace to stabilize finger changes.',
+          'They are also practical for parents, teachers, and returning players who want a calm melody page on one URL instead of moving between lyric sites, screenshots, and staff-only sheets.'
+        ],
+        bullets: [
+          'Keep the fingering chart visible until the slower note changes feel automatic.',
+          'Use zoom for longer lyrical pages rather than rushing to play the whole sheet at once.',
+          'Let lyrics guide phrase shape only when the song page supports them and they help you hear the cadence.'
+        ],
+        songSlugs: ['moonlight-sonata', 'moscow-nights', 'going-home']
+      },
+      {
+        title: 'What To Add After The First Lullabies',
+        paragraphs: [
+          'Once the gentlest pages feel comfortable, add one folk melody and one classical page that still keep a soft contour. That broadens the bedtime repertoire without leaving the same calm, melody-first workflow.'
+        ],
+        songSlugs: ['sakura-sakura', 'greensleeves', 'londonderry-air']
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this page only for children or baby songs?',
+        answer:
+          'No. It is also useful for adult beginners, returning players, and anyone who wants slower lyrical repertoire for evening practice, lessons, or quiet performance.'
+      },
+      {
+        question: 'Do these bedtime songs use a different player?',
+        answer:
+          'No. This guide only narrows the entry path. Every card still opens the same public song detail page with the usual letter notes, fingering support, and optional numbered-note backup view.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'calm-and-lyrical-letter-note-songs',
+      'easy-songs-for-adult-beginners',
+      'easy-classical-letter-note-songs'
+    ]
+  },
+  {
+    slug: 'dance-and-waltz-letter-note-songs',
+    kind: 'hub',
+    title: 'Dance and Waltz Letter Note Songs',
+    description:
+      'A public guide for lively dance, waltz-like, and polka-style melody pages with letter notes, fingering charts, and brighter rhythmic practice.',
+    heroLabel: 'Dance Song Guide',
+    intro: [
+      'Some visitors are not looking for the calmest beginner page or a seasonal song list. They want something more rhythmic: a dance melody, a polka, a waltz-like song, or another tune with a clear pulse and stronger motion.',
+      'This guide gives that entry point while keeping every click on the same public song pages, so players still get the familiar letter-note layout, fingering chart, and optional numbered-note backup view.'
+    ],
+    featuredSongSlugs: [
+      'can-can',
+      'habanera',
+      'woodpecker-polka',
+      'blacksmith-polka',
+      'the-hawthorn-tree',
+      'turkish-march'
+    ],
+    sections: [
+      {
+        title: 'Best Dance Pages To Start With',
+        paragraphs: [
+          'The easiest first picks in this group are the melodies with a clear repeated pulse and a recognizable hook. Can-Can and Habanera work well because players usually already know the contour, which frees them to focus on articulation and beat placement.',
+          'They also make a good contrast with slower lyrical pages, so visitors who want more energy can find a better fit right away.'
+        ],
+        songSlugs: ['can-can', 'habanera', 'woodpecker-polka', 'blacksmith-polka']
+      },
+      {
+        title: 'How To Practice Brighter Rhythmic Songs',
+        paragraphs: [
+          'Treat these pages as pulse and articulation work before chasing speed. A dance melody becomes cleaner when the player keeps the beat steady, shapes short repeated figures clearly, and avoids overblowing the accented notes.',
+          'These songs are useful when you want a more animated practice set without opening a dense orchestra score or a full piano arrangement.'
+        ],
+        bullets: [
+          'Keep the fingering chart visible while repeated-note patterns settle in.',
+          'Count the pulse out loud before trying to increase speed.',
+          'Use shorter practice loops so articulation stays clear instead of blurry.'
+        ],
+        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'the-hawthorn-tree']
+      },
+      {
+        title: 'What To Add After The First Polkas And Waltz-Like Tunes',
+        paragraphs: [
+          'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read on the same public workflow.'
+        ],
+        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers']
+      }
+    ],
+    faq: [
+      {
+        question: 'Are these full concert arrangements?',
+        answer:
+          'No. They are melody-first public pages meant to keep the main tune readable, which makes them more useful for everyday practice on ocarina, recorder, and tin whistle.'
+      },
+      {
+        question: 'Does this page replace the classical or march guides?',
+        answer:
+          'No. This guide is narrower. It is meant for visitors whose search intent is specifically lively dance-like repertoire, while the broader classical and march guides still cover a wider mix.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'easy-classical-letter-note-songs',
+      'march-and-parade-letter-note-songs',
+      'easy-songs-for-adult-beginners'
+    ]
   }
 ]
 
@@ -2399,6 +2557,26 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
       'easy-songs-for-adult-beginners',
       songCard?.hasPublicLyrics ? 'songs-with-lyrics' : null,
       'tin-whistle-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (LULLABY_BEDTIME_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'lullaby-and-bedtime-letter-note-songs',
+      'calm-and-lyrical-letter-note-songs',
+      family === 'classical' ? 'easy-classical-letter-note-songs' : null,
+      family === 'folk' ? 'folk-songs-for-beginners' : null,
+      'easy-songs-for-adult-beginners',
+      songCard?.hasPublicLyrics ? 'songs-with-lyrics' : null,
+      '12-hole-ocarina-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (DANCE_WALTZ_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'dance-and-waltz-letter-note-songs',
+      family === 'classical' ? 'easy-classical-letter-note-songs' : null,
+      family === 'march' ? 'march-and-parade-letter-note-songs' : null,
+      family === 'folk' ? 'world-folk-letter-note-songs' : null,
+      'easy-songs-for-adult-beginners',
+      'recorder-letter-notes',
+      '12-hole-ocarina-letter-notes'
     ].filter((slug): slug is string => Boolean(slug))
   } else if (CALM_LYRICAL_SONG_SLUGS.has(songSlug)) {
     suggestedSlugs = [

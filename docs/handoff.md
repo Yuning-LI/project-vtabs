@@ -216,10 +216,10 @@
     - `git status --short --branch`
     - `git log --oneline origin/main..HEAD`
   - 不要跳过这一步直接 push，因为本地提交数量会随着后续文档或导歌收尾继续变化。
-- 公开增长路线这边，自上次 `origin/main` push 之后，本地又新增了 30 个公开页面：
+- 当前公开 `learn` 体系累计已有 32 个公开页面：
   - `1` 个 `/learn` 总入口
-  - `29` 个 `/learn/[slug]` guide / hub 页面
-- 当前最新一轮新增和补强的是 instrument-accurate landing 入口层：
+  - `31` 个 `/learn/[slug]` guide / hub 页面
+- 最近一轮已推送的是 instrument-accurate landing 入口层：
   - `6-hole-ocarina-letter-notes`
   - `easy-ocarina-songs-for-beginners`
   - `easy-6-hole-ocarina-songs`
@@ -232,6 +232,15 @@
   - `recorder-letter-notes` / `easy-recorder-songs-for-beginners` / `easy-christmas-recorder-songs` 会优先把 song card 打到 `?instrument=r8b`
   - `tin-whistle-letter-notes` / `easy-tin-whistle-songs` / `celtic-tin-whistle-songs` / `easy-christmas-tin-whistle-songs` 会优先把 song card 打到 `?instrument=w6`
 - 这属于公开 SEO 入口页参数适配，不是新增第二条详情页路线，也没有改 runtime 核心行为。
+- `b190dea` 之后追加的最新公开页是：
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
+- 这两个入口页继续只做公开 SEO / 导流壳层：
+  - `lullaby-and-bedtime-letter-note-songs` 面向 lullaby / bedtime / quiet practice 意图
+  - `dance-and-waltz-letter-note-songs` 面向 dance / polka / waltz-like melody 意图
+- `src/lib/learn/content.ts` 的 related guides 规则也已继续补强：
+  - `lullaby` / `moonlight-sonata` / `schubert-serenade` / `traumerei` / `air-on-the-g-string` / `moscow-nights` / `going-home` / `sakura-sakura` 会优先导向 `lullaby-and-bedtime-letter-note-songs`
+  - `can-can` / `habanera` / `woodpecker-polka` / `blacksmith-polka` / `the-hawthorn-tree` / `dancing-doll-and-teddy-bear` / `swan-lake` / `turkish-march` 会优先导向 `dance-and-waltz-letter-note-songs`
 
 ### 1.1.2 2026-04-05 内部打印工作流补充
 
@@ -1251,6 +1260,8 @@
 - learn 入口当前又继续补了更窄意图的专题页：
   - `patriotic-and-anthem-letter-note-songs`
   - `world-folk-letter-note-songs`
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
 - learn / 首页的 featured guides 也已补上更窄的主题入口：
   - `folk-songs-for-beginners`
   - `celtic-tin-whistle-songs`
@@ -1260,6 +1271,8 @@
   - `world-folk-letter-note-songs`
   - `wedding-and-ceremony-letter-note-songs`
   - `calm-and-lyrical-letter-note-songs`
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
 - `src/lib/learn/content.ts` 的 song page related guides 规则也已细化：
   - nursery / song 更优先导向 nursery / beginner / recorder 入口
   - holiday 更优先导向 christmas / lyrics / whistle 入口
@@ -1270,6 +1283,8 @@
   - `arirang` / `jasmine-flower` / `sakura-sakura` / `bella-ciao` / `la-cucaracha` / `el-condor-pasa` / `hej-sokoly` / `moscow-nights` / `troika` / `red-berries-blossom` / `the-hawthorn-tree` 会额外导向 `world-folk-letter-note-songs`
   - `canon` / `wedding-march` / `wedding-march-alt` / `amazing-grace` / `air-on-the-g-string` / `going-home` 会额外导向 `wedding-and-ceremony-letter-note-songs`
   - `amazing-grace` / `air-on-the-g-string` / `going-home` / `greensleeves` / `londonderry-air` / `lullaby` / `moonlight-sonata` / `on-wings-of-song` / `sakura-sakura` / `santa-lucia` / `scarborough-fair` / `schubert-serenade` / `traumerei` 会额外导向 `calm-and-lyrical-letter-note-songs`
+  - `lullaby` / `moonlight-sonata` / `schubert-serenade` / `traumerei` / `air-on-the-g-string` / `moscow-nights` / `going-home` / `sakura-sakura` 会额外导向 `lullaby-and-bedtime-letter-note-songs`
+  - `can-can` / `habanera` / `woodpecker-polka` / `blacksmith-polka` / `the-hawthorn-tree` / `dancing-doll-and-teddy-bear` / `swan-lake` / `turkish-march` 会额外导向 `dance-and-waltz-letter-note-songs`
 - `data/songbook/song-seo-profiles.json` 已补第三批高潜力 song profile：
   - `mary-had-a-little-lamb`
   - `yankee-doodle`
