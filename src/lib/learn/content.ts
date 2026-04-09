@@ -86,11 +86,14 @@ const FAMILY_LABELS = {
 
 const FEATURED_GUIDE_SLUGS = [
   '12-hole-ocarina-letter-notes',
+  'how-to-start-ocarina-with-letter-notes',
   '6-hole-ocarina-letter-notes',
   'easy-12-hole-ocarina-songs',
   'recorder-letter-notes',
+  'how-to-start-recorder-with-letter-notes',
   'easy-christmas-recorder-songs',
   'tin-whistle-letter-notes',
+  'how-to-start-tin-whistle-with-letter-notes',
   'easy-ocarina-songs-for-beginners',
   'easy-6-hole-ocarina-songs',
   'easy-christmas-ocarina-songs',
@@ -319,6 +322,7 @@ const learnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
+      'how-to-start-ocarina-with-letter-notes',
       'easy-12-hole-ocarina-songs',
       'easy-songs-for-beginners',
       'songs-with-lyrics',
@@ -542,6 +546,7 @@ const learnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
+      'how-to-start-recorder-with-letter-notes',
       'easy-recorder-songs-for-beginners',
       'easy-christmas-recorder-songs',
       'songs-with-lyrics'
@@ -616,9 +621,251 @@ const learnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
+      'how-to-start-tin-whistle-with-letter-notes',
       'easy-tin-whistle-songs',
       'easy-christmas-tin-whistle-songs',
       'songs-with-lyrics'
+    ]
+  },
+  {
+    slug: 'how-to-start-ocarina-with-letter-notes',
+    kind: 'guide',
+    title: 'How to Start Ocarina With Letter Notes',
+    description:
+      'A practical starter guide for first-time ocarina players who want to begin with letter notes, visible fingering charts, and familiar songs instead of staff-heavy sheet music.',
+    heroLabel: 'Starter Guide',
+    intro: [
+      'Many beginners search for help before they search for one song title. They want to know how to start ocarina in a way that feels readable, familiar, and close to the instrument in their hands.',
+      'This guide answers that beginner intent with the same public song pages already on the site. The difference is that it organizes those pages into a cleaner first path, so visitors can start with letter notes, keep the fingering chart visible, and move into longer melodies without leaving the main song route.'
+    ],
+    featuredSongSlugs: [
+      'twinkle-twinkle-little-star',
+      'mary-had-a-little-lamb',
+      'frere-jacques',
+      'ode-to-joy',
+      'amazing-grace',
+      'jingle-bells'
+    ],
+    sections: [
+      {
+        title: 'What To Do On Your First Day',
+        paragraphs: [
+          'The best first ocarina songs are the ones you can already hear in your head. That way the letter-note view helps you follow the melody shape instead of forcing you to decode both the tune and the fingering at the same time.',
+          'Start with one nursery melody, keep the fingering chart on, and repeat the same page until the note changes feel predictable. That is more useful than jumping between many songs on day one.'
+        ],
+        bullets: [
+          'Start with one song you can already hum from memory.',
+          'Keep the fingering chart visible until the shape of the melody settles in.',
+          'Use numbered notes only as a backup view, not the main way to learn the page.'
+        ],
+        songSlugs: [
+          'twinkle-twinkle-little-star',
+          'mary-had-a-little-lamb',
+          'frere-jacques',
+          'happy-birthday-to-you'
+        ]
+      },
+      {
+        title: 'How To Start On 12-Hole Ocarina',
+        paragraphs: [
+          'If you are starting on a standard 12-hole ocarina, stay in the default song view first. The easiest pages on the site are usually the ones with short phrases, familiar contour, and enough space that the fingering chart still feels readable.',
+          'Once the first nursery songs feel comfortable, add one longer melody that asks for slower phrase control instead of faster finger changes.'
+        ],
+        songSlugs: ['london-bridge', 'ode-to-joy', 'jingle-bells', 'amazing-grace']
+      },
+      {
+        title: 'How To Start On 6-Hole Ocarina',
+        paragraphs: [
+          'If you are starting on a 6-hole instrument, it helps to land directly on pages that open the 6-hole fingering view. Short repeated melodies work especially well because they let you confirm the finger pattern quickly before the song gets longer.',
+          'Use the related 6-hole guide when you want a bigger pool of songs, but begin with the simplest pages first so the letter-note workflow feels trustworthy.'
+        ],
+        songSlugs: withInstrument(
+          [
+            'twinkle-twinkle-little-star',
+            'mary-had-a-little-lamb',
+            'row-row-row-your-boat',
+            'jingle-bells'
+          ],
+          'o6'
+        )
+      }
+    ],
+    faq: [
+      {
+        question: 'Do I need to learn staff notation before using these pages?',
+        answer:
+          'No. This starter guide is for melody-first practice. It uses the same public song pages with letter notes and fingering support so beginners can start with recognizable tunes first.'
+      },
+      {
+        question: 'Does this guide replace the main ocarina song pages?',
+        answer:
+          'No. It only organizes the first steps more clearly. Every song card still opens the normal public detail page with the same controls and instrument options.'
+      }
+    ],
+    relatedGuideSlugs: [
+      '12-hole-ocarina-letter-notes',
+      '6-hole-ocarina-letter-notes',
+      'easy-ocarina-songs-for-beginners',
+      'how-to-read-letter-notes'
+    ]
+  },
+  {
+    slug: 'how-to-start-recorder-with-letter-notes',
+    kind: 'guide',
+    title: 'How to Start Recorder With Letter Notes',
+    description:
+      'A practical starter guide for beginners and teachers who want to begin recorder with letter notes, simple songs, and a clear bridge between melody reading and finger patterns.',
+    heroLabel: 'Starter Guide',
+    intro: [
+      'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want a handful of familiar songs, a readable note layer, and a practice flow that works in short lessons.',
+      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players and classroom use.'
+    ],
+    featuredSongSlugs: withInstrument(
+      [
+        'twinkle-twinkle-little-star',
+        'mary-had-a-little-lamb',
+        'frere-jacques',
+        'ode-to-joy',
+        'jingle-bells',
+        'happy-birthday-to-you'
+      ],
+      'r8b'
+    ),
+    sections: [
+      {
+        title: 'Best Recorder Songs For The First Lessons',
+        paragraphs: [
+          'The strongest first recorder pages are the ones that keep the melody familiar and the reading load light. That lets the student connect note names, finger changes, and breath timing without getting lost in staff-heavy notation or a long tune.',
+          'Short nursery songs and birthday melodies are especially useful because the phrase shapes repeat and the tune is already easy to recognize.'
+        ],
+        songSlugs: withInstrument(
+          [
+            'twinkle-twinkle-little-star',
+            'mary-had-a-little-lamb',
+            'frere-jacques',
+            'happy-birthday-to-you'
+          ],
+          'r8b'
+        )
+      },
+      {
+        title: 'How To Use These Pages In Class Or Home Practice',
+        paragraphs: [
+          'Keep the page simple during the first pass. Leave the fingering chart visible, use one familiar tune at a time, and avoid changing settings too often while the melody is still new.',
+          'For classroom use, these pages work best when the teacher can point to one clear melody page instead of moving students between screenshots, lyric sites, and separate fingering diagrams.'
+        ],
+        bullets: [
+          'Use one short song as the class warm-up every week.',
+          'Keep the fingering chart on until finger changes feel automatic.',
+          'Turn lyrics on only when they help students hear phrase timing more clearly.'
+        ],
+        songSlugs: withInstrument(['jingle-bells', 'ode-to-joy', 'silent-night'], 'r8b')
+      },
+      {
+        title: 'What To Add After The First Easy Songs',
+        paragraphs: [
+          'Once the first classroom melodies feel steady, move into one seasonal tune and one slightly longer lyrical tune. That adds variety without leaving the same public workflow or forcing beginners into a new notation system.'
+        ],
+        songSlugs: withInstrument(
+          ['amazing-grace', 'deck-the-halls', 'we-wish-you-a-merry-christmas'],
+          'r8b'
+        )
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this guide only for children?',
+        answer:
+          'No. It also works for adult beginners, parents helping at home, and teachers who want a more direct melody-first reading layer for early lessons.'
+      },
+      {
+        question: 'Do these links open a different recorder page?',
+        answer:
+          'No. They open the same public song route, but the recorder view is preselected so the landing page matches the search intent more closely.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'recorder-letter-notes',
+      'easy-recorder-songs-for-beginners',
+      'music-class-songs-for-beginners',
+      'how-to-read-letter-notes'
+    ]
+  },
+  {
+    slug: 'how-to-start-tin-whistle-with-letter-notes',
+    kind: 'guide',
+    title: 'How to Start Tin Whistle With Letter Notes',
+    description:
+      'A practical starter guide for new tin whistle players who want easy letter-note songs, visible fingerings, and a familiar first route into folk and beginner melody pages.',
+    heroLabel: 'Starter Guide',
+    intro: [
+      'New tin whistle players often begin by searching for easy songs and clear fingerings, not by searching for ornament-heavy whistle repertoire. They want to know which melodies will actually feel manageable in the first week.',
+      'This guide gives that first route using the same public song pages already on the site. It keeps the melody pages simple, recognizable, and closer to the whistle view that beginners expect.'
+    ],
+    featuredSongSlugs: withInstrument(
+      [
+        'twinkle-twinkle-little-star',
+        'ode-to-joy',
+        'amazing-grace',
+        'red-river-valley',
+        'auld-lang-syne',
+        'scarborough-fair'
+      ],
+      'w6'
+    ),
+    sections: [
+      {
+        title: 'Best Tin Whistle Songs To Start With',
+        paragraphs: [
+          'The easiest first whistle pages are usually the melodies you already know well. That lowers the reading barrier and lets you focus on steady breath, clean finger lifts, and phrase endings instead of trying to guess the tune.',
+          'Short familiar songs are the best first step. After that, slower folk or hymn melodies give you a better way to build phrasing without jumping straight into faster ornamented material.'
+        ],
+        songSlugs: withInstrument(
+          ['twinkle-twinkle-little-star', 'ode-to-joy', 'amazing-grace', 'red-river-valley'],
+          'w6'
+        )
+      },
+      {
+        title: 'How To Practice Breath And Phrase Shape',
+        paragraphs: [
+          'Use one page for repeated practice instead of collecting many alternate tabs. The whistle gets easier faster when you stay with one recognizable melody and listen for phrase shape while the fingers settle in.',
+          'For slower songs, keep the breath relaxed and do not chase speed. A calm folk melody is often a better teacher than a fast showpiece in the early stage.'
+        ],
+        bullets: [
+          'Keep the fingering chart on until the tune feels stable.',
+          'Use zoom when a longer page feels crowded instead of abandoning the song.',
+          'Choose one familiar song and one slower folk melody for each practice block.'
+        ],
+        songSlugs: withInstrument(['scarborough-fair', 'auld-lang-syne', 'the-south-wind'], 'w6')
+      },
+      {
+        title: 'Where To Go After The First Easy Tunes',
+        paragraphs: [
+          'Once the first easy pages feel secure, move into the broader whistle guides. That keeps the same reading workflow while giving you more folk, seasonal, and Celtic-friendly material.'
+        ],
+        songSlugs: withInstrument(
+          ['irish-morning-wind', 'loch-lomond', 'jingle-bells', 'silent-night'],
+          'w6'
+        )
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this guide only for Irish traditional players?',
+        answer:
+          'No. It is meant for new tin whistle players in general. It starts with very familiar melodies first, then points toward folk and Celtic-friendly material once the basics feel easier.'
+      },
+      {
+        question: 'Does this page change the public whistle player?',
+        answer:
+          'No. It only organizes the same public song pages into a clearer beginner path and opens them with the whistle view selected.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'tin-whistle-letter-notes',
+      'easy-tin-whistle-songs',
+      'celtic-tin-whistle-songs',
+      'how-to-read-letter-notes'
     ]
   },
   {

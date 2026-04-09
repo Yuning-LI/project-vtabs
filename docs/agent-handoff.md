@@ -224,9 +224,9 @@
   - 可以继续新增公开 `learn / hub / guide` 页面
   - 可以继续增强 song page metadata / overview / related guides
   - 如果要动公开 runtime、iframe、指法图谱或曲谱核心行为，必须先问用户
-- 当前公开 `learn` 体系累计已有 32 个公开页面：
+- 当前公开 `learn` 体系累计已有 35 个公开页面：
   - `1` 个 `/learn` 总入口
-  - `31` 个 `/learn/[slug]` 页面
+  - `34` 个 `/learn/[slug]` 页面
 - 最近一轮已推送的是 instrument-accurate landing 入口层：
   - `6-hole-ocarina-letter-notes`
   - `easy-ocarina-songs-for-beginners`
@@ -243,6 +243,17 @@
 - `b190dea` 之后追加的最新公开页包括：
   - `lullaby-and-bedtime-letter-note-songs`
   - `dance-and-waltz-letter-note-songs`
+- `aa66806` 已 push 上线，包含：
+  - `lullaby-and-bedtime-letter-note-songs`
+  - `dance-and-waltz-letter-note-songs`
+- 当前本地下一阶段新增的是 3 个 starter guide：
+  - `how-to-start-ocarina-with-letter-notes`
+  - `how-to-start-recorder-with-letter-notes`
+  - `how-to-start-tin-whistle-with-letter-notes`
+- 这 3 个页面的定位是：
+  - 承接更宽的 beginner / how to start 搜索意图
+  - 继续把用户导入同一个公开 `/song/<slug>` 主链
+  - 不触碰 runtime、iframe、曲谱或指法图谱核心逻辑
 - 这两个入口页继续只做公开 SEO / 导流壳层，不改变公开 runtime：
   - `lullaby-and-bedtime-letter-note-songs` 面向 lullaby / bedtime / quiet practice 意图
   - `dance-and-waltz-letter-note-songs` 面向 dance / polka / waltz-like melody 意图
