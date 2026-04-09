@@ -1222,7 +1222,7 @@
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 
 - 已继续沿 `docs/seo-growth-roadmap.md` 执行公开 SEO 入口层，不碰 runtime / 曲谱 / 指法图谱核心逻辑。
-- learn 入口当前又补了 7 个公开主题页：
+- learn 入口当前又补了 8 个公开主题页：
   - `easy-recorder-songs-for-beginners`
   - `easy-tin-whistle-songs`
   - `nursery-rhyme-letter-notes`
@@ -1230,17 +1230,23 @@
   - `hymns-and-spiritual-letter-note-songs`
   - `celtic-tin-whistle-songs`
   - `march-and-parade-letter-note-songs`
+  - `wedding-and-ceremony-letter-note-songs`
+  - `calm-and-lyrical-letter-note-songs`
 - learn / 首页的 featured guides 也已补上更窄的主题入口：
   - `folk-songs-for-beginners`
   - `celtic-tin-whistle-songs`
   - `how-to-read-letter-notes`
   - `march-and-parade-letter-note-songs`
+  - `wedding-and-ceremony-letter-note-songs`
+  - `calm-and-lyrical-letter-note-songs`
 - `src/lib/learn/content.ts` 的 song page related guides 规则也已细化：
   - nursery / song 更优先导向 nursery / beginner / recorder 入口
   - holiday 更优先导向 christmas / lyrics / whistle 入口
   - folk / hymn 更优先导向 folk / hymn / adult beginner 入口，Celtic / Irish folk 会额外导向 whistle 专题入口
   - classical 更优先导向 reading / instrument hub / adult beginner 入口
   - march 更优先导向 `march-and-parade-letter-note-songs` / classical / classroom 入口
+  - `canon` / `wedding-march` / `wedding-march-alt` / `amazing-grace` / `air-on-the-g-string` / `going-home` 会额外导向 `wedding-and-ceremony-letter-note-songs`
+  - `amazing-grace` / `air-on-the-g-string` / `going-home` / `greensleeves` / `londonderry-air` / `lullaby` / `moonlight-sonata` / `on-wings-of-song` / `sakura-sakura` / `santa-lucia` / `scarborough-fair` / `schubert-serenade` / `traumerei` 会额外导向 `calm-and-lyrical-letter-note-songs`
 - `data/songbook/song-seo-profiles.json` 已补第三批高潜力 song profile：
   - `mary-had-a-little-lamb`
   - `yankee-doodle`
@@ -1282,6 +1288,21 @@
   - `irish-morning-wind`
   - `irish-blackbird`
 - 当前已补齐全部 published songs 的 `metaTitle`，后续这条线可以从“补缺口”转到“细化首屏 copy / searchTerms / intent 文案”。
+- `src/lib/songbook/seoProfiles.ts` 与 `src/lib/songbook/presentation.ts` 当前已新增 per-song `overview` 能力，用于覆盖 song page 首段文案，先补了一批更需要差异化 opening paragraph 的高潜力页：
+  - `twinkle-twinkle-little-star`
+  - `ode-to-joy`
+  - `amazing-grace`
+  - `happy-birthday-to-you`
+  - `jingle-bells`
+  - `scarborough-fair`
+  - `auld-lang-syne`
+  - `silent-night`
+  - `fur-elise`
+  - `air-on-the-g-string`
+  - `canon`
+  - `frere-jacques`
+  - `greensleeves`
+  - `london-bridge`
 - 当前阶段默认仍只允许继续做：
   - learn / hub / guide / blog-style 页面
   - song page title / meta / 首屏文案 / FAQ / related guides / 结构化数据

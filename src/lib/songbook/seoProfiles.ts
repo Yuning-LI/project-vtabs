@@ -5,6 +5,7 @@ export type SongSeoProfile = {
   searchTerms: string[]
   aliases?: string[]
   metaTitle?: string | null
+  overview?: string
   background: string
   practice: string
 }
@@ -67,6 +68,14 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
       `Song SEO profile "${slug}" must provide metaTitle as a non-empty string when present.`
     )
   }
+  if (
+    candidate.overview !== undefined &&
+    (typeof candidate.overview !== 'string' || candidate.overview.trim().length < 1)
+  ) {
+    throw new Error(
+      `Song SEO profile "${slug}" must provide overview as a non-empty string when present.`
+    )
+  }
   if (typeof candidate.background !== 'string' || candidate.background.trim().length < 1) {
     throw new Error(`Song SEO profile "${slug}" must provide a non-empty background string.`)
   }
@@ -87,6 +96,10 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
       typeof candidate.metaTitle === 'string' && candidate.metaTitle.trim().length > 0
         ? candidate.metaTitle.trim()
         : null,
+    overview:
+      typeof candidate.overview === 'string' && candidate.overview.trim().length > 0
+        ? candidate.overview.trim()
+        : undefined,
     background: candidate.background.trim(),
     practice: candidate.practice.trim()
   }

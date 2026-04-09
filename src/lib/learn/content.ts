@@ -94,7 +94,9 @@ const FEATURED_GUIDE_SLUGS = [
   'folk-songs-for-beginners',
   'celtic-tin-whistle-songs',
   'how-to-read-letter-notes',
-  'march-and-parade-letter-note-songs'
+  'march-and-parade-letter-note-songs',
+  'wedding-and-ceremony-letter-note-songs',
+  'calm-and-lyrical-letter-note-songs'
 ] as const
 
 const CELTIC_TIN_WHISTLE_SONG_SLUGS = new Set([
@@ -105,6 +107,31 @@ const CELTIC_TIN_WHISTLE_SONG_SLUGS = new Set([
   'loch-lomond',
   'scotland-the-brave',
   'auld-lang-syne'
+])
+
+const CEREMONY_SONG_SLUGS = new Set([
+  'canon',
+  'wedding-march',
+  'wedding-march-alt',
+  'amazing-grace',
+  'air-on-the-g-string',
+  'going-home'
+])
+
+const CALM_LYRICAL_SONG_SLUGS = new Set([
+  'amazing-grace',
+  'air-on-the-g-string',
+  'going-home',
+  'greensleeves',
+  'londonderry-air',
+  'lullaby',
+  'moonlight-sonata',
+  'on-wings-of-song',
+  'sakura-sakura',
+  'santa-lucia',
+  'scarborough-fair',
+  'schubert-serenade',
+  'traumerei'
 ])
 
 const learnGuideDefinitions: LearnGuideDefinition[] = [
@@ -1353,6 +1380,140 @@ const learnGuideDefinitions: LearnGuideDefinition[] = [
       'easy-classical-letter-note-songs',
       'folk-songs-for-beginners'
     ]
+  },
+  {
+    slug: 'wedding-and-ceremony-letter-note-songs',
+    kind: 'hub',
+    title: 'Wedding and Ceremony Letter Note Songs',
+    description:
+      'A public ceremony-focused hub for players who want wedding processional, recessional, and reflective letter-note melodies with fingering support on one clean entry page.',
+    heroLabel: 'Ceremony Hub',
+    intro: [
+      'Some visitors are not searching for a general beginner song list. They need a smaller set of calm, recognisable melodies that fit wedding aisles, ceremonies, and formal moments, and they need those pages quickly.',
+      'This hub answers that intent directly while still sending every click into the same public song detail pages, where the fingering chart, letter notes, and optional numbered-note backup view stay in one stable layout.'
+    ],
+    featuredSongSlugs: [
+      'canon',
+      'wedding-march',
+      'wedding-march-alt',
+      'amazing-grace',
+      'air-on-the-g-string',
+      'going-home'
+    ],
+    sections: [
+      {
+        title: 'Best Ceremony Songs To Open First',
+        paragraphs: [
+          'The strongest first pages for ceremonies are the ones with immediate recognition and a stable phrase flow. They let players focus on entrance timing, breathing, and confident note changes instead of learning an unfamiliar tune at the same time.',
+          'That is why this hub starts with Canon, Wedding March, and Amazing Grace before moving outward into quieter reflective melodies.'
+        ],
+        songSlugs: ['canon', 'wedding-march', 'amazing-grace']
+      },
+      {
+        title: 'How To Choose Between Processional and Reflective Pages',
+        paragraphs: [
+          'Processional choices usually need a steadier forward pulse, while reflective ceremony pages ask for calmer phrasing and warmer tone. Keeping both types in one hub helps players compare pages without bouncing around the whole library.'
+        ],
+        bullets: [
+          'Use Canon or Wedding March when you need a recognisable ceremony entrance feel.',
+          'Use Amazing Grace or Going Home when you want a slower, more reflective pace.',
+          'Keep the fingering chart visible on the first run so timing and note shape stay aligned under pressure.'
+        ],
+        songSlugs: ['wedding-march-alt', 'going-home', 'air-on-the-g-string']
+      },
+      {
+        title: 'What To Practice Before A Real Event',
+        paragraphs: [
+          'Ceremony pages should be rehearsed as complete runs, not just as isolated phrases. The goal is a page that feels dependable enough for entrances, pauses, and restarts in a real room.',
+          'These songs work best when you practice the exact page flow, keep the layout stable, and resist changing settings at the last minute.'
+        ],
+        songSlugs: ['canon', 'wedding-march', 'air-on-the-g-string']
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this only for formal weddings?',
+        answer:
+          'No. It is also useful for recitals, memorials, school ceremonies, and other events where players want a smaller set of calm or processional-ready melody pages.'
+      },
+      {
+        question: 'Do these songs use a different player or notation system?',
+        answer:
+          'No. This hub is only a focused public entry page. Every card still opens the same song detail page with the usual letter notes, fingering support, and optional numbered-note backup view.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'easy-classical-letter-note-songs',
+      'hymns-and-spiritual-letter-note-songs',
+      'easy-songs-for-adult-beginners'
+    ]
+  },
+  {
+    slug: 'calm-and-lyrical-letter-note-songs',
+    kind: 'hub',
+    title: 'Calm and Lyrical Letter Note Songs',
+    description:
+      'A public hub for slow, lyrical, and reflective melody pages with letter notes, fingering support, and gentle repertoire for ocarina, recorder, and tin whistle.',
+    heroLabel: 'Lyrical Hub',
+    intro: [
+      'Some visitors are not looking for a flashy first tune or a classroom nursery song. They want calmer melody pages that feel reflective, lyrical, and useful for slower practice or quiet performance.',
+      'This hub answers that intent directly while keeping every click inside the same public song detail pages, so the letter-note layout, fingering chart, and optional numbered-note backup view stay familiar from song to song.'
+    ],
+    featuredSongSlugs: [
+      'amazing-grace',
+      'air-on-the-g-string',
+      'greensleeves',
+      'going-home',
+      'lullaby',
+      'traumerei'
+    ],
+    sections: [
+      {
+        title: 'Best Calm Songs To Open First',
+        paragraphs: [
+          'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
+          'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
+        ],
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home']
+      },
+      {
+        title: 'How To Practice Lyrical Pages',
+        paragraphs: [
+          'Treat these songs as breath and phrase-shape work first. A calm melody becomes more useful when the player keeps the line connected, leaves room for phrase endings, and avoids chasing speed that the tune does not need.',
+          'These pages are especially practical when you want one stable URL for quiet daily practice, lesson assignments, or event preparation without switching between images, lyric sheets, and staff-heavy PDFs.'
+        ],
+        bullets: [
+          'Keep the fingering chart on until slower phrase changes feel automatic.',
+          'Use lyrics only when they help you hear cadence points and phrase entry.',
+          'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
+        ],
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade']
+      },
+      {
+        title: 'What To Add After The First Reflective Tunes',
+        paragraphs: [
+          'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
+        ],
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata']
+      }
+    ],
+    faq: [
+      {
+        question: 'Are these songs only for advanced players?',
+        answer:
+          'No. Several of these pages are approachable for adult beginners and returning players because the challenge is more about steady breath and connected tone than about fast technical execution.'
+      },
+      {
+        question: 'Does this calm-song hub change the player or notation system?',
+        answer:
+          'No. It is a public entry page only. Every song card still opens the same public detail page with the usual letter notes, fingering chart, and optional numbered-note backup view.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'easy-songs-for-adult-beginners',
+      'hymns-and-spiritual-letter-note-songs',
+      'easy-classical-letter-note-songs'
+    ]
   }
 ]
 
@@ -1444,7 +1605,26 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
 
   let suggestedSlugs: string[]
 
-  if (family === 'nursery' || family === 'song') {
+  if (CEREMONY_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'wedding-and-ceremony-letter-note-songs',
+      family === 'hymn' ? 'hymns-and-spiritual-letter-note-songs' : null,
+      family === 'classical' || family === 'march' ? 'easy-classical-letter-note-songs' : null,
+      'easy-songs-for-adult-beginners',
+      '12-hole-ocarina-letter-notes',
+      'recorder-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (CALM_LYRICAL_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'calm-and-lyrical-letter-note-songs',
+      family === 'hymn' ? 'hymns-and-spiritual-letter-note-songs' : null,
+      family === 'classical' ? 'easy-classical-letter-note-songs' : null,
+      family === 'folk' ? 'folk-songs-for-beginners' : null,
+      'easy-songs-for-adult-beginners',
+      songCard?.hasPublicLyrics ? 'songs-with-lyrics' : null,
+      '12-hole-ocarina-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (family === 'nursery' || family === 'song') {
     suggestedSlugs = [
       family === 'nursery' ? 'nursery-rhyme-letter-notes' : 'easy-recorder-songs-for-beginners',
       'easy-songs-for-beginners',

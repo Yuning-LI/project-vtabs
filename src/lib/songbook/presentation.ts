@@ -95,7 +95,8 @@ export function getSongPresentation(
     .join(' ')
 
   const overview = [
-    `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported ocarina, recorder, and tin whistle variants on this page.`,
+    profile.overview ??
+      `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported ocarina, recorder, and tin whistle variants on this page.`,
     aliases.length > 0 ? `${title} is also commonly searched as ${formatAliasList(aliases)}.` : '',
     buildSearchIntentSentence({
       familyLabel,

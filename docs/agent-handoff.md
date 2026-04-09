@@ -265,6 +265,9 @@
   - `folk-songs-for-beginners`
   - `how-to-read-letter-notes`
   - `celtic-tin-whistle-songs`
+  - `march-and-parade-letter-note-songs`
+  - `wedding-and-ceremony-letter-note-songs`
+  - `calm-and-lyrical-letter-note-songs`
 - 首页现在已经显式挂出 learn 入口，并补了 FAQ / WebSite / ItemList JSON-LD：
   - `src/app/page.tsx`
 - sitemap 已自动覆盖 `/learn` 与全部 guide 页面：
@@ -272,7 +275,28 @@
 - song page 已补 `related guides` 与 `more songs to explore`，目的是让 Pinterest / Reddit / Google 流量进入单曲页后继续浏览，而不是停在单页：
   - `src/app/song/[id]/page.tsx`
   - `src/components/song/KuailepuLegacyRuntimePage.tsx`
+- `src/lib/learn/content.ts` 当前还补了更细的专题导流：
+  - Celtic / Irish folk 相关曲目会额外导向 `celtic-tin-whistle-songs`
+  - march 曲目会额外导向 `march-and-parade-letter-note-songs`
+  - `canon` / `wedding-march` / `wedding-march-alt` / `amazing-grace` / `air-on-the-g-string` / `going-home` 会额外导向 `wedding-and-ceremony-letter-note-songs`
+  - `amazing-grace` / `air-on-the-g-string` / `going-home` / `greensleeves` / `londonderry-air` / `lullaby` / `moonlight-sonata` / `on-wings-of-song` / `sakura-sakura` / `santa-lucia` / `scarborough-fair` / `schubert-serenade` / `traumerei` 会额外导向 `calm-and-lyrical-letter-note-songs`
 - song SEO profile 当前已支持 per-song `metaTitle`，并已补强两批高潜力歌曲。
+- song SEO profile 当前也已支持 per-song `overview`，用于把 song page 首段改成更贴曲目的 opening paragraph，而不是统一模板。
+- 当前已经补上第一批定制 `overview` 的曲目：
+  - `twinkle-twinkle-little-star`
+  - `ode-to-joy`
+  - `amazing-grace`
+  - `happy-birthday-to-you`
+  - `jingle-bells`
+  - `scarborough-fair`
+  - `auld-lang-syne`
+  - `silent-night`
+  - `fur-elise`
+  - `air-on-the-g-string`
+  - `canon`
+  - `frere-jacques`
+  - `greensleeves`
+  - `london-bridge`
 - song SEO profile 当前已继续扩到第四批高认知歌曲，新增覆盖：
   - `can-can`
   - `air-on-the-g-string`

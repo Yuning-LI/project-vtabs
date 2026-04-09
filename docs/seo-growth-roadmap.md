@@ -110,11 +110,13 @@
   - `how-to-read-letter-notes`
   - `celtic-tin-whistle-songs`
   - `march-and-parade-letter-note-songs`
+  - `wedding-and-ceremony-letter-note-songs`
+  - `calm-and-lyrical-letter-note-songs`
 - 首页已补 Learn 入口和公开 FAQ / ItemList / WebSite JSON-LD。
-- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs` 等更窄意图入口，不再只突出最早一批基础页。
+- `learn` 首页与首页的 featured guides 已进一步补齐 `folk`、`celtic`、`how-to-read-letter-notes`、`march-and-parade-letter-note-songs`、`wedding-and-ceremony-letter-note-songs`、`calm-and-lyrical-letter-note-songs` 等更窄意图入口，不再只突出最早一批基础页。
 - sitemap 已自动覆盖 `/learn` 与所有 guide 页面。
 - song page 已接入 related guides / more songs to explore，不需要改 runtime 即可形成更长浏览路径。
-- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口。
+- song page 的 related guides 规则已按 nursery / holiday / folk / classical / march 做了更明确的意图映射，并给部分 Celtic / Irish folk 歌曲单独导向 `celtic-tin-whistle-songs` 入口；婚礼 / ceremony 相关曲目则额外导向 `wedding-and-ceremony-letter-note-songs`；慢板 / 抒情 / reflective 曲目则额外导向 `calm-and-lyrical-letter-note-songs`。
 
 ### Phase 2：高潜力 song page 文案深化
 
@@ -148,6 +150,7 @@
 当前进度：
 
 - 已增加 per-song `metaTitle` 能力，用于 song page metadata title 精细化。
+- 已增加 per-song `overview` 能力，用于 song page 首段文案精细化，优先通过 `song-seo-profiles.json` 注入更具体的 melody-first opening paragraph，而不是继续依赖统一模板句式。
 - 已补强第一批高潜力曲目：
   - `twinkle-twinkle-little-star`
   - `ode-to-joy`
@@ -225,6 +228,21 @@
   - `irish-morning-wind`
   - `irish-blackbird`
 - 已补齐当前全部 published songs 的 `metaTitle` 覆盖，`public-song-manifest` 当前为 0 缺口。
+- 已开始给高潜力落地页补第一批定制 `overview` 首段，当前覆盖：
+  - `twinkle-twinkle-little-star`
+  - `ode-to-joy`
+  - `amazing-grace`
+  - `happy-birthday-to-you`
+  - `jingle-bells`
+  - `scarborough-fair`
+  - `auld-lang-syne`
+  - `silent-night`
+  - `fur-elise`
+  - `air-on-the-g-string`
+  - `canon`
+  - `frere-jacques`
+  - `greensleeves`
+  - `london-bridge`
 - 当前仍然只动 SEO 文案外壳，不动公开曲谱和 runtime 核心逻辑。
 
 ### Phase 3：更多意图型公开页

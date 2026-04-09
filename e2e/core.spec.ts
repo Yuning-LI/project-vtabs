@@ -139,11 +139,10 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await expect(page.getByRole('combobox', { name: 'Note View' })).toHaveValue('letter')
     await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1d')
-    await expect(
-      page.getByText(
-        'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
-      )
-    ).toBeVisible()
+    const aboutSection = page.locator('section').filter({
+      has: page.getByRole('heading', { name: 'About Ode to Joy' })
+    })
+    await expect(aboutSection.locator('p').first()).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
@@ -160,11 +159,10 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('w6')
     await expect(page.getByRole('combobox', { name: 'Note View' })).toHaveValue('letter')
-    await expect(
-      page.getByText(
-        'Play Ode to Joy with letter notes, a visual fingering chart, and an optional numbered-notes view'
-      )
-    ).toBeVisible()
+    const aboutSection = page.locator('section').filter({
+      has: page.getByRole('heading', { name: 'About Ode to Joy' })
+    })
+    await expect(aboutSection.locator('p').first()).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
 
     const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
