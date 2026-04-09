@@ -1,9 +1,15 @@
+import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import {
   hasPublicKuailepuLyricToggle,
   loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
+import {
+  getRelatedSongCards,
+  getSuggestedGuideCardsForSong,
+  getLearnGuideUrl
+} from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
@@ -46,9 +52,12 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       .filter(Boolean)
       .join(' ')
   return {
-    title: primaryAlias
-      ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
-      : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
+    title:
+      presentation?.metaTitle && presentation.metaTitle.trim().length > 0
+        ? `${presentation.metaTitle} | Play by Fingering`
+        : primaryAlias
+          ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
+          : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
     description,
     alternates: {
       canonical: `${siteUrl}/song/${song?.slug || id}`
@@ -127,6 +136,60 @@ export default function SongPage({
       adaptPresentationForInstrument(basePresentation, instrument)
     ])
   )
+  const relatedSongs = getRelatedSongCards(song.slug)
+  const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: shellSeo.title,
+        item: `${siteUrl}/song/${song.slug}`
+      }
+    ]
+  }
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: shellSeo.faqs.map(item => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer
+      }
+    }))
+  }
+  const relatedSongsJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${shellSeo.title} related songs`,
+    itemListElement: relatedSongs.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      url: `${siteUrl}${item.href}`
+    }))
+  }
+  const relatedGuidesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${shellSeo.title} related guides`,
+    itemListElement: relatedGuides.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      url: getLearnGuideUrl(item.slug)
+    }))
+  }
 
   /**
    * 详情页当前只有两个公开阅读模式：
@@ -139,16 +202,40 @@ export default function SongPage({
    * - 新对话接手时能立刻看懂目前公开模式边界
    */
   return (
-    <KuailepuLegacyRuntimePage
-      songId={song.slug}
-      supportedInstruments={supportedInstruments}
-      queryState={queryState}
-      presentationByInstrument={presentationByInstrument}
-      runtimeControlPayload={{
-        instrumentFingerings: runtimePayload.instrumentFingerings,
-        sheetScaleList: runtimePayload.sheetScaleList
-      }}
-      hasLyricToggle={hasPublicLyricToggle}
-    />
+    <>
+      <Script
+        id={`song-breadcrumb-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <Script
+        id={`song-faq-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <Script
+        id={`song-related-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(relatedSongsJsonLd) }}
+      />
+      <Script
+        id={`song-guides-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(relatedGuidesJsonLd) }}
+      />
+      <KuailepuLegacyRuntimePage
+        songId={song.slug}
+        supportedInstruments={supportedInstruments}
+        queryState={queryState}
+        presentationByInstrument={presentationByInstrument}
+        runtimeControlPayload={{
+          instrumentFingerings: runtimePayload.instrumentFingerings,
+          sheetScaleList: runtimePayload.sheetScaleList
+        }}
+        hasLyricToggle={hasPublicLyricToggle}
+        relatedSongs={relatedSongs}
+        relatedGuides={relatedGuides}
+      />
+    </>
   )
 }

@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
+import LearnSongCardGrid from '@/components/learn/LearnSongCardGrid'
+import type { LearnGuideCard, LearnSongCard } from '@/lib/learn/content'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import {
   buildSongPageHref,
@@ -35,6 +38,8 @@ type KuailepuLegacyRuntimePageProps = {
     sheetScaleList?: number[]
   }
   hasLyricToggle: boolean
+  relatedSongs: LearnSongCard[]
+  relatedGuides: LearnGuideCard[]
 }
 
 /**
@@ -55,6 +60,8 @@ export default function KuailepuLegacyRuntimePage({
   presentationByInstrument,
   runtimeControlPayload,
   hasLyricToggle,
+  relatedSongs,
+  relatedGuides
 }: KuailepuLegacyRuntimePageProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
 
@@ -123,6 +130,7 @@ export default function KuailepuLegacyRuntimePage({
     Object.values(presentationByInstrument)[0] ?? {
       title: songId,
       aliases: [],
+      metaTitle: null,
       subtitle: null,
       familyLabel: 'Melody Page',
       difficultyLabel: 'Unknown',
@@ -513,6 +521,48 @@ export default function KuailepuLegacyRuntimePage({
             </section>
           </div>
         </article>
+
+        <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-bold text-stone-900">More Songs to Explore</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+                Keep moving through songs with a similar feel or learning pattern instead of
+                bouncing back to the full library after every tune.
+              </p>
+            </div>
+            <Link
+              href="/"
+              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+            >
+              Open full library
+            </Link>
+          </div>
+          <div className="mt-6">
+            <LearnSongCardGrid songs={relatedSongs} />
+          </div>
+        </section>
+
+        <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-bold text-stone-900">Related Guides</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+                These topic pages answer broader beginner and instrument questions, then route
+                visitors back into the same public song experience.
+              </p>
+            </div>
+            <Link
+              href="/learn"
+              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+            >
+              Browse learn section
+            </Link>
+          </div>
+          <div className="mt-6">
+            <LearnGuideCardGrid guides={relatedGuides} />
+          </div>
+        </section>
       </div>
     </main>
   )

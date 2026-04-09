@@ -23,7 +23,8 @@ test.describe('runtime-backed song pages', () => {
     await expect(page).toHaveTitle(/Play By Fingering/)
     await expect(
       page.getByRole('heading', {
-        name: 'PlayByFingering'
+        name: 'PlayByFingering',
+        exact: true
       })
     ).toBeVisible()
     await expect(page.getByRole('searchbox', { name: 'Search song titles' })).toBeVisible()
@@ -64,7 +65,7 @@ test.describe('runtime-backed song pages', () => {
   }) => {
     await page.goto('/song/fur-elise', { waitUntil: 'domcontentloaded' })
 
-    await expect(page).toHaveTitle(/To Alice/)
+    await expect(page).toHaveTitle(/Fur Elise Letter Notes and Fingering Chart/)
     await expect(page.getByRole('heading', { level: 1, name: 'Für Elise' })).toBeVisible()
     await expect(page.getByText('also commonly searched as To Alice')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Is Für Elise also known as To Alice and Bagatelle No. 25 in A minor?' })).toBeVisible()

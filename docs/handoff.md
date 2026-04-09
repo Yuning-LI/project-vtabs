@@ -7,6 +7,10 @@
 - `docs/internal-print-workflow.md`
 - `docs/song-ingest-input-spec.md`
 
+如果任务涉及公开增长、SEO 入口页、learn / hub / guide 页面，继续阅读：
+
+- `docs/seo-growth-roadmap.md`
+
 ## 1. 项目当前是什么
 
 这是一个面向 Google 搜索流量和 western 用户、以 ocarina 为主并已公开支持 recorder / tin whistle 的 melody song page 站点。
@@ -230,6 +234,95 @@
   - `exports/` 与 `private/` 必须保持本地，不进入 git
 - 相关执行规范已经单独写入：
   - `docs/internal-print-workflow.md`
+
+### 1.1.3 2026-04-09 公开 SEO 入口层补充
+
+- 已新增公开 `/learn` 总入口：
+  - `src/app/learn/page.tsx`
+- 当前 learn / hub / guide 页面已改为数据驱动：
+  - `src/lib/learn/content.ts`
+  - `src/app/learn/[slug]/page.tsx`
+- 当前已落地的公开入口页包括：
+  - `12-hole-ocarina-letter-notes`
+  - `recorder-letter-notes`
+  - `tin-whistle-letter-notes`
+  - `easy-classical-letter-note-songs`
+  - `music-class-songs-for-beginners`
+  - `easy-songs-for-beginners`
+  - `easy-songs-for-adult-beginners`
+  - `songs-with-lyrics`
+  - `hymns-and-spiritual-letter-note-songs`
+  - `simple-instruments-for-music-education`
+  - `christmas-letter-note-songs`
+  - `folk-songs-for-beginners`
+  - `how-to-read-letter-notes`
+  - `celtic-tin-whistle-songs`
+- 首页当前已显式挂出 learn 入口，并补了公开 FAQ / WebSite / ItemList JSON-LD：
+  - `src/app/page.tsx`
+- sitemap 已自动覆盖 `/learn` 与所有 guide 页面：
+  - `src/app/sitemap.ts`
+- song page 已补 `related guides` 与 `more songs to explore`，让 Pinterest / Reddit / Google 流量进入单曲页后有继续浏览路径：
+  - `src/app/song/[id]/page.tsx`
+- song SEO profile 当前已继续补到第四批高认知歌曲，新增覆盖：
+  - `can-can`
+  - `air-on-the-g-string`
+  - `arirang`
+  - `jasmine-flower`
+  - `londonderry-air`
+  - `minuet-in-g`
+  - `moonlight-sonata`
+  - `santa-lucia`
+  - `schubert-serenade`
+  - `scotland-the-brave`
+  - `turkish-march`
+  - `twinkle-variations`
+  - `wedding-march`
+  - `were-you-there`
+- song SEO profile 当前已支持 per-song `metaTitle`，并已补强两批高潜力歌曲：
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/songbook/seoProfiles.ts`
+  - `src/lib/songbook/presentation.ts`
+- 第五批已继续补强的 classical / folk evergreen 候选包括：
+  - `flight-of-the-bumblebee`
+  - `going-home`
+  - `habanera`
+  - `humoresque`
+  - `lullaby`
+  - `minuet-bach`
+  - `on-wings-of-song`
+  - `spring-song`
+  - `aura-lee`
+  - `romance-damour`
+  - `la-cucaracha`
+  - `grandfathers-clock`
+- 第六批已继续补强的 folk / classical / Celtic 候选包括：
+  - `song-of-parting`
+  - `swan-lake`
+  - `the-trout`
+  - `traumerei`
+  - `wild-rose`
+  - `oh-susanna`
+  - `the-south-wind`
+  - `lough-leane`
+  - `drinking-song`
+  - `el-condor-pasa`
+  - `hej-sokoly`
+  - `irish-morning-wind`
+  - `irish-blackbird`
+- 当前 `data/songbook/song-seo-profiles.json` 已补齐全部 published songs 的 `metaTitle`，对 `data/songbook/public-song-manifest.json` 统计后当前是 0 缺口。
+- 第二批已明确补强的 seasonal / folk 候选包括：
+  - `scarborough-fair`
+  - `auld-lang-syne`
+  - `deck-the-halls`
+  - `god-rest-you-merry-gentlemen`
+  - `greensleeves`
+  - `red-river-valley`
+  - `we-wish-you-a-merry-christmas`
+  - `joy-to-the-world`
+  - `home-on-the-range`
+- 当前这条 SEO 增长线仍然有明确边界：
+  - 可以继续新增公开入口页、guide 页、metadata、FAQ、ItemList、相关推荐
+  - 不要为 SEO 擅自改 runtime、iframe、指法图谱或曲谱正确性逻辑
 
 ### 1.2 2026-04-03 多乐器最新补充
 
@@ -1125,3 +1218,71 @@
 下面这条可以直接复制给新对话：
 
 `Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 96 songs. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+
+### 19.1 2026-04-09 公开 SEO 入口层继续推进
+
+- 已继续沿 `docs/seo-growth-roadmap.md` 执行公开 SEO 入口层，不碰 runtime / 曲谱 / 指法图谱核心逻辑。
+- learn 入口当前又补了 7 个公开主题页：
+  - `easy-recorder-songs-for-beginners`
+  - `easy-tin-whistle-songs`
+  - `nursery-rhyme-letter-notes`
+  - `easy-songs-for-adult-beginners`
+  - `hymns-and-spiritual-letter-note-songs`
+  - `celtic-tin-whistle-songs`
+  - `march-and-parade-letter-note-songs`
+- learn / 首页的 featured guides 也已补上更窄的主题入口：
+  - `folk-songs-for-beginners`
+  - `celtic-tin-whistle-songs`
+  - `how-to-read-letter-notes`
+  - `march-and-parade-letter-note-songs`
+- `src/lib/learn/content.ts` 的 song page related guides 规则也已细化：
+  - nursery / song 更优先导向 nursery / beginner / recorder 入口
+  - holiday 更优先导向 christmas / lyrics / whistle 入口
+  - folk / hymn 更优先导向 folk / hymn / adult beginner 入口，Celtic / Irish folk 会额外导向 whistle 专题入口
+  - classical 更优先导向 reading / instrument hub / adult beginner 入口
+  - march 更优先导向 `march-and-parade-letter-note-songs` / classical / classroom 入口
+- `data/songbook/song-seo-profiles.json` 已补第三批高潜力 song profile：
+  - `mary-had-a-little-lamb`
+  - `yankee-doodle`
+  - `old-macdonald`
+  - `row-row-row-your-boat`
+  - `simple-gifts`
+  - `wellerman`
+  - `bella-ciao`
+  - `sakura-sakura`
+  - `loch-lomond`
+  - `jolly-old-saint-nicholas`
+  - `happy-new-year`
+  - `auld-lang-syne-english`
+- `data/songbook/song-seo-profiles.json` 当前又补了第五批 classical / folk evergreen 候选：
+  - `flight-of-the-bumblebee`
+  - `going-home`
+  - `habanera`
+  - `humoresque`
+  - `lullaby`
+  - `minuet-bach`
+  - `on-wings-of-song`
+  - `spring-song`
+  - `aura-lee`
+  - `romance-damour`
+  - `la-cucaracha`
+  - `grandfathers-clock`
+- `data/songbook/song-seo-profiles.json` 当前又补了第六批 folk / classical / Celtic 候选：
+  - `song-of-parting`
+  - `swan-lake`
+  - `the-trout`
+  - `traumerei`
+  - `wild-rose`
+  - `oh-susanna`
+  - `the-south-wind`
+  - `lough-leane`
+  - `drinking-song`
+  - `el-condor-pasa`
+  - `hej-sokoly`
+  - `irish-morning-wind`
+  - `irish-blackbird`
+- 当前已补齐全部 published songs 的 `metaTitle`，后续这条线可以从“补缺口”转到“细化首屏 copy / searchTerms / intent 文案”。
+- 当前阶段默认仍只允许继续做：
+  - learn / hub / guide / blog-style 页面
+  - song page title / meta / 首屏文案 / FAQ / related guides / 结构化数据
+- 如果后续要改公开 runtime、iframe、曲谱展示或指法图谱正确性，仍然必须先问用户。

@@ -4,6 +4,7 @@ import path from 'node:path'
 export type SongSeoProfile = {
   searchTerms: string[]
   aliases?: string[]
+  metaTitle?: string | null
   background: string
   practice: string
 }
@@ -57,6 +58,15 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
   if (!Array.isArray(candidate.searchTerms)) {
     throw new Error(`Song SEO profile "${slug}" must provide searchTerms as an array.`)
   }
+  if (
+    candidate.metaTitle !== undefined &&
+    candidate.metaTitle !== null &&
+    (typeof candidate.metaTitle !== 'string' || candidate.metaTitle.trim().length < 1)
+  ) {
+    throw new Error(
+      `Song SEO profile "${slug}" must provide metaTitle as a non-empty string when present.`
+    )
+  }
   if (typeof candidate.background !== 'string' || candidate.background.trim().length < 1) {
     throw new Error(`Song SEO profile "${slug}" must provide a non-empty background string.`)
   }
@@ -73,6 +83,10 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
           .map(alias => (typeof alias === 'string' ? alias.trim() : ''))
           .filter(alias => alias.length > 0)
       : [],
+    metaTitle:
+      typeof candidate.metaTitle === 'string' && candidate.metaTitle.trim().length > 0
+        ? candidate.metaTitle.trim()
+        : null,
     background: candidate.background.trim(),
     practice: candidate.practice.trim()
   }

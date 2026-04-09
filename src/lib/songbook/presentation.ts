@@ -5,6 +5,7 @@ import type { PublicSongFamily, SongDoc } from './types'
 export type SongPresentation = {
   title: string
   aliases: string[]
+  metaTitle: string | null
   subtitle: string
   metaDescription: string
   overview: string
@@ -176,6 +177,7 @@ export function getSongPresentation(
   return {
     title,
     aliases,
+    metaTitle: profile.metaTitle ?? null,
     subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.`,
     metaDescription,
     overview,
@@ -444,6 +446,7 @@ function getSongSeoProfile(slug: string, title: string, family: PublicSongFamily
   return {
     searchTerms: [`${title} ocarina tabs`, `${title} letter notes`],
     aliases: [],
+    metaTitle: null,
     background: getFallbackBackgroundSentence(family, title),
     practice: getFallbackPracticeSentence(family)
   }
