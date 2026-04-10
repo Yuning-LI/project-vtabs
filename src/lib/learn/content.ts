@@ -176,6 +176,7 @@ const WORLD_FOLK_SONG_SLUGS = new Set([
 const CALM_LYRICAL_SONG_SLUGS = new Set([
   'amazing-grace',
   'air-on-the-g-string',
+  'carrying-you',
   'going-home',
   'greensleeves',
   'londonderry-air',
@@ -186,6 +187,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'santa-lucia',
   'scarborough-fair',
   'schubert-serenade',
+  'song-of-time',
   'traumerei'
 ])
 
@@ -203,6 +205,7 @@ const LULLABY_BEDTIME_SONG_SLUGS = new Set([
 const DANCE_WALTZ_SONG_SLUGS = new Set([
   'can-can',
   'habanera',
+  'hes-a-pirate',
   'woodpecker-polka',
   'blacksmith-polka',
   'the-hawthorn-tree',
@@ -232,6 +235,7 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'wedding-march',
   'wedding-march-alt',
   'american-patrol',
+  'hes-a-pirate',
   'turkish-march',
   'parade-of-the-wooden-soldiers',
   'jingle-bells'
@@ -1944,7 +1948,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'amazing-grace',
       'canon',
       'wedding-march',
-      'american-patrol'
+      'american-patrol',
+      'hes-a-pirate'
     ],
     sections: [
       {
@@ -1980,6 +1985,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: [
           'american-patrol',
+          'hes-a-pirate',
           'turkish-march',
           'parade-of-the-wooden-soldiers',
           'jingle-bells'
@@ -2309,7 +2315,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'wedding-march',
       'cavalry-march',
       'toy-march',
-      'turkish-march'
+      'turkish-march',
+      'hes-a-pirate'
     ],
     sections: [
       {
@@ -2322,7 +2329,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'parade-of-the-wooden-soldiers',
           'toy-march',
           'wedding-march',
-          'american-patrol'
+          'american-patrol',
+          'hes-a-pirate'
         ]
       },
       {
@@ -2343,7 +2351,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the easiest march pages feel comfortable, add one brighter character piece and one more formal ceremonial melody. That keeps the practice mix interesting without leaving the same rhythm-focused workflow.'
         ],
-        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt']
+        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt', 'hes-a-pirate']
       }
     ],
     faq: [
@@ -2789,7 +2797,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'scarborough-fair',
       'auld-lang-syne',
       'canon',
-      'happy-birthday-to-you'
+      'happy-birthday-to-you',
+      'song-of-time',
+      'carrying-you'
     ],
     sections: [
       {
@@ -2809,7 +2819,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'amazing-grace',
           'scarborough-fair',
           'auld-lang-syne',
-          'canon'
+          'canon',
+          'song-of-time'
         ]
       },
       {
@@ -2822,7 +2833,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you']
       }
     ],
     faq: [
@@ -2927,7 +2938,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'greensleeves',
       'going-home',
       'lullaby',
-      'traumerei'
+      'traumerei',
+      'song-of-time',
+      'carrying-you'
     ],
     sections: [
       {
@@ -2949,14 +2962,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you']
       }
     ],
     faq: [
@@ -3061,7 +3074,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'woodpecker-polka',
       'blacksmith-polka',
       'the-hawthorn-tree',
-      'turkish-march'
+      'turkish-march',
+      'hes-a-pirate'
     ],
     sections: [
       {
@@ -3090,7 +3104,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read on the same public workflow.'
         ],
-        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers']
+        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate']
       }
     ],
     faq: [

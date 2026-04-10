@@ -1,0 +1,34 @@
+{
+  "id": "song-of-time",
+  "slug": "song-of-time",
+  "title": "Song of Time",
+  "description": "Song of Time melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: NINTENDO.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Gqtig1dnN.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Gqtig1dnN on 2026-04-10."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-10",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "6 - 2 - - - 4 - | 6 - 2 - - - 4 - |",
+    "6 1' 7 - 5 - 4 5 | 6 - 2 - 1 3 2 - | 2 - - - - - - - |",
+    "6 - 2 - - - 4 - | 6 - 2 - - - 4 - |",
+    "6 1' 7 - 5 - 4 5 | 6 - 2 - 1 3 2 - | 2 - - - - - - - |",
+    "2 1 3 - 1 - 4 5 | 2 - - - - - - - |",
+    "6 1' 7 - 1' - 6 - | 1' - 5 - 6 - 2 1 |",
+    "3 - 2 - - - 4 5 | 4 - 5 - 3 1 4 - |",
+    "3 - - - 2 - - - | 2 - - - - - - - | | |"
+  ]
+}

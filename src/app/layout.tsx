@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { SiteFooter } from '@/components/layout/SiteFooter'
 import { googleSiteVerification, siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -30,7 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className="bg-bg text-primary font-serif">{children}</body>
+      <body className="bg-bg text-primary font-serif">
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   )
 }
