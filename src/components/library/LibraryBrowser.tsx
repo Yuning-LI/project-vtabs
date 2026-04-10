@@ -19,6 +19,9 @@ type LibraryBrowserProps = {
 }
 
 type SortMode = 'featured' | 'az'
+type LibrarySongSearchResult = LibrarySong & {
+  matchedAlias?: string
+}
 
 export default function LibraryBrowser({
   songs,
@@ -34,24 +37,31 @@ export default function LibraryBrowser({
 
   const filteredSongs = useMemo(() => {
     return songs
-      .filter(song => {
+      .flatMap(song => {
         if (activeFamily !== 'All' && song.familyLabel !== activeFamily) {
-          return false
+          return []
         }
 
         if (!normalizedQuery) {
-          return true
+          return [song]
         }
 
-        const haystack = normalizeLibrarySearchText(
-          [song.title, song.slug, song.id, song.familyLabel, ...(song.aliases ?? [])].join(' ')
-        )
+        const titleMatches = matchesLibrarySearch(song.title, normalizedQuery, compactQuery)
+        const slugMatches = matchesLibrarySearch(song.slug, normalizedQuery, compactQuery)
+        const idMatches = matchesLibrarySearch(song.id, normalizedQuery, compactQuery)
+        const familyMatches = matchesLibrarySearch(song.familyLabel, normalizedQuery, compactQuery)
+        const matchedAlias = findMatchedAlias(song.aliases, normalizedQuery, compactQuery)
 
-        if (haystack.includes(normalizedQuery)) {
-          return true
+        if (!titleMatches && !slugMatches && !idMatches && !familyMatches && !matchedAlias) {
+          return []
         }
 
-        return compactLibrarySearchText(haystack).includes(compactQuery)
+        return [
+          {
+            ...song,
+            matchedAlias: matchedAlias && !titleMatches ? matchedAlias : undefined
+          }
+        ]
       })
       .sort((left, right) => {
         if (sortMode === 'az') {
@@ -67,7 +77,7 @@ export default function LibraryBrowser({
       return []
     }
 
-    const groups = new Map<string, LibrarySong[]>()
+    const groups = new Map<string, LibrarySongSearchResult[]>()
 
     filteredSongs.forEach(song => {
       const letter = getGroupLetter(song.title)
@@ -233,7 +243,7 @@ export default function LibraryBrowser({
   )
 }
 
-function LibrarySongCard({ song }: { song: LibrarySong }) {
+function LibrarySongCard({ song }: { song: LibrarySongSearchResult }) {
   return (
     <Link
       href={`/song/${song.slug}`}
@@ -242,8 +252,27 @@ function LibrarySongCard({ song }: { song: LibrarySong }) {
       <h3 className="text-xl font-semibold text-stone-900 transition group-hover:text-stone-700">
         {song.title}
       </h3>
+      {song.matchedAlias ? (
+        <p className="mt-2 text-sm leading-6 text-stone-600">
+          {song.matchedAlias}
+        </p>
+      ) : null}
     </Link>
   )
+}
+
+function findMatchedAlias(aliases: string[] | undefined, normalizedQuery: string, compactQuery: string) {
+  return aliases?.find(alias => matchesLibrarySearch(alias, normalizedQuery, compactQuery))
+}
+
+function matchesLibrarySearch(value: string, normalizedQuery: string, compactQuery: string) {
+  const normalizedValue = normalizeLibrarySearchText(value)
+
+  if (normalizedValue.includes(normalizedQuery)) {
+    return true
+  }
+
+  return compactLibrarySearchText(normalizedValue).includes(compactQuery)
 }
 
 function getGroupLetter(title: string) {
