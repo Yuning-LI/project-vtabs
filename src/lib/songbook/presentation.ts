@@ -87,12 +87,14 @@ export function getSongPresentation(
   const metaDescriptionBase = lyricsAvailable
     ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
     : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
-  const metaDescription = [
-    metaDescriptionBase,
-    aliases.length > 0 ? `Also known as ${formatAliasList(aliases)}.` : ''
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const metaDescription =
+    profile.metaDescription ??
+    [
+      metaDescriptionBase,
+      aliases.length > 0 ? `Also known as ${formatAliasList(aliases)}.` : ''
+    ]
+      .filter(Boolean)
+      .join(' ')
 
   const overview = [
     profile.overview ??
@@ -172,7 +174,8 @@ export function getSongPresentation(
             answer: `Yes. Players often search for this melody under ${formatAliasList(aliases)}, but this page keeps the same tune under the title ${title} while preserving the same letter-note, numbered-note, and fingering support layout.`
           }
         ]
-      : [])
+      : []),
+    ...(profile.extraFaqs ?? [])
   ]
 
   return {

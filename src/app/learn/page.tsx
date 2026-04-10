@@ -5,9 +5,9 @@ import { getFeaturedLearnGuideCards, getLearnGuideCards, getLearnGuideUrl } from
 import { siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Learn | Beginner Song Guides, Instrument Guides and Song Pathways',
+  title: 'Learn Song Guides and Visual Charts',
   description:
-    'Browse beginner song guides and practical learning guides for ocarina, recorder, and tin whistle players, with direct paths into the public song library.',
+    'Browse beginner song guides, easy tabs, and visual chart pathways for ocarina, recorder, and tin whistle players.',
   alternates: {
     canonical: `${siteUrl}/learn`
   },
@@ -53,11 +53,20 @@ export default function LearnIndexPage() {
           <h1 className="mt-3 text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
             Beginner Song Guides and Practical Music Guides
           </h1>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700 md:text-[0.98rem]">
-            This section gives search visitors a clearer way into the site than a mixed song list
-            alone. It combines instrument guides, beginner entry pages, and blog-style learning
-            guides that still lead directly into the same public song detail pages.
-          </p>
+          <div className="mt-5 max-w-3xl space-y-4">
+            <p className="text-sm leading-7 text-stone-700 md:text-[0.98rem]">
+              The learn section is the public map above the song library. It groups the same
+              melody pages by instrument, beginner intent, seasonal use, classroom needs, and
+              familiar repertoire so visitors can land on a page that matches what they actually
+              searched for instead of guessing from a mixed catalog.
+            </p>
+            <p className="text-sm leading-7 text-stone-700 md:text-[0.98rem]">
+              That means you can start with easy tabs, lyric-backed songs, whistle folk tunes,
+              recorder classroom pieces, or visual chart entry pages for first-time ocarina
+              players, then move into the same public song pages without switching systems. Use
+              these guides to narrow the library by context first, then by song title.
+            </p>
+          </div>
         </section>
 
         <section className="page-warm-panel mt-8 p-6 md:p-7">
@@ -81,6 +90,38 @@ export default function LearnIndexPage() {
           </p>
           <div className="mt-6">
             <LearnGuideCardGrid guides={allGuides} />
+          </div>
+        </section>
+
+        <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <nav aria-label="Breadcrumb" className="text-sm font-semibold text-stone-700">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li>
+                <Link href="/" className="underline-offset-4 hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li className="text-stone-900">Learn</li>
+            </ol>
+          </nav>
+          <div className="mt-5">
+            <h2 className="text-xl font-bold text-stone-900">Browse Popular Categories</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+              These frequently used routes help visitors move between instrument hubs, seasonal
+              collections, and beginner guides without falling into isolated doorway pages.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {featuredGuides.slice(0, 10).map(guide => (
+                <Link
+                  key={guide.slug}
+                  href={`/learn/${guide.slug}`}
+                  className="page-warm-pill-muted inline-flex px-4 py-2 text-sm font-semibold"
+                >
+                  {guide.title}
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       </section>

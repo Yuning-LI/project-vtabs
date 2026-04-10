@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
 import LearnSongCardGrid from '@/components/learn/LearnSongCardGrid'
 import {
+  getLearnGuideMetadata,
   getLearnGuideSlugs,
   getLearnGuideUrl,
   getResolvedLearnGuide,
@@ -18,16 +19,16 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const guide = getResolvedLearnGuide(params.slug)
-  if (!guide) {
+  const metadata = getLearnGuideMetadata(params.slug)
+  if (!metadata) {
     return {}
   }
 
   return {
-    title: `${guide.title} | Play By Fingering`,
-    description: guide.description,
+    title: metadata.title,
+    description: metadata.description,
     alternates: {
-      canonical: getLearnGuideUrl(guide.slug)
+      canonical: getLearnGuideUrl(params.slug)
     },
     robots: {
       index: true,
@@ -41,6 +42,10 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
   if (!guide) {
     notFound()
   }
+  const heroParagraphs =
+    guide.heroSummary?.length && guide.kind === 'hub'
+      ? guide.heroSummary
+      : [guide.description, ...guide.intro]
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -128,11 +133,8 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
           <h1 className="mt-3 text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
             {guide.title}
           </h1>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700 md:text-[0.98rem]">
-            {guide.description}
-          </p>
           <div className="mt-5 max-w-3xl space-y-4">
-            {guide.intro.map(paragraph => (
+            {heroParagraphs.map(paragraph => (
               <p key={paragraph} className="text-sm leading-7 text-stone-700">
                 {paragraph}
               </p>
@@ -213,6 +215,44 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
             </section>
           </div>
         </div>
+
+        <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <nav aria-label="Breadcrumb" className="text-sm font-semibold text-stone-700">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li>
+                <Link href="/" className="underline-offset-4 hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li>
+                <Link href="/learn" className="underline-offset-4 hover:underline">
+                  Learn
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li className="text-stone-900">{guide.title}</li>
+            </ol>
+          </nav>
+          <div className="mt-5">
+            <h2 className="text-xl font-bold text-stone-900">Browse Related Categories</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+              Move sideways through the same library by instrument, practice goal, season, or
+              performance setting without dropping back to a generic search page.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {guide.relatedGuides.map(relatedGuide => (
+                <Link
+                  key={relatedGuide.slug}
+                  href={`/learn/${relatedGuide.slug}`}
+                  className="page-warm-pill-muted inline-flex px-4 py-2 text-sm font-semibold"
+                >
+                  {relatedGuide.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
       </section>
     </main>
   )

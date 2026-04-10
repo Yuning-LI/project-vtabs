@@ -5,7 +5,12 @@ export type SongSeoProfile = {
   searchTerms: string[]
   aliases?: string[]
   metaTitle?: string | null
+  metaDescription?: string | null
   overview?: string
+  extraFaqs?: Array<{
+    question: string
+    answer: string
+  }>
   background: string
   practice: string
 }
@@ -69,6 +74,15 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
     )
   }
   if (
+    candidate.metaDescription !== undefined &&
+    candidate.metaDescription !== null &&
+    (typeof candidate.metaDescription !== 'string' || candidate.metaDescription.trim().length < 1)
+  ) {
+    throw new Error(
+      `Song SEO profile "${slug}" must provide metaDescription as a non-empty string when present.`
+    )
+  }
+  if (
     candidate.overview !== undefined &&
     (typeof candidate.overview !== 'string' || candidate.overview.trim().length < 1)
   ) {
@@ -81,6 +95,9 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
   }
   if (typeof candidate.practice !== 'string' || candidate.practice.trim().length < 1) {
     throw new Error(`Song SEO profile "${slug}" must provide a non-empty practice string.`)
+  }
+  if (candidate.extraFaqs !== undefined && !Array.isArray(candidate.extraFaqs)) {
+    throw new Error(`Song SEO profile "${slug}" must provide extraFaqs as an array when present.`)
   }
 
   return {
@@ -96,11 +113,41 @@ function normalizeSongSeoProfile(slug: string, profile: unknown): SongSeoProfile
       typeof candidate.metaTitle === 'string' && candidate.metaTitle.trim().length > 0
         ? candidate.metaTitle.trim()
         : null,
+    metaDescription:
+      typeof candidate.metaDescription === 'string' && candidate.metaDescription.trim().length > 0
+        ? candidate.metaDescription.trim()
+        : null,
     overview:
       typeof candidate.overview === 'string' && candidate.overview.trim().length > 0
         ? candidate.overview.trim()
         : undefined,
+    extraFaqs: Array.isArray(candidate.extraFaqs)
+      ? candidate.extraFaqs.map((item, index) => normalizeSongSeoFaq(slug, item, index))
+      : [],
     background: candidate.background.trim(),
     practice: candidate.practice.trim()
+  }
+}
+
+function normalizeSongSeoFaq(slug: string, item: unknown, index: number) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) {
+    throw new Error(`Song SEO profile "${slug}" extraFaqs[${index}] must be an object.`)
+  }
+
+  const candidate = item as { question?: unknown; answer?: unknown }
+  if (typeof candidate.question !== 'string' || candidate.question.trim().length < 1) {
+    throw new Error(
+      `Song SEO profile "${slug}" extraFaqs[${index}] must provide a non-empty question string.`
+    )
+  }
+  if (typeof candidate.answer !== 'string' || candidate.answer.trim().length < 1) {
+    throw new Error(
+      `Song SEO profile "${slug}" extraFaqs[${index}] must provide a non-empty answer string.`
+    )
+  }
+
+  return {
+    question: candidate.question.trim(),
+    answer: candidate.answer.trim()
   }
 }

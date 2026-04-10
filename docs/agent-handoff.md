@@ -224,9 +224,9 @@
   - 可以继续新增公开 `learn / hub / guide` 页面
   - 可以继续增强 song page metadata / overview / related guides
   - 如果要动公开 runtime、iframe、指法图谱或曲谱核心行为，必须先问用户
-- 当前公开 `learn` 体系累计已有 35 个公开页面：
+- 当前公开 `learn` 体系累计已有 40 个公开页面：
   - `1` 个 `/learn` 总入口
-  - `34` 个 `/learn/[slug]` 页面
+  - `39` 个 `/learn/[slug]` 页面
 - 最近一轮已推送的是 instrument-accurate landing 入口层：
   - `6-hole-ocarina-letter-notes`
   - `easy-ocarina-songs-for-beginners`
@@ -243,15 +243,20 @@
 - `b190dea` 之后追加的最新公开页包括：
   - `lullaby-and-bedtime-letter-note-songs`
   - `dance-and-waltz-letter-note-songs`
-- `aa66806` 已 push 上线，包含：
-  - `lullaby-and-bedtime-letter-note-songs`
-  - `dance-and-waltz-letter-note-songs`
-- 当前本地下一阶段新增的是 3 个 starter guide：
+- `02cc997` 已 push 上线，包含 3 个 starter guide：
   - `how-to-start-ocarina-with-letter-notes`
   - `how-to-start-recorder-with-letter-notes`
   - `how-to-start-tin-whistle-with-letter-notes`
-- 这 3 个页面的定位是：
+- 当前本地下一阶段新增的是：
+  - `how-to-practice-ocarina-with-letter-notes`
+  - `how-to-practice-recorder-with-letter-notes`
+  - `how-to-practice-tin-whistle-with-letter-notes`
+  - `easy-sing-along-letter-note-songs`
+  - `first-performance-letter-note-songs`
+- 这 8 个 start / practice / intent 页面当前的定位是：
   - 承接更宽的 beginner / how to start 搜索意图
+  - 承接“开始之后怎么练”这类 practice / routine 搜索意图
+  - 承接 classroom / sing-along / seasonal chorus / first performance / ceremony 这类更明确的使用场景搜索意图
   - 继续把用户导入同一个公开 `/song/<slug>` 主链
   - 不触碰 runtime、iframe、曲谱或指法图谱核心逻辑
 - 这两个入口页继续只做公开 SEO / 导流壳层，不改变公开 runtime：
@@ -260,6 +265,8 @@
 - `src/lib/learn/content.ts` 的 related guides 规则也继续补强：
   - `lullaby` / `moonlight-sonata` / `schubert-serenade` / `traumerei` / `air-on-the-g-string` / `moscow-nights` / `going-home` / `sakura-sakura` 会优先导向 `lullaby-and-bedtime-letter-note-songs`
   - `can-can` / `habanera` / `woodpecker-polka` / `blacksmith-polka` / `the-hawthorn-tree` / `dancing-doll-and-teddy-bear` / `swan-lake` / `turkish-march` 会优先导向 `dance-and-waltz-letter-note-songs`
+  - `twinkle-twinkle-little-star` / `mary-had-a-little-lamb` / `row-row-row-your-boat` / `old-macdonald` / `happy-birthday-to-you` / `jingle-bells` / `deck-the-halls` / `we-wish-you-a-merry-christmas` / `joy-to-the-world` / `auld-lang-syne` 会优先导向 `easy-sing-along-letter-note-songs`
+  - `happy-birthday-to-you` / `ode-to-joy` / `amazing-grace` / `canon` / `wedding-march` / `wedding-march-alt` / `american-patrol` / `turkish-march` / `parade-of-the-wooden-soldiers` / `jingle-bells` 会额外导向 `first-performance-letter-note-songs`
 - 截至当前工作区：
   - 本地分支仍可能存在未 push 提交。
   - 准备上线或继续收尾前，先检查：
