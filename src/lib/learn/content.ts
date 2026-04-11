@@ -181,8 +181,10 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'greensleeves',
   'londonderry-air',
   'lullaby',
+  'my-heart-will-go-on',
   'moonlight-sonata',
   'on-wings-of-song',
+  'river-flows-in-you',
   'sakura-sakura',
   'santa-lucia',
   'scarborough-fair',
@@ -206,6 +208,7 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
   'can-can',
   'habanera',
   'hes-a-pirate',
+  'merry-go-round-of-life',
   'woodpecker-polka',
   'blacksmith-polka',
   'the-hawthorn-tree',
@@ -1949,7 +1952,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'canon',
       'wedding-march',
       'american-patrol',
-      'hes-a-pirate'
+      'hes-a-pirate',
+      'my-heart-will-go-on'
     ],
     sections: [
       {
@@ -1988,7 +1992,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'hes-a-pirate',
           'turkish-march',
           'parade-of-the-wooden-soldiers',
-          'jingle-bells'
+          'jingle-bells',
+          'my-heart-will-go-on'
         ]
       }
     ],
@@ -2316,7 +2321,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'cavalry-march',
       'toy-march',
       'turkish-march',
-      'hes-a-pirate'
+      'hes-a-pirate',
+      'merry-go-round-of-life'
     ],
     sections: [
       {
@@ -2330,7 +2336,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'toy-march',
           'wedding-march',
           'american-patrol',
-          'hes-a-pirate'
+          'hes-a-pirate',
+          'merry-go-round-of-life'
         ]
       },
       {
@@ -2351,7 +2358,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the easiest march pages feel comfortable, add one brighter character piece and one more formal ceremonial melody. That keeps the practice mix interesting without leaving the same rhythm-focused workflow.'
         ],
-        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt', 'hes-a-pirate']
+        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt', 'hes-a-pirate', 'merry-go-round-of-life']
       }
     ],
     faq: [
@@ -2799,7 +2806,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'canon',
       'happy-birthday-to-you',
       'song-of-time',
-      'carrying-you'
+      'carrying-you',
+      'my-heart-will-go-on',
+      'river-flows-in-you'
     ],
     sections: [
       {
@@ -2820,7 +2829,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'scarborough-fair',
           'auld-lang-syne',
           'canon',
-          'song-of-time'
+          'song-of-time',
+          'my-heart-will-go-on'
         ]
       },
       {
@@ -2833,7 +2843,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you']
       }
     ],
     faq: [
@@ -2940,7 +2950,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'lullaby',
       'traumerei',
       'song-of-time',
-      'carrying-you'
+      'carrying-you',
+      'my-heart-will-go-on',
+      'river-flows-in-you'
     ],
     sections: [
       {
@@ -2962,14 +2974,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on']
       }
     ],
     faq: [
@@ -3075,7 +3087,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'blacksmith-polka',
       'the-hawthorn-tree',
       'turkish-march',
-      'hes-a-pirate'
+      'hes-a-pirate',
+      'merry-go-round-of-life'
     ],
     sections: [
       {
@@ -3084,7 +3097,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest first picks in this group are the melodies with a clear repeated pulse and a recognizable hook. Can-Can and Habanera work well because players usually already know the contour, which frees them to focus on articulation and beat placement.',
           'They also make a good contrast with slower lyrical pages, so visitors who want more energy can find a better fit right away.'
         ],
-        songSlugs: ['can-can', 'habanera', 'woodpecker-polka', 'blacksmith-polka']
+        songSlugs: ['can-can', 'habanera', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life']
       },
       {
         title: 'How To Practice Brighter Rhythmic Songs',
@@ -3104,7 +3117,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read on the same public workflow.'
         ],
-        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate']
+        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate', 'merry-go-round-of-life']
       }
     ],
     faq: [
