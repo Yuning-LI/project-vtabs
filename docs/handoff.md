@@ -1398,3 +1398,74 @@
   - learn / hub / guide / blog-style 页面
   - song page title / meta / 首屏文案 / FAQ / related guides / 结构化数据
 - 如果后续要改公开 runtime、iframe、曲谱展示或指法图谱正确性，仍然必须先问用户。
+
+### 1.1.4 2026-04-10 最新 SEO 收尾与灰度曲流程补充
+
+- `b5e85dc` 已 push：公开 SEO `Phase 2` 已完成收尾。
+- 当前公开 `learn` 体系仍锁定为 `40` 个页面：
+  - `1` 个 `/learn`
+  - `39` 个 `/learn/[slug]`
+- hub / collection 审计已完成：
+  - 已审计 `25` 个 hub / collection 页面
+  - 当前没有任何 `<5` 首 unique songs 的 hub
+  - 最低 unique song count 为 `6`
+  - 因此本轮没有做 hub 合并或新增 hub
+- 现有 hub 页已完成去模板化重写：
+  - H1 下方导语已改成定制英文 `heroSummary`
+  - `/learn` 与 `/learn/[slug]` 底部已补 breadcrumb 与 related-category 闭环导航
+  - `learn` / `hub` 核心正文当前保持静态输出，不做客户端按需加载；后续若要减重，优先看 song 页 hydration，而不是懒加载 SEO 正文
+- 当前 `public-song-manifest` 内的 `96` 首公开歌曲都已经具备：
+  - song-specific `metaTitle`
+  - song-specific `overview`
+  - song-specific `metaDescription`
+  - 至少 `2` 条 `extraFaqs`
+- 全局 Footer 免责声明已经上线：
+  - 组件在 `src/components/layout/SiteFooter.tsx`
+  - 根布局接入在 `src/app/layout.tsx`
+  - `/dev` 路由默认隐藏 Footer
+  - 当前文案是英文，邮箱位置仍为通用占位表述 `please contact us by email`
+- 当前公开增长已从“继续加 hub”切到“灰度热门曲半自动引入”：
+  - 工作流固定为 `AI 扫库推荐 -> 用户人工审核 -> AI 深抓与英文清洗 -> 用户验收 -> 用户确认后 push`
+  - 当前节奏固定为每天最多 `3` 首
+  - 第二批暂未开始，等用户下一次确认
+- 第一批灰度热门曲已经上线并 push（`dd01ba7`）：
+  - `song-of-time`
+  - `carrying-you`
+  - `hes-a-pirate`
+- 这三首的处理边界要记住：
+  - 公开页面层、slug、meta、overview、FAQ、aliases、fallback 描述必须保持纯英文
+  - `data/kuailepu-runtime/<slug>.json` 内的上游中文元数据当前保留，不主动清洗 runtime payload，避免 compare / parity 风险
+  - 如果以后要连 `/api/kuailepu-runtime/*` 返回 payload 里的中文字段也一起清掉，先问用户
+- 这轮没有新增 hub，40 页上限保持不变；只做了现有入口层回链增强：
+  - `first-performance-letter-note-songs` 加入 `song-of-time` 与 `hes-a-pirate`
+  - `march-and-parade-letter-note-songs` 加入 `hes-a-pirate`
+  - `calm-and-lyrical-letter-note-songs` 与 `easy-songs-for-adult-beginners` 加入 `song-of-time`、`carrying-you`
+  - `dance-and-waltz-letter-note-songs` 加入 `hes-a-pirate`
+- 首页曲库列表的 alias 搜索体验也已上线（`ca670df`）：
+  - 用户如果通过别名命中歌曲，卡片标题下方会显示命中的 alias 小字
+  - 默认列表与直接按正式歌名搜索时，不显示 alias
+- 截至当前工作区：
+  - `origin/main` 已包含上面两次 push
+  - 本地未提交改动通常只剩 `tsconfig.tsbuildinfo`
+  - 新对话接手前仍建议先执行：
+    - `git status --short --branch`
+    - `git log --oneline origin/main..HEAD`
+
+### 1.1.5 2026-04-11 灰度曲第二批与内链同步规则补充
+
+- 第二批灰度曲当前已在本地导入并通过 preflight compare：
+  - `merry-go-round-of-life`
+  - `my-heart-will-go-on`
+  - `river-flows-in-you`
+- 当前灰度曲执行规范已单独沉淀到：
+  - `docs/grey-song-rollout-playbook.md`
+- 从这一轮开始，灰度曲流程新增一条硬规则：
+  - 每次新增灰度曲，不只补 import / manifest / SEO profile
+  - 还必须在同一轮把新歌接入现有 `learn / hub` 内链体系
+  - 优先更新 `src/lib/learn/content.ts` 里的：
+    - `featuredSongSlugs`
+    - section `songSlugs`
+    - song-to-guide 推荐集合
+- 当前默认策略仍然是：
+  - 只更新现有 hub 的回链与导流
+  - 不因为新增灰度曲就继续扩 learn / hub 页数量

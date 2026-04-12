@@ -440,24 +440,24 @@ export default function KuailepuLegacyRuntimePage({
   return (
     <main className="page-warm-shell">
       <div className="page-warm-container">
-        <section className="page-warm-hero mb-3 px-5 py-4 md:px-7 md:py-[1.125rem]">
+        <section className="page-warm-hero mb-2 px-4 py-3 md:mb-3 md:px-7 md:py-[1.125rem]">
           <Link
             href="/"
-            className="mb-3 inline-flex items-center gap-2 rounded-full border border-stone-900 bg-stone-900 px-4 py-2.5 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:-translate-y-0.5 hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
+            className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:mb-3 md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
           >
-            <span aria-hidden="true" className="text-base leading-none">←</span>
+            <span aria-hidden="true" className="text-[0.95rem] leading-none md:text-base">←</span>
             <span>Back to Song Library</span>
           </Link>
-          <div className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-stone-500">
+          <div className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-stone-500 md:text-[0.7rem] md:tracking-[0.18em]">
             {seo.familyLabel} · {seo.difficultyLabel}
           </div>
-          <h1 className="mt-2 text-[1.95rem] font-black leading-tight tracking-tight text-stone-900 md:text-[3.05rem]">
+          <h1 className="mt-1.5 text-[1.7rem] font-black leading-tight tracking-tight text-stone-900 md:mt-2 md:text-[3.05rem]">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-2 text-sm leading-6 text-stone-600">{subtitle}</p>
+            <p className="mt-2 hidden text-sm leading-6 text-stone-600 md:block">{subtitle}</p>
           ) : null}
-          <div className="mt-3 border-t border-[rgba(154,126,91,0.18)] pt-3">
+          <div className="mt-2 border-t border-[rgba(154,126,91,0.18)] pt-2 md:mt-3 md:pt-3">
             <SongPageFunctionZone
               selects={selects}
               toggles={toggles}
@@ -466,7 +466,7 @@ export default function KuailepuLegacyRuntimePage({
           </div>
         </section>
 
-        <div>
+        <div className="mt-1 md:mt-0">
           <KuailepuRuntimeFrame
             songId={songId}
             title={title}

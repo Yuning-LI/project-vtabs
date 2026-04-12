@@ -712,5 +712,26 @@
     "family": "song",
     "featuredRank": 102,
     "published": true
+  },
+  {
+    "id": "merry-christmas-mr-lawrence",
+    "slug": "merry-christmas-mr-lawrence",
+    "family": "song",
+    "featuredRank": 103,
+    "published": true
+  },
+  {
+    "id": "summer",
+    "slug": "summer",
+    "family": "song",
+    "featuredRank": 104,
+    "published": true
+  },
+  {
+    "id": "always-with-me",
+    "slug": "always-with-me",
+    "family": "song",
+    "featuredRank": 105,
+    "published": true
   }
 ]

@@ -174,6 +174,7 @@ const WORLD_FOLK_SONG_SLUGS = new Set([
 ])
 
 const CALM_LYRICAL_SONG_SLUGS = new Set([
+  'always-with-me',
   'amazing-grace',
   'air-on-the-g-string',
   'carrying-you',
@@ -181,6 +182,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'greensleeves',
   'londonderry-air',
   'lullaby',
+  'merry-christmas-mr-lawrence',
   'my-heart-will-go-on',
   'moonlight-sonata',
   'on-wings-of-song',
@@ -190,6 +192,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'scarborough-fair',
   'schubert-serenade',
   'song-of-time',
+  'summer',
   'traumerei'
 ])
 
@@ -2808,7 +2811,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'song-of-time',
       'carrying-you',
       'my-heart-will-go-on',
-      'river-flows-in-you'
+      'river-flows-in-you',
+      'summer',
+      'always-with-me'
     ],
     sections: [
       {
@@ -2830,7 +2835,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'auld-lang-syne',
           'canon',
           'song-of-time',
-          'my-heart-will-go-on'
+          'my-heart-will-go-on',
+          'summer'
         ]
       },
       {
@@ -2843,7 +2849,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me']
       }
     ],
     faq: [
@@ -2952,7 +2958,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'song-of-time',
       'carrying-you',
       'my-heart-will-go-on',
-      'river-flows-in-you'
+      'river-flows-in-you',
+      'merry-christmas-mr-lawrence',
+      'summer',
+      'always-with-me'
     ],
     sections: [
       {
@@ -2961,7 +2970,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -2974,14 +2983,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you', 'summer']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me']
       }
     ],
     faq: [
@@ -3261,8 +3270,8 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'first-performance-letter-note-songs': {
     heroSummary: [
-      'A first performance needs repertoire that feels reliable under pressure. Beginners preparing for a recital, school assembly, family celebration, or short public appearance usually need songs that are recognizable, steady in pulse, and forgiving enough to survive nerves. This hub is built around that reality. It collects melody pages that can serve as first-performance material, from ceremonial tunes and holiday pieces to famous themes that sound complete without requiring advanced technique or a full arrangement.',
-      'That makes the page more than a recital keyword target. It gives learners and teachers a practical shortlist of songs that are easier to announce, easier for listeners to recognize, and easier to practice repeatedly on the same public page. A good first performance song often has a strong hook, manageable length, and enough dignity to fit a formal moment. Use this hub when you want easy tabs, visual charts, and public melody pages that help beginners move from private practice toward their first confident appearance in front of other people.'
+      'A first performance needs repertoire that feels reliable under pressure. Beginners preparing for a recital, school assembly, family celebration, or short public appearance usually need songs that are recognizable, steady in pulse, and forgiving enough to survive nerves. This hub is built around that reality. It collects melody pages that can serve as first-performance material, from ceremonial tunes and holiday pieces to famous film, game, and public-event themes that sound complete without requiring advanced technique or a full arrangement.',
+      'That makes the page more than a recital keyword target. It gives learners and teachers a practical shortlist of songs that are easier to announce, easier for listeners to recognize, and easier to practice repeatedly on the same public page. A good first performance song often has a strong hook, manageable length, and enough dignity to fit a formal moment, whether the player chooses a wedding classic, a march-like favorite, or a famous soundtrack melody. Use this hub when you want easy tabs, visual charts, and public melody pages that help beginners move from private practice toward their first confident appearance in front of other people.'
     ]
   },
   'christmas-letter-note-songs': {
@@ -3329,6 +3338,10 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Hymns and spirituals with letter notes, visual charts, and beginner melody pages for church, school, and reflective practice.'
   },
   'easy-songs-for-adult-beginners': {
+    heroSummary: [
+      'Adult beginners often want the same low-friction reading support as younger learners, but they do not necessarily want to begin with only children’s songs or classroom framing. This guide answers that broader search intent directly by leaning toward melodies that feel emotionally familiar, culturally recognizable, or quietly impressive even when played simply. Alongside folk standards and calm classics, that now includes selected film and game themes that still work well in a melody-first layout.',
+      'That broader repertoire mix matters because many returning adult players are motivated by recognition more than by pedagogy. They want one or two songs they already care about, a page that does not overwhelm them, and a practice loop they can revisit without feeling boxed into beginner-only material. Use this page when you want easy tabs, visual charts, and low-pressure songs that still feel rewarding for adults, hobby players, and returning wind-instrument learners.'
+    ],
     metaDescription:
       'Easy songs for adult beginners with letter notes, visual charts, and low-pressure melodies for steady practice on melody instruments.'
   },
@@ -3342,8 +3355,8 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'calm-and-lyrical-letter-note-songs': {
     heroSummary: [
-      'Not every beginner wants bright nursery songs or high-energy practice pieces. Many are searching for calm, lyrical melodies they can use to work on tone, breath control, and expressive phrasing without racing through difficult rhythms. This hub is designed for that mood and that technique goal. It gathers slow songs, reflective airs, and singable classical and folk melodies that stay useful in letter notes, with visual charts that let players focus on sound and line instead of decoding a crowded score.',
-      'This repertoire also has real musical depth. Slow lyrical songs teach more than relaxation. They expose uneven breath, rough transitions, and weak phrase endings very clearly, which makes them excellent for players trying to sound musical rather than merely accurate. Many of the melodies here are beloved public-domain tunes that listeners immediately recognize, so the practice feels emotionally rewarding as well. Use this page when you want expressive beginner repertoire, quiet melody pages, and easy tabs that support legato playing on ocarina, recorder, or whistle.'
+      'Not every beginner wants bright nursery songs or high-energy practice pieces. Many are searching for calm, lyrical melodies they can use to work on tone, breath control, and expressive phrasing without racing through difficult rhythms. This hub is designed for that mood and that technique goal. It gathers slow songs, reflective airs, and singable classical, folk, film, and soundtrack melodies that stay useful in letter notes, with visual charts that let players focus on sound and line instead of decoding a crowded score.',
+      'This repertoire also has real musical depth. Slow lyrical songs teach more than relaxation. They expose uneven breath, rough transitions, and weak phrase endings very clearly, which makes them excellent for players trying to sound musical rather than merely accurate. Many of the melodies here are beloved public-domain tunes or highly recognizable modern themes, so the practice feels emotionally rewarding as well. Use this page when you want expressive beginner repertoire, quiet melody pages, and easy tabs that support legato playing on ocarina, recorder, or whistle.'
     ],
     metaDescription:
       'Calm and lyrical songs with letter notes, visual charts, and expressive melody pages for breath control and reflective practice.'
@@ -3356,8 +3369,8 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'dance-and-waltz-letter-note-songs': {
     heroSummary: [
-      'Dance and waltz melodies bring motion back into beginner practice. Players who search for this repertoire usually want songs with a clear pulse, memorable hooks, and enough rhythmic life to feel fun without becoming technically overwhelming. This hub gathers polkas, waltz-like tunes, and lively dance melodies that translate well into letter notes and visual charts, making them a strong next step for learners who are ready to move beyond nursery songs and slow airs into something more animated.',
-      'That energy is useful musically as well as commercially. Dance tunes teach articulation, beat stability, and phrase repetition in ways calmer repertoire cannot. They also pull from public-domain traditions that remain widely recognized, from Can-Can and Habanera to polka and folk-dance melodies that still work beautifully on melody instruments. Use this page when you want rhythmic beginner repertoire, easy tabs with more movement, and public melody pages that help players develop pulse, articulation, and confidence while keeping the music lively.'
+      'Dance and waltz melodies bring motion back into beginner practice. Players who search for this repertoire usually want songs with a clear pulse, memorable hooks, and enough rhythmic life to feel fun without becoming technically overwhelming. This hub gathers polkas, waltz-like tunes, lively dance melodies, and a few soundtrack themes with strong triple-meter or dance-like motion, making them a strong next step for learners who are ready to move beyond nursery songs and slow airs into something more animated.',
+      'That energy is useful musically as well as commercially. Dance tunes teach articulation, beat stability, and phrase repetition in ways calmer repertoire cannot. They also pull from public-domain traditions and recognizable soundtrack writing, from Can-Can and Habanera to polka melodies and film themes that still work beautifully on melody instruments. Use this page when you want rhythmic beginner repertoire, easy tabs with more movement, and public melody pages that help players develop pulse, articulation, and confidence while keeping the music lively.'
     ]
   }
 }

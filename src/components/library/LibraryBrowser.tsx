@@ -31,6 +31,7 @@ export default function LibraryBrowser({
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
+  const [showMobileFilters, setShowMobileFilters] = useState(false)
 
   const normalizedQuery = normalizeLibrarySearchText(query)
   const compactQuery = compactLibrarySearchText(normalizedQuery)
@@ -96,26 +97,26 @@ export default function LibraryBrowser({
       <section
         className={
           embedded
-            ? 'mt-3 border-t border-[rgba(154,126,91,0.18)] pt-3'
+            ? 'mt-2 border-t border-[rgba(154,126,91,0.18)] pt-2 md:mt-3 md:pt-3'
             : 'page-warm-panel-soft mb-4 p-4 md:p-4'
         }
       >
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-2 xl:flex-1 xl:pr-4">
+        <div className="flex flex-col gap-2 md:gap-3">
+          <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-2 xl:flex-1 xl:pr-4">
               <input
                 type="search"
                 value={query}
                 onChange={event => setQuery(event.target.value)}
                 placeholder="Search titles like fur elise, to alice, twinkle, scarborough, or jingle bells"
-                className="page-warm-input w-full xl:max-w-[40rem]"
+                className="page-warm-input w-full py-3 md:py-[0.9rem] xl:max-w-[40rem]"
                 aria-label="Search song titles"
               />
               {query ? (
                 <button
                   type="button"
                   onClick={() => setQuery('')}
-                  className="page-warm-pill-muted px-4 py-3 text-sm font-semibold"
+                  className="page-warm-pill-muted px-4 py-2.5 text-sm font-semibold"
                 >
                   Clear
                 </button>
@@ -127,8 +128,8 @@ export default function LibraryBrowser({
                 onClick={() => setSortMode('featured')}
                 className={
                   sortMode === 'featured'
-                    ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                    : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold'
+                    ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
+                    : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
                 }
               >
                 Featured
@@ -138,16 +139,24 @@ export default function LibraryBrowser({
                 onClick={() => setSortMode('az')}
                 className={
                   sortMode === 'az'
-                    ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                    : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold'
+                    ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
+                    : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
                 }
               >
                 A–Z
               </button>
+              <button
+                type="button"
+                onClick={() => setShowMobileFilters(current => !current)}
+                className="page-warm-pill-muted px-3 py-2 text-sm font-semibold md:hidden"
+                aria-expanded={showMobileFilters}
+              >
+                {showMobileFilters ? 'Hide Filters' : 'Filter Songs'}
+              </button>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className={`${showMobileFilters ? 'flex' : 'hidden'} flex-wrap gap-2 md:flex`}>
             {['All', ...familyFilters].map(label => {
               const isActive = label === activeFamily
 
@@ -158,8 +167,8 @@ export default function LibraryBrowser({
                   onClick={() => setActiveFamily(label)}
                   className={
                     isActive
-                      ? 'page-warm-pill-active px-4 py-2 text-sm font-semibold'
-                      : 'page-warm-pill-muted px-4 py-2 text-sm font-semibold'
+                      ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
+                      : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
                   }
                 >
                   {label}

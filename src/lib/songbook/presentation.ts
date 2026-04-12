@@ -46,8 +46,10 @@ const TITLE_OVERRIDES: Record<string, string> = {
   'going-home': 'Going Home',
   'harvest-song': 'Harvest Song',
   'lightly-row': 'Lightly Row',
+  'merry-christmas-mr-lawrence': 'Merry Christmas Mr. Lawrence',
   'little-bee': 'Little Bee',
   'song-of-parting': 'Song of Parting',
+  'summer': 'Summer',
   'the-trout': 'The Trout',
   'twinkle-variations': 'Twinkle, Twinkle, Little Star Variations',
   'wedding-march-alt': 'Wedding March (Alternate Setting)'
