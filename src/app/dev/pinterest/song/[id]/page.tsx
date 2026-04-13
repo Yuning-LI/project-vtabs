@@ -5,7 +5,6 @@ import {
   hasPublicKuailepuLyricToggle,
   loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
-import { translateKuailepuPersonName } from '@/lib/songbook/kuailepuEnglish'
 import { getPublicRuntimeGraphOptions } from '@/lib/songbook/publicRuntimeControls'
 import { getPinterestPinPreset } from '@/lib/songbook/pinterestPins'
 
@@ -43,7 +42,8 @@ export default function PinterestSongPreviewPage({
 
   const graphOptions = getPublicRuntimeGraphOptions(runtimePayload, preset.instrumentId)
   const graphValue = graphOptions[0]?.value ?? '1d'
-  const showLyric = hasPublicKuailepuLyricToggle(runtimePayload) ? 'on' : 'off'
+  const hasPublicLyrics = hasPublicKuailepuLyricToggle(runtimePayload)
+  const showLyric = hasPublicLyrics ? 'on' : 'off'
   const paramsForFrame = new URLSearchParams({
     runtime_text_mode: 'english',
     instrument: preset.instrumentId,
@@ -57,86 +57,56 @@ export default function PinterestSongPreviewPage({
 
   const frameSrc = `/api/kuailepu-runtime/${preset.slug}?${paramsForFrame.toString()}`
   const loadingId = `pinterest-preview-${preset.slug}-loading`
-  const composer = resolvePinterestComposer(runtimePayload)
-  const runtimeTextHideRules =
-    preset.slug === 'amazing-grace'
+  const runtimeTextHideRules = [
+    ...(preset.slug === 'amazing-grace'
       ? [
           {
             match: 'clarke tin whistlefull pressed:',
             hideNextNumericSibling: true
           }
         ]
-      : undefined
+      : []),
+    {
+      match: preset.title,
+      mode: 'exact' as const
+    }
+  ]
 
   return (
-    <main className="min-h-screen bg-[#ead8bb] p-0">
-      <div className="relative mx-auto h-[1500px] w-[1000px] overflow-hidden bg-[linear-gradient(180deg,#fff7ec_0%,#f3e2c4_100%)] text-stone-900">
-        <div className="pointer-events-none absolute inset-0 opacity-60">
-          <div className="absolute left-[-120px] top-[-160px] h-[360px] w-[360px] rounded-full bg-[rgba(255,255,255,0.42)] blur-3xl" />
-          <div className="absolute right-[-140px] top-[280px] h-[320px] w-[320px] rounded-full bg-[rgba(226,198,154,0.34)] blur-3xl" />
-          <div className="absolute bottom-[-160px] left-[120px] h-[300px] w-[420px] rounded-full bg-[rgba(255,255,255,0.24)] blur-3xl" />
-        </div>
+    <main className="min-h-screen bg-[#ece6d9] p-0">
+      <div className="relative mx-auto h-[1500px] w-[1000px] overflow-hidden bg-[#ece6d9] text-stone-950">
+        <section className="h-full w-full p-0">
+          <div className="relative h-full w-full overflow-hidden bg-white shadow-[0_18px_48px_rgba(16,16,16,0.12)]">
+            <div className="relative h-[1500px] overflow-hidden">
+              <KuailepuRuntimeFrame
+                songId={preset.slug}
+                title={preset.title}
+                frameSrc={frameSrc}
+                loadingId={loadingId}
+                panelClassName="relative z-0 h-full min-h-0 overflow-hidden bg-white shadow-none"
+                iframeClassName="relative z-0 block w-full border-0"
+                overlayClassName="bg-white/96"
+                initialHeight={1760}
+                fitHeight={preset.fitHeight ?? 1500}
+                fitTopPadding={preset.frameTopPadding}
+                runtimeTextHideRules={runtimeTextHideRules}
+              />
 
-        <header className="relative flex items-start justify-between gap-6 px-8 pb-4 pt-6">
-          <h1 className="max-w-[680px] text-[56px] font-black leading-[0.98] tracking-[-0.05em] text-stone-900">
-            {preset.title}
-          </h1>
-          {composer ? (
-            <div className="mt-2 min-w-0 max-w-[250px] rounded-[22px] border border-white/85 bg-white/75 px-4 py-3 text-right shadow-[0_14px_28px_rgba(84,58,32,0.06)]">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-                Composer
-              </div>
-              <div className="mt-1 text-[18px] font-semibold leading-tight tracking-[0.01em] text-stone-900">
-                {composer}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.36)_14%,rgba(250,246,239,0.92)_44%,rgba(247,241,232,1)_100%)]" />
+
+              <div className="pointer-events-none absolute bottom-6 left-6 right-6">
+                <div className="rounded-[22px] border border-stone-300/60 bg-[rgba(255,251,246,0.92)] px-5 py-4 shadow-[0_16px_36px_rgba(16,16,16,0.12)]">
+                  <div className="max-w-[760px]">
+                    <p className="mt-1 text-[23px] font-semibold leading-[1.08] text-stone-950">
+                      Full fingering chart and full melody at www.playbyfingering.com
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          ) : null}
-        </header>
-
-        <section className="relative px-4 pb-4">
-          <div className="relative h-[1320px] overflow-hidden rounded-[34px] border border-white/80 bg-white/96 shadow-[0_24px_54px_rgba(84,58,32,0.1)]">
-            <KuailepuRuntimeFrame
-              songId={preset.slug}
-              title={preset.title}
-              frameSrc={frameSrc}
-              loadingId={loadingId}
-              panelClassName="relative h-full min-h-0 overflow-hidden rounded-[34px] bg-white shadow-none"
-              iframeClassName="block w-full border-0"
-              overlayClassName="bg-white/96"
-              initialHeight={1500}
-              fitHeight={1320}
-              fitTopPadding={preset.frameTopPadding}
-              runtimeTextHideRules={runtimeTextHideRules}
-            />
           </div>
         </section>
-
-        <div className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2">
-          <div className="rounded-full border border-white/85 bg-white/88 px-5 py-2 shadow-[0_14px_28px_rgba(84,58,32,0.08)]">
-            <p className="text-[20px] font-medium tracking-[0.01em] text-stone-700">
-              More songs at{' '}
-              <span className="font-bold tracking-[0.005em] text-stone-900">
-                playbyfingering.com
-              </span>
-            </p>
-          </div>
-        </div>
       </div>
     </main>
   )
-}
-
-function resolvePinterestComposer(payload: {
-  music_composer?: string
-  composer?: string
-  author?: string
-  player?: string
-}) {
-  const composer = payload.music_composer ?? payload.composer ?? payload.author ?? payload.player
-  const translated = translateKuailepuPersonName(composer)
-  if (!translated) {
-    return null
-  }
-
-  return translated.replace(/\s+/g, ' ').trim()
 }

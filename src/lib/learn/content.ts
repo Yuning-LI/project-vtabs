@@ -185,7 +185,10 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'merry-christmas-mr-lawrence',
   'my-heart-will-go-on',
   'moonlight-sonata',
+  'one-summers-day',
   'on-wings-of-song',
+  'path-of-the-wind',
+  'princess-mononoke',
   'river-flows-in-you',
   'sakura-sakura',
   'santa-lucia',
@@ -2813,7 +2816,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'my-heart-will-go-on',
       'river-flows-in-you',
       'summer',
-      'always-with-me'
+      'always-with-me',
+      'one-summers-day',
+      'path-of-the-wind'
     ],
     sections: [
       {
@@ -2849,7 +2854,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke']
       }
     ],
     faq: [
@@ -2961,7 +2966,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'river-flows-in-you',
       'merry-christmas-mr-lawrence',
       'summer',
-      'always-with-me'
+      'always-with-me',
+      'one-summers-day',
+      'path-of-the-wind',
+      'princess-mononoke'
     ],
     sections: [
       {
@@ -2970,7 +2978,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence', 'path-of-the-wind']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -2983,14 +2991,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you', 'summer']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke']
       }
     ],
     faq: [

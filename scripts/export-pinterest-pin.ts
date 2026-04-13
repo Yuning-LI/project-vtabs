@@ -1,12 +1,21 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
-import { getPinterestPinPreset, pinterestFirstWavePresets } from '../src/lib/songbook/pinterestPins.ts'
+import {
+  getPinterestPinBoardName,
+  getPinterestPinDescription,
+  getPinterestPinDestinationUrl,
+  getPinterestPinPreset,
+  getPinterestPinTitle,
+  getPinterestPinTrackingUrl,
+  pinterestFirstWavePresets
+} from '../src/lib/songbook/pinterestPins.ts'
 
 type ExportArgs = {
   slugs: string[]
   outputDir: string
   baseUrl: string
+  manifestPath: string | null
 }
 
 async function main() {
@@ -25,7 +34,9 @@ async function main() {
   const browser = await chromium.launch({ headless: true })
 
   try {
-    fs.mkdirSync(path.resolve(process.cwd(), args.outputDir), { recursive: true })
+    const resolvedOutputDir = path.resolve(process.cwd(), args.outputDir)
+    fs.mkdirSync(resolvedOutputDir, { recursive: true })
+    const manifestEntries: Array<Record<string, string>> = []
 
     for (const preset of targets) {
       const page = await browser.newPage({
@@ -40,10 +51,20 @@ async function main() {
         await runtime.locator('svg.sheet-svg').waitFor({ timeout: 30000 })
         await page.locator('[data-runtime-loading="true"]').waitFor({ state: 'detached', timeout: 30000 }).catch(() => {})
 
-        const outputPath = path.resolve(process.cwd(), args.outputDir, `${preset.slug}.png`)
+        const outputPath = path.resolve(resolvedOutputDir, `${preset.slug}.png`)
         await page.screenshot({
           path: outputPath,
           clip: { x: 0, y: 0, width: 1000, height: 1500 }
+        })
+
+        manifestEntries.push({
+          slug: preset.slug,
+          imagePath: outputPath,
+          destinationUrl: getPinterestPinDestinationUrl(preset),
+          trackingUrl: getPinterestPinTrackingUrl(preset),
+          boardName: getPinterestPinBoardName(preset),
+          pinTitle: getPinterestPinTitle(preset),
+          pinDescription: getPinterestPinDescription(preset)
         })
 
         console.log(`Exported Pinterest pin to ${outputPath}`)
@@ -51,6 +72,14 @@ async function main() {
         await page.close()
       }
     }
+
+    const manifestPath = path.resolve(
+      process.cwd(),
+      args.manifestPath ?? path.join(args.outputDir, 'manifest.json')
+    )
+    fs.mkdirSync(path.dirname(manifestPath), { recursive: true })
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifestEntries, null, 2)}\n`, 'utf8')
+    console.log(`Wrote Pinterest manifest to ${manifestPath}`)
   } finally {
     await browser.close()
   }
@@ -89,7 +118,8 @@ function parseArgs(argv: string[]): ExportArgs {
   return {
     slugs,
     outputDir: values.get('output-dir') ?? 'exports/pinterest-first-wave',
-    baseUrl: values.get('base-url') ?? 'http://127.0.0.1:3000'
+    baseUrl: values.get('base-url') ?? 'http://127.0.0.1:3000',
+    manifestPath: values.get('manifest-path') ?? null
   }
 }
 

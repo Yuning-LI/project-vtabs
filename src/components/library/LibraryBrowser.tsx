@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 type LibrarySong = {
   id: string
@@ -28,10 +28,27 @@ export default function LibraryBrowser({
   familyFilters,
   embedded = false
 }: LibraryBrowserProps) {
+  const azJumpNavRef = useRef<HTMLElement | null>(null)
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
   const [showMobileFilters, setShowMobileFilters] = useState(false)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+
+  useEffect(() => {
+    if (sortMode !== 'az') {
+      setShowBackToTop(false)
+      return
+    }
+
+    function onScroll() {
+      setShowBackToTop(window.scrollY > 720)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [sortMode])
 
   const normalizedQuery = normalizeLibrarySearchText(query)
   const compactQuery = compactLibrarySearchText(normalizedQuery)
@@ -91,6 +108,13 @@ export default function LibraryBrowser({
   }, [filteredSongs, sortMode])
 
   const activeFilters = familyFilters.map(label => (label === activeFamily ? label : null)).filter(Boolean)
+
+  function scrollBackToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.setTimeout(() => {
+      azJumpNavRef.current?.focus()
+    }, 360)
+  }
 
   return (
     <>
@@ -205,7 +229,9 @@ export default function LibraryBrowser({
         <div className="space-y-8">
           {groupedSongs.length > 1 ? (
             <nav
+              ref={azJumpNavRef}
               aria-label="Jump to song title letter"
+              tabIndex={-1}
               className="page-warm-panel-soft p-4 md:p-5"
             >
               <div className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
@@ -248,6 +274,18 @@ export default function LibraryBrowser({
           ))}
         </div>
       )}
+
+      {sortMode === 'az' && showBackToTop ? (
+        <button
+          type="button"
+          onClick={scrollBackToTop}
+          className="fixed bottom-5 right-4 z-20 inline-flex items-center gap-2 rounded-full border border-stone-900 bg-stone-900 px-4 py-3 text-sm font-semibold text-stone-50 shadow-[0_18px_36px_rgba(61,47,34,0.24)] transition hover:-translate-y-0.5 hover:bg-stone-800 md:bottom-8 md:right-8"
+          aria-label="Back to top"
+        >
+          <span aria-hidden="true" className="text-base leading-none">↑</span>
+          <span>Back to top</span>
+        </button>
+      ) : null}
     </>
   )
 }

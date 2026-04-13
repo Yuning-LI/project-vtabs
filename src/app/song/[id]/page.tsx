@@ -51,16 +51,30 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     ]
       .filter(Boolean)
       .join(' ')
+  const canonicalUrl = `${siteUrl}/song/${song?.slug || id}`
+  const shareTitle =
+    presentation?.metaTitle && presentation.metaTitle.trim().length > 0
+      ? `${presentation.metaTitle} | Play by Fingering`
+      : primaryAlias
+        ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
+        : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`
   return {
-    title:
-      presentation?.metaTitle && presentation.metaTitle.trim().length > 0
-        ? `${presentation.metaTitle} | Play by Fingering`
-        : primaryAlias
-          ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
-          : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`,
+    title: shareTitle,
     description,
     alternates: {
-      canonical: `${siteUrl}/song/${song?.slug || id}`
+      canonical: canonicalUrl
+    },
+    openGraph: {
+      type: 'article',
+      url: canonicalUrl,
+      title: shareTitle,
+      description,
+      siteName: 'Play By Fingering'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: shareTitle,
+      description
     },
     robots: {
       index: true,

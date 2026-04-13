@@ -733,5 +733,26 @@
     "family": "song",
     "featuredRank": 105,
     "published": true
+  },
+  {
+    "id": "one-summers-day",
+    "slug": "one-summers-day",
+    "family": "song",
+    "featuredRank": 106,
+    "published": true
+  },
+  {
+    "id": "princess-mononoke",
+    "slug": "princess-mononoke",
+    "family": "song",
+    "featuredRank": 107,
+    "published": true
+  },
+  {
+    "id": "path-of-the-wind",
+    "slug": "path-of-the-wind",
+    "family": "song",
+    "featuredRank": 108,
+    "published": true
   }
 ]

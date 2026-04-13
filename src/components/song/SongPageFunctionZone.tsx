@@ -73,142 +73,142 @@ export default function SongPageFunctionZone({
       data-function-zone-ready={isReady ? '1' : '0'}
     >
       <div className="page-function-zone-mobile">
-        <div className="page-function-zone-grid page-function-zone-grid-mobile">
-          {primarySelects.map(control => (
-            <label key={control.id} className="page-function-zone-field">
-              <span className="page-function-zone-label">{control.label}</span>
-              <select
-                aria-label={control.label}
-                className="page-function-zone-select"
-                value={control.value}
-                onChange={event => {
-                  const selected = control.options.find(option => option.value === event.target.value)
-                  if (selected) {
-                    navigate(selected.href)
-                  }
-                }}
-              >
-                {control.options.map(option => (
-                  <option key={`${control.id}-${option.value}`} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ))}
-        </div>
-
-        {primaryToggles.length > 0 ? (
-          <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile">
-            {primaryToggles.map(control => (
-              control.variant === 'switch' && control.options.length === 2 ? (
-                <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
-              ) : (
-                <div key={control.id} className="page-function-zone-toggle-group">
-                  <span className="page-function-zone-label">{control.label}</span>
-                  <div className="page-function-zone-toggle-list">
-                    {control.options.map(option => (
-                      <button
-                        key={`${control.id}-${option.label}`}
-                        type="button"
-                        aria-label={`${control.label}: ${option.label}`}
-                        aria-pressed={option.isActive}
-                        className={
-                          option.isActive
-                            ? 'page-function-zone-toggle page-function-zone-toggle-active'
-                            : 'page-function-zone-toggle'
-                        }
-                        onClick={() => navigate(option.href)}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )
+          <div className="page-function-zone-grid page-function-zone-grid-mobile">
+            {primarySelects.map(control => (
+              <label key={control.id} className="page-function-zone-field">
+                <span className="page-function-zone-label">{control.label}</span>
+                <select
+                  aria-label={`${control.label} Mobile`}
+                  className="page-function-zone-select"
+                  value={control.value}
+                  onChange={event => {
+                    const selected = control.options.find(option => option.value === event.target.value)
+                    if (selected) {
+                      navigate(selected.href)
+                    }
+                  }}
+                >
+                  {control.options.map(option => (
+                    <option key={`${control.id}-${option.value}`} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
             ))}
           </div>
-        ) : null}
 
-        {secondarySelects.length > 0 || secondaryToggles.length > 0 ? (
-          <div className="page-function-zone-disclosure">
-            <button
-              type="button"
-              className="page-function-zone-disclosure-summary"
-              aria-expanded={isMobileExpanded}
-              onClick={() => setIsMobileExpanded(current => !current)}
-            >
-              <span>More controls</span>
-              <span className="page-function-zone-disclosure-summary-state">
-                {isMobileExpanded ? 'Close' : 'Open'}
-              </span>
-            </button>
-            {isMobileExpanded ? (
-              <div className="page-function-zone-disclosure-content">
-              {secondarySelects.length > 0 ? (
-                <div className="page-function-zone-grid page-function-zone-grid-mobile-secondary">
-                  {secondarySelects.map(control => (
-                    <label key={control.id} className="page-function-zone-field">
-                      <span className="page-function-zone-label">{control.label}</span>
-                      <select
-                        aria-label={control.label}
-                        className="page-function-zone-select"
-                        value={control.value}
-                        onChange={event => {
-                          const selected = control.options.find(
-                            option => option.value === event.target.value
-                          )
-                          if (selected) {
-                            navigate(selected.href)
+          {primaryToggles.length > 0 ? (
+            <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile">
+              {primaryToggles.map(control => (
+                control.variant === 'switch' && control.options.length === 2 ? (
+                  <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
+                ) : (
+                  <div key={control.id} className="page-function-zone-toggle-group">
+                    <span className="page-function-zone-label">{control.label}</span>
+                    <div className="page-function-zone-toggle-list">
+                      {control.options.map(option => (
+                        <button
+                          key={`${control.id}-${option.label}`}
+                          type="button"
+                          aria-label={`${control.label}: ${option.label} Mobile`}
+                          aria-pressed={option.isActive}
+                          className={
+                            option.isActive
+                              ? 'page-function-zone-toggle page-function-zone-toggle-active'
+                              : 'page-function-zone-toggle'
                           }
-                        }}
-                      >
-                        {control.options.map(option => (
-                          <option key={`${control.id}-${option.value}`} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  ))}
-                </div>
-              ) : null}
+                          onClick={() => navigate(option.href)}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )
+              ))}
+            </div>
+          ) : null}
 
-              {secondaryToggles.length > 0 ? (
-                <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile-secondary">
-                  {secondaryToggles.map(control => (
-                    control.variant === 'switch' && control.options.length === 2 ? (
-                      <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
-                    ) : (
-                      <div key={control.id} className="page-function-zone-toggle-group">
-                        <span className="page-function-zone-label">{control.label}</span>
-                        <div className="page-function-zone-toggle-list">
-                          {control.options.map(option => (
-                            <button
-                              key={`${control.id}-${option.label}`}
-                              type="button"
-                              aria-label={`${control.label}: ${option.label}`}
-                              aria-pressed={option.isActive}
-                              className={
-                                option.isActive
-                                  ? 'page-function-zone-toggle page-function-zone-toggle-active'
-                                  : 'page-function-zone-toggle'
+          {secondarySelects.length > 0 || secondaryToggles.length > 0 ? (
+            <div className="page-function-zone-disclosure">
+              <button
+                type="button"
+                className="page-function-zone-disclosure-summary"
+                aria-expanded={isMobileExpanded}
+                onClick={() => setIsMobileExpanded(current => !current)}
+              >
+                <span>More controls</span>
+                <span className="page-function-zone-disclosure-summary-state">
+                  {isMobileExpanded ? 'Close' : 'Open'}
+                </span>
+              </button>
+              {isMobileExpanded ? (
+                <div className="page-function-zone-disclosure-content">
+                  {secondarySelects.length > 0 ? (
+                    <div className="page-function-zone-grid page-function-zone-grid-mobile-secondary">
+                      {secondarySelects.map(control => (
+                        <label key={control.id} className="page-function-zone-field">
+                          <span className="page-function-zone-label">{control.label}</span>
+                          <select
+                            aria-label={`${control.label} Mobile`}
+                            className="page-function-zone-select"
+                            value={control.value}
+                            onChange={event => {
+                              const selected = control.options.find(
+                                option => option.value === event.target.value
+                              )
+                              if (selected) {
+                                navigate(selected.href)
                               }
-                              onClick={() => navigate(option.href)}
-                            >
-                              {option.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  ))}
+                            }}
+                          >
+                            {control.options.map(option => (
+                              <option key={`${control.id}-${option.value}`} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {secondaryToggles.length > 0 ? (
+                    <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile-secondary">
+                      {secondaryToggles.map(control => (
+                        control.variant === 'switch' && control.options.length === 2 ? (
+                          <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
+                        ) : (
+                          <div key={control.id} className="page-function-zone-toggle-group">
+                            <span className="page-function-zone-label">{control.label}</span>
+                            <div className="page-function-zone-toggle-list">
+                              {control.options.map(option => (
+                                <button
+                                  key={`${control.id}-${option.label}`}
+                                  type="button"
+                                  aria-label={`${control.label}: ${option.label} Mobile`}
+                                  aria-pressed={option.isActive}
+                                  className={
+                                    option.isActive
+                                      ? 'page-function-zone-toggle page-function-zone-toggle-active'
+                                      : 'page-function-zone-toggle'
+                                  }
+                                  onClick={() => navigate(option.href)}
+                                >
+                                  {option.label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
-              </div>
-            ) : null}
-          </div>
-        ) : null}
+            </div>
+          ) : null}
       </div>
 
       <div className="page-function-zone-desktop">

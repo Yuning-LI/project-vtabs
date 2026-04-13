@@ -17,12 +17,22 @@ type KuailepuRuntimeFrameProps = {
   fitHeight?: number
   fitTopPadding?: number
   runtimeTextHideRules?: RuntimeTextHideRule[]
+  runtimeMaskRects?: RuntimeMaskRect[]
 }
 
 type RuntimeTextHideRule = {
   match: string
   mode?: 'contains' | 'exact'
   hideNextNumericSibling?: boolean
+}
+
+type RuntimeMaskRect = {
+  x: number
+  y: number
+  width: number
+  height: number
+  fill?: string
+  opacity?: number
 }
 
 /**
@@ -48,7 +58,8 @@ export default function KuailepuRuntimeFrame({
   initialHeight = 900,
   fitHeight,
   fitTopPadding = 0,
-  runtimeTextHideRules
+  runtimeTextHideRules,
+  runtimeMaskRects
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const previousFrameSrcRef = useRef(frameSrc)
@@ -214,6 +225,41 @@ export default function KuailepuRuntimeFrame({
       }
     }
 
+    function applyRuntimeMaskRects() {
+      if (!runtimeMaskRects?.length) {
+        return
+      }
+
+      try {
+        const currentFrame = frameRef.current
+        const doc = currentFrame?.contentDocument
+        if (!doc) {
+          return
+        }
+
+        const svg = doc.querySelector('#sheet svg, #sheet .sheet-svg')
+        if (!svg || !('querySelectorAll' in svg)) {
+          return
+        }
+
+        svg.querySelectorAll('[data-vtabs-runtime-mask]').forEach(node => node.remove())
+
+        runtimeMaskRects.forEach(rect => {
+          const mask = doc.createElementNS('http://www.w3.org/2000/svg', 'rect')
+          mask.setAttribute('data-vtabs-runtime-mask', '1')
+          mask.setAttribute('x', String(rect.x))
+          mask.setAttribute('y', String(rect.y))
+          mask.setAttribute('width', String(rect.width))
+          mask.setAttribute('height', String(rect.height))
+          mask.setAttribute('fill', rect.fill ?? '#ffffff')
+          mask.setAttribute('fill-opacity', String(rect.opacity ?? 0.99))
+          svg.appendChild(mask)
+        })
+      } catch {
+        return
+      }
+    }
+
     function applyFrameHeight(height: number | null) {
       const currentFrame = frameRef.current
       if (!Number.isFinite(height) || !height || height <= 200) {
@@ -232,6 +278,7 @@ export default function KuailepuRuntimeFrame({
 
     function syncFrameHeight() {
       applyRuntimeTextHides()
+      applyRuntimeMaskRects()
       if (hasRenderedSheet()) {
         hideLoading()
       }
@@ -328,7 +375,7 @@ export default function KuailepuRuntimeFrame({
       }
       timeoutIds.forEach(timeoutId => window.clearTimeout(timeoutId))
     }
-  }, [frameSrc, initialHeight, runtimeTextHideRules, songId])
+  }, [frameSrc, initialHeight, runtimeMaskRects, runtimeTextHideRules, songId])
 
   useEffect(() => {
     const previousSongId = previousSongIdRef.current
