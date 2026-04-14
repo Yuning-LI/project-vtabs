@@ -150,7 +150,13 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
             path into the library.
           </p>
           <div className="mt-6">
-            <LearnSongCardGrid songs={guide.featuredSongs} />
+            <LearnSongCardGrid
+              songs={guide.featuredSongs}
+              analyticsContext={{
+                source: 'learn_featured_songs',
+                guideSlug: guide.slug
+              }}
+            />
           </div>
         </section>
 
@@ -180,7 +186,14 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
                 ) : null}
                 {section.songs.length ? (
                   <div className="mt-6">
-                    <LearnSongCardGrid songs={section.songs} />
+                    <LearnSongCardGrid
+                      songs={section.songs}
+                      analyticsContext={{
+                        source: 'learn_section_songs',
+                        guideSlug: guide.slug,
+                        sectionTitle: section.title
+                      }}
+                    />
                   </div>
                 ) : null}
               </section>

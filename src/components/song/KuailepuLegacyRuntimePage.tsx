@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
 import LearnSongCardGrid from '@/components/learn/LearnSongCardGrid'
+import { sendGaEvent } from '@/lib/analytics/ga'
 import type { LearnGuideCard, LearnSongCard } from '@/lib/learn/content'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -64,6 +65,9 @@ export default function KuailepuLegacyRuntimePage({
   relatedGuides
 }: KuailepuLegacyRuntimePageProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
+  const trackedSongViewRef = useRef<string | null>(null)
+  const previousSongRef = useRef<string | null>(null)
+  const previousInstrumentRef = useRef<string | null>(null)
 
   useEffect(() => {
     setCurrentQueryState(queryState)
@@ -186,6 +190,43 @@ export default function KuailepuLegacyRuntimePage({
   const frameSrc = query ? `/api/kuailepu-runtime/${songId}?${query}` : `/api/kuailepu-runtime/${songId}`
   const loadingId = `kuailepu-runtime-${songId}-loading`
 
+  useEffect(() => {
+    if (trackedSongViewRef.current === songId) {
+      return
+    }
+
+    trackedSongViewRef.current = songId
+    sendGaEvent('song_page_view', {
+      song_slug: songId,
+      instrument_id: activeInstrument.id,
+      note_label_mode: noteLabelMode,
+      has_lyric_toggle: hasLyricToggle
+    })
+  }, [activeInstrument.id, hasLyricToggle, noteLabelMode, songId])
+
+  useEffect(() => {
+    if (previousSongRef.current !== songId) {
+      previousSongRef.current = songId
+      previousInstrumentRef.current = activeInstrument.id
+      return
+    }
+
+    if (!previousInstrumentRef.current) {
+      previousInstrumentRef.current = activeInstrument.id
+      return
+    }
+
+    if (previousInstrumentRef.current !== activeInstrument.id) {
+      sendGaEvent('instrument_switch', {
+        song_slug: songId,
+        from_instrument_id: previousInstrumentRef.current,
+        to_instrument_id: activeInstrument.id,
+        note_label_mode: noteLabelMode
+      })
+      previousInstrumentRef.current = activeInstrument.id
+    }
+  }, [activeInstrument.id, noteLabelMode, songId])
+
   function navigateWithinSongPage(href: string) {
     if (!href || typeof window === 'undefined') {
       return
@@ -197,7 +238,8 @@ export default function KuailepuLegacyRuntimePage({
       return
     }
 
-    setCurrentQueryState(parseSongPageQueryState(nextUrl))
+    const nextQueryState = parseSongPageQueryState(nextUrl)
+    setCurrentQueryState(nextQueryState)
   }
 
   const instrumentSelect =
