@@ -19,9 +19,29 @@ export type PinterestPinPreset = {
   pinTitle?: string
   pinDescription?: string
   campaignId?: string
+  footerText?: string
+  hideRuntimeTitle?: boolean
+  artworkTheme?: 'sunrise-hills'
 }
 
 export const pinterestFirstWavePresets: readonly PinterestPinPreset[] = [
+  {
+    slug: 'amazing-grace',
+    title: 'Amazing Grace',
+    instrumentId: 'o12',
+    instrumentLabel: '12-Hole Ocarina',
+    tagLabel: 'Hymn Melody',
+    noteLabelMode: 'letter',
+    showMeasureNum: 'off',
+    measureLayout: 'compact',
+    sheetScale: '18',
+    sheetCropTop: 72,
+    fitHeight: 1316,
+    frameTopPadding: 10,
+    footerText: 'More songs and interactive fingering charts at www.playbyfingering.com',
+    hideRuntimeTitle: false,
+    artworkTheme: 'sunrise-hills'
+  },
   {
     slug: 'one-summers-day',
     title: "One Summer's Day",
@@ -114,4 +134,15 @@ export function getPinterestPinDescription(preset: PinterestPinPreset) {
   }
 
   return `Play ${preset.title} with letter notes, fingering charts, and optional numbered notes on Play By Fingering.`
+}
+
+export function getPinterestPinFooterText(preset: PinterestPinPreset) {
+  return (
+    preset.footerText ??
+    'More songs and interactive fingering charts at www.playbyfingering.com'
+  )
+}
+
+export function shouldHidePinterestRuntimeTitle(preset: PinterestPinPreset) {
+  return preset.hideRuntimeTitle ?? true
 }

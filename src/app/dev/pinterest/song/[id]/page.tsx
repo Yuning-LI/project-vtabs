@@ -6,7 +6,11 @@ import {
   loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
 import { getPublicRuntimeGraphOptions } from '@/lib/songbook/publicRuntimeControls'
-import { getPinterestPinPreset } from '@/lib/songbook/pinterestPins'
+import {
+  getPinterestPinFooterText,
+  getPinterestPinPreset,
+  shouldHidePinterestRuntimeTitle
+} from '@/lib/songbook/pinterestPins'
 
 export const dynamic = 'force-dynamic'
 
@@ -57,6 +61,9 @@ export default function PinterestSongPreviewPage({
 
   const frameSrc = `/api/kuailepu-runtime/${preset.slug}?${paramsForFrame.toString()}`
   const loadingId = `pinterest-preview-${preset.slug}-loading`
+  const footerText = getPinterestPinFooterText(preset)
+  const hideRuntimeTitle = shouldHidePinterestRuntimeTitle(preset)
+  const showArtwork = preset.artworkTheme === 'sunrise-hills'
   const runtimeTextHideRules = [
     ...(preset.slug === 'amazing-grace'
       ? [
@@ -66,10 +73,14 @@ export default function PinterestSongPreviewPage({
           }
         ]
       : []),
-    {
-      match: preset.title,
-      mode: 'exact' as const
-    }
+    ...(hideRuntimeTitle
+      ? [
+          {
+            match: preset.title,
+            mode: 'exact' as const
+          }
+        ]
+      : [])
   ]
 
   return (
@@ -89,16 +100,42 @@ export default function PinterestSongPreviewPage({
                 initialHeight={1760}
                 fitHeight={preset.fitHeight ?? 1500}
                 fitTopPadding={preset.frameTopPadding}
+                fitCropTop={preset.sheetCropTop}
                 runtimeTextHideRules={runtimeTextHideRules}
               />
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[210px] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.36)_14%,rgba(250,246,239,0.92)_44%,rgba(247,241,232,1)_100%)]" />
+              {showArtwork ? (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[292px] overflow-hidden">
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(252,248,241,0.62)_18%,rgba(248,228,195,0.94)_48%,rgba(221,183,132,1)_100%)]" />
+                  <div className="absolute right-[90px] top-[72px] h-[122px] w-[122px] rounded-full bg-[radial-gradient(circle,rgba(255,248,212,0.98)_0%,rgba(255,232,171,0.9)_42%,rgba(255,211,130,0.18)_72%,rgba(255,211,130,0)_100%)]" />
+                  <div className="absolute left-[72px] top-[94px] h-[34px] w-[160px] rounded-full bg-white/45 blur-[8px]" />
+                  <div className="absolute right-[224px] top-[116px] h-[26px] w-[126px] rounded-full bg-white/35 blur-[7px]" />
+                  <div className="absolute left-[-96px] bottom-[94px] h-[184px] w-[560px] rounded-[50%] bg-[#cdae84]/88" />
+                  <div className="absolute right-[-34px] bottom-[82px] h-[172px] w-[520px] rounded-[50%] bg-[#b58d61]/92" />
+                  <div className="absolute left-[210px] bottom-[112px] h-[132px] w-[320px] rounded-[50%] bg-[#ddc19b]/88" />
+                  <div className="absolute inset-x-0 bottom-0 h-[122px] bg-[linear-gradient(180deg,rgba(155,108,66,0)_0%,rgba(140,95,58,0.18)_18%,rgba(117,73,42,0.62)_100%)]" />
+                </div>
+              ) : (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[182px] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.24)_14%,rgba(250,246,239,0.9)_46%,rgba(247,241,232,1)_100%)]" />
+              )}
 
-              <div className="pointer-events-none absolute bottom-6 left-6 right-6">
-                <div className="rounded-[22px] border border-stone-300/60 bg-[rgba(255,251,246,0.92)] px-5 py-4 shadow-[0_16px_36px_rgba(16,16,16,0.12)]">
-                  <div className="max-w-[760px]">
-                    <p className="mt-1 text-[23px] font-semibold leading-[1.08] text-stone-950">
-                      Full fingering chart and full melody at www.playbyfingering.com
+              <div className="pointer-events-none absolute bottom-5 left-5 right-5">
+                <div
+                  className={
+                    showArtwork
+                      ? 'rounded-[22px] border border-white/45 bg-[rgba(88,55,31,0.34)] px-5 py-4 shadow-[0_18px_34px_rgba(16,16,16,0.16)] backdrop-blur-[8px]'
+                      : 'rounded-[20px] border border-stone-300/55 bg-[rgba(255,251,246,0.9)] px-4 py-3 shadow-[0_14px_30px_rgba(16,16,16,0.1)]'
+                  }
+                >
+                  <div className="max-w-[860px]">
+                    <p
+                      className={
+                        showArtwork
+                          ? 'text-[28px] font-semibold leading-[1.05] text-white'
+                          : 'text-[25px] font-semibold leading-[1.08] text-stone-950'
+                      }
+                    >
+                      {footerText}
                     </p>
                   </div>
                 </div>

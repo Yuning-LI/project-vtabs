@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import './globals.css'
+import { GoogleAnalyticsPageView } from '@/components/analytics/GoogleAnalyticsPageView'
 import { SiteFooter } from '@/components/layout/SiteFooter'
-import { googleSiteVerification, siteUrl } from '@/lib/site'
+import { gaMeasurementId, googleSiteVerification, siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -30,8 +32,27 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
+      <head>
+        {gaMeasurementId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', '${gaMeasurementId}', { send_page_view: false });
+              `}
+            </Script>
+          </>
+        ) : null}
+      </head>
       <body className="bg-bg text-primary font-serif">
+        {gaMeasurementId ? <GoogleAnalyticsPageView measurementId={gaMeasurementId} /> : null}
         {children}
         <SiteFooter />
       </body>

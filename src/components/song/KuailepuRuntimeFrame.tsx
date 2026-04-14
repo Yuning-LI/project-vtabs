@@ -16,6 +16,7 @@ type KuailepuRuntimeFrameProps = {
   initialHeight?: number
   fitHeight?: number
   fitTopPadding?: number
+  fitCropTop?: number
   runtimeTextHideRules?: RuntimeTextHideRule[]
   runtimeMaskRects?: RuntimeMaskRect[]
 }
@@ -58,6 +59,7 @@ export default function KuailepuRuntimeFrame({
   initialHeight = 900,
   fitHeight,
   fitTopPadding = 0,
+  fitCropTop = 0,
   runtimeTextHideRules,
   runtimeMaskRects
 }: KuailepuRuntimeFrameProps) {
@@ -422,12 +424,14 @@ export default function KuailepuRuntimeFrame({
     }
   }, [frameSrc, initialHeight, songId])
 
+  const effectiveSourceHeight = Math.max(1, frameHeight - fitCropTop)
   const availableFitHeight = fitHeight ? Math.max(0, fitHeight - fitTopPadding) : null
   const fittedScale =
-    availableFitHeight && frameHeight > 0
-      ? Math.min(1, Number((availableFitHeight / frameHeight).toFixed(4)))
+    availableFitHeight && effectiveSourceHeight > 0
+      ? Math.min(1, Number((availableFitHeight / effectiveSourceHeight).toFixed(4)))
       : 1
   const fittedWidth = fittedScale < 1 ? `${100 / fittedScale}%` : '100%'
+  const cropOffset = fitCropTop > 0 ? Number((fitCropTop * fittedScale).toFixed(2)) : 0
 
   return (
     <section
@@ -461,7 +465,10 @@ export default function KuailepuRuntimeFrame({
         scrolling="no"
         className={iframeClassName ?? 'block w-full border-0'}
         style={{
-          marginTop: fitTopPadding > 0 ? `${fitTopPadding}px` : undefined,
+          marginTop:
+            fitTopPadding > 0 || cropOffset > 0
+              ? `${Number((fitTopPadding - cropOffset).toFixed(2))}px`
+              : undefined,
           height: `${frameHeight}px`,
           width: fittedWidth,
           transform: fittedScale < 1 ? `scale(${fittedScale})` : undefined,
