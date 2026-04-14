@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import Script from 'next/script'
 import './globals.css'
 import { GoogleAnalyticsPageView } from '@/components/analytics/GoogleAnalyticsPageView'
@@ -52,7 +53,11 @@ export default function RootLayout({
         ) : null}
       </head>
       <body className="bg-bg text-primary font-serif">
-        {gaMeasurementId ? <GoogleAnalyticsPageView measurementId={gaMeasurementId} /> : null}
+        {gaMeasurementId ? (
+          <Suspense fallback={null}>
+            <GoogleAnalyticsPageView measurementId={gaMeasurementId} />
+          </Suspense>
+        ) : null}
         {children}
         <SiteFooter />
       </body>
