@@ -1398,15 +1398,21 @@
     ]
   },
   "aura-lee": {
-    "metaTitle": "Aura Lee Letter Notes and Fingering Chart",
-    "overview": "This Aura Lee page is for players who want a familiar nineteenth-century melody with a soft vocal shape, whether you know it as a traditional song or as a tune related to later popular adaptations.",
+    "aliases": [
+      "Aura Lea",
+      "Love Me Tender melody",
+      "Love Me Tender tune",
+      "Love Me Tender original tune"
+    ],
+    "metaTitle": "Aura Lee Ocarina Tabs and Recorder Notes",
+    "overview": "This Aura Lee page gives you the familiar nineteenth-century melody in a cleaner letter-note layout, whether you know it as Aura Lee itself or as the older tune later adapted into Love Me Tender. The goal here is to keep the original melody easy to read as a stand-alone song instead of forcing players to piece it together from mixed references.",
     "searchTerms": [
       "Aura Lee ocarina tabs",
-      "Aura Lee recorder notes"
+      "Aura Lee Love Me Tender melody notes"
     ],
-    "background": "Aura Lee is a well-known 19th-century American song melody, and it remains a useful evergreen public-domain page for players who want a lyrical tune that also fits recorder and tin whistle searches.",
-    "practice": "The melody is especially good for steady phrase connection, even breath support, and a singing tone instead of fast technical playing.",
-    "metaDescription": "Play Aura Lee with letter notes and fingering chart support. A lyrical American song page for singing tone and smooth breath support.",
+    "background": "Aura Lee is a well-known nineteenth-century American song melody, and it still works well as a public-domain evergreen page because the tune is gentle, highly singable, and often rediscovered through its later connection with Love Me Tender. That makes it useful both for traditional-song searches and for players trying to find the earlier melody behind a more famous adaptation without leaving the original tune identity behind.",
+    "practice": "The melody is especially useful for steady phrase connection, even breath support, and a singing tone instead of fast technical playing. It suits players who want a softer lyrical tune that can sound complete on ocarina, recorder, or tin whistle without needing a heavy arrangement or dramatic accompaniment.",
+    "metaDescription": "Play Aura Lee with letter notes, ocarina tabs, and fingering chart support. A lyrical American melody known as the older tune behind Love Me Tender.",
     "extraFaqs": [
       {
         "question": "Is Aura Lee a good gentle American song for lyrical practice?",
@@ -1415,6 +1421,14 @@
       {
         "question": "Does Aura Lee suit singing tone more than fast articulation?",
         "answer": "Yes. The main value of Aura Lee is in smooth connection, steady breath, and a vocal tone shape instead of quick repeated attacks."
+      },
+      {
+        "question": "Is Aura Lee related to Love Me Tender?",
+        "answer": "Yes. Aura Lee is the older public-domain melody that later became widely associated with Love Me Tender, so this page helps players who are trying to find the earlier tune behind that adaptation while still keeping Aura Lee as the primary song identity."
+      },
+      {
+        "question": "Should I treat this page as Aura Lee or as Love Me Tender?",
+        "answer": "Treat it as Aura Lee first. The page is meant to preserve the original public-domain melody while still helping players who recognize the tune through its later connection with Love Me Tender."
       }
     ]
   },
@@ -2418,6 +2432,102 @@
       {
         "question": "Why does Path of the Wind work well on ocarina or tin whistle?",
         "answer": "Because the melody is gentle, singable, and clearly shaped without needing a dense arrangement. That makes it very suitable for wind instruments that reward smooth tone and connected phrasing."
+      }
+    ]
+  },
+  "game-of-thrones-theme": {
+    "aliases": [
+      "Game of Thrones Main Theme",
+      "Game of Thrones Theme",
+      "Game of Thrones Main Title Theme",
+      "Game of Thrones Opening Theme",
+      "GOT Theme"
+    ],
+    "metaTitle": "Game of Thrones Theme Ocarina Tabs and Recorder Notes",
+    "overview": "This Game of Thrones theme page turns the famous main-title melody into a cleaner letter-note reading layout, so you can practice the iconic opening hook without jumping between orchestral reductions, piano videos, or cropped image tabs.",
+    "searchTerms": [
+      "Game of Thrones theme ocarina tabs",
+      "Game of Thrones main theme tin whistle notes"
+    ],
+    "background": "The Game of Thrones main title theme has become one of the clearest soundtrack search targets for melody players because the opening hook is instantly recognizable even outside the full TV arrangement. Its darker color, repeated phrase design, and strong 3/4 identity make it a natural fit for players who want a cinematic theme that still reads well as a single melodic line.",
+    "practice": "This page is especially useful for counting a steady triple-meter pulse, shaping repeated phrases without losing tension, and managing breath through longer held notes in the opening theme. It suits players who want a modern soundtrack melody with a heavier dramatic feel than a light folk or beginner tune.",
+    "metaDescription": "Play the Game of Thrones theme with letter notes, ocarina tabs, and fingering chart support. A dramatic 3/4 main-title melody for soundtrack practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the main Game of Thrones opening theme?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for the Game of Thrones theme or main title theme on ocarina, recorder, or tin whistle."
+      },
+      {
+        "question": "Why does the Game of Thrones theme work well as a melody page?",
+        "answer": "Because the opening hook stays recognizable even without the full orchestral texture behind it. That makes it practical for letter-note reading, pulse work, and fingering-chart practice on a single-line instrument."
+      },
+      {
+        "question": "What should I listen for when practicing the Game of Thrones theme?",
+        "answer": "Focus on keeping the 3/4 pulse firm, giving the repeated motif the same weight each time, and leaving enough breath for the held notes that make the theme feel broad and cinematic."
+      }
+    ]
+  },
+  "the-imperial-march": {
+    "aliases": [
+      "Imperial March",
+      "Darth Vader Theme",
+      "Star Wars Imperial March",
+      "Darth Vader's Theme",
+      "The Imperial March Darth Vader's Theme"
+    ],
+    "metaTitle": "The Imperial March Ocarina Tabs and Recorder Notes",
+    "overview": "This Imperial March page turns the famous Star Wars villain theme into a cleaner letter-note layout, so players can lock in the main hook without relying on full orchestral scores, brass parts, or low-resolution fan tabs.",
+    "searchTerms": [
+      "Imperial March ocarina tabs",
+      "Darth Vader theme tin whistle notes"
+    ],
+    "background": "The Imperial March, also known as Darth Vader's Theme, is one of the most recognizable film themes ever written. The opening phrase lands immediately even in a single melodic line, which makes it a strong search target for players who want a dark, high-recognition soundtrack page without needing the full Star Wars orchestration.",
+    "practice": "It is especially useful for firmer 4/4 pulse, clean note attacks, and disciplined handling of rests because the march character depends on clarity and weight more than on fast ornamentation. It is a strong fit for players who want a dramatic performance-style piece that still stays readable in one melodic line.",
+    "metaDescription": "Play The Imperial March with letter notes, ocarina tabs, and fingering chart support. A dramatic Star Wars march for pulse, attack, and performance practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Darth Vader theme from Star Wars?",
+        "answer": "Yes. This page covers The Imperial March, the melody most listeners associate with Darth Vader and the broader Star Wars soundtrack."
+      },
+      {
+        "question": "Why is The Imperial March good for performance-style practice?",
+        "answer": "Because the theme depends on pulse, entry confidence, and a phrase shape that audiences recognize almost immediately. That makes it useful for players who want a dramatic public-performance piece without leaving the same melody-first page format."
+      },
+      {
+        "question": "What should I focus on first in The Imperial March?",
+        "answer": "Start with the opening rhythm, make the rests feel intentional instead of empty, and aim for strong clean attacks so the march character stays convincing before you push for a bigger sound."
+      }
+    ]
+  },
+  "speak-softly-love": {
+    "aliases": [
+      "Love Theme from The Godfather",
+      "The Godfather Theme",
+      "The Godfather Love Theme",
+      "Godfather Love Theme",
+      "Parla Piu Piano"
+    ],
+    "metaTitle": "Speak Softly Love Ocarina Tabs and Recorder Notes",
+    "overview": "This Speak Softly Love page gives you the famous Godfather melody in a cleaner letter-note format, making it easier to practice the lyrical line as a stand-alone tune instead of piecing it together from staff-heavy arrangements or scattered fan tabs.",
+    "searchTerms": [
+      "Speak Softly Love ocarina tabs",
+      "Godfather love theme tin whistle notes"
+    ],
+    "background": "Speak Softly Love is the best-known vocal and melody form of the love theme from The Godfather, so it attracts both film-music listeners and players searching for a lyrical ceremony-style melody. Its singable contour and reflective tone give it lasting crossover demand well beyond soundtrack-only audiences.",
+    "practice": "The melody is especially well suited to softer breath support, connected phrasing, and shaping longer expressive lines because it behaves more like a sung standard than a march or technical showpiece. It is a strong choice for calmer performance work, reflective daily practice, and players building a more lyrical tone.",
+    "metaDescription": "Play Speak Softly Love with letter notes, ocarina tabs, and fingering chart support. A lyrical Godfather theme for calm phrasing and ceremony-style practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the love theme from The Godfather?",
+        "answer": "Yes. This page focuses on Speak Softly Love, the melody most players mean when they search for the Godfather love theme or The Godfather theme on melody instruments."
+      },
+      {
+        "question": "Does Speak Softly Love work well for calmer performance pieces?",
+        "answer": "Yes. The line is recognizable, lyrical, and emotionally clear without needing a full accompaniment, which makes it a strong choice for reflective practice, quieter performance sets, or ceremony-style playing."
+      },
+      {
+        "question": "What should I focus on when practicing Speak Softly Love?",
+        "answer": "Keep the airflow even, connect the longer notes without rushing the ends of phrases, and treat the melody like a sung line so the theme stays warm and expressive instead of sounding clipped."
       }
     ]
   }

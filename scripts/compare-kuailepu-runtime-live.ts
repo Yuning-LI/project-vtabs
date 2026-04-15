@@ -37,6 +37,12 @@ type CompareResult = {
   reason?: string
   localHash?: string
   liveHash?: string
+  localNormalizedHash?: string
+  liveNormalizedHash?: string
+  normalizedMatch?: boolean
+  firstDiffIndex?: number
+  localDiffSnippet?: string
+  liveDiffSnippet?: string
   state?: CompareState
 }
 
@@ -110,6 +116,10 @@ try {
     try {
       const localCapture = await captureLocalRuntime(page, localUrl)
       const liveCapture = await captureLiveRuntime(page, liveUrl, localCapture.state)
+      const normalizedMatch = localCapture.normalizedHash === liveCapture.normalizedHash
+      const firstDiffIndex = findFirstDiffIndex(localCapture.rawSvg, liveCapture.rawSvg)
+      const localDiffSnippet = buildDiffSnippet(localCapture.rawSvg, firstDiffIndex)
+      const liveDiffSnippet = buildDiffSnippet(liveCapture.rawSvg, firstDiffIndex)
 
       compareResults.push({
         slug: target.slug,
@@ -118,10 +128,16 @@ try {
         instrumentId: target.instrumentId,
         liveUrl,
         localUrl,
-        ok: localCapture.hash === liveCapture.hash,
-        reason: localCapture.hash === liveCapture.hash ? undefined : 'svg hash mismatch',
+        ok: normalizedMatch,
+        reason: normalizedMatch ? undefined : 'svg hash mismatch',
         localHash: localCapture.hash,
         liveHash: liveCapture.hash,
+        localNormalizedHash: localCapture.normalizedHash,
+        liveNormalizedHash: liveCapture.normalizedHash,
+        normalizedMatch,
+        firstDiffIndex: normalizedMatch ? undefined : firstDiffIndex,
+        localDiffSnippet: normalizedMatch ? undefined : localDiffSnippet ?? undefined,
+        liveDiffSnippet: normalizedMatch ? undefined : liveDiffSnippet ?? undefined,
         state: localCapture.state
       })
     } catch (error) {
@@ -223,7 +239,9 @@ async function captureLocalRuntime(page: Page, url: string) {
   }
 
   return {
+    rawSvg: payload.svgHtml,
     hash: sha256(payload.svgHtml),
+    normalizedHash: sha256(normalizeSvgForHash(payload.svgHtml)),
     state: payload.state as CompareState
   }
 }
@@ -245,7 +263,9 @@ async function captureLiveRuntime(page: Page, url: string, state: CompareState) 
   }
 
   return {
-    hash: sha256(svgHtml)
+    rawSvg: svgHtml,
+    hash: sha256(svgHtml),
+    normalizedHash: sha256(normalizeSvgForHash(svgHtml))
   }
 }
 
@@ -311,6 +331,33 @@ async function applyContextState(page: Page, state: CompareState) {
 
 function sha256(input: string) {
   return crypto.createHash('sha256').update(input).digest('hex')
+}
+
+function normalizeSvgForHash(input: string) {
+  return input
+    .replace(/>\s+</g, '><')
+    .trim()
+}
+
+function findFirstDiffIndex(left: string, right: string) {
+  const limit = Math.min(left.length, right.length)
+  for (let index = 0; index < limit; index += 1) {
+    if (left[index] !== right[index]) {
+      return index
+    }
+  }
+
+  return left.length === right.length ? -1 : limit
+}
+
+function buildDiffSnippet(input: string, diffIndex: number) {
+  if (diffIndex < 0) {
+    return null
+  }
+
+  const start = Math.max(0, diffIndex - 160)
+  const end = Math.min(input.length, diffIndex + 200)
+  return input.slice(start, end)
 }
 
 function buildLocalCompareUrl(

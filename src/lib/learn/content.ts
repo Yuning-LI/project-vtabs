@@ -144,6 +144,7 @@ const CEREMONY_SONG_SLUGS = new Set([
   'wedding-march',
   'wedding-march-alt',
   'amazing-grace',
+  'speak-softly-love',
   'air-on-the-g-string',
   'going-home'
 ])
@@ -195,6 +196,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'scarborough-fair',
   'schubert-serenade',
   'song-of-time',
+  'speak-softly-love',
   'summer',
   'traumerei'
 ])
@@ -245,6 +247,8 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'wedding-march-alt',
   'american-patrol',
   'hes-a-pirate',
+  'the-imperial-march',
+  'game-of-thrones-theme',
   'turkish-march',
   'parade-of-the-wooden-soldiers',
   'jingle-bells'
@@ -1959,7 +1963,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'wedding-march',
       'american-patrol',
       'hes-a-pirate',
-      'my-heart-will-go-on'
+      'my-heart-will-go-on',
+      'the-imperial-march',
+      'game-of-thrones-theme'
     ],
     sections: [
       {
@@ -1999,7 +2005,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'turkish-march',
           'parade-of-the-wooden-soldiers',
           'jingle-bells',
-          'my-heart-will-go-on'
+          'my-heart-will-go-on',
+          'the-imperial-march',
+          'game-of-thrones-theme'
         ]
       }
     ],
@@ -2328,7 +2336,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'toy-march',
       'turkish-march',
       'hes-a-pirate',
-      'merry-go-round-of-life'
+      'merry-go-round-of-life',
+      'the-imperial-march'
     ],
     sections: [
       {
@@ -2343,7 +2352,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'wedding-march',
           'american-patrol',
           'hes-a-pirate',
-          'merry-go-round-of-life'
+          'merry-go-round-of-life',
+          'the-imperial-march'
         ]
       },
       {
@@ -2357,14 +2367,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use the fingering chart until repeated leaps feel automatic.',
           'Zoom in on longer march pages instead of forcing the whole tune into one glance.'
         ],
-        songSlugs: ['american-patrol', 'cavalry-march', 'grenadiers-march']
+        songSlugs: ['american-patrol', 'cavalry-march', 'grenadiers-march', 'the-imperial-march']
       },
       {
         title: 'What To Add After The First Parade Tunes',
         paragraphs: [
           'Once the easiest march pages feel comfortable, add one brighter character piece and one more formal ceremonial melody. That keeps the practice mix interesting without leaving the same rhythm-focused workflow.'
         ],
-        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt', 'hes-a-pirate', 'merry-go-round-of-life']
+        songSlugs: ['spanish-bullfighting-tune', 'turkish-march', 'wedding-march-alt', 'hes-a-pirate', 'merry-go-round-of-life', 'the-imperial-march']
       }
     ],
     faq: [
@@ -2815,6 +2825,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'carrying-you',
       'my-heart-will-go-on',
       'river-flows-in-you',
+      'speak-softly-love',
       'summer',
       'always-with-me',
       'one-summers-day',
@@ -2841,7 +2852,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'canon',
           'song-of-time',
           'my-heart-will-go-on',
-          'summer'
+          'summer',
+          'speak-softly-love',
+          'game-of-thrones-theme'
         ]
       },
       {
@@ -2854,7 +2867,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -2891,6 +2904,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'wedding-march',
       'wedding-march-alt',
       'amazing-grace',
+      'speak-softly-love',
       'air-on-the-g-string',
       'going-home'
     ],
@@ -2901,7 +2915,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages for ceremonies are the ones with immediate recognition and a stable phrase flow. They let players focus on entrance timing, breathing, and confident note changes instead of learning an unfamiliar tune at the same time.',
           'That is why this guide starts with Canon, Wedding March, and Amazing Grace before moving outward into quieter reflective melodies.'
         ],
-        songSlugs: ['canon', 'wedding-march', 'amazing-grace']
+        songSlugs: ['canon', 'wedding-march', 'amazing-grace', 'speak-softly-love']
       },
       {
         title: 'How To Choose Between Processional and Reflective Pages',
@@ -2913,7 +2927,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use Amazing Grace or Going Home when you want a slower, more reflective pace.',
           'Keep the fingering chart visible on the first run so timing and note shape stay aligned under pressure.'
         ],
-        songSlugs: ['wedding-march-alt', 'going-home', 'air-on-the-g-string']
+        songSlugs: ['wedding-march-alt', 'going-home', 'air-on-the-g-string', 'speak-softly-love']
       },
       {
         title: 'What To Practice Before A Real Event',
@@ -2921,7 +2935,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Ceremony pages should be rehearsed as complete runs, not just as isolated phrases. The goal is a page that feels dependable enough for entrances, pauses, and restarts in a real room.',
           'These songs work best when you practice the exact page flow, keep the layout stable, and resist changing settings at the last minute.'
         ],
-        songSlugs: ['canon', 'wedding-march', 'air-on-the-g-string']
+        songSlugs: ['canon', 'wedding-march', 'air-on-the-g-string', 'speak-softly-love']
       }
     ],
     faq: [
@@ -2965,6 +2979,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'my-heart-will-go-on',
       'river-flows-in-you',
       'merry-christmas-mr-lawrence',
+      'speak-softly-love',
       'summer',
       'always-with-me',
       'one-summers-day',
@@ -2978,7 +2993,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence', 'path-of-the-wind']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -2998,7 +3013,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [

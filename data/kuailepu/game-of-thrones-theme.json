@@ -1,0 +1,38 @@
+{
+  "id": "game-of-thrones-theme",
+  "slug": "game-of-thrones-theme",
+  "title": "Game of Thrones Main Theme",
+  "description": "Game of Thrones Main Theme melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/itiob1eJQ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song itiob1eJQ on 2026-04-14."
+  },
+  "meta": {
+    "key": "1 = bE",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-14",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "3 - - - - - | 6, - - - - - | 1 2 3 - - - | 6, - - - 1 2 | 7, - - - - - | 7, - - - - - | 7, - - - - - | 7, - - - - - |",
+    "2 - - - - - | 5, - - - - - | 7, 1 2 - - - | 5, - - - 1 7, | 6, - - - - - | 6, - - - - - | 6, - - - - - | 6, - - - - - |",
+    "3' - - - - - | 6 - - - - - | 1' 2' 3' - - - | 6 - - - 1' 2' | 7 - - - - - | 7 - - - - - | 7 - - - - - | 7 - - - - - |",
+    "2' - - - - - | 5 - - - - - | 7 1' 2' - - - | 5 - - - 1' 7 | 6 - - - - - | 6 - - - - - | 6 - - - - - | 6 - - - - - |",
+    "3' - - - - - | 6 - - - - - | 1' 2' 3' - - - | 6 - - - 1' 2' | 7 - - - - - | 7 - - - - - | 7 - - - - - | 7 - - - - - |",
+    "2' - - - - - | 5 - - - - - | 7 - - - 1' - | 7 - - - 5 - | 6 - - - - - | 6 - - - - - | 6 - - - - - | 6 - - - - - |",
+    "6 - - - - - | 6 - - - - - | 5 - - - - - | 5 - - - - - |",
+    "6, - - - - - | 6, - - - - - | 3 - - - - - | 3 - - - - - | 4, - - - - - | 4, - - - - - | 1 - - - - - | 2 - - - - - |",
+    "3 - - - - - | 3 - - - - - | 3 - - - - - | 3 - - - - - |",
+    "6' - - - - - | 6' - - - - - | 5' - - - - - | 5' - - - - - |",
+    "6 - - - - - | 6 - - - - - | 3' - - - - - | 3' - - - - - | 4 - - - - - | 4 - - - - - |",
+    "1' - - - - - | 7 - - - - - | 6 - - - - - | 6 - - - - - | 6 - - - - - | 6 - - - - - | | |"
+  ]
+}

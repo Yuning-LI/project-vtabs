@@ -754,5 +754,26 @@
     "family": "song",
     "featuredRank": 108,
     "published": true
+  },
+  {
+    "id": "game-of-thrones-theme",
+    "slug": "game-of-thrones-theme",
+    "family": "song",
+    "featuredRank": 109,
+    "published": true
+  },
+  {
+    "id": "the-imperial-march",
+    "slug": "the-imperial-march",
+    "family": "march",
+    "featuredRank": 110,
+    "published": true
+  },
+  {
+    "id": "speak-softly-love",
+    "slug": "speak-softly-love",
+    "family": "song",
+    "featuredRank": 111,
+    "published": true
   }
 ]

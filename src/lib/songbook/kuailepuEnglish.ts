@@ -150,7 +150,18 @@ export function getKuailepuEnglishTitle(payload: Pick<KuailepuSongPayload, 'song
 
 export function translateKuailepuPersonName(value: string | null | undefined) {
   if (!value) return null
-  return PERSON_NAME_OVERRIDES[value] ?? value
+  const normalized = value.trim()
+  const override = PERSON_NAME_OVERRIDES[normalized]
+  if (override) {
+    return override
+  }
+
+  const extractedEnglish = extractKuailepuEnglishText(normalized)
+  if (extractedEnglish && /[A-Za-z]/.test(extractedEnglish)) {
+    return extractedEnglish
+  }
+
+  return normalized
 }
 
 export function translateKuailepuInstrumentName(value: string | null | undefined) {

@@ -1,0 +1,31 @@
+{
+  "id": "speak-softly-love",
+  "slug": "speak-softly-love",
+  "title": "Speak Softly Love",
+  "description": "Speak Softly Love melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Nino Rota.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/QdQCd1I5i.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song QdQCd1I5i on 2026-04-14."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 75,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-14",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 3 6 1' | 7 6 1' 6 7 6 4 5 | 3 - - - 0 3 6 1' | 7 6 1' 6 7 6 3 b3 |",
+    "2 - - - 0 2 4 #5 | 7 - - - 7 2 4 #5 | 6 - - - 0 6, 1 5 | 4 3 5 4 4 3 3 #5, |",
+    "6, - - - 0 6 6 b6 | 5 - - - 7 - 6 4 | 3 - - - 0 3 5 3 | 2 - - - 2 2 4 #2 |",
+    "3 - - - 0 3 6 1' | 7 6 1' 6 7 6 4 5 | 3 - - - 0 3 6 1' | 7 6 1' 6 7 6 3 b3 |",
+    "2 - - - 0 2 4 #5 | 7 - - - 7 2 4 #5 | 6 - - - 0 6, 1 5 | 4 3 5 4 4 3 3 #5 | 6 - - - - - - - | | |"
+  ]
+}
