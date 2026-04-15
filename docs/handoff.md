@@ -563,19 +563,19 @@
 
 ## 5. 当前数量口径与它们的含义
 
-以本轮收尾时的工作区为准：
+以当前工作区为准：
 
-- `songCatalog.length = 96`
+- `songCatalog.length = 114`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 96`
+- `allSongCatalog.length = 114`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 96`
+- `data/songbook/public-song-manifest.json = 114`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 96`
+- `data/kuailepu-runtime/*.json = 114`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 96`
+- `reference/songs/*.json = 109`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 90`
+- `data/kuailepu/*.json = 108`
 
 ## 5.5 2026-04-05 新增可公开曲目
 
@@ -1251,6 +1251,29 @@
   - 新对话接手前先看 `git status --short --branch`
   - 准备上线前先看 `git log --oneline origin/main..HEAD`
   - 确认每个本地提交都属于应上线内容后再 push
+- 截至 2026-04-15 当前工作区，还额外有一批**已提交、未 push 的本地待审核状态**：
+  - 新导入灰度曲：
+    - `moon-river`
+    - `can-you-feel-the-love-tonight`
+    - `yesterday-once-more`
+  - 已更新内容层：
+    - `data/songbook/public-song-manifest.json`
+    - `data/songbook/song-seo-profiles.json`
+    - `src/lib/learn/content.ts`
+  - 已新增导入层：
+    - `data/kuailepu-runtime/*.json`
+    - `data/kuailepu/*.json`
+- 这批 3 首新灰度曲当前已经在本地完成：
+  - `npm run validate:content`
+  - `npm run doctor:song -- <slug>`
+  - 中国网络下 `npm run preflight:kuailepu-publish -- moon-river can-you-feel-the-love-tonight yesterday-once-more`
+- 重要：
+  - `origin/main` 和线上当前是 `111` 首公开 song pages
+  - 本地待审核工作区如果把这 3 首算进去，会暂时变成 `114`
+  - 新对话里不要把“本地待审核 114”误说成“线上已经 114”
+- 当前又新增一条协作规则：
+  - **任何 push 前都必须先得到用户明确同意**
+  - 不要因为本地验证通过就默认可以触发 Vercel 自动部署
 
 `tsconfig.tsbuildinfo`、调试截图、`.tmp` 文件、临时日志都属于噪音，不应带入提交。
 
@@ -1258,7 +1281,11 @@
 
 下面这条可以直接复制给新对话：
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 96 songs. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+
+### 19.2 2026-04-15 当前本地状态补丁
+
+`Current local worktree contains committed but unpushed grey-song rollout work. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 114-song state with three pending grey songs: moon-river, can-you-feel-the-love-tonight, and yesterday-once-more. These three local songs already have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. Do not describe these three songs as publicly live until they are actually pushed. Do not push, commit, or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
 
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 
@@ -1362,7 +1389,7 @@
   - `home-sweet-home` / `flight-of-the-bumblebee` / `going-home` / `habanera` / `londonderry-air` / `lullaby` / `on-wings-of-song` / `sakura-sakura` / `swan-lake` / `traumerei`
   - `cavalry-march` / `twinkle-variations` / `wedding-march-alt` / `oh-susanna` / `row-row-row-your-boat` / `spring-song` / `simple-gifts` / `wellerman`
   - `london-bridge`
-- 此后又继续把 remaining published songs 的 `overview` 全部补齐；当前 `public-song-manifest` 范围内 96 首公开歌曲都已有 song-specific opening paragraph，后续可以把重点从“补覆盖”转到“继续精修高价值曲目文案”和“补更多高意图公开专题页”。
+- 此后又继续把 remaining published songs 的 `overview` 全部补齐；当前 `public-song-manifest` 范围内 108 首公开歌曲都已有 song-specific opening paragraph，后续可以把重点从“补覆盖”转到“继续精修高价值曲目文案”和“补更多高意图公开专题页”。
 - `src/lib/songbook/seoProfiles.ts` 与 `src/lib/songbook/presentation.ts` 当前又补了 per-song `metaDescription` 与 `extraFaqs` 能力，允许单曲页 metadata 和 FAQ 不再完全依赖统一模板。
 - 第一批已补定制 `metaDescription` 与 `extraFaqs` 的高潜力曲目包括：
   - `twinkle-twinkle-little-star`
@@ -1469,3 +1496,39 @@
 - 当前默认策略仍然是：
   - 只更新现有 hub 的回链与导流
   - 不因为新增灰度曲就继续扩 learn / hub 页数量
+
+### 1.1.6 2026-04-14 第四批灰度曲、公开社交图链路与移动端补充
+
+- `24a875e` 已 push：
+  - 第四批灰度曲已上线：
+    - `one-summers-day`
+    - `princess-mononoke`
+    - `path-of-the-wind`
+- 当前公开 song page 数量已更新为 `108` 首：
+  - `songCatalog.length = 108`
+  - `data/songbook/public-song-manifest.json = 108`
+  - `data/kuailepu-runtime/*.json = 108`
+- 第四批灰度曲同样已完成：
+  - 英文公开层 title / description / aliases / metaTitle / metaDescription / FAQ
+  - 现有 `learn / hub` 内链接入
+  - China-network 下 preflight compare 通过
+- 当前仓库已新增公开社交图链路：
+  - `src/app/song/[id]/opengraph-image.tsx`
+  - `src/app/song/[id]/twitter-image.tsx`
+  - `src/lib/songbook/songSocialImage.tsx`
+- 当前仓库也已保留一条内部 Pinterest 导图实验链：
+  - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - `src/lib/songbook/pinterestPins.ts`
+  - `scripts/export-pinterest-pin.ts`
+- 当前 Pinterest 图仍处于实验阶段：
+  - 代码已 push
+  - `exports/` 下的导图产物继续只保留本地，不进入 git
+  - 后续如果继续做 Pinterest 视觉模板，不要误把 `exports/` 里的测试图当成可提交资产
+- 当前移动端额外已做两处壳层优化：
+  - song page 的 `More controls` 可开关，且移动端只渲染一套控件
+  - 首页 `A–Z` 模式已新增 `Back to top` 浮动按钮
+- 截至当前工作区：
+  - `origin/main` 已包含第四批灰度曲与社交图链路提交
+  - 本地通常只剩噪音文件：
+    - `tsconfig.tsbuildinfo`
+    - `.tmp-playwright-3ue-profile/`

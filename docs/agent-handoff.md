@@ -398,7 +398,7 @@
   - `irish-morning-wind`
   - `irish-blackbird`
 - 当前已补齐全部 published songs 的 `metaTitle`，对 `public-song-manifest` 统计后当前是 0 缺口。
-- 当前也已补齐全部 published songs 的 `overview`，`public-song-manifest` 范围内 96 首公开歌曲现在都已有 song-specific opening paragraph。
+- 当前也已补齐全部 published songs 的 `overview`，`public-song-manifest` 范围内 108 首公开歌曲现在都已有 song-specific opening paragraph。
 - 第二批已明确补强的 seasonal / folk 候选包括：
   - `scarborough-fair`
   - `auld-lang-syne`
@@ -718,11 +718,11 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 12. 当前数量口径
 
-- 公开 song pages：96
-- 全部候选：96
-- public manifest：96
-- raw JSON：96
-- 可提交轻量导入：90
+- 公开 song pages：114
+- 全部候选：114
+- public manifest：114
+- raw JSON：114
+- 可提交轻量导入：108
 
 不要拿这些数字互相强行对应。
 
@@ -776,7 +776,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 13. 新对话可直接复制的起始提示词
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 96 songs. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ## 14. 自制曲输入规范草案
 
@@ -960,3 +960,52 @@ npm run preflight:kuailepu-publish -- <slug...>
   - song-to-guide 推荐集合
 - 默认不做：
   - 因为新增灰度曲就继续扩 learn / hub 页数量
+
+## 最新补充（2026-04-14）
+
+- `24a875e` 已 push：
+  - 第四批灰度曲已上线：
+    - `one-summers-day`
+    - `princess-mononoke`
+    - `path-of-the-wind`
+- 当前公开 song pages 数量已更新为 `108`。
+- 当前公开社交图链路已上线到 repo：
+  - `src/app/song/[id]/opengraph-image.tsx`
+  - `src/app/song/[id]/twitter-image.tsx`
+  - `src/lib/songbook/songSocialImage.tsx`
+- 当前仓库还包含内部 Pinterest 导图实验链：
+  - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - `src/lib/songbook/pinterestPins.ts`
+  - `scripts/export-pinterest-pin.ts`
+- 当前 Pinterest 图仍属实验阶段：
+  - 代码已 push
+  - `exports/` 下导出的测试图继续只保留本地，不进入 git
+- 当前移动端已有两处已 push 的壳层补充：
+  - song page 的 `More controls` 可开关，且桌面/移动端控件不再重复进入可访问树
+  - 首页 `A–Z` 模式已新增 `Back to top` 浮动按钮
+- 当前工作区如果只剩：
+  - `tsconfig.tsbuildinfo`
+  - `.tmp-playwright-3ue-profile/`
+  这通常都属于噪音，不必带入提交。
+
+## 最新补充（2026-04-15）
+
+- 当前本地又导入了 3 首**已 commit、尚未 push 的灰度曲待审核项**：
+  - `moon-river`
+  - `can-you-feel-the-love-tonight`
+  - `yesterday-once-more`
+- 这 3 首当前已经在本地完成：
+  - `reference/songs/<slug>.json`
+  - `data/kuailepu-runtime/<slug>.json`
+  - `data/kuailepu/<slug>.json`
+  - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/learn/content.ts` 现有 learn / hub 内链补齐
+  - 中国网络下 `validate:content` / `doctor:song` / `preflight:kuailepu-publish` 都已通过
+- 重要：
+  - 线上和 `origin/main` 当前是 `111` 首
+  - 本地工作区如果把这 3 首算进去，会暂时变成 `114`
+  - 新对话不要把“本地待审核 114”说成“线上已经 114”
+- 当前又新增一条协作规则：
+  - **未经用户明确同意，不要 push**
+  - 因为 push 会触发 Vercel 自动部署并直接改线上代码

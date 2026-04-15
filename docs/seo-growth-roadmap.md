@@ -345,7 +345,7 @@ Metadata 审计结果：
   - `hej-sokoly`
   - `irish-morning-wind`
   - `irish-blackbird`
-- 当前 published songs 的 `overview` 已全部补齐，`public-song-manifest` 范围内 96 首公开歌曲现在都已有 song-specific opening paragraph；后续这条线可以从“补覆盖”转到“继续精修高价值曲目的文案质量”和“补更多高意图公开入口页”。
+- 当前 pushed published songs 的 `overview` 已全部补齐，`origin/main` 范围内 111 首公开歌曲现在都已有 song-specific opening paragraph；后续这条线可以从“补覆盖”转到“继续精修高价值曲目的文案质量”和“补更多高意图公开入口页”。
 - 已补齐当前全部 published songs 的 `metaTitle` 覆盖，`public-song-manifest` 当前为 0 缺口。
 - `src/lib/songbook/seoProfiles.ts` 与 `src/lib/songbook/presentation.ts` 当前已新增 per-song `metaDescription` 与 `extraFaqs` 能力，允许 song page metadata 与 FAQ 不再完全依赖统一模板。
 - 已开始给最有机会承接长尾搜索的歌曲补第一批定制 `metaDescription` 与 `extraFaqs`，当前覆盖：
@@ -404,7 +404,7 @@ Metadata 审计结果：
 - 这一轮再补了 6 个 classical / lyric 高意图 song page：`flight-of-the-bumblebee`、`habanera`、`londonderry-air`、`moonlight-sonata`、`santa-lucia`、`schubert-serenade`，重点覆盖 fast showpiece、opera-theme、Danny Boy / memorial、slow Beethoven theme、warm lyrical song、romantic recital 等搜索意图。补完后，公开 songs 里仍有 55 首还没有定制 `metaDescription` / `extraFaqs`，后续继续按“高展示量优先、场景词优先”的顺序往下精修。
 - 这一轮再补了 6 个 folk / beginner / lyrical 高意图 song page：`arirang`、`do-your-ears-hang-low`、`jasmine-flower`、`lullaby`、`old-folks-at-home`、`red-river-valley`，重点覆盖 Korean folk、classroom sing-along、Mo Li Hua / Chinese folk、Brahms bedtime melody、Swanee River nostalgia、easy lyrical folk 等搜索意图，并继续保持“高展示量优先、场景词优先”的精修顺序，不扩 learn / hub 新页。
 - 本轮已把剩余 49 首公开 song page 全部补齐定制 `metaDescription` 与 `extraFaqs`，覆盖 `down-by-the-salley-gardens`、`harvest-song`、`humoresque`、`lightly-row`、`little-bee`、`long-long-ago`、`minuet-bach`、`minuet-in-g`、`on-wings-of-song`、`song-of-parting`、`swan-lake`、`the-trout`、`traumerei`、`toy-march`、`cavalry-march`、`twinkle-variations`、`were-you-there`、`wild-rose`、`oh-susanna`、`spring-song`、`aura-lee`、`the-south-wind`、`lough-leane`、`romance-damour`、`bella-ciao`、`jolly-old-saint-nicholas`、`home-on-the-range`、`la-cucaracha`、`drinking-song`、`el-condor-pasa`、`happy-new-year`、`spanish-bullfighting-tune`、`woodpecker-polka`、`blacksmith-polka`、`loch-lomond`、`grenadiers-march`、`the-internationale`、`russian-national-anthem`、`katyusha`、`moscow-nights`、`troika`、`the-pathway`、`red-berries-blossom`、`the-hawthorn-tree`、`hej-sokoly`、`irish-morning-wind`、`dancing-doll-and-teddy-bear`、`grandfathers-clock`、`irish-blackbird`。
-- 已顺手收敛全部过长的 song `metaDescription`，当前 `public-song-manifest` 范围内 96 首公开歌曲均已具备 song-specific `metaTitle`、`overview`、`metaDescription` 与至少 2 条 `extraFaqs`，并满足当前长度审计（`missingCount = 0`、`longCount = 0`）。Phase 2 可以按“文案精修阶段完成，进入验收”处理。
+- 已顺手收敛全部过长的 song `metaDescription`，当前 `origin/main` 范围内 111 首公开歌曲均已具备 song-specific `metaTitle`、`overview`、`metaDescription` 与至少 2 条 `extraFaqs`，并满足当前长度审计（`missingCount = 0`、`longCount = 0`）。Phase 2 可以按“文案精修阶段完成，进入验收”处理。
 - 这一轮顺手复核了 learn / hub 文案的加载策略：这批核心 SEO 正文当前更适合保持静态输出，不建议对正文做客户端按需加载；对 Google 来说，正文首屏可抓取性比“把纯文本拆得更碎”更重要。后续如果要继续减重，优先看 song 页 client shell 的 hydration 体积，而不是懒加载核心落地页文案。
 
 ### Phase 3：更多意图型公开页

@@ -142,17 +142,17 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 96`
+- `songCatalog.length = 114`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 96`
+- `allSongCatalog.length = 114`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 96`
+- `data/songbook/public-song-manifest.json = 114`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 96`
+- `data/kuailepu-runtime/*.json = 114`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 96`
+- `reference/songs/*.json = 109`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 90`
+- `data/kuailepu/*.json = 108`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -236,7 +236,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 96 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 111 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`
@@ -287,7 +287,7 @@
 
 到 2026-04-05 当前交接时，核心 runtime 主链、多乐器公开、功能区、节拍器、SEO 文案、最新一轮导歌和内部打印工作流都已经收口完成；当前更重要的是把“仓库状态”交接清楚，而不是继续临时重构主链。
 
-- 当前公开曲库数量是 `96` 首。
+- 当前公开曲库数量是 `111` 首。
 - 最近一轮新增公开曲包括：
   - `aura-lee`
   - `simple-gifts`
@@ -612,6 +612,30 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - 首页列表卡片当前只显示歌名。
 - 详情页当前已有 `Back to Song Library` 返回按钮。
 - 难度标签规则已收紧，长曲篇幅不再单独触发 `Intermediate to advanced`。
+
+## 2026-04-15 当前本地待审核状态
+
+- 当前 `origin/main` / 线上公开数量是 `111` 首。
+- 本地工作区又导入了一批**已 commit、尚未 push** 的灰度曲：
+  - `moon-river`
+  - `can-you-feel-the-love-tonight`
+  - `yesterday-once-more`
+- 这 3 首当前在本地已经完成：
+  - `reference/songs/<slug>.json`
+  - `data/kuailepu-runtime/<slug>.json`
+  - `data/kuailepu/<slug>.json`
+  - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/learn/content.ts` 现有 learn / hub 内链接入
+  - 中国网络下 `npm run validate:content`
+  - `npm run doctor:song -- <slug>`
+  - `npm run preflight:kuailepu-publish -- moon-river can-you-feel-the-love-tonight yesterday-once-more`
+- 所以：
+  - 本地待审核工作区如果把这 3 首算进去，会暂时是 `114`
+  - 但在真正 push 之前，不要把它说成“线上已经 114”
+- 当前新增协作规则：
+  - **任何 push 前都必须先得到用户明确同意**
+  - 不要因为本地验证通过就默认可以上线
 
 ## SEO 与前台文案规则
 
