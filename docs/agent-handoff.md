@@ -1006,6 +1006,22 @@ npm run preflight:kuailepu-publish -- <slug...>
   - 线上和 `origin/main` 当前是 `111` 首
   - 本地工作区如果把这 3 首算进去，会暂时变成 `114`
   - 新对话不要把“本地待审核 114”说成“线上已经 114”
+- 当前本地还额外有一首**已导入、已补本地公开内容层、但尚未 commit / 尚未 push** 的灰度曲：
+  - `zeldas-lullaby`
+  - 当前已经完成：
+    - `data/kuailepu-runtime/zeldas-lullaby.json`
+    - `data/kuailepu/zeldas-lullaby.json`
+    - `data/songbook/public-song-manifest.json`
+    - `data/songbook/song-seo-profiles.json`
+    - `src/lib/learn/content.ts`
+    - 中国网络下 `validate:content` / `doctor:song` / `preflight:kuailepu-publish` 都已通过
+- 所以：
+  - 本地工作区如果把这 4 首灰度曲算进去，会暂时变成 `115`
+  - 新对话不要把“本地待审核 115”说成“线上已经 115”
+- 当前仓库还新增了一条更清晰的内部灰度曲追踪入口：
+  - `data/songbook/grey-song-rollout.json`
+  - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
+  - 当前用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
 - 当前又新增一条协作规则：
   - **未经用户明确同意，不要 push**
   - 因为 push 会触发 Vercel 自动部署并直接改线上代码

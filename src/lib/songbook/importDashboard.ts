@@ -22,6 +22,8 @@ type CandidateWorkflowStatus =
   | 'duplicate'
   | 'imported-public'
 
+type GreySongStatus = 'live' | 'committed-local' | 'imported-only'
+
 type CandidateStatusReason =
   | 'already-public'
   | 'no-public-instruments'
@@ -96,6 +98,22 @@ export type ImportDashboardCandidateRow = {
   isCurrentlyPublic: boolean
 }
 
+export type ImportDashboardGreySongRow = {
+  slug: string
+  title: string
+  status: GreySongStatus
+  batch: string | null
+  group: string | null
+  addedOn: string | null
+  sourceUrl: string | null
+  notes: string | null
+  isPublicInLocalCatalog: boolean
+  isPublicOnOriginMain: boolean
+  hasSeoProfile: boolean
+  hasRuntimeRaw: boolean
+  hasCompactDoc: boolean
+}
+
 export type SongImportDashboardData = {
   summary: {
     publicSongs: number
@@ -123,6 +141,12 @@ export type SongImportDashboardData = {
     reasonSummary: Partial<Record<CandidateStatusReason, number>>
     nextImportCandidates: ImportDashboardCandidateRow[]
     rows: ImportDashboardCandidateRow[]
+  }
+  greySongs: {
+    updatedOn: string | null
+    notes: string | null
+    statusSummary: Partial<Record<GreySongStatus, number>>
+    rows: ImportDashboardGreySongRow[]
   }
 }
 
@@ -168,6 +192,7 @@ export function getSongImportDashboardData(): SongImportDashboardData {
   const importBackedPublicSongs = songs.filter(song => song.isPublic && song.isImportBacked).length
 
   const candidatePool = loadCandidatePool(sourceUrlToSlug)
+  const greySongs = loadGreySongRollout()
 
   return {
     summary: {
@@ -191,7 +216,98 @@ export function getSongImportDashboardData(): SongImportDashboardData {
     },
     songs,
     recentImports,
-    candidatePool
+    candidatePool,
+    greySongs
+  }
+}
+
+function loadGreySongRollout() {
+  const trackerPath = path.resolve(process.cwd(), 'data', 'songbook', 'grey-song-rollout.json')
+
+  if (!fs.existsSync(trackerPath)) {
+    return {
+      updatedOn: null,
+      notes: null,
+      statusSummary: {},
+      rows: [] as ImportDashboardGreySongRow[]
+    }
+  }
+
+  const parsed = JSON.parse(fs.readFileSync(trackerPath, 'utf8')) as {
+    updatedOn?: string
+    notes?: string
+    entries?: Array<{
+      slug?: string
+      title?: string
+      status?: string
+      batch?: string
+      group?: string
+      addedOn?: string
+      sourceUrl?: string
+      notes?: string
+    }>
+  }
+
+  const originMainPublicSlugs = loadOriginMainManifestSlugs()
+  const runtimeSlugs = listJsonSlugs(path.resolve(process.cwd(), 'data', 'kuailepu-runtime'))
+  const compactSlugs = listJsonSlugs(path.resolve(process.cwd(), 'data', 'kuailepu'))
+
+  const rows = (parsed.entries ?? [])
+    .map(entry => {
+      const slug = typeof entry.slug === 'string' ? entry.slug.trim() : ''
+      const title = typeof entry.title === 'string' ? entry.title.trim() : ''
+      const status = normalizeGreySongStatus(entry.status)
+
+      if (!slug || !title || !status) {
+        return null
+      }
+
+      return {
+        slug,
+        title,
+        status,
+        batch: typeof entry.batch === 'string' && entry.batch.trim().length > 0 ? entry.batch.trim() : null,
+        group: typeof entry.group === 'string' && entry.group.trim().length > 0 ? entry.group.trim() : null,
+        addedOn: typeof entry.addedOn === 'string' && entry.addedOn.trim().length > 0 ? entry.addedOn.trim() : null,
+        sourceUrl: normalizeSourceUrl(entry.sourceUrl),
+        notes: typeof entry.notes === 'string' && entry.notes.trim().length > 0 ? entry.notes.trim() : null,
+        isPublicInLocalCatalog: Boolean(songCatalog.some(song => song.slug === slug)),
+        isPublicOnOriginMain: originMainPublicSlugs.has(slug),
+        hasSeoProfile: Boolean(getSongSeoProfileEntry(slug)),
+        hasRuntimeRaw: runtimeSlugs.has(slug),
+        hasCompactDoc: compactSlugs.has(slug)
+      } satisfies ImportDashboardGreySongRow
+    })
+    .filter((row): row is ImportDashboardGreySongRow => Boolean(row))
+    .sort((left, right) => {
+      const statusOrder: GreySongStatus[] = ['committed-local', 'imported-only', 'live']
+      const leftIndex = statusOrder.indexOf(left.status)
+      const rightIndex = statusOrder.indexOf(right.status)
+
+      if (leftIndex !== rightIndex) {
+        return leftIndex - rightIndex
+      }
+
+      const leftBatch = left.batch ?? ''
+      const rightBatch = right.batch ?? ''
+      if (leftBatch !== rightBatch) {
+        return rightBatch.localeCompare(leftBatch)
+      }
+
+      const leftDate = left.addedOn ?? ''
+      const rightDate = right.addedOn ?? ''
+      if (leftDate !== rightDate) {
+        return rightDate.localeCompare(leftDate)
+      }
+
+      return left.slug.localeCompare(right.slug)
+    })
+
+  return {
+    updatedOn: typeof parsed.updatedOn === 'string' ? parsed.updatedOn.trim() : null,
+    notes: typeof parsed.notes === 'string' ? parsed.notes.trim() : null,
+    statusSummary: countBy(rows, row => row.status),
+    rows
   }
 }
 
@@ -495,6 +611,31 @@ function normalizeCandidateStatusReason(value: string | null | undefined) {
   }
 
   return null
+}
+
+function normalizeGreySongStatus(value: string | null | undefined) {
+  if (value === 'live' || value === 'committed-local' || value === 'imported-only') {
+    return value
+  }
+
+  return null
+}
+
+function loadOriginMainManifestSlugs() {
+  try {
+    const text = execFileSync('git', ['show', 'origin/main:data/songbook/public-song-manifest.json'], {
+      cwd: process.cwd(),
+      encoding: 'utf8'
+    })
+    const parsed = JSON.parse(text) as Array<{ slug?: string }>
+    return new Set(
+      parsed
+        .map(entry => (typeof entry.slug === 'string' ? entry.slug.trim() : ''))
+        .filter(Boolean)
+    )
+  } catch {
+    return new Set<string>()
+  }
 }
 
 function compareDashboardRows(left: ImportDashboardSongRow, right: ImportDashboardSongRow) {

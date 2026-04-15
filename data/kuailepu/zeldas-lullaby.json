@@ -1,0 +1,33 @@
+{
+  "id": "zeldas-lullaby",
+  "slug": "zeldas-lullaby",
+  "title": "Zelda's Lullaby",
+  "description": "Zelda's Lullaby melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/TgVgg1zt7.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song TgVgg1zt7 on 2026-04-15."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-15",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "7 - - - 2' - | 6 - - - 5 6 | 7 - - - 2' - | 6 - - - - - |",
+    "7 - - - 2' - | 6' - - - 5' - | 2' - - - 1' 7 | 6 - - - - - |",
+    "7 - - - 2' - | 6 - - - 5 6 | 7 - - - 2' - | 6 - - - - - |",
+    "7 - - - 2' - | 6' - - - 5' - | 2' - - - - - | 2' - - - - - |",
+    "2' - - - 1' 7 | 1' 7 5 - - - |",
+    "1' - - - 7 6 | 7 6 3 - - - |",
+    "2' - - - 1' 7 | 1' 7 5 - 1' - | 5' - - - - - | 5' - - - - - | | |"
+  ]
+}

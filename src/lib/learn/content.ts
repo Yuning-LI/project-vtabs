@@ -201,7 +201,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'speak-softly-love',
   'summer',
   'traumerei',
-  'yesterday-once-more'
+  'yesterday-once-more',
+  'zeldas-lullaby'
 ])
 
 const LULLABY_BEDTIME_SONG_SLUGS = new Set([
@@ -212,7 +213,8 @@ const LULLABY_BEDTIME_SONG_SLUGS = new Set([
   'air-on-the-g-string',
   'moscow-nights',
   'going-home',
-  'sakura-sakura'
+  'sakura-sakura',
+  'zeldas-lullaby'
 ])
 
 const DANCE_WALTZ_SONG_SLUGS = new Set([
@@ -2833,6 +2835,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
+      'zeldas-lullaby',
       'song-of-time',
       'carrying-you',
       'my-heart-will-go-on',
@@ -2865,6 +2868,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'moon-river',
           'can-you-feel-the-love-tonight',
           'yesterday-once-more',
+          'zeldas-lullaby',
           'song-of-time',
           'my-heart-will-go-on',
           'summer',
@@ -2882,7 +2886,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'moon-river', 'can-you-feel-the-love-tonight', 'yesterday-once-more', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'moon-river', 'can-you-feel-the-love-tonight', 'yesterday-once-more', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -2990,6 +2994,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
+      'zeldas-lullaby',
       'lullaby',
       'traumerei',
       'song-of-time',
@@ -3011,7 +3016,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'moon-river', 'can-you-feel-the-love-tonight', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'moon-river', 'can-you-feel-the-love-tonight', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3024,7 +3029,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'moon-river', 'yesterday-once-more', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'moon-river', 'yesterday-once-more', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
@@ -3069,7 +3074,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'schubert-serenade',
       'traumerei',
       'air-on-the-g-string',
-      'moscow-nights'
+      'moscow-nights',
+      'zeldas-lullaby'
     ],
     sections: [
       {
@@ -3078,7 +3084,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The best starting pages here are the ones with a gentle contour and enough familiarity that the player can stay focused on breath, tone, and smooth phrase endings. Brahms Lullaby, Traumerei, and Air on the G String are strong first choices for that reason.',
           'They feel calm and readable without pushing the player into fast ornaments, march-like rhythm, or a crowded score.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'air-on-the-g-string', 'schubert-serenade']
+        songSlugs: ['lullaby', 'traumerei', 'air-on-the-g-string', 'schubert-serenade', 'zeldas-lullaby']
       },
       {
         title: 'How To Use These Pages For Quiet Practice',
@@ -3091,7 +3097,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use zoom for longer lyrical pages rather than rushing to play the whole sheet at once.',
           'Let lyrics guide phrase shape only when the song page supports them and they help you hear the cadence.'
         ],
-        songSlugs: ['moonlight-sonata', 'moscow-nights', 'going-home']
+        songSlugs: ['moonlight-sonata', 'moscow-nights', 'going-home', 'zeldas-lullaby']
       },
       {
         title: 'What To Add After The First Lullabies',

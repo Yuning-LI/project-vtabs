@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useDeferredValue, useState } from 'react'
-import type { ImportDashboardCandidateRow, ImportDashboardSongRow, SongImportDashboardData } from '@/lib/songbook/importDashboard'
+import type { ImportDashboardCandidateRow, ImportDashboardGreySongRow, ImportDashboardSongRow, SongImportDashboardData } from '@/lib/songbook/importDashboard'
 
 type SongImportDashboardProps = {
   data: SongImportDashboardData
@@ -10,11 +10,13 @@ type SongImportDashboardProps = {
 
 type SongScope = 'all' | 'issues' | 'public' | 'imports' | 'pending'
 type CandidateScope = 'all' | 'next' | 'open' | 'blocked' | 'imported'
+type GreyScope = 'all' | 'local' | 'imported' | 'live'
 
 export default function SongImportDashboard({ data }: SongImportDashboardProps) {
   const [query, setQuery] = useState('')
   const [scope, setScope] = useState<SongScope>('issues')
   const [candidateScope, setCandidateScope] = useState<CandidateScope>('open')
+  const [greyScope, setGreyScope] = useState<GreyScope>('local')
   const deferredQuery = useDeferredValue(query)
   const normalizedQuery = deferredQuery.trim().toLowerCase()
 
@@ -92,6 +94,34 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
       .includes(normalizedQuery)
   })
 
+  const filteredGreySongs = data.greySongs.rows.filter(song => {
+    if (greyScope === 'local' && song.status !== 'committed-local') {
+      return false
+    }
+    if (greyScope === 'imported' && song.status !== 'imported-only') {
+      return false
+    }
+    if (greyScope === 'live' && song.status !== 'live') {
+      return false
+    }
+
+    if (!normalizedQuery) {
+      return true
+    }
+
+    return [
+      song.slug,
+      song.title,
+      song.status,
+      song.batch ?? '',
+      song.group ?? '',
+      song.notes ?? ''
+    ]
+      .join(' ')
+      .toLowerCase()
+      .includes(normalizedQuery)
+  })
+
   return (
     <div className="space-y-8">
       <section className="page-warm-hero px-6 py-7 md:px-8 md:py-8">
@@ -118,10 +148,10 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
         <SummaryCard label="Pending Review" value={String(data.summary.pendingReview)} detail="Import docs still marked pending" tone="warn" />
         <SummaryCard label="Release Issues" value={String(data.summary.releaseIssues)} detail="Public-song consistency gaps" tone={data.summary.releaseIssues > 0 ? 'danger' : 'ok'} />
         <SummaryCard
-          label="Candidate Queue"
-          value={String(data.candidatePool.nextImportCandidates.length)}
-          detail={`${data.candidatePool.workflowSummary.hold ?? 0} hold, ${data.candidatePool.workflowSummary.blocked ?? 0} blocked`}
-          tone={data.candidatePool.nextImportCandidates.length > 0 ? 'ok' : 'warn'}
+          label="Grey Tracker"
+          value={String(data.greySongs.rows.length)}
+          detail={`${data.greySongs.statusSummary['committed-local'] ?? 0} local, ${data.greySongs.statusSummary.live ?? 0} live`}
+          tone={(data.greySongs.statusSummary['committed-local'] ?? 0) > 0 ? 'warn' : 'ok'}
         />
       </section>
 
@@ -208,6 +238,66 @@ export default function SongImportDashboard({ data }: SongImportDashboardProps) 
             <tbody>
               {filteredSongs.map(song => (
                 <SongRow key={song.slug} song={song} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="page-warm-panel p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-stone-900">Grey Song Tracker</h2>
+            <p className="mt-1 text-sm text-stone-600">
+              Internal tracker for grey-song rollout batches. This helps separate local candidates, committed-but-unpushed songs, and already-live grey songs from the main public manifest.
+            </p>
+          </div>
+          <div className="page-warm-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
+            {data.greySongs.updatedOn ?? 'No date'}
+          </div>
+        </div>
+
+        {data.greySongs.notes ? (
+          <div className="mt-4 rounded-3xl border border-stone-200 bg-stone-50 px-4 py-4 text-sm leading-7 text-stone-700">
+            {data.greySongs.notes}
+          </div>
+        ) : null}
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {Object.entries(data.greySongs.statusSummary).map(([key, value]) => (
+            <div key={key} className="page-warm-pill-muted px-3 py-1 text-sm">
+              <span className="font-semibold text-stone-800">{humanizeKey(key)}:</span> {String(value)}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap gap-2">
+            <ScopeButton active={greyScope === 'local'} onClick={() => setGreyScope('local')} label="Committed Local" />
+            <ScopeButton active={greyScope === 'imported'} onClick={() => setGreyScope('imported')} label="Imported Only" />
+            <ScopeButton active={greyScope === 'live'} onClick={() => setGreyScope('live')} label="Live" />
+            <ScopeButton active={greyScope === 'all'} onClick={() => setGreyScope('all')} label="All Rows" />
+          </div>
+
+          <div className="page-warm-pill px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
+            {filteredGreySongs.length} rows
+          </div>
+        </div>
+
+        <div className="mt-5 overflow-x-auto">
+          <table className="min-w-full border-separate border-spacing-y-3">
+            <thead>
+              <tr className="text-left text-xs uppercase tracking-[0.14em] text-stone-500">
+                <th className="px-3 py-2">Grey Song</th>
+                <th className="px-3 py-2">Tracker State</th>
+                <th className="px-3 py-2">Assets</th>
+                <th className="px-3 py-2">Visibility</th>
+                <th className="px-3 py-2">Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredGreySongs.map(song => (
+                <GreySongRow key={song.slug} song={song} />
               ))}
             </tbody>
           </table>
@@ -481,6 +571,60 @@ function CandidateRow({ candidate }: { candidate: ImportDashboardCandidateRow })
             </Link>
           ) : null}
           {candidate.notes ? <div className="text-stone-500">{candidate.notes}</div> : null}
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+function GreySongRow({ song }: { song: ImportDashboardGreySongRow }) {
+  return (
+    <tr className="rounded-3xl bg-white/88 shadow-[0_10px_24px_rgba(84,58,32,0.06)]">
+      <td className="rounded-l-3xl px-3 py-4 align-top">
+        <div className="font-semibold text-stone-900">{song.title}</div>
+        <div className="mt-1 text-sm text-stone-600">{song.slug}</div>
+        <div className="mt-2 flex flex-wrap gap-2">
+          <StatePill label={song.status === 'committed-local' ? 'Committed local' : song.status === 'imported-only' ? 'Imported only' : 'Live'} tone={song.status === 'live' ? 'ok' : song.status === 'committed-local' ? 'warn' : 'accent'} />
+          {song.batch ? <StatePill label={`Batch ${song.batch}`} tone="muted" /> : null}
+          {song.group ? <StatePill label={song.group} tone="muted" /> : null}
+          {song.addedOn ? <StatePill label={song.addedOn} tone="muted" /> : null}
+        </div>
+      </td>
+      <td className="px-3 py-4 align-top">
+        <div className="flex flex-wrap gap-2">
+          <StatePill label={song.isPublicOnOriginMain ? 'On origin/main' : 'Not on origin/main'} tone={song.isPublicOnOriginMain ? 'ok' : 'warn'} />
+          <StatePill label={song.isPublicInLocalCatalog ? 'In local public view' : 'Not in local public view'} tone={song.isPublicInLocalCatalog ? 'ok' : 'muted'} />
+        </div>
+        {song.notes ? <div className="mt-3 text-sm leading-7 text-stone-600">{song.notes}</div> : null}
+      </td>
+      <td className="px-3 py-4 align-top">
+        <div className="flex flex-wrap gap-2">
+          <StatePill label={`SEO ${song.hasSeoProfile ? 'yes' : 'no'}`} tone={song.hasSeoProfile ? 'ok' : 'warn'} />
+          <StatePill label={`Runtime ${song.hasRuntimeRaw ? 'yes' : 'no'}`} tone={song.hasRuntimeRaw ? 'ok' : 'warn'} />
+          <StatePill label={`Compact ${song.hasCompactDoc ? 'yes' : 'no'}`} tone={song.hasCompactDoc ? 'ok' : 'warn'} />
+        </div>
+      </td>
+      <td className="px-3 py-4 align-top text-sm text-stone-700">
+        <div>Origin/main: <span className="font-semibold text-stone-900">{song.isPublicOnOriginMain ? 'live' : 'not live'}</span></div>
+        <div className="mt-1">Local public: <span className="font-semibold text-stone-900">{song.isPublicInLocalCatalog ? 'yes' : 'no'}</span></div>
+      </td>
+      <td className="rounded-r-3xl px-3 py-4 align-top text-sm">
+        <div className="flex flex-col gap-2">
+          {song.sourceUrl ? (
+            <a href={song.sourceUrl} target="_blank" rel="noreferrer" className="font-semibold text-stone-900 underline underline-offset-4">
+              Kuailepu source
+            </a>
+          ) : null}
+          {song.hasRuntimeRaw ? (
+            <Link href={`/dev/kuailepu-preview/${song.slug}`} className="text-stone-700 underline underline-offset-4">
+              Dev preview
+            </Link>
+          ) : null}
+          {song.isPublicInLocalCatalog ? (
+            <Link href={`/song/${song.slug}`} className="text-stone-700 underline underline-offset-4">
+              Local song page
+            </Link>
+          ) : null}
         </div>
       </td>
     </tr>

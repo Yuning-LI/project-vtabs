@@ -565,17 +565,17 @@
 
 以当前工作区为准：
 
-- `songCatalog.length = 114`
+- `songCatalog.length = 115`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 114`
+- `allSongCatalog.length = 115`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 114`
+- `data/songbook/public-song-manifest.json = 115`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 114`
+- `data/kuailepu-runtime/*.json = 115`
   - 当前生产可部署 raw JSON 数量。
 - `reference/songs/*.json = 109`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 108`
+- `data/kuailepu/*.json = 109`
 
 ## 5.5 2026-04-05 新增可公开曲目
 
@@ -1267,10 +1267,25 @@
   - `npm run validate:content`
   - `npm run doctor:song -- <slug>`
   - 中国网络下 `npm run preflight:kuailepu-publish -- moon-river can-you-feel-the-love-tonight yesterday-once-more`
+- 当前工作区还额外有一首**已导入、已补本地公开内容层、但尚未 commit / 尚未 push** 的灰度曲：
+  - `zeldas-lullaby`
+  - 当前已经完成：
+    - `data/kuailepu-runtime/zeldas-lullaby.json`
+    - `data/kuailepu/zeldas-lullaby.json`
+    - `data/songbook/public-song-manifest.json`
+    - `data/songbook/song-seo-profiles.json`
+    - `src/lib/learn/content.ts`
+    - 中国网络下 `npm run validate:content`
+    - `npm run doctor:song -- zeldas-lullaby`
+    - `npm run preflight:kuailepu-publish -- zeldas-lullaby`
 - 重要：
   - `origin/main` 和线上当前是 `111` 首公开 song pages
-  - 本地待审核工作区如果把这 3 首算进去，会暂时变成 `114`
-  - 新对话里不要把“本地待审核 114”误说成“线上已经 114”
+  - 本地待审核工作区如果把这 4 首算进去，会暂时变成 `115`
+  - 新对话里不要把“本地待审核 115”误说成“线上已经 115”
+- 当前仓库还新增了一条更清晰的内部灰度曲追踪入口：
+  - `data/songbook/grey-song-rollout.json`
+  - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
+  - 当前用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
 - 当前又新增一条协作规则：
   - **任何 push 前都必须先得到用户明确同意**
   - 不要因为本地验证通过就默认可以触发 Vercel 自动部署
@@ -1281,11 +1296,11 @@
 
 下面这条可以直接复制给新对话：
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The current local workspace is prepared for a possible 115-song state, with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ### 19.2 2026-04-15 当前本地状态补丁
 
-`Current local worktree contains committed but unpushed grey-song rollout work. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 114-song state with three pending grey songs: moon-river, can-you-feel-the-love-tonight, and yesterday-once-more. These three local songs already have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. Do not describe these three songs as publicly live until they are actually pushed. Do not push, commit, or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
+`Current local worktree contains grey-song rollout work beyond origin/main. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 115-song state with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The first three are already committed locally and have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. zeldas-lullaby has already been imported, added to the local public content layer, wired into SEO and learn/hub links, and has also passed validate:content, doctor:song, and China-network preflight compare, but it has not been committed yet. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker. Do not describe these four songs as publicly live until they are actually pushed. Do not push, commit, or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
 
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 

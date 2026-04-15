@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "updatedOn": "2026-04-15",
+  "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
+  "entries": [
+    {
+      "slug": "song-of-time",
+      "title": "Song of Time",
+      "status": "live",
+      "batch": "1",
+      "group": "game",
+      "addedOn": "2026-04-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/u4b8i1Vw4.html",
+      "notes": "First grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "carrying-you",
+      "title": "Carrying You",
+      "status": "live",
+      "batch": "1",
+      "group": "film",
+      "addedOn": "2026-04-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/khczj1JQh.html",
+      "notes": "First grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "hes-a-pirate",
+      "title": "He's a Pirate",
+      "status": "live",
+      "batch": "1",
+      "group": "film",
+      "addedOn": "2026-04-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ZHh6i1MEy.html",
+      "notes": "First grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "merry-go-round-of-life",
+      "title": "Merry-Go-Round of Life",
+      "status": "live",
+      "batch": "2",
+      "group": "animation",
+      "addedOn": "2026-04-11",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/b4yzj1e6R.html",
+      "notes": "Second grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "my-heart-will-go-on",
+      "title": "My Heart Will Go On",
+      "status": "live",
+      "batch": "2",
+      "group": "film",
+      "addedOn": "2026-04-11",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/YNN4j1YwL.html",
+      "notes": "Second grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "river-flows-in-you",
+      "title": "River Flows in You",
+      "status": "live",
+      "batch": "2",
+      "group": "instrumental",
+      "addedOn": "2026-04-11",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Lu4aj1Q9b.html",
+      "notes": "Second grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "one-summers-day",
+      "title": "One Summer's Day",
+      "status": "live",
+      "batch": "4",
+      "group": "animation",
+      "addedOn": "2026-04-14",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/LZJLe1p9k.html",
+      "notes": "Fourth grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "princess-mononoke",
+      "title": "Princess Mononoke",
+      "status": "live",
+      "batch": "4",
+      "group": "animation",
+      "addedOn": "2026-04-14",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/9MsSe1G2w.html",
+      "notes": "Fourth grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "path-of-the-wind",
+      "title": "Path of the Wind",
+      "status": "live",
+      "batch": "4",
+      "group": "animation",
+      "addedOn": "2026-04-14",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/zWnVe1M0A.html",
+      "notes": "Fourth grey batch. Already pushed to origin/main."
+    },
+    {
+      "slug": "game-of-thrones-theme",
+      "title": "Game of Thrones Theme",
+      "status": "live",
+      "batch": "5",
+      "group": "tv",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/itiob1eJQ.html",
+      "notes": "Grey rollout batch after the first public-domain expansion. Already pushed to origin/main."
+    },
+    {
+      "slug": "the-imperial-march",
+      "title": "The Imperial March",
+      "status": "live",
+      "batch": "5",
+      "group": "film",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AXG0h19gt.html",
+      "notes": "Grey rollout batch after the first public-domain expansion. Already pushed to origin/main."
+    },
+    {
+      "slug": "speak-softly-love",
+      "title": "Speak Softly Love",
+      "status": "live",
+      "batch": "5",
+      "group": "film",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/QdQCd1I5i.html",
+      "notes": "Grey rollout batch after the first public-domain expansion. Already pushed to origin/main."
+    },
+    {
+      "slug": "moon-river",
+      "title": "Moon River",
+      "status": "committed-local",
+      "batch": "6",
+      "group": "film",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/VaQjb1LS8.html",
+      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "can-you-feel-the-love-tonight",
+      "title": "Can You Feel the Love Tonight",
+      "status": "committed-local",
+      "batch": "6",
+      "group": "animation",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/MDRUf1Nq6.html",
+      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "yesterday-once-more",
+      "title": "Yesterday Once More",
+      "status": "committed-local",
+      "batch": "6",
+      "group": "song",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6THZb1yv4.html",
+      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "zeldas-lullaby",
+      "title": "Zelda's Lullaby",
+      "status": "committed-local",
+      "batch": "6b",
+      "group": "game",
+      "addedOn": "2026-04-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TgVgg1zt7.html",
+      "notes": "Imported from a user-provided direct URL, then promoted into the local public content layer with manifest, SEO profile, learn/hub linking, and five-instrument preflight compare passing. Not pushed yet."
+    }
+  ]
+}
