@@ -79,6 +79,7 @@ const PERSON_NAME_OVERRIDES: Record<string, string> = {
   巴赫: 'Johann Sebastian Bach',
   帕赫贝尔: 'Johann Pachelbel',
   舒曼: 'Robert Schumann',
+  '约翰.贝迪斯': 'John Bettis',
   可可老师: 'Keke Studio',
   'Antonin Dvork': 'Antonín Dvořák'
 }

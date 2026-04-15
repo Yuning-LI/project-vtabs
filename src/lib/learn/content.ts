@@ -178,6 +178,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'always-with-me',
   'amazing-grace',
   'air-on-the-g-string',
+  'can-you-feel-the-love-tonight',
   'carrying-you',
   'going-home',
   'greensleeves',
@@ -185,6 +186,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'lullaby',
   'merry-christmas-mr-lawrence',
   'my-heart-will-go-on',
+  'moon-river',
   'moonlight-sonata',
   'one-summers-day',
   'on-wings-of-song',
@@ -198,7 +200,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'song-of-time',
   'speak-softly-love',
   'summer',
-  'traumerei'
+  'traumerei',
+  'yesterday-once-more'
 ])
 
 const LULLABY_BEDTIME_SONG_SLUGS = new Set([
@@ -1813,7 +1816,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'silent-night',
       'we-wish-you-a-merry-christmas',
       'auld-lang-syne',
-      'scarborough-fair'
+      'scarborough-fair',
+      'moon-river',
+      'can-you-feel-the-love-tonight',
+      'yesterday-once-more'
     ],
     sections: [
       {
@@ -1838,7 +1844,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'silent-night',
           'we-wish-you-a-merry-christmas',
           'auld-lang-syne',
-          'scarborough-fair'
+          'scarborough-fair',
+          'moon-river',
+          'can-you-feel-the-love-tonight',
+          'yesterday-once-more'
         ]
       },
       {
@@ -1846,7 +1855,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Choose a lyric-enabled page when the words help you hear the tune and remember phrase boundaries. Choose a melody-only page when you want the cleanest possible reading surface for finger work.'
         ],
-        songSlugs: ['row-row-row-your-boat', 'happy-new-year']
+        songSlugs: ['row-row-row-your-boat', 'happy-new-year', 'moon-river', 'yesterday-once-more']
       }
     ],
     faq: [
@@ -2821,6 +2830,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'auld-lang-syne',
       'canon',
       'happy-birthday-to-you',
+      'moon-river',
+      'can-you-feel-the-love-tonight',
+      'yesterday-once-more',
       'song-of-time',
       'carrying-you',
       'my-heart-will-go-on',
@@ -2850,6 +2862,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'scarborough-fair',
           'auld-lang-syne',
           'canon',
+          'moon-river',
+          'can-you-feel-the-love-tonight',
+          'yesterday-once-more',
           'song-of-time',
           'my-heart-will-go-on',
           'summer',
@@ -2867,7 +2882,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'moon-river', 'can-you-feel-the-love-tonight', 'yesterday-once-more', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -2972,6 +2987,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'air-on-the-g-string',
       'greensleeves',
       'going-home',
+      'moon-river',
+      'can-you-feel-the-love-tonight',
+      'yesterday-once-more',
       'lullaby',
       'traumerei',
       'song-of-time',
@@ -2993,7 +3011,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'moon-river', 'can-you-feel-the-love-tonight', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3006,14 +3024,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'moon-river', 'yesterday-once-more', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'moonlight-sonata', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [

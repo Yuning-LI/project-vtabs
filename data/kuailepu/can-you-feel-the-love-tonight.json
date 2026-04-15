@@ -1,0 +1,57 @@
+{
+  "id": "can-you-feel-the-love-tonight",
+  "slug": "can-you-feel-the-love-tonight",
+  "title": "Can You Feel the Love Tonight",
+  "description": "Can You Feel the Love Tonight melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "难 得 在 _ 忙 乱 _ 中 找 一 份 _ 清 静， _ 难 得 在 _ 动 荡 世 界 上， _",
+    "有 片 刻 _ 安 宁。 _ 难 忘 此 _ 情 此 景， 激 动 我 _ 一 生。 _",
+    "不 倦 的 _ 勇 士 盼 的 是 你， _ 来 和 我 _ 同 行。 _ 今",
+    "夜 是 否 _ 感 到 _ 恩 爱？ _ 当 我 俩 _ 同 在 _。",
+    "这 一 刻， _ _ 饱 经 风 _ 霜 的 漂 泊 者， 心 潮 在 澎 湃。 _ 今",
+    "夜 是 否 _ 感 到 _ 恩 爱？ _ _ 难 舍 难 _ 分 开。 _",
+    "这 一 刻 _ _ 无 论 国 _ 王 _ 和 乞 丐 _ 都 永 世 难 忘 怀。 _",
+    "这 一 刻 _ _ 无 论 国 _ 王 _ 和 乞 丐 _ 都 永 世 难 忘 怀。 _"
+  ],
+  "extraLyrics": [
+    "天 地 间 _ 变 幻 无 穷， 有 如 万 _ 花 筒， _",
+    "翻 过 来 _ 它 又 转 回 去， _ 有 枯 也 _ 有 荣。 _",
+    "游 子 渴 _ 望 回 归， 尽 在 情 _ 理 中， _",
+    "风 雨 后， _ 和 你 久 别 又 重 逢， 两 颗 心 _ 跳 动。 _",
+    "There's a calm _ sur ren _ der To the rush _ of day _ When the heat _ of a rol ling wind _ Can be turned _ a way _ An en chant _ ed mo ment And it sees _ me through _ It's e nough _ for this rest less war rior _ Just to be _ with you _",
+    "And can you feel _ the love _ to night? _ It is where _ we are _ It's e nough _ _ for this wide _ eyed _ wan der er That we got this far _ And can you feel _ the love _ to night _ _ How it's laid _ to rest? _ It's e nough _ _ to make kings _ and _ vag a bonds _",
+    "Be lieve the ver y best _",
+    "It's e nough _ _ to make kings _ and _ vag a bonds _",
+    "Be lieve the ver y best _",
+    "There's time for _ ev ery _ one If they on _ ly learn _ That the twist _ ing ka lei do scope _ Moves us all _ in turn _ There's a rhyme _ and rea son",
+    "To the wild _ out doors _ When the heart _ of this star crossed voy ag er beats in time _ with youers _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/MDRUf1Nq6.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song MDRUf1Nq6 on 2026-04-15."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 80,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-15",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "6 - 7 1' 1' - 2' 1' 1' 5 - - 0 0 0 0 | 6 - 7 1' 1' 2' - 1' 1' - - - 0 0 0 0 | 6 - 7 1' 1' - 1' 2' 1' 5 - 3' 3' - - - |",
+    "4' - 3' 2' 2' - 3' 1' 2' - - - 0 0 0 0 | 6 - 7 1' 1' 2' - - 1' 5 - - 0 0 0 0 | 6 - 7 1' 1' 2' - 1' 1' - - - 0 0 0 0 |",
+    "6 - 7 1' 1' 5 5 - 5' - 3' - 1' 6 6 - | 4' - 3' 2' 2' - 3' 2' 2' - - - 0 0 0 5 |",
+    "5' - - - - - 3' 2' 2' - - - 5' - 3' - | 3' - - - 1' 6 - - 6 - - - 0 0 0 0 | 0 0 0 0 5 1' 4' - 4' - - - 3' - 2' - | 2' - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 6 7 1' - 1' - - - 1' 5 5 - | 5' - 2' - 3' - 1' - 1' 1' 6 - 0 0 0 0 | 4' - - - 3' - - - 2' - - - 3' - 2' - | 2' - - - - - - - 0 0 0 0 0 0 0 5 |",
+    "5' - - - - - 3' 2' 2' - - - 5' - 3' - | 3' - - - 1' 6 - 5 4 - - - 0 0 0 0 | 0 0 0 0 5 1' 4' - 4' - - - 3' - 2' - | 2' - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 6 7 1' - 1' - - - 1' 5 5 - | 5' - 2' - 3' - 1' - 1' 1' 6 - 6 - - 5 | 4' - - - 3' - - - 2' - - - 1' 1' - - | 1' - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 6 7 1' - 1' - - - 1' 5 5 - | 5' - 2' - 3' - 1' - 1' 1' 6 - 6 - - 5 | 4' - - - 3' - - - 2' - - - 1' 1' - - | 1' - - - - - - - 0 0 0 0 0 0 0 0 | | |"
+  ]
+}
