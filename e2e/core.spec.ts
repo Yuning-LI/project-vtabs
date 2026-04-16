@@ -106,7 +106,7 @@ test.describe('runtime-backed song pages', () => {
       'aria-pressed',
       'true'
     )
-    await expect(page.getByRole('button', { name: 'Measure Numbers: On' })).toHaveAttribute(
+    await expect(page.getByRole('button', { name: 'Measure Numbers: Off' })).toHaveAttribute(
       'aria-pressed',
       'true'
     )
@@ -138,7 +138,7 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await expect(page.getByRole('combobox', { name: 'Note View' })).toHaveValue('letter')
-    await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1d')
+    await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1u')
     const aboutSection = page.locator('section').filter({
       has: page.getByRole('heading', { name: 'About Ode to Joy' })
     })

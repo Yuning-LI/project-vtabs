@@ -122,7 +122,7 @@ export default function KuailepuLegacyRuntimePage({
         show_graph: normalizedQueryState.showGraph ?? null,
         show_lyric: (normalizedQueryState.showLyric ?? 'on') as 'on' | 'off',
         show_note_range: (normalizedQueryState.showNoteRange ?? 'off') as 'on' | 'off',
-        show_measure_num: (normalizedQueryState.showMeasureNum ?? 'on') as 'on' | 'off',
+        show_measure_num: (normalizedQueryState.showMeasureNum ?? 'off') as 'on' | 'off',
         measure_layout: normalizedQueryState.measureLayout ?? 'compact',
         sheet_scale: normalizedQueryState.sheetScale ?? 10
       }),

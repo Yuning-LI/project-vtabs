@@ -22,7 +22,7 @@ export type PublicSongPageQueryState = {
   practiceTool?: 'metronome' | null
 }
 
-const DEFAULT_PUBLIC_SHOW_MEASURE_NUM = 'on'
+const DEFAULT_PUBLIC_SHOW_MEASURE_NUM = 'off'
 
 type RuntimeInstrumentCarrier = {
   instrumentFingerings?: Array<{

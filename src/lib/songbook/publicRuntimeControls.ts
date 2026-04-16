@@ -27,8 +27,12 @@ export function getPublicRuntimeGraphOptions(
     option => option.instrument === instrumentId
   )
 
-  return (instrument?.graphList ?? [])
-    .filter(option => option.value?.trim())
+  const orderedOptions = prioritizeDefaultGraphDirection(
+    instrumentId,
+    (instrument?.graphList ?? []).filter(option => option.value?.trim())
+  )
+
+  return orderedOptions
     .map(option => ({
       value: option.value!.trim(),
       label:
@@ -79,6 +83,35 @@ function buildSheetScaleOptions(sheetScaleList: number[] | undefined) {
     value: String(value),
     label: `${value}0%`
   }))
+}
+
+function prioritizeDefaultGraphDirection(
+  instrumentId: PublicSongInstrumentId,
+  options: Array<{ name?: string; value?: string }>
+) {
+  if (instrumentId !== 'r8b' && instrumentId !== 'r8g' && instrumentId !== 'w6') {
+    return options
+  }
+
+  const upwardOptions = options.filter(option => isUpwardGraphOption(option.name))
+  if (upwardOptions.length === 0) {
+    return options
+  }
+
+  const upwardValues = new Set(upwardOptions.map(option => option.value))
+  return [
+    ...upwardOptions,
+    ...options.filter(option => !upwardValues.has(option.value))
+  ]
+}
+
+function isUpwardGraphOption(value: string | null | undefined) {
+  if (!value) {
+    return false
+  }
+
+  const normalized = value.replace(/\s+/g, '')
+  return normalized.includes('吹口在上') || /mouthpiece\s*up/i.test(value)
 }
 
 function translateGraphOptionLabel(value: string) {

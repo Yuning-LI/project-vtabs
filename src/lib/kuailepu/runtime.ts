@@ -611,6 +611,36 @@ function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+function getPreferredPublicGraphValue(
+  instrumentId: string | null | undefined,
+  graphList:
+    | Array<{
+        name?: string
+        value?: string
+      }>
+    | null
+    | undefined
+) {
+  const available = (graphList ?? []).filter(
+    (item): item is { name?: string; value: string } =>
+      typeof item.value === 'string' && item.value.trim().length > 0
+  )
+  if (available.length === 0) {
+    return null
+  }
+
+  if (instrumentId !== 'r8b' && instrumentId !== 'r8g' && instrumentId !== 'w6') {
+    return available[0]!.value.trim()
+  }
+
+  const upward = available.find(item => {
+    const normalizedName = item.name?.replace(/\s+/g, '') ?? ''
+    return normalizedName.includes('吹口在上') || /mouthpiece\s*up/i.test(item.name ?? '')
+  })
+
+  return upward?.value.trim() ?? available[0]!.value.trim()
+}
+
 function applyRuntimeDefaults(
   payload: KuailepuRuntimePayload,
   state: KuailepuRuntimeState | null
@@ -685,8 +715,10 @@ function applyRuntimeDefaults(
 
   next.fingering = selectedFingering
   next.fingering_index = selectedFingeringIndex
-  const selectedGraphValue =
-    selectedInstrument?.graphList?.find(item => item.value?.trim())?.value ?? null
+  const selectedGraphValue = getPreferredPublicGraphValue(
+    selectedInstrument?.instrument ?? null,
+    selectedInstrument?.graphList
+  )
   next.show_graph = hasExplicitInstrumentOverride
     ? state?.show_graph ?? selectedGraphValue ?? normalizeToggle(undefined, payload.show_graph, '1')
     : normalizeToggle(state?.show_graph, payload.show_graph, '1')
@@ -716,15 +748,15 @@ function applyRuntimeDefaults(
    *
    * 原因：
    * - raw JSON 里的 `show_measure_num` 更像“源站当时保存下来的页面偏好”
-   * - 当前英文公开页面向的是 western 读谱习惯
-   * - 这类用户通常会把 bar / measure numbers 当成练习和定位用的常规辅助信息
+   * - 当前英文公开页面更强调首屏谱面简洁度
+   * - 小节号仍然保留开关，但不再默认打开
    *
    * 所以公开页这里统一收口为：
    * - 显式 query 仍然优先
-   * - 默认值改为 `on`
+   * - 默认值改为 `off`
    * - 不再被 payload 根层历史偏好牵着走
    */
-  next.show_measure_num = normalizeToggle(state?.show_measure_num, undefined, 'on')
+  next.show_measure_num = normalizeToggle(state?.show_measure_num, undefined, 'off')
   next.measure_layout = state?.measure_layout ?? payload.measure_layout ?? 'compact'
   next.no_check_href = true
   next.no_preference_instrument = true

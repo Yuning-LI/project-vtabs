@@ -104,7 +104,7 @@ const INSTRUMENT_NAME_OVERRIDES: Record<string, string> = {
 const GRAPH_NAME_OVERRIDES: Record<string, string> = {
   吹口在下: 'Mouthpiece down',
   吹口在上: 'Mouthpiece up',
-  '吹口在下（推荐）': 'Mouthpiece down (Recommended)',
+  '吹口在下（推荐）': 'Mouthpiece down',
   '吹口在上（推荐）': 'Mouthpiece up (Recommended)'
 }
 
