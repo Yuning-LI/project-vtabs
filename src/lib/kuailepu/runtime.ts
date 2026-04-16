@@ -1326,6 +1326,61 @@ function buildRuntimeBridgeScript(
     return document.querySelector('#sheet svg, #sheet .sheet-svg');
   }
 
+  function getRuntimeAccessibleSongTitle() {
+    var contextTitle =
+      typeof context !== 'undefined' && context
+        ? context.title || context.song_name || context.alias_name || ''
+        : '';
+    if (contextTitle && String(contextTitle).trim()) {
+      return String(contextTitle).trim();
+    }
+
+    var documentTitle = String(document.title || '')
+      .replace(/\s*-\s*Kuailepu Runtime Preview\s*$/i, '')
+      .trim();
+    return documentTitle || songId;
+  }
+
+  function annotateSheetSvgAccessibility(svg) {
+    if (!svg) {
+      return;
+    }
+
+    var songTitle = getRuntimeAccessibleSongTitle();
+    var titleId = 'vtabs-sheet-title';
+    var descId = 'vtabs-sheet-desc';
+    var titleText = songTitle
+      ? songTitle + ' fingering chart and sheet music'
+      : 'Fingering chart and sheet music';
+    var descText = songTitle
+      ? 'Interactive SVG fingering chart and melody notation for ' + songTitle + '.'
+      : 'Interactive SVG fingering chart and melody notation.';
+
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('aria-labelledby', titleId + ' ' + descId);
+    svg.removeAttribute('aria-hidden');
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('[data-vtabs-a11y]'))
+      .forEach(function (node) {
+        node.remove();
+      });
+
+    var titleNode = createSvgNode('title');
+    titleNode.setAttribute('id', titleId);
+    titleNode.setAttribute('data-vtabs-a11y', 'title');
+    titleNode.textContent = titleText;
+
+    var descNode = createSvgNode('desc');
+    descNode.setAttribute('id', descId);
+    descNode.setAttribute('data-vtabs-a11y', 'desc');
+    descNode.textContent = descText;
+
+    svg.insertBefore(descNode, svg.firstChild || null);
+    svg.insertBefore(titleNode, descNode);
+  }
+
   function syncPublicMetronomeButtonLabel() {
     var playButton = document.getElementById('metronome-play');
     if (!playButton) {
@@ -2052,6 +2107,7 @@ function buildRuntimeBridgeScript(
       return false;
     }
 
+    annotateSheetSvgAccessibility(svg);
     localizeVisibleSheetText(svg);
 
     if (!letterTrack || letterTrack.mode === 'number') {

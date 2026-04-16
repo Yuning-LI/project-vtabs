@@ -122,6 +122,11 @@ test.describe('runtime-backed song pages', () => {
     )
 
     await expectRuntimeSheet(page, 'ode-to-joy')
+    await expect(
+      page
+        .frameLocator('iframe[title="Ode to Joy Kuailepu runtime"]')
+        .locator('svg.sheet-svg')
+    ).toHaveAttribute('role', 'img')
     expect(requestedAssets.has('/k-static/cdn/js/dist/hc.min_02d898293e.js')).toBe(true)
     expect(requestedAssets.has('/k-static/cdn/js/song_1f2ad3c3ba.js')).toBe(true)
     expect(requestedAssets.has('/k-static/cdn/js/countdown_852b2933cb.js')).toBe(false)

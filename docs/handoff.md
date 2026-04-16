@@ -1290,6 +1290,7 @@
   - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
   - 当前用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
 - 当前又新增一条协作规则：
+  - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **任何 push 前都必须先得到用户明确同意**
   - 不要因为本地验证通过就默认可以触发 Vercel 自动部署
 
@@ -1303,7 +1304,7 @@
 
 ### 19.2 2026-04-15 当前本地状态补丁
 
-`Current local worktree contains grey-song rollout work beyond origin/main. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 115-song state with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The first three are already committed locally and have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. zeldas-lullaby has already been imported, added to the local public content layer, wired into SEO and learn/hub links, and has also passed validate:content, doctor:song, and China-network preflight compare, but it has not been committed yet. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker. Do not describe these four songs as publicly live until they are actually pushed. Do not push, commit, or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
+`Current local worktree contains grey-song rollout work beyond origin/main. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 115-song state with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The first three are already committed locally and have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. zeldas-lullaby has already been imported, added to the local public content layer, wired into SEO and learn/hub links, and has also passed validate:content, doctor:song, and China-network preflight compare, but it has not been committed yet. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker. Do not describe these four songs as publicly live until they are actually pushed. You may commit after a task is complete and the necessary local verification has passed, but do not push or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
 
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 

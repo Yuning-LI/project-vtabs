@@ -654,6 +654,7 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
   - `Grey Song Tracker`
   - 用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
 - 当前新增协作规则：
+  - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **任何 push 前都必须先得到用户明确同意**
   - 不要因为本地验证通过就默认可以上线
 

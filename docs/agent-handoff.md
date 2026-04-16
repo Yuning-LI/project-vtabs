@@ -1026,5 +1026,6 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
   - 当前用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
 - 当前又新增一条协作规则：
+  - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **未经用户明确同意，不要 push**
   - 因为 push 会触发 Vercel 自动部署并直接改线上代码
