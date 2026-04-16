@@ -803,5 +803,26 @@
     "family": "song",
     "featuredRank": 115,
     "published": true
+  },
+  {
+    "id": "waltz-no-2",
+    "slug": "waltz-no-2",
+    "family": "dance",
+    "featuredRank": 116,
+    "published": true
+  },
+  {
+    "id": "tennessee-waltz",
+    "slug": "tennessee-waltz",
+    "family": "song",
+    "featuredRank": 117,
+    "published": true
+  },
+  {
+    "id": "the-last-waltz",
+    "slug": "the-last-waltz",
+    "family": "song",
+    "featuredRank": 118,
+    "published": true
   }
 ]

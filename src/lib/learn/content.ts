@@ -200,6 +200,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'song-of-time',
   'speak-softly-love',
   'summer',
+  'tennessee-waltz',
+  'the-last-waltz',
   'traumerei',
   'yesterday-once-more',
   'zeldas-lullaby'
@@ -222,7 +224,10 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
   'habanera',
   'hes-a-pirate',
   'merry-go-round-of-life',
+  'tennessee-waltz',
+  'the-last-waltz',
   'woodpecker-polka',
+  'waltz-no-2',
   'blacksmith-polka',
   'the-hawthorn-tree',
   'dancing-doll-and-teddy-bear',
@@ -2835,6 +2840,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
+      'tennessee-waltz',
+      'the-last-waltz',
+      'waltz-no-2',
       'zeldas-lullaby',
       'song-of-time',
       'carrying-you',
@@ -2868,6 +2876,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'moon-river',
           'can-you-feel-the-love-tonight',
           'yesterday-once-more',
+          'tennessee-waltz',
+          'the-last-waltz',
+          'waltz-no-2',
           'zeldas-lullaby',
           'song-of-time',
           'my-heart-will-go-on',
@@ -2886,7 +2897,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'moon-river', 'can-you-feel-the-love-tonight', 'yesterday-once-more', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'moon-river', 'can-you-feel-the-love-tonight', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -2994,6 +3005,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
+      'tennessee-waltz',
+      'the-last-waltz',
       'zeldas-lullaby',
       'lullaby',
       'traumerei',
@@ -3016,7 +3029,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'moon-river', 'can-you-feel-the-love-tonight', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'moon-river', 'can-you-feel-the-love-tonight', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3029,7 +3042,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'moon-river', 'yesterday-once-more', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'moon-river', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
@@ -3139,6 +3152,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: [
       'can-can',
       'habanera',
+      'waltz-no-2',
+      'tennessee-waltz',
+      'the-last-waltz',
       'woodpecker-polka',
       'blacksmith-polka',
       'the-hawthorn-tree',
@@ -3153,7 +3169,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest first picks in this group are the melodies with a clear repeated pulse and a recognizable hook. Can-Can and Habanera work well because players usually already know the contour, which frees them to focus on articulation and beat placement.',
           'They also make a good contrast with slower lyrical pages, so visitors who want more energy can find a better fit right away.'
         ],
-        songSlugs: ['can-can', 'habanera', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life']
+        songSlugs: ['can-can', 'habanera', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life']
       },
       {
         title: 'How To Practice Brighter Rhythmic Songs',
@@ -3166,14 +3182,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Count the pulse out loud before trying to increase speed.',
           'Use shorter practice loops so articulation stays clear instead of blurry.'
         ],
-        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'the-hawthorn-tree']
+        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'the-hawthorn-tree']
       },
       {
         title: 'What To Add After The First Polkas And Waltz-Like Tunes',
         paragraphs: [
           'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read on the same public workflow.'
         ],
-        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate', 'merry-go-round-of-life']
+        songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate', 'merry-go-round-of-life', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz']
       }
     ],
     faq: [

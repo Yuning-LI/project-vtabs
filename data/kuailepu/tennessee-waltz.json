@@ -1,0 +1,64 @@
+{
+  "id": "tennessee-waltz",
+  "slug": "tennessee-waltz",
+  "title": "Tennessee Waltz",
+  "description": "Tennessee Waltz melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "published": true,
+  "alignedLyrics": [
+    "I was dan cing with my dar ling to the",
+    "Ten nes see _ Waltz _ When an old friend I",
+    "hap pened to see _ I in tro",
+    "duced her to my loved one And _ while they were _",
+    "dan cing My friend stole my sweet heart from",
+    "me _ I re mem ber the",
+    "night and the Ten nes see Waltz Now I",
+    "know just how much I have lost",
+    "_ Yes, I lost my lit tle dar ling The _",
+    "night they were _ play ing The beau ti ful",
+    "Ten",
+    "nes see Waltz _ I re Ten",
+    "",
+    "nes",
+    "see Waltz _ _ _",
+    ""
+  ],
+  "extraLyrics": [
+    "我 和 爱 人， 正 在 尽 情 跳 着， 田 纳 西 _ 圆舞曲， _ 一 位 友 人 她 突 然 光 临。 _ 我 向 _ 爱 人， 介 绍，她 姓 名 可 当 他 们 跳 起 舞， _ 她竟 偷 走 我 爱 人 的 心！ _",
+    "我 还 记 得 那 夜晚， 和 那 田 纳 西 舞， 现 在 我 感 到 多 么 痛 苦。 _ 我 已 失 去 我 的 幸 福， 自 从 他 俩 跳 起 舞 _ 那 迷 人 的， 田 纳 西 舞曲。 _ 我 还 田 纳 西 舞曲。"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/HhI9l18KJ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song HhI9l18KJ on 2026-04-16."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-16",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 0 0 0 1 - 2 - | 3 - 5 - - - - - 1 - 2 - | 3 - 5 - - - - - 1' - 2' - |",
+    "3' - - - - - 3' - 2' - 1' - | 1' - - - 6 - - - 1' - 1' - | 1' - - - 5 - - - - - 3 - |",
+    "6 - - - 5 - - - - - 3 - | 2 - - - - - - - - - - - | 2 - - - - - - - 1 - 2 2 |",
+    "3 - 5 - - - - - 1 - 2 - | 3 - 5 - - - - - 1' - 2' - | 3' - - - - - 3' - 3' - 2' - |",
+    "1' - - - 6 - - - 1' - - - | 1' - - - 5 - - - - - 3 - | 4 - - - 3 - - - - - 2 - |",
+    "1 - - - - - - - - - - - | 1 - - - - - - - 1' - 2' - | 3' - - - 3' - - - - - 3' - |",
+    "2' - - - - - - - 3' - 2' - | 1' - - - - - 4 - 6 - - - | 5 - - - - - - - 1' - 1' - |",
+    "1' - - - 5 - - - - - 3 - | 6 - - - 5 - - - - - 3 - | 2 - - - - - - - - - - - |",
+    "2 - - - - - - - 1 - 2 - | 3 - - - - - 5 - - - - - 1 - 2 - | 3 - 5 - - - - - 1' - 2' - |",
+    "3' - - - - - 3' - 2' - 1' - | 1' - - - 6 - - - 1' - - - | 1' - - - - - 5 - 3 - - - |",
+    "1 - - -",
+    "4 - - - 3 - - - 2 - - - | 1 - - - - - - - - - - - | 1 - - - - - - - 1' - 2' -",
+    "|",
+    "2 - - -",
+    "6 - - - 4 - - - 2' - - - | 1' - - - - - - - - - - - | 1' - - - - - - - - - - -",
+    "| | |"
+  ]
+}

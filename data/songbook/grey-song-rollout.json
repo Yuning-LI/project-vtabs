@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-15",
+  "updatedOn": "2026-04-17",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -162,6 +162,36 @@
       "addedOn": "2026-04-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TgVgg1zt7.html",
       "notes": "Imported from a user-provided direct URL, then promoted into the local public content layer with manifest, SEO profile, learn/hub linking, and five-instrument preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "waltz-no-2",
+      "title": "Waltz No.2",
+      "status": "committed-local",
+      "batch": "7",
+      "group": "dance",
+      "addedOn": "2026-04-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oa6Zq12vI.html",
+      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "tennessee-waltz",
+      "title": "Tennessee Waltz",
+      "status": "committed-local",
+      "batch": "7",
+      "group": "song",
+      "addedOn": "2026-04-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/HhI9l18KJ.html",
+      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
+    },
+    {
+      "slug": "the-last-waltz",
+      "title": "The Last Waltz",
+      "status": "committed-local",
+      "batch": "7",
+      "group": "song",
+      "addedOn": "2026-04-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ItyWq16I3.html",
+      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
     }
   ]
 }

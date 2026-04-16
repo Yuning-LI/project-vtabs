@@ -335,6 +335,13 @@ function sha256(input: string) {
 
 function normalizeSvgForHash(input: string) {
   return input
+    .replace(/\s+role="img"/g, '')
+    .replace(/\s+focusable="false"/g, '')
+    .replace(/\s+aria-labelledby="[^"]*"/g, '')
+    .replace(/\s+aria-hidden="true"/g, '')
+    .replace(/\s+data-vtabs-a11y="[^"]*"/g, '')
+    .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, '')
+    .replace(/<desc\b[^>]*>[\s\S]*?<\/desc>/gi, '')
     .replace(/>\s+</g, '><')
     .trim()
 }
