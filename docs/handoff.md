@@ -30,7 +30,7 @@
 
 - 公开 runtime 已补齐英文文本模式。
 - 对仍保留显示的 SVG 文本，`Composer`、`Play order` 等标签会在我们自己的 runtime 后处理中英文化。
-- 调号 `1=...`、纯拍号以及指法图谱上方的乐器 / 指法标题行，当前在 english runtime 下默认隐藏，不再要求这些行继续可见。
+- 调号 `1=...`、纯拍号、速度类 `=120` 信息以及指法图谱上方的乐器 / 指法标题行，当前在 english runtime 下默认隐藏，不再要求这些行继续可见。
 - 这条隐藏规则同样作用于公开 song page、`/dev/print/song/<slug>` 和 `/dev/pinterest/song/[id]` 这几条 english runtime 入口。
 - 公开页当前默认不再依赖 `www.kuaiyuepu.com/static/...` 的实时静态资源；脚本、字体、i18n 包、播放器依赖等已补到本地 `vendor/kuailepu-static`。
 - `/k-static` 现在优先是 `public/k-static` 下的静态同步产物，不再主要依赖动态 route。

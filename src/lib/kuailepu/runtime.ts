@@ -1740,11 +1740,15 @@ function buildRuntimeBridgeScript(
       return false;
     }
 
-    if (/^1\\s*=\\s*[#b]?[A-G]$/i.test(normalized)) {
+    if (/^1\\s*[=＝]\\s*[#b♭]?[A-G]$/i.test(normalized)) {
       return true;
     }
 
-    if (/^\\d+\\s*\\/\\s*\\d+$/.test(normalized)) {
+    if (/^\\d+\\s*[\\/／]\\s*\\d+$/.test(normalized)) {
+      return true;
+    }
+
+    if (/=\\s*\\d+\\b/.test(normalized)) {
       return true;
     }
 
