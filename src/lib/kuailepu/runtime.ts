@@ -1757,14 +1757,71 @@ function buildRuntimeBridgeScript(
     );
   }
 
-  function localizeVisibleSheetText(svg) {
+  function hideTopLeftSheetMetadata(svg) {
     if (!svg || textMode !== 'english') {
       return;
     }
 
     Array.prototype.slice
+      .call(svg.querySelectorAll('text, use'))
+      .forEach(function (node) {
+        var tagName = node && node.tagName ? String(node.tagName).toLowerCase() : '';
+        if (tagName !== 'text' && tagName !== 'use') {
+          return;
+        }
+
+        var x = Number(node.getAttribute('x'));
+        var y = Number(node.getAttribute('y'));
+        if (!Number.isFinite(x) || !Number.isFinite(y)) {
+          return;
+        }
+
+        if (x > 280 || y > 220) {
+          return;
+        }
+
+        var shouldHide = false;
+        if (tagName === 'use') {
+          var href = getUseHref(node);
+          shouldHide =
+            /^#diaohao_/.test(href) ||
+            /^#paihao_/.test(href) ||
+            (/^#shuzi_/.test(href) && x < 180 && y < 170) ||
+            href === '#bpm';
+        } else {
+          var normalized = String(node.textContent || '').replace(/\s+/g, ' ').trim();
+          shouldHide =
+            /(?:fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
+              normalized
+            ) ||
+            // 左上角调号前导数字与速度数字属于 metadata，本身不应显示；
+            // 第一小节的小节号会出现在更靠下的位置，不应被这里误伤。
+            (/^\d+$/.test(normalized) && x < 150 && y < 220);
+        }
+
+        if (!shouldHide) {
+          return;
+        }
+
+        node.setAttribute('display', 'none');
+        node.setAttribute('aria-hidden', 'true');
+        node.setAttribute('data-vtabs-top-left-metadata-hidden', '1');
+      });
+  }
+
+  function localizeVisibleSheetText(svg) {
+    if (!svg || textMode !== 'english') {
+      return;
+    }
+
+    hideTopLeftSheetMetadata(svg);
+
+    Array.prototype.slice
       .call(svg.querySelectorAll('text'))
       .forEach(function (node) {
+        if (node.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
+          return;
+        }
         var original = node.textContent || '';
         var translated = translateVisibleSheetText(original);
         if (shouldHideVisibleSheetText(translated || original)) {
