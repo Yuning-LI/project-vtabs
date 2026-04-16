@@ -1203,7 +1203,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'How To Use This Guide',
         paragraphs: [
           'Use this page as a beginner playlist rather than a one-time article. Pick one short song, one medium song, and one seasonal or lyrical song so you get repetition without getting bored.',
-          'If you play 6-hole ocarina, follow the related 6-hole guide next. If you play 12-hole AC ocarina, stay in the default view and use numbered notes only as a backup reading mode.'
+          'If you play 6-hole ocarina, follow the related 6-hole guide next. If you play 12-hole ocarina, stay in the default view and use numbered notes only as a backup reading mode.'
         ],
         bullets: [
           'Start with a song you can already hum from memory.',

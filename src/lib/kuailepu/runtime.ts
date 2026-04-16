@@ -1735,9 +1735,9 @@ function buildRuntimeBridgeScript(
       ['十二孔陶笛', '12-hole ocarina'],
       ['六孔陶笛', '6-hole ocarina'],
       ['三管陶笛', 'Triple ocarina'],
-      ['英式八孔竖笛', 'English 8-hole recorder'],
-      ['德式八孔竖笛', 'German 8-hole recorder'],
-      ['爱尔兰哨笛', 'Irish tin whistle'],
+      ['英式八孔竖笛', 'Recorder (Baroque fingering)'],
+      ['德式八孔竖笛', 'Recorder (German fingering)'],
+      ['爱尔兰哨笛', 'Tin whistle'],
       ['筒音作低音', 'Tube tone bass '],
       ['筒音作', 'Tube tone '],
       ['八孔埙', '8-hole xun'],
@@ -1791,8 +1791,8 @@ function buildRuntimeBridgeScript(
       .replace(/\\bbamboo flute\\((6) holes\\)\\s*/gi, function (_, holes) {
         return holes + '-hole bamboo flute ';
       })
-      .replace(/\\brecorder\\(baroque 8 holes\\)\\s*/gi, 'English 8-hole recorder ')
-      .replace(/\\brecorder\\(german 8 holes\\)\\s*/gi, 'German 8-hole recorder ')
+      .replace(/\\brecorder\\(baroque 8 holes\\)\\s*/gi, 'Recorder (Baroque fingering) ')
+      .replace(/\\brecorder\\(german 8 holes\\)\\s*/gi, 'Recorder (German fingering) ')
       .replace(/\\bxun\\((8|10|11) holes\\)\\s*/gi, function (_, holes) {
         return holes === '11' ? 'He-xun ' : holes + '-hole xun ';
       })

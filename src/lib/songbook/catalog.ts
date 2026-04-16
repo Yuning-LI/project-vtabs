@@ -42,7 +42,7 @@ export const manualSongCatalog: SongDoc[] = [
     slug: 'twinkle-twinkle-little-star',
     title: 'Twinkle, Twinkle, Little Star',
     description:
-      'Public-domain melody based on the French air "Ah! vous dirai-je, maman". Beginner-friendly for 12-hole AC ocarina.',
+      'Public-domain melody based on the French air "Ah! vous dirai-je, maman". Beginner-friendly for 12-hole ocarina.',
     lyrics: [
       'Twin kle Twin kle lit tle star How I won der what you are',
       'Up a bove the world so high Like a dia mond in the sky',

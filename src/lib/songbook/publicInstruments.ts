@@ -33,9 +33,9 @@ type RuntimeInstrumentCarrier = {
 const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] = [
   {
     id: 'o12',
-    label: '12-Hole AC Ocarina',
+    label: '12-Hole Ocarina',
     shortLabel: '12-Hole Ocarina',
-    seoLabel: '12-hole AC ocarina',
+    seoLabel: '12-hole ocarina',
     family: 'ocarina'
   },
   {
@@ -47,23 +47,23 @@ const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] = [
   },
   {
     id: 'r8b',
-    label: 'English 8-Hole Recorder',
-    shortLabel: 'English Recorder',
-    seoLabel: 'English 8-hole recorder',
+    label: 'Recorder (Baroque fingering)',
+    shortLabel: 'Recorder (Baroque fingering)',
+    seoLabel: 'recorder with Baroque fingering',
     family: 'recorder'
   },
   {
     id: 'r8g',
-    label: 'German 8-Hole Recorder',
-    shortLabel: 'German Recorder',
-    seoLabel: 'German 8-hole recorder',
+    label: 'Recorder (German fingering)',
+    shortLabel: 'Recorder (German fingering)',
+    seoLabel: 'recorder with German fingering',
     family: 'recorder'
   },
   {
     id: 'w6',
-    label: 'Irish Tin Whistle',
+    label: 'Tin Whistle',
     shortLabel: 'Tin Whistle',
-    seoLabel: 'Irish tin whistle',
+    seoLabel: 'tin whistle',
     family: 'whistle'
   }
 ] as const
@@ -166,12 +166,15 @@ function replaceInstrumentReferences(text: string, instrument: PublicSongInstrum
   const seoLabel = instrument.seoLabel
   const articleWithInstrument = `${getIndefiniteArticle(seoLabel)} ${seoLabel}`
   let next = text
+    .replaceAll(/a 12-hole ocarina/gi, articleWithInstrument)
+    .replaceAll(/an 12-hole ocarina/gi, articleWithInstrument)
     .replaceAll(/a 12-hole AC ocarina/gi, articleWithInstrument)
     .replaceAll(/an 12-hole AC ocarina/gi, articleWithInstrument)
-    .replaceAll(/12-hole AC ocarina/gi, seoLabel)
     .replaceAll(/12-hole ocarina/gi, seoLabel)
+    .replaceAll(/12-hole AC ocarina/gi, seoLabel)
+    .replaceAll(/12-Hole Ocarina/g, instrument.label)
     .replaceAll(/12-Hole AC Ocarina/g, instrument.label)
-    .replaceAll(/12-hole AC/gi, seoLabel)
+    .replaceAll(/12-hole AC/gi, '12-hole')
 
   return replaceInstrumentFamilyTerms(next, instrument)
 }
