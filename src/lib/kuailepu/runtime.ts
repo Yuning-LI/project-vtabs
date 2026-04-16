@@ -1730,6 +1730,29 @@ function buildRuntimeBridgeScript(
     );
   }
 
+  function shouldHideVisibleSheetText(text) {
+    if (!text || textMode !== 'english') {
+      return false;
+    }
+
+    var normalized = String(text).replace(/\\s+/g, ' ').trim();
+    if (!normalized) {
+      return false;
+    }
+
+    if (/^1\\s*=\\s*[#b]?[A-G]$/i.test(normalized)) {
+      return true;
+    }
+
+    if (/^\\d+\\s*\\/\\s*\\d+$/.test(normalized)) {
+      return true;
+    }
+
+    return /(?:fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
+      normalized
+    );
+  }
+
   function localizeVisibleSheetText(svg) {
     if (!svg || textMode !== 'english') {
       return;
@@ -1740,6 +1763,11 @@ function buildRuntimeBridgeScript(
       .forEach(function (node) {
         var original = node.textContent || '';
         var translated = translateVisibleSheetText(original);
+        if (shouldHideVisibleSheetText(translated || original)) {
+          node.setAttribute('display', 'none');
+          node.setAttribute('aria-hidden', 'true');
+          return;
+        }
         var shouldRelaxWidth = shouldRelaxVisibleSheetTextWidth(translated || original);
         if (!translated || (translated === original && !shouldRelaxWidth)) {
           return;

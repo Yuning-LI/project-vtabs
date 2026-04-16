@@ -28,7 +28,10 @@
 
 本轮最新状态要额外记住下面这些点：
 
-- 公开 runtime 已补齐英文文本模式，`Composer`、`Play order`、`12-hole ocarina Bb fingering` 这类 SVG 内可见标签也已在我们自己的 runtime 后处理中英文化。
+- 公开 runtime 已补齐英文文本模式。
+- 对仍保留显示的 SVG 文本，`Composer`、`Play order` 等标签会在我们自己的 runtime 后处理中英文化。
+- 调号 `1=...`、纯拍号以及指法图谱上方的乐器 / 指法标题行，当前在 english runtime 下默认隐藏，不再要求这些行继续可见。
+- 这条隐藏规则同样作用于公开 song page、`/dev/print/song/<slug>` 和 `/dev/pinterest/song/[id]` 这几条 english runtime 入口。
 - 公开页当前默认不再依赖 `www.kuaiyuepu.com/static/...` 的实时静态资源；脚本、字体、i18n 包、播放器依赖等已补到本地 `vendor/kuailepu-static`。
 - `/k-static` 现在优先是 `public/k-static` 下的静态同步产物，不再主要依赖动态 route。
 - `scripts/sync-kuailepu-static.mjs` 会在 `dev` / `build` / `start` 前自动执行，把 `vendor/kuailepu-static` 与 runtime archive 里的必需资源同步到 `public/k-static`。
@@ -930,7 +933,7 @@
 - 当前 `data/kuailepu/*.json` 都已为 `published: true`
 - 本地首页已确认只有歌名，没有评审状态和来源文案
 - 详情页已确认不再显示 source/Kuailepu 引导文案
-- `amazing-grace`、`canon`、`greensleeves` 等公开页已确认看不到中文标签，指法标题英文化后不再因 `textLength` 压缩而重叠
+- `amazing-grace`、`canon`、`greensleeves` 等公开页已确认看不到中文标签；当前 english runtime 下，指法图谱上方的乐器 / 指法标题行默认隐藏，不再依赖英文化后放宽 `textLength` 来避免重叠
 - 中国以外网络下，公开页已确认可以不访问快乐谱线上静态资源而正常显示指法图
 - 线上 `ode-to-joy`、`jasmine-flower`、`arirang` 详情页已确认能在公开域名正常打开
 - `Down By the Salley Gardens` 的可见残留已进一步收口到标点级别，runtime 现已把全角中文逗号规范成英文逗号

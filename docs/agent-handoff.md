@@ -23,7 +23,10 @@
 
 ## 最新补充（2026-04-02）
 
-- 公开 runtime 现已默认走英文文本模式，SVG 里的 `Composer`、`Play order`、`12-hole ocarina Bb fingering` 等可见标签都应是英文。
+- 公开 runtime 现已默认走英文文本模式。
+- 对仍保留显示的 SVG 文本，`Composer`、`Play order` 等标签都应是英文。
+- 调号 `1=...`、纯拍号以及指法图谱上方的乐器 / 指法标题行，当前在 english runtime 下默认隐藏。
+- 这条隐藏规则同样作用于公开 song page、`/dev/print/song/<slug>` 和 `/dev/pinterest/song/[id]`。
 - 公开页当前默认本地优先加载快乐谱静态依赖，不再默认回源 `www.kuaiyuepu.com/static/...`；中国以外网络下公开页也应能正常显示。
 - `/k-static` 现在优先由 `public/k-static` 提供，不再主要依赖动态 route。
 - `scripts/sync-kuailepu-static.mjs` 会在 `dev` / `build` / `start` 前自动同步必需的旧 JS/CSS/字体资源。

@@ -80,7 +80,10 @@
 
 ## 2026-04-02 补充状态
 
-- 公开 runtime 现已默认注入 `runtime_text_mode=english`，标题、副标题、作曲/作词/编曲标签、指法标题、演奏顺序等可见文案已统一走英文转换。
+- 公开 runtime 现已默认注入 `runtime_text_mode=english`。
+- 对仍保留显示的 SVG 文本，标题、副标题、作曲/作词/编曲等可见文案会统一走英文转换。
+- 调号 `1=...`、纯拍号以及指法图谱上方的乐器 / 指法标题行，当前在 english runtime 下默认隐藏。
+- 这条隐藏规则同样作用于公开 song page、`/dev/print/song/<slug>` 和 `/dev/pinterest/song/[id]` 这几条 english runtime 入口。
 - `/k-static/...` 现在优先是 `public/k-static` 下的静态同步产物，不再主要依赖动态 route。
 - `scripts/sync-kuailepu-static.mjs` 会在 `dev` / `build` / `start` 前自动执行，把 `vendor/kuailepu-static` 与 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 里当前模板实际需要的资源同步到 `public/k-static`。
 - `vendor/kuailepu-static` 现在带着一份快乐谱线上实际部署版的压缩静态快照；模板仍引用旧 i18n hash 时，会通过同步脚本兼容映射到线上仍存在的压缩包内容。
