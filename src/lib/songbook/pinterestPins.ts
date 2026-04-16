@@ -13,6 +13,8 @@ export type PinterestPinPreset = {
   measureLayout: 'compact' | 'mono'
   sheetScale: string
   sheetCropTop: number
+  sheetCropBottom?: number
+  contentWidth?: number
   frameTopPadding?: number
   fitHeight?: number
   boardName?: string
@@ -34,13 +36,47 @@ export const pinterestFirstWavePresets: readonly PinterestPinPreset[] = [
     noteLabelMode: 'letter',
     showMeasureNum: 'off',
     measureLayout: 'compact',
-    sheetScale: '18',
-    sheetCropTop: 72,
-    fitHeight: 1316,
-    frameTopPadding: 10,
+    sheetScale: '16',
+    sheetCropTop: 56,
+    fitHeight: 1368,
     footerText: 'More songs and interactive fingering charts at www.playbyfingering.com',
     hideRuntimeTitle: false,
-    artworkTheme: 'sunrise-hills'
+    artworkTheme: undefined
+  },
+  {
+    slug: 'frere-jacques',
+    title: 'Frere Jacques',
+    instrumentId: 'r8b',
+    instrumentLabel: 'Recorder (Baroque fingering)',
+    tagLabel: 'French Nursery Rhyme',
+    noteLabelMode: 'letter',
+    showMeasureNum: 'off',
+    measureLayout: 'compact',
+    sheetScale: '20',
+    sheetCropTop: 54,
+    sheetCropBottom: 0,
+    fitHeight: 1180,
+    footerText: 'More songs and interactive fingering charts at www.playbyfingering.com',
+    hideRuntimeTitle: false,
+    artworkTheme: undefined
+  },
+  {
+    slug: 'twinkle-twinkle-little-star',
+    title: 'Twinkle Twinkle Little Star',
+    instrumentId: 'o12',
+    instrumentLabel: '12-Hole Ocarina',
+    tagLabel: 'Beginner Melody',
+    noteLabelMode: 'letter',
+    showMeasureNum: 'off',
+    measureLayout: 'compact',
+    sheetScale: '18',
+    sheetCropTop: 56,
+    sheetCropBottom: 240,
+    contentWidth: 760,
+    fitHeight: 1220,
+    footerText: 'More songs and interactive fingering charts at www.playbyfingering.com',
+    hideRuntimeTitle: false,
+    artworkTheme: undefined
   },
   {
     slug: 'one-summers-day',
