@@ -1529,12 +1529,22 @@
   - `src/app/song/[id]/twitter-image.tsx`
   - `src/lib/songbook/songSocialImage.tsx`
 - 当前仓库也已保留一条内部 Pinterest 导图实验链：
+  - `src/app/dev/pinterest/page.tsx`
   - `src/app/dev/pinterest/song/[id]/page.tsx`
   - `src/lib/songbook/pinterestPins.ts`
   - `scripts/export-pinterest-pin.ts`
 - 当前 Pinterest 图仍处于实验阶段：
   - 代码已 push
   - `exports/` 下的导图产物继续只保留本地，不进入 git
+- 当前更推荐的内部工作流是：
+  - 先打开 `/dev/pinterest` 选歌
+  - 再进入 `/dev/pinterest/song/[id]` 手动截图工作台
+  - 通过浏览器手动调窗口宽度，让谱面响应式收口到更适合截图的尺寸
+- 工作台画布当前默认只保留：
+  - runtime 谱面
+  - 单行 `playbyfingering.com` 水印
+  - 底部引流文案
+  - 功能区默认隐藏；底部引流文案本身可点击打开控制弹窗
   - 后续如果继续做 Pinterest 视觉模板，不要误把 `exports/` 里的测试图当成可提交资产
 - 当前移动端额外已做两处壳层优化：
   - song page 的 `More controls` 可开关，且移动端只渲染一套控件
@@ -1545,21 +1555,19 @@
     - `tsconfig.tsbuildinfo`
     - `.tmp-playwright-3ue-profile/`
 
-### 1.1.7 2026-04-16 Pinterest 本地导图补充
+### 1.1.7 2026-04-17 Pinterest 手动截图工作台补充
 
-- 当前工作区还额外存在一组**未 commit 的 Pinterest 本地导图调整**：
-  - `scripts/export-pinterest-pin.ts`
+- 当前内部 Pinterest 工作流已经从“固定 preset 导出图”补到“手动截图工作台”：
+  - `src/app/dev/pinterest/page.tsx`
   - `src/app/dev/pinterest/song/[id]/page.tsx`
-  - `src/components/song/KuailepuRuntimeFrame.tsx`
-  - `src/lib/songbook/pinterestPins.ts`
-- 这轮调整不是公开主链改动，而是内部导图实验链的收尾：
-  - 无 artwork 的 Pinterest 预览页改成按内容高度收口，不再强制固定 1500 高
-  - 导图脚本改成先等待布局稳定，再按导图终点裁切
-  - `Frere Jacques` 已补 `English 8-Hole Recorder` 的 Pinterest pin preset，并专门调过“右侧不截断、底部完整、footer 保留”的版式
-- 当前本地 `exports/pinterest-first-wave/` 已刻意清理到只剩两张正式图：
-  - `amazing-grace.png`
-  - `frere-jacques.png`
-  - 以及对应 `manifest.json`
+- 这轮调整仍然不是公开主链改动，只属于内部导图实验链：
+  - `/dev/pinterest` 现在是可搜索的内部选歌页
+  - `/dev/pinterest/song/[id]` 现在是手动截图工作台，不再要求每首歌都先做固定 preset
+  - 页面最上方直接进入谱面；功能区默认不常驻
+  - 底部引流文案本身可点击打开控制弹窗；弹窗可点遮罩关闭，也可按 `Esc`
+  - 截图主画布只保留谱面、水印和底部引流文案
+  - 水印当前直接叠在谱面右下角，文本为单行 `playbyfingering.com`
+  - 旧的 `scripts/export-pinterest-pin.ts` 和 `src/lib/songbook/pinterestPins.ts` 仍保留，主要用于历史 preset / 自动导出兼容
 - 继续遵守：
   - `exports/` 只保留本地，不进入 git
   - 不要把 `exports/` 里的导图产物当成应提交资产

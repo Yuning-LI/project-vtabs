@@ -1,27 +1,54 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import PinterestWorkbenchControls from '@/components/dev/PinterestWorkbenchControls'
+import PinterestWorkbenchShell from '@/components/dev/PinterestWorkbenchShell'
 import KuailepuRuntimeFrame from '@/components/song/KuailepuRuntimeFrame'
 import {
+  resolveKuailepuRuntimeState,
   hasPublicKuailepuLyricToggle,
   loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
-import { getPublicRuntimeGraphOptions } from '@/lib/songbook/publicRuntimeControls'
+import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import {
-  getPinterestPinFooterText,
-  getPinterestPinPreset,
-  shouldHidePinterestRuntimeTitle
+  buildPublicRuntimeControlConfig
+} from '@/lib/songbook/publicRuntimeControls'
+import {
+  buildSongPageHref,
+  getSupportedPublicSongInstruments,
+  normalizePublicSongInstrument
+} from '@/lib/songbook/publicInstruments'
+import {
+  normalizeExplicitNoteLabelMode,
+  normalizeMeasureLayout,
+  normalizeSheetScale,
+  normalizeToggleParam
+} from '@/lib/songbook/songPageQueryState'
+import {
+  getPinterestPinPreset
 } from '@/lib/songbook/pinterestPins'
 
 export const dynamic = 'force-dynamic'
+
+type PinterestWorkbenchSearchParams = {
+  instrument?: string
+  note_label_mode?: string
+  show_graph?: string
+  show_lyric?: string
+  show_measure_num?: string
+  measure_layout?: string
+  sheet_scale?: string
+  watermark?: string
+}
 
 export async function generateMetadata({
   params
 }: {
   params: { id: string }
 }): Promise<Metadata> {
+  const song = songCatalogBySlug[params.id]
   return {
-    title: `${params.id} Pinterest Preview`,
-    description: 'Internal Pinterest export preview.',
+    title: song ? `${song.title} Pinterest Workbench` : `${params.id} Pinterest Workbench`,
+    description: 'Internal Pinterest screenshot workbench.',
     robots: {
       index: false,
       follow: false
@@ -30,151 +57,154 @@ export async function generateMetadata({
 }
 
 export default function PinterestSongPreviewPage({
-  params
+  params,
+  searchParams
 }: {
   params: { id: string }
+  searchParams?: PinterestWorkbenchSearchParams
 }) {
-  const preset = getPinterestPinPreset(params.id)
-  if (!preset) {
+  const song = songCatalogBySlug[params.id]
+  if (!song) {
     notFound()
   }
 
-  const runtimePayload = loadKuailepuSongPayload(preset.slug)
+  const preset = getPinterestPinPreset(params.id)
+  const runtimePayload = loadKuailepuSongPayload(song.slug)
   if (!runtimePayload) {
     notFound()
   }
 
-  const graphOptions = getPublicRuntimeGraphOptions(runtimePayload, preset.instrumentId)
-  const graphValue = graphOptions[0]?.value ?? '1d'
+  const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
+  const activeInstrument = normalizePublicSongInstrument(
+    searchParams?.instrument ?? preset?.instrumentId,
+    supportedInstruments
+  )
   const hasPublicLyrics = hasPublicKuailepuLyricToggle(runtimePayload)
-  const showLyric = hasPublicLyrics ? 'on' : 'off'
+  const noteLabelMode =
+    normalizeExplicitNoteLabelMode(searchParams?.note_label_mode) === 'number'
+      ? 'number'
+      : 'letter'
+  const defaultSheetScale = normalizeSheetScale(
+    preset?.sheetScale ?? null,
+    runtimePayload.sheetScaleList
+  )
+  const controlState = resolveKuailepuRuntimeState(runtimePayload, {
+    instrument: activeInstrument.id,
+    show_graph: searchParams?.show_graph ?? null,
+    show_lyric: hasPublicLyrics
+      ? normalizeToggleParam(searchParams?.show_lyric) ?? 'on'
+      : 'off',
+    show_measure_num: normalizeToggleParam(searchParams?.show_measure_num) ?? preset?.showMeasureNum ?? 'off',
+    measure_layout: normalizeMeasureLayout(searchParams?.measure_layout) ?? preset?.measureLayout ?? 'compact',
+    sheet_scale:
+      normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList) ??
+      defaultSheetScale ??
+      null,
+    note_label_mode: noteLabelMode
+  })
+  const controlConfig = buildPublicRuntimeControlConfig(runtimePayload, activeInstrument.id, {
+    show_graph: controlState.show_graph,
+    show_lyric: controlState.show_lyric,
+    show_note_range: controlState.show_note_range,
+    show_measure_num: controlState.show_measure_num,
+    measure_layout: controlState.measure_layout,
+    sheet_scale: controlState.sheet_scale
+  })
+  const watermark = normalizeWatermark(searchParams?.watermark)
   const paramsForFrame = new URLSearchParams({
     runtime_text_mode: 'english',
-    instrument: preset.instrumentId,
-    note_label_mode: preset.noteLabelMode,
-    show_graph: graphValue,
-    show_lyric: showLyric,
-    show_measure_num: preset.showMeasureNum,
-    measure_layout: preset.measureLayout,
-    sheet_scale: preset.sheetScale
+    instrument: activeInstrument.id,
+    note_label_mode: noteLabelMode,
+    show_lyric: controlConfig.activeShowLyric,
+    show_measure_num: controlConfig.activeShowMeasureNum,
+    measure_layout: controlConfig.activeMeasureLayout,
+    sheet_scale: controlConfig.activeSheetScale
+  })
+  if (controlConfig.activeGraphVisibility === 'off') {
+    paramsForFrame.set('show_graph', 'off')
+  } else if (controlConfig.activeGraphValue) {
+    paramsForFrame.set('show_graph', controlConfig.activeGraphValue)
+  }
+
+  const frameSrc = `/api/kuailepu-runtime/${song.slug}?${paramsForFrame.toString()}`
+  const loadingId = `pinterest-preview-${song.slug}-loading`
+  const publicSongHref = buildSongPageHref({
+    songId: song.slug,
+    instrumentId: activeInstrument.id === 'o12' ? null : activeInstrument.id,
+    noteLabelMode: noteLabelMode === 'number' ? 'number' : null,
+    showGraph:
+      controlConfig.activeGraphVisibility === 'off'
+        ? 'off'
+        : controlConfig.activeGraphValue,
+    showLyric: controlConfig.activeShowLyric,
+    showMeasureNum: controlConfig.activeShowMeasureNum,
+    measureLayout: controlConfig.activeMeasureLayout,
+    sheetScale: controlConfig.activeSheetScale
   })
 
-  const frameSrc = `/api/kuailepu-runtime/${preset.slug}?${paramsForFrame.toString()}`
-  const loadingId = `pinterest-preview-${preset.slug}-loading`
-  const footerText = getPinterestPinFooterText(preset)
-  const showFooter = footerText.trim().length > 0
-  const hideRuntimeTitle = shouldHidePinterestRuntimeTitle(preset)
-  const showArtwork = preset.artworkTheme === 'sunrise-hills'
-  const contentWidth = preset.contentWidth ?? 1000
-  const runtimeTextHideRules = [
-    ...(preset.slug === 'amazing-grace'
-      ? [
-          {
-            match: 'clarke tin whistlefull pressed:',
-            hideNextNumericSibling: true
-          }
-        ]
-      : []),
-    ...(hideRuntimeTitle
-      ? [
-          {
-            match: preset.title,
-            mode: 'exact' as const
-          }
-        ]
-      : [])
-  ]
-
   return (
-    <main className="min-h-screen bg-[#ece6d9] p-0">
-      <div
-        data-pinterest-export-root="true"
-        className={`relative mx-auto w-[1000px] overflow-hidden bg-[#ece6d9] text-stone-950 ${showArtwork ? 'h-[1500px]' : ''}`}
-      >
-        <section className={`w-full p-0 ${showArtwork ? 'h-full' : ''}`}>
-          <div className={`relative w-full overflow-hidden bg-white shadow-[0_18px_48px_rgba(16,16,16,0.12)] ${showArtwork ? 'h-full' : ''}`}>
-            {showArtwork ? (
-              <div className="relative h-[1500px] overflow-hidden">
-                <KuailepuRuntimeFrame
-                  songId={preset.slug}
-                  title={preset.title}
-                  frameSrc={frameSrc}
-                  loadingId={loadingId}
-                  panelClassName="relative z-0 h-full min-h-0 overflow-hidden bg-white shadow-none"
-                  iframeClassName="relative z-0 block w-full border-0"
-                  overlayClassName="bg-white/96"
-                  initialHeight={1760}
-                  fitHeight={preset.fitHeight ?? 1500}
-                  fitTopPadding={preset.frameTopPadding}
-                  fitCropTop={preset.sheetCropTop}
-                  fitCropBottom={preset.sheetCropBottom}
-                  runtimeTextHideRules={runtimeTextHideRules}
-                />
-
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[292px] overflow-hidden">
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(252,248,241,0.62)_18%,rgba(248,228,195,0.94)_48%,rgba(221,183,132,1)_100%)]" />
-                  <div className="absolute right-[90px] top-[72px] h-[122px] w-[122px] rounded-full bg-[radial-gradient(circle,rgba(255,248,212,0.98)_0%,rgba(255,232,171,0.9)_42%,rgba(255,211,130,0.18)_72%,rgba(255,211,130,0)_100%)]" />
-                  <div className="absolute left-[72px] top-[94px] h-[34px] w-[160px] rounded-full bg-white/45 blur-[8px]" />
-                  <div className="absolute right-[224px] top-[116px] h-[26px] w-[126px] rounded-full bg-white/35 blur-[7px]" />
-                  <div className="absolute left-[-96px] bottom-[94px] h-[184px] w-[560px] rounded-[50%] bg-[#cdae84]/88" />
-                  <div className="absolute right-[-34px] bottom-[82px] h-[172px] w-[520px] rounded-[50%] bg-[#b58d61]/92" />
-                  <div className="absolute left-[210px] bottom-[112px] h-[132px] w-[320px] rounded-[50%] bg-[#ddc19b]/88" />
-                  <div className="absolute inset-x-0 bottom-0 h-[122px] bg-[linear-gradient(180deg,rgba(155,108,66,0)_0%,rgba(140,95,58,0.18)_18%,rgba(117,73,42,0.62)_100%)]" />
-                </div>
-
-                {showFooter ? (
-                  <div
-                    data-pinterest-export-end="true"
-                    className="pointer-events-none absolute bottom-5 left-5 right-5"
-                  >
-                    <div className="rounded-[22px] border border-white/45 bg-[rgba(88,55,31,0.34)] px-5 py-4 shadow-[0_18px_34px_rgba(16,16,16,0.16)] backdrop-blur-[8px]">
-                      <div className="max-w-[860px]">
-                        <p className="text-[28px] font-semibold leading-[1.05] text-white">
-                          {footerText}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : (
-              <div className="bg-white">
-                <div
-                  className="mx-auto"
-                  style={{ width: `${contentWidth}px`, maxWidth: '100%' }}
-                >
-                  <KuailepuRuntimeFrame
-                    songId={preset.slug}
-                    title={preset.title}
-                    frameSrc={frameSrc}
-                    loadingId={loadingId}
-                    panelClassName="relative z-0 overflow-hidden bg-white shadow-none"
-                    iframeClassName="relative z-0 block w-full border-0"
-                    overlayClassName="bg-white/96"
-                    initialHeight={1760}
-                    fitHeight={preset.fitHeight}
-                    fitTopPadding={preset.frameTopPadding}
-                    fitCropTop={preset.sheetCropTop}
-                    fitCropBottom={preset.sheetCropBottom}
-                    runtimeTextHideRules={runtimeTextHideRules}
-                  />
-                </div>
-
-                {showFooter ? (
-                  <div
-                    data-pinterest-export-end="true"
-                    className="border-t border-stone-200 bg-[rgba(255,251,246,0.98)] px-4 py-3"
-                  >
-                    <p className="text-[25px] font-semibold leading-[1.08] text-stone-950">
-                      {footerText}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            )}
+    <main className="min-h-screen bg-white text-stone-950">
+      <PinterestWorkbenchShell
+        controls={
+          <PinterestWorkbenchControls
+            songTitle={song.title}
+            publicSongHref={publicSongHref}
+            supportedInstruments={supportedInstruments}
+            activeInstrumentId={activeInstrument.id}
+            graphOptions={controlConfig.graphOptions}
+            activeGraphValue={
+              controlConfig.activeGraphVisibility === 'off' ? 'off' : controlConfig.activeGraphValue
+            }
+            noteLabelMode={noteLabelMode}
+            showLyric={controlConfig.activeShowLyric}
+            showMeasureNum={controlConfig.activeShowMeasureNum}
+            measureLayout={controlConfig.activeMeasureLayout}
+            scaleOptions={controlConfig.scaleOptions}
+            activeSheetScale={controlConfig.activeSheetScale}
+            watermark={watermark}
+            lyricToggleAvailable={hasPublicLyrics}
+          />
+        }
+        footer={
+          <div className="px-4 py-3 md:px-6 md:py-3.5">
+            <p className="mx-auto max-w-5xl text-center text-[1.02rem] font-medium leading-[1.25] text-stone-900 md:text-[1.18rem]">
+              <span aria-hidden="true">🔍</span>{' '}
+              <span>More songs with visual tabs at </span>
+              <span className="font-black tracking-[0.01em] text-stone-950">
+                PlayByFingering.com
+              </span>
+            </p>
           </div>
-        </section>
-      </div>
+        }
+      >
+        <div className="relative bg-[#fcfaf7]">
+            <KuailepuRuntimeFrame
+              songId={song.slug}
+              title={song.title}
+              frameSrc={frameSrc}
+              loadingId={loadingId}
+              panelClassName="relative z-0 overflow-hidden rounded-none border-0 bg-[#fcfaf7] shadow-none"
+              iframeClassName="relative z-0 block w-full border-0"
+              overlayClassName="bg-[#fcfaf7]/96"
+              initialHeight={1520}
+            />
+            {watermark === 'on' ? <PinterestWatermarkOverlay /> : null}
+        </div>
+      </PinterestWorkbenchShell>
     </main>
   )
+}
+
+function PinterestWatermarkOverlay() {
+  return (
+    <div className="pointer-events-none absolute bottom-3 right-4 z-[5] select-none md:bottom-4 md:right-5">
+      <span className="inline-flex items-center rounded-full border border-stone-400/20 bg-white/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-800/35 shadow-[0_6px_18px_rgba(255,255,255,0.38)] backdrop-blur-[2px] md:text-[11px]">
+        playbyfingering.com
+      </span>
+    </div>
+  )
+}
+
+function normalizeWatermark(value: string | undefined) {
+  return value === 'off' ? 'off' : 'on'
 }

@@ -1054,20 +1054,20 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 最新补充（2026-04-16 历史 Pinterest 本地调整记录）
 
-- 当前本地还额外有一组**未 commit 的 Pinterest 导图本地调整**：
-  - `scripts/export-pinterest-pin.ts`
+- 当前内部 Pinterest 工作流已经补到“手动截图工作台”：
+  - `src/app/dev/pinterest/page.tsx`
   - `src/app/dev/pinterest/song/[id]/page.tsx`
-  - `src/components/song/KuailepuRuntimeFrame.tsx`
-  - `src/lib/songbook/pinterestPins.ts`
 - 这轮调整仍然只属于内部 Pinterest 预览 / 导出链，不是公开 `/song/<slug>` 主链改动。
-- 当前本地 Pinterest 调整的重点是：
-  - 无 artwork 的预览页改成按内容高度收口，不再强制 1500 高
-  - 导图脚本先等布局稳定，再按导图终点裁切
-  - `Frere Jacques` 已补 `English 8-Hole Recorder` 的 Pinterest pin，并专门调过“右侧不截断、底部完整、footer 保留”的版本
-- 当前本地 `exports/pinterest-first-wave/` 已刻意清理到只剩：
-  - `amazing-grace.png`
-  - `frere-jacques.png`
-  - `manifest.json`
+- 当前更推荐的执行方式是：
+  - 先打开 `/dev/pinterest` 选歌
+  - 再进入 `/dev/pinterest/song/[id]` 手动截图工作台
+  - 通过浏览器手动调窗口宽度，让谱面响应式收口到更适合 pin 的尺寸
+- 工作台主画布当前默认只保留：
+  - runtime 谱面
+  - 单行 `playbyfingering.com` 水印
+  - 底部引流文案
+  - 功能区默认隐藏；底部引流文案本身可点击打开控制弹窗
+- 历史 `scripts/export-pinterest-pin.ts` 与 `src/lib/songbook/pinterestPins.ts` 仍保留，主要给旧 preset / 自动导出链兼容使用。
 - 所以新对话不要再假设：
   - “本地通常只剩 tsconfig.tsbuildinfo”
   - 正确动作仍然是先跑 `git status --short --branch`
