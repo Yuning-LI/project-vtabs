@@ -3217,29 +3217,31 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
 > = {
   '12-hole-ocarina-letter-notes': {
     heroSummary: [
-      'Players who search for 12-hole ocarina letter notes are usually looking for recognizable melodies, easy tabs, and a visual chart that turns tune memory into finger movement without forcing them through full staff notation first. This hub gathers that exact use case around songs that already work well on a standard 12-hole instrument, including nursery standards, hymns, holiday melodies, and slow classical themes that keep the page readable while breath support is still developing.',
+      'Players who search for 12-hole ocarina letter notes are usually looking for recognizable melodies, easy tabs, and a finger chart that turns tune memory into finger movement without forcing them through full staff notation first. This hub gathers that exact use case around songs that already work well on a standard 12-hole instrument, including nursery standards, hymns, holiday melodies, and slow classical themes that keep the page readable while breath support is still developing.',
       'That mix matters because the 12-hole ocarina rewards stable phrasing and familiar contour more than random tab collections. Many of these melodies come from public-domain traditions that beginners already know by ear, so the letter-note layer and fingering chart become practical learning tools instead of decoration. Use this page when you want a clean first stop for beginner ocarina repertoire, direct song links, and public melody pages that still let you move into numbered notes only when you actually need the backup view.'
     ],
     metaDescription:
-      '12-hole ocarina letter notes with easy tabs, visual charts, and beginner-friendly songs for nursery, folk, hymn, and holiday practice.'
+      '12-hole ocarina letter notes with easy tabs, finger charts, and beginner-friendly songs for nursery, folk, hymn, and holiday practice.'
   },
   'easy-12-hole-ocarina-songs': {
     metaDescription:
-      'Easy 12-hole ocarina songs with letter notes, visual charts, and beginner tabs for familiar melodies, hymns, and holiday tunes.'
+      'Easy 12-hole ocarina songs with letter notes, finger charts, and beginner tabs for familiar melodies, hymns, and holiday tunes.'
   },
   '6-hole-ocarina-letter-notes': {
     heroSummary: [
       'A 6-hole ocarina search usually comes from players using a compact pendant or starter instrument who need songs that fit a smaller layout and feel playable right away. This hub is built for that exact moment. It favors short melodies, repeated phrases, and familiar beginner repertoire that opens directly in the 6-hole view, so learners can spend more time hearing phrase shape and less time hunting for a different fingering chart after every click.',
-      'That approach works especially well because small ocarinas reward confidence, repetition, and stable breath more than large jumps in complexity. Nursery tunes, simple carols, and first classical melodies give beginners enough musical context to trust what they are seeing on the page. The result is not a separate runtime or a new notation system. It is a tighter public entry point for 6-hole visual charts, easy tabs, and melody pages that stay readable while finger patterns are still becoming automatic.'
+      'That approach works especially well because small ocarinas reward confidence, repetition, and stable breath more than large jumps in complexity. Nursery tunes, simple carols, and first classical melodies give beginners enough musical context to trust what they are seeing on the page. The result is not a separate runtime or a new notation system. It is a tighter public entry point for 6-hole finger charts, easy tabs, and melody pages that stay readable while finger patterns are still becoming automatic.'
     ],
     metaDescription:
-      '6-hole ocarina letter notes with beginner songs, easy tabs, and visual charts that open directly in the 6-hole view.'
+      '6-hole ocarina letter notes with beginner songs, easy tabs, and finger charts that open directly in the 6-hole view.'
   },
   'recorder-letter-notes': {
     heroSummary: [
-      'Recorder players often arrive from school music, home practice, or classroom search terms that are much more specific than a general song library. They want recorder letter notes, an easy visual chart, and a set of songs that feels ready for eight-hole beginner use without requiring a staff-reading detour. This hub is written around that context, with familiar melodies that work well for recorder classes, first solo practice, and students who need to connect note names to simple finger patterns quickly.',
+      'Recorder players often arrive from school music, home practice, or classroom search terms that are much more specific than a general song library. They want recorder letter notes, an easy finger chart, and a set of songs that feels ready for eight-hole beginner use without requiring a staff-reading detour. This hub is written around that context, with familiar melodies that work well for recorder classes, first solo practice, and students who need to connect note names to simple finger patterns quickly.',
       'That makes the page useful well beyond pure SEO. Teachers can send students to one clean route, parents can find recognizable songs without sorting through unrelated repertoire, and beginners can stay on melody-first pages that already support fingering help and optional numbered-note backup. The repertoire also fits the real history of recorder teaching: school songs, holiday pieces, and public-domain tunes that students can sing before they play. That combination helps recorder practice feel concrete, searchable, and easy to repeat.'
-    ]
+    ],
+    metaDescription:
+      'Recorder letter notes, easy songs, and finger-chart-friendly melody pages for classroom practice, home beginners, and first eight-hole tunes.'
   },
   'tin-whistle-letter-notes': {
     heroSummary: [
@@ -3253,7 +3255,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'how-to-start-recorder-with-letter-notes': {
     metaDescription:
-      'Start recorder with letter notes, easy classroom songs, and visual charts that connect melody reading to simple finger patterns.'
+      'Start recorder with letter notes, easy classroom songs, and finger charts that connect melody reading to simple finger patterns.'
   },
   'how-to-start-tin-whistle-with-letter-notes': {
     metaDescription:
@@ -3265,7 +3267,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'how-to-practice-recorder-with-letter-notes': {
     metaDescription:
-      'Practice recorder with letter notes using easy songs, visual charts, and short routines for classroom players and home beginners.'
+      'Practice recorder with letter notes using easy songs, finger charts, and short routines for classroom players and home beginners.'
   },
   'how-to-practice-tin-whistle-with-letter-notes': {
     metaDescription:
@@ -3273,7 +3275,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'easy-6-hole-ocarina-songs': {
     metaDescription:
-      'Easy 6-hole ocarina songs with letter notes, visual charts, and beginner tabs that open directly in the 6-hole view.'
+      'Easy 6-hole ocarina songs with letter notes, finger charts, and beginner tabs that open directly in the 6-hole view.'
   },
   'easy-christmas-ocarina-songs': {
     metaDescription:
@@ -3281,9 +3283,11 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'easy-recorder-songs-for-beginners': {
     heroSummary: [
-      'Recorder beginners usually need songs that feel playable in a school week, not a giant archive of mixed repertoire. This hub focuses on that first practical batch: melodies students already know, rhythms teachers can count aloud, and note patterns that make sense on an eight-hole recorder without forcing dense staff reading. It is built for classroom warmups, first solos, and home review sessions where easy tabs and a visual chart are more useful than a formal method-book page.',
+      'Recorder beginners usually need songs that feel playable in a school week, not a giant archive of mixed repertoire. This hub focuses on that first practical batch: melodies students already know, rhythms teachers can count aloud, and note patterns that make sense on an eight-hole recorder without forcing dense staff reading. It is built for classroom warmups, first solos, and home review sessions where easy tabs and a finger chart are more useful than a formal method-book page.',
       'The strongest songs here come from nursery rhyme, holiday, and public-domain teaching traditions because they are memorable, singable, and easy to recheck by ear. That is exactly why recorder teachers keep returning to them. A familiar melody lets beginners notice finger changes, breath release, and articulation instead of guessing what the tune should sound like. Use this page when you want a recorder-first route into truly beginner-friendly songs, direct links into the public library, and practice material that feels realistic for school music and home repetition.'
-    ]
+    ],
+    metaDescription:
+      'Easy recorder songs for beginners with letter notes, finger charts, and classroom-friendly melody pages for first solos and home practice.'
   },
   'easy-tin-whistle-songs': {
     heroSummary: [

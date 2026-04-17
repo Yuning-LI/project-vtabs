@@ -779,7 +779,8 @@ npm run preflight:kuailepu-publish -- <slug...>
 
 ## 13. 新对话可直接复制的起始提示词
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 118 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are tennessee-waltz, the-last-waltz, and waltz-no-2, and recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing from small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 118 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview now exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. Internal Pinterest export tuning is already committed: /dev/pinterest/song/[id] now shrinks to content height on non-artwork presets, and export-pinterest-pin crops after layout stabilizes. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ## 14. 自制曲输入规范草案
 
@@ -991,7 +992,25 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `.tmp-playwright-3ue-profile/`
   这通常都属于噪音，不必带入提交。
 
-## 最新补充（2026-04-15）
+## 最新补充（2026-04-17）
+
+- 当前公开 song pages 数量已更新为 `118`。
+- 本轮最新已补齐并准备上线 / 已上线的 3 首歌：
+  - `tennessee-waltz`
+  - `the-last-waltz`
+  - `waltz-no-2`
+- 这 3 首当前都已完成 deployable raw JSON、compact SongDoc、manifest、song SEO profile、learn / hub 内链和中国网络下 compare / preflight 校验。
+- 内部 Pinterest 导图链当前也已补完一轮稳定性收尾：
+  - 无 artwork 预览页按内容高度收口
+  - 导图导出脚本等待布局稳定后按导图终点裁切
+  - `Frere Jacques` 的 `English 8-Hole Recorder` preset 已补齐
+- 首页、learn 入口页和 song page SEO 壳层当前已额外自然覆盖：
+  - `tabs`
+  - `finger chart`
+  - `fingering chart`
+  这批词来自 2026-04-17 本地导出的 GSC 近 28 天 query 小样本观察。
+
+## 最新补充（2026-04-15 历史本地待审核状态记录）
 
 - 当前本地又导入了 3 首**已 commit、尚未 push 的灰度曲待审核项**：
   - `moon-river`
@@ -1029,3 +1048,38 @@ npm run preflight:kuailepu-publish -- <slug...>
   - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **未经用户明确同意，不要 push**
   - 因为 push 会触发 Vercel 自动部署并直接改线上代码
+
+## 最新补充（2026-04-16 历史 Pinterest 本地调整记录）
+
+- 当前本地还额外有一组**未 commit 的 Pinterest 导图本地调整**：
+  - `scripts/export-pinterest-pin.ts`
+  - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
+  - `src/lib/songbook/pinterestPins.ts`
+- 这轮调整仍然只属于内部 Pinterest 预览 / 导出链，不是公开 `/song/<slug>` 主链改动。
+- 当前本地 Pinterest 调整的重点是：
+  - 无 artwork 的预览页改成按内容高度收口，不再强制 1500 高
+  - 导图脚本先等布局稳定，再按导图终点裁切
+  - `Frere Jacques` 已补 `English 8-Hole Recorder` 的 Pinterest pin，并专门调过“右侧不截断、底部完整、footer 保留”的版本
+- 当前本地 `exports/pinterest-first-wave/` 已刻意清理到只剩：
+  - `amazing-grace.png`
+  - `frere-jacques.png`
+  - `manifest.json`
+- 所以新对话不要再假设：
+  - “本地通常只剩 tsconfig.tsbuildinfo”
+  - 正确动作仍然是先跑 `git status --short --branch`
+
+## 最新补充（2026-04-16 Recorder 语义反馈）
+
+- `r/Recorder` 线程里一位已经使用过网站并给过正向评价的用户，又补了一条更技术性的反馈：
+  - 他们能理解 `1 = G 6/8` 的来源，但认为这类顶层标签不适合 recorder 语境
+  - `English 8-hole recorder G fingering` 这种公开文案会让 western recorder 用户困惑
+  - 他们特别强调 recorder 用户可能会用 `written pitch` 而不是纯 `sounding pitch helper` 的方式理解 note labels
+- 当前判断：
+  - 这更像 recorder-specific note-label semantics / trust issue
+  - 还不能直接推导成“全站 letter-note conversion 算错了”
+  - 对 ocarina / tin whistle，现阶段仍更像 practical playing aid；对 recorder，用户更容易按 staff / method-book 习惯来审视显示语义
+- 当前最小产品动作方向已经明确为：
+  - 优先隐藏容易误导 western recorder 用户的顶层 SVG 元信息，如 `1=...`、拍号和 `X fingering` / 乐器说明行
+  - 先不要在没有清楚定义前仓促重写 recorder 专用字母谱算法
+  - 如果后续 recorder 用户继续重复指出 note labels 问题，再决定是否要为 `r8b / r8g` 单独定义 written-pitch 语义

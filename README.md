@@ -145,17 +145,17 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 115`
+- `songCatalog.length = 118`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 115`
+- `allSongCatalog.length = 118`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 115`
+- `data/songbook/public-song-manifest.json = 118`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 115`
+- `data/kuailepu-runtime/*.json = 118`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 109`
+- `reference/songs/*.json = 119`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 109`
+- `data/kuailepu/*.json = 112`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -239,7 +239,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 111 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 118 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`
@@ -616,7 +616,31 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 - 详情页当前已有 `Back to Song Library` 返回按钮。
 - 难度标签规则已收紧，长曲篇幅不再单独触发 `Intermediate to advanced`。
 
-## 2026-04-15 当前本地待审核状态
+## 2026-04-17 当前已推送状态
+
+- 当前公开 song pages 数量已更新为 `118`。
+- 本轮已补齐并准备上线 / 已上线的 3 首新曲为：
+  - `tennessee-waltz`
+  - `the-last-waltz`
+  - `waltz-no-2`
+- 这 3 首当前都已完成：
+  - `data/kuailepu-runtime/<slug>.json`
+  - `data/kuailepu/<slug>.json`
+  - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/learn/content.ts` 现有 learn / hub 内链接入
+  - 中国网络下的 compare / preflight 校验
+- 内部 Pinterest 导图链当前也已补完一轮稳定性收尾：
+  - 无 artwork 的预览页按内容高度收口
+  - 导图导出脚本改为等待布局稳定后按导图终点裁切
+  - `Frere Jacques` 的 `English 8-Hole Recorder` 导图版式已补齐
+- 首页、learn 入口页和 song page SEO 壳层当前已额外自然覆盖：
+  - `tabs`
+  - `finger chart`
+  - `fingering chart`
+  这批词来自 2026-04-17 本地导出的 GSC 近 28 天 query 小样本观察，不代表流量已大，但足够说明词面覆盖应更贴近真实搜索。
+
+## 2026-04-15 历史本地待审核状态记录
 
 - 当前 `origin/main` / 线上公开数量是 `111` 首。
 - 本地工作区又导入了一批**已 commit、尚未 push** 的灰度曲：
@@ -658,6 +682,28 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
   - **任何 push 前都必须先得到用户明确同意**
   - 不要因为本地验证通过就默认可以上线
 
+## 2026-04-16 历史 Pinterest 本地补丁记录
+
+- 当前工作区除了上面 4 首灰度曲待审核状态，还额外有一组**未 commit 的 Pinterest 导图本地调整**：
+  - `scripts/export-pinterest-pin.ts`
+  - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
+  - `src/lib/songbook/pinterestPins.ts`
+- 这轮 Pinterest 本地调整的目标是：
+  - 让内部 `/dev/pinterest/song/[id]` 预览页在无 artwork 的版本下按内容高度收口，不再强制 1500 高度
+  - 让导图导出脚本优先按导图终点与稳定后的内容高度裁切，而不是盲目截固定画布
+  - 补一张 `Frere Jacques` 的 `English 8-Hole Recorder` Pinterest pin，并反复调到“不右侧截断、底部完整、footer 保留”的版本
+- 当前本地 `exports/pinterest-first-wave/` 已清理到只剩：
+  - `amazing-grace.png`
+  - `frere-jacques.png`
+  - `manifest.json`
+- 注意：
+  - `exports/` 继续只保留本地，不进入 git
+  - 新对话不要再假设“本地唯一脏文件通常只剩 tsconfig.tsbuildinfo”
+  - 真正接手前仍然先看：
+    - `git status --short --branch`
+    - `git log --oneline origin/main..HEAD`
+
 ## SEO 与前台文案规则
 
 当前站点的 SEO 方向已经明确：
@@ -672,6 +718,7 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
   - `recorder notes`
   - `tin whistle notes`
   - `letter notes`
+  - `finger chart`
   - `fingering chart`
 - 详情页文案现在不应再把站点写成只支持 `12-hole AC ocarina` 的单乐器产品。
 - `presentation.ts` 里的 `searchTerms` 现已按“主词 + 次词”收口：

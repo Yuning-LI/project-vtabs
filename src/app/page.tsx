@@ -9,7 +9,7 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 export const metadata: Metadata = {
   title: 'Play By Fingering | Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes',
   description:
-    'PlayByFingering offers letter-note melody pages for ocarina, recorder, and tin whistle, with fingering charts, optional numbered notes, and switchable instrument views on supported songs.',
+    'PlayByFingering offers letter-note melody pages for ocarina, recorder, and tin whistle, with tabs-style reading, finger charts, optional numbered notes, and switchable instrument views on supported songs.',
   alternates: {
     canonical: '/'
   },
@@ -58,7 +58,7 @@ export default function Home() {
     {
       question: 'What can I find on PlayByFingering?',
       answer:
-        'PlayByFingering is a public melody library with letter notes, optional number notes, and fingering charts for supported ocarina, recorder, and tin whistle songs.'
+        'PlayByFingering is a public melody library with letter notes, optional number notes, tabs-style melody pages, and finger charts for supported ocarina, recorder, and tin whistle songs.'
     },
     {
       question: 'Are these pages suitable for beginners?',
@@ -77,7 +77,7 @@ export default function Home() {
     name: 'PlayByFingering',
     url: 'https://www.playbyfingering.com/',
     description:
-      'Public melody pages with letter notes, optional numbered notes, and fingering charts for ocarina, recorder, and tin whistle players.'
+      'Public melody pages with letter notes, optional numbered notes, tabs-style reading, and finger charts for ocarina, recorder, and tin whistle players.'
   }
   const guideItemListJsonLd = {
     '@context': 'https://schema.org',
@@ -140,7 +140,8 @@ export default function Home() {
           </h1>
           <p className="mt-1.5 text-sm leading-6 text-stone-700 md:text-[0.95rem]">
             Letter-note melody pages for ocarina, recorder, and tin whistle, with fingering
-            charts, optional numbered notes, and switchable instrument views on supported songs.
+            charts, finger-chart-friendly layouts, optional numbered notes, and switchable
+            instrument views on supported songs.
           </p>
 
           <LibraryBrowser songs={librarySongs} familyFilters={familyFilters} embedded />
@@ -149,7 +150,12 @@ export default function Home() {
         <section className="page-warm-panel mt-10 p-6 md:p-7">
           <h2 className="text-2xl font-bold text-stone-900">About This Library</h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-stone-700">
-            This site focuses on the search terms real players use most often: ocarina tabs, recorder notes, tin whistle letter notes, easy melody pages, and optional numbered notes. Instead of staff notation, each page is optimized around readable note labels, practical fingering support, and a mobile-friendly layout, while supported songs can switch between ocarina, recorder, and tin whistle views without leaving the same page.
+            This site focuses on the search terms real players use most often: ocarina tabs,
+            recorder notes, recorder finger chart searches, tin whistle letter notes, easy melody
+            pages, and optional numbered notes. Instead of staff notation, each page is optimized
+            around readable note labels, practical fingering support, and a mobile-friendly
+            layout, while supported songs can switch between ocarina, recorder, and tin whistle
+            views without leaving the same page.
           </p>
         </section>
 
@@ -178,9 +184,10 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-stone-900">How to Use This Site</h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
             Search visitors usually arrive with a practical need: they want easy ocarina tabs,
-            recorder letter notes, tin whistle fingering support, or songs with lyrics they can
-            follow right away. The quickest path is to pick a Learn page above, then open a song
-            detail page that matches your instrument and difficulty level.
+            recorder letter notes, a quick recorder finger chart, tin whistle fingering support,
+            or songs with lyrics they can follow right away. The quickest path is to pick a Learn
+            page above, then open a song detail page that matches your instrument and difficulty
+            level.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {homepageFaqs.map(faq => (

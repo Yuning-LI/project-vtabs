@@ -210,7 +210,7 @@ function buildSearchIntentSentence(input: {
   const familyLabel = input.familyLabel.toLowerCase()
   const difficultyLabel = input.difficultyLabel.toLowerCase()
 
-  return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still keeping a ${difficultyLabel} reading flow for this ${familyLabel} melody.`
+  return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still covering the tabs, finger chart, and note-label wording many beginners use for the same ${familyLabel} melody. The page keeps that search intent inside a ${difficultyLabel} reading flow instead of pushing visitors toward staff-heavy notation.`
 }
 
 function formatAliasList(aliases: string[]) {

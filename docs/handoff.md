@@ -568,17 +568,17 @@
 
 以当前工作区为准：
 
-- `songCatalog.length = 115`
+- `songCatalog.length = 118`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 115`
+- `allSongCatalog.length = 118`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 115`
+- `data/songbook/public-song-manifest.json = 118`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 115`
+- `data/kuailepu-runtime/*.json = 118`
   - 当前生产可部署 raw JSON 数量。
-- `reference/songs/*.json = 109`
+- `reference/songs/*.json = 119`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
-- `data/kuailepu/*.json = 109`
+- `data/kuailepu/*.json = 112`
 
 ## 5.5 2026-04-05 新增可公开曲目
 
@@ -1254,41 +1254,31 @@
   - 新对话接手前先看 `git status --short --branch`
   - 准备上线前先看 `git log --oneline origin/main..HEAD`
   - 确认每个本地提交都属于应上线内容后再 push
-- 截至 2026-04-15 当前工作区，还额外有一批**已提交、未 push 的本地待审核状态**：
-  - 新导入灰度曲：
-    - `moon-river`
-    - `can-you-feel-the-love-tonight`
-    - `yesterday-once-more`
-  - 已更新内容层：
-    - `data/songbook/public-song-manifest.json`
-    - `data/songbook/song-seo-profiles.json`
-    - `src/lib/learn/content.ts`
-  - 已新增导入层：
-    - `data/kuailepu-runtime/*.json`
-    - `data/kuailepu/*.json`
-- 这批 3 首新灰度曲当前已经在本地完成：
-  - `npm run validate:content`
-  - `npm run doctor:song -- <slug>`
-  - 中国网络下 `npm run preflight:kuailepu-publish -- moon-river can-you-feel-the-love-tonight yesterday-once-more`
-- 当前工作区还额外有一首**已导入、已补本地公开内容层、但尚未 commit / 尚未 push** 的灰度曲：
-  - `zeldas-lullaby`
-  - 当前已经完成：
-    - `data/kuailepu-runtime/zeldas-lullaby.json`
-    - `data/kuailepu/zeldas-lullaby.json`
-    - `data/songbook/public-song-manifest.json`
-    - `data/songbook/song-seo-profiles.json`
-    - `src/lib/learn/content.ts`
-    - 中国网络下 `npm run validate:content`
-    - `npm run doctor:song -- zeldas-lullaby`
-    - `npm run preflight:kuailepu-publish -- zeldas-lullaby`
-- 重要：
-  - `origin/main` 和线上当前是 `111` 首公开 song pages
-  - 本地待审核工作区如果把这 4 首算进去，会暂时变成 `115`
-  - 新对话里不要把“本地待审核 115”误说成“线上已经 115”
+- 截至 2026-04-17 当前工作区，这一轮最重要的新增公开内容是：
+  - `tennessee-waltz`
+  - `the-last-waltz`
+  - `waltz-no-2`
+- 这 3 首当前在 HEAD 已完成：
+  - `data/kuailepu-runtime/<slug>.json`
+  - `data/kuailepu/<slug>.json`
+  - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/learn/content.ts`
+  - 中国网络下 compare / preflight 校验
+- 当前 HEAD 的公开 song pages 数量口径已更新为 `118`。
 - 当前仓库还新增了一条更清晰的内部灰度曲追踪入口：
   - `data/songbook/grey-song-rollout.json`
   - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
   - 当前用来区分 `live`、`committed-local`、`imported-only` 三种灰度曲状态
+- 当前内部 Pinterest 导图链也已收口到一版更稳定的导出逻辑：
+  - 无 artwork 预览页按内容高度收口
+  - 导图导出脚本等待布局稳定后按导图终点裁切
+  - `Frere Jacques` 的 `English 8-Hole Recorder` 导图 preset 已补齐
+- 首页、learn 入口页和 song page SEO 壳层当前已开始额外自然覆盖：
+  - `tabs`
+  - `finger chart`
+  - `fingering chart`
+  这是根据 2026-04-17 本地导出的 GSC 近 28 天 query 小样本做的词面补强。
 - 当前又新增一条协作规则：
   - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **任何 push 前都必须先得到用户明确同意**
@@ -1300,11 +1290,11 @@
 
 下面这条可以直接复制给新对话：
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 111 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The current local workspace is prepared for a possible 115-song state, with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 118 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are tennessee-waltz, the-last-waltz, and waltz-no-2. The repo also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. Recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing based on small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
-### 19.2 2026-04-15 当前本地状态补丁
+### 19.2 2026-04-17 当前状态补丁
 
-`Current local worktree contains grey-song rollout work beyond origin/main. Live production and origin/main currently expose 111 public songs, while the local workspace is prepared for a possible 115-song state with four pending grey songs: moon-river, can-you-feel-the-love-tonight, yesterday-once-more, and zeldas-lullaby. The first three are already committed locally and have deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, validate:content passing, doctor:song passing, and China-network preflight compare passing. zeldas-lullaby has already been imported, added to the local public content layer, wired into SEO and learn/hub links, and has also passed validate:content, doctor:song, and China-network preflight compare, but it has not been committed yet. The repo now also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker. Do not describe these four songs as publicly live until they are actually pushed. You may commit after a task is complete and the necessary local verification has passed, but do not push or make any release decision without first getting explicit user approval, because push triggers Vercel deployment and directly changes production.`
+`Current HEAD now exposes 118 public songs, with the latest shipped additions being tennessee-waltz, the-last-waltz, and waltz-no-2. Their deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, and China-network compare/preflight checks are already in place. The repo still contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker, but do not confuse that tracker with current public count. Internal Pinterest export tuning has also been committed: /dev/pinterest/song/[id] now shrinks to content height on non-artwork presets, and export-pinterest-pin crops after layout stabilizes instead of clipping a fixed canvas. Recent homepage, learn, and song-page SEO wording also now covers tabs, finger chart, and fingering chart phrasing based on small GSC query samples.`
 
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 
@@ -1551,3 +1541,38 @@
   - 本地通常只剩噪音文件：
     - `tsconfig.tsbuildinfo`
     - `.tmp-playwright-3ue-profile/`
+
+### 1.1.7 2026-04-16 Pinterest 本地导图补充
+
+- 当前工作区还额外存在一组**未 commit 的 Pinterest 本地导图调整**：
+  - `scripts/export-pinterest-pin.ts`
+  - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - `src/components/song/KuailepuRuntimeFrame.tsx`
+  - `src/lib/songbook/pinterestPins.ts`
+- 这轮调整不是公开主链改动，而是内部导图实验链的收尾：
+  - 无 artwork 的 Pinterest 预览页改成按内容高度收口，不再强制固定 1500 高
+  - 导图脚本改成先等待布局稳定，再按导图终点裁切
+  - `Frere Jacques` 已补 `English 8-Hole Recorder` 的 Pinterest pin preset，并专门调过“右侧不截断、底部完整、footer 保留”的版式
+- 当前本地 `exports/pinterest-first-wave/` 已刻意清理到只剩两张正式图：
+  - `amazing-grace.png`
+  - `frere-jacques.png`
+  - 以及对应 `manifest.json`
+- 继续遵守：
+  - `exports/` 只保留本地，不进入 git
+  - 不要把 `exports/` 里的导图产物当成应提交资产
+  - 新对话不要再默认“当前本地只剩 tsconfig.tsbuildinfo 脏文件”；应先跑 `git status --short --branch`
+
+### 1.1.8 2026-04-16 Recorder 语义反馈补充
+
+- `r/Recorder` 线程里一位已经访问过站点并给过详细正向反馈的用户，又补了一条更技术性的 recorder 视角评论：
+  - `1 = G 6/8` 这类顶层信息会被 western recorder 用户读成不自然甚至误导的 notation label
+  - `English 8-hole recorder G fingering` 这类公开文本会暴露快乐谱内部语义，不像 recorder-native wording
+  - 对方特别提出了 `written pitch` vs `sounding pitch` 的问题，说明 recorder 用户会用比 ocarina / tin whistle 更严格的 notation 视角看 note labels
+- 当前产品判断：
+  - 这是 recorder-specific note-label semantics / trust issue
+  - 目前还不能据此断定全站 letter-note conversion 在音高关系上普遍出错
+  - ocarina / tin whistle 现阶段仍更像以演奏辅助为主；recorder 更接近 staff / method-book 语境
+- 当前最小动作方向：
+  - 优先隐藏顶部容易误导的 SVG 文本，如 `1=...`、拍号和 `X fingering` / 乐器说明行
+  - 暂不在这个信号刚出现时就仓促为 `r8b / r8g` 重写专用算法
+  - 如果 recorder 用户继续重复指出 note labels 问题，再单独评估 whether `r8b / r8g` should adopt a written-pitch-facing rule

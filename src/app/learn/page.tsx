@@ -5,9 +5,9 @@ import { getFeaturedLearnGuideCards, getLearnGuideCards, getLearnGuideUrl } from
 import { siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Learn Song Guides and Visual Charts',
+  title: 'Learn Song Guides, Tabs, and Finger Charts',
   description:
-    'Browse beginner song guides, easy tabs, and visual chart pathways for ocarina, recorder, and tin whistle players.',
+    'Browse beginner song guides, easy tabs, and finger chart pathways for ocarina, recorder, and tin whistle players.',
   alternates: {
     canonical: `${siteUrl}/learn`
   },
@@ -62,7 +62,7 @@ export default function LearnIndexPage() {
             </p>
             <p className="text-sm leading-7 text-stone-700 md:text-[0.98rem]">
               That means you can start with easy tabs, lyric-backed songs, whistle folk tunes,
-              recorder classroom pieces, or visual chart entry pages for first-time ocarina
+              recorder classroom pieces, or finger chart entry pages for first-time ocarina
               players, then move into the same public song pages without switching systems. Use
               these guides to narrow the library by context first, then by song title.
             </p>
