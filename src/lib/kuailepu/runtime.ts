@@ -1844,6 +1844,109 @@ function buildRuntimeBridgeScript(
     );
   }
 
+  function getResponsiveTitleTargetFontSize() {
+    var viewportWidth =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth ||
+      0;
+
+    if (viewportWidth <= 0 || viewportWidth > 900) {
+      return null;
+    }
+
+    // 对齐快乐谱在“手机到窄桌面”范围内的标题观感：
+    // - 原站在这段宽度里，主标题不会继续一路缩到很小
+    // - 我们的英文标题更长，因此不直接硬写死，而是先给 36 的目标值，
+    //   再按真实文字宽度回退到刚好能放下的字号
+    return 36;
+  }
+
+  function getResponsiveTitleMaxWidth(svgWidth) {
+    // 原站 title 算法本身是按较短标题优化的，英文长标题直接照搬会缩得过小。
+    // 这里仍保持“居中大标题”的视觉方向，但把最大可用宽度收口在安全范围内，
+    // 避免窄屏下把标题放大后顶到 SVG 边缘。
+    return svgWidth - Math.max(72, svgWidth * 0.12);
+  }
+
+  function tuneResponsiveSheetTitle(svg) {
+    if (!svg || textMode !== 'english') {
+      return;
+    }
+
+    var targetFontSize = getResponsiveTitleTargetFontSize();
+    if (!targetFontSize) {
+      return;
+    }
+
+    var svgWidth = getSvgWidth(svg);
+    var maxWidth = getResponsiveTitleMaxWidth(svgWidth);
+    var centerX = svgWidth / 2;
+    var titleCandidates = Array.prototype.slice
+      .call(svg.querySelectorAll('text'))
+      .filter(function (node) {
+        if (node.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
+          return false;
+        }
+
+        var text = String(node.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!text) {
+          return false;
+        }
+
+        if (
+          /(?:Composer|Lyricist|Arranger|Notation|Play order|fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
+            text
+          )
+        ) {
+          return false;
+        }
+
+        var x = Number(node.getAttribute('x'));
+        var y = Number(node.getAttribute('y'));
+        var fontSize = Number(node.getAttribute('font-size') || 0);
+
+        return (
+          Number.isFinite(x) &&
+          Number.isFinite(y) &&
+          Number.isFinite(fontSize) &&
+          Math.abs(x - centerX) <= Math.max(120, svgWidth * 0.22) &&
+          y >= 24 &&
+          y <= 110 &&
+          fontSize >= 14
+        );
+      })
+      .sort(function (left, right) {
+        return Number(left.getAttribute('y') || 0) - Number(right.getAttribute('y') || 0);
+      });
+
+    var primaryTitle = titleCandidates[0];
+    if (!primaryTitle) {
+      return;
+    }
+
+    var currentFontSize = Number(primaryTitle.getAttribute('font-size') || 0);
+    if (!Number.isFinite(currentFontSize) || currentFontSize >= targetFontSize) {
+      return;
+    }
+
+    var titleBox = typeof primaryTitle.getBBox === 'function' ? primaryTitle.getBBox() : null;
+    var currentWidth = titleBox && Number.isFinite(titleBox.width) ? titleBox.width : 0;
+    if (currentWidth <= 0) {
+      return;
+    }
+
+    var fittedFontSize = currentFontSize * (maxWidth / currentWidth);
+    var nextFontSize = Math.min(targetFontSize, fittedFontSize);
+    if (!Number.isFinite(nextFontSize) || nextFontSize <= currentFontSize + 0.5) {
+      return;
+    }
+
+    primaryTitle.removeAttribute('textLength');
+    primaryTitle.removeAttribute('lengthAdjust');
+    primaryTitle.setAttribute('font-size', String(Math.round(nextFontSize * 10) / 10));
+  }
+
   function hideTopLeftSheetMetadata(svg) {
     if (!svg || textMode !== 'english') {
       return;
@@ -1926,6 +2029,8 @@ function buildRuntimeBridgeScript(
         }
         node.textContent = translated;
       });
+
+    tuneResponsiveSheetTitle(svg);
   }
 
   function clearLetterTrack(svg) {
