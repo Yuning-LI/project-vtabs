@@ -144,7 +144,14 @@ export default function KuailepuRuntimeFrame({
           html.offsetHeight || 0
         )
 
-        return (measuredBottom > 0 ? measuredBottom : fallbackHeight) + 2
+        /**
+         * 这里刻意与 iframe 内 runtime bridge 的测高补偿保持一致。
+         *
+         * 之前宿主侧用 `+2`，而 runtime bridge 用 `+1`。
+         * 当两边都持续参与测高同步时，这 1px 差异会把 iframe 高度推到
+         * `N+1 <-> N` 的来回切换，进而带着下方 SEO 文案一起轻微抖动。
+         */
+        return (measuredBottom > 0 ? measuredBottom : fallbackHeight) + 1
       } catch {
         return null
       }
@@ -273,8 +280,39 @@ export default function KuailepuRuntimeFrame({
         return
       }
       const nextHeight = Math.ceil(height)
+      const currentHeight = Number.parseInt(currentFrame.style.height || '', 10)
+
+      /**
+       * runtime 首次稳定出谱后，忽略 1px 级高度回摆。
+       *
+       * 原因：
+       * - 宿主与 iframe 内 bridge 都会参与测高
+       * - 浏览器对子像素 / 字体 / SVG 边界的取整可能偶发出现 `N` 与 `N+1`
+       * - 如果每次都把这 1px 写回给 iframe，会触发 resize -> redraw -> remeasure 的回路
+       *
+       * 这里仅在“谱面已渲染”后收敛微小波动，不拦截真正的高度变化。
+       */
+      if (
+        Number.isFinite(currentHeight) &&
+        currentHeight > 0 &&
+        Math.abs(currentHeight - nextHeight) <= 1 &&
+        hasRenderedSheet()
+      ) {
+        if (height > 300) {
+          hideLoading()
+        }
+        return
+      }
+
+      if (currentHeight === nextHeight) {
+        if (height > 300) {
+          hideLoading()
+        }
+        return
+      }
+
       currentFrame.style.height = `${nextHeight}px`
-      setFrameHeight(nextHeight)
+      setFrameHeight(previousHeight => (previousHeight === nextHeight ? previousHeight : nextHeight))
       if (height > 300) {
         hideLoading()
       }
