@@ -62,8 +62,10 @@ export default function PinterestSongPreviewPage({
   const frameSrc = `/api/kuailepu-runtime/${preset.slug}?${paramsForFrame.toString()}`
   const loadingId = `pinterest-preview-${preset.slug}-loading`
   const footerText = getPinterestPinFooterText(preset)
+  const showFooter = footerText.trim().length > 0
   const hideRuntimeTitle = shouldHidePinterestRuntimeTitle(preset)
   const showArtwork = preset.artworkTheme === 'sunrise-hills'
+  const contentWidth = preset.contentWidth ?? 1000
   const runtimeTextHideRules = [
     ...(preset.slug === 'amazing-grace'
       ? [
@@ -85,26 +87,30 @@ export default function PinterestSongPreviewPage({
 
   return (
     <main className="min-h-screen bg-[#ece6d9] p-0">
-      <div className="relative mx-auto h-[1500px] w-[1000px] overflow-hidden bg-[#ece6d9] text-stone-950">
-        <section className="h-full w-full p-0">
-          <div className="relative h-full w-full overflow-hidden bg-white shadow-[0_18px_48px_rgba(16,16,16,0.12)]">
-            <div className="relative h-[1500px] overflow-hidden">
-              <KuailepuRuntimeFrame
-                songId={preset.slug}
-                title={preset.title}
-                frameSrc={frameSrc}
-                loadingId={loadingId}
-                panelClassName="relative z-0 h-full min-h-0 overflow-hidden bg-white shadow-none"
-                iframeClassName="relative z-0 block w-full border-0"
-                overlayClassName="bg-white/96"
-                initialHeight={1760}
-                fitHeight={preset.fitHeight ?? 1500}
-                fitTopPadding={preset.frameTopPadding}
-                fitCropTop={preset.sheetCropTop}
-                runtimeTextHideRules={runtimeTextHideRules}
-              />
+      <div
+        data-pinterest-export-root="true"
+        className={`relative mx-auto w-[1000px] overflow-hidden bg-[#ece6d9] text-stone-950 ${showArtwork ? 'h-[1500px]' : ''}`}
+      >
+        <section className={`w-full p-0 ${showArtwork ? 'h-full' : ''}`}>
+          <div className={`relative w-full overflow-hidden bg-white shadow-[0_18px_48px_rgba(16,16,16,0.12)] ${showArtwork ? 'h-full' : ''}`}>
+            {showArtwork ? (
+              <div className="relative h-[1500px] overflow-hidden">
+                <KuailepuRuntimeFrame
+                  songId={preset.slug}
+                  title={preset.title}
+                  frameSrc={frameSrc}
+                  loadingId={loadingId}
+                  panelClassName="relative z-0 h-full min-h-0 overflow-hidden bg-white shadow-none"
+                  iframeClassName="relative z-0 block w-full border-0"
+                  overlayClassName="bg-white/96"
+                  initialHeight={1760}
+                  fitHeight={preset.fitHeight ?? 1500}
+                  fitTopPadding={preset.frameTopPadding}
+                  fitCropTop={preset.sheetCropTop}
+                  fitCropBottom={preset.sheetCropBottom}
+                  runtimeTextHideRules={runtimeTextHideRules}
+                />
 
-              {showArtwork ? (
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[292px] overflow-hidden">
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(252,248,241,0.62)_18%,rgba(248,228,195,0.94)_48%,rgba(221,183,132,1)_100%)]" />
                   <div className="absolute right-[90px] top-[72px] h-[122px] w-[122px] rounded-full bg-[radial-gradient(circle,rgba(255,248,212,0.98)_0%,rgba(255,232,171,0.9)_42%,rgba(255,211,130,0.18)_72%,rgba(255,211,130,0)_100%)]" />
@@ -115,32 +121,57 @@ export default function PinterestSongPreviewPage({
                   <div className="absolute left-[210px] bottom-[112px] h-[132px] w-[320px] rounded-[50%] bg-[#ddc19b]/88" />
                   <div className="absolute inset-x-0 bottom-0 h-[122px] bg-[linear-gradient(180deg,rgba(155,108,66,0)_0%,rgba(140,95,58,0.18)_18%,rgba(117,73,42,0.62)_100%)]" />
                 </div>
-              ) : (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[182px] bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.24)_14%,rgba(250,246,239,0.9)_46%,rgba(247,241,232,1)_100%)]" />
-              )}
 
-              <div className="pointer-events-none absolute bottom-5 left-5 right-5">
+                {showFooter ? (
+                  <div
+                    data-pinterest-export-end="true"
+                    className="pointer-events-none absolute bottom-5 left-5 right-5"
+                  >
+                    <div className="rounded-[22px] border border-white/45 bg-[rgba(88,55,31,0.34)] px-5 py-4 shadow-[0_18px_34px_rgba(16,16,16,0.16)] backdrop-blur-[8px]">
+                      <div className="max-w-[860px]">
+                        <p className="text-[28px] font-semibold leading-[1.05] text-white">
+                          {footerText}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <div className="bg-white">
                 <div
-                  className={
-                    showArtwork
-                      ? 'rounded-[22px] border border-white/45 bg-[rgba(88,55,31,0.34)] px-5 py-4 shadow-[0_18px_34px_rgba(16,16,16,0.16)] backdrop-blur-[8px]'
-                      : 'rounded-[20px] border border-stone-300/55 bg-[rgba(255,251,246,0.9)] px-4 py-3 shadow-[0_14px_30px_rgba(16,16,16,0.1)]'
-                  }
+                  className="mx-auto"
+                  style={{ width: `${contentWidth}px`, maxWidth: '100%' }}
                 >
-                  <div className="max-w-[860px]">
-                    <p
-                      className={
-                        showArtwork
-                          ? 'text-[28px] font-semibold leading-[1.05] text-white'
-                          : 'text-[25px] font-semibold leading-[1.08] text-stone-950'
-                      }
-                    >
+                  <KuailepuRuntimeFrame
+                    songId={preset.slug}
+                    title={preset.title}
+                    frameSrc={frameSrc}
+                    loadingId={loadingId}
+                    panelClassName="relative z-0 overflow-hidden bg-white shadow-none"
+                    iframeClassName="relative z-0 block w-full border-0"
+                    overlayClassName="bg-white/96"
+                    initialHeight={1760}
+                    fitHeight={preset.fitHeight}
+                    fitTopPadding={preset.frameTopPadding}
+                    fitCropTop={preset.sheetCropTop}
+                    fitCropBottom={preset.sheetCropBottom}
+                    runtimeTextHideRules={runtimeTextHideRules}
+                  />
+                </div>
+
+                {showFooter ? (
+                  <div
+                    data-pinterest-export-end="true"
+                    className="border-t border-stone-200 bg-[rgba(255,251,246,0.98)] px-4 py-3"
+                  >
+                    <p className="text-[25px] font-semibold leading-[1.08] text-stone-950">
                       {footerText}
                     </p>
                   </div>
-                </div>
+                ) : null}
               </div>
-            </div>
+            )}
           </div>
         </section>
       </div>

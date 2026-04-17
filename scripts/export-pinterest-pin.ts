@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
+import type { Locator, Page } from 'playwright'
 import {
   getPinterestPinBoardName,
   getPinterestPinDescription,
@@ -51,10 +52,12 @@ async function main() {
         await runtime.locator('svg.sheet-svg').waitFor({ timeout: 30000 })
         await page.locator('[data-runtime-loading="true"]').waitFor({ state: 'detached', timeout: 30000 }).catch(() => {})
 
+        const exportRoot = page.locator('[data-pinterest-export-root="true"]')
+        await waitForStableExportHeight(page, exportRoot)
+
         const outputPath = path.resolve(resolvedOutputDir, `${preset.slug}.png`)
-        await page.screenshot({
-          path: outputPath,
-          clip: { x: 0, y: 0, width: 1000, height: 1500 }
+        await exportRoot.screenshot({
+          path: outputPath
         })
 
         manifestEntries.push({
@@ -83,6 +86,39 @@ async function main() {
   } finally {
     await browser.close()
   }
+}
+
+async function waitForStableExportHeight(page: Page, exportRoot: Locator) {
+  let stableCount = 0
+  let previousHeight = 0
+
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    await page.waitForTimeout(200)
+    const currentHeight = await exportRoot
+      .evaluate(node => {
+        const rootRect = node.getBoundingClientRect()
+        const marker = node.querySelector('[data-pinterest-export-end="true"]')
+        if (marker) {
+          const markerRect = marker.getBoundingClientRect()
+          return Math.ceil(Math.max(markerRect.bottom - rootRect.top, 1))
+        }
+
+        return Math.ceil(Math.max(node.scrollHeight, rootRect.height))
+      })
+      .catch(() => 1500)
+
+    if (currentHeight === previousHeight && currentHeight > 0) {
+      stableCount += 1
+      if (stableCount >= 2) {
+        return currentHeight
+      }
+    } else {
+      stableCount = 0
+      previousHeight = currentHeight
+    }
+  }
+
+  return previousHeight > 0 ? previousHeight : 1500
 }
 
 function parseArgs(argv: string[]): ExportArgs {

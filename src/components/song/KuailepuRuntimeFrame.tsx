@@ -17,6 +17,7 @@ type KuailepuRuntimeFrameProps = {
   fitHeight?: number
   fitTopPadding?: number
   fitCropTop?: number
+  fitCropBottom?: number
   runtimeTextHideRules?: RuntimeTextHideRule[]
   runtimeMaskRects?: RuntimeMaskRect[]
 }
@@ -60,6 +61,7 @@ export default function KuailepuRuntimeFrame({
   fitHeight,
   fitTopPadding = 0,
   fitCropTop = 0,
+  fitCropBottom = 0,
   runtimeTextHideRules,
   runtimeMaskRects
 }: KuailepuRuntimeFrameProps) {
@@ -424,7 +426,7 @@ export default function KuailepuRuntimeFrame({
     }
   }, [frameSrc, initialHeight, songId])
 
-  const effectiveSourceHeight = Math.max(1, frameHeight - fitCropTop)
+  const effectiveSourceHeight = Math.max(1, frameHeight - fitCropTop - fitCropBottom)
   const availableFitHeight = fitHeight ? Math.max(0, fitHeight - fitTopPadding) : null
   const fittedScale =
     availableFitHeight && effectiveSourceHeight > 0
@@ -432,6 +434,8 @@ export default function KuailepuRuntimeFrame({
       : 1
   const fittedWidth = fittedScale < 1 ? `${100 / fittedScale}%` : '100%'
   const cropOffset = fitCropTop > 0 ? Number((fitCropTop * fittedScale).toFixed(2)) : 0
+  const bottomCropOffset =
+    fitCropBottom > 0 ? Number((fitCropBottom * fittedScale).toFixed(2)) : 0
 
   return (
     <section
@@ -469,6 +473,7 @@ export default function KuailepuRuntimeFrame({
             fitTopPadding > 0 || cropOffset > 0
               ? `${Number((fitTopPadding - cropOffset).toFixed(2))}px`
               : undefined,
+          marginBottom: bottomCropOffset > 0 ? `${-bottomCropOffset}px` : undefined,
           height: `${frameHeight}px`,
           width: fittedWidth,
           transform: fittedScale < 1 ? `scale(${fittedScale})` : undefined,
