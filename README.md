@@ -639,6 +639,9 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
   - `finger chart`
   - `fingering chart`
   这批词来自 2026-04-17 本地导出的 GSC 近 28 天 query 小样本观察，不代表流量已大，但足够说明词面覆盖应更贴近真实搜索。
+- song page SEO 模板当前也已补过一轮语法收口：
+  - 避免出现 `melody melody`
+  - 避免出现 `a intermediate` 这类错误冠词
 
 ## 2026-04-15 历史本地待审核状态记录
 

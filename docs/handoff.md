@@ -1279,6 +1279,9 @@
   - `finger chart`
   - `fingering chart`
   这是根据 2026-04-17 本地导出的 GSC 近 28 天 query 小样本做的词面补强。
+- song page SEO 模板当前也已收口一轮基础语法问题，避免继续产出：
+  - `melody melody`
+  - `a intermediate`
 - 当前又新增一条协作规则：
   - 完整任务已完成、且本地必要验证已经通过时，可以自行 `commit` 留档
   - **任何 push 前都必须先得到用户明确同意**

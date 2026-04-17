@@ -1009,6 +1009,9 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `finger chart`
   - `fingering chart`
   这批词来自 2026-04-17 本地导出的 GSC 近 28 天 query 小样本观察。
+- song page SEO 模板当前也已补过一轮基础语法修正，避免继续产出：
+  - `melody melody`
+  - `a intermediate`
 
 ## 最新补充（2026-04-15 历史本地待审核状态记录）
 

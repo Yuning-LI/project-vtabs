@@ -208,9 +208,9 @@ function buildSearchIntentSentence(input: {
   searchTerms: string[]
 }) {
   const familyLabel = input.familyLabel.toLowerCase()
-  const difficultyLabel = input.difficultyLabel.toLowerCase()
+  const difficultyPhrase = getDifficultyReadingPhrase(input.difficultyLabel)
 
-  return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still covering the tabs, finger chart, and note-label wording many beginners use for the same ${familyLabel} melody. The page keeps that search intent inside a ${difficultyLabel} reading flow instead of pushing visitors toward staff-heavy notation.`
+  return `It is aimed at players searching for ${input.searchTerms[0]} or ${input.searchTerms[1]}, while still covering the tabs, finger chart, and note-label wording many beginners use for this ${familyLabel}. The page keeps that search intent inside ${difficultyPhrase} instead of pushing visitors toward staff-heavy notation.`
 }
 
 function formatAliasList(aliases: string[]) {
@@ -543,6 +543,17 @@ function getDifficultySentence(difficultyLabel: string) {
       return 'This arrangement stays approachable, but it still gives useful practice in phrasing, breath control, and cleaner note changes.'
     default:
       return 'This arrangement is friendly to newer players thanks to its manageable phrase lengths and easy-to-read note flow.'
+  }
+}
+
+function getDifficultyReadingPhrase(difficultyLabel: string) {
+  switch (difficultyLabel) {
+    case 'Intermediate to advanced':
+      return 'a more advanced but still readable flow'
+    case 'Intermediate':
+      return 'an intermediate reading flow'
+    default:
+      return 'a beginner-friendly reading flow'
   }
 }
 
