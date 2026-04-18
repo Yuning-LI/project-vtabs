@@ -1299,6 +1299,10 @@
 
 `Current HEAD now exposes 118 public songs, with the latest shipped additions being tennessee-waltz, the-last-waltz, and waltz-no-2. Their deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, and China-network compare/preflight checks are already in place. The repo still contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker, but do not confuse that tracker with current public count. Internal Pinterest export tuning has also been committed: /dev/pinterest/song/[id] now shrinks to content height on non-artwork presets, and export-pinterest-pin crops after layout stabilizes instead of clipping a fixed canvas. Recent homepage, learn, and song-page SEO wording also now covers tabs, finger chart, and fingering chart phrasing based on small GSC query samples.`
 
+### 19.3 2026-04-18 当前状态补丁
+
+`Current HEAD also includes two pushed runtime-shell fixes: b66621b stabilizes iframe height syncing so public song pages no longer bounce between N and N+1 pixels at the lower edge, and 3d12359 enlarges narrow-screen song titles so mobile and narrow desktop widths stay closer to Kuailepu's title scale. That title change only adjusts the centered title font size; it does not move title Y positions, graph rows, lyrics, note glyphs, or the letter-track overlay. A local experiment that tried to shrink the title-to-graph gap by shifting visible head text was intentionally discarded because it can break composite head elements such as Play order and can create lyric / overlay alignment risk. If a future task revisits the top-gap issue, investigate Kuailepu head-height logic upstream instead of shifting rendered SVG blocks after the fact.`
+
 ### 19.1 2026-04-09 公开 SEO 入口层继续推进
 
 - 已继续沿 `docs/seo-growth-roadmap.md` 执行公开 SEO 入口层，不碰 runtime / 曲谱 / 指法图谱核心逻辑。

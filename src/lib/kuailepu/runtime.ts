@@ -1942,6 +1942,9 @@ function buildRuntimeBridgeScript(
       return;
     }
 
+    // 这里刻意只放大 title 的字号，不改 title 的纵向位置。
+    // 之前本地做过“后处理平移头部文本块来收口空白”的实验，但那条路会波及
+    // Play order 等复合头部元素，风险高，所以当前 pushed 策略只保留字号修正。
     primaryTitle.removeAttribute('textLength');
     primaryTitle.removeAttribute('lengthAdjust');
     primaryTitle.setAttribute('font-size', String(Math.round(nextFontSize * 10) / 10));
