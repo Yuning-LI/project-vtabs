@@ -718,6 +718,41 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
   - `amazing-grace.png`
   - `frere-jacques.png`
   - `manifest.json`
+
+## 2026-04-18 Pinterest 导图当前默认流程
+
+- 当前内部 Pinterest 导图链已经从“手动调窗口后截图”收口到“命令行稳定导出”：
+  - 入口页仍保留：
+    - `src/app/dev/pinterest/page.tsx`
+    - `src/app/dev/pinterest/song/[id]/page.tsx`
+  - 当前默认导图命令：
+    ```bash
+    npm run export:pinterest-portrait -- --slug <slug> --instrument <o12|o6|r8b|r8g|w6>
+    ```
+- 当前默认导图参数是：
+  - 视口宽高 `500 x 1280`
+  - `dpr=2`
+  - `capture=canvas`
+  - 默认起始 `sheet_scale=11`
+  - 自动把最终宽度收口到约 `1000px`
+  - 自动把最终高度收口到不超过 `1700px`
+- 当前导图脚本会做的后处理：
+  - 等待 `/dev/pinterest/song/[id]` 布局稳定
+  - 截取完整导图画布，不中间截断谱面
+  - 保留原始 runtime 标题，不再改成外部重绘标题
+  - 对最终 PNG 裁掉“标题和首行指法图谱之间”的空白横带
+  - 如果图仍然过高，自动下调 `sheet_scale` 再重导，直到满足高度上限或触底
+- 当前建议：
+  - 先直接用默认命令批量导图
+  - 只有个别长歌或短歌观感不理想时，再单独覆写 `--sheet-scale`
+- 当前仓库管理规则不变：
+  - `exports/` 只保留本地，不进入 git
+  - 不要把 `exports/` 下的测试图或成品图当成应提交资产
+- 当前对部署的判断：
+  - `/dev/pinterest` 路由继续保留在仓库即可
+  - 就算一起部署到线上，对公开 `/song/<slug>` 用户页性能影响也很小
+  - 原因是它属于独立 dev route，不参与公开 song page 的运行时主链
+  - 但产品定位仍然是 internal-only，不需要对外暴露入口
 - 注意：
   - `exports/` 继续只保留本地，不进入 git
   - 新对话不要再假设“本地唯一脏文件通常只剩 tsconfig.tsbuildinfo”

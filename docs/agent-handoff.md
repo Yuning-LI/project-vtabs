@@ -1075,9 +1075,8 @@ npm run preflight:kuailepu-publish -- <slug...>
   - `src/app/dev/pinterest/song/[id]/page.tsx`
 - 这轮调整仍然只属于内部 Pinterest 预览 / 导出链，不是公开 `/song/<slug>` 主链改动。
 - 当前更推荐的执行方式是：
-  - 先打开 `/dev/pinterest` 选歌
-  - 再进入 `/dev/pinterest/song/[id]` 手动截图工作台
-  - 通过浏览器手动调窗口宽度，让谱面响应式收口到更适合 pin 的尺寸
+  - 优先直接跑导图命令
+  - 只有需要人工目测版式时，再打开 `/dev/pinterest` / `/dev/pinterest/song/[id]`
 - 工作台主画布当前默认只保留：
   - runtime 谱面
   - 单行 `playbyfingering.com` 水印
@@ -1087,6 +1086,34 @@ npm run preflight:kuailepu-publish -- <slug...>
 - 所以新对话不要再假设：
   - “本地通常只剩 tsconfig.tsbuildinfo”
   - 正确动作仍然是先跑 `git status --short --branch`
+
+## 最新补充（2026-04-18 Pinterest 默认导图流程）
+
+- 当前内部 Pinterest 导图默认命令已经收口为：
+  ```bash
+  npm run export:pinterest-portrait -- --slug <slug> --instrument <o12|o6|r8b|r8g|w6>
+  ```
+- 当前默认参数：
+  - `width=500`
+  - `height=1280`
+  - `dpr=2`
+  - `capture=canvas`
+  - 初始 `sheet_scale=11`
+  - 自动把最终成图宽度收口到约 `1000px`
+  - 自动把最终成图高度收口到不超过 `1700px`
+- 当前导图脚本会：
+  - 截完整导图画布
+  - 保留 runtime 原始标题
+  - 在截图后裁掉“标题和首行图谱之间”的空白横带
+  - 如果图片仍然过长，就自动下调 `sheet_scale`
+- 这条链仍然只是 internal-only 工具链：
+  - 不修改公开 `/song/<slug>` 行为
+  - 不改公开 runtime 主链
+  - `exports/` 成品继续本地保留，不提交
+- 关于部署判断：
+  - `src/app/dev/pinterest/...` 保留在仓库没有问题
+  - 就算一起部署到线上，对公开用户页性能影响也很小，因为它是独立 dev route
+  - 但产品层面仍不需要给外部用户任何入口
 
 ## 最新补充（2026-04-16 Recorder 语义反馈）
 

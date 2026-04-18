@@ -1541,9 +1541,8 @@
   - 代码已 push
   - `exports/` 下的导图产物继续只保留本地，不进入 git
 - 当前更推荐的内部工作流是：
-  - 先打开 `/dev/pinterest` 选歌
-  - 再进入 `/dev/pinterest/song/[id]` 手动截图工作台
-  - 通过浏览器手动调窗口宽度，让谱面响应式收口到更适合截图的尺寸
+  - 优先直接用导图命令批量导出
+  - 只有需要人工看版式时，才打开 `/dev/pinterest` / `/dev/pinterest/song/[id]` 辅助调参
 - 工作台画布当前默认只保留：
   - runtime 谱面
   - 单行 `playbyfingering.com` 水印
@@ -1576,6 +1575,38 @@
   - `exports/` 只保留本地，不进入 git
   - 不要把 `exports/` 里的导图产物当成应提交资产
   - 新对话不要再默认“当前本地只剩 tsconfig.tsbuildinfo 脏文件”；应先跑 `git status --short --branch`
+
+### 1.1.9 2026-04-18 Pinterest 导图默认流程已收口
+
+- 当前内部 Pinterest 导图默认不再依赖“手动调浏览器宽度后截图”。
+- 当前推荐命令是：
+  ```bash
+  npm run export:pinterest-portrait -- --slug <slug> --instrument <o12|o6|r8b|r8g|w6>
+  ```
+- 这条命令当前等价于：
+  - `width=500`
+  - `height=1280`
+  - `dpr=2`
+  - `capture=canvas`
+  - 默认起始 `sheet_scale=11`
+  - 自动把最终导图宽度收口到约 `1000px`
+  - 自动把最终导图高度收口到不超过 `1700px`
+- 当前脚本导图逻辑是：
+  - 打开 `/dev/pinterest/song/[id]`
+  - 等 runtime 与工作台布局稳定
+  - 截完整导图画布，避免谱面被中间截断
+  - 保留 runtime 原始标题
+  - 对导出后的 PNG 裁掉“标题与首行指法图谱之间”的空白横带
+  - 如果成图仍然过高，就自动下调 `sheet_scale` 后重导，直到满足高度上限或到达最小值
+- 这条链当前只属于内部生产工具链：
+  - 不改公开 `/song/<slug>` 主链
+  - 不改公开 runtime 正确性
+  - `exports/` 继续只保留本地
+- 关于是否部署：
+  - `/dev/pinterest` 保留在仓库是合理的
+  - 即使随站点一起部署到线上，对公开 song page 的用户性能影响也很小
+  - 因为它是独立 dev route，不会进入公开 song page 的运行时主链与主要 bundle
+  - 但它仍然是 internal-only 工具页，不需要主动给外部用户入口
 
 ### 1.1.8 2026-04-16 Recorder 语义反馈补充
 

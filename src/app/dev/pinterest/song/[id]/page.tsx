@@ -23,9 +23,7 @@ import {
   normalizeSheetScale,
   normalizeToggleParam
 } from '@/lib/songbook/songPageQueryState'
-import {
-  getPinterestPinPreset
-} from '@/lib/songbook/pinterestPins'
+import { getPinterestPinPreset } from '@/lib/songbook/pinterestPins'
 
 export const dynamic = 'force-dynamic'
 

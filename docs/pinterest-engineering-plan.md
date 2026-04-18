@@ -30,6 +30,35 @@ Current gap:
 - song pages do not yet expose a clear, consistent social-image pipeline via metadata
 - preset coverage is still tiny relative to the public catalog
 
+### 1.1 Current Internal Export Default
+
+The current internal default is no longer "manually resize the browser and screenshot by hand".
+
+The current default export command is:
+
+```bash
+npm run export:pinterest-portrait -- --slug <slug> --instrument <o12|o6|r8b|r8g|w6>
+```
+
+Its current behavior is:
+
+- open `/dev/pinterest/song/[id]`
+- wait for runtime and layout stability
+- export the full internal Pinterest canvas instead of clipping a mid-page slice
+- keep the original runtime title
+- crop the blank horizontal band between the title and the first fingering-chart row after screenshot
+- automatically reduce `sheet_scale` if the image is still too tall
+- target a final width around `1000px`
+- keep final height at or below `1700px`
+
+This workflow is now the default internal production flow unless a specific song needs manual tuning.
+
+Deployment note:
+
+- keeping `src/app/dev/pinterest/...` in the repo is fine
+- deploying those internal routes alongside the app should have little to no meaningful impact on public song-page performance because they are isolated dev routes
+- they should still remain internal-only from a product and navigation standpoint
+
 ## 2. Product Goal
 
 Use Pinterest as a top-of-funnel acquisition channel for selected songs and intent pages.
