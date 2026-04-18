@@ -1,3 +1,6 @@
+import { isGaTrackingDisabled } from '@/lib/analytics/optOut'
+import { gaMeasurementId } from '@/lib/site'
+
 declare global {
   interface Window {
     dataLayer?: unknown[]
@@ -9,6 +12,9 @@ type GaEventParams = Record<string, string | number | boolean | null | undefined
 
 export function sendGaEvent(eventName: string, params: GaEventParams = {}) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
+    return
+  }
+  if (!gaMeasurementId || isGaTrackingDisabled(gaMeasurementId)) {
     return
   }
 

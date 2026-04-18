@@ -4,6 +4,7 @@ import Script from 'next/script'
 import './globals.css'
 import { GoogleAnalyticsPageView } from '@/components/analytics/GoogleAnalyticsPageView'
 import { SiteFooter } from '@/components/layout/SiteFooter'
+import { buildGaOptOutBootstrapScript } from '@/lib/analytics/optOut'
 import { gaMeasurementId, googleSiteVerification, siteUrl } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -36,6 +37,9 @@ export default function RootLayout({
       <head>
         {gaMeasurementId ? (
           <>
+            <Script id="google-analytics-opt-out" strategy="beforeInteractive">
+              {buildGaOptOutBootstrapScript(gaMeasurementId)}
+            </Script>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
               strategy="afterInteractive"

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { isGaTrackingDisabled } from '@/lib/analytics/optOut'
 
 declare global {
   interface Window {
@@ -22,6 +23,9 @@ export function GoogleAnalyticsPageView({
 
   useEffect(() => {
     if (!measurementId || typeof window === 'undefined' || typeof window.gtag !== 'function') {
+      return
+    }
+    if (isGaTrackingDisabled(measurementId)) {
       return
     }
 
