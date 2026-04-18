@@ -43,6 +43,26 @@ Short form:
 
 `AI recommend -> user approve -> AI import and English-clean -> AI update learn/hub internal linking -> AI preflight -> user review -> push later`
 
+### 2.1 Failure Handling Rule
+
+If an approved target song fails at any meaningful stage, do not silently replace it with a different song and continue as if the original request succeeded.
+
+Meaningful failure includes:
+
+- Kuailepu search only returning junk fallback results
+- imported raw JSON lacking usable public instruments
+- compare / preflight parity failing
+- identity ambiguity that blocks a confident public slug
+- rights or provenance concerns
+
+Required behavior:
+
+- explicitly tell the user which approved song failed
+- explain the current failure reason as concretely as possible
+- only move to a replacement song after the user agrees
+
+This rule exists to prevent the grey-song lane from quietly drifting away from the songs the user actually approved.
+
 ## 3. Hard Rules
 
 ### 3.1 What Must Stay English
@@ -87,6 +107,18 @@ Grey-song work belongs to:
 - manifest
 - song SEO profiles
 - learn / hub internal linking
+
+### 3.4 Compare Scope Clarification
+
+The compare gate still exists to protect `number`-mode parity, but its normalized hash should focus on the notation body and fingering-chart body rather than every header decoration in the exported SVG.
+
+For avoidance of doubt, "top header decorative nodes" means the non-core SVG elements near the very top of the sheet, such as:
+
+- `作曲` / `Composer` label text
+- instrument / fingering title rows
+- their nearby small dots, icons, and short header-only guide marks
+
+These nodes are header metadata, not the melody body. They may differ between live and local runtime without changing the playable chart itself.
 
 ## 4. Candidate Selection Rules
 

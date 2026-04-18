@@ -145,13 +145,13 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 118`
+- `songCatalog.length = 121`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 118`
+- `allSongCatalog.length = 121`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 118`
+- `data/songbook/public-song-manifest.json = 121`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 118`
+- `data/kuailepu-runtime/*.json = 121`
   - 当前生产可部署的快乐谱 raw JSON 数量。
 - `reference/songs/*.json = 119`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
@@ -239,7 +239,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 118 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 121 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`
@@ -618,11 +618,11 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 
 ## 2026-04-17 当前已推送状态
 
-- 当前公开 song pages 数量已更新为 `118`。
+- 当前公开 song pages 数量已更新为 `121`。
 - 本轮已补齐并准备上线 / 已上线的 3 首新曲为：
-  - `tennessee-waltz`
-  - `the-last-waltz`
-  - `waltz-no-2`
+  - `yesterday`
+  - `the-sound-of-silence`
+  - `right-here-waiting`
 - 这 3 首当前都已完成：
   - `data/kuailepu-runtime/<slug>.json`
   - `data/kuailepu/<slug>.json`

@@ -64,6 +64,8 @@ If login is invalid, stop and ask the user to run:
 npm run login:kuailepu
 ```
 
+If the user approved specific target songs and one of those songs fails during search, import, compare, or preflight, do not silently switch to a different song. Tell the user which target failed, why it failed, and only proceed with a replacement after explicit user confirmation.
+
 ## Network Coordination
 
 - Kuailepu import, compare, preflight, and live-context debugging require a China-reachable network.

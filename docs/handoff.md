@@ -568,13 +568,13 @@
 
 以当前工作区为准：
 
-- `songCatalog.length = 118`
+- `songCatalog.length = 121`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 118`
+- `allSongCatalog.length = 121`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 118`
+- `data/songbook/public-song-manifest.json = 121`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 118`
+- `data/kuailepu-runtime/*.json = 121`
   - 当前生产可部署 raw JSON 数量。
 - `reference/songs/*.json = 119`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
@@ -1254,10 +1254,10 @@
   - 新对话接手前先看 `git status --short --branch`
   - 准备上线前先看 `git log --oneline origin/main..HEAD`
   - 确认每个本地提交都属于应上线内容后再 push
-- 截至 2026-04-17 当前工作区，这一轮最重要的新增公开内容是：
-  - `tennessee-waltz`
-  - `the-last-waltz`
-  - `waltz-no-2`
+- 截至 2026-04-19 当前工作区，这一轮最重要的新增公开内容是：
+  - `yesterday`
+  - `the-sound-of-silence`
+  - `right-here-waiting`
 - 这 3 首当前在 HEAD 已完成：
   - `data/kuailepu-runtime/<slug>.json`
   - `data/kuailepu/<slug>.json`
@@ -1265,7 +1265,7 @@
   - `data/songbook/song-seo-profiles.json`
   - `src/lib/learn/content.ts`
   - 中国网络下 compare / preflight 校验
-- 当前 HEAD 的公开 song pages 数量口径已更新为 `118`。
+- 当前 HEAD 的公开 song pages 数量口径已更新为 `121`。
 - 当前仓库还新增了一条更清晰的内部灰度曲追踪入口：
   - `data/songbook/grey-song-rollout.json`
   - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
@@ -1293,11 +1293,11 @@
 
 下面这条可以直接复制给新对话：
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 118 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are tennessee-waltz, the-last-waltz, and waltz-no-2. The repo also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. Recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing based on small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 121 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are yesterday, the-sound-of-silence, and right-here-waiting. The repo also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. Recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing based on small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ### 19.2 2026-04-17 当前状态补丁
 
-`Current HEAD now exposes 118 public songs, with the latest shipped additions being tennessee-waltz, the-last-waltz, and waltz-no-2. Their deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, and China-network compare/preflight checks are already in place. The repo still contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker, but do not confuse that tracker with current public count. Internal Pinterest export tuning has also been committed: /dev/pinterest/song/[id] now shrinks to content height on non-artwork presets, and export-pinterest-pin crops after layout stabilizes instead of clipping a fixed canvas. Recent homepage, learn, and song-page SEO wording also now covers tabs, finger chart, and fingering chart phrasing based on small GSC query samples.`
+`Current HEAD now exposes 121 public songs, with the latest shipped additions being yesterday, the-sound-of-silence, and right-here-waiting. Their deployable raw JSON, compact SongDoc, manifest entries, song SEO profiles, learn/hub internal-link updates, and China-network compare/preflight checks are already in place. The repo still contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, visible in /dev/song-import-dashboard under Grey Song Tracker, but do not confuse that tracker with current public count. Internal Pinterest export tuning has also been committed: /dev/pinterest/song/[id] now shrinks to content height on non-artwork presets, and export-pinterest-pin crops after layout stabilizes instead of clipping a fixed canvas. Recent homepage, learn, and song-page SEO wording also now covers tabs, finger chart, and fingering chart phrasing based on small GSC query samples.`
 
 ### 19.3 2026-04-18 当前状态补丁
 

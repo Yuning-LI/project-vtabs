@@ -284,7 +284,8 @@ export function buildKuailepuRuntimeHtml(input: {
       )
       .replace(
         /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i,
-        `$1var context = Kit.context.setContext(${safePayload});$2`
+        (_match, openTag, closeTag) =>
+          `${openTag}var context = Kit.context.setContext(${safePayload});${closeTag}`
       )
       .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
       .replace(

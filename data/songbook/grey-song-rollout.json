@@ -126,72 +126,102 @@
     {
       "slug": "moon-river",
       "title": "Moon River",
-      "status": "committed-local",
+      "status": "live",
       "batch": "6",
       "group": "film",
       "addedOn": "2026-04-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/VaQjb1LS8.html",
-      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, dashboard wiring, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "can-you-feel-the-love-tonight",
       "title": "Can You Feel the Love Tonight",
-      "status": "committed-local",
+      "status": "live",
       "batch": "6",
       "group": "animation",
       "addedOn": "2026-04-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/MDRUf1Nq6.html",
-      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, dashboard wiring, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "yesterday-once-more",
       "title": "Yesterday Once More",
-      "status": "committed-local",
+      "status": "live",
       "batch": "6",
       "group": "song",
       "addedOn": "2026-04-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6THZb1yv4.html",
-      "notes": "Committed locally with content layer, dashboard wiring, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, dashboard wiring, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "zeldas-lullaby",
       "title": "Zelda's Lullaby",
-      "status": "committed-local",
+      "status": "live",
       "batch": "6b",
       "group": "game",
       "addedOn": "2026-04-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TgVgg1zt7.html",
-      "notes": "Imported from a user-provided direct URL, then promoted into the local public content layer with manifest, SEO profile, learn/hub linking, and five-instrument preflight compare passing. Not pushed yet."
+      "notes": "Imported from a user-provided direct URL, then promoted into the public content layer with manifest, SEO profile, learn/hub linking, and five-instrument preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "waltz-no-2",
       "title": "Waltz No.2",
-      "status": "committed-local",
+      "status": "live",
       "batch": "7",
       "group": "dance",
       "addedOn": "2026-04-17",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oa6Zq12vI.html",
-      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "tennessee-waltz",
       "title": "Tennessee Waltz",
-      "status": "committed-local",
+      "status": "live",
       "batch": "7",
       "group": "song",
       "addedOn": "2026-04-17",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/HhI9l18KJ.html",
-      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "the-last-waltz",
       "title": "The Last Waltz",
-      "status": "committed-local",
+      "status": "live",
       "batch": "7",
       "group": "song",
       "addedOn": "2026-04-17",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ItyWq16I3.html",
-      "notes": "Imported locally with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "yesterday",
+      "title": "Yesterday",
+      "status": "live",
+      "batch": "8",
+      "group": "song",
+      "addedOn": "2026-04-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AvNGe12sE.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "the-sound-of-silence",
+      "title": "The Sound of Silence",
+      "status": "live",
+      "batch": "8",
+      "group": "song",
+      "addedOn": "2026-04-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/GDBFb1IgF.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "right-here-waiting",
+      "title": "Right Here Waiting",
+      "status": "live",
+      "batch": "8",
+      "group": "song",
+      "addedOn": "2026-04-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oXQCb1spO.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     }
   ]
 }
