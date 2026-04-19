@@ -500,7 +500,7 @@
     - `hc_*.js`
     - `hc.kit_*.js`
   - 当前 live 公开页已经切到单文件：
-    - `hc.min_02d898293e.js`
+    - `hc.min_1cfae5fe62.js`
   - 历史 `hc` 主文件更明显承担 parser / lexer / layout / SVG render 主链职责。
   - 历史 `hc.kit` 更偏支撑层：
     - `MidGen`

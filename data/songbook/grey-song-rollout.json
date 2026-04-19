@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-17",
+  "updatedOn": "2026-04-19",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -222,6 +222,36 @@
       "addedOn": "2026-04-18",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oXQCb1spO.html",
       "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "let-it-be",
+      "title": "Let It Be",
+      "status": "live",
+      "batch": "9",
+      "group": "song",
+      "addedOn": "2026-04-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/bH9rk1KnH.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "take-me-home-country-roads",
+      "title": "Take Me Home, Country Roads",
+      "status": "live",
+      "batch": "9",
+      "group": "song",
+      "addedOn": "2026-04-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/dishe1R2v.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "over-the-rainbow",
+      "title": "Over the Rainbow",
+      "status": "live",
+      "batch": "9",
+      "group": "film",
+      "addedOn": "2026-04-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xsdel1hEM.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
     }
   ]
 }

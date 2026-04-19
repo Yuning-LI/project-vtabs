@@ -189,7 +189,7 @@
 
 - 已证实：
   - 历史公开版曾长期使用 split `hc_*.js + hc.kit_*.js`
-  - 当前 live 公开页已切到 monolithic `hc.min_02d898293e.js`
+  - 当前 live 公开页已切到 monolithic `hc.min_1cfae5fe62.js`
   - 历史 `hc` 主文件更偏 parser / lexer / layout / SVG render 主链
   - 历史 `hc.kit` 更偏 MIDI / harmonizer / chord / instrument / fingering 支撑层
 - 高概率推测：

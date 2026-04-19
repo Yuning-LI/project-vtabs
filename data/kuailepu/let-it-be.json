@@ -1,0 +1,59 @@
+{
+  "id": "let-it-be",
+  "slug": "let-it-be",
+  "title": "Let It Be",
+  "description": "Let It Be melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "published": true,
+  "alignedLyrics": [
+    "When I",
+    "find my self in times of trou ble Moth er Ma ry comes to me",
+    "Speak ing words of wis dom let it be _ _",
+    "And",
+    "in my hour of dark ness she is stand ing right _ in front of me",
+    "Speak ing words of wis dom, let it be _ _ Let it",
+    "be, let it be _ let it be, _ _ _ let it be _ _",
+    "Whis per words _ of wis dom, let it be",
+    "_",
+    "_ _ And when _",
+    "_",
+    "_ _ Let it be, let it be let it be, let it be _ _ _ _ Whis per",
+    "words of wis _ dom, let it be _ _ _ _ _",
+    ""
+  ],
+  "extraLyrics": [
+    "_ _ _ the bro ken heart ed peo ple liv ing in the world a gree There will be an an swer, let it be _ _ For though they may be part ed there is still a chance _ that they will see There will be an an swer, let it be _ _ Let it be, let it be _ let it be, _ _ _ let it be _ _ There will be _ an an swer, let it be _ _ _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/bH9rk1KnH.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song bH9rk1KnH on 2026-04-19."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 |",
+    "5 - 5 - 6 - 3 - 5 - 5 - 1' - 2' - | 3' - 3' - 3' - 2' - 2' - 1' - 1' - - - |",
+    "3' - 3' - 4' - 3' - 3' - 2' - 0 0 3' 2' | 2' - 1' - 1' - - - - - - -",
+    "0 0 5 - |",
+    "5 - 5 - 6 - 1' - 5 - 5 - 1' - 2' - | 2' - 3' - 3' - 2' 2' 2' - 1' - 1' - - - |",
+    "3' - 3' - 4' - 3' - 3' - 2' - 0 0 3' 2' | 2' - 1' - 1' - - - - - - - 3' - 2' - |",
+    "1' - - - 3' - 5' - 6' - 5' - 5' 5' 3' - | 3' 2' 1' - 6 - 5 - 3' - 1' - 1' - - - |",
+    "3' - 3' - 4' - 4' 3' 3' - 2' - 0 3' 2' 2' |",
+    "1 - - -",
+    "2' - 1' - 1' - - - - - - - 0 0 3 5 |",
+    "2 - - -",
+    "2' - - - 1' - - - 1' - - - 1'' - - - 3 - 2 - | 1' - - - 3' - 5' - 6' - 5' - 5' 5' 3' - | 3' 2' 1' - 6 - 5 - 3' - - - 0 0 0 0 |",
+    "3' - 3' - 4' - 4' 3' 3' - 2' - 0 3' 2' 2' | 2' - 1' - 1' - - - - - - - 0 0 0 0",
+    "| | |"
+  ]
+}

@@ -51,6 +51,7 @@ export async function GET(
   }
   const song = songCatalogBySlug[params.id]
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
+  const runtimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
   const publicFeatures =
     searchParams.get('public_feature') === 'metronome' ? (['metronome'] as const) : []
   /**
@@ -89,7 +90,8 @@ export async function GET(
     assetProfile: runtimeAssetProfile,
     publicFeatures: [...publicFeatures],
     preferredEnglishTitle: runtimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
-    preferredEnglishSubtitle: null
+    preferredEnglishSubtitle: null,
+    compareMode: runtimeCompareMode
   })
 
   return new NextResponse(html, {

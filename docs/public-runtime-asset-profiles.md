@@ -60,7 +60,7 @@
 下面这批在当前公开详情页仍然是硬依赖，不应在最小脚本集阶段贸然停用：
 
 - `cdn/js/kit_9b7263d863.js`
-- `cdn/js/dist/hc.min_02d898293e.js`
+- `cdn/js/dist/hc.min_1cfae5fe62.js`
 - `cdn/js/song_builder_a87186a4c4.js`
 - `cdn/js/song_1f2ad3c3ba.js`
 - `cdn/js/i18n_d3be79dfbd.js`
@@ -83,7 +83,7 @@
 - `lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js`
 - `lib/art-template/3.0.1/template.js`
 - `lib/clipboard.js/1.5.12/clipboard.min.js`
-- `cdn/js/i18n/all_09a443f1a6.js`
+- `cdn/js/i18n/all_2916f8e4dd.js`
 - `cdn/js/lib/web-audio-scheduler_1823326334.js`
 - `cdn/js/metronome_7124fad0b0.js`
 - `cdn/js/microphone_7bba73959e.js`

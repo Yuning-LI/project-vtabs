@@ -1,0 +1,63 @@
+{
+  "id": "over-the-rainbow",
+  "slug": "over-the-rainbow",
+  "title": "Over the Rainbow",
+  "description": "Over the Rainbow melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "published": true,
+  "alignedLyrics": [
+    "Some where o ver the rain bow way up",
+    "high There's a land that I heard of",
+    "once in a lull a by Some where",
+    "ov er the rain bow skies are blue",
+    "And the dreams that you dare to dream re ally do come",
+    "true Some day I wish up on a star And",
+    "wake up where the clouds _ are far be hindme",
+    "_ Where trou bles smelled like lem on drops a",
+    "Way a bove the chim ney tops That's where you'll",
+    "find me Some where o ver the rain bow",
+    "blue birds fly Birds fly",
+    "o ver the rain bow Why then oh why can't I I",
+    "If",
+    "hap py lit tle blue birds fly be yond the",
+    "rain bow Why oh why can't I _ _ _",
+    ""
+  ],
+  "extraLyrics": [
+    "飞 跃 灿 烂 的 彩 虹 直上 蓝 天 那 里 有 童 话 传 说 中的 仙 境 乐 _ 圆 飞 越 灿 烂 的 彩 虹 蔚 蓝 天 那 里 童 年 的 梦 想 全 都 能 实 _ 现 我 梦 想 有 一天 飞 上 星 空 醒 来 发 现 脚 下 白 云 片 片 _ 我 忘 掉 人 间 烦 恼 痛 苦 腾 云 驾 雾 遨 游 四 海 快乐 似 神 仙 青 鸟 能 飞 越 彩 虹 舞 翩 翩 为 何 我 不 能 把 我的 梦 想 _ 予以 实 现 现 青 鸟 能 飞 越 彩 虹 我 为 什 么 不 能 飞 上 蓝 _ 天 _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/xsdel1hEM.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song xsdel1hEM on 2026-04-19."
+  },
+  "meta": {
+    "key": "1 = bE",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "1 - - - 1' - - - | 7 - 5 6 7 - 1' - | 1 - - - 6 - - - |",
+    "5 - - - - - - - | 6, - - - 4 - - - | 3 - 1 2 3 - 4 - |",
+    "2 - 7, 1 2 - 3 - | 1 - - - 0 0 0 0 | 1 - - - 1' - - - |",
+    "7 - 5 6 7 - 1' - | 1 - - - 6 - - - | 5 - - - - - - - |",
+    "6, - - - 4 - - - | 3 - 1 2 3 - 4 - | 2 - 7, 1 2 - 3 - |",
+    "1 - - - - - 0 5 | 3 5 3 5 3 5 3 5 |",
+    "4 5 4 5 4 5 4 5 | 6 - - - 6 - - - |",
+    "6 - - - - - 0 5 | 3 5 3 5 3 5 3 5 |",
+    "#4 6 4 6 4 6 4 6 | 7 - - - 7 - - - |",
+    "2' - - - 6 - - - | 1 - - - 1' - - - | 7 - 5 6 7 - 1' - |",
+    "1 - - - 6 - - - | 5 - - - - - - - | 6, - - - 4 - - - |",
+    "3 - 1 2 3 - 4 - | 2 - 7, 1 2 - 3 - | 1 - 1 - - - 0 0 0 0 |",
+    "2 -",
+    "1 - - - - - 0 0 | | 0 0 0 0 0 0 0 5 | 3 5 3 5 3 5 3 5 |",
+    "4 5 4 5 4 5 6 7 | 1' - - - - - - - | 1' - - - 0 0 0 0",
+    "| | |"
+  ]
+}

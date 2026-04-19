@@ -148,7 +148,7 @@ const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js',
   'lib/art-template/3.0.1/template.js',
   'lib/clipboard.js/1.5.12/clipboard.min.js',
-  'cdn/js/i18n/all_09a443f1a6.js',
+  'cdn/js/i18n/all_2916f8e4dd.js',
   'cdn/js/lib/web-audio-scheduler_1823326334.js',
   'cdn/js/metronome_7124fad0b0.js',
   'cdn/js/microphone_7bba73959e.js',
@@ -246,6 +246,7 @@ export function buildKuailepuRuntimeHtml(input: {
   publicFeatures?: KuailepuRuntimePublicFeature[] | null
   preferredEnglishTitle?: string | null
   preferredEnglishSubtitle?: string | null
+  compareMode?: boolean | null
 }) {
   const { songId } = input
   const payload = applyRuntimeDefaults(
@@ -259,6 +260,7 @@ export function buildKuailepuRuntimeHtml(input: {
   const letterTrack = input.letterTrack ?? null
   const assetProfile = input.assetProfile ?? 'public-song'
   const publicFeatures = new Set(input.publicFeatures ?? [])
+  const compareMode = Boolean(input.compareMode)
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeForInlineScript(payload)
   const template = getKuailepuHtmlTemplate()
@@ -288,19 +290,13 @@ export function buildKuailepuRuntimeHtml(input: {
           `${openTag}var context = Kit.context.setContext(${safePayload});${closeTag}`
       )
       .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
-      .replace(
-        /<\/head>/i,
-        `${buildRuntimeOverrideStyle(publicFeatures)}${buildRuntimePendingScript(letterTrack)}</head>`
-      )
-      .replace(
-        /<\/body>/i,
-        `${buildRuntimeBridgeScript(
-          songId,
-          letterTrack,
-          input.textMode ?? 'source',
-          publicFeatures
-        )}</body>`
-      ),
+      .replace(/<\/head>/i, `${compareMode ? '' : buildRuntimeOverrideStyle(publicFeatures)}${buildRuntimePendingScript(letterTrack, compareMode)}</head>`)
+      .replace(/<\/body>/i, `${compareMode ? '' : buildRuntimeBridgeScript(
+        songId,
+        letterTrack,
+        input.textMode ?? 'source',
+        publicFeatures
+      )}</body>`),
     assetProfile
   )
 }
@@ -1252,8 +1248,12 @@ html[data-vtabs-public-metronome="1"] #metronome-modal {
 `
 }
 
-function buildRuntimePendingScript(letterTrack: KuailepuLetterTrackData | null) {
+function buildRuntimePendingScript(
+  letterTrack: KuailepuLetterTrackData | null,
+  compareMode?: boolean
+) {
   const needsPendingMask =
+    !compareMode &&
     Boolean(letterTrack) &&
     letterTrack?.mode !== 'number'
 

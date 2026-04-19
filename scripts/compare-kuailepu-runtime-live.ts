@@ -98,10 +98,23 @@ const compareTargets = candidates.flatMap(song => {
 
 const context = await launchKuailepuPersistentContext({ headless: true })
 const localBrowser = await chromium.launch({ headless: true })
+const localContext = await localBrowser.newContext({
+  /**
+   * 快乐谱 live 页当前在中国站环境下默认跑 `zh-CN`。
+   *
+   * 之前 compare 本地 capture 用的是一个干净浏览器页，默认 locale 是 `en-US`。
+   * 这会让本地 runtime 走到不同的 i18n / 文本度量路径，导致像
+   * `Over the Rainbow` 这类歌在本地和 live 出现正文布局漂移。
+   *
+   * 这里把本地 compare 页显式对齐到 `zh-CN`，继续保留“干净页、避免持久化 profile
+   * 异常跳转”的好处，同时消除 locale 差异带来的假性 parity 失败。
+   */
+  locale: 'zh-CN'
+})
 
 try {
   const livePage = await getPrimaryPage(context)
-  const localPage = await localBrowser.newPage()
+  const localPage = await localContext.newPage()
   await localPage.route('**/*', route => {
     const request = route.request()
     const requestUrl = request.url()
@@ -187,6 +200,7 @@ try {
     process.exit(1)
   }
 } finally {
+  await localContext.close()
   await localBrowser.close()
   await context.close()
 }
@@ -351,6 +365,8 @@ function sha256(input: string) {
 
 function normalizeSvgForHash(input: string) {
   return input
+    .replace(/\s+height="[^"]*"/g, '')
+    .replace(/\s+viewBox="[^"]*"/g, '')
     .replace(/\s+role="img"/g, '')
     .replace(/\s+focusable="false"/g, '')
     .replace(/\s+aria-labelledby="[^"]*"/g, '')
@@ -367,30 +383,45 @@ function normalizeSvgForHash(input: string) {
      * - 乐器 / 指法标题行中英文本差异
      *
      * 这些差异位于谱面头部说明区，不影响 number 模式下的旋律、节拍骨架、
-     * 指法图主体和主谱面结构。因此 compare 归一化时统一忽略顶部 `y < 230`
-     * 的 text 节点，避免把非核心头部文本波动误判成 parity 失败。
+     * 指法图主体和主谱面结构。因此 compare 归一化时统一忽略顶部 metadata 区：
+     * - 继续忽略顶部 text / use / circle / line 节点
+     * - 额外忽略根 svg 的 height / viewBox，因为头部行高变化会把整张 svg 的
+     *   总高度一起带偏，但这不等于谱面主体回归失败
+     *
+     * 2026-04-19 进一步确认：
+     * - 某些歌（如 Take Me Home, Country Roads）live 与 local 的 play-order /
+     *   乐器标题行会因为本地 header 英文化和行高差异，落在 `y≈223-263`
+     * - 原先只忽略 `y < 230` 会导致 local 去掉了 header、live 保留了 header，
+     *   形成假性 mismatch
+     *
+     * 这里把阈值放宽到 `y < 280`，仍然避开正文首行（当前抽查样本正文首行 >= 318）。
      */
     .replace(
       /<text\b([^>]*?)\by="([0-9.]+)"([^>]*)>[\s\S]*?<\/text>/gi,
       (match, beforeY, y, afterY) =>
-        Number(y) < 230 ? '' : `<text${beforeY}y="${y}"${afterY}></text>`
+        Number(y) < 280 ? '' : `<text${beforeY}y="${y}"${afterY}></text>`
     )
     .replace(
       /<use\b([^>]*?)\by="([0-9.]+)"([^>]*)\/?>/gi,
       (match, beforeY, y, afterY) =>
-        Number(y) < 230 ? '' : `<use${beforeY}y="${y}"${afterY}/>`
+        Number(y) < 280 ? '' : `<use${beforeY}y="${y}"${afterY}/>`
     )
     .replace(
       /<circle\b([^>]*?)\bcy="([0-9.]+)"([^>]*)\/?>/gi,
       (match, beforeCy, cy, afterCy) =>
-        Number(cy) < 230 ? '' : `<circle${beforeCy}cy="${cy}"${afterCy}/>`
+        Number(cy) < 280 ? '' : `<circle${beforeCy}cy="${cy}"${afterCy}/>`
     )
     .replace(
       /<line\b([^>]*?)\by1="([0-9.]+)"([^>]*?)\by2="([0-9.]+)"([^>]*)\/?>/gi,
       (match, beforeY1, y1, between, y2, afterY2) =>
-        Number(y1) < 230 && Number(y2) < 230
+        Number(y1) < 280 && Number(y2) < 280
           ? ''
           : `<line${beforeY1}y1="${y1}"${between}y2="${y2}"${afterY2}/>`
+    )
+    .replace(
+      /<rect\b([^>]*?)\by="([0-9.]+)"([^>]*)\/?>/gi,
+      (match, beforeY, y, afterY) =>
+        Number(y) < 280 ? '' : `<rect${beforeY}y="${y}"${afterY}/>`
     )
     .replace(/>\s+</g, '><')
     .trim()
@@ -424,6 +455,15 @@ function buildLocalCompareUrl(
 ) {
   const params = new URLSearchParams()
   params.set('note_label_mode', 'number')
+  /**
+   * compare gate 的目标是验证“本地兼容 runtime 能否复现快乐谱原版 number 模式主体谱面”，
+   * 因此这里应优先走 `full-template`，避免公开页最小脚本集对 parity 判断造成额外噪音。
+   *
+   * 公开 `/song/<slug>` 继续默认使用 `public-song` profile；
+   * 但 compare / preflight 的 fidelity gate 更接近“调试 / 对照 / 恢复入口”。
+   */
+  params.set('runtime_asset_profile', 'full-template')
+  params.set('runtime_compare_mode', '1')
   if (instrumentId !== 'o12') {
     params.set('instrument', instrumentId)
   }

@@ -2819,5 +2819,86 @@
         "answer": "Yes. The tune is slow, recognizable, and shaped like a sung line, which makes it useful for breath-led phrasing and smoother note connection."
       }
     ]
+  },
+  "let-it-be": {
+    "aliases": [
+      "Let It Be Beatles",
+      "Beatles Let It Be",
+      "Let It Be song",
+      "Let It Be Paul McCartney"
+    ],
+    "metaTitle": "Let It Be Ocarina Tabs and Recorder Notes",
+    "overview": "This Let It Be page keeps the familiar Beatles melody in a clean letter-note layout so you can follow the song without piecing it together from lyric sites, chord sheets, and inconsistent fan tabs. It is built for players who want a globally recognizable chorus-led melody that still reads clearly as a single-line page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Let It Be ocarina tabs",
+      "Let It Be recorder notes"
+    ],
+    "background": "Let It Be remains one of the most recognizable Beatles songs and still carries strong search intent across adult beginners, sing-along players, and melody-instrument users looking for a familiar slower song. The tune stays clear in a single melodic line, which makes it a practical grey-song addition without depending on the original accompaniment.",
+    "practice": "The melody is useful for keeping repeated chorus material even, shaping longer vocal-style phrases, and maintaining breath support without rushing. It fits players who want a familiar pop standard that rewards calm phrase connection more than speed or ornament.",
+    "metaDescription": "Play Let It Be with letter notes, recorder notes, fingering chart support, and visible lyrics where available. A familiar Beatles melody for calm sing-along practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Beatles song Let It Be?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Let It Be and presents it in a melody-first format for ocarina, recorder, or tin whistle."
+      },
+      {
+        "question": "Why does Let It Be work well as a melody page?",
+        "answer": "Because the chorus is instantly recognizable and the vocal line remains clear even without chords, which makes it practical for slower breath-led practice."
+      }
+    ]
+  },
+  "take-me-home-country-roads": {
+    "aliases": [
+      "Country Roads",
+      "Take Me Home Country Roads",
+      "John Denver Country Roads",
+      "Take Me Home Country Roads song"
+    ],
+    "metaTitle": "Take Me Home, Country Roads Ocarina Tabs and Recorder Notes",
+    "overview": "This Take Me Home, Country Roads page turns the familiar John Denver melody into a clean letter-note layout so you can follow the song without jumping between lyric videos, guitar chords, and piano-vocal arrangements. It is built for players who want a highly recognizable sing-along melody that still stays readable as a melody-first page.",
+    "searchTerms": [
+      "Take Me Home Country Roads ocarina tabs",
+      "Country Roads recorder notes"
+    ],
+    "background": "Take Me Home, Country Roads remains one of the most recognizable English-language sing-along songs, which gives it durable search value across casual players, adult beginners, and people looking for familiar campfire or group repertoire. The melody is direct and memorable, so it adapts well to a single-line page without needing the full band texture.",
+    "practice": "The tune is useful for steady pulse, verse-to-chorus memory, and keeping a singable line connected without overcomplicating finger work. It suits players who want a familiar group-song melody that feels social and rewarding rather than technical.",
+    "metaDescription": "Play Take Me Home, Country Roads with letter notes, recorder notes, fingering chart support, and visible lyrics where available. A familiar John Denver sing-along melody for steady practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the John Denver song Country Roads?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Take Me Home, Country Roads or Country Roads and presents it in a melody-first layout."
+      },
+      {
+        "question": "Why is Country Roads a practical melody-instrument song?",
+        "answer": "Because the tune is easy to recognize, easy to sing from memory, and structured clearly enough to support repeat practice on ocarina, recorder, or tin whistle."
+      }
+    ]
+  },
+  "over-the-rainbow": {
+    "aliases": [
+      "Somewhere Over the Rainbow",
+      "Over the Rainbow Judy Garland",
+      "Wizard of Oz Over the Rainbow",
+      "Over the Rainbow song"
+    ],
+    "metaTitle": "Over the Rainbow Ocarina Tabs and Recorder Notes",
+    "overview": "This Over the Rainbow page keeps the familiar film-standard melody in a clean letter-note layout so you can practice the tune without stitching it together from vocal sheets, fake books, or mixed fan tabs. It is built for players who want a widely recognized lyrical standard that still makes sense as a melody-first page.",
+    "searchTerms": [
+      "Over the Rainbow ocarina tabs",
+      "Over the Rainbow recorder notes"
+    ],
+    "background": "Over the Rainbow remains one of the most recognized melody-led standards in popular film music, with long-term search value across Judy Garland listeners, adult beginners, and players looking for a slower expressive piece. Its melodic identity is strong enough to carry on its own, which makes it a strong fit for the site's current grey-song lane.",
+    "practice": "The melody is useful for expressive phrasing, breath planning across wider melodic shapes, and keeping a lyrical line warm instead of flat. It suits players who want a classic standard that feels reflective and musical without needing a dense arrangement around it.",
+    "metaDescription": "Play Over the Rainbow with letter notes, recorder notes, fingering chart support, and visible lyrics where available. A classic lyrical standard for expressive breath work.",
+    "extraFaqs": [
+      {
+        "question": "Is this the classic song Over the Rainbow from The Wizard of Oz?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Over the Rainbow or Somewhere Over the Rainbow and presents it in a melody-first format."
+      },
+      {
+        "question": "Why does Over the Rainbow work well for lyrical practice?",
+        "answer": "Because the tune is highly recognizable, vocally shaped, and expressive enough to reward breath control and phrase connection even when played as a single melodic line."
+      }
+    ]
   }
 }

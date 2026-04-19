@@ -1,0 +1,55 @@
+{
+  "id": "take-me-home-country-roads",
+  "slug": "take-me-home-country-roads",
+  "title": "Take Me Home, Country Roads",
+  "description": "Take Me Home, Country Roads melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "published": true,
+  "alignedLyrics": [
+    "Al most hea ven west vir gi nia Blue rid ge moun tains",
+    "she nan doah _ ri ver _ _ Life is old there old er than the",
+    "trees Young er than the moun tains Grow in like a breeze",
+    "Coun try",
+    "roads _ take _ me home _ To the place _ I be long _ West vir _ gi nia",
+    "_ Moun tain mo mma _ Take me home _ coun try roads _",
+    "I hear her voice in the morn ing hours she calls _ _ _ me the",
+    "Ra di o re minds me of _ my home far a way And Driv ing down the",
+    "road I get a feel ing that I shoul'd have been _ home _ Yes ter day",
+    "_ Yes ter day _",
+    "Take _ me home _ coun _ try",
+    "roads _ Take _ me home _ coun _ try roads _"
+  ],
+  "extraLyrics": [
+    "All my me mories ga ther round her Min ers _ la dy strang er to blue wa ter _ _ Dark and du sty paint ed on the sky Mist y taste of moon shine Tear drops in my eyes"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/dishe1R2v.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song dishe1R2v on 2026-04-19."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 95,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "5, - 5, - | 6, - 5, - - - - - | 0 0 0 0 6, - 5, - | 6, - 1 - - - - - | 0 0 0 0 2 - 2 2 | 3 - - - 2 - - - |",
+    "6, - 5, - 6, - 5, - | 6, - 1 - - - - - | 1 - - - - - - - | 1 - - - 5, - 5, - | 6, - - - 5, - - - | 6, - 1 - 1 - 3 0 |",
+    "3 - - - - - - - 2 - 2 - 2 - 2 - | 3 - - - 2 - - - | 6, - 1 - 1 - 2 - | 1 - - -",
+    "1 - 2 - |",
+    "3 - - - - - - - | 3 - - - 3 2 1 - | 2 - - - - - - - | 2 - - - 3 - 2 - | 1 - - - - - - - | 1 - - - 3 - 5 - | 6 - - - - - - - | 6 - - - 6 - 5 3 | 5 - 3 - - - - - |",
+    "3 - - - 2 - 1 - | 2 - 3 - - - - - | 3 - - - 2 - 1 - | 1 - - - - - - - | 1 - - - 1 - 2 - | 1 - - - - - - - | 1 - - -",
+    "0 0 1 - 1 - 1 - | 7, - - - 1 - 2 - | 3 - - 3 3 - 3 - | 3 2 2 1 1 - - 1 |",
+    "4 - 4 4 4 - 4 - | 3 - 2 1 1 - - - | 2 - - - 3 - - - | 3 - 2 - - - 2 - | 3 - - 3 3 - 3 - |",
+    "2 - - 2 2 - 2 - | 1 - - 1 1 - 1 - | 1 - 1 1 | 1 1 1 - | 2 - 3 - 2 - - - |",
+    "2 - - - 2 - 3 - | 4 - - - - - - - | 4 - - -",
+    "3 2 1 - | 2 - - - - - - - | 2 - - - 3 2 1 - |",
+    "1 - - - - - - - | 1 - - - 3 2 1 - | 2 - - - - - - - | 2 - - - 3 2 1 - | 1 - - - - - - - 1 - - - - - 0 0 | | |"
+  ]
+}
