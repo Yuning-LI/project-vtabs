@@ -4,7 +4,7 @@
 
 ## Current Audit
 
-以 2026-04-18 当前工作区为准，当前公开曲库的 118 首 song pages 全部包含同一组快乐谱乐器入口：
+以 2026-04-19 当前工作区为准，当前公开曲库的 124 首 song pages 全部包含同一组快乐谱乐器入口：
 
 - `o12` 十二孔陶笛
 - `o6` 六孔陶笛
@@ -25,7 +25,7 @@
 
 换句话说：
 
-- 当前公开 118 首歌不存在“只支持少数几首 recorder / whistle”的数据缺口。
+- 当前公开 124 首歌不存在“只支持少数几首 recorder / whistle”的数据缺口。
 - 从 deployable raw JSON 角度看，`o6` / `r8b` / `r8g` / `w6` 都具备公开产品化的前提。
 
 ## Product Recommendation

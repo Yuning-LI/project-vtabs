@@ -42,6 +42,20 @@
 - 结果全部一致
 - compare 已经成为新的发布前门槛
 
+### 1.3 2026-04-19 compare 真相补充
+
+- compare gate 当前不再只是“本地 runtime 能否出 svg”，而是更明确收口到：
+  - `note_label_mode=number`
+  - `runtime_asset_profile=full-template`
+  - `runtime_compare_mode=1`
+  - 本地 clean compare context 固定 `locale = zh-CN`
+- 这轮确认的经验是：
+  - 线上 `hc` 升级会带来潜在漂移
+  - 但本地 compare 环境如果仍用 `en-US`，也会独立制造假性 parity 失败
+- 当前更合理的理解是：
+  - compare gate 保护的是“最接近快乐谱 live 原模板环境下的主体谱面 parity”
+  - 而不是公开 `/song/<slug>` 默认 asset profile 的逐像素一致
+
 结论：
 
 - 当前路线已经越过“可行性验证”阶段

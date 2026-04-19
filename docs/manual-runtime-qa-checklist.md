@@ -36,6 +36,10 @@ npm run compare:kuailepu-runtime -- http://127.0.0.1:3000 <slug...>
 
 - compare 不通过，不进入人工“看起来差不多”的判断阶段
 - compare 必须基于 `number` 模式
+- compare 现在会自动收口到更接近快乐谱 live 的本地门槛环境：
+  - `runtime_asset_profile=full-template`
+  - `runtime_compare_mode=1`
+  - 本地 clean compare context 固定 `locale = zh-CN`
 
 ## 3. 人工 QA 重点看什么
 

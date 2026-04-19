@@ -24,7 +24,27 @@
 - 指法图始终是核心内容。
 - 字母谱与简谱都只是阅读模式，真相源是快乐谱 raw JSON + 快乐谱原始渲染链。
 
-### 1.1 2026-04-02 最新补充
+### 1.1 2026-04-19 最新补充
+
+- 当前公开曲库数量已更新为 `124`。
+- 本轮新增并通过 preflight compare 的 3 首灰度歌：
+  - `let-it-be`
+  - `take-me-home-country-roads`
+  - `over-the-rainbow`
+- 快乐谱 live 当前核心运行时已切到 `hc.min_1cfae5fe62.js`。
+- 本地 deployable runtime archive 已同步到当前线上模板和资源 hash。
+- compare / preflight 当前已收口到更接近 live 真相的模式：
+  - compare 本地 runtime 默认走 `runtime_asset_profile=full-template`
+  - compare 本地 runtime 显式传 `runtime_compare_mode=1`
+  - compare 本地 clean browser context 固定 `locale = zh-CN`
+- 这轮确认的根因不是只有旧 `hc` hash：
+  - 线上 `hc` 升级确实带来了潜在漂移
+  - 但之前更关键的假性 compare 失败来自本地 compare 使用 `en-US` clean context，而快乐谱 live 实际跑在 `zh-CN` 环境下
+- 这条修正完成后：
+  - 新增 3 首灰度歌 `15 / 15` 组合已全部通过
+  - 额外回归的 9 首既有公开样本歌 `45 / 45` 组合也已全部通过
+
+### 1.1.1 2026-04-02 历史补充
 
 本轮最新状态要额外记住下面这些点：
 
@@ -568,13 +588,13 @@
 
 以当前工作区为准：
 
-- `songCatalog.length = 121`
+- `songCatalog.length = 124`
   - 当前公开 song pages 数。
-- `allSongCatalog.length = 121`
+- `allSongCatalog.length = 124`
   - 当前仓库保留的总曲库数，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 121`
+- `data/songbook/public-song-manifest.json = 124`
   - 当前公开内容 manifest 数量。
-- `data/kuailepu-runtime/*.json = 121`
+- `data/kuailepu-runtime/*.json = 124`
   - 当前生产可部署 raw JSON 数量。
 - `reference/songs/*.json = 119`
   - 本机原始研究层数量，已清理旧重复 / 残留参考文件。
@@ -1265,7 +1285,7 @@
   - `data/songbook/song-seo-profiles.json`
   - `src/lib/learn/content.ts`
   - 中国网络下 compare / preflight 校验
-- 当前 HEAD 的公开 song pages 数量口径已更新为 `121`。
+- 当前 HEAD 的公开 song pages 数量口径已更新为 `124`。
 - 当前仓库还新增了一条更清晰的内部灰度曲追踪入口：
   - `data/songbook/grey-song-rollout.json`
   - `/dev/song-import-dashboard` 里的 `Grey Song Tracker`
@@ -1293,7 +1313,7 @@
 
 下面这条可以直接复制给新对话：
 
-`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 121 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are yesterday, the-sound-of-silence, and right-here-waiting. The repo also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. Recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing based on small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
+`Follow AGENTS.md first. Then read README.md, docs/handoff.md, docs/agent-handoff.md, docs/kuailepu-compatibility-roadmap.md, docs/manual-runtime-qa-checklist.md, src/lib/kuailepu/runtime.ts, and docs/instrument-rollout-plan.md in that order before changing anything. If the task touches internal print/PDF export, copyrighted-song local workflow, or MusicXML ingest, also read docs/internal-print-workflow.md and docs/song-ingest-input-spec.md. Keep public /song/<slug> on deployable raw JSON plus the original Kuailepu runtime path. Do not change the public runtime main chain, do not restore SongClient as the public detail page, keep letter mode as default, keep number mode as the compare/preflight/publish gate, and keep all visible site copy in English without exposing Kuailepu/reference/source wording. Pure Chinese lyrics must stay hidden publicly and must not be re-exposed by query params. The current public instrument set is o12, o6, r8b, r8g, and w6. Metronome is public as a docked toolbar above the fingering chart, not a blocking modal. The current public library count is 124 songs. Public song pages now expose opengraph and twitter image routes, and the repo also contains an internal Pinterest preview/export workflow for ongoing social-image experiments. Internal print preview exists at /dev/print/song/<slug>, PDF export uses npm run export:print-pdf, and exports/ plus private/ must remain local-only. Before any release decision, run git status --short --branch and git log --oneline origin/main..HEAD. The latest shipped songs are let-it-be, take-me-home-country-roads, and over-the-rainbow. The repo also contains an internal grey-song tracker at data/songbook/grey-song-rollout.json, surfaced in /dev/song-import-dashboard under Grey Song Tracker. Recent SEO wording updates now intentionally cover tabs, finger chart, and fingering chart phrasing based on small GSC query samples. If the task needs Kuailepu import, compare, preflight, parity, or login checks, require a China-reachable network first. If it needs Google or western keyword research, ask for a foreign VPN first. If Kuailepu login is invalid, stop and ask the user to run npm run login:kuailepu.`
 
 ### 19.2 2026-04-17 当前状态补丁
 

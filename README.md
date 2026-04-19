@@ -63,12 +63,12 @@
 
 ## 当前真实状态
 
-以 2026-04-05 当前工作区为准：
+以 2026-04-19 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 96 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 `124` 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -141,21 +141,44 @@
   - 当前 `public-song` 默认已把模板脚本从 28 个收缩到 6 个，保留 `full-template` 作为恢复入口
   - 当前建议先停在这版，不再继续做更激进的脚本删减，除非后续有明确收益证据
 
+## 2026-04-19 最新补充
+
+- 当前公开曲库数量已更新为 `124`。
+- 本轮新增并通过 preflight compare 的 3 首灰度歌：
+  - `let-it-be`
+  - `take-me-home-country-roads`
+  - `over-the-rainbow`
+- 快乐谱线上核心运行时当前已切到：
+  - `cdn/js/dist/hc.min_1cfae5fe62.js`
+- 当前模板引用的 i18n 包已切到：
+  - `cdn/js/i18n/all_2916f8e4dd.js`
+- 本地 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt` 已同步到线上当前模板和资源 hash。
+- compare / preflight 当前已补强到更接近快乐谱 live 真相的模式：
+  - compare 本地 runtime 默认走 `runtime_asset_profile=full-template`
+  - compare 本地 runtime 显式传 `runtime_compare_mode=1`
+  - compare 本地 clean browser context 固定 `locale = zh-CN`
+- 这轮确认的根因不是只有旧 `hc` hash：
+  - 线上 `hc` 升级确实带来了潜在漂移
+  - 但之前更关键的假性 compare 失败来自本地 compare 用 `en-US` clean context，而快乐谱 live 实际跑在 `zh-CN` 环境下
+- 这条修正完成后：
+  - 新增 3 首灰度歌 `15 / 15` 组合已全部通过
+  - 额外回归的 9 首既有公开样本歌 `45 / 45` 组合也已全部通过
+
 ## 当前数量口径
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 121`
+- `songCatalog.length = 124`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 121`
+- `allSongCatalog.length = 124`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 121`
+- `data/songbook/public-song-manifest.json = 124`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 121`
+- `data/kuailepu-runtime/*.json = 124`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 119`
+- `reference/songs/*.json = 125`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 112`
+- `data/kuailepu/*.json = 118`
   - 可提交的轻量导入结果数量。
 
 为什么这些数字对不上：
@@ -239,7 +262,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 121 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 124 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`
@@ -350,7 +373,7 @@
     - `hc_*.js`
     - `hc.kit_*.js`
   - 当前 live 公开页已切到单文件：
-    - `hc.min_02d898293e.js`
+  - `hc.min_1cfae5fe62.js`
   - 历史 `hc` 主文件更明确承担 parser / lexer / layout / SVG render 主链职责。
   - 历史 `hc.kit` 更偏支撑层：
     - `MidGen`
@@ -618,7 +641,7 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
 
 ## 2026-04-17 当前已推送状态
 
-- 当前公开 song pages 数量已更新为 `121`。
+- 当前公开 song pages 数量已更新为 `124`。
 - 本轮已补齐并准备上线 / 已上线的 3 首新曲为：
   - `yesterday`
   - `the-sound-of-silence`
