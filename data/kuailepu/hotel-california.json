@@ -1,0 +1,56 @@
+{
+  "id": "hotel-california",
+  "slug": "hotel-california",
+  "title": "Hotel California",
+  "description": "Hotel California melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "published": true,
+  "alignedLyrics": [
+    "On a dark de sert high way, cool wind in my hair",
+    "Warm _ smell _ of col itas,",
+    "rising up thro ugh the air _ _ Up a head in the",
+    "dis tance, I saw a shim mer ing light My head",
+    "grew hea vy and my sight grew dim I had to stop for the night We lcome",
+    "to the Ho tel Ca",
+    "li for",
+    "nia Such a love _ ly place, Such",
+    "a love _ ly face Plen ty of",
+    "rooms at the Ho tel Ca",
+    "li for nia Any _ time _ of year, you can find",
+    "_ it here _ _ _ _ _",
+    "_ _ _ _",
+    ""
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/R5gWk1lMC.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song R5gWk1lMC on 2026-04-19."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 150,
+    "meter": "4/4 "
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "3 - 3 - 3 - - - 2 - 2 - 2 - - - | 3 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | 3 - - - - - 2 - 2 - 2 - 2 - - - |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 2 - 3 - 3 - 2 - 2 - - - | 2 - - - 3 - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 3 - 3 - 3 - - - 2 - 1 - | 2 - 1 - 6, - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 3 - 3 - 3 - - - 2 - 1 - |",
+    "1 - - - 2 - - - 3 - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 6, - 3 - 3 3 2 - 1 - | 1 - - - 6, - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 6, - 2 - 2 - 2 - 2 - 2 - 1 - | 2 - - - 1 - - - 2 - - - 3 - - - 0 0 0 0 | 0 0 6, - 3 - 3 - 3 - - - 2 - 2 - |",
+    "1, - - - 3, - - - 5 - - - 2 - - - 3 - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "2, - - - 4 - - -",
+    "0 0 0 0 4 - 4 - - - - - 4 - 4 - | 4 - - - 4 - - - 5 - - - - - 4 - |",
+    "4 - - - 3 - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 3 - 3 - | 3 - 2 - 0 0 0 0 2 - - - 2 - - - 0 0 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 2 - 2 - | 3 - 2 - 2 - - - 2 - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "4 - 4 - - - 4 - 4 - - - 4 - 4 - | 4 - - - 4 - - - 5 - - - - - 4 - | 4 - - - 3 - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 3 - 3 - | 3 - 2 - 2 - - - 2 - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 2 - 2 - |",
+    "3 - 2 - 2 - - - 2 - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
+    "| | |"
+  ]
+}

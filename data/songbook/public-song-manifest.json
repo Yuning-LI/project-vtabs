@@ -866,5 +866,26 @@
     "family": "song",
     "featuredRank": 124,
     "published": true
+  },
+  {
+    "id": "hotel-california",
+    "slug": "hotel-california",
+    "family": "song",
+    "featuredRank": 125,
+    "published": true
+  },
+  {
+    "id": "lemon-tree",
+    "slug": "lemon-tree",
+    "family": "song",
+    "featuredRank": 126,
+    "published": true
+  },
+  {
+    "id": "careless-whisper",
+    "slug": "careless-whisper",
+    "family": "song",
+    "featuredRank": 127,
+    "published": true
   }
 ]

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-19",
+  "updatedOn": "2026-04-20",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -252,6 +252,36 @@
       "addedOn": "2026-04-19",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xsdel1hEM.html",
       "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "hotel-california",
+      "title": "Hotel California",
+      "status": "live",
+      "batch": "10",
+      "group": "song",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/R5gWk1lMC.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "lemon-tree",
+      "title": "Lemon Tree",
+      "status": "live",
+      "batch": "10",
+      "group": "song",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/A85qr1Bxs.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "careless-whisper",
+      "title": "Careless Whisper",
+      "status": "live",
+      "batch": "10",
+      "group": "song",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/mFO5l1wjq.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
     }
   ]
 }
