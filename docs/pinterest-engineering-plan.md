@@ -239,6 +239,55 @@ Useful output fields:
 - recommended pin description
 - target board
 
+### Workstream D2: Collection PDF Export
+
+Goal:
+
+- turn multiple Pinterest-ready song sections into one internal collection PDF
+
+Current agreed product direction:
+
+- internal-only
+- electronic distribution first
+- default paper size: `A4`
+- input: song titles from the current public catalog
+- output: one combined PDF
+
+Required document structure:
+
+- cover page
+- table of contents
+- song sections
+
+Required table-of-contents fields:
+
+- song title
+- starting page number
+
+Required pagination rules:
+
+- each song starts on a new page
+- if one page is not enough, keep paginating until that song is fully shown
+- only after one song is complete should the next song begin
+
+Recommended implementation route:
+
+1. reuse the current Pinterest preview/export chain as the visual source
+2. generate an internal collection HTML document
+3. let Playwright export that document as A4 PDF
+
+Why this route is preferred over naive image merging:
+
+- easier cover-page support
+- easier table-of-contents support
+- easier page-number generation
+- easier song-by-song pagination control
+
+Important constraint:
+
+- do not treat this as a public print feature
+- do not expose it on public song pages without a separate product decision
+
 ### Workstream E: Tracking
 
 Goal:

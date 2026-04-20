@@ -36,6 +36,33 @@ Recommended local structure:
 
 These tools reuse the current Kuailepu runtime rendering chain. They do not introduce a second renderer.
 
+## Explicit Boundary Against Pinterest Collection PDFs
+
+Current decision:
+
+- the internal print workflow and the planned Pinterest collection PDF workflow are related but not the same tool
+- internal print export remains song-by-song and print-oriented
+- the Pinterest collection PDF direction remains a separate internal-only document-style export lane
+
+Do not blur these two workflows together in future sessions.
+
+Current Pinterest collection PDF direction:
+
+- input should be a list of song titles from the current public catalog
+- output should be a single A4 electronic PDF
+- each song starts on a new page
+- if one page is not enough, the same song continues across additional pages until complete
+- the collection should include:
+  - cover page
+  - table of contents
+  - song title on each song section
+  - table of contents entries with song title and starting page number
+
+Current recommendation:
+
+- implement that collection workflow on top of the Pinterest preview/export chain rather than folding it into `export:print-pdf`
+- keep it internal-only until there is a separate product decision
+
 ## Current Export Baseline
 
 Default print assumptions:

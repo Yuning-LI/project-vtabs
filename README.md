@@ -783,6 +783,30 @@ npm run preflight:kuailepu-publish -- twinkle-twinkle-little-star
     - `git status --short --branch`
     - `git log --oneline origin/main..HEAD`
 
+## 2026-04-20 Pinterest 合集 PDF 方向确认
+
+- 当前已确认一个新的 internal-only 方向：
+  - 基于现有 Pinterest 导图链，新增“多首歌合集 PDF”自动化导出
+- 当前产品定位：
+  - 面向 Google / western 用户
+  - 默认输出 `A4`
+  - 纯电子分发优先，不额外为站内公开打印做产品承诺
+- 当前已确认的输入/输出规则：
+  - 输入：当前公开曲库内的歌名列表
+  - 只匹配当前库里的歌；不在库里的歌不进入这条合集链
+  - 输出：单个合集 PDF
+  - 包含封面、目录、歌曲标题、正文分页
+  - 目录显示：歌名 + 该歌起始页码
+- 当前已确认的分页规则：
+  - 每首歌从新页开始
+  - 如果单页放不下，就继续自动分页，直到这首歌完整结束
+  - 当前更像“按歌为 section 的文档导出”，不是简单图片拼接
+- 当前更推荐的工程路线：
+  - 复用现有 Pinterest 导图 / 预览链
+  - 新增内部 HTML 集合页，再由 Playwright 导出 A4 PDF
+  - 这样更容易支持封面、目录、页码和按歌曲 section 分页
+- 这条链当前只是方向确认，尚未实现为可执行脚本。
+
 ## SEO 与前台文案规则
 
 当前站点的 SEO 方向已经明确：
