@@ -16,8 +16,15 @@ type SongSocialImageModel = {
 }
 
 export function createSongSocialImageResponse(songId: string) {
-  const model = getSongSocialImageModel(songId)
+  try {
+    return buildSongSocialImageResponse(getSongSocialImageModel(songId))
+  } catch (error) {
+    console.error(`[songSocialImage] failed to render social image for "${songId}"`, error)
+    return buildSongSocialImageResponse(getFallbackSongSocialImageModel(songId))
+  }
+}
 
+function buildSongSocialImageResponse(model: SongSocialImageModel) {
   return new ImageResponse(renderSongSocialImage(model), {
     ...SONG_SOCIAL_IMAGE_SIZE
   })
@@ -27,14 +34,7 @@ function getSongSocialImageModel(songId: string): SongSocialImageModel {
   const song = songCatalogBySlug[songId]
 
   if (!song) {
-    return {
-      title: 'Play By Fingering',
-      alias: null,
-      eyebrow: 'Letter Notes and Fingering Charts',
-      summary:
-        'English melody pages with letter notes, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.',
-      keyFacts: ['Letter notes by default', 'Numbered notes available', 'Fingering charts included']
-    }
+    return getFallbackSongSocialImageModel(songId)
   }
 
   const presentation = getSongPresentation(song)
@@ -54,6 +54,42 @@ function getSongSocialImageModel(songId: string): SongSocialImageModel {
       'Ocarina, recorder, and tin whistle views'
     ]
   }
+}
+
+function getFallbackSongSocialImageModel(songId: string): SongSocialImageModel {
+  const song = songCatalogBySlug[songId]
+  const fallbackTitle =
+    song?.title?.trim() ||
+    formatSongIdAsTitle(songId) ||
+    'Play By Fingering'
+
+  return {
+    title: fallbackTitle,
+    alias: null,
+    eyebrow: 'Letter Notes and Fingering Charts',
+    summary:
+      fallbackTitle === 'Play By Fingering'
+        ? 'English melody pages with letter notes, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.'
+        : `Open ${fallbackTitle} on Play By Fingering for letter notes, optional numbered notes, and fingering charts on supported instruments.`,
+    keyFacts: [
+      'Letter notes by default',
+      'Numbered notes available',
+      'Fingering charts included'
+    ]
+  }
+}
+
+function formatSongIdAsTitle(songId: string) {
+  const normalized = songId
+    .trim()
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+
+  if (!normalized) {
+    return ''
+  }
+
+  return normalized.replace(/\b\w/g, char => char.toUpperCase())
 }
 
 function renderSongSocialImage(model: SongSocialImageModel) {
