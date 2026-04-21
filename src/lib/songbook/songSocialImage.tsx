@@ -156,7 +156,6 @@ function renderSongSocialImage(model: SongSocialImageModel) {
       <div
         style={{
           position: 'relative',
-          zIndex: 1,
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -173,7 +172,7 @@ function renderSongSocialImage(model: SongSocialImageModel) {
         >
           <div
             style={{
-              display: 'inline-flex',
+              display: 'flex',
               alignSelf: 'flex-start',
               padding: '12px 20px',
               borderRadius: 999,
