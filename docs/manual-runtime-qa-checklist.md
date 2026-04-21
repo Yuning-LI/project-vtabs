@@ -100,6 +100,7 @@ npm run compare:kuailepu-runtime -- http://127.0.0.1:3000 <slug...>
 默认 `letter` 模式下逐项确认：
 
 - 音符数字已替换成字母
+- 对带指法调式的乐器，切换 `Instrument` / `fingering_index` 后字母谱应随当前指法基音同步变化
 - 休止显示为 `R`
 - 延时线保留 `-`
 - `Eb5`、`F#5` 这类标签能显示
@@ -138,6 +139,33 @@ npm run compare:kuailepu-runtime -- http://127.0.0.1:3000 <slug...>
 - `Metronome` 打开后不会遮挡指法图
 - 节拍器可见文案全部是英文
 - `Time Signature`、`BPM`、`Start` / `Stop` 与下拉框对齐，没有额外空白占位
+
+## 7.6 竖笛指法图内部对照页
+
+如果本次排查涉及 `r8b` / `r8g` 的指法图映射，不要只看单曲页面截图，建议先打开内部对照页：
+
+```bash
+open -a "Google Chrome" /tmp/recorder8-kuailepu-template-map.html
+```
+
+这份页面的定位：
+
+- 只供本地内部排查使用
+- 当前导出的是快乐谱共享 runtime 里的 `recorder8Outline72..98B/G` 通用模板
+- 页面会额外套用一层接近快乐谱最终成品的 fill / orientation 显示逻辑，默认是 `Mouthpiece Up`
+- 可用于人工对照 `MIDI -> note -> recorder8Outline...` 是否明显错位
+
+使用时要注意：
+
+- 它不是公开页面，也不是生产资源
+- 它当前是本地临时文件，默认落在 `/tmp`
+- 如果页面里再次出现“只有一条竖线”或“纯黑剪影”，优先怀疑导出展示层，而不是直接判断快乐谱模板本体缺失
+- 真正的模板源仍来自快乐谱 runtime frame 里的通用 `<symbol>` 定义，不是某一首歌的截图
+
+当前相关本地排查产物还包括：
+
+- `/tmp/recorder8-kuailepu-template-symbols.json`
+- `/tmp/song-of-parting-r8b-sequence.tsv`
 
 ## 8. 当前建议优先人工抽查的曲目
 

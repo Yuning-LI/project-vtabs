@@ -9,6 +9,7 @@ import {
   translateKuailepuInstrumentName,
   translateKuailepuPersonName
 } from '../songbook/kuailepuEnglish.ts'
+import { simplifyKuailepuNotation } from '../songbook/kuailepuImport.ts'
 import { resolveKuailepuRuntimeArchivePath } from './archiveFiles.ts'
 import { resolveKuailepuRuntimeSongPath } from './sourceFiles.ts'
 
@@ -119,6 +120,9 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
 type KuailepuRuntimeTextMode = 'source' | 'english'
 type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
 type KuailepuRuntimePublicFeature = 'metronome'
+type KuailepuInstrumentFingeringOption = NonNullable<
+  KuailepuRuntimePayload['instrumentFingerings']
+>[number]
 
 let cachedTemplateHtml: string | null = null
 
@@ -303,8 +307,11 @@ export function buildKuailepuRuntimeHtml(input: {
 
 export function buildKuailepuLetterTrackData(input: {
   notation?: string[] | null
+  rawNotation?: string | null
   key?: string | null
   mode?: string | null
+  payload?: KuailepuRuntimePayload | null
+  state?: KuailepuRuntimeState | null
 }): KuailepuLetterTrackData {
   const mode = normalizeNoteLabelMode(input.mode)
   if (mode === 'number' || mode === 'graph') {
@@ -317,7 +324,8 @@ export function buildKuailepuLetterTrackData(input: {
     }
   }
 
-  const scale = buildMajorScaleNoteNames(parseScaleTonic(input.key))
+  const scale = buildMajorScaleNoteNames(resolveLetterTrackScaleTonic(input))
+  const fingeringAwareLabels = buildFingeringAwareLetterLabels(input)
   const anchorTokens = extractCompactNotationNoteTokens(input.notation, {
     includeRest: false
   })
@@ -334,12 +342,16 @@ export function buildKuailepuLetterTrackData(input: {
     }
   }
 
-  const anchorLabels = anchorTokens
-    .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
-    .filter((label): label is string => Boolean(label))
-  const glyphLabels = glyphTokens
-    .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
-    .filter((label): label is string => Boolean(label))
+  const anchorLabels =
+    fingeringAwareLabels?.anchorLabels ??
+    anchorTokens
+      .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
+      .filter((label): label is string => Boolean(label))
+  const glyphLabels =
+    fingeringAwareLabels?.glyphLabels ??
+    glyphTokens
+      .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
+      .filter((label): label is string => Boolean(label))
 
   return {
     mode,
@@ -638,6 +650,64 @@ function getPreferredPublicGraphValue(
   return upward?.value.trim() ?? available[0]!.value.trim()
 }
 
+function resolveRuntimeInstrumentSelection(
+  payload: KuailepuRuntimePayload,
+  state: KuailepuRuntimeState | null
+) {
+  const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
+    (option): option is KuailepuInstrumentFingeringOption =>
+      Boolean(option.instrument) && option.instrument !== 'none'
+  )
+  const hasExplicitInstrumentOverride =
+    Boolean(state?.instrument) &&
+    state?.instrument !== 'none' &&
+    state?.instrument !== payload.instrument
+  const selectedInstrument =
+    instrumentOptions.find(option => option.instrument === state?.instrument) ??
+    instrumentOptions.find(option => option.instrument === payload.instrument) ??
+    instrumentOptions.find(option => option.instrument === 'o12') ??
+    instrumentOptions.find(option => option.instrument === 'o6') ??
+    instrumentOptions[0]
+  const selectedFingeringIndex = Number(
+    hasExplicitInstrumentOverride
+      ? state?.fingering_index ?? 0
+      : state?.fingering_index ??
+          payload.fingering_index ??
+          0
+  )
+  const selectedFingeringSet =
+    selectedInstrument?.fingeringSetList?.[selectedFingeringIndex]
+
+  const selectedFingeringCandidates = hasExplicitInstrumentOverride
+    ? [
+        state?.fingering,
+        selectedFingeringSet?.map(option => option.fingering).join('+'),
+        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
+        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering,
+        payload.fingering
+      ]
+    : [
+        state?.fingering,
+        payload.fingering,
+        selectedFingeringSet?.map(option => option.fingering).join('+'),
+        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
+        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering
+      ]
+  const selectedFingering =
+    selectedFingeringCandidates.find(
+      (value): value is string => typeof value === 'string' && value.trim().length > 0
+    ) ?? ''
+
+  return {
+    instrumentOptions,
+    hasExplicitInstrumentOverride,
+    selectedInstrument,
+    selectedFingeringIndex,
+    selectedFingeringSet,
+    selectedFingering
+  }
+}
+
 function applyRuntimeDefaults(
   payload: KuailepuRuntimePayload,
   state: KuailepuRuntimeState | null
@@ -663,47 +733,12 @@ function applyRuntimeDefaults(
     ...payload
   }
 
-  const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
-    option => option.instrument && option.instrument !== 'none'
-  )
-  const hasExplicitInstrumentOverride =
-    Boolean(state?.instrument) &&
-    state?.instrument !== 'none' &&
-    state?.instrument !== payload.instrument
-  const selectedInstrument =
-    instrumentOptions.find(option => option.instrument === state?.instrument) ??
-    instrumentOptions.find(option => option.instrument === payload.instrument) ??
-    instrumentOptions.find(option => option.instrument === 'o12') ??
-    instrumentOptions.find(option => option.instrument === 'o6') ??
-    instrumentOptions[0]
-  const selectedFingeringIndex =
-    hasExplicitInstrumentOverride
-      ? state?.fingering_index ?? 0
-      : state?.fingering_index ??
-        payload.fingering_index ??
-        0
-  const selectedFingeringSet =
-    selectedInstrument?.fingeringSetList?.[Number(selectedFingeringIndex)]
-
-  const selectedFingeringCandidates = hasExplicitInstrumentOverride
-    ? [
-        state?.fingering,
-        selectedFingeringSet?.map(option => option.fingering).join('+'),
-        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
-        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering,
-        payload.fingering
-      ]
-    : [
-        state?.fingering,
-        payload.fingering,
-        selectedFingeringSet?.map(option => option.fingering).join('+'),
-        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
-        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering
-      ]
-  const selectedFingering =
-    selectedFingeringCandidates.find(
-      (value): value is string => typeof value === 'string' && value.trim().length > 0
-    ) ?? ''
+  const {
+    hasExplicitInstrumentOverride,
+    selectedInstrument,
+    selectedFingeringIndex,
+    selectedFingering
+  } = resolveRuntimeInstrumentSelection(payload, state)
 
   next.instrument = state?.instrument ?? payload.instrument
   if (!next.instrument || next.instrument === 'none') {
@@ -766,6 +801,167 @@ function applyRuntimeDefaults(
       : payload.sheetScaleList?.[payload.sheetScaleList.length - 1] ?? 10)
 
   return next
+}
+
+function resolveLetterTrackScaleTonic(input: {
+  key?: string | null
+  payload?: KuailepuRuntimePayload | null
+  state?: KuailepuRuntimeState | null
+}) {
+  const fingeringTonic = resolveRuntimeFingeringScaleTonics(input.payload ?? null, input.state ?? null)?.[0]
+  if (fingeringTonic) {
+    return fingeringTonic
+  }
+
+  return parseScaleTonic(input.key)
+}
+
+/**
+ * 快乐谱的图谱 MIDI 不是按曲目 `keynote` 算的，而是按“当前指法基音 + 简谱相对音程”算。
+ *
+ * 所以字母谱如果要和当前图谱语义同步，`1` 就应该落到当前选中的 fingering tonic，
+ * 而不是继续只看歌曲调号。
+ */
+function resolveRuntimeFingeringScaleTonics(
+  payload: KuailepuRuntimePayload | null,
+  state: KuailepuRuntimeState | null
+) {
+  if (!payload) {
+    return null
+  }
+
+  const { selectedFingering } = resolveRuntimeInstrumentSelection(payload, state)
+  const tonics = selectedFingering
+    .split('+')
+    .map(candidate => parseFingeringScaleTonic(candidate))
+    .filter(
+      (
+        tonic
+      ): tonic is {
+        accidental: number
+        letter: string
+        octave: number
+      } => Boolean(tonic)
+    )
+
+  return tonics.length > 0 ? tonics : null
+}
+
+function parseFingeringScaleTonic(fingering: string | null | undefined) {
+  if (!fingering) {
+    return null
+  }
+
+  const match = fingering.trim().match(/^([#b]?)([A-Ga-g])(\d+)?$/)
+  if (!match) {
+    return null
+  }
+
+  return {
+    accidental: match[1] === '#' ? 1 : match[1] === 'b' ? -1 : 0,
+    letter: match[2]!.toUpperCase(),
+    octave: Number(match[3] ?? 5)
+  }
+}
+
+function buildFingeringAwareLetterLabels(input: {
+  notation?: string[] | null
+  rawNotation?: string | null
+  payload?: KuailepuRuntimePayload | null
+  state?: KuailepuRuntimeState | null
+}) {
+  const tonics = resolveRuntimeFingeringScaleTonics(input.payload ?? null, input.state ?? null)
+  if (!tonics || tonics.length < 1) {
+    return null
+  }
+
+  if (!input.rawNotation) {
+    return null
+  }
+
+  const instrument = resolveRuntimeInstrumentSelection(input.payload!, input.state ?? null).selectedInstrument?.instrument ?? ''
+  return buildLetterLabelsFromRawNotationWithFingeringTonics(input.rawNotation, tonics, instrument)
+}
+
+function buildLetterLabelsFromRawNotationWithFingeringTonics(
+  rawNotation: string,
+  tonics: Array<{
+    accidental: number
+    letter: string
+    octave: number
+  }>,
+  instrument: string
+) {
+  if (tonics.length < 1) {
+    return null
+  }
+
+  const glyphLabels: string[] = []
+  const anchorLabels: string[] = []
+  const sequence = rawNotation.split(/(\{[^}]+\})/g).filter(Boolean)
+  let fingeringIndex = 0
+  let currentScale = buildMajorScaleNoteNames(tonics[fingeringIndex]!)
+  let usedCurrentFingering = false
+
+  for (const item of sequence) {
+    if (item.startsWith('{')) {
+      if (usedCurrentFingering && shouldAdvanceFingeringTonic(item, instrument)) {
+        fingeringIndex = Math.min(fingeringIndex + 1, tonics.length - 1)
+        currentScale = buildMajorScaleNoteNames(tonics[fingeringIndex]!)
+        usedCurrentFingering = false
+      }
+      continue
+    }
+
+    const normalizedLines = simplifyKuailepuNotation(item)
+    const chunkGlyphTokens = extractCompactNotationNoteTokens(normalizedLines, {
+      includeRest: true
+    })
+    const chunkAnchorTokens = extractCompactNotationNoteTokens(normalizedLines, {
+      includeRest: false
+    })
+    if (chunkGlyphTokens.length < 1) {
+      continue
+    }
+
+    glyphLabels.push(
+      ...chunkGlyphTokens
+        .map(token => mapCompactNotationTokenToLetterLabel(token, currentScale))
+        .filter((label): label is string => Boolean(label))
+    )
+    anchorLabels.push(
+      ...chunkAnchorTokens
+        .map(token => mapCompactNotationTokenToLetterLabel(token, currentScale))
+        .filter((label): label is string => Boolean(label))
+    )
+    usedCurrentFingering = true
+  }
+
+  if (glyphLabels.length < 1) {
+    return null
+  }
+
+  return {
+    anchorLabels,
+    glyphLabels
+  }
+}
+
+function shouldAdvanceFingeringTonic(tagToken: string, instrument: string) {
+  const normalized = tagToken.slice(1, -1).replace(/\s+/g, '')
+  if (!normalized) {
+    return false
+  }
+
+  if (/^1=[#b]?[A-G]$/i.test(normalized)) {
+    return true
+  }
+
+  if (/^f:/i.test(normalized)) {
+    return true
+  }
+
+  return instrument.length > 0 && normalized.toLowerCase().startsWith(`${instrument.toLowerCase()}f:`)
 }
 
 function localizeRuntimePayload(

@@ -68,7 +68,11 @@ test.describe('runtime-backed song pages', () => {
     await expect(page).toHaveTitle(/Fur Elise Letter Notes and Fingering Chart/)
     await expect(page.getByRole('heading', { level: 1, name: 'Für Elise' })).toBeVisible()
     await expect(page.getByText('also commonly searched as To Alice')).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Is Für Elise also known as To Alice and Bagatelle No. 25 in A minor?' })).toBeVisible()
+    await expect(
+      page.getByRole('heading', {
+        name: 'Is Für Elise also known as To Alice, Bagatelle No. 25 in A minor, and 致爱丽丝?'
+      })
+    ).toBeVisible()
   })
 
   test('song page renders the English shell around the runtime iframe', async ({ page }) => {

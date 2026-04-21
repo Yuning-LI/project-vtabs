@@ -18,11 +18,15 @@
         "question": "Can this page help if I learned the same tune as the Alphabet Song?",
         "answer": "Yes. Many beginners already know this melody through the Alphabet Song tune family, so the page still works well for note-reading practice even if that is the version you hear in your head while playing."
       }
+    ],
+    "aliases": [
+      "一闪一闪小星星"
     ]
   },
   "ode-to-joy": {
     "aliases": [
-      "Beethoven's 9th theme"
+      "Beethoven's 9th theme",
+      "欢乐颂"
     ],
     "metaTitle": "Ode to Joy Letter Notes and Fingering Chart",
     "overview": "This Ode to Joy page is built for players who want a famous classical theme in a readable letter-note format without opening dense staff notation or a full orchestral score.",
@@ -63,6 +67,9 @@
         "question": "Can I use this Amazing Grace page for church or memorial playing?",
         "answer": "Yes. This melody-first layout is practical for church rehearsal, personal worship practice, or memorial-style playing when you want a clear note-reading page instead of a larger hymn-book setting."
       }
+    ],
+    "aliases": [
+      "奇异恩典"
     ]
   },
   "mary-had-a-little-lamb": {
@@ -84,11 +91,17 @@
         "question": "Why do teachers and classroom beginners use Mary Had a Little Lamb so often?",
         "answer": "Because it is short, recognizable, and simple enough to connect note names, finger placement, and melody memory without overwhelming a first-time player."
       }
+    ],
+    "aliases": [
+      "Mary's Lamb",
+      "玛丽有只小羊羔"
     ]
   },
   "happy-birthday-to-you": {
     "aliases": [
-      "Happy Birthday"
+      "Happy Birthday",
+      "生日歌",
+      "祝你生日快乐"
     ],
     "metaTitle": "Happy Birthday Letter Notes and Fingering Chart",
     "overview": "This Happy Birthday page is designed for players who need a clean, instantly usable melody page for parties, family events, school celebrations, or last-minute requests on a simple melody instrument.",
@@ -112,7 +125,9 @@
   },
   "jingle-bells": {
     "aliases": [
-      "One Horse Open Sleigh"
+      "One Horse Open Sleigh",
+      "Jingle Bell",
+      "铃儿响叮当"
     ],
     "metaTitle": "Jingle Bells Letter Notes, Lyrics and Fingering Chart",
     "overview": "This Jingle Bells page gives you a bright holiday melody with letter notes, lyric support, and a readable fingering-first layout that is practical for December practice, school performances, and sing-along use.",
@@ -153,11 +168,15 @@
         "question": "Why do players often choose Scarborough Fair for calmer practice sessions?",
         "answer": "Because it lets you focus on breath timing, legato connection, and quiet tone control without needing a fast pulse or showy technical movement."
       }
+    ],
+    "aliases": [
+      "斯卡布罗集市"
     ]
   },
   "auld-lang-syne": {
     "aliases": [
-      "Old Lang Syne"
+      "Old Lang Syne",
+      "友谊地久天长"
     ],
     "metaTitle": "Auld Lang Syne Letter Notes, Lyrics and Fingering Chart",
     "overview": "This Auld Lang Syne page is built for players who want one familiar year-end song they can open quickly for countdowns, gatherings, lyric-led practice, and simple melody playing on seasonal occasions.",
@@ -181,7 +200,9 @@
   },
   "silent-night": {
     "aliases": [
-      "Stille Nacht"
+      "Stille Nacht",
+      "Silent Night Holy Night",
+      "平安夜"
     ],
     "metaTitle": "Silent Night Letter Notes, Lyrics and Fingering Chart",
     "overview": "This Silent Night page keeps the carol in a calm, lyric-friendly letter-note layout that works well for church rehearsal, home practice, and gentle seasonal playing without a staff-heavy reading barrier.",
@@ -206,7 +227,8 @@
   "fur-elise": {
     "aliases": [
       "To Alice",
-      "Bagatelle No. 25 in A minor"
+      "Bagatelle No. 25 in A minor",
+      "致爱丽丝"
     ],
     "metaTitle": "Fur Elise Letter Notes and Fingering Chart",
     "overview": "This page focuses on the recognisable Fur Elise theme in a compact melody-first format, so players can work from letter notes and fingering support instead of relying on a full piano score.",
@@ -247,6 +269,9 @@
         "question": "Who is Home Sweet Home best suited for on this site?",
         "answer": "It suits players who want a nostalgic, old-fashioned melody that feels expressive without becoming technically dense, including adult beginners and anyone building a calmer repertoire for home practice or reflective playing."
       }
+    ],
+    "aliases": [
+      "There's No Place Like Home"
     ]
   },
   "yankee-doodle": {
@@ -268,6 +293,9 @@
         "question": "What makes Yankee Doodle useful for first march-style practice?",
         "answer": "It gives you a simple way to work on steady pulse, clearer articulation, and a lightly marching phrase feel without the technical demand of a longer ceremonial or parade arrangement."
       }
+    ],
+    "aliases": [
+      "Yankee Doodle Dandy"
     ]
   },
   "can-can": {
@@ -313,6 +341,10 @@
         "question": "Why is Air on the G String useful for breath and phrasing practice?",
         "answer": "Because the melody moves in longer connected lines, it gives you time to work on smooth attacks, stable air support, and shaping phrases without the pressure of fast rhythmic finger changes."
       }
+    ],
+    "aliases": [
+      "Air",
+      "G弦上的咏叹调"
     ]
   },
   "american-patrol": {
@@ -334,6 +366,9 @@
         "question": "What is American Patrol useful for in practice?",
         "answer": "It is especially useful for pulse control, short-note articulation, and keeping a confident parade-like rhythm when you want something brighter than a lyrical folk or hymn tune."
       }
+    ],
+    "aliases": [
+      "巡逻兵进行曲"
     ]
   },
   "arirang": {
@@ -355,6 +390,9 @@
         "question": "What does Arirang help players practice?",
         "answer": "It is especially useful for slower breath planning, connected legato phrasing, and keeping a more vocal melodic shape instead of approaching the tune as a short rhythmic drill."
       }
+    ],
+    "aliases": [
+      "阿里郎"
     ]
   },
   "auld-lang-syne-english": {
@@ -376,12 +414,18 @@
         "question": "Is Auld Lang Syne useful for New Year group singing and countdown events?",
         "answer": "Yes. It is one of the most practical seasonal melodies for group use because people already know the tune, the phrases repeat clearly, and the English lyrics make shared singing easier."
       }
+    ],
+    "aliases": [
+      "Auld Lang Syne English version",
+      "友谊地久天长 英文版"
     ]
   },
   "canon": {
     "aliases": [
       "Canon in D",
-      "Pachelbel Canon"
+      "Pachelbel Canon",
+      "Pachelbel's Canon",
+      "卡农"
     ],
     "metaTitle": "Canon in D Letter Notes and Fingering Chart",
     "overview": "This Canon in D page gives you one of the most recognisable ceremony melodies in a cleaner letter-note layout that is practical for wedding planning, recital preparation, and calm classical practice.",
@@ -422,6 +466,10 @@
         "question": "Why does Deck the Halls work well for classroom or group holiday playing?",
         "answer": "Because the tune is familiar, festive, and fast to recognize, which makes it useful for short rehearsals, school use, and casual Christmas group playing."
       }
+    ],
+    "aliases": [
+      "Deck the Hall",
+      "Deck the Halls with Boughs of Holly"
     ]
   },
   "do-your-ears-hang-low": {
@@ -443,6 +491,9 @@
         "question": "Why does Do Your Ears Hang Low fit classroom or group practice?",
         "answer": "Because it is playful, familiar, and repetitive, which helps groups restart quickly and helps new players stay oriented even when they are still learning note labels."
       }
+    ],
+    "aliases": [
+      "你的耳朵会向下垂吗"
     ]
   },
   "down-by-the-salley-gardens": {
@@ -464,6 +515,10 @@
         "question": "Is this melody better for expressive playing than fast technique?",
         "answer": "Yes. This tune is much more useful for soft dynamics, connected phrasing, and a singing tone than for technical speed work, which makes it a practical contrast to brighter reels or marches."
       }
+    ],
+    "aliases": [
+      "Down by the Salley Garden",
+      "漫步莎莉园"
     ]
   },
   "jasmine-flower": {
@@ -509,11 +564,16 @@
         "question": "Who is Flight of the Bumblebee best for on this site?",
         "answer": "It is best for players who already read faster note movement comfortably and want a short showpiece-style challenge that sounds impressive without requiring a dense orchestral score."
       }
+    ],
+    "aliases": [
+      "Bumblebee",
+      "野蜂飞舞"
     ]
   },
   "frere-jacques": {
     "aliases": [
-      "Brother John"
+      "Brother John",
+      "两只老虎"
     ],
     "metaTitle": "Frere Jacques Letter Notes and Fingering Chart",
     "overview": "This page keeps Frere Jacques short, familiar, and easy to scan, which makes it useful when you want a quick beginner melody that still feels complete from the first play-through.",
@@ -603,6 +663,10 @@
         "question": "Is Greensleeves better for expressive folk practice than for fast technical drilling?",
         "answer": "Yes. Greensleeves is most useful for expressive folk-style playing, connected phrasing, and controlled breath support, not for speed-focused technical work."
       }
+    ],
+    "aliases": [
+      "Green Sleeves",
+      "绿袖子"
     ]
   },
   "habanera": {
@@ -649,6 +713,10 @@
         "question": "Can I use Harvest Song for short daily warmups?",
         "answer": "Yes. Its shorter phrase length makes it practical for quick warmups focused on tone, simple note reading, and relaxed breath pacing when you do not want to open a longer piece."
       }
+    ],
+    "aliases": [
+      "Harvest tune",
+      "丰收之歌"
     ]
   },
   "humoresque": {
@@ -670,6 +738,10 @@
         "question": "Is this the famous Dvorak Humoresque melody?",
         "answer": "Yes. This page focuses on the well-known Dvorak Humoresque theme in a melody-first format that is easier to scan on ocarina, recorder, or tin whistle than a full staff-heavy edition."
       }
+    ],
+    "aliases": [
+      "Humoreske",
+      "幽默曲"
     ]
   },
   "lightly-row": {
@@ -691,6 +763,9 @@
         "question": "Why does Lightly Row appear in so many beginner music books?",
         "answer": "It shows a basic melodic contour clearly, which makes it useful for connecting simple rhythm reading, note location, and repeated practice in a short page that does not overwhelm new players."
       }
+    ],
+    "aliases": [
+      "划小船"
     ]
   },
   "little-bee": {
@@ -712,6 +787,9 @@
         "question": "Can children use Little Bee for first note-reading practice?",
         "answer": "Yes. The tune is brief, easy to follow, and friendly to repetition, so it works well when younger players are just starting to connect melody memory with visible letter notes."
       }
+    ],
+    "aliases": [
+      "小蜜蜂"
     ]
   },
   "london-bridge": {
@@ -740,7 +818,8 @@
   },
   "londonderry-air": {
     "aliases": [
-      "Danny Boy"
+      "Danny Boy",
+      "伦敦德里小调"
     ],
     "metaTitle": "Londonderry Air Letter Notes and Fingering Chart",
     "overview": "This Londonderry Air page is for players who want the Danny Boy melody in a slower, singing-style layout that leaves space for breath planning and expressive phrase endings.",
@@ -781,6 +860,9 @@
         "question": "Is Long Long Ago easier to shape than a faster folk song?",
         "answer": "Yes. The slower, more even phrase motion gives you more time to settle intonation, connect notes smoothly, and memorize the melody without rushing through quick turns."
       }
+    ],
+    "aliases": [
+      "很久以前"
     ]
   },
   "lullaby": {
@@ -827,6 +909,10 @@
         "question": "Can Bach Minuet help before I try longer classical themes?",
         "answer": "Yes. It is a good bridge between easy songs and bigger recital pieces because you can work on style, pulse, and articulation in a smaller, easier-to-manage format."
       }
+    ],
+    "aliases": [
+      "Bach Minuet",
+      "巴赫小步舞曲"
     ]
   },
   "minuet-in-g": {
@@ -848,6 +934,11 @@
         "question": "Is Minuet in G harder than nursery songs but still manageable?",
         "answer": "Yes. It asks for cleaner articulation and more deliberate phrasing than a nursery song, but it remains approachable for players who are ready to move into a first classical piece."
       }
+    ],
+    "aliases": [
+      "Menuet in G",
+      "G major minuet",
+      "G大调小步舞曲"
     ]
   },
   "moonlight-sonata": {
@@ -869,6 +960,11 @@
         "question": "What does Moonlight Sonata help players practice on this site?",
         "answer": "It is especially useful for sustained tone, patient breath support, and keeping long phrases calm and controlled instead of treating the piece like a technical speed exercise."
       }
+    ],
+    "aliases": [
+      "Piano Sonata No. 14",
+      "Sonata quasi una fantasia",
+      "月光奏鸣曲"
     ]
   },
   "old-folks-at-home": {
@@ -914,6 +1010,9 @@
         "question": "Why is Old MacDonald useful for first-week practice?",
         "answer": "It gives beginners a tune they already know well, so they can focus on note labels, fingering, and repeated melodic motion instead of trying to memorize a new song at the same time."
       }
+    ],
+    "aliases": [
+      "Old McDonald Had a Farm"
     ]
   },
   "on-wings-of-song": {
@@ -935,6 +1034,11 @@
         "question": "Is this melody more about breath shape than speed?",
         "answer": "Yes. The main value of this piece is expressive breathing, note connection, and tonal control rather than quick fingerwork or high-speed articulation."
       }
+    ],
+    "aliases": [
+      "Mendelssohn On Wings of Song",
+      "Auf Flugeln des Gesanges",
+      "乘着歌声的翅膀"
     ]
   },
   "sakura-sakura": {
@@ -956,6 +1060,11 @@
         "question": "What makes Sakura Sakura different from a typical beginner nursery song?",
         "answer": "Its appeal is less about simple repetition and more about mood, phrase space, and a distinctive traditional contour, so it feels more meditative than many short beginner nursery tunes."
       }
+    ],
+    "aliases": [
+      "Sakura",
+      "樱花",
+      "さくらさくら"
     ]
   },
   "red-river-valley": {
@@ -977,6 +1086,9 @@
         "question": "What is Red River Valley useful for in practice?",
         "answer": "It is especially useful for relaxed legato playing, casual sing-through rehearsal, and learning to carry a familiar folk phrase without rushing the breath."
       }
+    ],
+    "aliases": [
+      "红河谷"
     ]
   },
   "santa-lucia": {
@@ -998,6 +1110,9 @@
         "question": "Why does Santa Lucia fit slower recital or practice use?",
         "answer": "Because the melody is familiar, flowing, and expressive, so it gives players a lyrical performance option without needing a dense arrangement or fast technical passagework."
       }
+    ],
+    "aliases": [
+      "桑塔露琪亚"
     ]
   },
   "schubert-serenade": {
@@ -1043,6 +1158,9 @@
         "question": "Why do players choose Scotland the Brave for folk or patriotic repertoire?",
         "answer": "Because it is one of the most recognizable Scottish melodies, and it quickly delivers a bold traditional character without requiring a long or harmonically dense arrangement."
       }
+    ],
+    "aliases": [
+      "苏格兰勇士"
     ]
   },
   "song-of-parting": {
@@ -1064,6 +1182,14 @@
         "question": "Why does Song of Parting suit singers and melody instruments so well?",
         "answer": "Its vocal contour is clear and singable, which makes it easy to phrase on ocarina, recorder, or tin whistle even if you are approaching it as a simple melody instead of a fully arranged piece."
       }
+    ],
+    "aliases": [
+      "送别",
+      "Songbie",
+      "旅愁",
+      "Dreaming of Home and Mother",
+      "Dreaming of Home & Mother",
+      "梦见家和母亲"
     ]
   },
   "swan-lake": {
@@ -1085,11 +1211,17 @@
         "question": "Is Swan Lake more about graceful phrasing than virtuoso speed?",
         "answer": "Yes. This theme is much more useful for graceful line shaping, tone control, and controlled phrasing than for flashy technical speed."
       }
+    ],
+    "aliases": [
+      "Swan Lake Theme",
+      "天鹅湖"
     ]
   },
   "the-trout": {
     "aliases": [
-      "Die Forelle"
+      "Die Forelle",
+      "Schubert The Trout",
+      "鳟鱼"
     ],
     "metaTitle": "The Trout Letter Notes and Fingering Chart",
     "overview": "This The Trout page gives you Schubert's lively song melody in a melody-first layout that feels more agile than a hymn or lullaby, while still staying readable for non-pianists.",
@@ -1113,7 +1245,8 @@
   },
   "traumerei": {
     "aliases": [
-      "Dreaming"
+      "Dreaming",
+      "梦幻曲"
     ],
     "metaTitle": "Traumerei Letter Notes and Fingering Chart",
     "overview": "This Traumerei page is for players who want one of Schumann's gentlest themes in a slow letter-note layout built for quiet tone, patience, and expressive breathing.",
@@ -1137,7 +1270,8 @@
   },
   "turkish-march": {
     "aliases": [
-      "Rondo alla Turca"
+      "Rondo alla Turca",
+      "土耳其进行曲"
     ],
     "metaTitle": "Turkish March Letter Notes and Fingering Chart",
     "overview": "This Turkish March page is for players who want Mozart's famous fast theme in a simplified letter-note format, so you can practice the recognisable melody without reading a dense keyboard arrangement.",
@@ -1178,6 +1312,9 @@
         "question": "What makes Toy March useful for practice?",
         "answer": "Its short length and clear rhythmic outline make it useful for repeated attack control, even pulse, and quicker finger timing in a format you can run several times in one session."
       }
+    ],
+    "aliases": [
+      "March of the Toys"
     ]
   },
   "cavalry-march": {
@@ -1199,6 +1336,9 @@
         "question": "Is Cavalry March brighter than a slow folk tune?",
         "answer": "Yes. It gives you a much more energetic practice target than a slow folk air, which makes it useful when you want to work on rhythmic drive instead of pure lyric phrasing."
       }
+    ],
+    "aliases": [
+      "骑兵进行曲"
     ]
   },
   "twinkle-variations": {
@@ -1220,6 +1360,10 @@
         "question": "When should I move from the basic Twinkle tune to the variations?",
         "answer": "Move to the variations once the original melody feels comfortable by ear and under the fingers, because this version expects you to track changes instead of relying on pure repetition."
       }
+    ],
+    "aliases": [
+      "小星星变奏曲",
+      "Ah vous dirai-je, Maman"
     ]
   },
   "we-wish-you-a-merry-christmas": {
@@ -1241,6 +1385,10 @@
         "question": "Why is this song useful for quick holiday rehearsal?",
         "answer": "Because most listeners already know the tune, so players can focus on keeping the pulse steady and the phrases clean instead of teaching the melody from scratch."
       }
+    ],
+    "aliases": [
+      "We Wish You Merry Christmas",
+      "祝你圣诞快乐"
     ]
   },
   "wedding-march-alt": {
@@ -1262,12 +1410,17 @@
         "question": "Is this alternate Wedding March still suitable for ceremony rehearsal or a first formal performance?",
         "answer": "Yes. It serves the same ceremony and first-performance use case as the main Wedding March page, but gives you another version to compare if you prefer this phrasing or layout."
       }
+    ],
+    "aliases": [
+      "Wedding March alternate version"
     ]
   },
   "wedding-march": {
     "aliases": [
       "Bridal Chorus",
-      "Here Comes the Bride"
+      "Here Comes the Bride",
+      "Treulich geführt",
+      "婚礼进行曲"
     ],
     "metaTitle": "Wedding March Letter Notes and Fingering Chart",
     "overview": "This Wedding March page gives you the familiar Here Comes the Bride melody in a practical letter-note layout for ceremony prep, school performance, or quick event-use practice.",
@@ -1308,6 +1461,9 @@
         "question": "Is Were You There useful for slow breath work?",
         "answer": "Yes. The slower pace gives you time to place breaths thoughtfully, connect longer notes, and develop a steadier devotional style of playing."
       }
+    ],
+    "aliases": [
+      "Were You There When They Crucified My Lord"
     ]
   },
   "wild-rose": {
@@ -1329,6 +1485,10 @@
         "question": "Is Wild Rose better for tone than fast technique?",
         "answer": "Yes. The melody is most helpful for even tone, phrase shaping, and comfortable expressive reading rather than quick articulation or speed-building work."
       }
+    ],
+    "aliases": [
+      "Heidenroslein",
+      "野玫瑰"
     ]
   },
   "oh-susanna": {
@@ -1350,6 +1510,10 @@
         "question": "Why does Oh Susanna work well after short nursery songs?",
         "answer": "It asks for steadier pulse and cleaner repeated-note handling than a tiny nursery tune, so it makes a good next step once you are ready for more movement in the melody."
       }
+    ],
+    "aliases": [
+      "Oh Susannah",
+      "哦，苏珊娜"
     ]
   },
   "row-row-row-your-boat": {
@@ -1371,11 +1535,16 @@
         "question": "Why is Row Row Row Your Boat useful for classroom rounds and group practice?",
         "answer": "Because it is short, repetitive, and instantly recognizable, which makes it easy to restart, easy to sing together, and easy to use in short group-learning sessions."
       }
+    ],
+    "aliases": [
+      "划船歌"
     ]
   },
   "spring-song": {
     "aliases": [
-      "Frühlingslied"
+      "Frühlingslied",
+      "Songs Without Words Spring Song",
+      "春之歌"
     ],
     "metaTitle": "Spring Song Letter Notes and Fingering Chart",
     "overview": "This Spring Song page is aimed at players who want a light, graceful Mendelssohn melody that feels brighter and more flowing than a slow hymn or lullaby.",
@@ -1451,6 +1620,9 @@
         "question": "Why is Simple Gifts useful for beginners beyond nursery songs?",
         "answer": "Because it gives you a more mature traditional melody while still staying balanced and readable, so you can practice phrasing and articulation without jumping straight to dense classical material."
       }
+    ],
+    "aliases": [
+      "Shaker song"
     ]
   },
   "the-south-wind": {
@@ -1472,6 +1644,9 @@
         "question": "Is The South Wind a calm folk option after shorter beginner songs?",
         "answer": "Yes. It is a useful next step when you want a longer Irish-style melody that develops breath control and phrase shape beyond very short beginner tunes."
       }
+    ],
+    "aliases": [
+      "南风"
     ]
   },
   "lough-leane": {
@@ -1493,13 +1668,18 @@
         "question": "Why choose Lough Leane over ornamented traditional notation?",
         "answer": "This page keeps the tune in a cleaner melody-first layout, which is helpful if you want to learn the contour and phrasing first before worrying about ornament details."
       }
+    ],
+    "aliases": [
+      "Loch Lein"
     ]
   },
   "romance-damour": {
     "aliases": [
       "Spanish Romance",
       "Romance Anonimo",
-      "Jeux Interdits Theme"
+      "Jeux Interdits Theme",
+      "爱的罗曼史",
+      "Romance of Love"
     ],
     "metaTitle": "Romance d'Amour Letter Notes and Fingering Chart",
     "overview": "This Romance d'Amour page is aimed at players who want the famous Spanish Romance melody in a simpler format that captures the emotional line without requiring classical guitar notation.",
@@ -1540,6 +1720,10 @@
         "question": "Why is Wellerman useful for rhythm and repeated-phrase practice?",
         "answer": "Because the melody leans on a clear shanty groove and repeated chorus movement, which makes it good for pulse control, breath pacing, and keeping a stable melodic line over several similar phrases."
       }
+    ],
+    "aliases": [
+      "Soon May the Wellerman Come",
+      "新西兰船歌"
     ]
   },
   "bella-ciao": {
@@ -1561,6 +1745,9 @@
         "question": "Does Bella Ciao work well for group familiarity and sing-along recognition?",
         "answer": "Yes. Many players already know the tune by ear, which makes it easier to use in casual group settings or practice sessions where a familiar melody helps with timing."
       }
+    ],
+    "aliases": [
+      "啊朋友再见"
     ]
   },
   "jolly-old-saint-nicholas": {
@@ -1582,6 +1769,9 @@
         "question": "Is Jolly Old Saint Nicholas easier than longer Christmas carols?",
         "answer": "Yes. It is usually easier to learn than larger seasonal hymns because the melodic contour is simpler and the page focuses on a direct singable line."
       }
+    ],
+    "aliases": [
+      "Jolly Old St. Nicholas"
     ]
   },
   "joy-to-the-world": {
@@ -1603,6 +1793,10 @@
         "question": "Why do players choose Joy to the World for holiday performance practice?",
         "answer": "Because it combines strong Christmas recognition with a bright ceremonial feel, making it useful for church use, seasonal gatherings, and players who want a carol that sounds confident in public."
       }
+    ],
+    "aliases": [
+      "普世欢腾",
+      "普世歡騰"
     ]
   },
   "home-on-the-range": {
@@ -1624,6 +1818,10 @@
         "question": "Why is Home on the Range useful for breath pacing?",
         "answer": "Its open lyrical line encourages you to think about long phrases and where to release air naturally, which makes it good for steadier breath planning."
       }
+    ],
+    "aliases": [
+      "Oh Give Me a Home",
+      "牧场上的家"
     ]
   },
   "la-cucaracha": {
@@ -1645,13 +1843,19 @@
         "question": "Is La Cucaracha more articulation-focused than a lyrical folk tune?",
         "answer": "Yes. It is much more about rhythmic energy, clear attacks, and quick melodic turns than about long connected phrases."
       }
+    ],
+    "aliases": [
+      "The Cockroach",
+      "蟑螂"
     ]
   },
   "drinking-song": {
     "aliases": [
       "Libiamo",
       "Libiamo ne' lieti calici",
-      "Brindisi"
+      "Brindisi",
+      "La Traviata Drinking Song",
+      "饮酒歌"
     ],
     "metaTitle": "Drinking Song (Libiamo) Letter Notes and Fingering Chart",
     "overview": "This Drinking Song page gives you Verdi's famous Libiamo melody in a cleaner instrumental format, so you can enjoy the bright operatic tune without navigating a full vocal score.",
@@ -1692,6 +1896,11 @@
         "question": "Why do wind players like El Condor Pasa so much?",
         "answer": "The melody sits naturally in a breath-shaped line, so it feels expressive on ocarina, recorder, and whistle even in a simplified note-reading format."
       }
+    ],
+    "aliases": [
+      "If I Could",
+      "老鹰之歌",
+      "If I Could (El Condor Pasa)"
     ]
   },
   "happy-new-year": {
@@ -1713,6 +1922,10 @@
         "question": "Can the lyric line help with year-end group practice?",
         "answer": "Yes. When the lyric line is visible, it helps players line up entrances and phrase timing more easily during casual holiday or party rehearsal."
       }
+    ],
+    "aliases": [
+      "ABBA Happy New Year",
+      "新年好"
     ]
   },
   "spanish-bullfighting-tune": {
@@ -1734,6 +1947,9 @@
         "question": "What should I focus on when practicing Spanish Bullfighting Tune?",
         "answer": "Focus on clean attacks, stable pulse, and keeping the energetic line controlled so the melody stays lively without becoming messy."
       }
+    ],
+    "aliases": [
+      "西班牙斗牛曲"
     ]
   },
   "woodpecker-polka": {
@@ -1755,6 +1971,9 @@
         "question": "Is Woodpecker Polka useful before longer polka tunes?",
         "answer": "Yes. Its shorter, lighter structure makes it a practical stepping stone before tackling longer dance pieces that demand more endurance."
       }
+    ],
+    "aliases": [
+      "啄木鸟波尔卡"
     ]
   },
   "blacksmith-polka": {
@@ -1776,6 +1995,9 @@
         "question": "Does Blacksmith Polka suit quick dance repertoire practice?",
         "answer": "Yes. It is a good choice if you want something brisk, playful, and public-domain that still feels more musical than a plain technical exercise."
       }
+    ],
+    "aliases": [
+      "铁匠波尔卡"
     ]
   },
   "loch-lomond": {
@@ -1797,6 +2019,9 @@
         "question": "Is Loch Lomond easier to phrase than ornamented pipe tunes?",
         "answer": "Yes. In this melody-first format, the tune is much easier to phrase than heavily ornamented pipe settings because the core line stays visible and uncluttered."
       }
+    ],
+    "aliases": [
+      "洛蒙德湖"
     ]
   },
   "grenadiers-march": {
@@ -1818,6 +2043,9 @@
         "question": "Why does Grenadiers March work well for pulse practice?",
         "answer": "Its shorter bright phrases make it easier to hear whether your attacks and pulse stay even from start to finish."
       }
+    ],
+    "aliases": [
+      "掷弹兵进行曲"
     ]
   },
   "the-internationale": {
@@ -1863,6 +2091,11 @@
         "question": "Is this anthem useful for sustained tone and wide phrases?",
         "answer": "Yes. The broad line makes it a good exercise in controlled air support, steady intonation, and maintaining shape across longer phrase spans."
       }
+    ],
+    "aliases": [
+      "State Anthem of the Russian Federation",
+      "Russian Federation National Anthem",
+      "牢不可破的联盟"
     ]
   },
   "parade-of-the-wooden-soldiers": {
@@ -1884,6 +2117,10 @@
         "question": "What skills does Parade of the Wooden Soldiers help build?",
         "answer": "It is especially useful for short-note articulation, even march pulse, and staying rhythmically clear through quick phrase turns and repeated bright figures."
       }
+    ],
+    "aliases": [
+      "Parade of the Tin Soldiers",
+      "木偶兵进行曲"
     ]
   },
   "katyusha": {
@@ -1905,6 +2142,10 @@
         "question": "Why is Katyusha useful for quick two-beat pulse work?",
         "answer": "The melody keeps returning through repeated turns, which helps you feel whether your articulation and timing stay even in a quick two-beat flow."
       }
+    ],
+    "aliases": [
+      "Катюша",
+      "喀秋莎"
     ]
   },
   "moscow-nights": {
@@ -1926,6 +2167,10 @@
         "question": "Is Moscow Nights better for breath support than speed work?",
         "answer": "Yes. The tune is far more useful for supporting long phrases and staying centered in tone than for building technical speed."
       }
+    ],
+    "aliases": [
+      "Podmoskovnye Vechera",
+      "莫斯科郊外的晚上"
     ]
   },
   "troika": {
@@ -1947,6 +2192,10 @@
         "question": "Does Troika help with steady four-beat phrase control?",
         "answer": "Yes. The tune gives you useful repetition in longer phrase spans, which helps you hear whether the line stays even across each measure group."
       }
+    ],
+    "aliases": [
+      "Тройка",
+      "三套车"
     ]
   },
   "the-pathway": {
@@ -1968,6 +2217,9 @@
         "question": "Why choose The Pathway for breath pacing work?",
         "answer": "Its phrase structure makes you manage both moving notes and held notes in the same tune, which is useful for steadier breath planning."
       }
+    ],
+    "aliases": [
+      "小路"
     ]
   },
   "red-berries-blossom": {
@@ -1989,6 +2241,9 @@
         "question": "Does Red Berries Blossom help with repeated melodic returns?",
         "answer": "Yes. The tune circles back through similar material often enough to make articulation, pulse, and upper-note stability easy to compare from one phrase to the next."
       }
+    ],
+    "aliases": [
+      "红莓花儿开"
     ]
   },
   "the-hawthorn-tree": {
@@ -2010,6 +2265,9 @@
         "question": "Is The Hawthorn Tree suited to gentle lyrical playing?",
         "answer": "Yes. The melody rewards smooth phrasing and careful intonation more than sharp articulation, which makes it well suited to gentler lyrical practice."
       }
+    ],
+    "aliases": [
+      "山楂树"
     ]
   },
   "hej-sokoly": {
@@ -2031,6 +2289,11 @@
         "question": "Why does Hej Sokoly work well for repeated returns?",
         "answer": "The melody comes back to familiar material in a way that makes it easy to compare pulse, tone, and phrasing from one pass to the next."
       }
+    ],
+    "aliases": [
+      "Hej, Sokoly",
+      "Hej, Sokoły",
+      "Hey Sokoly"
     ]
   },
   "irish-morning-wind": {
@@ -2052,6 +2315,10 @@
         "question": "Is Irish Morning Wind a whistle-friendly page without heavy ornaments?",
         "answer": "Yes. It works well for whistle-style practice because the melody still sounds complete without relying on ornament-heavy performance details."
       }
+    ],
+    "aliases": [
+      "Morning Wind",
+      "爱尔兰晨风"
     ]
   },
   "dancing-doll-and-teddy-bear": {
@@ -2073,6 +2340,10 @@
         "question": "Why does Dancing Doll and Teddy Bear help with clean finger changes?",
         "answer": "The phrases are short and easy to repeat, so players can isolate small note transitions without losing the shape of the tune."
       }
+    ],
+    "aliases": [
+      "Dancing Doll & Teddy Bear",
+      "波兰儿歌"
     ]
   },
   "grandfathers-clock": {
@@ -2094,6 +2365,10 @@
         "question": "Is Grandfather's Clock useful for moderate range control?",
         "answer": "Yes. The melody asks for a little more range awareness than a very small beginner tune, which makes it useful once you are ready for a broader line."
       }
+    ],
+    "aliases": [
+      "Grandfather Clock",
+      "爷爷的钟"
     ]
   },
   "irish-blackbird": {
@@ -2115,6 +2390,10 @@
         "question": "Does Irish Blackbird help articulation more than slow lyrical tunes?",
         "answer": "Yes. Its lighter contour makes it more useful for articulation and repeated phrase handling than a very slow, breath-led lyrical melody."
       }
+    ],
+    "aliases": [
+      "The Blackbird",
+      "爱尔兰黑鸟"
     ]
   },
   "song-of-time": {
@@ -2150,7 +2429,8 @@
       "Castle in the Sky",
       "Kimi wo Nosete",
       "Laputa Theme",
-      "Laputa: Castle in the Sky"
+      "Laputa: Castle in the Sky",
+      "伴随着你"
     ],
     "metaTitle": "Carrying You Ocarina Tabs and Recorder Notes",
     "overview": "This Carrying You page is built for players who want the best-known Castle in the Sky ending melody in a readable letter-note format that feels calmer and more musical than a raw tab image or a fan screenshot.",
@@ -2178,7 +2458,8 @@
       "He's a Pirate Theme",
       "Pirates of the Caribbean Theme",
       "Pirates of the Caribbean",
-      "The Curse of the Black Pearl Theme"
+      "The Curse of the Black Pearl Theme",
+      "加勒比海盗"
     ],
     "metaTitle": "He's a Pirate Ocarina Tabs and Recorder Notes",
     "overview": "This He's a Pirate page is aimed at players who want the famous Pirates of the Caribbean theme in a faster melody-first layout that stays readable while preserving the drive of the original hook.",
@@ -2231,7 +2512,8 @@
     "aliases": [
       "Titanic Theme",
       "Titanic Song",
-      "Love Theme from Titanic"
+      "Love Theme from Titanic",
+      "我心永恒"
     ],
     "metaTitle": "My Heart Will Go On Ocarina Tabs and Recorder Notes",
     "overview": "This My Heart Will Go On page is built for players who want the Titanic melody in a readable letter-note format that keeps the famous hook clear without forcing you into a staff-only arrangement or a low-resolution screenshot tab.",
@@ -2257,7 +2539,8 @@
     "aliases": [
       "Yiruma piano song",
       "Yiruma River Flows in You",
-      "River Flows In You by Yiruma"
+      "River Flows In You by Yiruma",
+      "你的心河"
     ],
     "metaTitle": "River Flows in You Ocarina Tabs and Recorder Notes",
     "overview": "This River Flows in You page turns the famous Yiruma melody into a cleaner letter-note reading format, so players can practice the recognizable main line without depending on piano sheet music or fragmented fan tabs.",
@@ -2309,7 +2592,8 @@
     "aliases": [
       "Kikujiro Summer",
       "Joe Hisaishi Summer",
-      "Kikujiro no Natsu Theme"
+      "Kikujiro no Natsu Theme",
+      "菊次郎的夏天"
     ],
     "metaTitle": "Summer Ocarina Tabs and Recorder Notes",
     "overview": "This Summer page turns the best-known melody from Kikujiro into a clear letter-note page, so players can work on the familiar Joe Hisaishi theme without needing a piano score or a fan-transcribed image chart.",
@@ -2336,7 +2620,8 @@
       "Always, No Matter How Many Times",
       "Itsumo Nando Demo",
       "Spirited Away Ending Theme",
-      "Spirited Away Theme Song"
+      "Spirited Away Theme Song",
+      "和你在一起"
     ],
     "metaTitle": "Always With Me Ocarina Tabs and Recorder Notes",
     "overview": "This Always With Me page gives you the best-known Spirited Away ending melody in a readable letter-note format, so you can practice the tune as a calm stand-alone song instead of piecing it together from mixed lyric sheets and fan tabs.",
@@ -2387,7 +2672,8 @@
   "princess-mononoke": {
     "aliases": [
       "Mononoke Hime",
-      "Princess Mononoke Theme"
+      "Princess Mononoke Theme",
+      "魔法公主"
     ],
     "metaTitle": "Princess Mononoke Ocarina Tabs and Recorder Notes",
     "overview": "This Princess Mononoke page turns the best-known Mononoke Hime melody into a clean letter-note format, so players can practice the theme without relying on staff-heavy scores or low-resolution image tabs.",
@@ -2413,7 +2699,9 @@
     "aliases": [
       "The Path of the Wind",
       "Kaze no Toorimichi",
-      "My Neighbor Totoro Theme"
+      "My Neighbor Totoro Theme",
+      "风之甬道",
+      "风的通道"
     ],
     "metaTitle": "Path of the Wind Ocarina Tabs and Recorder Notes",
     "overview": "This Path of the Wind page gives you the best-known lyrical Totoro melody in a clear letter-note format, making it easier to practice the tune without switching between mixed-language lyric pages and fan-made screenshots.",
@@ -2473,7 +2761,8 @@
       "Darth Vader Theme",
       "Star Wars Imperial March",
       "Darth Vader's Theme",
-      "The Imperial March Darth Vader's Theme"
+      "The Imperial March Darth Vader's Theme",
+      "帝国进行曲"
     ],
     "metaTitle": "The Imperial March Ocarina Tabs and Recorder Notes",
     "overview": "This Imperial March page turns the famous Star Wars villain theme into a cleaner letter-note layout, so players can lock in the main hook without relying on full orchestral scores, brass parts, or low-resolution fan tabs.",
@@ -2505,7 +2794,8 @@
       "The Godfather Theme",
       "The Godfather Love Theme",
       "Godfather Love Theme",
-      "Parla Piu Piano"
+      "Parla Piu Piano",
+      "教父主题曲"
     ],
     "metaTitle": "Speak Softly Love Ocarina Tabs and Recorder Notes",
     "overview": "This Speak Softly Love page gives you the famous Godfather melody in a cleaner letter-note format, making it easier to practice the lyrical line as a stand-alone tune instead of piecing it together from staff-heavy arrangements or scattered fan tabs.",
@@ -2690,7 +2980,8 @@
       "Tennessee Waltz song",
       "Patti Page Tennessee Waltz",
       "Tennessee Waltz melody",
-      "Tennessee Waltz oldies song"
+      "Tennessee Waltz oldies song",
+      "田纳西华尔兹"
     ],
     "metaTitle": "Tennessee Waltz Ocarina Tabs and Recorder Notes",
     "overview": "This Tennessee Waltz page gives you the familiar oldies melody in a cleaner letter-note layout, making it easier to practice the song without relying on mixed lyric images, piano-vocal sheets, or scattered fan tabs. It is aimed at players who want the recognizable waltz line itself to stay easy to follow.",
@@ -2771,7 +3062,8 @@
       "Sound of Silence",
       "The Sound of Silence Simon and Garfunkel",
       "Simon and Garfunkel Sound of Silence",
-      "The Sound of Silence song"
+      "The Sound of Silence song",
+      "寂静之声"
     ],
     "metaTitle": "The Sound of Silence Ocarina Tabs and Recorder Notes",
     "overview": "This The Sound of Silence page keeps the familiar Simon and Garfunkel melody in a clean letter-note layout so you can practice the tune without piecing it together from lyric videos, guitar chords, or staff-heavy songbooks. It is built for players who want the recognizable vocal line to stay easy to trace on melody instruments.",
@@ -2979,6 +3271,87 @@
       {
         "question": "Why does Careless Whisper fit lyrical practice well?",
         "answer": "Because the tune is slow, highly recognizable, and shaped like a sung line, which makes it useful for smooth phrase connection and controlled breathing."
+      }
+    ]
+  },
+  "kiss-the-rain": {
+    "aliases": [
+      "Kiss the Rain Yiruma",
+      "Yiruma Kiss the Rain",
+      "Kiss the Rain melody",
+      "Kiss the Rain notes"
+    ],
+    "metaTitle": "Kiss the Rain Ocarina Tabs and Recorder Notes",
+    "overview": "This Kiss the Rain page keeps the familiar Yiruma melody in a clean letter-note layout so you can practice the tune without stitching it together from piano tutorials, staff PDFs, and mixed fan tabs. It is built for players who want a reflective modern melody that still works clearly as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Kiss the Rain ocarina tabs",
+      "Kiss the Rain recorder notes"
+    ],
+    "background": "Kiss the Rain remains one of the most recognized modern piano melodies in casual sheet-search traffic, especially among players looking for reflective repertoire they already know by ear even if they do not read staff notation well. Its line is singable enough to carry as a single melodic page without needing the original piano texture.",
+    "practice": "The melody is useful for slower breath pacing, connected phrase shape, and keeping repeated motifs even across a longer page. It suits players who want calm, recognizable modern material without jumping straight into a dense soundtrack or highly technical instrumental theme.",
+    "metaDescription": "Play Kiss the Rain with letter notes, recorder notes, and fingering chart support. A familiar Yiruma melody for calm phrase practice on ocarina, recorder, or tin whistle.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Yiruma piece Kiss the Rain?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Kiss the Rain and presents it in a melody-first format for wind instruments."
+      },
+      {
+        "question": "Why does Kiss the Rain work well as a melody page?",
+        "answer": "Because the main line is recognizable on its own, which makes it practical for phrase-based practice even without the original piano accompaniment."
+      }
+    ]
+  },
+  "casablanca": {
+    "aliases": [
+      "Casablanca song",
+      "Bertie Higgins Casablanca",
+      "Casablanca melody",
+      "Casablanca notes"
+    ],
+    "metaTitle": "Casablanca Ocarina Tabs and Recorder Notes",
+    "overview": "This Casablanca page keeps the familiar Bertie Higgins melody in a clean letter-note layout so you can practice the tune without piecing it together from lyric videos, chord sheets, and mixed fan tabs. It is built for players who want an instantly recognizable oldies melody that still reads cleanly as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Casablanca ocarina tabs",
+      "Casablanca recorder notes"
+    ],
+    "background": "Casablanca keeps durable recognition across oldies listeners and melody-instrument searchers because the vocal line is memorable, direct, and culturally familiar even outside full-band listening. That makes it a practical grey-song addition for players who want a nostalgic melody page with clear singable phrasing.",
+    "practice": "The melody is useful for steady phrase connection, slower breath planning, and keeping a familiar vocal contour smooth without overplaying it. It suits players who want a recognizable pop standard that feels lyrical rather than technical.",
+    "metaDescription": "Play Casablanca with letter notes, recorder notes, and fingering chart support. A familiar oldies melody for smooth lyrical practice on ocarina, recorder, or tin whistle.",
+    "extraFaqs": [
+      {
+        "question": "Is this the song Casablanca by Bertie Higgins?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Casablanca and presents it in a melody-first layout for wind instruments."
+      },
+      {
+        "question": "Why is Casablanca a useful melody-instrument page?",
+        "answer": "Because the tune is easy to recognize, vocally shaped, and strong enough to practice as a single melodic line without needing the original arrangement."
+      }
+    ]
+  },
+  "its-a-small-world": {
+    "aliases": [
+      "It's a Small World song",
+      "It's a Small World After All",
+      "Small World Disney song",
+      "It's a Small World melody"
+    ],
+    "metaTitle": "It's a Small World Ocarina Tabs and Recorder Notes",
+    "overview": "This It's a Small World page turns the familiar Disney melody into a clean letter-note layout so you can practice the tune without relying on simplified screenshots or instrument-specific fan tabs. It is built for players who want a short, highly recognizable sing-along melody that still feels easy to follow as a melody-first page.",
+    "searchTerms": [
+      "It's a Small World ocarina tabs",
+      "It's a Small World recorder notes"
+    ],
+    "background": "It's a Small World has strong recognition as a classroom-friendly and family-friendly melody, which gives it practical search value for teachers, parents, and beginners looking for a tune they already know immediately. Its repetition and short phrase shape make it a strong fit for the site's beginner and music-class entry pages.",
+    "practice": "The melody is useful for repeated phrase confidence, steady pulse, and low-friction first-song practice. It suits players who want a familiar tune that can work for classroom use, group practice, or simple home play-throughs without a heavy learning curve.",
+    "metaDescription": "Play It's a Small World with letter notes, recorder notes, and fingering chart support. A familiar Disney sing-along melody for beginner-friendly practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Disney song It's a Small World?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for It's a Small World or It's a Small World After All and presents it in a melody-first format."
+      },
+      {
+        "question": "Why is It's a Small World a good beginner melody page?",
+        "answer": "Because the tune is short, repetitive, and immediately recognizable, which makes it practical for classroom use, first-song practice, and repeat play-throughs."
       }
     ]
   }

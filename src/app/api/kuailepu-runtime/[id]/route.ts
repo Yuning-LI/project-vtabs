@@ -77,8 +77,11 @@ export async function GET(
    */
   const letterTrack = buildKuailepuLetterTrackData({
     notation: song?.notation,
+    rawNotation: typeof payload.notation === 'string' ? payload.notation : null,
     key: song?.meta?.key,
-    mode: state.note_label_mode
+    mode: state.note_label_mode,
+    payload,
+    state
   })
 
   const html = buildKuailepuRuntimeHtml({

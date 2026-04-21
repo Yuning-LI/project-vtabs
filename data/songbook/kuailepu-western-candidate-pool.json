@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
-  "generatedOn": "2026-04-17",
+  "generatedOn": "2026-04-20",
   "source": "Kuailepu manual search first pass from China-reachable network",
   "scope": "Western-related candidate pool only. This is not a full inventory of all Kuailepu songs.",
-  "nextStep": "Read workflowStatus and statusReason instead of only the legacy status field. The queued import list is currently empty, so the next round should start with a fresh China-network discovery pass before another western-demand screen.",
+  "nextStep": "Read workflowStatus and statusReason instead of only the legacy status field. The queued import list is still empty after the 2026-04-20 China-network refresh, so do not assume there is another ready-to-import western public-domain batch waiting in this file.",
   "workflowStatusGuide": {
     "queued": "Ready for China-network import plus preflight compare.",
     "hold": "Keep in the pool, but identity or demand still needs another pass.",
@@ -108,6 +108,40 @@
     "lowerPriorityBackup": "Drinking Song",
     "outcome": "All three ranked candidates were imported and passed preflight compare on 2026-04-04.",
     "conclusion": "Home on the Range showed the clearest western beginner-instrument teaching footprint. La Cucaracha also had clear recorder / tin-whistle / ocarina visibility, and Drinking Song remained usable despite a more ambiguous title. All three were eventually imported successfully."
+  },
+  "chinaThirdPassDiscovery": {
+    "screenedOn": "2026-04-20",
+    "network": "China-reachable Kuailepu search",
+    "catalogCountAtReview": 130,
+    "seedGroups": [
+      "English holiday / carol titles",
+      "Chinese aliases for western folk and classroom standards",
+      "Beginner-friendly public-domain teaching tunes"
+    ],
+    "newQueuedCandidates": [],
+    "duplicateOrAlreadyPublicFinds": [
+      "Auld Lang Syne",
+      "Greensleeves",
+      "Londonderry Air",
+      "Silent Night",
+      "Red River Valley",
+      "Santa Lucia",
+      "Scarborough Fair",
+      "Ode to Joy",
+      "Minuet in G",
+      "Twinkle Twinkle Little Star"
+    ],
+    "noResultFallbackPatterns": [
+      "The First Noel",
+      "Away in a Manger",
+      "O Come All Ye Faithful",
+      "O Christmas Tree",
+      "Angels We Have Heard on High",
+      "Amazing Grace",
+      "Simple Gifts",
+      "Aura Lee"
+    ],
+    "conclusion": "A fresh China-side discovery pass did not surface another clean western public-domain import batch. Most recognizable public-domain melodies were either already public, duplicate-alias finds, or no-result searches that fell back to unrelated hot songs. Use a foreign VPN only after another China-side discovery pass if a stricter western-demand screen is needed."
   },
   "candidates": [
     {

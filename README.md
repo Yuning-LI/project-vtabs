@@ -63,12 +63,12 @@
 
 ## 当前真实状态
 
-以 2026-04-19 当前工作区为准：
+以 2026-04-20 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开详情页 `/song/<slug>` 的真相链路是：
   `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`
-- 当前公开的 `124` 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
+- 当前公开的 `130` 个 song pages 默认都走 runtime 详情页，不再回退到旧的 `SongClient` 原生详情页。
 - `captured SVG` 不再是公开详情页的数据源，只保留“本地视觉基线 / 回归排查 / 调试对照”用途。
 - 默认阅读模式是 `letter`。
 - 公开可选阅读模式只有两个：
@@ -141,7 +141,29 @@
   - 当前 `public-song` 默认已把模板脚本从 28 个收缩到 6 个，保留 `full-template` 作为恢复入口
   - 当前建议先停在这版，不再继续做更激进的脚本删减，除非后续有明确收益证据
 
-## 2026-04-19 最新补充
+## 2026-04-20 最新补充
+
+- 当前工作区公开曲库数量已更新为 `130`。
+- 当前工作区最新已导入但尚未 push 的 3 首灰度曲：
+  - `casablanca`
+  - `its-a-small-world`
+  - `kiss-the-rain`
+- 这 3 首当前已经补到本地内容层：
+  - `data/kuailepu-runtime/<slug>.json`
+  - `data/kuailepu/<slug>.json`
+  - `data/songbook/public-song-manifest.json`
+  - `data/songbook/song-seo-profiles.json`
+  - `src/lib/learn/content.ts`
+- 本轮又补跑了一轮中国网络下的快乐谱 western / public-domain discovery：
+  - 一批英文 holiday / folk / classroom 标题直搜大多是 `noResult` 后回退热门曲，不能当真候选
+  - 中文常用别名能命中的大多已经在当前公开曲库里
+  - 当前没有新的强公版曲进入 queued import list
+- 如果后续还要继续按“适合 Google 用户”的标准筛歌，优先顺序应为：
+  - 先在中国网络下继续做快乐谱发现
+  - 再切国外 VPN 做更严格的 western-demand / keyword screen
+- `data/songbook/kuailepu-western-candidate-pool.json` 当前应视作“已基本挖空，等待新的发现线索”，不要默认里面还藏着一批现成可导目标。
+
+## 2026-04-19 历史补充
 
 - 当前公开曲库数量已更新为 `124`。
 - 本轮新增并通过 preflight compare 的 3 首灰度歌：
@@ -168,18 +190,21 @@
 
 当前工作区里几组数字不要混淆：
 
-- `songCatalog.length = 124`
+- `songCatalog.length = 130`
   - 当前真正对外公开的 song pages 数量。
-- `allSongCatalog.length = 124`
+- `allSongCatalog.length = 130`
   - 当前仓库里保留的全部 catalog 曲目数量，已与公开 song pages 对齐。
-- `data/songbook/public-song-manifest.json = 124`
+- `data/songbook/public-song-manifest.json = 130`
   - 当前公开内容层 manifest 数量。
-- `data/kuailepu-runtime/*.json = 124`
+- `data/kuailepu-runtime/*.json = 130`
   - 当前生产可部署的快乐谱 raw JSON 数量。
-- `reference/songs/*.json = 125`
+- `reference/songs/*.json = 131`
   - 本机原始研究层数量，主要给导歌与本地调试用；已移除旧重复/残留条目。
-- `data/kuailepu/*.json = 118`
+- `data/kuailepu/*.json = 124`
   - 可提交的轻量导入结果数量。
+
+- 上面这组 `130` 指的是当前本地工作区口径。
+  - 如果要确认哪些已经 push / live，先看 `git status --short --branch` 和 `git log --oneline origin/main..HEAD`。
 
 为什么这些数字对不上：
 
@@ -262,7 +287,7 @@
 
 - 已新增内部审计脚本：
   - `npm run audit:kuailepu-instruments`
-- 当前公开曲库里的 124 首 song pages 全部带有 deployable raw JSON：
+- 当前公开曲库里的 130 首 song pages 全部带有 deployable raw JSON：
   - `o12`
   - `o6`
   - `r8b`

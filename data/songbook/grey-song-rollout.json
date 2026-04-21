@@ -261,7 +261,7 @@
       "group": "song",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/R5gWk1lMC.html",
-      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "lemon-tree",
@@ -271,7 +271,7 @@
       "group": "song",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/A85qr1Bxs.html",
-      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "careless-whisper",
@@ -281,6 +281,36 @@
       "group": "song",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/mFO5l1wjq.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "kiss-the-rain",
+      "title": "Kiss the Rain",
+      "status": "live",
+      "batch": "11",
+      "group": "instrumental",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xuKzf1jPZ.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "casablanca",
+      "title": "Casablanca",
+      "status": "live",
+      "batch": "11",
+      "group": "song",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/m5FGe1stl.html",
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "its-a-small-world",
+      "title": "It's a Small World",
+      "status": "live",
+      "batch": "11",
+      "group": "nursery",
+      "addedOn": "2026-04-20",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ewe9w1KYz.html",
       "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
     }
   ]

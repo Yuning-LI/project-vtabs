@@ -887,5 +887,26 @@
     "family": "song",
     "featuredRank": 127,
     "published": true
+  },
+  {
+    "id": "kiss-the-rain",
+    "slug": "kiss-the-rain",
+    "family": "song",
+    "featuredRank": 128,
+    "published": true
+  },
+  {
+    "id": "casablanca",
+    "slug": "casablanca",
+    "family": "song",
+    "featuredRank": 129,
+    "published": true
+  },
+  {
+    "id": "its-a-small-world",
+    "slug": "its-a-small-world",
+    "family": "nursery",
+    "featuredRank": 130,
+    "published": true
   }
 ]

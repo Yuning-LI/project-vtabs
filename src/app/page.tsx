@@ -38,7 +38,7 @@ export default function Home() {
       id: song.id,
       slug: song.slug,
       title: presentation.title,
-      aliases: presentation.aliases,
+      aliases: buildLibrarySearchAliases(song.title, presentation.aliases),
       familyLabel: presentation.familyLabel,
       featuredRank: index + 1
     }
@@ -201,4 +201,33 @@ export default function Home() {
       </section>
     </main>
   )
+}
+
+function buildLibrarySearchAliases(sourceTitle: string, aliases: string[]) {
+  const seen = new Set<string>()
+  const merged: string[] = []
+
+  for (const value of [sourceTitle, ...aliases]) {
+    const trimmed = value.trim()
+    if (!trimmed) {
+      continue
+    }
+
+    const key = trimmed
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\u3400-\u9fff\u0400-\u04ff\u3040-\u30ff]+/g, ' ')
+      .trim()
+      .replace(/\s+/g, ' ')
+
+    if (!key || seen.has(key)) {
+      continue
+    }
+
+    seen.add(key)
+    merged.push(trimmed)
+  }
+
+  return merged
 }
