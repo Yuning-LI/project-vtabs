@@ -908,5 +908,26 @@
     "family": "nursery",
     "featuredRank": 130,
     "published": true
+  },
+  {
+    "id": "sailing",
+    "slug": "sailing",
+    "family": "song",
+    "featuredRank": 131,
+    "published": true
+  },
+  {
+    "id": "you-raise-me-up",
+    "slug": "you-raise-me-up",
+    "family": "song",
+    "featuredRank": 132,
+    "published": true
+  },
+  {
+    "id": "tears-in-heaven",
+    "slug": "tears-in-heaven",
+    "family": "song",
+    "featuredRank": 133,
+    "published": true
   }
 ]
