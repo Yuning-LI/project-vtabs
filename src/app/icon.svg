@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" fill="#ffffff" />
 
-  <g transform="translate(-3.8 -1.6) scale(0.625) rotate(-13 48 39)">
+  <g transform="translate(-5.15 1.7) scale(0.625) rotate(-13 48 39)">
     <path
       d="M45,98c-6,0,-6,0,-6,-20c-2,-4,-2,-4,-6,-6c-40,-10,-40,-34,25,-50c80,-20,80,-8,10,40c-8,6,-8,6,-12,20l-4,14c-1,2,-1,2,-8,2"
       fill="#b7da8b"
