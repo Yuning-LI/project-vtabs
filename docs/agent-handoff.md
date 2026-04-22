@@ -21,6 +21,20 @@
 - `reference/songs/<slug>.json` 只保留给本地导歌 / 调试 fallback
 - deployable runtime archive 在 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
 
+## 最新补充（2026-04-22）
+
+- 站点正式 `icon.svg` 当前已定稿为白底 `C5` 陶笛指法图版本。
+- 当前图标约束是：
+  - 白底
+  - 浅绿色主体
+  - 黑色粗外轮廓
+  - 黑色孔位
+- 如果后续继续改 icon，优先只动 `src/app/icon.svg` 的 `transform` 位移参数；不要在没有明确要求时顺手换色、换指法或改成别的乐器。
+- 本地外链分发成品当前保留在：
+  - `exports/ocarina-c5-logo.png`
+  - `exports/ocarina-c5-logo.jpg`
+- 下面这些 2026-04-20 的内容仍然有效：
+
 ## 最新补充（2026-04-20）
 
 - 当前工作区公开曲库数量已更新为 `130`。

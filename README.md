@@ -78,6 +78,15 @@
 - `Fingering + Lyrics` 已移除。
 - 字母谱不是新开一轨，而是直接复用简谱那一轨的位置、间距、节拍、歌词、指法图，只把数字替换成字母音名。
 
+## 2026-04-22 补充状态
+
+- 站点正式 `icon.svg` 当前已定稿为白底 `C5` 陶笛指法图版本。
+- 当前定稿图标使用浅绿色主体、黑色粗轮廓与黑色孔位，面向 favicon / 外链 logo 两种场景统一识别。
+- 本地图标外链导出成品当前保留在：
+  - `exports/ocarina-c5-logo.png`
+  - `exports/ocarina-c5-logo.jpg`
+- 如果后续再次微调 icon，优先只改 `src/app/icon.svg`，导出图仅作为本地分发产物，不属于站点正式运行依赖。
+
 ## 2026-04-02 补充状态
 
 - 公开 runtime 现已默认注入 `runtime_text_mode=english`。
