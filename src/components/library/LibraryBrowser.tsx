@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 type LibrarySong = {
@@ -126,16 +127,54 @@ export default function LibraryBrowser({
         }
       >
         <div className="flex flex-col gap-2 md:gap-3">
-          <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
-            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-2 xl:flex-1 xl:pr-4">
-              <input
-                type="search"
-                value={query}
-                onChange={event => setQuery(event.target.value)}
-                placeholder="Search titles like fur elise, to alice, twinkle, scarborough, or jingle bells"
-                className="page-warm-input w-full py-3 md:py-[0.9rem] xl:max-w-[40rem]"
-                aria-label="Search song titles"
-              />
+          <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-start">
+            <div className="flex min-w-0 flex-col gap-2 md:flex-row md:items-center md:gap-2">
+              <div className="relative min-w-0 flex-1 xl:w-[40rem] xl:flex-none">
+                <Search
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500"
+                />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={event => setQuery(event.target.value)}
+                  placeholder="Search titles like fur elise, to alice, twinkle, scarborough, or jingle bells"
+                  className="page-warm-input w-full py-3 pr-11 md:py-[0.9rem]"
+                  aria-label="Search song titles"
+                />
+              </div>
+              <div className="flex flex-wrap items-center gap-2 rounded-full border border-[rgba(154,126,91,0.18)] bg-white/72 px-2 py-1 shadow-[0_10px_24px_rgba(120,93,61,0.08)]">
+                <button
+                  type="button"
+                  onClick={() => setSortMode('featured')}
+                  className={
+                    sortMode === 'featured'
+                      ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
+                      : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
+                  }
+                >
+                  Featured
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSortMode('az')}
+                  className={
+                    sortMode === 'az'
+                      ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
+                      : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
+                  }
+                >
+                  A–Z
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowMobileFilters(current => !current)}
+                  className="page-warm-pill-muted px-3 py-2 text-sm font-semibold md:hidden"
+                  aria-expanded={showMobileFilters}
+                >
+                  {showMobileFilters ? 'Hide Filters' : 'Filter Songs'}
+                </button>
+              </div>
               {query ? (
                 <button
                   type="button"
@@ -145,38 +184,6 @@ export default function LibraryBrowser({
                   Clear
                 </button>
               ) : null}
-            </div>
-            <div className="flex flex-wrap gap-2 xl:shrink-0">
-              <button
-                type="button"
-                onClick={() => setSortMode('featured')}
-                className={
-                  sortMode === 'featured'
-                    ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
-                    : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
-                }
-              >
-                Featured
-              </button>
-              <button
-                type="button"
-                onClick={() => setSortMode('az')}
-                className={
-                  sortMode === 'az'
-                    ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
-                    : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
-                }
-              >
-                A–Z
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowMobileFilters(current => !current)}
-                className="page-warm-pill-muted px-3 py-2 text-sm font-semibold md:hidden"
-                aria-expanded={showMobileFilters}
-              >
-                {showMobileFilters ? 'Hide Filters' : 'Filter Songs'}
-              </button>
             </div>
           </div>
 
