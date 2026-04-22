@@ -33,7 +33,12 @@ export async function GET(
    */
   const payload = loadKuailepuSongPayload(params.id)
   if (!payload) {
-    return new NextResponse('Song not found', { status: 404 })
+    return new NextResponse('Song not found', {
+      status: 404,
+      headers: {
+        'X-Robots-Tag': 'noindex, nofollow, noarchive'
+      }
+    })
   }
 
   const { searchParams } = new URL(request.url)
@@ -100,7 +105,8 @@ export async function GET(
   return new NextResponse(html, {
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'no-store'
+      'cache-control': 'no-store',
+      'X-Robots-Tag': 'noindex, nofollow, noarchive'
     }
   })
 }

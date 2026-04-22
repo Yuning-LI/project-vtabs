@@ -7,9 +7,9 @@ import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
 export const metadata: Metadata = {
-  title: 'Play By Fingering | Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes',
+  title: 'Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes',
   description:
-    'PlayByFingering offers letter-note melody pages for ocarina, recorder, and tin whistle, with tabs-style reading, finger charts, optional numbered notes, and switchable instrument views on supported songs.',
+    'Browse letter-note melody pages for ocarina, recorder, and tin whistle, with tabs-style reading, finger charts, optional numbered notes, and switchable instrument views on supported songs.',
   alternates: {
     canonical: '/'
   },

@@ -23,6 +23,15 @@
 
 ## 最新补充（2026-04-22）
 
+- 公开页面 title 现在明确按“SEO 长尾优先、品牌词让位”处理：
+  - 首页、`/learn`、`/learn/[slug]`、`/song/[slug]` 这类公开入口页，不要为了统一品牌而机械追加 `| Play By Fingering`
+  - 如果 title 空间有限，优先保留乐器词、tabs / notes / letter notes / fingering chart 这类搜索词
+  - `openGraph.siteName`、站点级 metadata、站内正文可以保留品牌，但不要让品牌词挤占公开长尾落地页的 title 词位
+- `/api/kuailepu-runtime/<slug>` 虽然挂在 `api/` 下，但返回的是一整页 runtime HTML，不是 JSON
+  - 这类 URL 不是公开 SEO 落地页
+  - 不应让 GSC / Google 收录，否则会制造 query 变体索引并稀释 `/song/<slug>` 的抓取与展示
+  - 当前已经在响应头显式返回 `X-Robots-Tag: noindex, nofollow, noarchive`
+  - 如果以后看到 GSC 里还有这类 URL，不要第一反应去掉 `noindex`；应先等 Google 重抓，必要时再用 GSC Removals 做临时隐藏
 - 站点正式 `icon.svg` 当前已定稿为白底 `C5` 陶笛指法图版本。
 - 当前图标约束是：
   - 白底

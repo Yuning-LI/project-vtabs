@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const canonicalUrl = `${siteUrl}/song/${song?.slug || id}`
   const shareTitle =
     presentation?.metaTitle && presentation.metaTitle.trim().length > 0
-      ? `${presentation.metaTitle} | Play by Fingering`
+      ? presentation.metaTitle
       : primaryAlias
         ? `${songName} (${primaryAlias}) | Ocarina Tabs, Recorder & Tin Whistle Notes`
         : `${songName} | Ocarina Tabs, Recorder & Tin Whistle Notes`

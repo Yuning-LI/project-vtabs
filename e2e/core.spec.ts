@@ -20,7 +20,7 @@ test.describe('runtime-backed song pages', () => {
   test('homepage shows English song cards for public songs', async ({ page }) => {
     await page.goto('/')
 
-    await expect(page).toHaveTitle(/Play By Fingering/)
+    await expect(page).toHaveTitle(/Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes/)
     await expect(
       page.getByRole('heading', {
         name: 'PlayByFingering',

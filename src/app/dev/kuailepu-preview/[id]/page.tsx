@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import fs from 'node:fs'
 import path from 'node:path'
 import { notFound } from 'next/navigation'
@@ -5,6 +6,17 @@ import JianpuRenderer from '@/components/song/JianpuRenderer'
 import { buildKuailepuRenderablePreview } from '@/lib/songbook/kuailepuImport'
 
 export const dynamic = 'force-dynamic'
+
+export function generateMetadata({ params }: { params: { id: string } }): Metadata {
+  return {
+    title: `${params.id} Kuailepu Preview`,
+    description: 'Internal local preview route for reviewing imported Kuailepu notation payloads.',
+    robots: {
+      index: false,
+      follow: false
+    }
+  }
+}
 
 /**
  * 本地快乐谱导入预览页。

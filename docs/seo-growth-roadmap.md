@@ -181,9 +181,21 @@ Metadata 审计结果：
 
 - `/learn` + `39` 个 `/learn/[slug]` 页面，共 `40` 页。
 - `generateMetadata` 已改为直接使用每页独立 metadata，不再统一追加 `| Play By Fingering`，避免 title 被动超长和同质化。
+- 这条经验应继续外推到公开 SEO 落地页：如果品牌词和长尾搜索词抢字符预算，优先保留长尾词，不要为了品牌统一强塞 `Play By Fingering`。
 - `how-to-read-letter-notes` 的 title 已缩短。
 - `12-hole-ocarina-letter-notes` 与 `6-hole-ocarina-letter-notes` 的 description 已缩短。
 - 当前全量审计结果为：`title < 60`、`description < 160`、title 与 description 均 `100%` 唯一，`badCount = 0`。
+
+Runtime route indexing guard:
+
+- `/api/kuailepu-runtime/<slug>` 返回的是 runtime HTML，不是公开 SEO landing page。
+- 这类 URL 当前必须继续返回：
+  - `X-Robots-Tag: noindex, nofollow, noarchive`
+- 原因：
+  - query 参数会放大索引变体
+  - 会稀释 `/song/<slug>` 的抓取与展示
+  - 不应该把 crawl budget 花在 runtime frame URL 上
+- 如果 GSC 里还残留历史已收录的 runtime URL，先让 Google 重新抓到 `noindex`，必要时再用 GSC Removals 做临时隐藏；不要先只靠 `robots.txt` 封死。
 
 后续执行顺序：
 

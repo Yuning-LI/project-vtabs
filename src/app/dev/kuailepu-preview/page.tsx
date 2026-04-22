@@ -1,8 +1,17 @@
+import type { Metadata } from 'next'
 import fs from 'node:fs'
 import path from 'node:path'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
+export const metadata: Metadata = {
+  title: 'Kuailepu Song Candidates',
+  description: 'Internal local preview index for Kuailepu import candidates.',
+  robots: {
+    index: false,
+    follow: false
+  }
+}
 
 /**
  * 本地快乐谱预览索引页。

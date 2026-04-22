@@ -26,6 +26,15 @@
 
 ### 1.1 2026-04-22 最新补充
 
+- 公开页面 title 当前明确按“SEO 长尾优先、品牌词让位”处理：
+  - 首页、`/learn`、`/learn/[slug]`、`/song/[slug]` 这类公开 SEO 落地页，不要为了统一样式机械追加 `| Play By Fingering`
+  - title 字符预算优先让给 `ocarina tabs`、`recorder notes`、`tin whistle letter notes`、`fingering chart`、曲名别名等真实搜索词
+  - 品牌更适合留在 `openGraph.siteName`、站点级 metadata fallback 或正文里，不适合挤占长尾落地页 title
+- `/api/kuailepu-runtime/<slug>` 虽然路径在 `api/` 下，但实际返回的是 runtime HTML，不是 JSON API
+  - 这类 URL 不是公开 SEO 落地页
+  - 当前响应头已显式加上 `X-Robots-Tag: noindex, nofollow, noarchive`
+  - 这样做是为了避免 runtime query 变体被 GSC / Google 收录，稀释真正该排名的 `/song/<slug>` 页面
+  - 以后如果 GSC 里还看到历史已收录的 `/api/kuailepu-runtime/...`，先等 Google 重抓并读到 `noindex`，必要时再配合 GSC Removals；不要先用 `robots.txt` 把这条路彻底挡死，否则 Google 反而可能读不到 `noindex`
 - 站点正式 `icon.svg` 当前已定稿为白底 `C5` 陶笛指法图版本。
 - 当前图标视觉约束：
   - 白底
@@ -1013,6 +1022,8 @@
 - 标题、描述、正文、FAQ 都保持英文
 - 内容围绕曲目本身
 - 自然覆盖高价值搜索词
+- 如果 title 字符预算有限，优先把空间让给真实搜索意图词，而不是品牌词
+- `Play By Fingering` 不应机械追加到所有公开长尾页 title 末尾
 
 ### 13.2 高价值关键词方向
 
@@ -1044,6 +1055,17 @@
 - 任何把第三方来源直接暴露给 Google 用户的措辞
 
 内部 `source` 字段仍然保留在 catalog 中，只用于内部审计和版权自查。
+
+### 13.4 非落地页索引边界
+
+- `/api/kuailepu-runtime/<slug>` 返回的是 runtime HTML，不是给搜索用户点击的公开落地页。
+- 这类 URL 当前必须继续保持：
+  - `X-Robots-Tag: noindex, nofollow, noarchive`
+- 原因：
+  - 会生成大量 query 变体
+  - 会稀释 `/song/<slug>` 的抓取与索引信号
+  - 不属于需要在 GSC 里增长 impression / click 的页面类型
+- 如果未来要继续调 `robots.txt`，先确认不会妨碍 Google 重抓并读取这条 `noindex` 头。
 
 ## 14. 常见坑与排障顺序
 
