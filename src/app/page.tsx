@@ -3,15 +3,31 @@ import Link from 'next/link'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
 import LibraryBrowser from '@/components/library/LibraryBrowser'
 import { getFeaturedLearnGuideCards, getLearnGuideUrl } from '@/lib/learn/content'
+import { siteUrl } from '@/lib/site'
 import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
+const homepageTitle = 'Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes'
+const homepageDescription =
+  'Explore ocarina tabs, recorder notes, and tin whistle letter notes with fingering charts, optional numbered notes, and switchable song views.'
+
 export const metadata: Metadata = {
-  title: 'Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes',
-  description:
-    'Browse letter-note melody pages for ocarina, recorder, and tin whistle, with tabs-style reading, finger charts, optional numbered notes, and switchable instrument views on supported songs.',
+  title: homepageTitle,
+  description: homepageDescription,
   alternates: {
     canonical: '/'
+  },
+  openGraph: {
+    type: 'website',
+    url: siteUrl,
+    title: homepageTitle,
+    description: homepageDescription,
+    siteName: 'Play By Fingering'
+  },
+  twitter: {
+    card: 'summary',
+    title: homepageTitle,
+    description: homepageDescription
   },
   robots: {
     index: true,
@@ -75,9 +91,8 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'PlayByFingering',
-    url: 'https://www.playbyfingering.com/',
-    description:
-      'Public melody pages with letter notes, optional numbered notes, tabs-style reading, and finger charts for ocarina, recorder, and tin whistle players.'
+    url: `${siteUrl}/`,
+    description: homepageDescription
   }
   const guideItemListJsonLd = {
     '@context': 'https://schema.org',

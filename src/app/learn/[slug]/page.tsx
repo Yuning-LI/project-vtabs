@@ -23,12 +23,25 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   if (!metadata) {
     return {}
   }
+  const canonicalUrl = getLearnGuideUrl(params.slug)
 
   return {
     title: metadata.title,
     description: metadata.description,
     alternates: {
-      canonical: getLearnGuideUrl(params.slug)
+      canonical: canonicalUrl
+    },
+    openGraph: {
+      type: 'article',
+      url: canonicalUrl,
+      title: metadata.title,
+      description: metadata.description,
+      siteName: 'Play By Fingering'
+    },
+    twitter: {
+      card: 'summary',
+      title: metadata.title,
+      description: metadata.description
     },
     robots: {
       index: true,

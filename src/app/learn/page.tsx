@@ -4,12 +4,27 @@ import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
 import { getFeaturedLearnGuideCards, getLearnGuideCards, getLearnGuideUrl } from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
 
+const learnIndexTitle = 'Learn Song Guides, Tabs, and Finger Charts'
+const learnIndexDescription =
+  'Browse beginner song guides, easy tabs, and fingering chart pathways for ocarina, recorder, and tin whistle players across public song pages.'
+
 export const metadata: Metadata = {
-  title: 'Learn Song Guides, Tabs, and Finger Charts',
-  description:
-    'Browse beginner song guides, easy tabs, and finger chart pathways for ocarina, recorder, and tin whistle players.',
+  title: learnIndexTitle,
+  description: learnIndexDescription,
   alternates: {
     canonical: `${siteUrl}/learn`
+  },
+  openGraph: {
+    type: 'website',
+    url: `${siteUrl}/learn`,
+    title: learnIndexTitle,
+    description: learnIndexDescription,
+    siteName: 'Play By Fingering'
+  },
+  twitter: {
+    card: 'summary',
+    title: learnIndexTitle,
+    description: learnIndexDescription
   },
   robots: {
     index: true,
