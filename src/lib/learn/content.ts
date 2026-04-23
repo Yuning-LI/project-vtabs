@@ -337,17 +337,17 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'hub',
     title: '12-Hole Ocarina Letter Notes',
     description:
-      'A public guide for players who want easy-to-read ocarina letter-note songs with fingering charts, switchable numbered notes, and beginner-friendly starting points.',
+      'A public guide for players searching 12-hole ocarina letter notes, easy tabs, and finger chart songs with beginner-friendly starting points.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'This page gathers the song pages that work best as a first stop for players searching for 12-hole ocarina letter notes. The goal is not to replace the song library, but to give search users a more obvious way to begin.',
-      'Every linked melody still opens the same public song page, so visitors can keep the fingering chart visible, switch to numbered notes when needed, and stay inside the same page shell.'
+      'This page gathers the song pages that work best as a first stop for players searching for 12-hole ocarina letter notes, 12-hole ocarina notes, or an easy finger chart song list. The goal is not to replace the song library, but to give search users a clearer way to begin.',
+      'Every linked melody still opens the same public song page, so visitors can keep the fingering chart visible, switch to numbered notes when needed, and stay inside the same page shell instead of jumping between disconnected tab images.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
       'mary-had-a-little-lamb',
+      'lightly-row',
       'frere-jacques',
-      'london-bridge',
       'ode-to-joy',
       'amazing-grace'
     ],
@@ -355,13 +355,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'Where Most Players Should Start',
         paragraphs: [
-          'The best opening set for 12-hole ocarina readers is a small group of tunes with short phrases, familiar melodies, and enough repetition to make the letter-note view feel useful right away.',
-          'That is why this guide starts with nursery and folk standards before moving on to longer hymn or classical melodies.'
+          'The best opening set for 12-hole ocarina readers is a small group of tunes with short phrases, familiar melodies, and enough repetition to make the letter-note view and finger chart feel useful right away.',
+          'That is why this guide starts with nursery and teaching standards before moving on to longer hymn or classical melodies that still behave well as easy tabs.'
         ],
         songSlugs: [
           'twinkle-twinkle-little-star',
           'mary-had-a-little-lamb',
-          'london-bridge',
+          'lightly-row',
           'frere-jacques'
         ]
       },
@@ -411,18 +411,18 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'guide',
     title: 'Easy 12-Hole Ocarina Songs',
     description:
-      'A beginner-focused 12-hole ocarina guide with familiar songs, letter notes, and direct links into the main public song pages that already support fingering charts and switchable note labels.',
+      'A beginner-focused 12-hole ocarina guide with easy songs, letter notes, beginner tabs, and finger charts for familiar melody practice.',
     heroLabel: 'Beginner Guide',
     intro: [
-      'This page is for visitors who already know they want easy 12-hole ocarina songs and do not need a mixed-instrument landing page first. It narrows the site down to a cleaner first batch of melodies that fit the standard 12-hole public view well.',
-      'The linked songs still use the same public detail pages. This guide simply gives beginners a more obvious first path and a better search landing page for 12-hole-specific intent.'
+      'This page is for visitors who already know they want easy 12-hole ocarina songs and do not need a mixed-instrument landing page first. It narrows the site down to a cleaner first batch of melodies that fit the standard 12-hole public view well and answer the usual 12-hole ocarina songs or 12-hole ocarina notes search intent more directly.',
+      'The linked songs still use the same public detail pages. This guide simply gives beginners a more obvious first path, stronger finger-chart context, and a better search landing page for 12-hole-specific intent.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
+      'lightly-row',
       'happy-birthday-to-you',
       'ode-to-joy',
       'jingle-bells',
-      'silent-night',
       'amazing-grace'
     ],
     sections: [
@@ -430,11 +430,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'First Songs That Build Reading Confidence',
         paragraphs: [
           'The strongest first songs for a 12-hole beginner are not necessarily the shortest songs in the library. They are the songs where the phrase shape is easy to hear, the note movement is memorable, and the fingering chart stays readable without feeling crowded.',
-          'That is why this guide begins with nursery standards and sing-along melodies before moving into the holiday and hymn tunes that beginners often search for next.'
+          'That is why this guide begins with nursery standards, teaching tunes, and sing-along melodies before moving into the holiday and hymn tunes that beginners often search for next.'
         ],
         songSlugs: [
           'twinkle-twinkle-little-star',
           'mary-had-a-little-lamb',
+          'lightly-row',
           'frere-jacques',
           'happy-birthday-to-you'
         ]
@@ -794,19 +795,19 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'guide',
     title: 'How to Start Recorder With Letter Notes',
     description:
-      'A practical starter guide for beginners and teachers who want to begin recorder with letter notes, simple songs, and a clear bridge between melody reading and finger patterns.',
+      'A practical starter guide for beginners and teachers who want to start recorder with letter notes, easy songs, and a clear bridge into simple finger patterns.',
     heroLabel: 'Starter Guide',
     intro: [
-      'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want a handful of familiar songs, a readable note layer, and a practice flow that works in short lessons.',
-      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players and classroom use.'
+      'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want recorder letter notes, a handful of familiar songs, and a practice flow that works in short lessons or classroom warmups.',
+      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players, teachers, and home practice built around easy beginner recorder songs.'
     ],
     featuredSongSlugs: withInstrument(
       [
         'twinkle-twinkle-little-star',
         'mary-had-a-little-lamb',
+        'lightly-row',
         'frere-jacques',
         'ode-to-joy',
-        'jingle-bells',
         'happy-birthday-to-you'
       ],
       'r8b'
@@ -816,12 +817,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'Best Recorder Songs For The First Lessons',
         paragraphs: [
           'The strongest first recorder pages are the ones that keep the melody familiar and the reading load light. That lets the student connect note names, finger changes, and breath timing without getting lost in staff-heavy notation or a long tune.',
-          'Short nursery songs and birthday melodies are especially useful because the phrase shapes repeat and the tune is already easy to recognize.'
+          'Short nursery songs, teaching tunes, and birthday melodies are especially useful because the phrase shapes repeat and the tune is already easy to recognize.'
         ],
         songSlugs: withInstrument(
           [
             'twinkle-twinkle-little-star',
             'mary-had-a-little-lamb',
+            'lightly-row',
             'frere-jacques',
             'happy-birthday-to-you'
           ],
@@ -1399,20 +1401,20 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'hub',
     title: 'Easy Recorder Songs for Beginners',
     description:
-      'A recorder-first beginner guide for familiar songs with letter notes, fingering support, and a cleaner path into the public melody library.',
+      'A recorder-first beginner guide for easy songs, letter notes, and finger-chart support with a cleaner path into the public melody library.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'Some searchers are not looking for recorder theory or a full catalog. They want easy recorder songs they can recognize quickly and start reading in letter notes right away.',
+      'Some searchers are not looking for recorder theory or a full catalog. They want easy recorder songs, simple recorder songs, and beginner tunes they can recognize quickly and start reading in letter notes right away.',
       'This page gives that narrower entry point while still routing every click into the same public song pages, now landing in recorder view by default so the first click matches recorder-specific intent more closely.'
     ],
     featuredSongSlugs: withInstrument(
       [
-      'mary-had-a-little-lamb',
-      'row-row-row-your-boat',
-      'frere-jacques',
-      'old-macdonald',
-      'happy-birthday-to-you',
-      'ode-to-joy'
+        'mary-had-a-little-lamb',
+        'lightly-row',
+        'row-row-row-your-boat',
+        'frere-jacques',
+        'old-macdonald',
+        'ode-to-joy'
       ],
       'r8b'
     ),
@@ -1420,14 +1422,16 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'Best First Recorder Songs On This Site',
         paragraphs: [
-          'The strongest first recorder songs are the ones students already know by ear. That keeps practice focused on finger movement, phrase entry, and steady breathing instead of on trying to remember the tune itself.'
+          'The strongest first recorder songs are the ones students already know by ear. That keeps practice focused on finger movement, phrase entry, and steady breathing instead of on trying to remember the tune itself.',
+          'That is why the list leans on simple recorder songs from nursery, classroom, and first-lesson traditions before moving into longer public melody pages.'
         ],
         songSlugs: withInstrument(
           [
-          'mary-had-a-little-lamb',
-          'row-row-row-your-boat',
-          'frere-jacques',
-          'old-macdonald'
+            'mary-had-a-little-lamb',
+            'lightly-row',
+            'row-row-row-your-boat',
+            'frere-jacques',
+            'old-macdonald'
           ],
           'r8b'
         )
@@ -3321,16 +3325,18 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   Record<string, Pick<LearnGuideDefinition, 'heroSummary' | 'metaTitle' | 'metaDescription'>>
 > = {
   '12-hole-ocarina-letter-notes': {
+    metaTitle: '12-Hole Ocarina Letter Notes, Easy Tabs, and Finger Charts',
     heroSummary: [
-      'Players who search for 12-hole ocarina letter notes are usually looking for recognizable melodies, easy tabs, and a finger chart that turns tune memory into finger movement without forcing them through full staff notation first. This hub gathers that exact use case around songs that already work well on a standard 12-hole instrument, including nursery standards, hymns, holiday melodies, and slow classical themes that keep the page readable while breath support is still developing.',
+      'Players who search for 12-hole ocarina letter notes are usually looking for recognizable melodies, easy tabs, 12-hole ocarina notes, and a finger chart that turns tune memory into finger movement without forcing them through full staff notation first. This hub gathers that exact use case around songs that already work well on a standard 12-hole instrument, including nursery standards, first-lesson tunes, hymns, holiday melodies, and slow classical themes that keep the page readable while breath support is still developing.',
       'That mix matters because the 12-hole ocarina rewards stable phrasing and familiar contour more than random tab collections. Many of these melodies come from public-domain traditions that beginners already know by ear, so the letter-note layer and fingering chart become practical learning tools instead of decoration. Use this page when you want a clean first stop for beginner ocarina repertoire, direct song links, and public melody pages that still let you move into numbered notes only when you actually need the backup view.'
     ],
     metaDescription:
-      '12-hole ocarina letter notes with easy tabs, finger charts, and beginner-friendly songs for nursery, folk, hymn, and holiday practice.'
+      '12-hole ocarina letter notes with easy tabs, finger charts, and beginner songs for nursery, teaching, folk, hymn, holiday, and first-lesson practice.'
   },
   'easy-12-hole-ocarina-songs': {
+    metaTitle: 'Easy 12-Hole Ocarina Songs with Letter Notes',
     metaDescription:
-      'Easy 12-hole ocarina songs with letter notes, finger charts, and beginner tabs for familiar melodies, hymns, and holiday tunes.'
+      'Easy 12-hole ocarina songs with letter notes, finger charts, and beginner tabs for familiar melodies, teaching tunes, hymns, and holiday tunes.'
   },
   '6-hole-ocarina-letter-notes': {
     heroSummary: [
@@ -3359,8 +3365,9 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Learn how to start ocarina with letter notes, beginner songs, and visual charts that turn familiar tunes into a first practice routine.'
   },
   'how-to-start-recorder-with-letter-notes': {
+    metaTitle: 'How to Start Recorder with Letter Notes and Easy Songs',
     metaDescription:
-      'Start recorder with letter notes, easy classroom songs, and finger charts that connect melody reading to simple finger patterns.'
+      'Start recorder with letter notes, easy classroom songs, and finger charts that connect beginner melody reading to simple finger patterns at home or in class.'
   },
   'how-to-start-tin-whistle-with-letter-notes': {
     metaDescription:
@@ -3387,12 +3394,13 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Easy Christmas ocarina songs with letter notes, visual charts, and beginner-friendly carols for seasonal practice and performances.'
   },
   'easy-recorder-songs-for-beginners': {
+    metaTitle: 'Easy Recorder Songs for Beginners with Letter Notes',
     heroSummary: [
-      'Recorder beginners usually need songs that feel playable in a school week, not a giant archive of mixed repertoire. This hub focuses on that first practical batch: melodies students already know, rhythms teachers can count aloud, and note patterns that make sense on an eight-hole recorder without forcing dense staff reading. It is built for classroom warmups, first solos, and home review sessions where easy tabs and a finger chart are more useful than a formal method-book page.',
+      'Recorder beginners usually need songs that feel playable in a school week, not a giant archive of mixed repertoire. This hub focuses on that first practical batch: easy recorder songs students already know, rhythms teachers can count aloud, and note patterns that make sense on an eight-hole recorder without forcing dense staff reading. It is built for classroom warmups, first solos, and home review sessions where easy tabs and a finger chart are more useful than a formal method-book page.',
       'The strongest songs here come from nursery rhyme, holiday, and public-domain teaching traditions because they are memorable, singable, and easy to recheck by ear. That is exactly why recorder teachers keep returning to them. A familiar melody lets beginners notice finger changes, breath release, and articulation instead of guessing what the tune should sound like. Use this page when you want a recorder-first route into truly beginner-friendly songs, direct links into the public library, and practice material that feels realistic for school music and home repetition.'
     ],
     metaDescription:
-      'Easy recorder songs for beginners with letter notes, finger charts, and classroom-friendly melody pages for first solos and home practice.'
+      'Easy recorder songs for beginners with letter notes, finger charts, and classroom-friendly melody pages for first lessons, solos, and home practice.'
   },
   'easy-tin-whistle-songs': {
     heroSummary: [
