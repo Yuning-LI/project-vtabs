@@ -929,5 +929,26 @@
     "family": "song",
     "featuredRank": 133,
     "published": true
+  },
+  {
+    "id": "la-vie-en-rose",
+    "slug": "la-vie-en-rose",
+    "family": "song",
+    "featuredRank": 134,
+    "published": true
+  },
+  {
+    "id": "do-re-mi",
+    "slug": "do-re-mi",
+    "family": "song",
+    "featuredRank": 135,
+    "published": true
+  },
+  {
+    "id": "moon-represents-my-heart",
+    "slug": "moon-represents-my-heart",
+    "family": "song",
+    "featuredRank": 136,
+    "published": true
   }
 ]

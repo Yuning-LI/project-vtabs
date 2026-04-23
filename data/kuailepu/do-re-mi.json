@@ -1,0 +1,45 @@
+{
+  "id": "do-re-mi",
+  "slug": "do-re-mi",
+  "title": "Do-Re-Mi",
+  "description": "Do-Re-Mi melody page with letter notes and fingering-chart support for ocarina, recorder, and tin whistle players.",
+  "published": true,
+  "alignedLyrics": [
+    "Do 是 一 只 小 母 鹿， Re 是 金 色 阳 _ 光 _",
+    "Mi 是 称 呼 我 自 己， Fa 是 道 路 远 又 长 _",
+    "Sol 是 穿 针 又 引 线， _ La 这 音 符 紧 跟 Sol _",
+    "Ti 是 饮 料 茶 _ 点， _ 然 后 我 们 再 唱 Do oh oh oh! Do",
+    "_ Do Re Mi Fa Sol La ti Do _ _ Sol Do _ _"
+  ],
+  "extraLyrics": [
+    "doe a deer, a fe- male deer， ray a drop of gold- en sun _",
+    "me a name I call my- self， far a long long way to run _",
+    "sew a nee- dle pull- ing thread， _ la a note to fol- low sew _",
+    "tea a drink with jam and bread， _",
+    "That will bring us back to"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/XU9Ef1zrd.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song XU9Ef1zrd on 2026-04-23."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-23",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1 - - 2 | 3 - - 1 | 3 - 1 - | 3 - - - | 2 - - 3 | 4 4 3 2 | 4 - - - | 4 - - - |",
+    "3 - - 4 | 5 - - 3 | 5 - 3 - | 5 - - - | 4 - - 5 | 6 6 5 4 | 6 - - - | 6 - - - |",
+    "5 - - 1 | 2 3 4 5 | 6 - - - | 6 - - - | 6 - - 2 | 3 #4 5 6 | 7 - - - | 7 - - - |",
+    "7 - - 3 | #4 #5 6 7 | 1' - - - | 1' - 7 b7 | 6 - 4 - | 7 - 5 - | 1 - 1' - 5 - | 3 - 2 - |",
+    "2 - 1' - - - | 1' - - - | 0 1 2 3 | 4 5 6 7 | 1' - - - | 1' - - - | 1' - 5 - | 1' - 0 0 | | |"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-20",
+  "updatedOn": "2026-04-23",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -312,6 +312,36 @@
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ewe9w1KYz.html",
       "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+    },
+    {
+      "slug": "la-vie-en-rose",
+      "title": "La Vie En Rose",
+      "status": "imported-only",
+      "batch": "12",
+      "group": "song",
+      "addedOn": "2026-04-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3VaXk1QgT.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
+    },
+    {
+      "slug": "do-re-mi",
+      "title": "Do-Re-Mi",
+      "status": "imported-only",
+      "batch": "12",
+      "group": "musical",
+      "addedOn": "2026-04-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/XU9Ef1zrd.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
+    },
+    {
+      "slug": "moon-represents-my-heart",
+      "title": "The Moon Represents My Heart",
+      "status": "imported-only",
+      "batch": "12",
+      "group": "song",
+      "addedOn": "2026-04-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/NZsHa1HKq.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "id": "la-vie-en-rose",
+  "slug": "la-vie-en-rose",
+  "title": "La Vie En Rose",
+  "description": "La Vie En Rose melody page with letter notes and fingering-chart support for ocarina, recorder, and tin whistle players.",
+  "published": true,
+  "alignedLyrics": [
+    "I thought that love was just a word They sang a bout in songs I heard It took your",
+    "kiss es to rev eal That I was wrong, and love is real Hold me close and hold me fast This mag ic spell you",
+    "cast This is la vie en rose _ When you kiss me, Heav en sighs And though I close my",
+    "eyes I see la vie en rose _ When you press me to your",
+    "heart I\"m in a world a part A world where ros es bloom And when you speak An gels",
+    "sing from a bove Ev ery day words Seem to turn in to love songs Give your heart and soul to",
+    "me And life will al ways be La vie en",
+    "rose"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/3VaXk1QgT.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 3VaXk1QgT on 2026-04-23."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-04-23",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 3 3 3 | 1 7, 1 2 3 4 4 3 | 2 #1 2 3 4 5 5 4 |",
+    "3 2 3 4 5 5 5 5 | 5 5 #2 3 5 - - - | 1' - - 7 6 5 3 1' | 7 - - 6 5 3 1 7 |",
+    "6 - - 5 3 7, 1 7 | 6 - - - 5 - - - | 2' - - 1' 7 6 4 1' | 7 - - 6 5 4 2 7 |",
+    "6 - - 5 4 #1 2 7 | 6 - - - 5 - - - | 1' - - 7 6 5 3 1' |",
+    "7 - - 6 5 3 1 7 | 6 - - 5 3 7, 1 1' | 1' - - - - - - - | 2' 2' - 1' 2' 2' - 1' |",
+    "2' 2' - 1' 5 - - - | 2' 2' - 1' 2' 2' - 1' | 2' 2' - 1' 3' - 2' - | 1' - - 7 6 5 3 1' |",
+    "7 - - 6 5 3 1 7 | 6 - - 5 6 - 7 - |",
+    "1' - - - - - 0 0 |"
+  ]
+}
