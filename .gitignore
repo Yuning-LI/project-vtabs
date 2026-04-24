@@ -11,6 +11,8 @@ dist
 .vercel
 playwright-report
 test-results
+# Local exports: GSC csv dumps, screenshots, Pinterest drafts, PDFs, etc.
+# Keep them out of git and production by default.
 exports/
 private/
 staff-sources/
