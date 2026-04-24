@@ -43,16 +43,16 @@
 
 以 2026-04-24 当前工作区为准：
 
-- `data/songbook/public-song-manifest.json = 136`
-- `data/songbook/song-seo-profiles.json = 136`
-- `data/kuailepu-runtime/*.json = 136`
-- `data/kuailepu/*.json = 130`
-- `reference/songs/*.json = 137`
+- `data/songbook/public-song-manifest.json = 139`
+- `data/songbook/song-seo-profiles.json = 139`
+- `data/kuailepu-runtime/*.json = 139`
+- `data/kuailepu/*.json = 133`
+- `reference/songs/*.json = 140`
 
 说明：
 
-- `136` 代表当前公开 song page / deployable runtime 层口径。
-- `130` 的 `data/kuailepu/*.json` 是可提交的轻量导入结果数量，不等于公开页数量。
+- `139` 代表当前公开 song page / deployable runtime 层口径。
+- `133` 的 `data/kuailepu/*.json` 是可提交的轻量导入结果数量，不等于公开页数量。
 - 如果要确认哪些已经 push / live，先看 `git status --short --branch` 和 `git log --oneline origin/main..HEAD`。
 
 ## 网络协作规则

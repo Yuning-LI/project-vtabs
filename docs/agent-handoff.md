@@ -30,10 +30,10 @@
 
 以 2026-04-24 当前工作区为准：
 
-- `public-song-manifest = 136`
-- `song-seo-profiles = 136`
-- `data/kuailepu-runtime = 136`
-- `data/kuailepu = 130`
+- `public-song-manifest = 139`
+- `song-seo-profiles = 139`
+- `data/kuailepu-runtime = 139`
+- `data/kuailepu = 133`
 
 ## 3. 高优先约束
 

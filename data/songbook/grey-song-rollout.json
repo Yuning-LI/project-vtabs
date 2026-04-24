@@ -291,7 +291,7 @@
       "group": "instrumental",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xuKzf1jPZ.html",
-      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "casablanca",
@@ -301,7 +301,7 @@
       "group": "song",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/m5FGe1stl.html",
-      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "its-a-small-world",
@@ -311,37 +311,67 @@
       "group": "nursery",
       "addedOn": "2026-04-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ewe9w1KYz.html",
-      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local branch only; not pushed yet."
+      "notes": "Imported with content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "la-vie-en-rose",
       "title": "La Vie En Rose",
-      "status": "imported-only",
+      "status": "live",
       "batch": "12",
       "group": "song",
       "addedOn": "2026-04-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3VaXk1QgT.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "do-re-mi",
       "title": "Do-Re-Mi",
-      "status": "imported-only",
+      "status": "live",
       "batch": "12",
       "group": "musical",
       "addedOn": "2026-04-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/XU9Ef1zrd.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "moon-represents-my-heart",
       "title": "The Moon Represents My Heart",
-      "status": "imported-only",
+      "status": "live",
       "batch": "12",
       "group": "song",
       "addedOn": "2026-04-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/NZsHa1HKq.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Local working tree only; not committed or pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "edelweiss",
+      "title": "Edelweiss",
+      "status": "imported-only",
+      "batch": "13",
+      "group": "musical",
+      "addedOn": "2026-04-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/nEuye17kx.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare pending in the current local branch."
+    },
+    {
+      "slug": "sealed-with-a-kiss",
+      "title": "Sealed with a Kiss",
+      "status": "imported-only",
+      "batch": "13",
+      "group": "song",
+      "addedOn": "2026-04-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uKkVl1ws6.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare pending in the current local branch."
+    },
+    {
+      "slug": "moonlight-lover",
+      "title": "Moonlight Lover",
+      "status": "imported-only",
+      "batch": "13",
+      "group": "song",
+      "addedOn": "2026-04-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ehxZg1wuG.html",
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare pending in the current local branch."
     }
   ]
 }

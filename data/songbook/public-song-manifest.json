@@ -950,5 +950,26 @@
     "family": "song",
     "featuredRank": 136,
     "published": true
+  },
+  {
+    "id": "edelweiss",
+    "slug": "edelweiss",
+    "family": "song",
+    "featuredRank": 137,
+    "published": true
+  },
+  {
+    "id": "sealed-with-a-kiss",
+    "slug": "sealed-with-a-kiss",
+    "family": "song",
+    "featuredRank": 138,
+    "published": true
+  },
+  {
+    "id": "moonlight-lover",
+    "slug": "moonlight-lover",
+    "family": "song",
+    "featuredRank": 139,
+    "published": true
   }
 ]

@@ -182,6 +182,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'casablanca',
   'careless-whisper',
   'carrying-you',
+  'edelweiss',
   'going-home',
   'greensleeves',
   'hotel-california',
@@ -191,6 +192,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'londonderry-air',
   'lullaby',
   'merry-christmas-mr-lawrence',
+  'moonlight-lover',
   'my-heart-will-go-on',
   'moon-represents-my-heart',
   'moon-river',
@@ -206,6 +208,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'santa-lucia',
   'scarborough-fair',
   'schubert-serenade',
+  'sealed-with-a-kiss',
   'song-of-time',
   'speak-softly-love',
   'summer',
@@ -1846,10 +1849,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'we-wish-you-a-merry-christmas',
       'auld-lang-syne',
       'do-re-mi',
+      'edelweiss',
       'la-vie-en-rose',
       'scarborough-fair',
       'moon-river',
       'can-you-feel-the-love-tonight',
+      'sealed-with-a-kiss',
       'yesterday-once-more',
       'let-it-be',
       'take-me-home-country-roads',
@@ -1883,10 +1888,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'we-wish-you-a-merry-christmas',
           'auld-lang-syne',
           'do-re-mi',
+          'edelweiss',
           'la-vie-en-rose',
           'scarborough-fair',
           'moon-river',
           'can-you-feel-the-love-tonight',
+          'sealed-with-a-kiss',
           'yesterday-once-more',
           'let-it-be',
           'take-me-home-country-roads',
@@ -1909,7 +1916,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'If you want slower modern songs where the lyric line helps you hear the phrase shape, these pages are strong next choices after the best-known standards above.'
         ],
-        songSlugs: ['you-raise-me-up', 'tears-in-heaven']
+        songSlugs: ['edelweiss', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven']
       }
     ],
     faq: [
@@ -2899,8 +2906,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'scarborough-fair',
       'auld-lang-syne',
       'canon',
+      'edelweiss',
       'la-vie-en-rose',
+      'sealed-with-a-kiss',
       'moon-represents-my-heart',
+      'moonlight-lover',
       'happy-birthday-to-you',
       'moon-river',
       'can-you-feel-the-love-tonight',
@@ -2952,8 +2962,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'scarborough-fair',
           'auld-lang-syne',
           'canon',
+          'edelweiss',
           'la-vie-en-rose',
+          'sealed-with-a-kiss',
           'moon-represents-my-heart',
+          'moonlight-lover',
           'moon-river',
           'can-you-feel-the-love-tonight',
           'yesterday',
@@ -2992,7 +3005,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'la-vie-en-rose', 'moon-river', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'over-the-rainbow', 'hotel-california', 'lemon-tree', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'edelweiss', 'la-vie-en-rose', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'over-the-rainbow', 'hotel-california', 'lemon-tree', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -3095,10 +3108,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: [
       'amazing-grace',
       'air-on-the-g-string',
+      'edelweiss',
       'greensleeves',
       'going-home',
       'la-vie-en-rose',
+      'sealed-with-a-kiss',
       'moon-represents-my-heart',
+      'moonlight-lover',
       'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
@@ -3138,7 +3154,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'going-home', 'la-vie-en-rose', 'moon-river', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
+        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'edelweiss', 'going-home', 'la-vie-en-rose', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3151,14 +3167,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'la-vie-en-rose', 'moon-river', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
+        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'edelweiss', 'la-vie-en-rose', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'la-vie-en-rose', 'moonlight-sonata', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love', 'yesterday', 'over-the-rainbow', 'you-raise-me-up', 'tears-in-heaven']
+        songSlugs: ['scarborough-fair', 'sakura-sakura', 'edelweiss', 'la-vie-en-rose', 'moonlight-sonata', 'moon-represents-my-heart', 'moonlight-lover', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love', 'yesterday', 'over-the-rainbow', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven']
       }
     ],
     faq: [
