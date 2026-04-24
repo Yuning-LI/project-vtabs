@@ -138,19 +138,19 @@ export default function LibraryBrowser({
                   type="search"
                   value={query}
                   onChange={event => setQuery(event.target.value)}
-                  placeholder="Search titles like fur elise, to alice, twinkle, scarborough, or jingle bells"
+                  placeholder="Search songs"
                   className="page-warm-input w-full py-3 pr-11 md:py-[0.9rem]"
                   aria-label="Search song titles"
                 />
               </div>
-              <div className="flex flex-wrap items-center gap-2 rounded-full border border-[rgba(154,126,91,0.18)] bg-white/72 px-2 py-1 shadow-[0_10px_24px_rgba(120,93,61,0.08)]">
+              <div className="grid w-full grid-cols-3 gap-2 rounded-full border border-[rgba(154,126,91,0.18)] bg-white/72 px-2 py-1 shadow-[0_10px_24px_rgba(120,93,61,0.08)] md:flex md:w-auto md:flex-wrap md:items-center">
                 <button
                   type="button"
                   onClick={() => setSortMode('featured')}
                   className={
                     sortMode === 'featured'
-                      ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
-                      : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
+                      ? 'page-warm-pill-active px-2.5 py-2 text-center text-sm font-semibold md:px-4'
+                      : 'page-warm-pill-muted px-2.5 py-2 text-center text-sm font-semibold md:px-4'
                   }
                 >
                   Featured
@@ -160,8 +160,8 @@ export default function LibraryBrowser({
                   onClick={() => setSortMode('az')}
                   className={
                     sortMode === 'az'
-                      ? 'page-warm-pill-active px-3 py-2 text-sm font-semibold md:px-4'
-                      : 'page-warm-pill-muted px-3 py-2 text-sm font-semibold md:px-4'
+                      ? 'page-warm-pill-active px-2.5 py-2 text-center text-sm font-semibold md:px-4'
+                      : 'page-warm-pill-muted px-2.5 py-2 text-center text-sm font-semibold md:px-4'
                   }
                 >
                   A–Z
@@ -169,10 +169,10 @@ export default function LibraryBrowser({
                 <button
                   type="button"
                   onClick={() => setShowMobileFilters(current => !current)}
-                  className="page-warm-pill-muted px-3 py-2 text-sm font-semibold md:hidden"
+                  className="page-warm-pill-muted px-2.5 py-2 text-center text-sm font-semibold md:hidden"
                   aria-expanded={showMobileFilters}
                 >
-                  {showMobileFilters ? 'Hide Filters' : 'Filter Songs'}
+                  {showMobileFilters ? 'Hide' : 'Filter'}
                 </button>
               </div>
               {query ? (
@@ -301,9 +301,9 @@ function LibrarySongCard({ song }: { song: LibrarySongSearchResult }) {
   return (
     <Link
       href={`/song/${song.slug}`}
-      className="page-warm-card-link group block p-5 md:p-6"
+      className="page-warm-card-link group block p-4 md:p-6"
     >
-      <h3 className="text-xl font-semibold text-stone-900 transition group-hover:text-stone-700">
+      <h3 className="text-lg font-semibold leading-6 text-stone-900 transition group-hover:text-stone-700 md:text-xl">
         {song.title}
       </h3>
       {song.matchedAlias ? (

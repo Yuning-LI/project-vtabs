@@ -154,9 +154,7 @@ export default function Home() {
             PlayByFingering
           </h1>
           <p className="mt-1.5 text-sm leading-6 text-stone-700 md:text-[0.95rem]">
-            Letter-note melody pages for ocarina, recorder, and tin whistle, with fingering
-            charts, finger-chart-friendly layouts, optional numbered notes, and switchable
-            instrument views on supported songs.
+            Song pages with fingering charts for ocarina, recorder, and tin whistle.
           </p>
 
           <LibraryBrowser songs={librarySongs} familyFilters={familyFilters} embedded />
