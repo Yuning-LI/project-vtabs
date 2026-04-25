@@ -3439,11 +3439,8 @@
   },
   "la-vie-en-rose": {
     "aliases": [
-      "La Vie en Rose song",
       "Edith Piaf La Vie en Rose",
-      "La Vie en Rose melody",
-      "La Vie en Rose notes",
-      "玫瑰人生"
+      "La Vie en Rose Edith Piaf"
     ],
     "metaTitle": "La Vie En Rose Ocarina Tabs and Recorder Notes",
     "overview": "This La Vie En Rose page keeps the familiar chanson melody in a clean letter-note layout so you can practice the tune without switching between lyric sheets, staff-heavy arrangements, or scattered fan tabs. It is built for players who want a romantic standard that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3467,11 +3464,10 @@
   },
   "do-re-mi": {
     "aliases": [
-      "Do Re Mi song",
-      "Do-Re-Mi song",
+      "Do Re Mi",
       "Sound of Music Do Re Mi",
-      "Do Re Mi notes",
-      "哆来咪"
+      "Do-Re-Mi from The Sound of Music",
+      "Doe a Deer"
     ],
     "metaTitle": "Do-Re-Mi Ocarina Tabs and Recorder Notes",
     "overview": "This Do-Re-Mi page keeps the familiar Sound of Music melody in a clean letter-note layout so you can practice the tune without juggling classroom screenshots, mixed lyric sheets, or piano-vocal pages. It is built for players who want a recognizable sing-along melody that still stays readable as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3495,11 +3491,10 @@
   },
   "moon-represents-my-heart": {
     "aliases": [
-      "The Moon Represents My Heart",
       "Yue Liang Dai Biao Wo De Xin",
       "Teresa Teng The Moon Represents My Heart",
-      "Moon Represents My Heart song",
-      "月亮代表我的心"
+      "The Moon Represents My Heart Teresa Teng",
+      "Yue Liang Dai Biao Wo De Xin Teresa Teng"
     ],
     "metaTitle": "The Moon Represents My Heart Ocarina Tabs and Recorder Notes",
     "overview": "This The Moon Represents My Heart page keeps the well-known Teresa Teng melody in a clean letter-note layout so you can practice the song without relying on lyric videos, staff-heavy arrangements, or mixed screenshot tabs. It is built for players who want a lyrical Mandarin standard that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3523,10 +3518,9 @@
   },
   "edelweiss": {
     "aliases": [
-      "Sound of Music Edelweiss",
-      "Edelweiss song",
-      "Edelweiss notes",
-      "雪绒花"
+      "Edelweiss from The Sound of Music",
+      "The Sound of Music Edelweiss",
+      "Edelweiss Rodgers and Hammerstein"
     ],
     "metaTitle": "Edelweiss Ocarina Tabs and Recorder Notes",
     "overview": "This Edelweiss page keeps the familiar Sound of Music melody in a clean letter-note layout so you can practice the song without bouncing between lyric sheets, classroom screenshots, or piano-vocal arrangements. It is built for players who want a calm, highly recognizable sing-through melody that still feels readable as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3551,9 +3545,8 @@
   "sealed-with-a-kiss": {
     "aliases": [
       "Sealed With A Kiss",
-      "sealed with a kiss song",
       "Brian Hyland Sealed with a Kiss",
-      "Sealed with a Kiss notes"
+      "Sealed with a Kiss Brian Hyland"
     ],
     "metaTitle": "Sealed with a Kiss Ocarina Tabs and Recorder Notes",
     "overview": "This Sealed with a Kiss page keeps the familiar oldies melody in a clean letter-note layout so you can practice the song without piecing it together from lyric videos, guitar sites, or mixed screenshot tabs. It is built for players who want a slower nostalgic tune that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3577,10 +3570,10 @@
   },
   "moonlight-lover": {
     "aliases": [
-      "Yue Guang Ai Ren",
-      "Moonlight Lover song",
-      "Tan Dun Moonlight Lover",
-      "月光爱人"
+      "A Love Before Time",
+      "Moonlight Lover Coco Lee",
+      "CoCo Lee Moonlight Lover",
+      "Yue Guang Ai Ren"
     ],
     "metaTitle": "Moonlight Lover Ocarina Tabs and Recorder Notes",
     "overview": "This Moonlight Lover page keeps the lyrical melody in a clean letter-note layout so you can practice the song without relying on mixed screenshots, piano reductions, or lyric-only videos. It is built for players who want a slower expressive tune that still stays readable as a melody-first page on ocarina, recorder, or tin whistle.",
@@ -3599,6 +3592,85 @@
       {
         "question": "Why is Moonlight Lover useful for slower practice?",
         "answer": "Because the line is lyrical, expressive, and easy to shape as a sung contour, which makes it practical for breath-led phrasing and calm tone work."
+      }
+    ]
+  },
+  "romeo-and-juliet": {
+    "aliases": [
+      "Love Theme from Romeo and Juliet",
+      "A Time for Us",
+      "What Is a Youth",
+      "Romeo and Juliet love theme"
+    ],
+    "metaTitle": "Romeo and Juliet Ocarina Tabs and Recorder Notes",
+    "overview": "This Romeo and Juliet page keeps the familiar romantic theme in a clean letter-note layout so you can practice it without stitching together lyric pages, piano reductions, or mixed fan screenshots. It is built for players who want a slower dramatic melody that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Romeo and Juliet ocarina tabs",
+      "Romeo and Juliet recorder notes"
+    ],
+    "background": "Romeo and Juliet themes keep durable recognition across romantic-theme listeners, soundtrack searchers, and players looking for an expressive melody with immediate emotional identity. That gives this page real grey-song value as a slower dramatic tune that still works well in a single-line format without needing a full arrangement behind it.",
+    "practice": "The tune is useful for longer phrase control, softer note entries, and keeping a lyrical line connected through repeated rises and falls in the melody. It suits players who want a recognizable romantic theme that rewards breath-led phrasing more than speed or dense ornamentation.",
+    "metaDescription": "Play Romeo and Juliet with letter notes, recorder notes, and fingering chart support. A romantic theme for slower expressive practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the romantic Romeo and Juliet theme most players search for?",
+        "answer": "Yes. This page focuses on the familiar melody players usually mean when they search for Romeo and Juliet as a playable instrumental theme."
+      },
+      {
+        "question": "Why does Romeo and Juliet work well for lyrical practice?",
+        "answer": "Because the line is broad, memorable, and expressive, which makes it practical for slower phrasing work and controlled breath support."
+      }
+    ]
+  },
+  "memory-sky": {
+    "aliases": [
+      "Memory Sky Sojiro",
+      "Sojiro Memory Sky"
+    ],
+    "metaTitle": "Memory Sky Ocarina Tabs and Recorder Notes",
+    "overview": "This Memory Sky page keeps the familiar instrumental melody in a clean letter-note layout so you can practice it without relying on screenshot tabs, karaoke-style videos, or staff-heavy arrangements. It is built for players who want a calm reflective instrumental that still stays readable as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Memory Sky ocarina tabs",
+      "Memory Sky recorder notes"
+    ],
+    "background": "Memory Sky has practical crossover value for ocarina listeners, instrumental-melody searchers, and players looking for a softer new-age style tune that does not need lyrics to stay recognizable. That makes it a useful grey-song addition for calm practice and expressive instrumental play.",
+    "practice": "The melody is useful for steady breath pacing, smooth interval connection, and keeping a flowing line calm across repeated phrase returns. It suits players who want an instrumental page that feels reflective and melodic rather than rhythm-heavy or technically aggressive.",
+    "metaDescription": "Play Memory Sky with letter notes, recorder notes, and fingering chart support. A calm instrumental melody for reflective practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the instrumental often searched as Memory Sky?",
+        "answer": "Yes. This page focuses on the melody players usually mean when they search for Memory Sky and presents it as a melody-first practice page."
+      },
+      {
+        "question": "Why is Memory Sky useful for calm practice?",
+        "answer": "Because the tune is lyrical, flowing, and easy to shape as a continuous line, which makes it practical for breath control and gentle tone work."
+      }
+    ]
+  },
+  "childhood-memory": {
+    "aliases": [
+      "Bandari Childhood Memory",
+      "Childhood Memory Bandari",
+      "Bandari Childhood Memories",
+      "Childhood Memories Bandari"
+    ],
+    "metaTitle": "Childhood Memory Ocarina Tabs and Recorder Notes",
+    "overview": "This Childhood Memory page keeps the familiar Bandari instrumental melody in a clean letter-note layout so you can practice it without hunting through fan screenshots, lyric-free video uploads, or keyboard-only sheets. It is built for players who want a calm recognizable instrumental that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Childhood Memory ocarina tabs",
+      "Childhood Memory recorder notes"
+    ],
+    "background": "Childhood Memory keeps durable recognition among instrumental listeners, beginner melody players, and people searching for calmer Bandari repertoire they already know by ear. That gives it practical grey-song value as a reflective instrumental page that broadens the site beyond sung oldies and soundtrack themes.",
+    "practice": "The melody is useful for even phrasing, relaxed note connection, and building a softer instrumental tone without pushing tempo or range too hard. It suits players who want a familiar reflective tune that feels approachable, calm, and repeatable for everyday practice.",
+    "metaDescription": "Play Childhood Memory with letter notes, recorder notes, and fingering chart support. A calm Bandari instrumental for reflective practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Bandari piece Childhood Memory?",
+        "answer": "Yes. This page focuses on the melody players usually mean when they search for Childhood Memory and presents it in a melody-first format for wind instruments."
+      },
+      {
+        "question": "Why does Childhood Memory work well for slower instrumental practice?",
+        "answer": "Because the tune is calm, familiar, and easy to shape as a continuous melodic line, which makes it practical for breath-led phrasing and gentle tone work."
       }
     ]
   }

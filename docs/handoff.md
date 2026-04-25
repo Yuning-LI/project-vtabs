@@ -38,11 +38,11 @@
 
 当前数量口径：
 
-- `data/songbook/public-song-manifest.json = 139`
-- `data/songbook/song-seo-profiles.json = 139`
-- `data/kuailepu-runtime/*.json = 139`
-- `data/kuailepu/*.json = 133`
-- `reference/songs/*.json = 140`
+- `data/songbook/public-song-manifest.json = 142`
+- `data/songbook/song-seo-profiles.json = 142`
+- `data/kuailepu-runtime/*.json = 142`
+- `data/kuailepu/*.json = 136`
+- `reference/songs/*.json = 143`
 
 不要再把旧的 `130 首公开曲库` 当作当前真相。
 
