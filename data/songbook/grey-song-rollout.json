@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-25",
+  "updatedOn": "2026-04-26",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -346,62 +346,62 @@
     {
       "slug": "edelweiss",
       "title": "Edelweiss",
-      "status": "imported-only",
+      "status": "live",
       "batch": "13",
       "group": "musical",
       "addedOn": "2026-04-24",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/nEuye17kx.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "sealed-with-a-kiss",
       "title": "Sealed with a Kiss",
-      "status": "imported-only",
+      "status": "live",
       "batch": "13",
       "group": "song",
       "addedOn": "2026-04-24",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uKkVl1ws6.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "moonlight-lover",
       "title": "Moonlight Lover",
-      "status": "imported-only",
+      "status": "live",
       "batch": "13",
       "group": "song",
       "addedOn": "2026-04-24",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ehxZg1wuG.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "romeo-and-juliet",
       "title": "Romeo and Juliet",
-      "status": "imported-only",
+      "status": "live",
       "batch": "14",
       "group": "film",
       "addedOn": "2026-04-25",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Mndmg10z8.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "memory-sky",
       "title": "Memory Sky",
-      "status": "imported-only",
+      "status": "live",
       "batch": "14",
       "group": "instrumental",
       "addedOn": "2026-04-25",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/P2xwl1WXV.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     },
     {
       "slug": "childhood-memory",
       "title": "Childhood Memory",
-      "status": "imported-only",
+      "status": "live",
       "batch": "14",
       "group": "instrumental",
       "addedOn": "2026-04-25",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ClUba1G7q.html",
-      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing in the current local branch. Not pushed yet."
+      "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
     }
   ]
 }

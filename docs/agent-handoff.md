@@ -28,7 +28,7 @@
 - 前台不要暴露第三方来源文案。
 - `/api/kuailepu-runtime/<slug>` 不是公开 SEO 落地页，必须继续返回 `X-Robots-Tag: noindex, nofollow, noarchive`。
 
-以 2026-04-24 当前工作区为准：
+以 2026-04-26 当前工作区为准：
 
 - `public-song-manifest = 142`
 - `song-seo-profiles = 142`

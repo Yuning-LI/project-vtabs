@@ -41,7 +41,7 @@
 
 ## 当前数量口径
 
-以 2026-04-24 当前工作区为准：
+以 2026-04-26 当前工作区为准：
 
 - `data/songbook/public-song-manifest.json = 142`
 - `data/songbook/song-seo-profiles.json = 142`

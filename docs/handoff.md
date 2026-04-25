@@ -26,7 +26,7 @@
 
 ## 2. 当前有效状态
 
-以 2026-04-24 当前工作区为准：
+以 2026-04-26 当前工作区为准：
 
 - 站点面向 western 用户，前台可见文案必须是英文。
 - 公开 `/song/<slug>` 统一走 `data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> final SVG`。
