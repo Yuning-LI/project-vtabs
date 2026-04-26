@@ -402,6 +402,36 @@
       "addedOn": "2026-04-25",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ClUba1G7q.html",
       "notes": "Imported with public content layer, learn/hub linking, validate:content, doctor:song, and preflight compare passing. Already pushed to origin/main."
+    },
+    {
+      "slug": "imagine",
+      "title": "Imagine",
+      "status": "imported-only",
+      "batch": "15",
+      "group": "song",
+      "addedOn": "2026-04-26",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JQqqk1HCv.html",
+      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
+    },
+    {
+      "slug": "old-memory",
+      "title": "Old Memory",
+      "status": "imported-only",
+      "batch": "15",
+      "group": "instrumental",
+      "addedOn": "2026-04-26",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/gTTAj1rRO.html",
+      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
+    },
+    {
+      "slug": "reminiscence",
+      "title": "Reminiscence",
+      "status": "imported-only",
+      "batch": "15",
+      "group": "instrumental",
+      "addedOn": "2026-04-26",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uBaaf1rH1.html",
+      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
     }
   ]
 }
