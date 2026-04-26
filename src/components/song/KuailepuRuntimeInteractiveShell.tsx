@@ -37,6 +37,8 @@ type KuailepuRuntimeInteractiveShellProps = {
   queryState: PublicSongPageQueryState
   presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
   runtimeControlPayload: KuailepuRuntimeControlPayload
+  runtimeDefaultInstrumentId: string | null
+  runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
 }
 
@@ -46,6 +48,8 @@ export default function KuailepuRuntimeInteractiveShell({
   queryState,
   presentationByInstrument,
   runtimeControlPayload,
+  runtimeDefaultInstrumentId,
+  runtimeDefaultShowGraph,
   hasLyricToggle
 }: KuailepuRuntimeInteractiveShellProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
@@ -134,10 +138,24 @@ export default function KuailepuRuntimeInteractiveShell({
     }
   const title = seo.title
   const subtitle = seo.subtitle
+  const hasNonStandardRuntimeDefaultInstrument =
+    Boolean(runtimeDefaultInstrumentId) &&
+    runtimeDefaultInstrumentId !== 'none' &&
+    runtimeDefaultInstrumentId !== 'o12' &&
+    runtimeDefaultInstrumentId !== 'ch12'
+  const shouldPinDefaultInstrument =
+    activeInstrument.id === 'o12' && hasNonStandardRuntimeDefaultInstrument
+  const shouldPinDefaultGraphDirection =
+    !normalizedQueryState.showGraph &&
+    controlConfig.activeGraphVisibility === 'on' &&
+    Boolean(controlConfig.activeGraphValue) &&
+    hasNonStandardRuntimeDefaultInstrument &&
+    activeInstrument.id === runtimeDefaultInstrumentId &&
+    controlConfig.activeGraphValue !== runtimeDefaultShowGraph
   const params = useMemo(() => {
     const next = new URLSearchParams()
     next.set('runtime_text_mode', 'english')
-    if (activeInstrument.id !== 'o12') {
+    if (activeInstrument.id !== 'o12' || shouldPinDefaultInstrument) {
       next.set('instrument', activeInstrument.id)
     }
     if (noteLabelMode !== 'letter') {
@@ -145,6 +163,8 @@ export default function KuailepuRuntimeInteractiveShell({
     }
     if (normalizedQueryState.showGraph) {
       next.set('show_graph', normalizedQueryState.showGraph)
+    } else if (shouldPinDefaultGraphDirection && controlConfig.activeGraphValue) {
+      next.set('show_graph', controlConfig.activeGraphValue)
     }
     if (normalizedQueryState.showLyric) {
       next.set('show_lyric', normalizedQueryState.showLyric)
@@ -169,7 +189,14 @@ export default function KuailepuRuntimeInteractiveShell({
       next.set('public_feature', 'metronome')
     }
     return next
-  }, [activeInstrument.id, normalizedQueryState, noteLabelMode])
+  }, [
+    activeInstrument.id,
+    controlConfig.activeGraphValue,
+    normalizedQueryState,
+    noteLabelMode,
+    shouldPinDefaultGraphDirection,
+    shouldPinDefaultInstrument
+  ])
   const query = params.toString()
   const frameSrc = query ? `/api/kuailepu-runtime/${songId}?${query}` : `/api/kuailepu-runtime/${songId}`
   const loadingId = `kuailepu-runtime-${songId}-loading`

@@ -15,6 +15,8 @@ type KuailepuLegacyRuntimePageProps = {
   queryState: PublicSongPageQueryState
   presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
   runtimeControlPayload: KuailepuRuntimeControlPayload
+  runtimeDefaultInstrumentId: string | null
+  runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
@@ -31,6 +33,8 @@ export default function KuailepuLegacyRuntimePage({
   queryState,
   presentationByInstrument,
   runtimeControlPayload,
+  runtimeDefaultInstrumentId,
+  runtimeDefaultShowGraph,
   hasLyricToggle,
   relatedSongs,
   relatedGuides
@@ -47,6 +51,8 @@ export default function KuailepuLegacyRuntimePage({
           queryState={queryState}
           presentationByInstrument={presentationByInstrument}
           runtimeControlPayload={runtimeControlPayload}
+          runtimeDefaultInstrumentId={runtimeDefaultInstrumentId}
+          runtimeDefaultShowGraph={runtimeDefaultShowGraph}
           hasLyricToggle={hasLyricToggle}
         />
 

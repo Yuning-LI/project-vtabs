@@ -163,6 +163,39 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
 
+  test('song runtime pins the public default instrument when source defaults differ', async ({
+    page
+  }) => {
+    await page.goto('/song/oh-susanna', { waitUntil: 'domcontentloaded' })
+
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
+
+    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/oh-susanna"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/oh-susanna?runtime_text_mode=english&instrument=o12'
+    )
+
+    await expectRuntimeSheet(page, 'oh-susanna')
+  })
+
+  test('source-default German recorder pages keep the public mouthpiece-up chart default', async ({
+    page
+  }) => {
+    await page.goto('/song/oh-susanna?instrument=r8g', { waitUntil: 'domcontentloaded' })
+
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8g')
+    await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1u')
+
+    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/oh-susanna"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/oh-susanna?runtime_text_mode=english&instrument=r8g&show_graph=1u'
+    )
+
+    await expectRuntimeSheet(page, 'oh-susanna')
+  })
+
   test('tin whistle mode keeps the runtime route and shell copy aligned', async ({ page }) => {
     await page.goto('/song/ode-to-joy?instrument=w6', { waitUntil: 'domcontentloaded' })
 

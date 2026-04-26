@@ -246,6 +246,8 @@ export default function SongPage({
           instrumentFingerings: runtimePayload.instrumentFingerings,
           sheetScaleList: runtimePayload.sheetScaleList
         }}
+        runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
+        runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
         hasLyricToggle={hasPublicLyricToggle}
         relatedSongs={relatedSongs}
         relatedGuides={relatedGuides}
