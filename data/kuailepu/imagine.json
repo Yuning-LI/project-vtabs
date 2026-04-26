@@ -3,7 +3,7 @@
   "slug": "imagine",
   "title": "Imagine",
   "description": "Imagine melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
-  "published": false,
+  "published": true,
   "alignedLyrics": [
     "Imagine _ _ there's _ no heaven, _ _ it's easy _ if you try _ _",
     "No hell _ below us, _ _ a bove _ us only _ sky _ _",

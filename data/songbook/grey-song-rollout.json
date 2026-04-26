@@ -406,32 +406,32 @@
     {
       "slug": "imagine",
       "title": "Imagine",
-      "status": "imported-only",
+      "status": "live",
       "batch": "15",
       "group": "song",
       "addedOn": "2026-04-26",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JQqqk1HCv.html",
-      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
+      "notes": "Imported with public manifest entry, SEO profile and aliases, learn/hub linking, validation, and preflight compare passing for five public instruments. Pushed to origin/main after publication."
     },
     {
       "slug": "old-memory",
       "title": "Old Memory",
-      "status": "imported-only",
+      "status": "live",
       "batch": "15",
       "group": "instrumental",
       "addedOn": "2026-04-26",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/gTTAj1rRO.html",
-      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
+      "notes": "Imported with public manifest entry, SEO profile and aliases, learn/hub linking, validation, and preflight compare passing for five public instruments. Pushed to origin/main after publication."
     },
     {
       "slug": "reminiscence",
       "title": "Reminiscence",
-      "status": "imported-only",
+      "status": "live",
       "batch": "15",
       "group": "instrumental",
       "addedOn": "2026-04-26",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uBaaf1rH1.html",
-      "notes": "Imported as a local grey-song candidate only. Raw runtime and compact docs exist; not added to public manifest or SEO profile yet. Preflight compare passed for five public instruments."
+      "notes": "Imported with public manifest entry, SEO profile and aliases, learn/hub linking, validation, and preflight compare passing for five public instruments. Pushed to origin/main after publication."
     }
   ]
 }

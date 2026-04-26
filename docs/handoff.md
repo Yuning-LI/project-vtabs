@@ -38,11 +38,11 @@
 
 当前数量口径：
 
-- `data/songbook/public-song-manifest.json = 142`
-- `data/songbook/song-seo-profiles.json = 142`
-- `data/kuailepu-runtime/*.json = 142`
-- `data/kuailepu/*.json = 136`
-- `reference/songs/*.json = 143`
+- `data/songbook/public-song-manifest.json = 145`
+- `data/songbook/song-seo-profiles.json = 145`
+- `data/kuailepu-runtime/*.json = 145`
+- `data/kuailepu/*.json = 139`
+- `reference/songs/*.json = 146`
 
 不要再把旧的 `130 首公开曲库` 当作当前真相。
 
@@ -89,6 +89,7 @@ npm run preflight:kuailepu-publish -- <slug...>
 - 不要在指定歌曲失败时静默换歌。
 - 先告诉用户哪首失败、为什么失败，再等用户明确确认替代目标。
 - publish / parity 检查继续以 `number` 模式为准。
+- 用户说“导歌”或“公开导入歌曲”时，默认同一轮补齐 raw runtime、compact doc、public manifest、SEO profile / aliases、learn / hub 内链、灰度记录和验证；只有用户明确说“只做候选 / candidate only”时，才保持 `published: false` 与 `imported-only`。
 
 ## 6. 当前 SEO 有效规则
 

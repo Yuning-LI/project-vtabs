@@ -3,7 +3,7 @@
   "slug": "reminiscence",
   "title": "Reminiscence",
   "description": "Reminiscence melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
-  "published": false,
+  "published": true,
   "source": {
     "title": "Kuailepu detail-page snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/uBaaf1rH1.html",

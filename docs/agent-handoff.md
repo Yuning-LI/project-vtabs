@@ -30,10 +30,10 @@
 
 以 2026-04-26 当前工作区为准：
 
-- `public-song-manifest = 142`
-- `song-seo-profiles = 142`
-- `data/kuailepu-runtime = 142`
-- `data/kuailepu = 136`
+- `public-song-manifest = 145`
+- `song-seo-profiles = 145`
+- `data/kuailepu-runtime = 145`
+- `data/kuailepu = 139`
 
 ## 3. 高优先约束
 
@@ -100,6 +100,7 @@ npm run login:kuailepu
 4. 如果任务涉及 release 判断，先跑：
    - `git status --short --branch`
    - `git log --oneline origin/main..HEAD`
+5. 如果用户说“导歌”或“公开导入歌曲”，默认同时完成 manifest、SEO profile / aliases、learn / hub 内链、灰度记录和验证；只有用户明确说“只做候选 / candidate only”时，才保持未公开候选状态。
 
 ## 7. 文档使用规则
 

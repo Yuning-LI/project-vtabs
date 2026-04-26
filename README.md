@@ -43,16 +43,16 @@
 
 以 2026-04-26 当前工作区为准：
 
-- `data/songbook/public-song-manifest.json = 142`
-- `data/songbook/song-seo-profiles.json = 142`
-- `data/kuailepu-runtime/*.json = 142`
-- `data/kuailepu/*.json = 136`
-- `reference/songs/*.json = 143`
+- `data/songbook/public-song-manifest.json = 145`
+- `data/songbook/song-seo-profiles.json = 145`
+- `data/kuailepu-runtime/*.json = 145`
+- `data/kuailepu/*.json = 139`
+- `reference/songs/*.json = 146`
 
 说明：
 
-- `142` 代表当前公开 song page / deployable runtime 层口径。
-- `136` 的 `data/kuailepu/*.json` 是可提交的轻量导入结果数量，不等于公开页数量。
+- `145` 代表当前公开 song page / deployable runtime 层口径。
+- `139` 的 `data/kuailepu/*.json` 是可提交的轻量导入结果数量，不等于公开页数量。
 - 如果要确认哪些已经 push / live，先看 `git status --short --branch` 和 `git log --oneline origin/main..HEAD`。
 
 ## 网络协作规则
@@ -82,6 +82,17 @@ npm run preflight:kuailepu-publish -- <slug...>
 ```
 
 如果登录失效，不要继续猜，直接让用户手动刷新登录态。
+
+以后用户说“导歌”或“公开导入歌曲”，默认范围不是只抓 raw JSON。除非用户明确说“只做候选 / candidate only”，否则同一轮要同时完成：
+
+- deployable raw JSON 与轻量 compact doc
+- `public-song-manifest.json` 公开入口
+- `song-seo-profiles.json` 的 aliases、title、description、overview、FAQ
+- 相关 learn / hub 内链
+- `grey-song-rollout.json` 状态记录
+- `validate:content`、`validate:songbook`、`preflight:kuailepu-publish -- <slug...>`，必要时再跑 `build`
+
+如果用户明确只要候选导入，保持 `published: false`，灰度记录标成 `imported-only`，并在后续公开时补完上面的所有配套工作。
 
 公开 song page 的核心规则：
 

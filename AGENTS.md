@@ -45,6 +45,17 @@ If a song has stable English aliases, translated names, or common alternate titl
 - homepage library search can match those aliases
 - song page title / description / body can naturally cover alias searches
 
+When the user asks to import songs for publication or says “公开导歌”, the default scope includes all related publishing work in the same turn:
+
+- deployable raw JSON and compact song doc
+- public manifest entry
+- song SEO profile, aliases, metadata, and FAQ copy
+- relevant learn / hub internal links
+- grey rollout status update
+- validation and Kuailepu preflight compare
+
+Only keep songs as `published: false` / `imported-only` when the user explicitly asks for candidate import only.
+
 Run the automated preflight:
 
 ```bash

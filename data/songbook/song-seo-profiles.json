@@ -3673,5 +3673,87 @@
         "answer": "Because the tune is calm, familiar, and easy to shape as a continuous melodic line, which makes it practical for breath-led phrasing and gentle tone work."
       }
     ]
+  },
+  "imagine": {
+    "aliases": [
+      "John Lennon Imagine",
+      "Imagine John Lennon",
+      "Imagine song",
+      "Imagine melody",
+      "Imagine notes"
+    ],
+    "metaTitle": "Imagine Ocarina Tabs and Recorder Notes",
+    "overview": "This Imagine page keeps the familiar John Lennon melody in a clean letter-note layout so you can practice the tune without piecing it together from piano chords, lyric-only pages, or mixed fan tabs. It is built for players who want a recognizable pop standard that still reads clearly as a melody-first page on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Imagine ocarina tabs",
+      "Imagine recorder notes"
+    ],
+    "background": "Imagine remains one of the most widely recognized pop melodies, which gives it practical search value for adult beginners and players looking for a song they can already hear internally. The line works well as a single melody because the phrase shape is clear even without a full piano accompaniment.",
+    "practice": "The tune is useful for steady breath pacing, clean phrase endings, and keeping a repeated vocal-style line smooth without rushing. It suits players who want a familiar song page that can support lyrical practice while still staying readable as notes and fingerings.",
+    "metaDescription": "Play Imagine with letter notes, recorder notes, fingering chart support, and visible lyrics where available. A familiar John Lennon melody for steady lyrical practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the John Lennon song Imagine?",
+        "answer": "Yes. This page focuses on the melody most players mean when they search for Imagine and presents it in a melody-first format for wind instruments."
+      },
+      {
+        "question": "Why does Imagine work well for beginner-friendly lyrical practice?",
+        "answer": "Because the melody is recognizable, evenly paced, and phrase-driven, which makes it useful for breath control and smooth note changes without a dense arrangement."
+      }
+    ]
+  },
+  "old-memory": {
+    "aliases": [
+      "Old Memory song",
+      "Old Memory melody",
+      "Old Memory instrumental",
+      "Old Memory ocarina"
+    ],
+    "metaTitle": "Old Memory Ocarina Tabs and Recorder Notes",
+    "overview": "This Old Memory page presents the reflective instrumental melody in a clean letter-note layout so you can practice it without relying on screenshot tabs, keyboard-only reductions, or staff-heavy sheets. It is built for players who want a calm melody-first page that works across ocarina, recorder, and tin whistle.",
+    "searchTerms": [
+      "Old Memory ocarina tabs",
+      "Old Memory recorder notes"
+    ],
+    "background": "Old Memory adds another quiet instrumental option for players who search by mood, title, and playable melody rather than by lyrics. Its calm phrase shape makes it useful as a grey-song addition for reflective practice and slower tone work.",
+    "practice": "The melody is useful for even breath, connected note changes, and keeping a nostalgic line stable across repeated phrases. It suits players who want a slower instrumental page that feels lyrical without requiring lyrics to make the tune readable.",
+    "metaDescription": "Play Old Memory with letter notes, recorder notes, and fingering chart support. A calm instrumental melody for reflective practice.",
+    "extraFaqs": [
+      {
+        "question": "Is Old Memory an instrumental practice page?",
+        "answer": "Yes. This page focuses on the melody as a single-line instrumental practice tune for ocarina, recorder, or tin whistle."
+      },
+      {
+        "question": "Why is Old Memory useful for calm practice?",
+        "answer": "Because the tune moves at a steady pace and rewards smooth breath-led phrasing more than speed or technical display."
+      }
+    ]
+  },
+  "reminiscence": {
+    "aliases": [
+      "Reminiscence melody",
+      "Reminiscence instrumental",
+      "Reminiscence ocarina",
+      "Zhui Yi melody"
+    ],
+    "metaTitle": "Reminiscence Ocarina Tabs and Recorder Notes",
+    "overview": "This Reminiscence page keeps the slow reflective melody in a clean letter-note layout so you can practice it without switching between screenshots, video fragments, or staff-heavy arrangements. It is built for players who want a quiet instrumental page that stays readable on ocarina, recorder, or tin whistle.",
+    "searchTerms": [
+      "Reminiscence ocarina tabs",
+      "Reminiscence recorder notes"
+    ],
+    "background": "Reminiscence fits the calm instrumental side of the public library because the melody is simple enough to read as a single line while still carrying a reflective mood. That makes it useful for players searching for slower repertoire, quiet practice, and expressive phrase work.",
+    "practice": "The tune is useful for long-note control, patient phrase endings, and gentle dynamic shaping. It suits players who want an unhurried melody that builds confidence with breath support rather than fast fingering changes.",
+    "metaDescription": "Play Reminiscence with letter notes, recorder notes, and fingering chart support. A quiet instrumental melody for slow reflective practice.",
+    "extraFaqs": [
+      {
+        "question": "Is Reminiscence a slow instrumental melody?",
+        "answer": "Yes. This page presents Reminiscence as a melody-first instrumental practice page for players who want a calm, reflective tune."
+      },
+      {
+        "question": "Why does Reminiscence work well for slow practice?",
+        "answer": "Because the line gives players time to control breath, connect longer notes, and shape phrase endings without a rhythm-heavy arrangement."
+      }
+    ]
   }
 }
