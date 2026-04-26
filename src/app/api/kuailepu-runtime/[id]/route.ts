@@ -14,9 +14,11 @@ export const dynamic = 'force-dynamic'
 type CachedRuntimeHtml = {
   html: string
   etag: string
+  cacheable: boolean
 }
 
 const MAX_RUNTIME_HTML_CACHE_ENTRIES = 500
+const PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS = 300
 const runtimeHtmlCache = new Map<string, CachedRuntimeHtml>()
 
 /**
@@ -30,10 +32,30 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(request.url)
+  const runtimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
+  const publicFeatures =
+    searchParams.get('public_feature') === 'metronome' ? (['metronome'] as const) : []
+  /**
+   * 公开详情页默认走最小公开资产 profile：
+   * - 当前不会触发的旧模块脚本默认不注入
+   * - 相关静态文件仍保留在本地快照里，方便以后恢复登录 / 播放等能力
+   *
+   * 如果后续需要排查“完整快乐谱模板”行为，允许临时切回 `full-template`。
+   */
+  const runtimeAssetProfile =
+    searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
+      ? 'full-template'
+      : 'public-song'
+  const shouldCdnCacheRuntimeHtml = isRuntimeHtmlCdnCacheable({
+    runtimeAssetProfile,
+    runtimeCompareMode
+  })
   const cacheKey = buildRuntimeHtmlCacheKey(params.id, searchParams)
   const cached = getCachedRuntimeHtml(cacheKey)
   if (cached) {
-    const headers = buildRuntimeHtmlHeaders(cached.etag)
+    const headers = buildRuntimeHtmlHeaders(cached.etag, {
+      cdnCacheable: cached.cacheable
+    })
     if (doesRequestEtagMatch(request.headers.get('if-none-match'), cached.etag)) {
       return new NextResponse(null, {
         status: 304,
@@ -81,20 +103,6 @@ export async function GET(
   }
   const song = songCatalogBySlug[params.id]
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
-  const runtimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
-  const publicFeatures =
-    searchParams.get('public_feature') === 'metronome' ? (['metronome'] as const) : []
-  /**
-   * 公开详情页默认走最小公开资产 profile：
-   * - 当前不会触发的旧模块脚本默认不注入
-   * - 相关静态文件仍保留在本地快照里，方便以后恢复登录 / 播放等能力
-   *
-   * 如果后续需要排查“完整快乐谱模板”行为，允许临时切回 `full-template`。
-   */
-  const runtimeAssetProfile =
-    searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
-      ? 'full-template'
-      : 'public-song'
   const presentation = song ? getSongPresentation(song) : null
   /**
    * 字母谱不是修改 raw JSON 后再交给快乐谱重渲染，
@@ -129,11 +137,14 @@ export async function GET(
   const etag = buildRuntimeHtmlEtag(html)
   setCachedRuntimeHtml(cacheKey, {
     html,
-    etag
+    etag,
+    cacheable: shouldCdnCacheRuntimeHtml
   })
 
   return new NextResponse(html, {
-    headers: buildRuntimeHtmlHeaders(etag)
+    headers: buildRuntimeHtmlHeaders(etag, {
+      cdnCacheable: shouldCdnCacheRuntimeHtml
+    })
   })
 }
 
@@ -185,16 +196,34 @@ function buildRuntimeHtmlEtag(html: string) {
   return `"${createHash('sha256').update(html).digest('base64url')}"`
 }
 
-function buildRuntimeHtmlHeaders(etag: string) {
-  return {
+function buildRuntimeHtmlHeaders(etag: string, options?: { cdnCacheable?: boolean }) {
+  const cdnCacheable = Boolean(options?.cdnCacheable)
+  const headers: Record<string, string> = {
     'content-type': 'text/html; charset=utf-8',
     'cache-control':
       process.env.NODE_ENV === 'production'
-        ? 'private, max-age=0, must-revalidate'
+        ? cdnCacheable
+          ? `public, max-age=0, s-maxage=${PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS}, stale-while-revalidate=${PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS}, must-revalidate`
+          : 'private, max-age=0, must-revalidate'
         : 'no-store',
     etag,
     'X-Robots-Tag': 'noindex, nofollow, noarchive'
   }
+
+  if (process.env.NODE_ENV === 'production' && cdnCacheable) {
+    const cdnCacheControl = `public, s-maxage=${PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS}, stale-while-revalidate=${PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS}`
+    headers['CDN-Cache-Control'] = cdnCacheControl
+    headers['Vercel-CDN-Cache-Control'] = cdnCacheControl
+  }
+
+  return headers
+}
+
+function isRuntimeHtmlCdnCacheable(input: {
+  runtimeAssetProfile: string
+  runtimeCompareMode: boolean
+}) {
+  return input.runtimeAssetProfile === 'public-song' && !input.runtimeCompareMode
 }
 
 function doesRequestEtagMatch(header: string | null, etag: string) {
