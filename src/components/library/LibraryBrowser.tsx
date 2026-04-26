@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 
 type LibrarySong = {
   id: string
@@ -29,12 +30,15 @@ export default function LibraryBrowser({
   familyFilters,
   embedded = false
 }: LibraryBrowserProps) {
+  const router = useRouter()
   const azJumpNavRef = useRef<HTMLElement | null>(null)
+  const prefetchedSongSlugsRef = useRef(new Set<string>())
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
   const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   useEffect(() => {
     if (sortMode !== 'az') {
@@ -115,6 +119,15 @@ export default function LibraryBrowser({
     window.setTimeout(() => {
       azJumpNavRef.current?.focus()
     }, 360)
+  }
+
+  function prefetchSong(songSlug: string) {
+    if (prefetchedSongSlugsRef.current.has(songSlug)) {
+      return
+    }
+
+    prefetchedSongSlugsRef.current.add(songSlug)
+    router.prefetch(`/song/${songSlug}`)
   }
 
   return (
@@ -268,7 +281,13 @@ export default function LibraryBrowser({
               </div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {group.map(song => (
-                  <LibrarySongCard key={song.id} song={song} />
+                  <LibrarySongCard
+                    key={song.id}
+                    song={song}
+                    isPending={pendingSongSlug === song.slug}
+                    onPrefetch={prefetchSong}
+                    onPending={setPendingSongSlug}
+                  />
                 ))}
               </div>
             </section>
@@ -277,7 +296,13 @@ export default function LibraryBrowser({
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filteredSongs.map(song => (
-            <LibrarySongCard key={song.id} song={song} />
+            <LibrarySongCard
+              key={song.id}
+              song={song}
+              isPending={pendingSongSlug === song.slug}
+              onPrefetch={prefetchSong}
+              onPending={setPendingSongSlug}
+            />
           ))}
         </div>
       )}
@@ -297,12 +322,46 @@ export default function LibraryBrowser({
   )
 }
 
-function LibrarySongCard({ song }: { song: LibrarySongSearchResult }) {
+function LibrarySongCard({
+  song,
+  isPending,
+  onPrefetch,
+  onPending
+}: {
+  song: LibrarySongSearchResult
+  isPending: boolean
+  onPrefetch: (songSlug: string) => void
+  onPending: (songSlug: string) => void
+}) {
+  function markPendingNavigation(
+    event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+  ) {
+    if (!isCurrentTabNavigation(event)) {
+      return
+    }
+
+    onPending(song.slug)
+  }
+
   return (
     <Link
       href={`/song/${song.slug}`}
-      className="page-warm-card-link group block p-4 md:p-6"
+      aria-busy={isPending}
+      onFocus={() => onPrefetch(song.slug)}
+      onPointerEnter={() => onPrefetch(song.slug)}
+      onPointerDown={markPendingNavigation}
+      onClick={markPendingNavigation}
+      className={
+        isPending
+          ? 'page-warm-card-link group relative block overflow-hidden p-4 pr-28 opacity-80 ring-2 ring-stone-900/15 md:p-6 md:pr-32'
+          : 'page-warm-card-link group relative block overflow-hidden p-4 pr-4 md:p-6'
+      }
     >
+      {isPending ? (
+        <span className="page-warm-pill absolute right-3 top-3 px-3 py-1 text-xs font-semibold md:right-4 md:top-4">
+          Opening...
+        </span>
+      ) : null}
       <h3 className="text-lg font-semibold leading-6 text-stone-900 transition group-hover:text-stone-700 md:text-xl">
         {song.title}
       </h3>
@@ -313,6 +372,16 @@ function LibrarySongCard({ song }: { song: LibrarySongSearchResult }) {
       ) : null}
     </Link>
   )
+}
+
+function isCurrentTabNavigation(
+  event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+) {
+  if (event.button !== 0) {
+    return false
+  }
+
+  return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
 }
 
 function findMatchedAlias(aliases: string[] | undefined, normalizedQuery: string, compactQuery: string) {
