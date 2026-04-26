@@ -141,8 +141,7 @@ export default function KuailepuRuntimeInteractiveShell({
   const hasNonStandardRuntimeDefaultInstrument =
     Boolean(runtimeDefaultInstrumentId) &&
     runtimeDefaultInstrumentId !== 'none' &&
-    runtimeDefaultInstrumentId !== 'o12' &&
-    runtimeDefaultInstrumentId !== 'ch12'
+    runtimeDefaultInstrumentId !== 'o12'
   const shouldPinDefaultInstrument =
     activeInstrument.id === 'o12' && hasNonStandardRuntimeDefaultInstrument
   const shouldPinDefaultGraphDirection =

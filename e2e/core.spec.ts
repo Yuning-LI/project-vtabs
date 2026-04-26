@@ -179,6 +179,22 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'oh-susanna')
   })
 
+  test('song runtime pins 12-hole ocarina when the source default is chromatic harmonica', async ({
+    page
+  }) => {
+    await page.goto('/song/edelweiss', { waitUntil: 'domcontentloaded' })
+
+    await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
+
+    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/edelweiss"]')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/api/kuailepu-runtime/edelweiss?runtime_text_mode=english&instrument=o12'
+    )
+
+    await expectRuntimeSheet(page, 'edelweiss')
+  })
+
   test('source-default German recorder pages keep the public mouthpiece-up chart default', async ({
     page
   }) => {

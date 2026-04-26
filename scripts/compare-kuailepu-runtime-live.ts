@@ -481,8 +481,7 @@ function buildLocalCompareUrl(
   const hasNonStandardRuntimeDefaultInstrument =
     Boolean(target.runtimeDefaultInstrumentId) &&
     target.runtimeDefaultInstrumentId !== 'none' &&
-    target.runtimeDefaultInstrumentId !== 'o12' &&
-    target.runtimeDefaultInstrumentId !== 'ch12'
+    target.runtimeDefaultInstrumentId !== 'o12'
   if (target.instrumentId !== 'o12' || hasNonStandardRuntimeDefaultInstrument) {
     params.set('instrument', target.instrumentId)
   }
