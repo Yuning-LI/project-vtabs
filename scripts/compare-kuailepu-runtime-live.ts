@@ -84,6 +84,8 @@ const compareTargets = candidates.flatMap(song => {
 
   const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as {
     song_uuid: string
+    instrument?: string
+    show_graph?: string
     instrumentFingerings?: Array<{ instrument?: string | null }>
   }
   const supportedInstruments = getSupportedPublicSongInstruments(payload)
@@ -92,7 +94,12 @@ const compareTargets = candidates.flatMap(song => {
     slug: song.slug,
     title: song.title,
     songUuid: payload.song_uuid,
-    instrumentId: instrument.id
+    instrumentId: instrument.id,
+    runtimeDefaultInstrumentId: payload.instrument ?? null,
+    runtimeDefaultShowGraph: payload.show_graph ?? null,
+    runtimeControlPayload: {
+      instrumentFingerings: payload.instrumentFingerings
+    }
   }))
 })
 
@@ -138,7 +145,7 @@ try {
      * - 字母谱属于我们自己的显示层变换
      * - 所以发布 gate 必须回到原始 number 视图
      */
-    const localUrl = buildLocalCompareUrl(baseUrl, target.slug, target.instrumentId)
+    const localUrl = buildLocalCompareUrl(baseUrl, target)
     const liveUrl = `https://www.kuaiyuepu.com/jianpu/${target.songUuid}.html`
 
     try {
@@ -450,8 +457,15 @@ function buildDiffSnippet(input: string, diffIndex: number) {
 
 function buildLocalCompareUrl(
   baseUrl: string,
-  slug: string,
-  instrumentId: PublicSongInstrumentId
+  target: {
+    slug: string
+    instrumentId: PublicSongInstrumentId
+    runtimeDefaultInstrumentId: string | null
+    runtimeDefaultShowGraph: string | null
+    runtimeControlPayload: {
+      instrumentFingerings?: Array<{ instrument?: string | null }>
+    }
+  }
 ) {
   const params = new URLSearchParams()
   params.set('note_label_mode', 'number')
@@ -464,9 +478,62 @@ function buildLocalCompareUrl(
    */
   params.set('runtime_asset_profile', 'full-template')
   params.set('runtime_compare_mode', '1')
-  if (instrumentId !== 'o12') {
-    params.set('instrument', instrumentId)
+  const hasNonStandardRuntimeDefaultInstrument =
+    Boolean(target.runtimeDefaultInstrumentId) &&
+    target.runtimeDefaultInstrumentId !== 'none' &&
+    target.runtimeDefaultInstrumentId !== 'o12' &&
+    target.runtimeDefaultInstrumentId !== 'ch12'
+  if (target.instrumentId !== 'o12' || hasNonStandardRuntimeDefaultInstrument) {
+    params.set('instrument', target.instrumentId)
   }
 
-  return `${baseUrl}/api/kuailepu-runtime/${slug}?${params.toString()}`
+  const publicGraphDefault =
+    getPreferredPublicGraphValue(
+      target.instrumentId,
+      target.runtimeControlPayload.instrumentFingerings
+    ) ?? null
+  if (
+    hasNonStandardRuntimeDefaultInstrument &&
+    target.instrumentId === target.runtimeDefaultInstrumentId &&
+    publicGraphDefault &&
+    publicGraphDefault !== target.runtimeDefaultShowGraph
+  ) {
+    params.set('show_graph', publicGraphDefault)
+  }
+
+  return `${baseUrl}/api/kuailepu-runtime/${target.slug}?${params.toString()}`
+}
+
+function getPreferredPublicGraphValue(
+  instrumentId: PublicSongInstrumentId,
+  instrumentFingerings:
+    | Array<{
+        instrument?: string | null
+        graphList?: Array<{
+          name?: string
+          value?: string
+        }>
+      }>
+    | undefined
+) {
+  const graphList =
+    instrumentFingerings?.find(option => option.instrument === instrumentId)?.graphList ?? []
+  const available = graphList.filter(
+    (item): item is { name?: string; value: string } =>
+      typeof item.value === 'string' && item.value.trim().length > 0
+  )
+  if (available.length === 0) {
+    return null
+  }
+
+  if (instrumentId !== 'r8b' && instrumentId !== 'r8g' && instrumentId !== 'w6') {
+    return available[0]!.value.trim()
+  }
+
+  const upward = available.find(item => {
+    const normalizedName = item.name?.replace(/\s+/g, '') ?? ''
+    return normalizedName.includes('吹口在上') || /mouthpiece\s*up/i.test(item.name ?? '')
+  })
+
+  return upward?.value.trim() ?? available[0]!.value.trim()
 }
