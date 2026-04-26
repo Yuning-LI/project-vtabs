@@ -187,6 +187,15 @@ const KUAILEPU_RUNTIME_ASSET_PROFILES: Record<
   }
 }
 
+const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
+  'lib/jquery/1.8.3/jquery.min.js',
+  'cdn/js/i18n_d3be79dfbd.js',
+  'cdn/js/kit_9b7263d863.js',
+  'cdn/js/dist/hc.min_1cfae5fe62.js',
+  'cdn/js/song_builder_a87186a4c4.js',
+  'cdn/js/song_1f2ad3c3ba.js'
+] as const
+
 /**
  * 读取公开 runtime 所需的完整快乐谱 raw JSON。
  *
@@ -294,7 +303,7 @@ export function buildKuailepuRuntimeHtml(input: {
           `${openTag}var context = Kit.context.setContext(${safePayload});${closeTag}`
       )
       .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
-      .replace(/<\/head>/i, `${compareMode ? '' : buildRuntimeOverrideStyle(publicFeatures)}${buildRuntimePendingScript(letterTrack, compareMode)}</head>`)
+      .replace(/<\/head>/i, `${compareMode ? '' : buildRuntimeCriticalPreloads(assetProfile)}${compareMode ? '' : buildRuntimeOverrideStyle(publicFeatures)}${buildRuntimePendingScript(letterTrack, compareMode)}</head>`)
       .replace(/<\/body>/i, `${compareMode ? '' : buildRuntimeBridgeScript(
         songId,
         letterTrack,
@@ -618,6 +627,16 @@ function buildPublicRuntimeCompatibilityScript() {
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function buildRuntimeCriticalPreloads(profileName: KuailepuRuntimeAssetProfileName) {
+  if (profileName !== 'public-song') {
+    return ''
+  }
+
+  return PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS.map(
+    assetPath => `<link rel="preload" href="/k-static/${assetPath}" as="script" />`
+  ).join('')
 }
 
 function getPreferredPublicGraphValue(
