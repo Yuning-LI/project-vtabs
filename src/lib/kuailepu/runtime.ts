@@ -1800,7 +1800,7 @@ function buildRuntimeBridgeScript(
     return Array.prototype.slice
       .call(svg.querySelectorAll('use'))
       .filter(function (node) {
-        return /^#note_serif_[0-7]$/.test(getUseHref(node));
+        return /^#note_serif_[0-7](?:_s)?$/.test(getUseHref(node));
       })
       .map(function (node) {
         var href = getUseHref(node);
@@ -1810,7 +1810,7 @@ function buildRuntimeBridgeScript(
 
         return {
           href: href,
-          degree: Number((href.match(/(\\d)$/) || [])[1] || -1),
+          degree: Number((href.match(/#note_serif_(\\d)/) || [])[1] || -1),
           sourceX: x,
           sourceY: y,
           x: bbox && Number.isFinite(bbox.x) ? bbox.x : x - 6,
@@ -2494,6 +2494,8 @@ function buildRuntimeBridgeScript(
       var breathMarks = getLetterTrackBreathMarks(svg);
       var alignedGlyphTokens = getAlignedGlyphTokens(noteGlyphs);
       var glyphMarkers = alignedGlyphTokens ? null : getLetterTrackGlyphMarkers(svg);
+      var letterCovers = [];
+      var letterLabels = [];
       noteGlyphs.forEach(function (glyph, index) {
         var label = alignedGlyphTokens
           ? mapGlyphTokenToLetterLabel(alignedGlyphTokens[index])
@@ -2560,7 +2562,7 @@ function buildRuntimeBridgeScript(
         cover.setAttribute('rx', '3');
         cover.setAttribute('fill', '#ffffff');
         cover.setAttribute('fill-opacity', '0.98');
-        layer.appendChild(cover);
+        letterCovers.push(cover);
 
         var text = createSvgNode('text');
         text.setAttribute('data-vtabs-letter-track', 'label');
@@ -2583,6 +2585,13 @@ function buildRuntimeBridgeScript(
         text.setAttribute('stroke-width', '2.5');
         text.setAttribute('stroke-linejoin', 'round');
         text.textContent = label;
+        letterLabels.push(text);
+      });
+
+      letterCovers.forEach(function (cover) {
+        layer.appendChild(cover);
+      });
+      letterLabels.forEach(function (text) {
         layer.appendChild(text);
       });
 

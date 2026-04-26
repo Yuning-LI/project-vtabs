@@ -195,6 +195,61 @@ test.describe('runtime-backed song pages', () => {
     await expectRuntimeSheet(page, 'edelweiss')
   })
 
+  test('dense notation-only intro rows paint letter labels above all covers', async ({ page }) => {
+    await page.goto('/song/romeo-and-juliet', { waitUntil: 'domcontentloaded' })
+
+    const runtime = page.frameLocator(
+      'iframe[src*="/api/kuailepu-runtime/romeo-and-juliet"]'
+    )
+    await expect(runtime.locator('svg.sheet-svg')).toBeVisible({ timeout: 20000 })
+
+    const layerOrder = await runtime.locator('svg.sheet-svg').evaluate(svg => {
+      const layer = svg.querySelector('[data-vtabs-letter-track="layer"]')
+      if (!layer) {
+        return null
+      }
+
+      const noteGlyphCount = Array.from(svg.querySelectorAll('use')).filter(node =>
+        /^#note_serif_[0-7](?:_s)?$/.test(
+          node.getAttribute('href') ?? node.getAttribute('xlink:href') ?? ''
+        )
+      ).length
+      const smallNoteGlyphCount = Array.from(svg.querySelectorAll('use')).filter(node =>
+        /^#note_serif_[0-7]_s$/.test(
+          node.getAttribute('href') ?? node.getAttribute('xlink:href') ?? ''
+        )
+      ).length
+      const children = Array.from(layer.children)
+      const coverIndexes = children
+        .map((node, index) =>
+          node.getAttribute('data-vtabs-letter-track') === 'cover' ? index : -1
+        )
+        .filter(index => index >= 0)
+      const labelIndexes = children
+        .map((node, index) =>
+          node.getAttribute('data-vtabs-letter-track') === 'label' ? index : -1
+        )
+        .filter(index => index >= 0)
+
+      return {
+        noteGlyphCount,
+        smallNoteGlyphCount,
+        coverCount: coverIndexes.length,
+        labelCount: labelIndexes.length,
+        lastCoverIndex: Math.max(...coverIndexes),
+        firstLabelIndex: Math.min(...labelIndexes)
+      }
+    })
+
+    expect(layerOrder).not.toBeNull()
+    expect(layerOrder?.smallNoteGlyphCount).toBeGreaterThan(0)
+    expect(layerOrder?.coverCount).toBe(layerOrder?.noteGlyphCount)
+    expect(layerOrder?.labelCount).toBe(layerOrder?.noteGlyphCount)
+    expect(layerOrder?.coverCount).toBeGreaterThan(0)
+    expect(layerOrder?.labelCount).toBeGreaterThan(0)
+    expect(layerOrder!.lastCoverIndex).toBeLessThan(layerOrder!.firstLabelIndex)
+  })
+
   test('source-default German recorder pages keep the public mouthpiece-up chart default', async ({
     page
   }) => {
