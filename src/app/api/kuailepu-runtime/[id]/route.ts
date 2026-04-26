@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { NextResponse } from 'next/server'
 import {
   buildKuailepuLetterTrackData,
@@ -10,6 +11,14 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 
 export const dynamic = 'force-dynamic'
 
+type CachedRuntimeHtml = {
+  html: string
+  etag: string
+}
+
+const MAX_RUNTIME_HTML_CACHE_ENTRIES = 500
+const runtimeHtmlCache = new Map<string, CachedRuntimeHtml>()
+
 /**
  * 这个路由返回的不是 JSON，而是一整页“快乐谱兼容 runtime HTML”。
  *
@@ -20,6 +29,23 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const { searchParams } = new URL(request.url)
+  const cacheKey = buildRuntimeHtmlCacheKey(params.id, searchParams)
+  const cached = getCachedRuntimeHtml(cacheKey)
+  if (cached) {
+    const headers = buildRuntimeHtmlHeaders(cached.etag)
+    if (doesRequestEtagMatch(request.headers.get('if-none-match'), cached.etag)) {
+      return new NextResponse(null, {
+        status: 304,
+        headers
+      })
+    }
+
+    return new NextResponse(cached.html, {
+      headers
+    })
+  }
+
   /**
    * 这里先读可部署的 raw JSON，而不是 `data/kuailepu/<slug>.json`。
    *
@@ -41,7 +67,6 @@ export async function GET(
     })
   }
 
-  const { searchParams } = new URL(request.url)
   const state: KuailepuRuntimeState = {
     instrument: searchParams.get('instrument'),
     fingering: searchParams.get('fingering'),
@@ -101,12 +126,84 @@ export async function GET(
     preferredEnglishSubtitle: null,
     compareMode: runtimeCompareMode
   })
+  const etag = buildRuntimeHtmlEtag(html)
+  setCachedRuntimeHtml(cacheKey, {
+    html,
+    etag
+  })
 
   return new NextResponse(html, {
-    headers: {
-      'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'no-store',
-      'X-Robots-Tag': 'noindex, nofollow, noarchive'
-    }
+    headers: buildRuntimeHtmlHeaders(etag)
   })
+}
+
+function buildRuntimeHtmlCacheKey(songId: string, searchParams: URLSearchParams) {
+  const normalizedParams = new URLSearchParams()
+  Array.from(searchParams.keys())
+    .sort()
+    .forEach(key => {
+      searchParams.getAll(key).forEach(value => {
+        normalizedParams.append(key, value)
+      })
+    })
+
+  const query = normalizedParams.toString()
+  return query ? `${songId}?${query}` : songId
+}
+
+function getCachedRuntimeHtml(cacheKey: string) {
+  if (process.env.NODE_ENV !== 'production') {
+    return null
+  }
+
+  const cached = runtimeHtmlCache.get(cacheKey)
+  if (!cached) {
+    return null
+  }
+
+  runtimeHtmlCache.delete(cacheKey)
+  runtimeHtmlCache.set(cacheKey, cached)
+  return cached
+}
+
+function setCachedRuntimeHtml(cacheKey: string, cached: CachedRuntimeHtml) {
+  if (process.env.NODE_ENV !== 'production') {
+    return
+  }
+
+  runtimeHtmlCache.set(cacheKey, cached)
+  while (runtimeHtmlCache.size > MAX_RUNTIME_HTML_CACHE_ENTRIES) {
+    const oldestKey = runtimeHtmlCache.keys().next().value
+    if (!oldestKey) {
+      break
+    }
+    runtimeHtmlCache.delete(oldestKey)
+  }
+}
+
+function buildRuntimeHtmlEtag(html: string) {
+  return `"${createHash('sha256').update(html).digest('base64url')}"`
+}
+
+function buildRuntimeHtmlHeaders(etag: string) {
+  return {
+    'content-type': 'text/html; charset=utf-8',
+    'cache-control':
+      process.env.NODE_ENV === 'production'
+        ? 'private, max-age=0, must-revalidate'
+        : 'no-store',
+    etag,
+    'X-Robots-Tag': 'noindex, nofollow, noarchive'
+  }
+}
+
+function doesRequestEtagMatch(header: string | null, etag: string) {
+  if (!header) {
+    return false
+  }
+
+  return header
+    .split(',')
+    .map(value => value.trim())
+    .some(value => value === etag || value === `W/${etag}`)
 }

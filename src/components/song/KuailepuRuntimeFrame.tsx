@@ -504,6 +504,7 @@ export default function KuailepuRuntimeFrame({
         ref={frameRef}
         title={`${title} Kuailepu runtime`}
         src={frameElementSrc}
+        loading="eager"
         scrolling="no"
         className={iframeClassName ?? 'block w-full border-0'}
         style={{
