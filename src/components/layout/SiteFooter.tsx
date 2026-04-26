@@ -15,7 +15,13 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-6 text-sm text-secondary sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <Link href="/" className="font-serif text-base text-primary">
-            V-Tabs
+            PlayByFingering
+          </Link>
+          <Link href="/learn" className="underline-offset-4 hover:underline">
+            Learn
+          </Link>
+          <Link href="/resources" className="underline-offset-4 hover:underline">
+            Resources
           </Link>
           <span>Recorder, ocarina, and tin whistle learning library.</span>
         </div>

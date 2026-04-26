@@ -13,6 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/learn`,
       lastModified: new Date()
     },
+    {
+      url: `${siteUrl}/resources`,
+      lastModified: new Date()
+    },
     ...getLearnGuideSlugs().map(slug => ({
       url: `${siteUrl}/learn/${slug}`,
       lastModified: new Date()
