@@ -250,6 +250,65 @@ test.describe('runtime-backed song pages', () => {
     expect(layerOrder!.lastCoverIndex).toBeLessThan(layerOrder!.firstLabelIndex)
   })
 
+  test('english runtime translates visible Chinese interlude markers', async ({ page }) => {
+    const cases = [
+      {
+        path: 'memory-sky?runtime_text_mode=english&instrument=o12',
+        expectedMarkers: ['4-bar interlude', '6-bar interlude']
+      },
+      {
+        path: 'reminiscence?runtime_text_mode=english&instrument=o12',
+        expectedMarkers: ['Interlude']
+      }
+    ] as const
+
+    for (const item of cases) {
+      await page.goto(`/api/kuailepu-runtime/${item.path}`, {
+        waitUntil: 'domcontentloaded'
+      })
+      await expect(page.locator('svg.sheet-svg')).toBeVisible({ timeout: 20000 })
+
+      const visibleTextNodes = await page.locator('svg.sheet-svg text').evaluateAll(nodes =>
+        nodes.flatMap(node => {
+          let current: Element | null = node
+          while (current) {
+            if (current.getAttribute('display') === 'none') {
+              return []
+            }
+            current = current.parentElement
+          }
+
+          const style = window.getComputedStyle(node)
+          if (style.display === 'none' || style.visibility === 'hidden') {
+            return []
+          }
+
+          const text = node.textContent?.trim() ?? ''
+          return text
+            ? [
+                {
+                  text,
+                  textLength: node.getAttribute('textLength'),
+                  fontSize: node.getAttribute('font-size')
+                }
+              ]
+            : []
+        })
+      )
+      const visibleSheetText = visibleTextNodes.map(node => node.text).join('\n')
+
+      expect(visibleSheetText).not.toMatch(/[\u3400-\u9fff]/)
+      for (const marker of item.expectedMarkers) {
+        expect(visibleSheetText).toContain(marker)
+      }
+      expect(
+        visibleTextNodes
+          .filter(node => /interlude/i.test(node.text))
+          .every(node => node.textLength === null && Number(node.fontSize) <= 16)
+      ).toBe(true)
+    }
+  })
+
   test('source-default German recorder pages keep the public mouthpiece-up chart default', async ({
     page
   }) => {

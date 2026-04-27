@@ -1981,6 +1981,14 @@ function buildRuntimeBridgeScript(
       ['重吹', 'Strong blow'],
       ['演奏顺序：', 'Play order:'],
       ['演奏顺序', 'Play order'],
+      ['前奏', 'Prelude'],
+      ['後奏', 'Postlude'],
+      ['后奏', 'Postlude'],
+      ['間奏', 'Interlude'],
+      ['间奏', 'Interlude'],
+      ['尾奏', 'Coda'],
+      ['省略', 'Omit'],
+      ['休止', 'Rest'],
       ['英文版', 'English lyrics version'],
       ['瓦格纳版本', 'Wagner version'],
       ['美国民歌', 'American folk song'],
@@ -2001,6 +2009,21 @@ function buildRuntimeBridgeScript(
 
     var translated = replaceAllText(text, replacements);
     translated = translated
+      .replace(/[（(]\\s*Prelude\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar prelude')
+      .replace(/[（(]\\s*Postlude\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar postlude')
+      .replace(/[（(]\\s*Interlude\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar interlude')
+      .replace(/[（(]\\s*Coda\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar coda')
+      .replace(/[（(]\\s*Omit\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar omit')
+      .replace(/[（(]\\s*Rest\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar rest')
+      .replace(/\\((prelude|postlude|interlude|coda|omit|rest)\\s+(\\d+)\\s+measures\\)/gi, function (_, label, count) {
+        return count + '-bar ' + String(label).toLowerCase();
+      })
+      .replace(/[（(]\\s*Prelude\\s*[）)]/g, '(prelude)')
+      .replace(/[（(]\\s*Postlude\\s*[）)]/g, '(postlude)')
+      .replace(/[（(]\\s*Interlude\\s*[）)]/g, '(interlude)')
+      .replace(/[（(]\\s*Coda\\s*[）)]/g, '(coda)')
+      .replace(/[（(]\\s*Omit\\s*[）)]/g, '(omit)')
+      .replace(/[（(]\\s*Rest\\s*[）)]/g, '(rest)')
       .replace(/\\bocarina\\((12|6) holes\\)\\s*/gi, function (_, holes) {
         return holes + '-hole ocarina ';
       })
@@ -2028,7 +2051,17 @@ function buildRuntimeBridgeScript(
       return false;
     }
 
-    return /(?:Composer|Lyricist|Arranger|Notation|fingering|ocarina|recorder|xun|hulusi|xiao|bamboo flute)/i.test(
+    return /(?:Composer|Lyricist|Arranger|Notation|fingering|ocarina|recorder|xun|hulusi|xiao|bamboo flute|prelude|postlude|interlude|coda|omit|rest|measures)/i.test(
+      text
+    );
+  }
+
+  function isVisibleSheetStructureMarkerText(text) {
+    if (!text || textMode !== 'english') {
+      return false;
+    }
+
+    return /(?:\\b\\d+-bar\\s+(?:prelude|postlude|interlude|coda|omit|rest)\\b|\\b(?:prelude|postlude|interlude|coda|omit|rest)\\b)/i.test(
       text
     );
   }
@@ -2245,6 +2278,12 @@ function buildRuntimeBridgeScript(
         if (shouldRelaxWidth) {
           node.removeAttribute('textLength');
           node.removeAttribute('lengthAdjust');
+        }
+        if (isVisibleSheetStructureMarkerText(translated || original)) {
+          var currentFontSize = Number(node.getAttribute('font-size') || 0);
+          if (Number.isFinite(currentFontSize) && currentFontSize > 16) {
+            node.setAttribute('font-size', '16');
+          }
         }
         node.textContent = translated;
       });
