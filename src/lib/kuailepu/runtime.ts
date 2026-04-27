@@ -1827,6 +1827,37 @@ function buildRuntimeBridgeScript(
       });
   }
 
+  function getLetterTrackGraceNoteGlyphs(svg) {
+    return Array.prototype.slice
+      .call(svg.querySelectorAll('use'))
+      .filter(function (node) {
+        return /^#yiyin_yinfu_[0-7]$/.test(getUseHref(node));
+      })
+      .map(function (node) {
+        var href = getUseHref(node);
+        var bbox = typeof node.getBBox === 'function' ? node.getBBox() : null;
+        var x = Number(node.getAttribute('x') || 0);
+        var y = Number(node.getAttribute('y') || 0);
+
+        return {
+          href: href,
+          degree: Number((href.match(/#yiyin_yinfu_(\\d)/) || [])[1] || -1),
+          sourceX: x,
+          sourceY: y,
+          x: bbox && Number.isFinite(bbox.x) ? bbox.x : x - 4,
+          y: bbox && Number.isFinite(bbox.y) ? bbox.y : y - 7,
+          width: bbox && Number.isFinite(bbox.width) && bbox.width > 0 ? bbox.width : 8,
+          height: bbox && Number.isFinite(bbox.height) && bbox.height > 0 ? bbox.height : 11
+        };
+      })
+      .sort(function (left, right) {
+        if (left.y !== right.y) {
+          return left.y - right.y;
+        }
+        return left.x - right.x;
+      });
+  }
+
   function getLetterTrackGlyphMarkers(svg) {
     return Array.prototype.slice
       .call(svg.querySelectorAll('use'))
@@ -1920,6 +1951,65 @@ function buildRuntimeBridgeScript(
       base.letter,
       base.accidental + accidentalShift,
       base.octave + octaveShift
+    );
+  }
+
+  function mapGlyphMarkersToLetterLabel(glyph, glyphMarkers) {
+    if (!glyph || !glyphMarkers) {
+      return null;
+    }
+
+    if (glyph.degree === 0) {
+      return 'R';
+    }
+
+    if (!Array.isArray(letterTrack.scale) || letterTrack.scale.length < 7) {
+      return null;
+    }
+
+    var base = letterTrack.scale[glyph.degree - 1];
+    if (!base) {
+      return null;
+    }
+
+    var highCount = glyphMarkers.filter(function (marker) {
+      return (
+        (marker.href === '#yingao_gao' || marker.href === '#yiyin_yingao_gao') &&
+        Math.abs(marker.x - glyph.sourceX) <= 3 &&
+        marker.y <= glyph.sourceY + 2 &&
+        marker.y >= glyph.sourceY - 28
+      );
+    }).length;
+    var lowCount = glyphMarkers.filter(function (marker) {
+      return (
+        (marker.href === '#yingao_di' || marker.href === '#yiyin_yingao_di') &&
+        Math.abs(marker.x - glyph.sourceX) <= 3 &&
+        marker.y >= glyph.sourceY - 2 &&
+        marker.y <= glyph.sourceY + 20
+      );
+    }).length;
+    var accidentalShift =
+      glyphMarkers.filter(function (marker) {
+        return (
+          marker.href === '#yiyin_bianyinfu_sheng' &&
+          marker.x >= glyph.sourceX - 26 &&
+          marker.x <= glyph.sourceX - 2 &&
+          Math.abs(marker.y - glyph.sourceY) <= 10
+        );
+      }).length -
+      glyphMarkers.filter(function (marker) {
+        return (
+          marker.href === '#yiyin_bianyinfu_jiang' &&
+          marker.x >= glyph.sourceX - 26 &&
+          marker.x <= glyph.sourceX - 2 &&
+          Math.abs(marker.y - glyph.sourceY) <= 10
+        );
+      }).length;
+
+    return formatGlyphLetterName(
+      base.letter,
+      base.accidental + accidentalShift,
+      base.octave + highCount - lowCount
     );
   }
 
@@ -2533,6 +2623,8 @@ function buildRuntimeBridgeScript(
       var breathMarks = getLetterTrackBreathMarks(svg);
       var alignedGlyphTokens = getAlignedGlyphTokens(noteGlyphs);
       var glyphMarkers = alignedGlyphTokens ? null : getLetterTrackGlyphMarkers(svg);
+      var graceNoteGlyphs = getLetterTrackGraceNoteGlyphs(svg);
+      var graceGlyphMarkers = graceNoteGlyphs.length > 0 ? getLetterTrackGlyphMarkers(svg) : null;
       var letterCovers = [];
       var letterLabels = [];
       noteGlyphs.forEach(function (glyph, index) {
@@ -2541,52 +2633,7 @@ function buildRuntimeBridgeScript(
           : null;
 
         if (!label && glyphMarkers) {
-          if (glyph.degree === 0) {
-            label = 'R';
-          } else if (Array.isArray(letterTrack.scale) && letterTrack.scale.length >= 7) {
-            var base = letterTrack.scale[glyph.degree - 1];
-            if (base) {
-              var highCount = glyphMarkers.filter(function (marker) {
-                return (
-                  (marker.href === '#yingao_gao' || marker.href === '#yiyin_yingao_gao') &&
-                  Math.abs(marker.x - glyph.sourceX) <= 3 &&
-                  marker.y <= glyph.sourceY + 2 &&
-                  marker.y >= glyph.sourceY - 28
-                );
-              }).length;
-              var lowCount = glyphMarkers.filter(function (marker) {
-                return (
-                  (marker.href === '#yingao_di' || marker.href === '#yiyin_yingao_di') &&
-                  Math.abs(marker.x - glyph.sourceX) <= 3 &&
-                  marker.y >= glyph.sourceY - 2 &&
-                  marker.y <= glyph.sourceY + 20
-                );
-              }).length;
-              var accidentalShift =
-                glyphMarkers.filter(function (marker) {
-                  return (
-                    marker.href === '#yiyin_bianyinfu_sheng' &&
-                    marker.x >= glyph.sourceX - 26 &&
-                    marker.x <= glyph.sourceX - 2 &&
-                    Math.abs(marker.y - glyph.sourceY) <= 10
-                  );
-                }).length -
-                glyphMarkers.filter(function (marker) {
-                  return (
-                    marker.href === '#yiyin_bianyinfu_jiang' &&
-                    marker.x >= glyph.sourceX - 26 &&
-                    marker.x <= glyph.sourceX - 2 &&
-                    Math.abs(marker.y - glyph.sourceY) <= 10
-                  );
-                }).length;
-
-              label = formatGlyphLetterName(
-                base.letter,
-                base.accidental + accidentalShift,
-                base.octave + highCount - lowCount
-              );
-            }
-          }
+          label = mapGlyphMarkersToLetterLabel(glyph, glyphMarkers);
         }
         if (!label) {
           return;
@@ -2622,6 +2669,41 @@ function buildRuntimeBridgeScript(
         text.setAttribute('paint-order', 'stroke fill');
         text.setAttribute('stroke', '#ffffff');
         text.setAttribute('stroke-width', '2.5');
+        text.setAttribute('stroke-linejoin', 'round');
+        text.textContent = label;
+        letterLabels.push(text);
+      });
+
+      graceNoteGlyphs.forEach(function (glyph) {
+        var label = mapGlyphMarkersToLetterLabel(glyph, graceGlyphMarkers);
+        if (!label) {
+          return;
+        }
+
+        var cover = createSvgNode('rect');
+        cover.setAttribute('data-vtabs-letter-track', 'cover');
+        cover.setAttribute('x', String(glyph.x - 5));
+        cover.setAttribute('y', String(glyph.y - 4));
+        cover.setAttribute('width', String(Math.max(label.length >= 3 ? 20 : 17, glyph.width + 10)));
+        cover.setAttribute('height', String(Math.max(25, glyph.height + 16)));
+        cover.setAttribute('rx', '2');
+        cover.setAttribute('fill', '#ffffff');
+        cover.setAttribute('fill-opacity', '0.98');
+        letterCovers.push(cover);
+
+        var text = createSvgNode('text');
+        text.setAttribute('data-vtabs-letter-track', 'label');
+        text.setAttribute('data-vtabs-letter-track-kind', 'grace');
+        text.setAttribute('x', String(glyph.x + glyph.width / 2));
+        text.setAttribute('y', String(glyph.y + glyph.height + 1.5));
+        text.setAttribute('fill', '#7a5331');
+        text.setAttribute('font-size', label.length >= 3 ? '8' : '9');
+        text.setAttribute('font-weight', '700');
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.setAttribute('paint-order', 'stroke fill');
+        text.setAttribute('stroke', '#ffffff');
+        text.setAttribute('stroke-width', '2');
         text.setAttribute('stroke-linejoin', 'round');
         text.textContent = label;
         letterLabels.push(text);

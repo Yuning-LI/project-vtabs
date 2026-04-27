@@ -499,9 +499,6 @@ export default function KuailepuRuntimeInteractiveShell({
           <span aria-hidden="true" className="text-[0.95rem] leading-none md:text-base">←</span>
           <span>Back to Song Library</span>
         </Link>
-        <div className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-stone-500 md:text-[0.7rem] md:tracking-[0.18em]">
-          {seo.familyLabel} · {seo.difficultyLabel}
-        </div>
         <h1 className="mt-1.5 text-[1.7rem] font-black leading-tight tracking-tight text-stone-900 md:mt-2 md:text-[3.05rem]">
           {title}
         </h1>

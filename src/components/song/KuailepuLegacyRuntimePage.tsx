@@ -44,7 +44,7 @@ export default function KuailepuLegacyRuntimePage({
 
   return (
     <main className="page-warm-shell">
-      <div className="page-warm-container">
+      <div className="page-warm-container page-warm-song-container">
         <KuailepuRuntimeInteractiveShell
           songId={songId}
           supportedInstruments={supportedInstruments}

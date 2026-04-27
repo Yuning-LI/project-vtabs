@@ -91,6 +91,9 @@ test.describe('runtime-backed song pages', () => {
 
     await page.goto('/song/ode-to-joy', { waitUntil: 'domcontentloaded' })
 
+    await expect(page.locator('.page-warm-hero')).not.toContainText(
+      'Classical Melody · Beginner to easy'
+    )
     await expect(page.getByRole('link', { name: 'Back to Song Library' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 1, name: 'Ode to Joy' })).toBeVisible()
     await expect(page.getByRole('region', { name: 'Function Zone' })).toBeVisible()
@@ -307,6 +310,46 @@ test.describe('runtime-backed song pages', () => {
           .every(node => node.textLength === null && Number(node.fontSize) <= 16)
       ).toBe(true)
     }
+  })
+
+  test('letter mode converts visible grace-note jianpu glyphs', async ({ page }) => {
+    await page.goto('/api/kuailepu-runtime/reminiscence?runtime_text_mode=english&instrument=o12', {
+      waitUntil: 'domcontentloaded'
+    })
+    await expect(page.locator('svg.sheet-svg')).toBeVisible({ timeout: 20000 })
+
+    const graceState = await page.locator('svg.sheet-svg').evaluate(svg => {
+      const hrefOf = (node: Element) =>
+        node.getAttribute('href') ?? node.getAttribute('xlink:href') ?? ''
+      const graceGlyphCount = Array.from(svg.querySelectorAll('use')).filter(node =>
+        /^#yiyin_yinfu_[0-7]$/.test(hrefOf(node))
+      ).length
+      const graceLabels = Array.from(
+        svg.querySelectorAll('[data-vtabs-letter-track-kind="grace"]')
+      ).map(node => ({
+        text: node.textContent?.trim() ?? '',
+        fontSize: Number(node.getAttribute('font-size') ?? 0)
+      }))
+
+      return {
+        graceGlyphCount,
+        graceLabels
+      }
+    })
+
+    expect(graceState.graceGlyphCount).toBeGreaterThan(0)
+    expect(graceState.graceLabels).toHaveLength(graceState.graceGlyphCount)
+    expect(graceState.graceLabels.map(label => label.text)).toEqual([
+      'A5',
+      'C6',
+      'C6',
+      'C5',
+      'D5',
+      'Bb5'
+    ])
+    expect(graceState.graceLabels.every(label => label.fontSize > 0 && label.fontSize <= 9)).toBe(
+      true
+    )
   })
 
   test('source-default German recorder pages keep the public mouthpiece-up chart default', async ({
