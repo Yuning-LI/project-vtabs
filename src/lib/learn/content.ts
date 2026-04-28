@@ -358,8 +358,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'mary-had-a-little-lamb',
       'lightly-row',
       'frere-jacques',
+      'london-bridge',
+      'happy-birthday-to-you',
       'ode-to-joy',
-      'amazing-grace'
+      'amazing-grace',
+      'jingle-bells',
+      'silent-night',
+      'deck-the-halls',
+      'scarborough-fair'
     ],
     sections: [
       {
@@ -433,7 +439,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'happy-birthday-to-you',
       'ode-to-joy',
       'jingle-bells',
-      'amazing-grace'
+      'amazing-grace',
+      'mary-had-a-little-lamb',
+      'frere-jacques',
+      'london-bridge',
+      'silent-night',
+      'deck-the-halls',
+      'scarborough-fair'
     ],
     sections: [
       {
@@ -504,8 +516,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       { slug: 'mary-had-a-little-lamb', instrumentId: 'o6' },
       { slug: 'frere-jacques', instrumentId: 'o6' },
       { slug: 'london-bridge', instrumentId: 'o6' },
+      { slug: 'row-row-row-your-boat', instrumentId: 'o6' },
+      { slug: 'old-macdonald', instrumentId: 'o6' },
       { slug: 'jingle-bells', instrumentId: 'o6' },
-      { slug: 'ode-to-joy', instrumentId: 'o6' }
+      { slug: 'ode-to-joy', instrumentId: 'o6' },
+      { slug: 'deck-the-halls', instrumentId: 'o6' },
+      { slug: 'silent-night', instrumentId: 'o6' }
     ],
     sections: [
       {
@@ -578,10 +594,16 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       [
       'twinkle-twinkle-little-star',
       'mary-had-a-little-lamb',
+      'lightly-row',
       'frere-jacques',
+      'london-bridge',
+      'row-row-row-your-boat',
+      'old-macdonald',
       'jingle-bells',
       'ode-to-joy',
-      'happy-birthday-to-you'
+      'happy-birthday-to-you',
+      'silent-night',
+      'amazing-grace'
       ],
       'r8b'
     ),
@@ -659,7 +681,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'amazing-grace',
       'red-river-valley',
       'auld-lang-syne',
-      'scarborough-fair'
+      'scarborough-fair',
+      'the-south-wind',
+      'loch-lomond',
+      'greensleeves',
+      'londonderry-air',
+      'wellerman',
+      'jingle-bells'
       ],
       'w6'
     ),
@@ -1279,7 +1307,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       { slug: 'frere-jacques', instrumentId: 'o6' },
       { slug: 'london-bridge', instrumentId: 'o6' },
       { slug: 'row-row-row-your-boat', instrumentId: 'o6' },
-      { slug: 'jingle-bells', instrumentId: 'o6' }
+      { slug: 'jingle-bells', instrumentId: 'o6' },
+      { slug: 'old-macdonald', instrumentId: 'o6' },
+      { slug: 'do-your-ears-hang-low', instrumentId: 'o6' },
+      { slug: 'deck-the-halls', instrumentId: 'o6' },
+      { slug: 'ode-to-joy', instrumentId: 'o6' }
     ],
     sections: [
       {
@@ -1424,7 +1456,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         'row-row-row-your-boat',
         'frere-jacques',
         'old-macdonald',
-        'ode-to-joy'
+        'ode-to-joy',
+        'twinkle-twinkle-little-star',
+        'london-bridge',
+        'happy-birthday-to-you',
+        'jingle-bells',
+        'silent-night',
+        'amazing-grace'
       ],
       'r8b'
     ),
@@ -1502,7 +1540,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'amazing-grace',
       'red-river-valley',
       'wellerman',
-      'loch-lomond'
+      'loch-lomond',
+      'auld-lang-syne',
+      'scarborough-fair',
+      'the-south-wind',
+      'greensleeves',
+      'londonderry-air',
+      'jingle-bells'
       ],
       'w6'
     ),
@@ -1575,7 +1619,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         'we-wish-you-a-merry-christmas',
         'deck-the-halls',
         'joy-to-the-world',
-        'god-rest-you-merry-gentlemen'
+        'god-rest-you-merry-gentlemen',
+        'jolly-old-saint-nicholas',
+        'happy-new-year',
+        'auld-lang-syne',
+        'auld-lang-syne-english'
       ],
       'r8b'
     ),
@@ -1646,7 +1694,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         'deck-the-halls',
         'we-wish-you-a-merry-christmas',
         'joy-to-the-world',
-        'god-rest-you-merry-gentlemen'
+        'god-rest-you-merry-gentlemen',
+        'jolly-old-saint-nicholas',
+        'happy-new-year',
+        'auld-lang-syne',
+        'auld-lang-syne-english'
       ],
       'w6'
     ),
@@ -2358,7 +2410,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'irish-morning-wind',
       'irish-blackbird',
       'loch-lomond',
-      'scotland-the-brave'
+      'scotland-the-brave',
+      'auld-lang-syne',
+      'scarborough-fair',
+      'greensleeves',
+      'londonderry-air',
+      'wellerman'
       ],
       'w6'
     ),

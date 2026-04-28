@@ -11,6 +11,7 @@ import {
   type ResolvedLearnGuide
 } from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
+import { songCatalog } from '@/lib/songbook/catalog'
 
 export const dynamicParams = false
 
@@ -55,10 +56,14 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
   if (!guide) {
     notFound()
   }
+  const isHubGuide = guide.kind === 'hub'
+  const uniqueSongCount = getUniqueLearnGuideSongCount(guide)
   const heroParagraphs =
-    guide.heroSummary?.length && guide.kind === 'hub'
+    guide.heroSummary?.length && isHubGuide
       ? guide.heroSummary
       : [guide.description, ...guide.intro]
+  const heroLeadParagraphs = isHubGuide ? heroParagraphs.slice(0, 1) : heroParagraphs
+  const deferredHeroParagraphs = isHubGuide ? heroParagraphs.slice(1) : []
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -126,38 +131,78 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
         />
 
         <section className="page-warm-hero px-5 py-5 md:px-7 md:py-7">
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="/learn"
-              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
-            >
-              Back to Learn
-            </Link>
-            <Link
-              href="/"
-              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
-            >
-              Song Library
-            </Link>
-          </div>
-          <div className="mt-5 page-warm-pill w-fit px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
-            {guide.heroLabel}
-          </div>
-          <h1 className="mt-3 text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
-            {guide.title}
-          </h1>
-          <div className="mt-5 max-w-3xl space-y-4">
-            {heroParagraphs.map(paragraph => (
-              <p key={paragraph} className="text-sm leading-7 text-stone-700">
-                {paragraph}
-              </p>
-            ))}
+          <div
+            className={
+              isHubGuide
+                ? 'grid gap-6 lg:grid-cols-[minmax(0,1.05fr),minmax(18rem,0.95fr)]'
+                : 'block'
+            }
+          >
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href="/learn"
+                  className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+                >
+                  Back to Learn
+                </Link>
+                <Link
+                  href="/"
+                  className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+                >
+                  Song Library
+                </Link>
+              </div>
+              {isHubGuide ? (
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <div className="page-warm-pill-muted w-fit px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
+                    {uniqueSongCount} song links
+                  </div>
+                </div>
+              ) : null}
+              <h1 className="mt-3 text-[2rem] font-black tracking-tight text-stone-900 md:text-[3rem]">
+                {guide.title}
+              </h1>
+              <div className={`mt-5 space-y-4 ${isHubGuide ? 'max-w-3xl' : 'max-w-none'}`}>
+                {heroLeadParagraphs.map(paragraph => (
+                  <p key={paragraph} className="text-sm leading-7 text-stone-700">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+            {isHubGuide ? (
+              <aside className="page-warm-panel-soft hidden p-5 md:p-6 lg:block">
+                <h2 className="text-xl font-bold text-stone-900">Resource Snapshot</h2>
+                <p className="mt-2 text-sm leading-6 text-stone-700">
+                  A compact summary for visitors who want to see how much usable material this
+                  page opens up before they decide to bookmark it.
+                </p>
+                <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <SnapshotStat label="Song links" value={`${uniqueSongCount}`} />
+                  <SnapshotStat label="Public library" value={`${songCatalog.length}`} />
+                  <SnapshotStat label="Page type" value={guide.heroLabel} />
+                  <SnapshotStat label="Reading mode" value="Letter / number" />
+                </dl>
+                <ul className="mt-5 grid gap-2 text-sm leading-6 text-stone-700">
+                  <li className="rounded-2xl bg-[rgba(255,247,237,0.86)] px-4 py-3">
+                    Direct links into the same public song route
+                  </li>
+                  <li className="rounded-2xl bg-[rgba(255,247,237,0.86)] px-4 py-3">
+                    Fingering charts stay available on supported songs
+                  </li>
+                  <li className="rounded-2xl bg-[rgba(255,247,237,0.86)] px-4 py-3">
+                    Letter notes stay first, with numbered notes as a backup view
+                  </li>
+                </ul>
+              </aside>
+            ) : null}
           </div>
         </section>
 
-        <section className="page-warm-panel mt-8 p-6 md:p-7">
+        <section className={`page-warm-panel p-6 md:p-7 ${isHubGuide ? 'mt-5' : 'mt-8'}`}>
           <h2 className="text-2xl font-bold text-stone-900">Featured Songs</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+          <p className="mt-3 max-w-none text-sm leading-7 text-stone-700">
             These song pages are the fastest way to move from a topic page into actual practice.
             They keep the public runtime intact while giving search visitors a more intentional
             path into the library.
@@ -172,6 +217,19 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
             />
           </div>
         </section>
+
+        {deferredHeroParagraphs.length ? (
+          <section className="page-warm-panel-soft mt-6 p-6 md:p-7">
+            <h2 className="text-xl font-bold text-stone-900">Why This Resource Helps</h2>
+            <div className="mt-4 max-w-4xl space-y-4">
+              {deferredHeroParagraphs.map(paragraph => (
+                <p key={paragraph} className="text-sm leading-7 text-stone-700">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr,0.9fr]">
           <div className="grid gap-6">
@@ -281,5 +339,23 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
         </section>
       </section>
     </main>
+  )
+}
+
+function getUniqueLearnGuideSongCount(guide: ResolvedLearnGuide) {
+  const slugs = new Set<string>()
+  guide.featuredSongs.forEach(song => slugs.add(song.slug))
+  guide.sections.forEach(section => section.songs.forEach(song => slugs.add(song.slug)))
+  return slugs.size
+}
+
+function SnapshotStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-[rgba(168,142,108,0.18)] bg-white/75 px-4 py-3">
+      <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-stone-500">
+        {label}
+      </dt>
+      <dd className="mt-1 text-lg font-bold text-stone-900">{value}</dd>
+    </div>
   )
 }
