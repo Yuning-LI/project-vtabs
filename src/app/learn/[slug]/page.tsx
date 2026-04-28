@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
@@ -141,16 +142,18 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
             <div>
               <div className="flex flex-wrap items-center gap-3">
                 <Link
-                  href="/learn"
-                  className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+                  href="/"
+                  className="page-warm-pill-muted inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold"
                 >
-                  Back to Learn
+                  <ChevronLeft size={16} aria-hidden="true" />
+                  Back to Song Library
                 </Link>
                 <Link
-                  href="/"
-                  className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+                  href="/learn"
+                  className="page-warm-pill-muted inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold"
                 >
-                  Song Library
+                  <ChevronLeft size={16} aria-hidden="true" />
+                  Back to Learn
                 </Link>
               </div>
               {isHubGuide ? (
