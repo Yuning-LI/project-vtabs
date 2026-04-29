@@ -30,6 +30,7 @@
     "export:print-pdf": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-print-song-pdf.ts",
     "export:pinterest-pin": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-pinterest-pin.ts",
     "export:pinterest-portrait": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-pinterest-pin.ts --width 500 --height 1280 --dpr 2 --capture canvas --sheet-scale 11 --max-output-height 1700",
+    "export:pinterest-batch": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-pinterest-pin.ts --width 500 --height 1280 --dpr 2 --capture canvas --max-output-height 1700",
     "test:e2e": "playwright test",
     "prepare": "husky"
   },

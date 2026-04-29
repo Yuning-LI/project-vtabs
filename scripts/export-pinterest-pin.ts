@@ -4,11 +4,16 @@ import { execFileSync } from 'node:child_process'
 import { chromium } from 'playwright'
 import type { Locator, Page } from 'playwright'
 import {
+  getPinterestPinBatch,
   getPinterestPinBoardName,
   getPinterestPinDescription,
   getPinterestPinDestinationUrl,
   getPinterestPinPreset,
+  getPinterestPinPresetById,
+  getPinterestPinPresetId,
   getPinterestPinTitle,
+  type PinterestPinBatch,
+  type PinterestPinPreset,
   pinterestFirstWavePresets
 } from '../src/lib/songbook/pinterestPins.ts'
 import { songCatalogBySlug } from '../src/lib/songbook/catalog.ts'
@@ -17,7 +22,10 @@ import { siteUrl } from '../src/lib/site.ts'
 
 type ExportArgs = {
   slugs: string[]
+  pinIds: string[]
+  batchIds: string[]
   outputDir: string
+  outputDirExplicit: boolean
   baseUrl: string
   manifestPath: string | null
   viewportWidth: number
@@ -41,29 +49,29 @@ type ExportArgs = {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2))
-  const targets: ExportTarget[] =
-    args.slugs.length > 0
-      ? args.slugs.map(slug => buildExportTarget(slug, args))
-      : [...pinterestFirstWavePresets].map(preset => buildExportTarget(preset.slug, args))
+  const targetPlan = buildTargetPlan(args)
+  const outputDir = resolveOutputDir(args, targetPlan.batches)
+  const targets = targetPlan.targets
 
   const browser = await chromium.launch({ headless: true })
 
   try {
-    const resolvedOutputDir = path.resolve(process.cwd(), args.outputDir)
+    const resolvedOutputDir = path.resolve(process.cwd(), outputDir)
     fs.mkdirSync(resolvedOutputDir, { recursive: true })
-    const manifestEntries: Array<Record<string, string>> = []
+    const manifestEntries: PinterestExportManifestEntry[] = []
 
     for (const preset of targets) {
+      const outputPath = path.resolve(
+        resolvedOutputDir,
+        buildOutputFilename(preset, args)
+      )
+
       const page = await browser.newPage({
         viewport: { width: args.viewportWidth, height: args.viewportHeight },
         deviceScaleFactor: args.deviceScaleFactor
       })
 
       try {
-        const outputPath = path.resolve(
-          resolvedOutputDir,
-          buildOutputFilename(preset, args)
-        )
         const finalSearchParams = new URLSearchParams(preset.searchParams.toString())
         let finalWorkbenchUrl = ''
 
@@ -127,20 +135,7 @@ async function main() {
           finalSearchParams.set('sheet_scale', String(currentSheetScale))
         }
 
-        manifestEntries.push({
-          slug: preset.slug,
-          imagePath: outputPath,
-          destinationUrl: buildPublicDestinationUrl(preset.slug, finalSearchParams),
-          trackingUrl: buildTrackingUrl(
-            buildPublicDestinationUrl(preset.slug, finalSearchParams),
-            preset.slug,
-            finalSearchParams.get('instrument')
-          ),
-          boardName: preset.boardName,
-          pinTitle: preset.pinTitle,
-          pinDescription: preset.pinDescription,
-          workbenchUrl: finalWorkbenchUrl
-        })
+        manifestEntries.push(buildManifestEntry(preset, outputPath, finalWorkbenchUrl))
 
         console.log(`Exported Pinterest pin to ${outputPath}`)
       } finally {
@@ -148,13 +143,10 @@ async function main() {
       }
     }
 
-    const manifestPath = path.resolve(
-      process.cwd(),
-      args.manifestPath ?? path.join(args.outputDir, 'manifest.json')
-    )
-    fs.mkdirSync(path.dirname(manifestPath), { recursive: true })
-    fs.writeFileSync(manifestPath, `${JSON.stringify(manifestEntries, null, 2)}\n`, 'utf8')
-    console.log(`Wrote Pinterest manifest to ${manifestPath}`)
+    if (args.manifestPath) {
+      const manifestPath = path.resolve(process.cwd(), args.manifestPath)
+      writePinterestManifest(manifestPath, manifestEntries)
+    }
   } finally {
     await browser.close()
   }
@@ -394,14 +386,107 @@ img.save(image_path)
 }
 
 type ExportTarget = {
+  pinId: string
+  batchId: string | null
   slug: string
   title: string
+  instrumentId: string | null
   boardName: string
   pinTitle: string
   pinDescription: string
   destinationUrl: string
   trackingUrl: string
+  campaignId: string
+  utmMedium: string
   searchParams: URLSearchParams
+}
+
+type PinterestExportManifestEntry = {
+  pinId: string
+  batchId: string | null
+  slug: string
+  instrumentId: string | null
+  imagePath: string
+  destinationUrl: string
+  trackingUrl: string
+  boardName: string
+  pinTitle: string
+  pinDescription: string
+  campaignId: string
+  utmMedium: string
+  workbenchUrl: string
+}
+
+type TargetPlan = {
+  targets: ExportTarget[]
+  batches: PinterestPinBatch[]
+}
+
+function buildTargetPlan(args: ExportArgs): TargetPlan {
+  if (args.pinIds.length > 0) {
+    return {
+      targets: args.pinIds.map(pinId => {
+        const preset = getPinterestPinPresetById(pinId)
+        if (!preset) {
+          throw new Error(`Unknown Pinterest pin preset: ${pinId}`)
+        }
+
+        return buildExportTargetFromPreset(preset, args, null)
+      }),
+      batches: []
+    }
+  }
+
+  if (args.batchIds.length > 0) {
+    const batches = args.batchIds.map(batchId => {
+      const batch = getPinterestPinBatch(batchId)
+      if (!batch) {
+        throw new Error(`Unknown Pinterest pin batch: ${batchId}`)
+      }
+
+      return batch
+    })
+
+    return {
+      targets: batches.flatMap(batch =>
+        batch.pins.map(pinId => {
+          const preset = getPinterestPinPresetById(pinId)
+          if (!preset) {
+            throw new Error(`Batch ${batch.id} references unknown Pinterest pin preset: ${pinId}`)
+          }
+
+          return buildExportTargetFromPreset(preset, args, batch)
+        })
+      ),
+      batches
+    }
+  }
+
+  if (args.slugs.length > 0) {
+    return {
+      targets: args.slugs.map(slug => buildExportTarget(slug, args)),
+      batches: []
+    }
+  }
+
+  return {
+    targets: [...pinterestFirstWavePresets].map(preset =>
+      buildExportTargetFromPreset(preset, args, null)
+    ),
+    batches: []
+  }
+}
+
+function resolveOutputDir(args: ExportArgs, batches: PinterestPinBatch[]) {
+  if (args.outputDirExplicit) {
+    return args.outputDir
+  }
+
+  if (batches.length === 1) {
+    return batches[0]?.outputDir ?? args.outputDir
+  }
+
+  return args.outputDir
 }
 
 function buildExportTarget(slug: string, args: ExportArgs): ExportTarget {
@@ -411,6 +496,42 @@ function buildExportTarget(slug: string, args: ExportArgs): ExportTarget {
     throw new Error(`Unknown public song slug: ${slug}`)
   }
 
+  return buildExportTargetFromValues({
+    preset,
+    args,
+    batch: null,
+    slug,
+    fallbackTitle: song.title
+  })
+}
+
+function buildExportTargetFromPreset(
+  preset: PinterestPinPreset,
+  args: ExportArgs,
+  batch: PinterestPinBatch | null
+) {
+  const song = songCatalogBySlug[preset.slug]
+  if (!song) {
+    throw new Error(`Unknown public song slug in Pinterest preset ${getPinterestPinPresetId(preset)}: ${preset.slug}`)
+  }
+
+  return buildExportTargetFromValues({
+    preset,
+    args,
+    batch,
+    slug: preset.slug,
+    fallbackTitle: song.title
+  })
+}
+
+function buildExportTargetFromValues(input: {
+  preset: PinterestPinPreset | null
+  args: ExportArgs
+  batch: PinterestPinBatch | null
+  slug: string
+  fallbackTitle: string
+}): ExportTarget {
+  const { preset, args, batch, slug, fallbackTitle } = input
   const searchParams = new URLSearchParams()
   if (args.instrument) {
     searchParams.set('instrument', args.instrument)
@@ -456,18 +577,27 @@ function buildExportTarget(slug: string, args: ExportArgs): ExportTarget {
   }
 
   const destinationUrl = buildDestinationUrl(slug, preset, args)
+  const pinId = preset ? getPinterestPinPresetId(preset) : `${slug}-${args.instrument ?? 'default'}`
+  const instrumentId = args.instrument ?? preset?.instrumentId ?? null
+  const campaignId = preset?.campaignId ?? batch?.campaignId ?? 'pinterest-workbench'
+  const utmMedium = preset?.utmMedium ?? 'organic'
 
   return {
+    pinId,
+    batchId: batch?.id ?? null,
     slug,
-    title: preset?.title ?? song.title,
+    title: preset?.title ?? fallbackTitle,
+    instrumentId,
     boardName: preset ? getPinterestPinBoardName(preset) : 'Pinterest Workbench Exports',
-    pinTitle: preset ? getPinterestPinTitle(preset) : `${song.title} Letter Notes`,
+    pinTitle: preset ? getPinterestPinTitle(preset) : `${fallbackTitle} Letter Notes`,
     pinDescription:
       preset
         ? getPinterestPinDescription(preset)
-        : `Play ${song.title} with letter notes, fingering charts, and optional numbered notes on Play By Fingering.`,
+        : `Play ${fallbackTitle} with letter notes, fingering charts, and optional numbered notes on Play By Fingering.`,
     destinationUrl,
-    trackingUrl: buildTrackingUrl(destinationUrl, slug, args.instrument ?? preset?.instrumentId ?? null),
+    trackingUrl: buildTrackingUrl(destinationUrl, slug, instrumentId, campaignId, utmMedium),
+    campaignId,
+    utmMedium,
     searchParams
   }
 }
@@ -509,13 +639,41 @@ function normalizeInstrumentForPublicHref(value: string | null) {
   return value
 }
 
-function buildTrackingUrl(destinationUrl: string, slug: string, instrumentId: string | null) {
+function buildTrackingUrl(
+  destinationUrl: string,
+  slug: string,
+  instrumentId: string | null,
+  campaignId: string,
+  utmMedium: string
+) {
   const url = new URL(destinationUrl)
   url.searchParams.set('utm_source', 'pinterest')
-  url.searchParams.set('utm_medium', 'social')
-  url.searchParams.set('utm_campaign', 'pinterest-workbench')
+  url.searchParams.set('utm_medium', utmMedium)
+  url.searchParams.set('utm_campaign', campaignId)
   url.searchParams.set('utm_content', instrumentId ? `${slug}-${instrumentId}` : slug)
   return url.toString()
+}
+
+function buildManifestEntry(
+  target: ExportTarget,
+  outputPath: string,
+  workbenchUrl: string
+): PinterestExportManifestEntry {
+  return {
+    pinId: target.pinId,
+    batchId: target.batchId,
+    slug: target.slug,
+    instrumentId: target.instrumentId,
+    imagePath: outputPath,
+    destinationUrl: target.destinationUrl,
+    trackingUrl: target.trackingUrl,
+    boardName: target.boardName,
+    pinTitle: target.pinTitle,
+    pinDescription: target.pinDescription,
+    campaignId: target.campaignId,
+    utmMedium: target.utmMedium,
+    workbenchUrl
+  }
 }
 
 function buildPublicDestinationUrl(songSlug: string, searchParams: URLSearchParams) {
@@ -531,6 +689,15 @@ function buildPublicDestinationUrl(songSlug: string, searchParams: URLSearchPara
   })
 
   return `${siteUrl}${href}`
+}
+
+function writePinterestManifest(
+  manifestPath: string,
+  entries: PinterestExportManifestEntry[]
+) {
+  fs.mkdirSync(path.dirname(manifestPath), { recursive: true })
+  fs.writeFileSync(manifestPath, `${JSON.stringify(entries, null, 2)}\n`, 'utf8')
+  console.log(`Wrote Pinterest manifest to ${manifestPath}`)
 }
 
 function buildOutputFilename(target: ExportTarget, args: ExportArgs) {
@@ -584,6 +751,8 @@ with Image.open(sys.argv[1]) as img:
 function parseArgs(argv: string[]): ExportArgs {
   const values = new Map<string, string>()
   const slugs: string[] = []
+  const pinIds: string[] = []
+  const batchIds: string[] = []
 
   for (let index = 0; index < argv.length; index += 1) {
     const part = argv[index]
@@ -593,6 +762,26 @@ function parseArgs(argv: string[]): ExportArgs {
         throw new Error('Missing value for --slug')
       }
       slugs.push(next)
+      index += 1
+      continue
+    }
+
+    if (part === '--pin') {
+      const next = argv[index + 1]
+      if (!next || next.startsWith('--')) {
+        throw new Error('Missing value for --pin')
+      }
+      pinIds.push(next)
+      index += 1
+      continue
+    }
+
+    if (part === '--batch') {
+      const next = argv[index + 1]
+      if (!next || next.startsWith('--')) {
+        throw new Error('Missing value for --batch')
+      }
+      batchIds.push(next)
       index += 1
       continue
     }
@@ -613,7 +802,10 @@ function parseArgs(argv: string[]): ExportArgs {
 
   return {
     slugs,
+    pinIds,
+    batchIds,
     outputDir: values.get('output-dir') ?? 'exports/pinterest-first-wave',
+    outputDirExplicit: values.has('output-dir'),
     baseUrl: values.get('base-url') ?? 'http://127.0.0.1:3000',
     manifestPath: values.get('manifest-path') ?? null,
     viewportWidth: parsePositiveInt(values.get('width'), 1000, '--width'),

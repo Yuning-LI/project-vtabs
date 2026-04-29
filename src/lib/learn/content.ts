@@ -130,13 +130,17 @@ const FEATURED_GUIDE_SLUGS = [
 ] as const
 
 const CELTIC_TIN_WHISTLE_SONG_SLUGS = new Set([
+  'scarborough-fair',
+  'greensleeves',
+  'londonderry-air',
   'the-south-wind',
   'lough-leane',
   'irish-morning-wind',
   'irish-blackbird',
   'loch-lomond',
   'scotland-the-brave',
-  'auld-lang-syne'
+  'auld-lang-syne',
+  'wellerman'
 ])
 
 const CEREMONY_SONG_SLUGS = new Set([
@@ -190,7 +194,9 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'imagine',
   'la-vie-en-rose',
   'kiss-the-rain',
+  'lemon-kenshi-yonezu',
   'let-it-be',
+  'let-it-go',
   'londonderry-air',
   'lullaby',
   'memory-sky',
@@ -243,9 +249,12 @@ const LULLABY_BEDTIME_SONG_SLUGS = new Set([
 ])
 
 const DANCE_WALTZ_SONG_SLUGS = new Set([
+  'blue-bird',
   'can-can',
+  'cruel-angels-thesis',
   'habanera',
   'hes-a-pirate',
+  'gurenge',
   'merry-go-round-of-life',
   'tennessee-waltz',
   'the-last-waltz',
@@ -254,6 +263,7 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
   'blacksmith-polka',
   'the-hawthorn-tree',
   'dancing-doll-and-teddy-bear',
+  'flower-dance',
   'swan-lake',
   'turkish-march'
 ])
@@ -265,6 +275,7 @@ const SING_ALONG_SONG_SLUGS = new Set([
   'old-macdonald',
   'happy-birthday-to-you',
   'do-re-mi',
+  'let-it-go',
   'jingle-bells',
   'deck-the-halls',
   'we-wish-you-a-merry-christmas',
@@ -274,6 +285,8 @@ const SING_ALONG_SONG_SLUGS = new Set([
 ])
 
 const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
+  'blue-bird',
+  'cruel-angels-thesis',
   'happy-birthday-to-you',
   'ode-to-joy',
   'amazing-grace',
@@ -281,7 +294,9 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'wedding-march',
   'wedding-march-alt',
   'american-patrol',
+  'gurenge',
   'hes-a-pirate',
+  'let-it-go',
   'the-imperial-march',
   'game-of-thrones-theme',
   'turkish-march',
@@ -592,18 +607,18 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
-      'twinkle-twinkle-little-star',
-      'mary-had-a-little-lamb',
-      'lightly-row',
-      'frere-jacques',
-      'london-bridge',
-      'row-row-row-your-boat',
-      'old-macdonald',
-      'jingle-bells',
-      'ode-to-joy',
-      'happy-birthday-to-you',
-      'silent-night',
-      'amazing-grace'
+        'twinkle-twinkle-little-star',
+        'mary-had-a-little-lamb',
+        'lightly-row',
+        'frere-jacques',
+        'london-bridge',
+        'old-macdonald',
+        'happy-birthday-to-you',
+        'ode-to-joy',
+        'amazing-grace',
+        'greensleeves',
+        'scarborough-fair',
+        'jingle-bells'
       ],
       'r8b'
     ),
@@ -615,10 +630,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: withInstrument(
           [
-          'twinkle-twinkle-little-star',
-          'mary-had-a-little-lamb',
-          'frere-jacques',
-          'happy-birthday-to-you'
+            'twinkle-twinkle-little-star',
+            'mary-had-a-little-lamb',
+            'lightly-row',
+            'frere-jacques',
+            'london-bridge',
+            'old-macdonald',
+            'happy-birthday-to-you'
           ],
           'r8b'
         )
@@ -638,9 +656,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'Next Songs To Add After The Basics',
         paragraphs: [
-          'Once players handle the first nursery set comfortably, shift into holiday and classical melodies that stretch phrase control a little further.'
+          'Once players handle the first nursery set comfortably, shift into holiday, hymn, folk, and classical melodies that stretch phrase control a little further.'
         ],
-        songSlugs: withInstrument(['jingle-bells', 'ode-to-joy', 'silent-night'], 'r8b')
+        songSlugs: withInstrument(
+          ['ode-to-joy', 'amazing-grace', 'greensleeves', 'scarborough-fair', 'jingle-bells', 'silent-night'],
+          'r8b'
+        )
       }
     ],
     faq: [
@@ -660,6 +681,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'how-to-practice-recorder-with-letter-notes',
       'easy-recorder-songs-for-beginners',
       'easy-christmas-recorder-songs',
+      'folk-songs-for-beginners',
       'songs-with-lyrics'
     ]
   },
@@ -676,18 +698,18 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
-      'twinkle-twinkle-little-star',
-      'ode-to-joy',
-      'amazing-grace',
-      'red-river-valley',
-      'auld-lang-syne',
-      'scarborough-fair',
-      'the-south-wind',
-      'loch-lomond',
-      'greensleeves',
-      'londonderry-air',
-      'wellerman',
-      'jingle-bells'
+        'amazing-grace',
+        'red-river-valley',
+        'scarborough-fair',
+        'greensleeves',
+        'loch-lomond',
+        'auld-lang-syne',
+        'londonderry-air',
+        'the-south-wind',
+        'wellerman',
+        'twinkle-twinkle-little-star',
+        'ode-to-joy',
+        'jingle-bells'
       ],
       'w6'
     ),
@@ -698,7 +720,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest whistle pages on the site are the ones where the melody is already familiar and the phrase structure is easy to hear before you even start playing.'
         ],
         songSlugs: withInstrument(
-          ['twinkle-twinkle-little-star', 'ode-to-joy', 'amazing-grace'],
+          ['twinkle-twinkle-little-star', 'ode-to-joy', 'amazing-grace', 'red-river-valley'],
           'w6'
         )
       },
@@ -708,7 +730,15 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Folk songs are a natural second step because they build musical phrasing without overwhelming the player with long technical passages. They also tend to work well in letter-note form.'
         ],
         songSlugs: withInstrument(
-          ['red-river-valley', 'auld-lang-syne', 'scarborough-fair'],
+          [
+            'red-river-valley',
+            'auld-lang-syne',
+            'scarborough-fair',
+            'greensleeves',
+            'loch-lomond',
+            'londonderry-air',
+            'wellerman'
+          ],
           'w6'
         )
       },
@@ -741,6 +771,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'how-to-start-tin-whistle-with-letter-notes',
       'how-to-practice-tin-whistle-with-letter-notes',
       'easy-tin-whistle-songs',
+      'celtic-tin-whistle-songs',
+      'folk-songs-for-beginners',
       'easy-christmas-tin-whistle-songs',
       'songs-with-lyrics'
     ]
@@ -1451,18 +1483,20 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
+        'twinkle-twinkle-little-star',
         'mary-had-a-little-lamb',
         'lightly-row',
-        'row-row-row-your-boat',
         'frere-jacques',
-        'old-macdonald',
-        'ode-to-joy',
-        'twinkle-twinkle-little-star',
         'london-bridge',
+        'old-macdonald',
+        'row-row-row-your-boat',
         'happy-birthday-to-you',
+        'ode-to-joy',
+        'amazing-grace',
+        'greensleeves',
+        'scarborough-fair',
         'jingle-bells',
-        'silent-night',
-        'amazing-grace'
+        'silent-night'
       ],
       'r8b'
     ),
@@ -1475,11 +1509,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: withInstrument(
           [
+            'twinkle-twinkle-little-star',
             'mary-had-a-little-lamb',
             'lightly-row',
-            'row-row-row-your-boat',
             'frere-jacques',
-            'old-macdonald'
+            'london-bridge',
+            'old-macdonald',
+            'row-row-row-your-boat'
           ],
           'r8b'
         )
@@ -1501,7 +1537,17 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the first short songs feel settled, move into one familiar celebration tune and one longer melody. That helps recorder players build phrase length without leaving the same reading workflow.'
         ],
-        songSlugs: withInstrument(['happy-birthday-to-you', 'ode-to-joy', 'jingle-bells'], 'r8b')
+        songSlugs: withInstrument(
+          [
+            'happy-birthday-to-you',
+            'ode-to-joy',
+            'amazing-grace',
+            'greensleeves',
+            'scarborough-fair',
+            'jingle-bells'
+          ],
+          'r8b'
+        )
       }
     ],
     faq: [
@@ -1518,8 +1564,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     relatedGuideSlugs: [
       'recorder-letter-notes',
+      'how-to-start-recorder-with-letter-notes',
       'easy-christmas-recorder-songs',
-      'nursery-rhyme-letter-notes'
+      'nursery-rhyme-letter-notes',
+      'folk-songs-for-beginners'
     ]
   },
   {
@@ -1535,18 +1583,18 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
-      'twinkle-twinkle-little-star',
-      'ode-to-joy',
-      'amazing-grace',
-      'red-river-valley',
-      'wellerman',
-      'loch-lomond',
-      'auld-lang-syne',
-      'scarborough-fair',
-      'the-south-wind',
-      'greensleeves',
-      'londonderry-air',
-      'jingle-bells'
+        'amazing-grace',
+        'red-river-valley',
+        'scarborough-fair',
+        'greensleeves',
+        'loch-lomond',
+        'auld-lang-syne',
+        'londonderry-air',
+        'wellerman',
+        'the-south-wind',
+        'twinkle-twinkle-little-star',
+        'ode-to-joy',
+        'jingle-bells'
       ],
       'w6'
     ),
@@ -1557,7 +1605,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest whistle pages are the ones where phrase direction is obvious before you play. Familiar nursery and hymn-style melodies make the first reading pass much easier than dense dance tunes or highly ornamented session material.'
         ],
         songSlugs: withInstrument(
-          ['twinkle-twinkle-little-star', 'ode-to-joy', 'amazing-grace'],
+          ['twinkle-twinkle-little-star', 'ode-to-joy', 'amazing-grace', 'red-river-valley'],
           'w6'
         )
       },
@@ -1567,7 +1615,15 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'After the first easy melodies, folk songs become more useful because they ask for longer breath control and a more vocal line without forcing fast technical execution.'
         ],
         songSlugs: withInstrument(
-          ['red-river-valley', 'loch-lomond', 'scarborough-fair'],
+          [
+            'red-river-valley',
+            'scarborough-fair',
+            'greensleeves',
+            'loch-lomond',
+            'auld-lang-syne',
+            'londonderry-air',
+            'wellerman'
+          ],
           'w6'
         )
       },
@@ -1598,6 +1654,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'tin-whistle-letter-notes',
       'celtic-tin-whistle-songs',
+      'folk-songs-for-beginners',
       'easy-christmas-tin-whistle-songs'
     ]
   },
@@ -1993,6 +2050,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
+      'easy-songs-for-adult-beginners',
+      'calm-and-lyrical-letter-note-songs',
       'easy-songs-for-beginners',
       '12-hole-ocarina-letter-notes',
       'recorder-letter-notes'
@@ -2112,6 +2171,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'american-patrol',
       'hes-a-pirate',
       'my-heart-will-go-on',
+      'let-it-go',
+      'blue-bird',
+      'gurenge',
+      'cruel-angels-thesis',
       'the-imperial-march',
       'game-of-thrones-theme'
     ],
@@ -2139,7 +2202,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'amazing-grace',
           'canon',
           'wedding-march',
-          'wedding-march-alt'
+          'wedding-march-alt',
+          'let-it-go',
+          'blue-bird',
+          'gurenge',
+          'cruel-angels-thesis'
         ]
       },
       {
@@ -2154,6 +2221,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'parade-of-the-wooden-soldiers',
           'jingle-bells',
           'my-heart-will-go-on',
+          'let-it-go',
+          'blue-bird',
+          'gurenge',
+          'cruel-angels-thesis',
           'the-imperial-march',
           'game-of-thrones-theme'
         ]
@@ -2337,8 +2408,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'scarborough-fair',
       'greensleeves',
       'auld-lang-syne',
+      'loch-lomond',
+      'londonderry-air',
+      'home-on-the-range',
       'down-by-the-salley-gardens',
-      'home-on-the-range'
+      'wellerman'
     ],
     sections: [
       {
@@ -2357,8 +2431,27 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'red-river-valley',
           'auld-lang-syne',
           'scarborough-fair',
+          'greensleeves',
+          'loch-lomond',
           'home-on-the-range'
         ]
+      },
+      {
+        title: 'Tin Whistle Friendly Folk Pages',
+        paragraphs: [
+          'Several folk pages are especially useful for whistle players because they have a vocal line, a clear phrase arc, and enough recognition to feel like real repertoire before ornament work begins.'
+        ],
+        songSlugs: withInstrument(
+          [
+            'red-river-valley',
+            'scarborough-fair',
+            'greensleeves',
+            'loch-lomond',
+            'londonderry-air',
+            'wellerman'
+          ],
+          'w6'
+        )
       },
       {
         title: 'How To Use Folk Songs For Better Phrasing',
@@ -2371,7 +2464,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics when they help you hear phrase boundaries.',
           'Keep the melody connected before adding more speed or volume.'
         ],
-        songSlugs: ['greensleeves', 'scarborough-fair', 'down-by-the-salley-gardens']
+        songSlugs: [
+          'greensleeves',
+          'scarborough-fair',
+          'down-by-the-salley-gardens',
+          'londonderry-air',
+          'auld-lang-syne'
+        ]
       }
     ],
     faq: [
@@ -2388,7 +2487,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     relatedGuideSlugs: [
       'tin-whistle-letter-notes',
+      'celtic-tin-whistle-songs',
       'songs-with-lyrics',
+      'easy-songs-for-adult-beginners',
       'easy-songs-for-beginners'
     ]
   },
@@ -2405,17 +2506,17 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
-      'the-south-wind',
-      'lough-leane',
-      'irish-morning-wind',
-      'irish-blackbird',
-      'loch-lomond',
-      'scotland-the-brave',
-      'auld-lang-syne',
-      'scarborough-fair',
-      'greensleeves',
-      'londonderry-air',
-      'wellerman'
+        'scarborough-fair',
+        'greensleeves',
+        'loch-lomond',
+        'auld-lang-syne',
+        'londonderry-air',
+        'the-south-wind',
+        'lough-leane',
+        'irish-morning-wind',
+        'irish-blackbird',
+        'scotland-the-brave',
+        'wellerman'
       ],
       'w6'
     ),
@@ -2427,7 +2528,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Start with slower lyrical melodies first, then add brighter tunes once the basic phrase shape feels stable in plain, ornament-free playing.'
         ],
         songSlugs: withInstrument(
-          ['the-south-wind', 'lough-leane', 'loch-lomond', 'irish-morning-wind'],
+          [
+            'scarborough-fair',
+            'greensleeves',
+            'loch-lomond',
+            'auld-lang-syne',
+            'londonderry-air',
+            'the-south-wind'
+          ],
           'w6'
         )
       },
@@ -2442,14 +2550,20 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use the fingering chart until the phrase shape feels automatic.',
           'Keep the melody plain and connected before adding more speed or ornament.'
         ],
-        songSlugs: withInstrument(['the-south-wind', 'lough-leane', 'irish-blackbird'], 'w6')
+        songSlugs: withInstrument(
+          ['the-south-wind', 'lough-leane', 'irish-blackbird', 'irish-morning-wind'],
+          'w6'
+        )
       },
       {
         title: 'What To Add After The First Slow Airs',
         paragraphs: [
           'Once the calmer melodies feel comfortable, add one brighter patriotic or folk-style tune and one familiar sing-along melody. That expands the repertoire without leaving the same whistle-friendly workflow.'
         ],
-        songSlugs: withInstrument(['scotland-the-brave', 'auld-lang-syne', 'irish-blackbird'], 'w6')
+        songSlugs: withInstrument(
+          ['scotland-the-brave', 'wellerman', 'auld-lang-syne', 'irish-blackbird'],
+          'w6'
+        )
       }
     ],
     faq: [
@@ -2467,7 +2581,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'easy-tin-whistle-songs',
       'folk-songs-for-beginners',
-      'tin-whistle-letter-notes'
+      'tin-whistle-letter-notes',
+      'how-to-start-tin-whistle-with-letter-notes'
     ]
   },
   {
@@ -2972,7 +3087,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: [
       'ode-to-joy',
       'amazing-grace',
+      'over-the-rainbow',
+      'moonlight-lover',
+      'moon-river',
       'scarborough-fair',
+      'greensleeves',
       'auld-lang-syne',
       'canon',
       'childhood-memory',
@@ -2982,9 +3101,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'romeo-and-juliet',
       'sealed-with-a-kiss',
       'moon-represents-my-heart',
-      'moonlight-lover',
       'happy-birthday-to-you',
-      'moon-river',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
       'tennessee-waltz',
@@ -3005,7 +3122,6 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'right-here-waiting',
       'let-it-be',
       'take-me-home-country-roads',
-      'over-the-rainbow',
       'hotel-california',
       'imagine',
       'lemon-tree',
@@ -3016,7 +3132,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'you-raise-me-up',
       'tears-in-heaven',
       'old-memory',
-      'reminiscence'
+      'reminiscence',
+      'flower-dance',
+      'let-it-go',
+      'lemon-kenshi-yonezu',
+      'blue-bird',
+      'gurenge',
+      'cruel-angels-thesis'
     ],
     sections: [
       {
@@ -3034,7 +3156,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         songSlugs: [
           'ode-to-joy',
           'amazing-grace',
+          'over-the-rainbow',
+          'moonlight-lover',
+          'moon-river',
           'scarborough-fair',
+          'greensleeves',
           'auld-lang-syne',
           'canon',
           'childhood-memory',
@@ -3044,15 +3170,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'romeo-and-juliet',
           'sealed-with-a-kiss',
           'moon-represents-my-heart',
-          'moonlight-lover',
-          'moon-river',
           'can-you-feel-the-love-tonight',
           'yesterday',
           'the-sound-of-silence',
           'right-here-waiting',
           'let-it-be',
           'take-me-home-country-roads',
-          'over-the-rainbow',
           'hotel-california',
           'imagine',
           'lemon-tree',
@@ -3064,6 +3187,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'tears-in-heaven',
           'old-memory',
           'reminiscence',
+          'flower-dance',
+          'let-it-go',
+          'lemon-kenshi-yonezu',
+          'blue-bird',
+          'gurenge',
+          'cruel-angels-thesis',
           'yesterday-once-more',
           'tennessee-waltz',
           'the-last-waltz',
@@ -3086,7 +3215,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'greensleeves', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'over-the-rainbow', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'flower-dance', 'let-it-go', 'lemon-kenshi-yonezu', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -3103,6 +3232,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     relatedGuideSlugs: [
       'how-to-read-letter-notes',
+      'calm-and-lyrical-letter-note-songs',
+      'songs-with-lyrics',
       'easy-classical-letter-note-songs',
       'folk-songs-for-beginners'
     ]
@@ -3188,6 +3319,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: [
       'amazing-grace',
+      'over-the-rainbow',
+      'moonlight-lover',
+      'moon-river',
       'air-on-the-g-string',
       'childhood-memory',
       'edelweiss',
@@ -3197,8 +3331,6 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'memory-sky',
       'sealed-with-a-kiss',
       'moon-represents-my-heart',
-      'moonlight-lover',
-      'moon-river',
       'romeo-and-juliet',
       'can-you-feel-the-love-tonight',
       'yesterday-once-more',
@@ -3222,7 +3354,6 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'the-sound-of-silence',
       'right-here-waiting',
       'let-it-be',
-      'over-the-rainbow',
       'hotel-california',
       'imagine',
       'careless-whisper',
@@ -3232,7 +3363,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'you-raise-me-up',
       'tears-in-heaven',
       'old-memory',
-      'reminiscence'
+      'reminiscence',
+      'let-it-go',
+      'lemon-kenshi-yonezu'
     ],
     sections: [
       {
@@ -3241,7 +3374,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'greensleeves', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'imagine', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
+        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'speak-softly-love']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3254,14 +3387,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-river', 'moon-represents-my-heart', 'moonlight-lover', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'over-the-rainbow', 'hotel-california', 'imagine', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
+        songSlugs: ['lullaby', 'over-the-rainbow', 'moonlight-lover', 'moon-river', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'lemon-kenshi-yonezu', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'one-summers-day']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'sakura-sakura', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'moonlight-lover', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love', 'yesterday', 'over-the-rainbow', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
+        songSlugs: ['scarborough-fair', 'over-the-rainbow', 'moonlight-lover', 'sakura-sakura', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'always-with-me', 'princess-mononoke', 'speak-softly-love', 'yesterday', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
       }
     ],
     faq: [
@@ -3278,6 +3411,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     relatedGuideSlugs: [
       'easy-songs-for-adult-beginners',
+      'songs-with-lyrics',
       'hymns-and-spiritual-letter-note-songs',
       'easy-classical-letter-note-songs'
     ]
@@ -3372,7 +3506,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'the-hawthorn-tree',
       'turkish-march',
       'hes-a-pirate',
-      'merry-go-round-of-life'
+      'merry-go-round-of-life',
+      'flower-dance',
+      'blue-bird',
+      'gurenge',
+      'cruel-angels-thesis'
     ],
     sections: [
       {
@@ -3381,7 +3519,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest first picks in this group are the melodies with a clear repeated pulse and a recognizable hook. Can-Can and Habanera work well because players usually already know the contour, which frees them to focus on articulation and beat placement.',
           'They also make a good contrast with slower lyrical pages, so visitors who want more energy can find a better fit right away.'
         ],
-        songSlugs: ['can-can', 'habanera', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life']
+        songSlugs: ['can-can', 'habanera', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis']
       },
       {
         title: 'How To Practice Brighter Rhythmic Songs',
@@ -3394,7 +3532,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Count the pulse out loud before trying to increase speed.',
           'Use shorter practice loops so articulation stays clear instead of blurry.'
         ],
-        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'the-hawthorn-tree']
+        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'the-hawthorn-tree', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis']
       },
       {
         title: 'What To Add After The First Polkas And Waltz-Like Tunes',
