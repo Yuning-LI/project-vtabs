@@ -25,6 +25,9 @@ type LibrarySongSearchResult = LibrarySong & {
   matchedAlias?: string
 }
 
+const MAX_VISIBLE_ROUTE_PREFETCHES = 18
+const VISIBLE_PREFETCH_ROOT_MARGIN = '180px 0px'
+
 export default function LibraryBrowser({
   songs,
   familyFilters,
@@ -33,6 +36,7 @@ export default function LibraryBrowser({
   const router = useRouter()
   const azJumpNavRef = useRef<HTMLElement | null>(null)
   const prefetchedSongSlugsRef = useRef(new Set<string>())
+  const visibleRoutePrefetchCountRef = useRef(0)
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
@@ -128,6 +132,19 @@ export default function LibraryBrowser({
 
     prefetchedSongSlugsRef.current.add(songSlug)
     router.prefetch(`/song/${songSlug}`)
+  }
+
+  function prefetchVisibleSong(songSlug: string) {
+    if (
+      prefetchedSongSlugsRef.current.has(songSlug) ||
+      visibleRoutePrefetchCountRef.current >= MAX_VISIBLE_ROUTE_PREFETCHES ||
+      shouldSkipVisibleRoutePrefetch()
+    ) {
+      return
+    }
+
+    visibleRoutePrefetchCountRef.current += 1
+    prefetchSong(songSlug)
   }
 
   return (
@@ -286,6 +303,7 @@ export default function LibraryBrowser({
                     song={song}
                     isPending={pendingSongSlug === song.slug}
                     onPrefetch={prefetchSong}
+                    onVisiblePrefetch={prefetchVisibleSong}
                     onPending={setPendingSongSlug}
                   />
                 ))}
@@ -301,6 +319,7 @@ export default function LibraryBrowser({
               song={song}
               isPending={pendingSongSlug === song.slug}
               onPrefetch={prefetchSong}
+              onVisiblePrefetch={prefetchVisibleSong}
               onPending={setPendingSongSlug}
             />
           ))}
@@ -326,13 +345,48 @@ function LibrarySongCard({
   song,
   isPending,
   onPrefetch,
+  onVisiblePrefetch,
   onPending
 }: {
   song: LibrarySongSearchResult
   isPending: boolean
   onPrefetch: (songSlug: string) => void
+  onVisiblePrefetch: (songSlug: string) => void
   onPending: (songSlug: string) => void
 }) {
+  const cardRef = useRef<HTMLAnchorElement | null>(null)
+  const onVisiblePrefetchRef = useRef(onVisiblePrefetch)
+
+  useEffect(() => {
+    onVisiblePrefetchRef.current = onVisiblePrefetch
+  }, [onVisiblePrefetch])
+
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card || typeof IntersectionObserver === 'undefined') {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (!entries.some(entry => entry.isIntersecting)) {
+          return
+        }
+
+        onVisiblePrefetchRef.current(song.slug)
+        observer.disconnect()
+      },
+      {
+        root: null,
+        rootMargin: VISIBLE_PREFETCH_ROOT_MARGIN,
+        threshold: 0.01
+      }
+    )
+
+    observer.observe(card)
+    return () => observer.disconnect()
+  }, [song.slug])
+
   function markPendingNavigation(
     event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
   ) {
@@ -345,6 +399,7 @@ function LibrarySongCard({
 
   return (
     <Link
+      ref={cardRef}
       href={`/song/${song.slug}`}
       aria-busy={isPending}
       onFocus={() => onPrefetch(song.slug)}
@@ -382,6 +437,31 @@ function isCurrentTabNavigation(
   }
 
   return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+}
+
+function shouldSkipVisibleRoutePrefetch() {
+  if (typeof navigator === 'undefined') {
+    return false
+  }
+
+  const connection = (
+    navigator as Navigator & {
+      connection?: {
+        effectiveType?: string
+        saveData?: boolean
+      }
+    }
+  ).connection
+
+  if (!connection) {
+    return false
+  }
+
+  return (
+    connection.saveData === true ||
+    connection.effectiveType === 'slow-2g' ||
+    connection.effectiveType === '2g'
+  )
 }
 
 function findMatchedAlias(aliases: string[] | undefined, normalizedQuery: string, compactQuery: string) {

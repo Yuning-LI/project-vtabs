@@ -3,7 +3,8 @@ const redirects = [
   ['mary-lamb', 'mary-had-a-little-lamb'],
   ['sakura', 'sakura-sakura'],
   ['jingle-bells-english', 'jingle-bells'],
-  ['silent-night-english', 'silent-night']
+  ['silent-night-english', 'silent-night'],
+  ['aura-lea', 'aura-lee']
 ]
 
 const nextConfig = {
