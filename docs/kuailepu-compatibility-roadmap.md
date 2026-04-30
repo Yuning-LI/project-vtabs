@@ -1,264 +1,113 @@
 # Kuailepu Compatibility Roadmap
 
-这份 roadmap 不再讨论“要不要走 runtime 路线”，因为这个问题已经结束了。当前重点是：如何在已经验证可行的 runtime 路线上继续稳定、维护、扩充和逐步工程化。
-
-## 1. 当前已完成到什么程度
-
-### 1.1 已经达成的现实
-
-- 公开详情页默认走 runtime iframe
-- runtime 生产优先消费 `data/kuailepu-runtime/<slug>.json`
-- 浏览器通过同源静态资源代理加载快乐谱原始 JS/CSS
-- 详情页外壳由我们自己控制
-- 快乐谱多余外壳、遮罩、modal、评论区、标签区已隐藏
-- iframe 高度由实际可见谱面高度驱动
-- 默认阅读模式是字母谱
-- 简谱是可选模式
-- 详情页文案已切换到英文 SEO landing page 形态
-- 公开 song page 现已支持最小多乐器切换：
-  - `o12`
-  - `o6`
-  - `r8b`
-  - `r8g`
-  - `w6`
-- 公开 song page 现已支持最小功能区：
-  - `Instrument`
-  - `Fingering Chart`（同一下拉也负责多图谱方向切换）
-  - `Layout`
-  - `Zoom`
-  - `Note View`
-  - `Lyrics`（仅公开可见歌词）
-  - `Measure Numbers`
-  - `Metronome`
-- 公开 runtime 现在额外有一层最小公开资产 profile：
-  - `public-song` 默认只保留 6 个脚本
-  - `full-template` 作为恢复与排障入口
-
-### 1.2 已完成的验证
-
-这条路线不仅“看起来差不多”，而且已经做过强验证：
-
-- 27 首原本待发布的快乐谱候选，已与线上快乐谱最终 `#sheet` SVG 做哈希对比
-- 结果全部一致
-- compare 已经成为新的发布前门槛
-
-### 1.3 2026-04-19 compare 真相补充
-
-- compare gate 当前不再只是“本地 runtime 能否出 svg”，而是更明确收口到：
-  - `note_label_mode=number`
-  - `runtime_asset_profile=full-template`
-  - `runtime_compare_mode=1`
-  - 本地 clean compare context 固定 `locale = zh-CN`
-- 这轮确认的经验是：
-  - 线上 `hc` 升级会带来潜在漂移
-  - 但本地 compare 环境如果仍用 `en-US`，也会独立制造假性 parity 失败
-- 当前更合理的理解是：
-  - compare gate 保护的是“最接近快乐谱 live 原模板环境下的主体谱面 parity”
-  - 而不是公开 `/song/<slug>` 默认 asset profile 的逐像素一致
-
-结论：
-
-- 当前路线已经越过“可行性验证”阶段
-- 现在应该进入“稳定性、可维护性、扩曲效率”阶段
-
-## 2. 当前路线的核心原则
-
-### 2.1 优先级顺序
+This is the runtime strategy document. It should answer what must stay stable, not preserve old implementation history.
 
-1. 优先使用快乐谱详情页 raw JSON
-2. 优先复用快乐谱原始渲染逻辑
-3. 页面壳由本站控制
-4. SEO 与 western 用户体验由本站控制
-5. 仅在必要处对最终 SVG 做可逆覆盖，例如字母谱
-
-### 2.2 明确不再做的路线
+## Current Route
 
-- 不把 `captured SVG` 重新扶正成默认详情页来源
-- 不继续投入大量时间打磨旧简化 JSON renderer 去追 parity
-- 不在没有 raw JSON 的前提下猜快乐谱细节
+- Public `/song/<slug>` pages use Kuailepu raw JSON plus the original runtime rendering chain.
+- Production source is `data/kuailepu-runtime/<slug>.json`.
+- Runtime template archive is `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
+- Static runtime assets are served from `/k-static/...`, currently backed by `public/k-static`.
+- The public shell owns SEO copy, navigation, controls, and English UI.
 
-## 3. 当前字母谱路线已经收敛，不再是待设计方案
-
-曾经讨论过几种路线：
+Runtime chain:
 
-- 新开字母轨
-- 字母谱与简谱同时显示
-- 只覆盖数字，不动排版
+`data/kuailepu-runtime/<slug>.json -> Kit.context.setContext(...) -> Song.draw()/compile() -> hc.parse/render -> final SVG`
 
-当前已经落地且经用户确认的是第三种：
+## Reading Modes
 
-- 直接复用简谱那一轨
-- 用字母覆盖数字
-- 保留指法图、歌词、结构和节拍位置
-- 纯中文歌词轨默认不公开显示，也不在前台暴露歌词开关
-- 不改源数据
+- Default public mode: `letter`.
+- Public backup / parity mode: `number`.
+- Do not restore `both`.
+- Letter mode reuses the original numbered-note track positions and replaces note labels only.
+- Keep letter-mode behavior isolated in `src/lib/kuailepu/runtime.ts`.
 
-### 3.1 当前字母谱语义
+Letter-mode intent:
 
-- 默认显示 `letter`
-- `number` 可选
-- `both` 移除
-- 休止符显示 `R`
-- 延时线显示 `-`
-- 支持 `Eb5` / `F#5`
-- 换气记号使用西式逗号
-- 隐藏简谱专属时值/附点/八度点等低价值符号
+- western users can read the melody immediately
+- original rhythm, spacing, lyrics alignment, and fingering chart stay intact
+- pure Chinese lyrics remain hidden by default
 
-### 3.2 当前字母谱边界
+## Compare Gate
 
-字母谱的目标不是构建完整西方 lead-sheet 体系，而是：
+Publish / parity checks use:
 
-- 保持快乐谱原排版与节拍骨架
-- 让 western 用户第一眼能读
-- 不破坏指法图和歌词对齐
+- `note_label_mode=number`
+- `runtime_asset_profile=full-template`
+- `runtime_compare_mode=1`
+- local compare context fixed close to Kuailepu live behavior
 
-## 4. 近阶段最值得继续做的事
+Do not change compare to `letter`; letter mode is a public overlay, not the parity baseline.
 
-### 4.1 稳定性
+## Asset Profile Rule
 
-- 每次修改 `runtime.ts` 后，先确认 `number` 模式没有被污染
-- 继续维护 iframe 高度桥接
-- 继续防止闪烁、遮罩、空白区、内层滚动条回归
-- 继续把公开页最小脚本集控制在当前边界，不要为了继续减几个旧脚本就无限扩张 compatibility stub
+Current public runtime profile:
 
-### 4.2 曲库扩充
+- `public-song`: default public page, minimal validated script set
+- `full-template`: debugging / compare / recovery mode
 
-- 继续从快乐谱导入流量大的公版曲
-- 坚持优先英文歌词版
-- 导入后先 compare，再公开
+When reducing old Kuailepu assets:
 
-### 4.3 SEO 内容深化
+- change profile behavior in `src/lib/kuailepu/runtime.ts`
+- keep bundled assets and recovery path
+- do not delete `vendor/kuailepu-static` or `public/k-static` just because a public page does not currently load a file
 
-- 继续细化 `data/songbook/song-seo-profiles.json` 里的 song-specific profile，并保留 `presentation.ts` fallback
-- 保持英文、自然、不暴露第三方来源
-- 让每首 song page 都更像独立 landing page
-- 继续使用“主搜索词 + 第二搜索词”结构覆盖：
-  - `ocarina tabs`
-  - `ocarina notes`
-  - `recorder notes`
-  - `tin whistle notes`
-- 继续把 sitemap / robots / canonical 保持在简单、可部署、可自动更新的 App Router metadata routes 上
+More detail: `docs/public-runtime-asset-profiles.md`.
 
-### 4.4 流程工程化
+## Public Page Guardrails
 
-- 保持 compare 成为发布 gate
-- 保持登录态检查成为导歌前置动作
-- 保持 handoff 文档随着真实实现更新
+Do not:
 
-## 5. 中期可以做，但不应抢在前面的事
+- restore old native `SongClient` as public fallback
+- silently fall back when raw JSON is missing
+- expose Kuailepu/source wording on public pages
+- expose pure Chinese lyric tracks through query params or public controls
+- change fingering-chart correctness logic for SEO or Pinterest work
 
-下面这些可以做，但都不应该抢在“稳定当前 runtime 路线”之前：
+Do:
 
-- 给 compare 流程加更清晰的 machine-readable 报告
-- 补更多 runtime smoke tests
-- 优化字母谱在极长标签下的排版策略
-- 继续收口歌词可见性策略与 song-specific 规则
-- 继续细化功能区信息密度和交互层级
-- 对公开页最小脚本集继续做更激进删减
+- keep visible public copy English
+- keep `/api/kuailepu-runtime/<slug>` `noindex`
+- keep controls compact enough that the notation remains reachable
+- preserve iframe height behavior and avoid inner scrollbars / blank bottom space
 
-当前理由：
+## When To Touch Runtime
 
-- `public-song` 已经从 28 个模板脚本收缩到 6 个
-- 再往下减，收益会变小，但维护成本会继续上升
-- 当前更值得把注意力放回稳定性、扩曲和 SEO
+Runtime changes are justified for:
 
-### 5.1 什么时候该启动“数百首曲库”调整
+- correctness bugs
+- height / overlay / loading regressions
+- letter-mode label issues
+- asset profile maintenance
+- public control integration that cannot be solved in the shell
 
-如果后续公开曲库继续扩大，出现下面任意一类信号，就不要再把当前“文件为主 + 全量 catalog 常驻”的形态当成长久终点，而应启动下一轮工程化调整：
+Runtime changes are not justified for:
 
-- 公开曲库接近 `200-300` 首，并且还准备继续快速扩充
-- 首页首屏、列表搜索、筛选或字母跳转开始出现明显变慢
-- `next build`、静态生成、sitemap 输出或校验脚本时长已经开始影响日常发布
-- 部署包体积、Vercel 构建时长或内存占用开始逼近平台限制
-- 曲目公开状态、排序、family、SEO profile 等文件维护开始明显吃力
+- routine SEO copy
+- learn / hub internal linking
+- Pinterest image export
+- grey-song metadata cleanup
 
-建议的调整顺序：
+## Scale Trigger
 
-1. 首页 song list 改为分页、分段加载或更轻量的索引下发
-2. 搜索索引从完整 `songCatalog` 视图里拆出来，避免首页直接携带越来越多列表数据
-3. song catalog 逐步从“模块级全量常驻”收口到更明确的文件级按需读取
-4. 如果曲库规模继续增大，再评估数据库或更正式的内容索引层
+When public catalog approaches `200-300` songs or build/list performance becomes painful, revisit catalog architecture:
 
-注意：
+1. lighter homepage/search index
+2. segmented or paginated library loading
+3. more explicit file-level reads
+4. only later, database/index service
 
-- 这些动作是“规模触发后的应对方案”，不是当前阶段的默认任务
-- 在信号真正出现前，仍优先把时间投入到扩曲、SEO、runtime 稳定性和发布流程上
+Until then, prioritize stable runtime, import flow, and content quality.
 
-## 6. 长期路线可以讨论，但当前不应贸然启动
+## Validation Standard
 
-长期可能存在一条“逐步去 iframe 化”的路线：
+For runtime or publish-sensitive changes:
 
-1. 保持 raw JSON 与 parity compare
-2. 在本站原生 renderer 中逐步复刻高价值行为
-3. 分模块替换 runtime 覆盖层
-4. 最后才考虑彻底脱离快乐谱原 runtime
+```bash
+npm run validate:content
+npm run validate:songbook
+npm run preflight:kuailepu-publish -- <slug...>
+npm run build
+```
 
-但这条路线当前不应立即开工，原因是：
-
-- 当前 runtime 主链已经稳定
-- 业务当前更需要扩曲与 SEO 收录
-- 过早重写会让新接手者理解成本暴增
-
-### 6.1 当前对 HC 本体的路线判断
-
-- 已证实：
-  - 历史公开版曾长期使用 split `hc_*.js + hc.kit_*.js`
-  - 当前 live 公开页已切到 monolithic `hc.min_1cfae5fe62.js`
-  - 历史 `hc` 主文件更偏 parser / lexer / layout / SVG render 主链
-  - 历史 `hc.kit` 更偏 MIDI / harmonizer / chord / instrument / fingering 支撑层
-- 高概率推测：
-  - 当前 `hc.min` 更像历史 split 结构的合包演化版，而不是单纯把旧 `hc` 改名
-- 暂无证据：
-  - 没找到公开 sourcemap
-  - 没找到真正可用的未压缩源码版
-
-这组判断对 roadmap 的含义是：
-
-- 以后如果继续做旧资产减载或更细的 runtime 拆解，重点应放在“主链依赖地图”而不是继续赌 sourcemap。
-- 这也解释了为什么当前不适合为了追求更纯的架构，贸然把 runtime 相关旧代码大面积删掉。
-- 本地研究材料保存在 `reference/hc-history-investigation/2026-04-02/`，默认只作本地分析上下文，不是生产依赖。
-
-## 7. 当前路线的验收标准
-
-以后任何对 runtime 主链的修改，都应该满足下面的验收标准：
-
-1. `number` 模式下不能破坏快乐谱原谱 parity
-2. `letter` 模式下不能压坏歌词和指法图
-3. 首页和详情页前台文案继续保持英文
-4. 前台不出现第三方来源披露
-5. 纯中文歌词轨不应被公开歌词开关或 query 重新暴露
-6. 节拍器打开后不应遮挡指法图
-7. 发布前仍可通过 compare gate
-
-## 8. 当前 roadmap 的风险提示
-
-### 8.1 高风险改动
-
-- 改 runtime HTML 模板替换规则
-- 改 iframe 高度测量优先级
-- 改 compare 模式从 `number` 到 `letter`
-- 让 song route 回退到旧详情页
-
-### 8.2 中风险改动
-
-- 大幅改字母谱隐藏规则
-- 大幅改 SEO 文案模板
-- 改首页策展顺序
-
-### 8.3 低风险改动
-
-- 增加 song-specific SEO profile
-- 增补手册和交接文档
-- 为现有流程加脚本化提示
-
-## 9. 当前 roadmap 下的操作准则
-
-如果现在有人接手继续做，推荐遵守这个顺序：
-
-1. 先保证已有 runtime 路线稳定
-2. 同步积累 HC 模块地图和主链结构认知
-3. 再继续扩曲
-4. 再优化 SEO 文案
-5. 最后才讨论更大规模的架构替换
-
-当前最不值得做的事，是为了追求“架构更纯”而重新打开核心渲染路线的重构。
+Manual QA checklist: `docs/manual-runtime-qa-checklist.md`.

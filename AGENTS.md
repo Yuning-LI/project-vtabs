@@ -1,20 +1,36 @@
 # Project V-Tabs Agent Instructions
 
-## First Read
+## Read Order
 
-Before doing any substantial work in a new conversation, read these files in order:
+To save context, do not read every document by default.
+
+Default for a new substantial task:
 
 1. `README.md`
-2. `docs/handoff.md`
-3. `docs/agent-handoff.md`
-4. `docs/kuailepu-compatibility-roadmap.md`
-5. `docs/manual-runtime-qa-checklist.md`
-6. `src/lib/kuailepu/runtime.ts`
-7. `docs/instrument-rollout-plan.md`
+2. `docs/agent-handoff.md`
 
-If the task touches Kuailepu compatibility, song import, publishing, letter mode, or SEO copy, this reading order is mandatory.
+Also read `docs/handoff.md` when the task involves release state, current counts, dirty worktree context, or handoff details.
 
-If the task touches internal print/PDF export, copyrighted-song local workflow, or `MusicXML` ingest, also read:
+If the task touches Kuailepu compatibility, song import, publishing, letter mode, or song SEO, also read:
+
+- `docs/kuailepu-compatibility-roadmap.md`
+- `docs/manual-runtime-qa-checklist.md`
+- `src/lib/kuailepu/runtime.ts`
+- `docs/instrument-rollout-plan.md`
+
+If the task touches learn / hub / growth:
+
+- `docs/seo-growth-roadmap.md`
+
+If the task touches grey-song rollout:
+
+- `docs/grey-song-rollout-playbook.md`
+
+If the task touches Pinterest image/export workflow:
+
+- `docs/pinterest-engineering-plan.md`
+
+If the task touches internal print/PDF export, copyrighted-song local workflow, or `MusicXML` ingest:
 
 - `docs/internal-print-workflow.md`
 - `docs/song-ingest-input-spec.md`
@@ -23,51 +39,40 @@ If the task touches internal print/PDF export, copyrighted-song local workflow, 
 
 - Public `/song/<slug>` pages are driven by deployable raw JSON plus the original Kuailepu runtime path.
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
-- `reference/songs/<slug>.json` is now local fallback for import/debug only.
+- Compact public SongDocs live in `data/kuailepu/<slug>.json`.
+- `reference/songs/<slug>.json` is local fallback for import/debug only.
 - The deployable runtime archive lives in `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
-- Internal print preview currently lives at `/dev/print/song/<slug>` and stays internal-only.
-- Default reading mode is `letter`.
-- Public optional backup mode is `number`.
-- Do not restore `both` mode.
-- Do not silently fall back to the old native song page when a raw JSON file is missing.
-- `captured SVG` is only a local debug/parity baseline now.
+- Internal print preview lives at `/dev/print/song/<slug>` and stays internal-only.
+- Default reading mode is `letter`; public backup mode is `number`; do not restore `both`.
+- Do not silently fall back to the old native song page when raw JSON is missing.
+- Captured SVG is only a local debug/parity baseline.
 
 ## User-Facing Rules
 
-- Visible site copy must stay English.
+- Visible public site copy must stay English.
 - Do not show wording like `Kuailepu source`, `reference source`, `we referenced Kuailepu`, or similar source-attribution text on public pages.
 - Homepage song cards should show the song title only.
 
-## Before Adding Or Publishing Songs
+## Import / Publishing Rule
 
-If a song has stable English aliases, translated names, or common alternate titles, update `data/songbook/song-seo-profiles.json` with `aliases` before publishing so:
+If a song has stable English aliases, translated names, or common alternate titles, update `data/songbook/song-seo-profiles.json` with `aliases` before publishing.
 
-- homepage library search can match those aliases
-- song page title / description / body can naturally cover alias searches
+When the user asks to import songs for publication, default scope includes:
 
-When the user asks to import songs for publication or says “公开导歌”, the default scope includes all related publishing work in the same turn:
-
-- deployable raw JSON and compact song doc
+- deployable raw JSON and compact SongDoc
 - public manifest entry
 - song SEO profile, aliases, metadata, and FAQ copy
 - relevant learn / hub internal links
-- grey rollout status update
+- grey rollout status update when relevant
 - validation and Kuailepu preflight compare
 
-Only keep songs as `published: false` / `imported-only` when the user explicitly asks for candidate import only.
+Only keep songs unpublished when the user explicitly asks for candidate-only import.
 
-Run the automated preflight:
+Run:
 
 ```bash
 npm run preflight:kuailepu-publish -- <slug...>
 ```
-
-This script will:
-
-- check whether the Kuailepu Playwright login is still valid
-- start a local dev server on an available port
-- automatically fall back from port 3000 if that port is occupied
-- run runtime-vs-live compare against the chosen local base URL
 
 If login is invalid, stop and ask the user to run:
 
@@ -75,32 +80,28 @@ If login is invalid, stop and ask the user to run:
 npm run login:kuailepu
 ```
 
-If the user approved specific target songs and one of those songs fails during search, import, compare, or preflight, do not silently switch to a different song. Tell the user which target failed, why it failed, and only proceed with a replacement after explicit user confirmation.
+If a user-approved target fails during search, import, compare, or preflight, do not silently switch songs. Explain the failure and wait for approval.
 
 ## Network Coordination
 
 - Kuailepu import, compare, preflight, and live-context debugging require a China-reachable network.
-- Google or western-web research may require a foreign VPN instead.
+- Google / western-web research may require a foreign VPN.
 - Do not assume both are reachable at the same time.
-- If the current task needs the other network, explicitly tell the user to switch VPN before continuing.
-- If Kuailepu login is invalid, stop and ask the user to refresh it manually instead of continuing with stale assumptions.
 
 ## Runtime Guardrails
 
 - Keep Kuailepu core rendering behavior intact.
 - Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
 - Any publish/parity check must use `note_label_mode=number`.
-- When trimming extra Kuailepu JS/CSS for public song pages, default to “do not load by default, but keep the bundled assets and recovery path”.
-- Prefer changing the runtime asset profile in `src/lib/kuailepu/runtime.ts` over deleting files from `vendor/kuailepu-static` or `public/k-static`.
+- When trimming Kuailepu JS/CSS for public song pages, prefer runtime asset profile changes over deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
 ## Git Commit Rule
 
-- Every commit message must be written in Chinese.
-- Every commit message must be detailed, not just a short title.
-- The minimum expected structure is:
-  - one Chinese title line
-  - a `变更：` section
-  - a `原因：` section
-  - a `验证：` section
-- The repository includes `.gitmessage.txt` as the commit template shape and `.husky/commit-msg` to enforce the minimum rule.
-- If a previous commit in the current task used a vague or non-Chinese message, amend it before finishing the task.
+Every commit message must be detailed Chinese and include:
+
+- title line
+- `变更：`
+- `原因：`
+- `验证：`
+
+The repository includes `.gitmessage.txt` and `.husky/commit-msg`.

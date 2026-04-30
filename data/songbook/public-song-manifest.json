@@ -1055,5 +1055,26 @@
     "family": "song",
     "featuredRank": 151,
     "published": true
+  },
+  {
+    "id": "senbonzakura",
+    "slug": "senbonzakura",
+    "family": "song",
+    "featuredRank": 152,
+    "published": true
+  },
+  {
+    "id": "uchiage-hanabi",
+    "slug": "uchiage-hanabi",
+    "family": "song",
+    "featuredRank": 153,
+    "published": true
+  },
+  {
+    "id": "zen-zen-zense",
+    "slug": "zen-zen-zense",
+    "family": "song",
+    "featuredRank": 154,
+    "published": true
   }
 ]

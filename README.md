@@ -1,137 +1,108 @@
 # Project V-Tabs
 
-面向 Google / western 用户、以 ocarina 为主并已公开支持 recorder / tin whistle 的 melody song page 站点。当前公开详情页统一走快乐谱兼容 runtime 路线，默认显示字母谱，简谱作为可选阅读模式保留。
+Play By Fingering is an English public song-library site for western search users. The product is ocarina-first and also exposes recorder and tin whistle views on public song pages.
 
-## 交接优先读
+## Fast Context
 
-新对话、新程序员、或者重新接手这个项目时，先按下面顺序读：
+Read as little as the task allows:
 
-1. `README.md`
-2. `docs/handoff.md`
-3. `docs/agent-handoff.md`
-4. `docs/kuailepu-compatibility-roadmap.md`
-5. `docs/manual-runtime-qa-checklist.md`
-6. `src/lib/kuailepu/runtime.ts`
-7. `docs/instrument-rollout-plan.md`
+- Every new session: `AGENTS.md`, then `docs/agent-handoff.md`.
+- Release / current state / dirty tree questions: also read `docs/handoff.md`.
+- Kuailepu import, publishing, runtime, letter mode, or song SEO: read `docs/kuailepu-compatibility-roadmap.md`, `docs/manual-runtime-qa-checklist.md`, `src/lib/kuailepu/runtime.ts`.
+- Learn / hub / growth work: read `docs/seo-growth-roadmap.md`.
+- Grey-song import work: read `docs/grey-song-rollout-playbook.md`.
+- Pinterest image/export work: read `docs/pinterest-engineering-plan.md`.
+- Internal print, copyright-only workflow, or MusicXML ingest: read `docs/internal-print-workflow.md`, `docs/song-ingest-input-spec.md`.
 
-如果任务涉及快乐谱兼容、导歌、上线、字母谱、SEO 文案，这套顺序是必读。
+The older rule of reading every major document for every substantial task has been replaced by this topic map to save context.
 
-如果任务涉及内部打印 PDF、未授权版权曲本地工作流、或 `MusicXML` 输入链，额外继续看：
+## Product Truth
 
-- `docs/internal-print-workflow.md`
-- `docs/song-ingest-input-spec.md`
+- Public `/song/<slug>` pages use deployable raw JSON plus the original Kuailepu runtime path.
+- Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
+- Compact public song docs live in `data/kuailepu/<slug>.json`.
+- `reference/songs/<slug>.json` is local fallback for import/debug only.
+- Runtime archive lives at `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
+- Captured SVG is only a local debug/parity baseline.
+- Default note view is `letter`; public backup mode is `number`; do not restore `both`.
+- Public instrument set is currently `o12`, `o6`, `r8b`, `r8g`, `w6`.
+- `/api/kuailepu-runtime/<slug>` returns runtime HTML and must stay `noindex`.
 
-如果任务涉及公开增长、learn / hub / guide 页面，额外继续看：
+## Public Copy Rules
 
-- `docs/seo-growth-roadmap.md`
+- Visible public site copy must stay English.
+- Do not expose source wording such as `Kuailepu source`, `reference source`, or `we referenced Kuailepu`.
+- Homepage song cards should show the song title only.
+- SEO titles should prioritize real search terms: instrument, tabs, notes, letter notes, fingering chart, song aliases.
+- Do not mechanically append `| Play By Fingering` to homepage, learn, or song metadata.
 
-## 当前真相
+## Import / Publish Rules
 
-- 公开 `/song/<slug>` 统一走 deployable raw JSON + 快乐谱原始 runtime 主链。
-- 生产 raw JSON 优先读取 `data/kuailepu-runtime/<slug>.json`。
-- `reference/songs/<slug>.json` 只保留给本地导歌 / 调试 fallback。
-- deployable runtime archive 在 `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`。
-- `captured SVG` 只保留本地视觉基线 / 回归排查用途，不再是公开详情页数据源。
-- 默认阅读模式是 `letter`。
-- 公开可选阅读模式只有 `letter` 与 `number`。
-- 不恢复 `both`。
-- 公开最小乐器集是 `o12`、`o6`、`r8b`、`r8g`、`w6`。
-- 公开可见文案必须保持英文。
-- 前台不要出现 `Kuailepu source`、`reference source` 这类来源披露文案。
+When the user asks to import songs for publication, default scope includes:
 
-## 当前数量口径
+- `data/kuailepu-runtime/<slug>.json`
+- `data/kuailepu/<slug>.json`
+- `data/songbook/public-song-manifest.json`
+- `data/songbook/song-seo-profiles.json` with aliases and FAQ copy
+- relevant learn / hub internal links
+- `data/songbook/grey-song-rollout.json` when it is a grey song
+- validation and Kuailepu preflight compare
 
-以 2026-04-26 当前工作区为准：
+Only keep songs unpublished when the user explicitly asks for candidate-only import.
 
-- `data/songbook/public-song-manifest.json = 145`
-- `data/songbook/song-seo-profiles.json = 145`
-- `data/kuailepu-runtime/*.json = 145`
-- `data/kuailepu/*.json = 139`
-- `reference/songs/*.json = 146`
-
-说明：
-
-- `145` 代表当前公开 song page / deployable runtime 层口径。
-- `139` 的 `data/kuailepu/*.json` 是可提交的轻量导入结果数量，不等于公开页数量。
-- 如果要确认哪些已经 push / live，先看 `git status --short --branch` 和 `git log --oneline origin/main..HEAD`。
-
-## 网络协作规则
-
-- 快乐谱相关动作：
-  - 导歌
-  - compare
-  - preflight
-  - 登录态检查
-  - 线上上下文排障
-  都依赖中国可达网络。
-- Google / 国外站点调研、关键词查证、western 用户侧资料核实，通常需要国外 VPN。
-- 不要默认两种网络可同时使用。
-- 如果当前任务需要切换到另一侧网络，先明确告诉用户切 VPN，再继续。
-- 如果 `npm run check:kuailepu-login` 或 preflight 提示登录失效，应停止后续快乐谱动作，先让用户手动执行：
-
-```bash
-npm run login:kuailepu
-```
-
-## 发布与导歌规则
-
-导歌或准备公开歌曲前，先跑：
+Before publishing, run:
 
 ```bash
 npm run preflight:kuailepu-publish -- <slug...>
 ```
 
-如果登录失效，不要继续猜，直接让用户手动刷新登录态。
+If login is invalid, stop and ask the user to run:
 
-以后用户说“导歌”或“公开导入歌曲”，默认范围不是只抓 raw JSON。除非用户明确说“只做候选 / candidate only”，否则同一轮要同时完成：
+```bash
+npm run login:kuailepu
+```
 
-- deployable raw JSON 与轻量 compact doc
-- `public-song-manifest.json` 公开入口
-- `song-seo-profiles.json` 的 aliases、title、description、overview、FAQ
-- 相关 learn / hub 内链
-- `grey-song-rollout.json` 状态记录
-- `validate:content`、`validate:songbook`、`preflight:kuailepu-publish -- <slug...>`，必要时再跑 `build`
+If an approved target song fails during search, import, compare, or preflight, do not silently switch songs. Report the failure and wait for explicit replacement approval.
 
-如果用户明确只要候选导入，保持 `published: false`，灰度记录标成 `imported-only`，并在后续公开时补完上面的所有配套工作。
+## Network Rules
 
-公开 song page 的核心规则：
+- Kuailepu import, compare, preflight, login checks, and live-context debugging need a China-reachable network.
+- Google / western-web research usually needs a foreign VPN.
+- Do not assume both are reachable at once; ask the user to switch VPN when needed.
 
-- 不回退到旧 `SongClient` 详情页。
-- compare / preflight / publish gate 继续坚持 `note_label_mode=number`。
-- 修改 runtime 相关逻辑后，先确认 `number` 模式 parity 没被破坏。
-- 未来如果继续减快乐谱旧资产，优先调 runtime asset profile，不要随手删 `vendor/kuailepu-static` 或 `public/k-static` 里的保留资产。
+## Runtime Guardrails
 
-## SEO 当前规则
+- Keep public song pages on the runtime-backed route; do not restore old native `SongClient` fallback.
+- Publish/parity checks must use `note_label_mode=number`.
+- Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
+- When reducing old Kuailepu assets, change runtime asset profiles instead of deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
-- 公开 title 按“SEO 长尾优先、品牌词让位”处理。
-- 首页、`/learn`、`/learn/[slug]`、`/song/[slug]` 这类公开落地页，不要机械追加 `| Play By Fingering`。
-- 如果 title 空间有限，优先保留乐器词、tabs / notes / letter notes / fingering chart、曲名别名等真实搜索词。
-- `/api/kuailepu-runtime/<slug>` 返回的是 runtime HTML，不是公开 SEO 落地页。
-- 这类 URL 必须继续返回 `X-Robots-Tag: noindex, nofollow, noarchive`，避免 query 变体被 GSC / Google 收录并稀释 `/song/<slug>`。
+## Validation Commands
 
-## Git 提交规范
+Common checks:
 
-- 提交信息必须写中文。
-- 不能只写一句短标题。
-- 至少写清楚：
-  - `变更`
-  - `原因`
-  - `验证`
+```bash
+npm run validate:content
+npm run validate:songbook
+npm run doctor:song -- <slug>
+npm run preflight:kuailepu-publish -- <slug...>
+npm run build
+```
 
-仓库里已有：
+Release-state checks:
 
-- `.gitmessage.txt`
-- `.husky/commit-msg`
+```bash
+git status --short --branch
+git log --oneline origin/main..HEAD
+```
 
-## 文档职责
+## Git Commit Rule
 
-- `README.md`
-  - 只保留稳定真相、必读顺序、长期规则。
-- `docs/handoff.md`
-  - 保留当前有效状态与执行规则。
-- `docs/agent-handoff.md`
-  - 保留速接版与高优先约束。
-- `docs/seo-growth-roadmap.md`
-  - 保留公开增长策略与当前批准的 SEO 执行范围。
+Commit messages must be detailed Chinese messages with:
 
-不要再把同一批“当前状态”同时堆到三四份主文档里。
+- title line
+- `变更：`
+- `原因：`
+- `验证：`
+
+The repository has `.gitmessage.txt` and `.husky/commit-msg` enforcing the minimum structure.

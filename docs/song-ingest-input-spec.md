@@ -1,131 +1,88 @@
-# 自制曲输入规范草案
+# Song Ingest Input Spec
 
-## 目标
+Use this for songs that are not available through Kuailepu but may enter internal print workflow or later public preparation.
 
-这份文档用于后续处理“快乐谱里没有，但我们想上线”的曲子。
+## Goal
 
-目标不是直接替代当前公开 runtime 主链，而是先把外部原始谱源整理成一份稳定、可复用、可手工检查的基础输入，再进入 happi123 / 快乐谱制谱流程，或者先进入本站当前的私有打印链做内部 PDF 验收。
+Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI as the public production format, and do not bypass Kuailepu/runtime preflight for public songs.
 
-## 推荐输入优先级
+## Input Priority
 
-1. `MusicXML`
-2. `MIDI`
-3. 人工录入的结构化简谱文本
-4. 图片 / PDF 简谱，仅作最后兜底
+1. MusicXML
+2. MIDI
+3. structured numbered-notation text
+4. image / PDF only as last resort
 
-原因：
+MusicXML is preferred because it can preserve measures, rhythm, key, repeats, rests, and lyric alignment.
 
-- `MusicXML` 最容易保留调号、小节、时值、休止、反复、歌词对位等结构信息。
-- `MIDI` 更适合拿到旋律和时值，但经常缺歌词、调号和清晰的小节信息。
-- 纯图片简谱最难自动处理，人工校对成本最高。
+## Required Metadata
 
-## 一首歌至少要收集哪些信息
+Collect:
 
-- 英文公开标题
-- 原始标题或常见别名
-- 预期 slug
-- 曲目类型
-  - `folk`
-  - `march`
-  - `dance`
-  - `song`
-  - `holiday`
-  - `hymn`
-  - `classical`
-- 作曲者或来源说明
-- 版权判断备注
-- 原始谱源文件
-  - `MusicXML` 或 `MIDI`
-- 是否需要歌词
-  - 当前如果只有纯中文歌词，公开页仍默认隐藏
+- English public title
+- original title / aliases
+- intended slug
+- family: `folk`, `march`, `dance`, `song`, `holiday`, `hymn`, `classical`
+- composer / source note
+- rights note
+- source file
+- lyric requirement and language
+- public lyric policy
 
-## MusicXML 最理想应包含的内容
+Lyric policies:
 
-- 主旋律单声部
-- 清晰小节线
-- 拍号
-- 调号
-- 速度或基础节拍信息
-- 休止符
-- 反复记号或已展开后的完整旋律
-- 若有歌词，尽量保留 syllable 对位
+- `show-publicly`
+- `hide-by-default`
+- `do-not-expose-toggle`
+- `no-lyrics`
 
-如果一份 `MusicXML` 含多个声部，后续默认只取主旋律声部，不做和声公开化。
+## MusicXML Expectations
 
-## MIDI 最低可接受要求
+Ideal:
 
-- 能清楚分辨主旋律轨
-- 时值基本正确
-- 小节边界不要严重错乱
-- 不要只有伴奏没有主旋律
+- single main melody part
+- clear measures
+- time signature
+- key signature
+- rests
+- repeats or fully expanded melody
+- lyric syllable alignment when lyrics matter
 
-如果 `MIDI` 有多轨，后续需要先人工指定哪一轨是主旋律。
+For multi-part MusicXML, pick a main melody part explicitly.
 
-## 转成快乐谱 / happi123 前需要补齐的内部字段
+## MIDI Expectations
 
-- 英文标题
-- slug
-- family
-- 目标默认调
-- 目标拍号
-- 目标旋律文本
-- 是否含歌词
-- 歌词语言
-- 公共可见歌词策略
-  - `show publicly`
-  - `hide by default`
-  - `do not expose toggle`
+Minimum:
 
-## 后续计划中的半自动流程
+- identifiable main melody track
+- usable rhythm
+- not accompaniment-only
+- measure boundaries not badly corrupted
 
-1. 读取 `MusicXML` 或 `MIDI`
-2. 提取主旋律、小节、时值、拍号、调号
-3. 转成一份内部基础简谱数据
-4. 人工校对标题、来源、版权备注、歌词策略
-5. 再复制到 happi123 / 快乐谱制谱入口生成完整上下文
-6. 导回本仓库做 compare / preflight / publish
+MIDI often needs manual track selection and metadata cleanup.
 
-当前还多了一条“只做内部打印，不先推进公开上线”的分支：
-
-1. 读取 `MusicXML` 或 `MIDI`
-2. 提取主旋律、小节、时值、拍号、调号
-3. 转成内部 draft
-4. 进入私有打印页 / PDF 导出流程
-5. 只在确认有网站授权后，再考虑推进公开 song page
-
-## 当前已落地的第一步工具
-
-仓库里现在已经有一个最小可执行的 MusicXML draft 工具：
+## Current Tool
 
 ```bash
 npm run prepare:song-ingest -- <input.musicxml> [--title=...] [--slug=...] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/<slug>.json]
 ```
 
-当前这一步的定位：
+Current scope:
 
-- 只做内部 draft，不直接发布到公开 song page
-- 可以作为私有打印链的前置输入，不必先等 happi123
-- 当前只支持未压缩的 `MusicXML` / `.xml`
-- 会输出：
-  - 推荐标题 / slug
-  - 推荐 keynote / tonicMidi
-  - 结构化简谱行
-  - 对齐歌词行
-  - happi123 可继续人工整理的基础文本
-  - 当前识别到的风险 / 警告
+- internal draft only
+- uncompressed MusicXML / `.xml`
+- outputs recommended title, slug, keynote, tonic MIDI, structured numbered notation, aligned lyrics, and warnings
 
-当前暂不覆盖：
+Not yet covered:
 
-- `MIDI` 自动选主旋律轨
-- `.mxl` 压缩 MusicXML
-- 复杂多声部 / 和弦 / grace note / tuplet 的完整等价转换
+- MIDI auto melody-track selection
+- compressed `.mxl`
+- full equivalence for complex voices, chords, grace notes, tuplets
 
-但它已经足够作为“你发我 MusicXML，我先快速整理出内部基础输入”的第一版工作台。
+## Do Not
 
-## 当前不做的事情
-
-- 不直接把 `MusicXML` 当公开 song page 的生产格式
-- 不跳过快乐谱 runtime compare gate
-- 不恢复旧 SongClient 详情页作为公开主链
-- 不在前台暴露中文来源说明或第三方来源措辞
-- 不把未授权版权曲推进到公开内容层；这类材料应保留在 `private/`
+- publish directly from MusicXML/MIDI
+- skip runtime compare gate
+- restore old native song page as public route
+- expose Chinese/source wording publicly
+- publish unauthorized copyrighted material

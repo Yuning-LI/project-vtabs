@@ -492,6 +492,36 @@
       "addedOn": "2026-04-29",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ubdue1ZRW.html",
       "notes": "Second same-day grey continuation. Imported with public content layer, SEO profile, and learn/hub linking prepared. Awaiting validation and push."
+    },
+    {
+      "slug": "senbonzakura",
+      "title": "Senbonzakura",
+      "status": "live",
+      "batch": "18",
+      "group": "anime",
+      "addedOn": "2026-04-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/azvAb1Wwa.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "uchiage-hanabi",
+      "title": "Uchiage Hanabi",
+      "status": "live",
+      "batch": "18",
+      "group": "anime",
+      "addedOn": "2026-04-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/tSEIe17I4.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "zen-zen-zense",
+      "title": "Zen Zen Zense",
+      "status": "live",
+      "batch": "18",
+      "group": "anime",
+      "addedOn": "2026-04-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ftcEc1Q3X.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
     }
   ]
 }
