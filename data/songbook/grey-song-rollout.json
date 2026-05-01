@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-04-29",
+  "updatedOn": "2026-05-01",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -521,6 +521,36 @@
       "group": "anime",
       "addedOn": "2026-04-29",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ftcEc1Q3X.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "unravel",
+      "title": "Unravel",
+      "status": "live",
+      "batch": "19",
+      "group": "anime",
+      "addedOn": "2026-04-30",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/zR6Th1aCu.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "butter-fly",
+      "title": "Butter-Fly",
+      "status": "live",
+      "batch": "19",
+      "group": "anime",
+      "addedOn": "2026-04-30",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AQqQf1jLH.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "until-the-end-of-the-world",
+      "title": "Until the End of the World",
+      "status": "live",
+      "batch": "19",
+      "group": "anime",
+      "addedOn": "2026-04-30",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/eq1Xb1qBi.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
     }
   ]
