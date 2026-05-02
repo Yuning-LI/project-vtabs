@@ -250,6 +250,11 @@ export default function KuailepuRuntimeInteractiveShell({
 
     const nextQueryState = parseSongPageQueryState(nextUrl)
     setCurrentQueryState(nextQueryState)
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
+    )
   }
 
   const instrumentSelect =
