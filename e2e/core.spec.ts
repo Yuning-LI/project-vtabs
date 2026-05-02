@@ -151,6 +151,11 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await expect(page.getByRole('combobox', { name: 'Note View' })).toHaveValue('letter')
     await expect(page.getByRole('combobox', { name: 'Chart Direction' })).toHaveValue('1u')
+    await expect(page.locator('.page-warm-hero')).toContainText(
+      'switchable ocarina, recorder, and tin whistle views'
+    )
+    await expect(page.locator('.page-warm-hero')).not.toContainText('recorder, recorder')
+    await expect(page.locator('.page-warm-hero')).not.toContainText('tin whistle, recorder')
     const aboutSection = page.locator('section').filter({
       has: page.getByRole('heading', { name: 'About Ode to Joy' })
     })

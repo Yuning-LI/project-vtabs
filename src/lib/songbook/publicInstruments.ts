@@ -163,9 +163,15 @@ export function adaptPresentationForInstrument(
 }
 
 function replaceInstrumentReferences(text: string, instrument: PublicSongInstrument) {
+  const protectedInstrumentLists: string[] = []
+  const protectedText = text.replace(/ocarina, recorder, and tin whistle/gi, match => {
+    const token = `__VTABS_INSTRUMENT_LIST_${protectedInstrumentLists.length}__`
+    protectedInstrumentLists.push(match)
+    return token
+  })
   const seoLabel = instrument.seoLabel
   const articleWithInstrument = `${getIndefiniteArticle(seoLabel)} ${seoLabel}`
-  let next = text
+  let next = protectedText
     .replaceAll(/a 12-hole ocarina/gi, articleWithInstrument)
     .replaceAll(/an 12-hole ocarina/gi, articleWithInstrument)
     .replaceAll(/a 12-hole AC ocarina/gi, articleWithInstrument)
@@ -176,7 +182,12 @@ function replaceInstrumentReferences(text: string, instrument: PublicSongInstrum
     .replaceAll(/12-Hole AC Ocarina/g, instrument.label)
     .replaceAll(/12-hole AC/gi, '12-hole')
 
-  return replaceInstrumentFamilyTerms(next, instrument)
+  next = replaceInstrumentFamilyTerms(next, instrument)
+
+  return protectedInstrumentLists.reduce(
+    (result, value, index) => result.replaceAll(`__VTABS_INSTRUMENT_LIST_${index}__`, value),
+    next
+  )
 }
 
 function replaceInstrumentFamilyTerms(text: string, instrument: PublicSongInstrument) {
