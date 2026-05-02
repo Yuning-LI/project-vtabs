@@ -5,8 +5,9 @@
   "scripts": {
     "audit:kuailepu-instruments": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-kuailepu-instruments.ts",
     "sync:kuailepu-static": "node scripts/sync-kuailepu-static.mjs",
+    "pack:kuailepu-runtime": "node scripts/pack-kuailepu-runtime.mjs",
     "predev": "npm run sync:kuailepu-static",
-    "prebuild": "npm run sync:kuailepu-static",
+    "prebuild": "npm run sync:kuailepu-static && npm run pack:kuailepu-runtime",
     "prestart": "npm run sync:kuailepu-static",
     "dev": "next dev",
     "build": "next build",

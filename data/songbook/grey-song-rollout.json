@@ -552,6 +552,36 @@
       "addedOn": "2026-04-30",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/eq1Xb1qBi.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "only-my-railgun",
+      "title": "Only My Railgun",
+      "status": "live",
+      "batch": "20",
+      "group": "anime",
+      "addedOn": "2026-05-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/yX7ti1WlI.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "detective-conan-main-theme",
+      "title": "Detective Conan Main Theme",
+      "status": "live",
+      "batch": "20",
+      "group": "anime",
+      "addedOn": "2026-05-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/DgGim1StV.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "inuyashas-affection",
+      "title": "Inuyasha's Affection",
+      "status": "live",
+      "batch": "20",
+      "group": "anime",
+      "addedOn": "2026-05-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/93rZg1qmc.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
     }
   ]
 }

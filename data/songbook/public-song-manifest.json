@@ -1097,5 +1097,26 @@
     "family": "song",
     "featuredRank": 157,
     "published": true
+  },
+  {
+    "id": "only-my-railgun",
+    "slug": "only-my-railgun",
+    "family": "song",
+    "featuredRank": 158,
+    "published": true
+  },
+  {
+    "id": "detective-conan-main-theme",
+    "slug": "detective-conan-main-theme",
+    "family": "song",
+    "featuredRank": 159,
+    "published": true
+  },
+  {
+    "id": "inuyashas-affection",
+    "slug": "inuyashas-affection",
+    "family": "song",
+    "featuredRank": 160,
+    "published": true
   }
 ]

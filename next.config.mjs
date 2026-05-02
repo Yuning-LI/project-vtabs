@@ -7,7 +7,26 @@ const redirects = [
   ['aura-lea', 'aura-lee']
 ]
 
+const rawRuntimeTraceExcludes = [
+  './data/kuailepu-runtime/**/*',
+  './reference/songs/**/*'
+]
+
 const nextConfig = {
+  experimental: {
+    outputFileTracingExcludes: {
+      '/*': rawRuntimeTraceExcludes,
+      '/api/kuailepu-runtime/[id]': rawRuntimeTraceExcludes,
+      '/song/[id]': rawRuntimeTraceExcludes,
+      '/learn': rawRuntimeTraceExcludes,
+      '/learn/[slug]': rawRuntimeTraceExcludes,
+      '/dev/kuailepu-preview': rawRuntimeTraceExcludes,
+      '/dev/kuailepu-preview/[id]': rawRuntimeTraceExcludes,
+      '/dev/pinterest/song/[id]': rawRuntimeTraceExcludes,
+      '/dev/print/song/[id]': rawRuntimeTraceExcludes,
+      '/dev/song-import-dashboard': rawRuntimeTraceExcludes
+    }
+  },
   async redirects() {
     return redirects.map(([sourceId, destinationId]) => ({
       source: `/song/${sourceId}`,

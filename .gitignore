@@ -19,3 +19,6 @@ staff-sources/
 # Local research and competitor-reference material.
 # Must never be committed or exposed in production.
 reference/
+# Generated during build so Vercel can trace compressed runtime data instead of
+# packaging the large raw JSON directory into serverless functions.
+data/kuailepu-runtime-packed/

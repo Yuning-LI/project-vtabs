@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { gunzipSync } from 'node:zlib'
 import {
   extractKuailepuEnglishText,
   getKuailepuEnglishTitle,
@@ -11,7 +12,10 @@ import {
 } from '../songbook/kuailepuEnglish.ts'
 import { simplifyKuailepuNotation } from '../songbook/kuailepuImport.ts'
 import { resolveKuailepuRuntimeArchivePath } from './archiveFiles.ts'
-import { resolveKuailepuRuntimeSongPath } from './sourceFiles.ts'
+import {
+  resolveKuailepuRuntimeSongPath,
+  resolvePackedKuailepuRuntimeSongPath
+} from './sourceFiles.ts'
 
 /**
  * 这里定义的是“站点外壳传给快乐谱兼容 runtime 的状态”。
@@ -200,12 +204,20 @@ const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
  * 读取公开 runtime 所需的完整快乐谱 raw JSON。
  *
  * 读取顺序：
- * 1. `data/kuailepu-runtime/<slug>.json`（生产可部署）
- * 2. `reference/songs/<slug>.json`（本地导歌 / 调试 fallback）
+ * 1. 生产构建生成的 `data/kuailepu-runtime-packed/<slug>.json.gz`
+ * 2. `data/kuailepu-runtime/<slug>.json`（生产真相源）
+ * 3. `reference/songs/<slug>.json`（本地导歌 / 调试 fallback）
  *
  * 它不是站点公开用的轻量 SongDoc，而是当前快乐谱兼容 runtime 的真相源。
  */
 export function loadKuailepuSongPayload(songId: string) {
+  const packedFilePath = resolvePackedKuailepuRuntimeSongPath(songId)
+  if (process.env.NODE_ENV === 'production' && packedFilePath && fs.existsSync(packedFilePath)) {
+    return JSON.parse(
+      gunzipSync(fs.readFileSync(packedFilePath)).toString('utf8')
+    ) as KuailepuRuntimePayload
+  }
+
   const filePath = resolveKuailepuRuntimeSongPath(songId)
   if (!filePath || !fs.existsSync(filePath)) {
     return null

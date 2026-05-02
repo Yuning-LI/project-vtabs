@@ -1,0 +1,39 @@
+{
+  "id": "only-my-railgun",
+  "slug": "only-my-railgun",
+  "title": "Only My Railgun",
+  "description": "Only My Railgun arranged as a melody-first practice page with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/yX7ti1WlI.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song yX7ti1WlI on 2026-05-01."
+  },
+  "meta": {
+    "key": "1 = B",
+    "tempo": 135,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "checked",
+    "checkedOn": "2026-05-01",
+    "note": "Public metadata and runtime publication checks prepared for grey rollout."
+  },
+  "tonicMidi": 71,
+  "notation": [
+    "0 0 1' - 7 - 5 - | 5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - | 7 - - - 5 - - - 4' - - - 2' - - - | 2' - - 2' 2' - 3' - 0 0 1' - 7 - 5 - | 5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - | 6 - - - - - - - 6 - 7 - 1' - 2' - | 7 - - - 5 - - - 3 - - - 5 - - - |",
+    "5 - 6 6 6 - 1' - 7 - 5 3 3 - 5 - | 5 - 6 6 6 - - - 6 - - - - - - - | 6 - - - - - - - - - - - - - - -",
+    "6 - - - - - - - 6 - 5 - 6 - 7 - | 6 - - - - - - - 6 - 5 - 6 - 7 - | 1' - - - - - - - 1' - 2' - 1' - 7 - |",
+    "1' - 7 - 6 - 3' - 1' - - - - - - - | 6 - - - - - - - 6 - 5 - 6 - 7 - | 6 - - - - - - - 6 - 5 - 6 - 7 - |",
+    "1' - - - 4 - - - 7 6 5 6 | 5 - - - - - 4 - 4 - - - - - - - | 1 - 1 1 1 1 1 - 1 - 1 - 7 - 6 - |",
+    "5 - - - 5 - 3' 3' 3' - - - - - 3' 3' | 3' - 2' - 1' - 7 - 2' 1' 1' 7 7 - 6 - | 5 - - 5 5 - 4 - 6 - - - - - - - |",
+    "6 - 6 6 6 6 6 - 6 - 6 - 7 - 7 - | 7 - - - 7 - 5 5 5 - - - 0 0 5 - | 4 - - - 4 - 3 - 4 - 5 6 6 - 6 - | 6 - - - - - 5 4 5 - - - - - - - |",
+    "3' - 0 0 3' - 0 0 3' - 0 0 7 - 6 - | |",
+    "5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - |",
+    "7 - - - 5 - - - 4' - - - 2' - - - | 2' - - 2' 2' - 3' - 0 0 1' - 7 - 5 - | 5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - |",
+    "6 - - - - - - - 6 - 7 - 1' - 2' - | 7 - - 5 5 - 3 - 0 0 1' - 7 - 5 - | 5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - |",
+    "7 - - - 5 - - - 4' - - - 2' - - - | 2' - - 2' 2' - - 3' 0 0 1' - 7 - 5 - | 5 - 6 6 6 - 5 - 5 - 6 6 6 - 5 - | 5 - 6 6 6 - 6 - 6 - 7 - 1' - 2' - |",
+    "6 - - - - - - - 6 - 7 - 1' - 2' - | 7 - - - 5 - - - 3 - - - 5 - - - | 5 - 6 6 6 - 1' - 7 - 5 3 3 - 5 - | 5 - 6 6 6 - - - - - - - - - - - | | |"
+  ]
+}

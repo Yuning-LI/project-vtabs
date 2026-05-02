@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const trackedRuntimeSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu-runtime')
+const packedRuntimeSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu-runtime-packed')
 const localReferenceSongsDir = path.resolve(process.cwd(), 'reference', 'songs')
 
 function resolveFirstExistingPath(candidates: string[]) {
@@ -12,6 +13,12 @@ export function resolveKuailepuRuntimeSongPath(songId: string) {
   return resolveFirstExistingPath([
     path.join(trackedRuntimeSongsDir, `${songId}.json`),
     path.join(localReferenceSongsDir, `${songId}.json`)
+  ])
+}
+
+export function resolvePackedKuailepuRuntimeSongPath(songId: string) {
+  return resolveFirstExistingPath([
+    path.join(packedRuntimeSongsDir, `${songId}.json.gz`)
   ])
 }
 

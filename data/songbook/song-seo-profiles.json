@@ -4269,5 +4269,124 @@
         "answer": "Yes. Choose the recorder view on the song page to keep the same melody with recorder fingering support."
       }
     ]
+  },
+  "only-my-railgun": {
+    "aliases": [
+      "Only My Railgun anime opening",
+      "Only My Railgun Toaru",
+      "A Certain Scientific Railgun opening",
+      "Toaru Kagaku no Railgun OP",
+      "Only My Railgun letter notes",
+      "Only My Railgun ocarina tabs",
+      "Only My Railgun recorder notes",
+      "Only My Railgun tin whistle notes",
+      "某科学的超电磁炮OP"
+    ],
+    "metaTitle": "Only My Railgun Ocarina Tabs and Recorder Notes",
+    "overview": "This Only My Railgun page turns the A Certain Scientific Railgun opening into a melody-first practice page with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It is built for players who want a recognizable anime opening in one readable page instead of assembling the melody from screenshots, piano reductions, or video fragments.",
+    "searchTerms": [
+      "Only My Railgun ocarina tabs",
+      "Only My Railgun recorder notes",
+      "Only My Railgun letter notes",
+      "Only My Railgun tin whistle notes",
+      "A Certain Scientific Railgun opening notes"
+    ],
+    "background": "Only My Railgun has durable long-tail value through anime opening searches, Toaru / Railgun fandom, and players looking for fast modern melody targets. It adds another energetic anime page to the grey-song library while keeping the public experience focused on playable melody and fingering charts.",
+    "practice": "Use Only My Railgun as a rhythm and articulation goal rather than a first-day song. Start with the default letter-note view, keep the fingering chart visible, and loop the hook slowly before connecting the quicker phrase changes.",
+    "metaDescription": "Play Only My Railgun with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts for the anime opening.",
+    "extraFaqs": [
+      {
+        "question": "Is this Only My Railgun from A Certain Scientific Railgun?",
+        "answer": "Yes. This page focuses on the anime opening melody commonly searched as Only My Railgun, Railgun OP, or A Certain Scientific Railgun opening."
+      },
+      {
+        "question": "Is Only My Railgun easy for beginners?",
+        "answer": "It is better as a next-step song because the melody has faster phrase movement. Use short loops and keep the fingering chart visible while building speed."
+      },
+      {
+        "question": "Can recorder and tin whistle players use this page?",
+        "answer": "Yes. The song page supports recorder and tin whistle views with matching fingering charts for the same melody."
+      }
+    ]
+  },
+  "detective-conan-main-theme": {
+    "aliases": [
+      "Detective Conan theme",
+      "Detective Conan Main Theme notes",
+      "Case Closed theme",
+      "Case Closed Main Theme",
+      "Detective Conan opening theme",
+      "Detective Conan letter notes",
+      "Detective Conan ocarina tabs",
+      "Detective Conan recorder notes",
+      "Detective Conan tin whistle notes",
+      "名侦探柯南主题曲"
+    ],
+    "metaTitle": "Detective Conan Main Theme Ocarina Tabs and Recorder Notes",
+    "overview": "This Detective Conan Main Theme page gives players a melody-first route into the famous Case Closed / Detective Conan theme with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It keeps the recognizable detective-theme melody in one playable page for users who want a clear practice path beyond staff-only sheets or video snippets.",
+    "searchTerms": [
+      "Detective Conan Main Theme ocarina tabs",
+      "Detective Conan recorder notes",
+      "Detective Conan letter notes",
+      "Detective Conan tin whistle notes",
+      "Case Closed theme notes"
+    ],
+    "background": "Detective Conan Main Theme has strong recognition through Detective Conan, Case Closed, and anime soundtrack searches. Its bold theme shape makes it useful for players who want something more performance-like than the easiest beginner melodies while staying inside a readable fingering-chart format.",
+    "practice": "Use Detective Conan Main Theme for pulse, dramatic phrase entry, and clean repeated-note control. Start at a moderate tempo, watch the fingering chart through larger jumps, and treat each theme statement as a separate practice loop before a full run.",
+    "metaDescription": "Play Detective Conan Main Theme with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Detective Conan Main Theme?",
+        "answer": "Yes. This page focuses on the recognizable theme also searched by English users as the Case Closed theme or Detective Conan theme."
+      },
+      {
+        "question": "Why is this a good performance-style practice song?",
+        "answer": "The melody has a strong hook and clear theme statements, so it can sound complete even when practiced as a melody-first arrangement."
+      },
+      {
+        "question": "Does this page support ocarina, recorder, and tin whistle?",
+        "answer": "Yes. Use the instrument selector on the song page to switch between ocarina, recorder, and tin whistle fingering views."
+      }
+    ]
+  },
+  "inuyashas-affection": {
+    "aliases": [
+      "Inuyasha's Affections",
+      "Inuyasha's Feelings",
+      "Inuyasha's Thoughts",
+      "Inuyasha Affection theme",
+      "Inuyasha flute theme",
+      "Inuyasha letter notes",
+      "Inuyasha ocarina tabs",
+      "Inuyasha recorder notes",
+      "Inuyasha tin whistle notes",
+      "犬夜叉的思念"
+    ],
+    "metaTitle": "Inuyasha's Affection Ocarina Tabs and Recorder Notes",
+    "overview": "This Inuyasha's Affection page gives players a calm melody-first route into the reflective Inuyasha theme with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It is designed for players who want a gentle anime melody for breath control, phrase shape, and expressive tone practice.",
+    "searchTerms": [
+      "Inuyasha's Affection ocarina tabs",
+      "Inuyasha recorder notes",
+      "Inuyasha letter notes",
+      "Inuyasha tin whistle notes",
+      "Inuyasha flute theme notes"
+    ],
+    "background": "Inuyasha's Affection adds a quieter anime soundtrack target to the grey-song library. It fits long-tail searches around Inuyasha themes and gives ocarina, recorder, and tin whistle players a slower page that is more about connected tone than speed.",
+    "practice": "Use this page for breath-led phrasing and smooth note changes. Keep the fingering chart visible, play the opening phrase slowly, and focus on keeping the line connected before adding more expression.",
+    "metaDescription": "Play Inuyasha's Affection with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts for the reflective anime theme.",
+    "extraFaqs": [
+      {
+        "question": "Is this Inuyasha's Affection or Inuyasha's Feelings?",
+        "answer": "Yes. Players search this reflective Inuyasha melody with several English title forms, including Inuyasha's Affection, Inuyasha's Affections, and Inuyasha's Feelings."
+      },
+      {
+        "question": "Is this a fast anime opening?",
+        "answer": "No. It is a slower lyrical theme, which makes it useful for breath control and expressive melody practice."
+      },
+      {
+        "question": "Can tin whistle players use this page?",
+        "answer": "Yes. Select the tin whistle view on the song page to use the same melody with whistle fingering support."
+      }
+    ]
   }
 }
