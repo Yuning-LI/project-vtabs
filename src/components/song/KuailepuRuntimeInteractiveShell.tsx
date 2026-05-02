@@ -525,6 +525,7 @@ export default function KuailepuRuntimeInteractiveShell({
           title={title}
           frameSrc={frameSrc}
           loadingId={loadingId}
+          initialHeight={320}
         />
       </div>
     </>

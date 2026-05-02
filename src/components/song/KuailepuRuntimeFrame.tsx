@@ -39,7 +39,8 @@ type RuntimeMaskRect = {
 
 /**
  * 这个 client 组件只负责 iframe 生命周期：
- * - 等待快乐谱 runtime 真正画出谱面
+ * - 公开详情页等 iframe runtime 容器出现后移除 loading
+ * - 内部导出页等 runtime 真正画出谱面后移除 loading
  * - 监听 runtime bridge 发回的高度
  * - 在首刷和站内跳转两条路径下都正确移除 loading
  *
@@ -85,16 +86,26 @@ export default function KuailepuRuntimeFrame({
     let resizeObserver: ResizeObserver | null = null
     let mutationObserver: MutationObserver | null = null
     let sheetPollTimer: number | null = null
+    let sheetPollFrame: number | null = null
     const timeoutIds: number[] = []
 
     function hideLoading() {
       if (destroyed) {
         return
       }
+      const loadingElement = loadingId ? document.getElementById(loadingId) : null
+      if (loadingElement) {
+        loadingElement.hidden = true
+        loadingElement.style.display = 'none'
+      }
       setIsLoading(false)
       if (sheetPollTimer !== null) {
         window.clearInterval(sheetPollTimer)
         sheetPollTimer = null
+      }
+      if (sheetPollFrame !== null) {
+        window.cancelAnimationFrame(sheetPollFrame)
+        sheetPollFrame = null
       }
     }
 
@@ -108,6 +119,49 @@ export default function KuailepuRuntimeFrame({
         return Boolean(doc.querySelector('#sheet svg, #sheet .sheet-svg'))
       } catch {
         return false
+      }
+    }
+
+    function hasRuntimeContentStarted() {
+      try {
+        const currentFrame = frameRef.current
+        const doc = currentFrame?.contentDocument
+        if (!doc) {
+          return false
+        }
+
+        const sheet = doc.querySelector('#sheet')
+        if (!sheet) {
+          return false
+        }
+
+        return Boolean(
+          sheet.querySelector('svg, .sheet-svg, canvas, img, text, use, path, line, rect, circle, ellipse')
+        )
+      } catch {
+        return false
+      }
+    }
+
+    function hasRuntimeFrameSurfaceStarted() {
+      try {
+        const currentFrame = frameRef.current
+        const doc = currentFrame?.contentDocument
+        if (!doc?.body) {
+          return false
+        }
+
+        return Boolean(doc.getElementById('sheet'))
+      } catch {
+        return false
+      }
+    }
+
+    function hideLoadingIfRuntimeContentReady() {
+      // Public pages can reveal the iframe as soon as the runtime surface exists.
+      // Export/print pages pass overlayClassName and keep waiting for actual sheet nodes.
+      if ((!overlayClassName && hasRuntimeFrameSurfaceStarted()) || hasRuntimeContentStarted()) {
+        hideLoading()
       }
     }
 
@@ -298,32 +352,24 @@ export default function KuailepuRuntimeFrame({
         Math.abs(currentHeight - nextHeight) <= 1 &&
         hasRenderedSheet()
       ) {
-        if (height > 300) {
-          hideLoading()
-        }
+        hideLoadingIfRuntimeContentReady()
         return
       }
 
       if (currentHeight === nextHeight) {
-        if (height > 300) {
-          hideLoading()
-        }
+        hideLoadingIfRuntimeContentReady()
         return
       }
 
       currentFrame.style.height = `${nextHeight}px`
       setFrameHeight(previousHeight => (previousHeight === nextHeight ? previousHeight : nextHeight))
-      if (height > 300) {
-        hideLoading()
-      }
+      hideLoadingIfRuntimeContentReady()
     }
 
     function syncFrameHeight() {
       applyRuntimeTextHides()
       applyRuntimeMaskRects()
-      if (hasRenderedSheet()) {
-        hideLoading()
-      }
+      hideLoadingIfRuntimeContentReady()
       applyFrameHeight(measureFrameContentHeight())
     }
 
@@ -340,11 +386,19 @@ export default function KuailepuRuntimeFrame({
       if (sheetPollTimer !== null) {
         window.clearInterval(sheetPollTimer)
       }
-      sheetPollTimer = window.setInterval(() => {
-        if (hasRenderedSheet()) {
-          hideLoading()
+      if (sheetPollFrame !== null) {
+        window.cancelAnimationFrame(sheetPollFrame)
+      }
+      const pollFrame = () => {
+        hideLoadingIfRuntimeContentReady()
+        if (!destroyed && sheetPollFrame !== null) {
+          sheetPollFrame = window.requestAnimationFrame(pollFrame)
         }
-      }, 120)
+      }
+      sheetPollFrame = window.requestAnimationFrame(pollFrame)
+      sheetPollTimer = window.setInterval(() => {
+        hideLoadingIfRuntimeContentReady()
+      }, 100)
     }
 
     function installFrameObservers() {
@@ -357,11 +411,13 @@ export default function KuailepuRuntimeFrame({
 
         resizeObserver?.disconnect()
         resizeObserver = new ResizeObserver(() => {
+          hideLoadingIfRuntimeContentReady()
           timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
         })
 
         mutationObserver?.disconnect()
         mutationObserver = new MutationObserver(() => {
+          hideLoadingIfRuntimeContentReady()
           timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
         })
 
@@ -415,9 +471,20 @@ export default function KuailepuRuntimeFrame({
       if (sheetPollTimer !== null) {
         window.clearInterval(sheetPollTimer)
       }
+      if (sheetPollFrame !== null) {
+        window.cancelAnimationFrame(sheetPollFrame)
+      }
       timeoutIds.forEach(timeoutId => window.clearTimeout(timeoutId))
     }
-  }, [frameSrc, initialHeight, runtimeMaskRects, runtimeTextHideRules, songId])
+  }, [
+    frameSrc,
+    initialHeight,
+    loadingId,
+    overlayClassName,
+    runtimeMaskRects,
+    runtimeTextHideRules,
+    songId
+  ])
 
   useEffect(() => {
     const previousSongId = previousSongIdRef.current
@@ -486,16 +553,21 @@ export default function KuailepuRuntimeFrame({
           data-runtime-loading="true"
           className={
             overlayClassName
-              ? `pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center transition-opacity duration-300 ${overlayClassName}`
-              : 'pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[rgba(255,251,245,0.94)] px-6 text-center transition-opacity duration-300'
+              ? `pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center ${overlayClassName}`
+              : 'pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center'
           }
         >
-          <div className="max-w-md">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
-              Loading Sheet
+          <div className="runtime-loading-card" role="status" aria-live="polite">
+            <div className="runtime-loading-notes" aria-hidden="true">
+              <span>🎶</span>
+              <span>♪</span>
+              <span>♫</span>
+            </div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-stone-800">
+              Loading sheet...
             </p>
-            <p className="mt-3 text-sm leading-7 text-stone-700">
-              The fingering chart and sheet music are loading. This can take a little longer on slower networks.
+            <p className="mt-2 text-sm leading-6 text-stone-700">
+              The fingering chart is opening.
             </p>
           </div>
         </div>

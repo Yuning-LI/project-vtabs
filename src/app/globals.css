@@ -98,6 +98,62 @@
   box-shadow: 0 24px 44px rgba(84, 58, 32, 0.14);
 }
 
+.runtime-loading-card {
+  width: min(100%, 24rem);
+  border: 1px solid rgba(154, 126, 91, 0.2);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 249, 240, 0.9));
+  padding: 1.25rem 1.4rem;
+  box-shadow:
+    0 18px 38px rgba(84, 58, 32, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.runtime-loading-notes {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.32rem;
+  margin-bottom: 0.7rem;
+  color: #8a5a24;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.runtime-loading-notes span {
+  display: inline-block;
+  animation: runtime-note-bounce 960ms ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.runtime-loading-notes span:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.runtime-loading-notes span:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@keyframes runtime-note-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.7;
+  }
+
+  45% {
+    transform: translateY(-0.45rem) scale(1.08);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runtime-loading-notes span {
+    animation: none;
+  }
+}
+
 .page-warm-input {
   border: 1px solid rgba(154, 126, 91, 0.26);
   border-radius: 1.1rem;
