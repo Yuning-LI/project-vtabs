@@ -1,9 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
+import {
+  useSongRoutePrefetch,
+  useVisibleSongRoutePrefetch
+} from '@/components/song/useSongRoutePrefetch'
 
 type LibrarySong = {
   id: string
@@ -25,24 +28,20 @@ type LibrarySongSearchResult = LibrarySong & {
   matchedAlias?: string
 }
 
-const MAX_VISIBLE_ROUTE_PREFETCHES = 18
-const VISIBLE_PREFETCH_ROOT_MARGIN = '180px 0px'
-
 export default function LibraryBrowser({
   songs,
   familyFilters,
   embedded = false
 }: LibraryBrowserProps) {
-  const router = useRouter()
   const azJumpNavRef = useRef<HTMLElement | null>(null)
-  const prefetchedSongSlugsRef = useRef(new Set<string>())
-  const visibleRoutePrefetchCountRef = useRef(0)
+  const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch()
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
   const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
+  const [visiblePrefetchSearchKey, setVisiblePrefetchSearchKey] = useState('')
 
   useEffect(() => {
     if (sortMode !== 'az') {
@@ -61,6 +60,19 @@ export default function LibraryBrowser({
 
   const normalizedQuery = normalizeLibrarySearchText(query)
   const compactQuery = compactLibrarySearchText(normalizedQuery)
+
+  useEffect(() => {
+    if (!normalizedQuery) {
+      setVisiblePrefetchSearchKey('')
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setVisiblePrefetchSearchKey(normalizedQuery)
+    }, 300)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [normalizedQuery])
 
   const filteredSongs = useMemo(() => {
     return songs
@@ -117,34 +129,18 @@ export default function LibraryBrowser({
   }, [filteredSongs, sortMode])
 
   const activeFilters = familyFilters.map(label => (label === activeFamily ? label : null)).filter(Boolean)
+  const visiblePrefetchMode =
+    normalizedQuery && visiblePrefetchSearchKey === normalizedQuery
+      ? 'search'
+      : normalizedQuery
+        ? 'disabled'
+        : 'general'
 
   function scrollBackToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     window.setTimeout(() => {
       azJumpNavRef.current?.focus()
     }, 360)
-  }
-
-  function prefetchSong(songSlug: string) {
-    if (prefetchedSongSlugsRef.current.has(songSlug)) {
-      return
-    }
-
-    prefetchedSongSlugsRef.current.add(songSlug)
-    router.prefetch(`/song/${songSlug}`)
-  }
-
-  function prefetchVisibleSong(songSlug: string) {
-    if (
-      prefetchedSongSlugsRef.current.has(songSlug) ||
-      visibleRoutePrefetchCountRef.current >= MAX_VISIBLE_ROUTE_PREFETCHES ||
-      shouldSkipVisibleRoutePrefetch()
-    ) {
-      return
-    }
-
-    visibleRoutePrefetchCountRef.current += 1
-    prefetchSong(songSlug)
   }
 
   return (
@@ -302,8 +298,10 @@ export default function LibraryBrowser({
                     key={song.id}
                     song={song}
                     isPending={pendingSongSlug === song.slug}
-                    onPrefetch={prefetchSong}
-                    onVisiblePrefetch={prefetchVisibleSong}
+                    onPrefetch={prefetchSongRoute}
+                    onVisiblePrefetch={prefetchVisibleSongRoute}
+                    visiblePrefetchMode={visiblePrefetchMode}
+                    visiblePrefetchSearchKey={visiblePrefetchSearchKey}
                     onPending={setPendingSongSlug}
                   />
                 ))}
@@ -318,8 +316,10 @@ export default function LibraryBrowser({
               key={song.id}
               song={song}
               isPending={pendingSongSlug === song.slug}
-              onPrefetch={prefetchSong}
-              onVisiblePrefetch={prefetchVisibleSong}
+              onPrefetch={prefetchSongRoute}
+              onVisiblePrefetch={prefetchVisibleSongRoute}
+              visiblePrefetchMode={visiblePrefetchMode}
+              visiblePrefetchSearchKey={visiblePrefetchSearchKey}
               onPending={setPendingSongSlug}
             />
           ))}
@@ -346,46 +346,42 @@ function LibrarySongCard({
   isPending,
   onPrefetch,
   onVisiblePrefetch,
+  visiblePrefetchMode,
+  visiblePrefetchSearchKey,
   onPending
 }: {
   song: LibrarySongSearchResult
   isPending: boolean
-  onPrefetch: (songSlug: string) => void
-  onVisiblePrefetch: (songSlug: string) => void
+  onPrefetch: (href: string) => void
+  onVisiblePrefetch: (
+    href: string,
+    context?: { kind?: 'general' } | { kind: 'search'; searchKey: string }
+  ) => void
+  visiblePrefetchMode: 'general' | 'search' | 'disabled'
+  visiblePrefetchSearchKey: string
   onPending: (songSlug: string) => void
 }) {
   const cardRef = useRef<HTMLAnchorElement | null>(null)
-  const onVisiblePrefetchRef = useRef(onVisiblePrefetch)
+  const href = `/song/${song.slug}`
 
-  useEffect(() => {
-    onVisiblePrefetchRef.current = onVisiblePrefetch
-  }, [onVisiblePrefetch])
-
-  useEffect(() => {
-    const card = cardRef.current
-    if (!card || typeof IntersectionObserver === 'undefined') {
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (!entries.some(entry => entry.isIntersecting)) {
-          return
-        }
-
-        onVisiblePrefetchRef.current(song.slug)
-        observer.disconnect()
-      },
-      {
-        root: null,
-        rootMargin: VISIBLE_PREFETCH_ROOT_MARGIN,
-        threshold: 0.01
+  useVisibleSongRoutePrefetch(
+    cardRef,
+    href,
+    nextHref => {
+      if (visiblePrefetchMode === 'search') {
+        onVisiblePrefetch(nextHref, {
+          kind: 'search',
+          searchKey: visiblePrefetchSearchKey
+        })
+        return
       }
-    )
 
-    observer.observe(card)
-    return () => observer.disconnect()
-  }, [song.slug])
+      onVisiblePrefetch(nextHref)
+    },
+    {
+      enabled: visiblePrefetchMode !== 'disabled'
+    }
+  )
 
   function markPendingNavigation(
     event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
@@ -400,10 +396,10 @@ function LibrarySongCard({
   return (
     <Link
       ref={cardRef}
-      href={`/song/${song.slug}`}
+      href={href}
       aria-busy={isPending}
-      onFocus={() => onPrefetch(song.slug)}
-      onPointerEnter={() => onPrefetch(song.slug)}
+      onFocus={() => onPrefetch(href)}
+      onPointerEnter={() => onPrefetch(href)}
       onPointerDown={markPendingNavigation}
       onClick={markPendingNavigation}
       className={
@@ -437,31 +433,6 @@ function isCurrentTabNavigation(
   }
 
   return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
-}
-
-function shouldSkipVisibleRoutePrefetch() {
-  if (typeof navigator === 'undefined') {
-    return false
-  }
-
-  const connection = (
-    navigator as Navigator & {
-      connection?: {
-        effectiveType?: string
-        saveData?: boolean
-      }
-    }
-  ).connection
-
-  if (!connection) {
-    return false
-  }
-
-  return (
-    connection.saveData === true ||
-    connection.effectiveType === 'slow-2g' ||
-    connection.effectiveType === '2g'
-  )
 }
 
 function findMatchedAlias(aliases: string[] | undefined, normalizedQuery: string, compactQuery: string) {

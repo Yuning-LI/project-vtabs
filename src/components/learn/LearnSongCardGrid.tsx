@@ -1,8 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import { useRef } from 'react'
 import type { LearnSongCard } from '@/lib/learn/content'
 import { sendGaEvent } from '@/lib/analytics/ga'
+import {
+  useSongRoutePrefetch,
+  useVisibleSongRoutePrefetch
+} from '@/components/song/useSongRoutePrefetch'
 
 type LearnSongCardGridProps = {
   songs: LearnSongCard[]
@@ -17,6 +22,8 @@ export default function LearnSongCardGrid({
   songs,
   analyticsContext
 }: LearnSongCardGridProps) {
+  const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch()
+
   function handleSongClick(song: LearnSongCard, position: number) {
     if (!analyticsContext || typeof window === 'undefined') {
       return
@@ -36,19 +43,50 @@ export default function LearnSongCardGrid({
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {songs.map((song, index) => (
-        <Link
+        <LearnSongCardLink
           key={song.slug}
-          href={song.href}
-          className="page-warm-card-link flex h-full flex-col p-5"
-          onClick={() => handleSongClick(song, index + 1)}
-        >
-          <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
-          <p className="mt-3 text-sm leading-7 text-stone-700">
-            {song.difficultyLabel} · {song.keyLabel} · {song.meterLabel}
-          </p>
-          <div className="mt-5 text-sm font-semibold text-stone-900">Open song page →</div>
-        </Link>
+          song={song}
+          position={index + 1}
+          onClick={handleSongClick}
+          onPrefetch={prefetchSongRoute}
+          onVisiblePrefetch={prefetchVisibleSongRoute}
+        />
       ))}
     </div>
+  )
+}
+
+function LearnSongCardLink({
+  song,
+  position,
+  onClick,
+  onPrefetch,
+  onVisiblePrefetch
+}: {
+  song: LearnSongCard
+  position: number
+  onClick: (song: LearnSongCard, position: number) => void
+  onPrefetch: (href: string) => void
+  onVisiblePrefetch: (href: string) => void
+}) {
+  const cardRef = useRef<HTMLAnchorElement | null>(null)
+
+  useVisibleSongRoutePrefetch(cardRef, song.href, onVisiblePrefetch)
+
+  return (
+    <Link
+      ref={cardRef}
+      href={song.href}
+      className="page-warm-card-link flex h-full flex-col p-5"
+      onFocus={() => onPrefetch(song.href)}
+      onPointerEnter={() => onPrefetch(song.href)}
+      onClick={() => onClick(song, position)}
+    >
+      <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
+      <p className="mt-3 text-sm leading-7 text-stone-700">
+        {song.difficultyLabel} · {song.keyLabel} · {song.meterLabel}
+      </p>
+      <div className="mt-5 text-sm font-semibold text-stone-900">Open song page →</div>
+    </Link>
   )
 }
