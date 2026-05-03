@@ -447,11 +447,28 @@ test.describe('runtime-backed song pages', () => {
 
     await page.getByRole('link', { name: 'Row, Row, Row Your Boat', exact: true }).click()
     await expect(page).toHaveURL(/\/song\/row-row-row-your-boat$/)
+    await expect(page.getByLabel('Function Zone')).toHaveAttribute(
+      'data-function-zone-ready',
+      '1',
+      { timeout: 15000 }
+    )
 
     const historyBeforeOps = await page.evaluate(() => window.history.length)
 
-    await page.getByRole('combobox', { name: 'Zoom' }).selectOption('12')
-    await expect(page).toHaveURL(/\/song\/row-row-row-your-boat$/)
+    const zoomSelect = page.getByRole('combobox', { name: 'Zoom' })
+    const currentZoom = await zoomSelect.inputValue()
+    const nextZoom = await zoomSelect.locator('option').evaluateAll((options, currentValue) => {
+      const values = options
+        .map(option => (option as HTMLOptionElement).value)
+        .filter(Boolean)
+      return values.find(value => value !== currentValue) ?? null
+    }, currentZoom)
+    expect(nextZoom).not.toBeNull()
+
+    await zoomSelect.selectOption(nextZoom!)
+    await expect(page).toHaveURL(
+      new RegExp(`/song/row-row-row-your-boat\\?sheet_scale=${nextZoom}$`)
+    )
 
     const historyAfterOps = await page.evaluate(() => window.history.length)
     expect(historyAfterOps).toBe(historyBeforeOps)

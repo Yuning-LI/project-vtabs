@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-01",
+  "updatedOn": "2026-05-02",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -582,6 +582,36 @@
       "addedOn": "2026-05-01",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/93rZg1qmc.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; prepared for push to origin/main."
+    },
+    {
+      "slug": "see-you-again",
+      "title": "See You Again",
+      "status": "validated-local",
+      "batch": "21",
+      "group": "film",
+      "addedOn": "2026-05-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/KzLnb1vLT.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "city-of-stars",
+      "title": "City of Stars",
+      "status": "validated-local",
+      "batch": "21",
+      "group": "film",
+      "addedOn": "2026-05-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Xe9Su1wF3.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "the-avengers",
+      "title": "The Avengers",
+      "status": "validated-local",
+      "batch": "21",
+      "group": "film",
+      "addedOn": "2026-05-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AENWh1Ogk.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

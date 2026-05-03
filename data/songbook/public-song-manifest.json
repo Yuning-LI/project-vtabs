@@ -1118,5 +1118,26 @@
     "family": "song",
     "featuredRank": 160,
     "published": true
+  },
+  {
+    "id": "see-you-again",
+    "slug": "see-you-again",
+    "family": "song",
+    "featuredRank": 161,
+    "published": true
+  },
+  {
+    "id": "city-of-stars",
+    "slug": "city-of-stars",
+    "family": "song",
+    "featuredRank": 162,
+    "published": true
+  },
+  {
+    "id": "the-avengers",
+    "slug": "the-avengers",
+    "family": "song",
+    "featuredRank": 163,
+    "published": true
   }
 ]

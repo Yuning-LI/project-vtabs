@@ -39,8 +39,7 @@ type RuntimeMaskRect = {
 
 /**
  * 这个 client 组件只负责 iframe 生命周期：
- * - 公开详情页等 iframe runtime 容器出现后移除 loading
- * - 内部导出页等 runtime 真正画出谱面后移除 loading
+ * - 等 iframe runtime 里出现第一个谱面内容元素后移除 loading
  * - 监听 runtime bridge 发回的高度
  * - 在首刷和站内跳转两条路径下都正确移除 loading
  *
@@ -85,6 +84,7 @@ export default function KuailepuRuntimeFrame({
     let destroyed = false
     let resizeObserver: ResizeObserver | null = null
     let mutationObserver: MutationObserver | null = null
+    let observedDocument: Document | null = null
     let sheetPollTimer: number | null = null
     let sheetPollFrame: number | null = null
     const timeoutIds: number[] = []
@@ -122,7 +122,7 @@ export default function KuailepuRuntimeFrame({
       }
     }
 
-    function hasRuntimeContentStarted() {
+    function hasRuntimeContentElementStarted() {
       try {
         const currentFrame = frameRef.current
         const doc = currentFrame?.contentDocument
@@ -136,31 +136,15 @@ export default function KuailepuRuntimeFrame({
         }
 
         return Boolean(
-          sheet.querySelector('svg, .sheet-svg, canvas, img, text, use, path, line, rect, circle, ellipse')
+          sheet.querySelector('canvas, img, text, tspan, use, path, line, rect, circle, ellipse')
         )
       } catch {
         return false
       }
     }
 
-    function hasRuntimeFrameSurfaceStarted() {
-      try {
-        const currentFrame = frameRef.current
-        const doc = currentFrame?.contentDocument
-        if (!doc?.body) {
-          return false
-        }
-
-        return Boolean(doc.getElementById('sheet'))
-      } catch {
-        return false
-      }
-    }
-
     function hideLoadingIfRuntimeContentReady() {
-      // Public pages can reveal the iframe as soon as the runtime surface exists.
-      // Export/print pages pass overlayClassName and keep waiting for actual sheet nodes.
-      if ((!overlayClassName && hasRuntimeFrameSurfaceStarted()) || hasRuntimeContentStarted()) {
+      if (hasRuntimeContentElementStarted()) {
         hideLoading()
       }
     }
@@ -390,6 +374,7 @@ export default function KuailepuRuntimeFrame({
         window.cancelAnimationFrame(sheetPollFrame)
       }
       const pollFrame = () => {
+        installFrameObservers()
         hideLoadingIfRuntimeContentReady()
         if (!destroyed && sheetPollFrame !== null) {
           sheetPollFrame = window.requestAnimationFrame(pollFrame)
@@ -408,22 +393,31 @@ export default function KuailepuRuntimeFrame({
         if (!doc || !window.ResizeObserver) {
           return
         }
+        if (observedDocument === doc && resizeObserver && mutationObserver) {
+          return
+        }
+        observedDocument = doc
 
         resizeObserver?.disconnect()
         resizeObserver = new ResizeObserver(() => {
           hideLoadingIfRuntimeContentReady()
+          window.requestAnimationFrame(hideLoadingIfRuntimeContentReady)
           timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
         })
 
         mutationObserver?.disconnect()
         mutationObserver = new MutationObserver(() => {
           hideLoadingIfRuntimeContentReady()
+          window.requestAnimationFrame(hideLoadingIfRuntimeContentReady)
           timeoutIds.push(window.setTimeout(syncFrameHeight, 30))
         })
 
+        const mutationTarget = doc.body ?? doc.documentElement
         if (doc.body) {
           resizeObserver.observe(doc.body)
-          mutationObserver.observe(doc.body, {
+        }
+        if (mutationTarget) {
+          mutationObserver.observe(mutationTarget, {
             childList: true,
             subtree: true,
             characterData: true
