@@ -27,6 +27,15 @@ type SortMode = 'featured' | 'az'
 type LibrarySongSearchResult = LibrarySong & {
   matchedAlias?: string
 }
+type LibraryBrowserHistoryState = {
+  activeFamily: string
+  query: string
+  scrollY: number
+  showMobileFilters: boolean
+  sortMode: SortMode
+}
+
+const LIBRARY_BROWSER_HISTORY_STATE_KEY = 'playByFingeringLibraryBrowser'
 
 export default function LibraryBrowser({
   songs,
@@ -42,6 +51,26 @@ export default function LibraryBrowser({
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
   const [visiblePrefetchSearchKey, setVisiblePrefetchSearchKey] = useState('')
+  const [restoreScrollY, setRestoreScrollY] = useState<number | null>(null)
+  const restoredHistoryStateRef = useRef(false)
+
+  useEffect(() => {
+    if (restoredHistoryStateRef.current) {
+      return
+    }
+
+    restoredHistoryStateRef.current = true
+    const savedState = readLibraryBrowserHistoryState(familyFilters)
+    if (!savedState) {
+      return
+    }
+
+    setQuery(savedState.query)
+    setActiveFamily(savedState.activeFamily)
+    setSortMode(savedState.sortMode)
+    setShowMobileFilters(savedState.showMobileFilters)
+    setRestoreScrollY(savedState.scrollY)
+  }, [familyFilters])
 
   useEffect(() => {
     if (sortMode !== 'az') {
@@ -136,11 +165,38 @@ export default function LibraryBrowser({
         ? 'disabled'
         : 'general'
 
+  useEffect(() => {
+    if (restoreScrollY === null) {
+      return
+    }
+
+    const scrollY = restoreScrollY
+    setRestoreScrollY(null)
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: scrollY, behavior: 'auto' })
+    })
+  }, [filteredSongs, groupedSongs, restoreScrollY, sortMode])
+
   function scrollBackToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     window.setTimeout(() => {
       azJumpNavRef.current?.focus()
     }, 360)
+  }
+
+  function scrollToLetterGroup(letter: string) {
+    const target = document.getElementById(`library-group-${encodeURIComponent(letter)}`)
+    target?.scrollIntoView({ behavior: 'auto', block: 'start' })
+  }
+
+  function saveCurrentLibraryBrowserState() {
+    writeLibraryBrowserHistoryState({
+      activeFamily,
+      query,
+      scrollY: window.scrollY,
+      showMobileFilters,
+      sortMode
+    })
   }
 
   return (
@@ -272,13 +328,14 @@ export default function LibraryBrowser({
               </div>
               <div className="flex flex-wrap gap-2">
                 {groupedSongs.map(([letter]) => (
-                  <a
+                  <button
                     key={letter}
-                    href={`#library-group-${encodeURIComponent(letter)}`}
+                    type="button"
+                    onClick={() => scrollToLetterGroup(letter)}
                     className="page-warm-pill-muted px-3 py-2 text-sm font-semibold"
                   >
                     {letter}
-                  </a>
+                  </button>
                 ))}
               </div>
             </nav>
@@ -302,6 +359,7 @@ export default function LibraryBrowser({
                     onVisiblePrefetch={prefetchVisibleSongRoute}
                     visiblePrefetchMode={visiblePrefetchMode}
                     visiblePrefetchSearchKey={visiblePrefetchSearchKey}
+                    onSaveState={saveCurrentLibraryBrowserState}
                     onPending={setPendingSongSlug}
                   />
                 ))}
@@ -320,6 +378,7 @@ export default function LibraryBrowser({
               onVisiblePrefetch={prefetchVisibleSongRoute}
               visiblePrefetchMode={visiblePrefetchMode}
               visiblePrefetchSearchKey={visiblePrefetchSearchKey}
+              onSaveState={saveCurrentLibraryBrowserState}
               onPending={setPendingSongSlug}
             />
           ))}
@@ -348,6 +407,7 @@ function LibrarySongCard({
   onVisiblePrefetch,
   visiblePrefetchMode,
   visiblePrefetchSearchKey,
+  onSaveState,
   onPending
 }: {
   song: LibrarySongSearchResult
@@ -359,6 +419,7 @@ function LibrarySongCard({
   ) => void
   visiblePrefetchMode: 'general' | 'search' | 'disabled'
   visiblePrefetchSearchKey: string
+  onSaveState: () => void
   onPending: (songSlug: string) => void
 }) {
   const cardRef = useRef<HTMLAnchorElement | null>(null)
@@ -390,6 +451,7 @@ function LibrarySongCard({
       return
     }
 
+    onSaveState()
     onPending(song.slug)
   }
 
@@ -433,6 +495,59 @@ function isCurrentTabNavigation(
   }
 
   return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+}
+
+function readLibraryBrowserHistoryState(
+  familyFilters: string[]
+): LibraryBrowserHistoryState | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  const value = window.history.state?.[LIBRARY_BROWSER_HISTORY_STATE_KEY]
+  if (!isLibraryBrowserHistoryState(value)) {
+    return null
+  }
+
+  return {
+    activeFamily: ['All', ...familyFilters].includes(value.activeFamily)
+      ? value.activeFamily
+      : 'All',
+    query: value.query,
+    scrollY: Math.max(0, value.scrollY),
+    showMobileFilters: value.showMobileFilters,
+    sortMode: value.sortMode
+  }
+}
+
+function writeLibraryBrowserHistoryState(state: LibraryBrowserHistoryState) {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.history.replaceState(
+    {
+      ...(window.history.state ?? {}),
+      [LIBRARY_BROWSER_HISTORY_STATE_KEY]: state
+    },
+    '',
+    window.location.href
+  )
+}
+
+function isLibraryBrowserHistoryState(value: unknown): value is LibraryBrowserHistoryState {
+  if (!value || typeof value !== 'object') {
+    return false
+  }
+
+  const state = value as Partial<LibraryBrowserHistoryState>
+  return (
+    typeof state.activeFamily === 'string' &&
+    typeof state.query === 'string' &&
+    typeof state.scrollY === 'number' &&
+    typeof state.showMobileFilters === 'boolean' &&
+    (state.sortMode === 'featured' || state.sortMode === 'az')
+  )
 }
 
 function findMatchedAlias(aliases: string[] | undefined, normalizedQuery: string, compactQuery: string) {
