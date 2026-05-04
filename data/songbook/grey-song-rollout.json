@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-02",
+  "updatedOn": "2026-05-03",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -611,6 +611,36 @@
       "group": "film",
       "addedOn": "2026-05-02",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AENWh1Ogk.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "love-is-blue",
+      "title": "Love Is Blue",
+      "status": "validated-local",
+      "batch": "22",
+      "group": "romantic-pop",
+      "addedOn": "2026-05-03",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/SMS0b1LRt.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "where-do-i-begin",
+      "title": "Where Do I Begin",
+      "status": "validated-local",
+      "batch": "22",
+      "group": "film",
+      "addedOn": "2026-05-03",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ghrQl1kjZ.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "mariage-damour",
+      "title": "Mariage d'Amour",
+      "status": "validated-local",
+      "batch": "22",
+      "group": "romantic-instrumental",
+      "addedOn": "2026-05-03",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/jriwb1Zb1.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]

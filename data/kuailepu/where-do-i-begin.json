@@ -1,0 +1,57 @@
+{
+  "id": "where-do-i-begin",
+  "slug": "where-do-i-begin",
+  "title": "Where Do I Begin",
+  "description": "A romantic film-theme melody page with letter notes, visible lyric support, and fingering charts for slower ocarina, recorder, and tin whistle practice.",
+  "published": true,
+  "alignedLyrics": [
+    "Where do I be gin _ to tell the sto ry of how great a love can be",
+    "_ the sweet love sto ry that is old er than the sea the sim ple truth a bout the",
+    "love she brings to me _ Where do I start _",
+    "With her first hel lo _ she gave new mean ing to the emp ty world of mine",
+    "_ There'd nev er be an oth er love, an oth er time",
+    "She came in to my life and made the liv ing fine _ She fills my",
+    "heart _ She fills my heart _ with ve ry spe _ cial things with an gels'",
+    "songs, _ with wild im ag in ings _ She fills my soul _ with so much",
+    "love that an y where I go _ I'm ne ver lone ly _ With her a",
+    "round, _ who could be lone ly _ I reach for her hand. _ It's al ways",
+    "there _ How long does it last _ Can love be meas ured by the",
+    "hou rs in a day _ I have no an swers now but this much I can say",
+    "I know I'll need her till the stars all burn a way _ and she'll be there _"
+  ],
+  "extraLyrics": [
+    "我 将 怎 样 说 _ 我 怎 样 把 这 爱 情 故 事 向 你 讲 _ 甜 蜜的 爱 情 是 比 那 大 海 更 久 长 我 遇 到 一 位 多 情 善 良的 好 姑 娘 _ 就 是 这 样 _ 我 们 一 相 见 _ 她 使 我 空 虚 心 灵 感 到 很 温 暖 _ 再 没 有 别 的 人 们 能 使 我 留 恋 若 生 活 有 了 她 就 变 得 更 美 满 _ 她 充 满我 心 _ 她 充 满我 心 _ 带 来 了 歌 _ 声 _ 像 天 使歌 唱 _ 带 来 了 欢 _ 笑 _ 像 小 鸟飞 翔 _ 带 来 爱 情 假 如 我 到 天 边 _ 我 也 不 寂 寞 _ 有 她 同 行 _ 谁 还 会 孤 单 _ 有 她 在 身 边 _ 随 时 陪 伴 _ 相 爱 有 多 长 _ 难 道 说 爱 情 能 用 时 间 来 计 量 _ 加 入 我 对 你 的 爱 一 定 是 这 样 我 们 将 相 爱 直 到 海 枯 石 _ 烂 _ 海 枯 石 烂 _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/ghrQl1kjZ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song ghrQl1kjZ on 2026-05-03."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-03",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "1' - - 3 - - 3 - - 1' - - 1' - - - - - - - - - - - | 1' - - 3 - - 3 - - 1' - - 1' - - 3 - - 4 - - 3 - - | 2 - - 2 - - 2 - - 7 - - 7 - - - - - - - - - - - |",
+    "7 - - 2 - - 2 - - 7 - - 7 - - 2 - - 3 - - 2 - - | 1 - - 1 - - 1 - - 6 - - 6 - - - - - - - - - - - | 0 0 0 1 - - 1 - - 6 - - 6 - - 1 - - 2 - - 1 - - |",
+    "7, - - 7, - - 7, - - #5 - - 5 - - - - - - - - - - - | 5 - - - - - 6 - - - - - 7 - - - - - 4 - - - - - | 3 - - - - - - - - - - - - - - - - - - - - - - - | 3 - - - - - - - - - - - - - - - - - - - - - - - |",
+    "1' - - 3 - - 3 - - 1' - - 1' - - - - - - - - - - - | 1' - - 3 - - 3 - - 1' - - 1' - - 3 - - 4 - - 3 - - | 2 - - 2 - - 2 - - 7 - - 7 - - - - - - - - - - - |",
+    "7 - - 2 - - 2 - - 7 - - 7 - - 2 - - 3 - - 2 - - | 1 - - 1 - - 1 - - 6 - - 6 - - - - - - - - - - - |",
+    "0 0 0 1 - - 1 - - 6 - - 6 - - 1 - - 2 - - 1 - - | 7, - - 7, - - 7, - - #5 - - 5 - - - - - - - - - - - | 5 - - - - - 6 - - - - - 7 - - - - - #5 - - - - - |",
+    "#1' - - - - - - - - - - - - - - - - - - - - - - - | 1' - - - - - 2' - - - - - 3' - - - - - 6 - - - - - | 4' - - - - - - - - - - - 4' - - 6 - - 2' - - 6 - - | 6 - - 7 - - 7 - - - - - 7 - - 2' - - 4' - - 2' - - |",
+    "3' - - - - - - - - - - - 3' - - 5 - - 3' - - 5 - - | 5 - - 6 - - 6 - - - - - 6 - - 1' - - 3' - - 1' - - | 2' - - - - - - - - - - - 2' - - 7 - - 2' - - 7 - - |",
+    "1' - - - - - - - - 2' - - 3' - - 6 - - 1' - - 3' - - | 4' - - - - - - - - - - - 4' - - 5 - - 6 - - 1' - - | 1' - - - - - 7 - - - - - 7 - - 1' - - 2' - - 4 - - |",
+    "3 - - - - - - - - - - - 3 - - 3 - - 4 - - 5 - - | 7 - - - - - 6 - - - - - 6 - - 6 - - 5 - 4 - 3 - | #2 - - - - - - - - - - - 2 - - #4 - - 6 - - 4 - - |",
+    "#5 - - - - - - - - - - - - - - - - - - - - - - - | 5 - - - - - - - - - - - - - - - - - - - - - - - | 1' - - 3 - - 3 - - 1' - - 1' - - - - - - - - - - - | 1' - - 3 - - 3 - - 1' - - 1' - - 3 - - 4 - - 3 - - |",
+    "2 - - 2 - - 2 - - 7 - - 7 - - - - - - - - - - - | 7 - - 2 - - 2 - - 7 - - 7 - - 2 - - 3 - - 2 - - | 1 - - 1 - - 1 - - 6 - - 6 - - - - - - - - - - - |",
+    "0 0 0 1 - - 1 - - 6 - - 6 - - 1 - - 2 - - 1 - - | 7, - - 7, - - 7, - - #5 - - 5 - - - - - - - - - - - | 5 - - - - - 6 - - - - - 7 - - - - - #5 - - - - - | 6 - - - - - - - - - - - - - - - - - - - - - - - | 6 - - - - - - - - - - - - - - - - - - - - - - - | | |"
+  ]
+}
