@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-03",
+  "updatedOn": "2026-05-04",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -641,6 +641,36 @@
       "group": "romantic-instrumental",
       "addedOn": "2026-05-03",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/jriwb1Zb1.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "stroll",
+      "title": "Stroll",
+      "status": "validated-local",
+      "batch": "23",
+      "group": "ghibli",
+      "addedOn": "2026-05-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wfq2i1f4m.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "my-neighbor-totoro",
+      "title": "My Neighbor Totoro",
+      "status": "validated-local",
+      "batch": "23",
+      "group": "ghibli",
+      "addedOn": "2026-05-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/LgCMb1zYi.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "chihiros-waltz",
+      "title": "Chihiro's Waltz",
+      "status": "validated-local",
+      "batch": "23",
+      "group": "ghibli",
+      "addedOn": "2026-05-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/rvcJb1NBv.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]

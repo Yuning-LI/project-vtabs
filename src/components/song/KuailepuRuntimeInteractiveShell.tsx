@@ -11,6 +11,8 @@ import {
 } from '@/lib/songbook/publicInstruments'
 import {
   buildPublicRuntimeControlConfig,
+  getPublicRuntimeFingeringControlLabel,
+  getPublicRuntimeFingeringOptions,
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
 import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
@@ -23,6 +25,20 @@ export type KuailepuRuntimeControlPayload = {
   instrumentFingerings?: Array<{
     instrument: string
     instrumentName?: string
+    fingeringsList?: Array<
+      Array<{
+        fingering: string
+        fingeringName?: string
+        tonalityName?: string
+      }>
+    >
+    fingeringSetList?: Array<
+      Array<{
+        fingering: string
+        fingeringName?: string
+        tonalityName?: string
+      }>
+    >
     graphList?: Array<{
       name?: string
       value?: string
@@ -38,6 +54,7 @@ type KuailepuRuntimeInteractiveShellProps = {
   presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
   runtimeControlPayload: KuailepuRuntimeControlPayload
   runtimeDefaultInstrumentId: string | null
+  runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
 }
@@ -49,6 +66,7 @@ export default function KuailepuRuntimeInteractiveShell({
   presentationByInstrument,
   runtimeControlPayload,
   runtimeDefaultInstrumentId,
+  runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
   hasLyricToggle
 }: KuailepuRuntimeInteractiveShellProps) {
@@ -72,10 +90,18 @@ export default function KuailepuRuntimeInteractiveShell({
     () => getPublicRuntimeGraphOptions(runtimeControlPayload, activeInstrument.id),
     [runtimeControlPayload, activeInstrument.id]
   )
+  const fingeringOptions = useMemo(
+    () => getPublicRuntimeFingeringOptions(runtimeControlPayload, activeInstrument.id),
+    [runtimeControlPayload, activeInstrument.id]
+  )
   const normalizedQueryState: PublicSongPageQueryState = useMemo(
     () => ({
       instrumentId:
         currentQueryState.instrumentId === activeInstrument.id ? activeInstrument.id : null,
+      fingeringIndex: normalizeFingeringIndex(
+        currentQueryState.fingeringIndex,
+        fingeringOptions.map(item => item.value)
+      ),
       noteLabelMode: normalizeExplicitNoteLabelMode(currentQueryState.noteLabelMode),
       showGraph: normalizeExplicitShowGraph(
         currentQueryState.showGraph,
@@ -94,6 +120,7 @@ export default function KuailepuRuntimeInteractiveShell({
     [
       activeInstrument.id,
       currentQueryState,
+      fingeringOptions,
       graphOptions,
       hasLyricToggle,
       runtimeControlPayload.sheetScaleList
@@ -104,9 +131,18 @@ export default function KuailepuRuntimeInteractiveShell({
     normalizedQueryState.noteLabelMode === 'graph'
       ? normalizedQueryState.noteLabelMode
       : 'letter'
+  const controlFingeringIndex =
+    normalizedQueryState.fingeringIndex ??
+    (activeInstrument.id === 'o12'
+      ? normalizeFingeringIndex(
+          runtimeDefaultFingeringIndex,
+          fingeringOptions.map(item => item.value)
+        )
+      : null)
   const controlConfig = useMemo(
     () =>
       buildPublicRuntimeControlConfig(runtimeControlPayload, activeInstrument.id, {
+        fingering_index: controlFingeringIndex,
         show_graph: normalizedQueryState.showGraph ?? null,
         show_lyric: (normalizedQueryState.showLyric ?? 'on') as 'on' | 'off',
         show_note_range: (normalizedQueryState.showNoteRange ?? 'off') as 'on' | 'off',
@@ -114,7 +150,7 @@ export default function KuailepuRuntimeInteractiveShell({
         measure_layout: normalizedQueryState.measureLayout ?? 'compact',
         sheet_scale: normalizedQueryState.sheetScale ?? 10
       }),
-    [activeInstrument.id, normalizedQueryState, runtimeControlPayload]
+    [activeInstrument.id, controlFingeringIndex, normalizedQueryState, runtimeControlPayload]
   )
   const seo =
     presentationByInstrument[activeInstrument.id] ??
@@ -156,6 +192,13 @@ export default function KuailepuRuntimeInteractiveShell({
     next.set('runtime_text_mode', 'english')
     if (activeInstrument.id !== 'o12' || shouldPinDefaultInstrument) {
       next.set('instrument', activeInstrument.id)
+    }
+    if (
+      normalizedQueryState.fingeringIndex !== null &&
+      normalizedQueryState.fingeringIndex !== undefined &&
+      normalizedQueryState.fingeringIndex !== ''
+    ) {
+      next.set('fingering_index', String(normalizedQueryState.fingeringIndex))
     }
     if (noteLabelMode !== 'letter') {
       next.set('note_label_mode', noteLabelMode)
@@ -270,6 +313,7 @@ export default function KuailepuRuntimeInteractiveShell({
               songId,
               ...normalizedQueryState,
               instrumentId: instrument.id,
+              fingeringIndex: null,
               noteLabelMode,
               showGraph: null
             })
@@ -277,9 +321,29 @@ export default function KuailepuRuntimeInteractiveShell({
         }
       : null
 
+  const fingeringSelect =
+    controlConfig.fingeringOptions.length > 1 && controlConfig.activeFingeringIndex !== null
+      ? {
+          id: 'fingering-key',
+          label: getPublicRuntimeFingeringControlLabel(activeInstrument.id),
+          value: controlConfig.activeFingeringIndex,
+          options: controlConfig.fingeringOptions.map(option => ({
+            value: option.value,
+            label: option.label,
+            href: buildSongPageHref({
+              songId,
+              ...normalizedQueryState,
+              instrumentId: activeInstrument.id,
+              fingeringIndex: option.value,
+              noteLabelMode
+            })
+          }))
+        }
+      : null
+
   const noteViewSelect = {
     id: 'note-view',
-    label: 'Note View',
+    label: 'Note Labels',
     value: noteLabelMode,
     options: [
       {
@@ -329,7 +393,7 @@ export default function KuailepuRuntimeInteractiveShell({
     controlConfig.graphOptions.length > 1
       ? {
           id: 'chart-direction',
-          label: 'Chart Direction',
+          label: 'Diagram Direction',
           value: controlConfig.activeGraphValue ?? controlConfig.graphOptions[0]!.value,
           options: controlConfig.graphOptions.map(option => ({
             value: option.value,
@@ -364,6 +428,7 @@ export default function KuailepuRuntimeInteractiveShell({
 
   const selects: SongPageFunctionZoneSelectControl[] = [
     ...(instrumentSelect ? [instrumentSelect] : []),
+    ...(fingeringSelect ? [fingeringSelect] : []),
     noteViewSelect,
     ...(chartDirectionSelect ? [chartDirectionSelect] : []),
     layoutSelect,
@@ -535,6 +600,7 @@ export default function KuailepuRuntimeInteractiveShell({
 function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
   return {
     instrumentId: normalizeInstrumentId(url.searchParams.get('instrument')),
+    fingeringIndex: normalizeFingeringIndex(url.searchParams.get('fingering_index'), null),
     noteLabelMode: normalizeExplicitNoteLabelMode(url.searchParams.get('note_label_mode')),
     showGraph: url.searchParams.get('show_graph'),
     showLyric: normalizeToggleParam(url.searchParams.get('show_lyric')),
@@ -552,6 +618,22 @@ function normalizeInstrumentId(value: string | null) {
   }
 
   return null
+}
+
+function normalizeFingeringIndex(
+  value: string | number | null | undefined,
+  availableValues: string[] | null
+) {
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
+
+  const normalized = String(value)
+  if (!/^\d+$/.test(normalized)) {
+    return null
+  }
+
+  return availableValues && !availableValues.includes(normalized) ? null : normalized
 }
 
 function normalizeExplicitNoteLabelMode(value: string | null | undefined) {

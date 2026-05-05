@@ -20,6 +20,10 @@ import {
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
 import {
+  getPublicRuntimeFingeringOptions,
+  normalizePublicRuntimeFingeringIndex
+} from '@/lib/songbook/publicRuntimeControls'
+import {
   normalizeExplicitNoteLabelMode,
   normalizeMeasureLayout,
   normalizePracticeTool,
@@ -90,6 +94,7 @@ export default function SongPage({
   params: { id: string }
   searchParams?: {
     instrument?: string
+    fingering_index?: string
     note_label_mode?: string
     show_graph?: string
     show_lyric?: string
@@ -125,6 +130,11 @@ export default function SongPage({
     searchParams?.instrument,
     supportedInstruments
   )
+  const fingeringOptions = getPublicRuntimeFingeringOptions(runtimePayload, activeInstrument.id)
+  const activeFingeringIndex = normalizePublicRuntimeFingeringIndex(
+    searchParams?.fingering_index,
+    fingeringOptions
+  )
   const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
@@ -132,6 +142,7 @@ export default function SongPage({
   )
   const queryState: PublicSongPageQueryState = {
     instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
+    fingeringIndex: activeFingeringIndex,
     noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
     showGraph: searchParams?.show_graph ?? null,
     showLyric: hasPublicLyricToggle ? normalizeToggleParam(searchParams?.show_lyric) : null,
@@ -247,6 +258,7 @@ export default function SongPage({
           sheetScaleList: runtimePayload.sheetScaleList
         }}
         runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
+        runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
         runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
         hasLyricToggle={hasPublicLyricToggle}
         relatedSongs={relatedSongs}

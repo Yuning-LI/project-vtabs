@@ -4619,5 +4619,123 @@
         "answer": "Yes. Select the tin whistle view to use the same melody with whistle fingering support."
       }
     ]
+  },
+  "stroll": {
+    "aliases": [
+      "Sanpo",
+      "Stroll Totoro",
+      "My Neighbor Totoro Stroll",
+      "My Neighbor Totoro Sanpo",
+      "Totoro Stroll notes",
+      "Stroll letter notes",
+      "Stroll ocarina tabs",
+      "Stroll recorder notes",
+      "Stroll tin whistle notes",
+      "Sanpo ocarina tabs"
+    ],
+    "metaTitle": "Stroll Ocarina Tabs and Recorder Notes",
+    "overview": "This Stroll page gives players a melody-first route into the playful My Neighbor Totoro song with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It is built for visitors who search for Stroll, Sanpo, or a Totoro melody that feels bright and recognizable without needing a full piano score.",
+    "searchTerms": [
+      "Stroll ocarina tabs",
+      "Stroll recorder notes",
+      "Stroll letter notes",
+      "Stroll tin whistle notes",
+      "Sanpo Totoro notes"
+    ],
+    "background": "Stroll, also known as Sanpo, is one of the most recognizable songs associated with My Neighbor Totoro. Its cheerful stepwise motion and strong memory hook make it a useful grey-song addition for Studio Ghibli visitors, younger learners, and adult beginners who want a soundtrack page that still behaves like a clear melody exercise.",
+    "practice": "Use Stroll for steady pulse, light articulation, and confident repeated phrases. Start with the default letter-note view, keep the fingering chart visible, and loop the opening phrase until the upbeat character feels clean rather than rushed.",
+    "metaDescription": "Play Stroll from My Neighbor Totoro with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts.",
+    "extraFaqs": [
+      {
+        "question": "Is Stroll the Totoro song also called Sanpo?",
+        "answer": "Yes. This page focuses on the melody commonly searched as Stroll, Sanpo, or the My Neighbor Totoro walking song."
+      },
+      {
+        "question": "Is Stroll good for beginner performance practice?",
+        "answer": "Yes. It has a bright, memorable hook and a steady pulse, so it works well as a next-step beginner performance page when played at a controlled tempo."
+      },
+      {
+        "question": "Does this page support recorder and tin whistle?",
+        "answer": "Yes. The song page supports ocarina, recorder, and tin whistle views with matching fingering charts."
+      }
+    ]
+  },
+  "my-neighbor-totoro": {
+    "aliases": [
+      "My Neighbor Totoro theme",
+      "Tonari no Totoro",
+      "Tonari no Totoro notes",
+      "Totoro theme song",
+      "My Neighbor Totoro letter notes",
+      "My Neighbor Totoro ocarina tabs",
+      "My Neighbor Totoro recorder notes",
+      "My Neighbor Totoro tin whistle notes",
+      "Totoro theme ocarina tabs"
+    ],
+    "metaTitle": "My Neighbor Totoro Ocarina Tabs and Recorder Notes",
+    "overview": "This My Neighbor Totoro page gives players a clean letter-note route into the famous Totoro theme with ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It is designed for Studio Ghibli visitors who want the familiar theme melody in a practical fingering-first layout rather than scattered fan tabs or staff-only arrangements.",
+    "searchTerms": [
+      "My Neighbor Totoro ocarina tabs",
+      "My Neighbor Totoro recorder notes",
+      "My Neighbor Totoro letter notes",
+      "My Neighbor Totoro tin whistle notes",
+      "Totoro theme notes"
+    ],
+    "background": "My Neighbor Totoro remains one of the most searched Studio Ghibli themes, and the main theme works well as a single-line melody because listeners can recognize the contour quickly. Adding it alongside existing Ghibli pages gives soundtrack visitors a stronger path through Totoro, Spirited Away, Castle in the Sky, and related calm or performance songs.",
+    "practice": "Use My Neighbor Totoro for phrase confidence, character, and steady note changes. Keep the letter-note view on first, use the fingering chart through lower-note turns, and practice the main hook separately before connecting the full page.",
+    "metaDescription": "Play My Neighbor Totoro with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts.",
+    "extraFaqs": [
+      {
+        "question": "Is this the My Neighbor Totoro theme?",
+        "answer": "Yes. This page focuses on the melody commonly searched as My Neighbor Totoro, Tonari no Totoro, or the Totoro theme song."
+      },
+      {
+        "question": "How is this different from Path of the Wind?",
+        "answer": "Path of the Wind is a gentler Totoro melody, while this page focuses on the main My Neighbor Totoro theme. Both pages use the same letter-note and fingering-chart workflow."
+      },
+      {
+        "question": "Can ocarina players use this page by default?",
+        "answer": "Yes. The default public view opens as a 12-hole ocarina page, and players can switch to 6-hole ocarina, recorder, or tin whistle when supported."
+      }
+    ]
+  },
+  "chihiros-waltz": {
+    "aliases": [
+      "Chihiro's Waltz",
+      "Chihiros Waltz",
+      "Spirited Away Chihiro's Waltz",
+      "Chihiro Waltz notes",
+      "Chihiro's Waltz letter notes",
+      "Chihiro's Waltz ocarina tabs",
+      "Chihiro's Waltz recorder notes",
+      "Chihiro's Waltz tin whistle notes",
+      "Spirited Away waltz notes"
+    ],
+    "metaTitle": "Chihiro's Waltz Ocarina Tabs and Recorder Notes",
+    "overview": "This Chihiro's Waltz page gives players a waltz-like Spirited Away melody in a readable letter-note layout with ocarina tabs, recorder notes, tin whistle support, and visual fingering charts. It is useful for visitors who want a softer Ghibli soundtrack page with more motion than a slow ballad but less pressure than a fast anime opening.",
+    "searchTerms": [
+      "Chihiro's Waltz ocarina tabs",
+      "Chihiro's Waltz recorder notes",
+      "Chihiro's Waltz letter notes",
+      "Chihiro's Waltz tin whistle notes",
+      "Spirited Away waltz notes"
+    ],
+    "background": "Chihiro's Waltz extends the Spirited Away cluster beyond the most obvious themes and gives players another lyrical Joe Hisaishi-style page to practice. Its triple-meter shape makes it a useful bridge between calm soundtrack melodies and the site's dance-and-waltz hub.",
+    "practice": "Use Chihiro's Waltz for gentle pulse, connected phrase endings, and controlled motion through longer lines. Start below performance speed, keep the fingering chart visible, and treat the waltz feel as a steady breathing pattern rather than a fast dance.",
+    "metaDescription": "Play Chihiro's Waltz from Spirited Away with letter notes, ocarina tabs, recorder notes, tin whistle support, and visual fingering charts.",
+    "extraFaqs": [
+      {
+        "question": "Is Chihiro's Waltz from Spirited Away?",
+        "answer": "Yes. This page focuses on the melody commonly searched as Chihiro's Waltz or the Spirited Away waltz theme."
+      },
+      {
+        "question": "Is Chihiro's Waltz a calm song or a dance song?",
+        "answer": "It can work as both. The melody has a waltz pulse, but the page is best practiced as lyrical soundtrack music with steady breath and smooth phrase endings."
+      },
+      {
+        "question": "Does this page include visual fingering support?",
+        "answer": "Yes. The page supports visual fingering charts and switchable views for supported ocarina, recorder, and tin whistle options."
+      }
+    ]
   }
 }

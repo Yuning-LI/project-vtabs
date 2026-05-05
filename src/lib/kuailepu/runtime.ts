@@ -709,7 +709,13 @@ function resolveRuntimeInstrumentSelection(
   const selectedFingeringSet =
     selectedInstrument?.fingeringSetList?.[selectedFingeringIndex]
 
-  const selectedFingeringCandidates = hasExplicitInstrumentOverride
+  const hasExplicitFingeringOverride =
+    state?.fingering_index !== null &&
+    state?.fingering_index !== undefined &&
+    state?.fingering_index !== ''
+
+  const selectedFingeringCandidates =
+    hasExplicitInstrumentOverride || hasExplicitFingeringOverride
     ? [
         state?.fingering,
         selectedFingeringSet?.map(option => option.fingering).join('+'),

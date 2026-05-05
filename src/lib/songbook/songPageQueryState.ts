@@ -59,6 +59,15 @@ export function normalizeSheetScale(
   return /^\d+$/.test(value) ? value : null
 }
 
+export function normalizeFingeringIndex(value: string | number | null | undefined) {
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
+
+  const normalized = String(value)
+  return /^\d+$/.test(normalized) ? normalized : null
+}
+
 export function normalizePracticeTool(value: string | null | undefined) {
   if (value === 'metronome') {
     return value
@@ -70,6 +79,7 @@ export function normalizePracticeTool(value: string | null | undefined) {
 export function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
   return {
     instrumentId: normalizeInstrumentId(url.searchParams.get('instrument')) as PublicSongInstrumentId | null,
+    fingeringIndex: normalizeFingeringIndex(url.searchParams.get('fingering_index')),
     noteLabelMode: normalizeExplicitNoteLabelMode(url.searchParams.get('note_label_mode')),
     showGraph: url.searchParams.get('show_graph'),
     showLyric: normalizeToggleParam(url.searchParams.get('show_lyric')),

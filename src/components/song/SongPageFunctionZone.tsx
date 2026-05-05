@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react'
+import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export type SongPageFunctionZoneSelectOption = {
   value: string
@@ -34,6 +36,11 @@ type SongPageFunctionZoneProps = {
   onNavigate?: (href: string) => void
 }
 
+type NavigateOptions = {
+  closeMobile?: boolean
+  closeDesktop?: boolean
+}
+
 export default function SongPageFunctionZone({
   selects,
   toggles,
@@ -41,14 +48,122 @@ export default function SongPageFunctionZone({
 }: SongPageFunctionZoneProps) {
   const [isReady, setIsReady] = useState(false)
   const [isMobileExpanded, setIsMobileExpanded] = useState(false)
+  const [isDesktopExpanded, setIsDesktopExpanded] = useState(false)
+  const mobileSheetRef = useRef<HTMLDivElement | null>(null)
+  const mobileBackdropDragRef = useRef<{
+    startY: number
+    lastY: number
+    moved: boolean
+  } | null>(null)
+  const desktopMoreRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     setIsReady(true)
   }, [])
 
-  function navigate(href: string) {
+  useEffect(() => {
+    if (!isDesktopExpanded) {
+      return
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      if (!desktopMoreRef.current?.contains(event.target as Node)) {
+        setIsDesktopExpanded(false)
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsDesktopExpanded(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isDesktopExpanded])
+
+  useEffect(() => {
+    if (!isMobileExpanded) {
+      return
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsMobileExpanded(false)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isMobileExpanded])
+
+  function handleMobileBackdropPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    event.stopPropagation()
+    mobileBackdropDragRef.current = {
+      startY: event.clientY,
+      lastY: event.clientY,
+      moved: false
+    }
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  function handleMobileBackdropPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const gesture = mobileBackdropDragRef.current
+    if (!gesture) {
+      return
+    }
+
+    event.preventDefault()
+    event.stopPropagation()
+    const totalDelta = event.clientY - gesture.startY
+    const scrollDelta = gesture.lastY - event.clientY
+    if (Math.abs(totalDelta) > 6) {
+      gesture.moved = true
+    }
+    if (scrollDelta !== 0) {
+      window.scrollBy({ top: scrollDelta, behavior: 'auto' })
+    }
+    gesture.lastY = event.clientY
+  }
+
+  function handleMobileBackdropPointerUp(event: ReactPointerEvent<HTMLDivElement>) {
+    event.preventDefault()
+    event.stopPropagation()
+    const gesture = mobileBackdropDragRef.current
+    mobileBackdropDragRef.current = null
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId)
+    }
+    if (!gesture?.moved) {
+      setIsMobileExpanded(false)
+    }
+  }
+
+  function handleMobileBackdropWheel(event: ReactWheelEvent<HTMLDivElement>) {
+    event.preventDefault()
+    event.stopPropagation()
+    window.scrollBy({ top: event.deltaY, behavior: 'auto' })
+  }
+
+  function navigate(href: string, options: NavigateOptions = {}) {
     if (!href) {
       return
+    }
+
+    if (options.closeMobile ?? true) {
+      setIsMobileExpanded(false)
+    }
+
+    if (options.closeDesktop ?? true) {
+      setIsDesktopExpanded(false)
     }
 
     if (onNavigate) {
@@ -59,12 +174,20 @@ export default function SongPageFunctionZone({
     window.location.replace(href)
   }
 
-  const primarySelectIds = new Set(['instrument', 'note-view'])
+  const primarySelectIds = new Set(['instrument', 'fingering-key'])
+  const desktopPrimarySelectIds = new Set(['instrument', 'fingering-key'])
   const primaryToggleIds = new Set<string>()
   const primarySelects = selects.filter(control => primarySelectIds.has(control.id))
   const secondarySelects = selects.filter(control => !primarySelectIds.has(control.id))
+  const desktopPrimarySelects = selects.filter(control => desktopPrimarySelectIds.has(control.id))
+  const desktopSecondarySelects = selects.filter(control => !desktopPrimarySelectIds.has(control.id))
   const primaryToggles = toggles.filter(control => primaryToggleIds.has(control.id))
   const secondaryToggles = toggles.filter(control => !primaryToggleIds.has(control.id))
+  const hasDesktopMoreControls = desktopSecondarySelects.length > 0 || toggles.length > 0
+  const navigateWithinMobileSheet = (href: string) =>
+    navigate(href, { closeMobile: false, closeDesktop: false })
+  const navigateWithinDesktopPanel = (href: string) =>
+    navigate(href, { closeMobile: false, closeDesktop: false })
 
   return (
     <section
@@ -131,54 +254,185 @@ export default function SongPageFunctionZone({
           ) : null}
 
           {secondarySelects.length > 0 || secondaryToggles.length > 0 ? (
-            <div className="page-function-zone-disclosure">
+            <>
               <button
                 type="button"
-                className="page-function-zone-disclosure-summary"
+                className="page-function-zone-disclosure-summary page-function-zone-mobile-more-button"
                 aria-expanded={isMobileExpanded}
                 onClick={() => setIsMobileExpanded(current => !current)}
               >
-                <span>More controls</span>
+                <span className="page-function-zone-mobile-more-left">
+                  <SlidersHorizontal className="page-function-zone-mobile-more-icon" aria-hidden="true" />
+                  <span>More Tools</span>
+                </span>
                 <span className="page-function-zone-disclosure-summary-state">
                   {isMobileExpanded ? 'Close' : 'Open'}
                 </span>
               </button>
+
               {isMobileExpanded ? (
-                <div className="page-function-zone-disclosure-content">
-                  {secondarySelects.length > 0 ? (
-                    <div className="page-function-zone-grid page-function-zone-grid-mobile-secondary">
-                      {secondarySelects.map(control => (
-                        <label key={control.id} className="page-function-zone-field">
-                          <span className="page-function-zone-label">{control.label}</span>
-                          <select
-                            aria-label={`${control.label} Mobile`}
-                            className="page-function-zone-select"
-                            value={control.value}
-                            onChange={event => {
-                              const selected = control.options.find(
-                                option => option.value === event.target.value
-                              )
-                              if (selected) {
-                                navigate(selected.href)
-                              }
-                            }}
-                          >
-                            {control.options.map(option => (
-                              <option key={`${control.id}-${option.value}`} value={option.value}>
-                                {option.label}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
+                <div className="page-function-zone-mobile-sheet-layer" aria-hidden="false">
+                  <div
+                    className="page-function-zone-mobile-sheet-backdrop"
+                    onPointerDown={handleMobileBackdropPointerDown}
+                    onPointerMove={handleMobileBackdropPointerMove}
+                    onPointerUp={handleMobileBackdropPointerUp}
+                    onPointerCancel={() => {
+                      mobileBackdropDragRef.current = null
+                    }}
+                    onWheel={handleMobileBackdropWheel}
+                  />
+                  <div
+                    className="page-function-zone-mobile-sheet"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="More Tools"
+                    ref={mobileSheetRef}
+                  >
+                    <div className="page-function-zone-mobile-sheet-header">
+                      <div>
+                        <div className="page-function-zone-mobile-sheet-kicker">More Tools</div>
+                        <div className="page-function-zone-mobile-sheet-title">
+                          Display and playback settings
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        className="page-function-zone-mobile-sheet-close"
+                        aria-label="Close more tools"
+                        onClick={() => setIsMobileExpanded(false)}
+                      >
+                        <ChevronDown aria-hidden="true" />
+                      </button>
+                    </div>
+                    <div className="page-function-zone-mobile-sheet-content">
+                      {secondarySelects.length > 0 ? (
+                        <div className="page-function-zone-grid page-function-zone-grid-mobile-secondary">
+                          {secondarySelects.map(control => (
+                            <label key={control.id} className="page-function-zone-field">
+                              <span className="page-function-zone-label">{control.label}</span>
+                              <select
+                                aria-label={`${control.label} Mobile`}
+                                className="page-function-zone-select"
+                                value={control.value}
+                                onChange={event => {
+                                  const selected = control.options.find(
+                                    option => option.value === event.target.value
+                                  )
+                                  if (selected) {
+                                    navigateWithinMobileSheet(selected.href)
+                                  }
+                                }}
+                              >
+                                {control.options.map(option => (
+                                  <option key={`${control.id}-${option.value}`} value={option.value}>
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          ))}
+                        </div>
+                      ) : null}
+
+                      {secondaryToggles.length > 0 ? (
+                        <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile-secondary">
+                          {secondaryToggles.map(control => (
+                            control.variant === 'switch' && control.options.length === 2 ? (
+                              <SwitchToggleGroup
+                                key={control.id}
+                                control={control}
+                                onNavigate={navigateWithinMobileSheet}
+                              />
+                            ) : (
+                              <div key={control.id} className="page-function-zone-toggle-group">
+                                <span className="page-function-zone-label">{control.label}</span>
+                                <div className="page-function-zone-toggle-list">
+                                  {control.options.map(option => (
+                                    <button
+                                      key={`${control.id}-${option.label}`}
+                                      type="button"
+                                      aria-label={`${control.label}: ${option.label} Mobile`}
+                                      aria-pressed={option.isActive}
+                                      className={
+                                        option.isActive
+                                          ? 'page-function-zone-toggle page-function-zone-toggle-active'
+                                          : 'page-function-zone-toggle'
+                                      }
+                                      onClick={() => navigateWithinMobileSheet(option.href)}
+                                    >
+                                      {option.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </>
+          ) : null}
+      </div>
+
+      <div className="page-function-zone-desktop">
+        <div className="page-function-zone-desktop-bar">
+          <div className="page-function-zone-grid page-function-zone-grid-desktop-primary">
+            {desktopPrimarySelects.map(control => (
+              <SelectField key={control.id} control={control} onNavigate={navigate} />
+            ))}
+          </div>
+
+          {hasDesktopMoreControls ? (
+            <div className="page-function-zone-desktop-more" ref={desktopMoreRef}>
+              <button
+                type="button"
+                className="page-function-zone-desktop-more-button"
+                aria-expanded={isDesktopExpanded}
+                aria-controls="song-page-more-controls"
+                onClick={() => setIsDesktopExpanded(current => !current)}
+              >
+                <SlidersHorizontal className="page-function-zone-desktop-more-icon" aria-hidden="true" />
+                <span>More Tools</span>
+                {isDesktopExpanded ? (
+                  <ChevronUp className="page-function-zone-desktop-more-chevron" aria-hidden="true" />
+                ) : (
+                  <ChevronDown
+                    className="page-function-zone-desktop-more-chevron"
+                    aria-hidden="true"
+                  />
+                )}
+              </button>
+
+              {isDesktopExpanded ? (
+                <div
+                  id="song-page-more-controls"
+                  className="page-function-zone-desktop-more-panel"
+                >
+                  {desktopSecondarySelects.length > 0 ? (
+                    <div className="page-function-zone-grid page-function-zone-grid-desktop-secondary">
+                      {desktopSecondarySelects.map(control => (
+                        <SelectField
+                          key={control.id}
+                          control={control}
+                          onNavigate={navigateWithinDesktopPanel}
+                        />
                       ))}
                     </div>
                   ) : null}
 
-                  {secondaryToggles.length > 0 ? (
-                    <div className="page-function-zone-toggle-row page-function-zone-toggle-row-mobile-secondary">
-                      {secondaryToggles.map(control => (
+                  {toggles.length > 0 ? (
+                    <div className="page-function-zone-toggle-row page-function-zone-toggle-row-desktop-more">
+                      {toggles.map(control => (
                         control.variant === 'switch' && control.options.length === 2 ? (
-                          <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
+                          <SwitchToggleGroup
+                            key={control.id}
+                            control={control}
+                            onNavigate={navigateWithinDesktopPanel}
+                          />
                         ) : (
                           <div key={control.id} className="page-function-zone-toggle-group">
                             <span className="page-function-zone-label">{control.label}</span>
@@ -187,14 +441,14 @@ export default function SongPageFunctionZone({
                                 <button
                                   key={`${control.id}-${option.label}`}
                                   type="button"
-                                  aria-label={`${control.label}: ${option.label} Mobile`}
+                                  aria-label={`${control.label}: ${option.label}`}
                                   aria-pressed={option.isActive}
                                   className={
                                     option.isActive
                                       ? 'page-function-zone-toggle page-function-zone-toggle-active'
                                       : 'page-function-zone-toggle'
                                   }
-                                  onClick={() => navigate(option.href)}
+                                  onClick={() => navigateWithinDesktopPanel(option.href)}
                                 >
                                   {option.label}
                                 </button>
@@ -209,65 +463,40 @@ export default function SongPageFunctionZone({
               ) : null}
             </div>
           ) : null}
-      </div>
-
-      <div className="page-function-zone-desktop">
-        <div className="page-function-zone-grid">
-          {selects.map(control => (
-            <label key={control.id} className="page-function-zone-field">
-              <span className="page-function-zone-label">{control.label}</span>
-              <select
-                aria-label={control.label}
-                className="page-function-zone-select"
-                value={control.value}
-                onChange={event => {
-                  const selected = control.options.find(option => option.value === event.target.value)
-                  if (selected) {
-                    navigate(selected.href)
-                  }
-                }}
-              >
-                {control.options.map(option => (
-                  <option key={`${control.id}-${option.value}`} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ))}
-        </div>
-
-        <div className="page-function-zone-toggle-row">
-          {toggles.map(control => (
-            control.variant === 'switch' && control.options.length === 2 ? (
-              <SwitchToggleGroup key={control.id} control={control} onNavigate={navigate} />
-            ) : (
-              <div key={control.id} className="page-function-zone-toggle-group">
-                <span className="page-function-zone-label">{control.label}</span>
-                <div className="page-function-zone-toggle-list">
-                  {control.options.map(option => (
-                    <button
-                      key={`${control.id}-${option.label}`}
-                      type="button"
-                      aria-label={`${control.label}: ${option.label}`}
-                      aria-pressed={option.isActive}
-                      className={
-                        option.isActive
-                          ? 'page-function-zone-toggle page-function-zone-toggle-active'
-                          : 'page-function-zone-toggle'
-                      }
-                      onClick={() => navigate(option.href)}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
-          ))}
         </div>
       </div>
     </section>
+  )
+}
+
+function SelectField({
+  control,
+  onNavigate
+}: {
+  control: SongPageFunctionZoneSelectControl
+  onNavigate: (href: string) => void
+}) {
+  return (
+    <label className="page-function-zone-field">
+      <span className="page-function-zone-label">{control.label}</span>
+      <select
+        aria-label={control.label}
+        className="page-function-zone-select"
+        value={control.value}
+        onChange={event => {
+          const selected = control.options.find(option => option.value === event.target.value)
+          if (selected) {
+            onNavigate(selected.href)
+          }
+        }}
+      >
+        {control.options.map(option => (
+          <option key={`${control.id}-${option.value}`} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
   )
 }
 

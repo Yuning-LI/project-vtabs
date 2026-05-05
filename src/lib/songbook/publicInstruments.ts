@@ -12,6 +12,7 @@ export type PublicSongInstrument = {
 
 export type PublicSongPageQueryState = {
   instrumentId?: PublicSongInstrumentId | null
+  fingeringIndex?: string | number | null
   noteLabelMode?: string | null
   showGraph?: string | null
   showLyric?: 'on' | 'off' | null
@@ -101,6 +102,10 @@ export function buildSongPageHref(
 
   if (input.instrumentId && input.instrumentId !== 'o12') {
     params.set('instrument', input.instrumentId)
+  }
+
+  if (input.fingeringIndex !== null && input.fingeringIndex !== undefined && input.fingeringIndex !== '') {
+    params.set('fingering_index', String(input.fingeringIndex))
   }
 
   if (input.noteLabelMode && input.noteLabelMode !== 'letter') {

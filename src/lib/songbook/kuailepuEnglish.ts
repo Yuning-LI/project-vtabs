@@ -109,12 +109,18 @@ const GRAPH_NAME_OVERRIDES: Record<string, string> = {
 }
 
 const FINGERING_NAME_OVERRIDES: Record<string, string> = {
+  A调指法: 'A fingering',
+  B调指法: 'B fingering',
   F调指法: 'F fingering',
   G调指法: 'G fingering',
   C调指法: 'C fingering',
   D调指法: 'D fingering',
+  E调指法: 'E fingering',
+  bA调指法: 'Ab fingering',
   bB调指法: 'Bb fingering',
-  bE调指法: 'Eb fingering'
+  bD调指法: 'Db fingering',
+  bE调指法: 'Eb fingering',
+  bG调指法: 'Gb fingering'
 }
 
 const COMMON_TEXT_OVERRIDES: Record<string, string> = {
@@ -260,12 +266,12 @@ function normalizeEnglishSpacing(value: string | null | undefined) {
 }
 
 function translateTubeToneFingeringName(value: string) {
-  const match = value.match(/^筒音作(低音)?([^()]+)\(([^()]+)\)$/)
+  const match = value.match(/^筒音作(低音|高音|倍高音)?([^()]+)\(([^()]+)\)$/)
   if (!match) {
     return null
   }
 
-  const [, lowRegister, degree, fingeringName] = match
+  const [, register, degree, fingeringName] = match
   const translatedFingering = FINGERING_NAME_OVERRIDES[fingeringName]
   if (!translatedFingering) {
     return null
@@ -276,5 +282,14 @@ function translateTubeToneFingeringName(value: string) {
     return null
   }
 
-  return `${lowRegister ? 'Tube tone bass ' : 'Tube tone '}${normalizedDegree} (${translatedFingering})`
+  const registerLabel =
+    register === '低音'
+      ? 'bass '
+      : register === '高音'
+        ? 'high '
+        : register === '倍高音'
+          ? 'double-high '
+          : ''
+
+  return `Tube tone ${registerLabel}${normalizedDegree} (${translatedFingering})`
 }
