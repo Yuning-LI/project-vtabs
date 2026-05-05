@@ -25,6 +25,7 @@ export type PublicSongFamily =
   | 'hymn'
   | 'march'
   | 'dance'
+  | 'media'
   | 'song'
 
 export type SongDoc = {

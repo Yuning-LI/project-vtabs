@@ -197,6 +197,9 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
                   <li className="rounded-2xl bg-[rgba(255,247,237,0.86)] px-4 py-3">
                     Letter notes stay first, with numbered notes as a backup view
                   </li>
+                  <li className="rounded-2xl bg-[rgba(255,247,237,0.86)] px-4 py-3">
+                    Supported recorder and whistle setup choices stay on the same song page
+                  </li>
                 </ul>
               </aside>
             ) : null}
@@ -208,7 +211,8 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
           <p className="mt-3 max-w-none text-sm leading-7 text-stone-700">
             These song pages are the fastest way to move from a topic page into actual practice.
             They keep the public runtime intact while giving search visitors a more intentional
-            path into the library.
+            path into the library, including the right recorder setup or whistle key when a song
+            supports it.
           </p>
           <div className="mt-6">
             <LearnSongCardGrid

@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const description =
     presentation?.metaDescription ||
     [
-      `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument views.`,
+      `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument setups.`,
       primaryAlias ? `Also known as ${primaryAlias}.` : ''
     ]
       .filter(Boolean)

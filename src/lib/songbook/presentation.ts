@@ -66,7 +66,8 @@ const FAMILY_LABELS: Record<PublicSongFamily, string> = {
   hymn: 'Hymn or Spiritual',
   march: 'March or Parade Tune',
   dance: 'Dance Melody',
-  song: 'Popular Song Melody'
+  media: 'Film, TV & Game Theme',
+  song: 'Pop & Standard Melody'
 }
 
 export function getSongPresentation(
@@ -90,8 +91,8 @@ export function getSongPresentation(
       : hasLyrics(song)
 
   const metaDescriptionBase = lyricsAvailable
-    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
-    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]} and related recorder or tin whistle note views.`
+    ? `Play ${title} with letter notes, a switchable fingering chart, optional numbered notes, and visible lyrics where this public page supports them. Built for players searching for ${profile.searchTerms[0]} and related note views.`
+    : `Play ${title} with letter notes, a switchable fingering chart, and optional numbered notes. Built for players searching for ${profile.searchTerms[0]} and related note views.`
   const metaDescription =
     profile.metaDescription ??
     [
@@ -103,7 +104,7 @@ export function getSongPresentation(
 
   const overview = [
     profile.overview ??
-      `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported ocarina, recorder, and tin whistle variants on this page.`,
+      `Play ${title} with letter notes, a visual fingering chart, and an optional numbered-notes view across the supported instrument setups on this page.`,
     aliases.length > 0 ? `${title} is also commonly searched as ${formatAliasList(aliases)}.` : '',
     buildSearchIntentSentence({
       familyLabel,
@@ -143,7 +144,7 @@ export function getSongPresentation(
   const includes = [
     'Letter notes shown by default for fast melody reading',
     'A numbered-notes backup view for cross-checking the same tune',
-    'Switchable ocarina, recorder, and tin whistle views on supported songs without leaving the page',
+    'Supported instrument-specific views on songs that offer more than one playable setup',
     `Key ${keyLabel} and ${meterLabel} reference points for phrase planning and breath control`,
     lyricsAvailable
       ? 'Aligned lyrics to support sing-through timing and phrase entry'
@@ -154,10 +155,10 @@ export function getSongPresentation(
     {
       question: `Can I play ${title} on this page?`,
       answer:
-        `Yes. This ${title} page keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow while letting you switch between the supported ocarina, recorder, and tin whistle views.`
+        `Yes. This ${title} page keeps the fingering chart, ${meterLabel} phrase layout, and ${keyLabel} note center easy to follow while letting you switch between the supported instrument setups on the page.`
     },
     {
-      question: `Which note view should I use for ${title}?`,
+      question: `Should I use letter notes or numbered notes for ${title}?`,
       answer: buildNoteViewFaqAnswer({
         family,
         lyricsAvailable,
@@ -187,7 +188,7 @@ export function getSongPresentation(
     title,
     aliases,
     metaTitle: profile.metaTitle ?? null,
-    subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable ocarina, recorder, and tin whistle views.`,
+    subtitle: `${familyLabel} presented in a melody-first layout with letter notes, fingering support, optional numbered notes, and switchable instrument-specific views.`,
     metaDescription,
     overview,
     background,
@@ -475,6 +476,8 @@ function getFallbackBackgroundSentence(family: PublicSongFamily, title: string) 
       return `${title} is a dance-driven melody, so players often search for a version that keeps the tune readable without needing staff notation.`
     case 'classical':
       return `${title} is presented as a melody-first classical theme for players who want a clearer route into a famous tune without relying on staff notation.`
+    case 'media':
+      return `${title} is a recognizable screen or game theme, so it fits players searching for a familiar melody page rather than a full score or arrangement.`
     case 'folk':
       return `${title} is a singable folk-style melody that works well for players searching for lyrical melody notes and readable note labels.`
     default:
@@ -496,6 +499,8 @@ function getFallbackPracticeSentence(family: PublicSongFamily) {
       return 'It supports stronger rhythm, clearer accents, and more character in the melody line.'
     case 'classical':
       return 'It gives useful practice in phrase control, melodic shaping, and cleaner note transitions.'
+    case 'media':
+      return 'It is useful for connecting a melody you already recognize with readable note labels, steady phrasing, and practical fingering support.'
     case 'folk':
       return 'It is useful for legato playing, breath planning, and a more vocal melodic style.'
     default:

@@ -9,7 +9,7 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 
 const homepageTitle = 'Ocarina Tabs, Recorder Notes & Tin Whistle Letter Notes'
 const homepageDescription =
-  'Explore ocarina tabs, recorder notes, and tin whistle letter notes with fingering charts, optional numbered notes, and switchable song views.'
+  'Explore ocarina tabs, recorder notes, and tin whistle letter notes with fingering charts, optional numbered notes, Baroque/German recorder fingering, and switchable song views.'
 
 export const metadata: Metadata = {
   title: homepageTitle,
@@ -63,18 +63,19 @@ export default function Home() {
     'Nursery Rhyme',
     'Folk Song',
     'Classical Melody',
+    'Film, TV & Game Theme',
+    'Pop & Standard Melody',
     'Holiday Song',
     'Hymn or Spiritual',
     'March or Parade Tune',
-    'Dance Melody',
-    'Popular Song Melody'
+    'Dance Melody'
   ].filter(label => librarySongs.some(song => song.familyLabel === label))
   const featuredSongItems = librarySongs.slice(0, 12)
   const homepageFaqs = [
     {
       question: 'What can I find on PlayByFingering?',
       answer:
-        'PlayByFingering is a public melody library with letter notes, optional number notes, tabs-style melody pages, and finger charts for supported ocarina, recorder, and tin whistle songs.'
+        'PlayByFingering is a public melody library with letter notes, optional numbered notes, tabs-style melody pages, and finger charts for supported ocarina, recorder, and tin whistle songs. Some recorder pages also surface Baroque or German fingering, and supported whistle pages can open with the matching key already selected.'
     },
     {
       question: 'Are these pages suitable for beginners?',
@@ -168,7 +169,8 @@ export default function Home() {
             pages, and optional numbered notes. Instead of staff notation, each page is optimized
             around readable note labels, practical fingering support, and a mobile-friendly
             layout, while supported songs can switch between ocarina, recorder, and tin whistle
-            views without leaving the same page.
+            views without leaving the same page. Recorder pages can also expose Baroque or German
+            fingering, and whistle pages can surface the matching key where the song supports it.
           </p>
         </section>
 
@@ -200,7 +202,8 @@ export default function Home() {
             recorder letter notes, a quick recorder finger chart, tin whistle fingering support,
             or songs with lyrics they can follow right away. The quickest path is to pick a Learn
             page above, then open a song detail page that matches your instrument and difficulty
-            level.
+            level. If you play recorder or whistle, the matching setup or key is now available on
+            the same song page when the arrangement supports it.
           </p>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {homepageFaqs.map(faq => (

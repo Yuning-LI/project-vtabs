@@ -99,8 +99,9 @@ export default function KuailepuLegacyRuntimePage({
               <p className="mt-3 text-sm leading-6 text-stone-700">
                 Use the default letter-note view for fast reading, switch to numbered notes only
                 when you want a backup reference, and keep the fingering chart visible as you work
-                through each phrase. The layout is built so you can land on the melody and start
-                playing quickly.
+                through each phrase. If the page offers more than one setup for the same instrument,
+                keep the one that matches the instrument in your hand. The layout is built so you
+                can land on the melody and start playing quickly.
               </p>
             </section>
           </div>

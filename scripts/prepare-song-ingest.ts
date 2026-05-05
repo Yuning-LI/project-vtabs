@@ -115,6 +115,7 @@ function parseFamily(value: string): PublicSongFamily {
     normalized !== 'hymn' &&
     normalized !== 'march' &&
     normalized !== 'dance' &&
+    normalized !== 'media' &&
     normalized !== 'song'
   ) {
     throw new Error(`Unsupported family: ${value}`)

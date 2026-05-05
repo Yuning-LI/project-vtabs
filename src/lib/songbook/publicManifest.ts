@@ -118,6 +118,7 @@ function isPublicSongFamily(value: unknown): value is PublicSongFamily {
     value === 'hymn' ||
     value === 'march' ||
     value === 'dance' ||
+    value === 'media' ||
     value === 'song'
   )
 }

@@ -84,7 +84,8 @@ const FAMILY_LABELS = {
   hymn: 'Hymn or Spiritual',
   march: 'March or Parade Tune',
   dance: 'Dance Melody',
-  song: 'Popular Song Melody'
+  media: 'Film, TV & Game Theme',
+  song: 'Pop & Standard Melody'
 } as const
 
 const FEATURED_GUIDE_SLUGS = [
@@ -627,11 +628,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'hub',
     title: 'Recorder Letter Notes',
     description:
-      'A themed recorder entry page for searchable melody pages with letter notes, fingering support, and practical songs for classroom or beginner practice.',
+      'A themed recorder entry page for searchable melody pages with letter notes, fingering support, and practical songs for classroom or beginner practice, including Baroque and German setup paths where supported.',
     heroLabel: 'Instrument Guide',
     intro: [
       'This guide is aimed at players and teachers searching for recorder letter notes instead of a full mixed song catalog. It gives them a narrower page with clearer next steps.',
-      'The linked songs still use the same public runtime page, but these cards open the recorder view by default so visitors land closer to the instrument they searched for and can still switch views later if needed.'
+      'The linked songs still use the same public runtime page, but these cards open the recorder view by default so visitors land closer to the instrument they searched for. When a song supports Baroque or German recorder setups, that choice stays inside the same song page instead of splitting into another URL.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -677,6 +678,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         bullets: [
           'Use familiar melodies first so class time goes to finger patterns, not tune recognition.',
+          'Choose the Baroque or German recorder setup that matches the recorder in hand.',
           'Turn lyrics on when the public page supports them and singing will help phrase entry.',
           'Move to longer songs only after the first easy pages feel automatic.'
         ]
@@ -696,7 +698,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these songs only work on recorder?',
         answer:
-          'No. The public song pages can switch between the supported instruments, but this guide is written specifically for recorder-focused search intent and beginner use.'
+          'No. The public song pages can switch between the supported instruments, but this guide is written specifically for recorder-focused search intent, including Baroque and German recorder setup needs where supported.'
       },
       {
         question: 'Why use a recorder guide instead of the full library?',
@@ -718,11 +720,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'hub',
     title: 'Tin Whistle Letter Notes',
     description:
-      'A focused tin whistle landing page for players who want searchable melody pages with letter notes, familiar folk songs, and an easy path into the main library.',
+      'A focused tin whistle landing page for players who want searchable melody pages with letter notes, familiar folk songs, and an easy path into the main library with key-specific whistle setup support where available.',
     heroLabel: 'Instrument Guide',
     intro: [
       'Tin whistle players often search for simple melody pages before they search by tune family. This guide is built to catch that intent and move visitors straight into songs they already recognize.',
-      'The best first links here mix familiar beginner melodies with a few slower folk and hymn tunes that reward cleaner breath planning, and every card opens the public page with the whistle view preselected.'
+      'The best first links here mix familiar beginner melodies with a few slower folk and hymn tunes that reward cleaner breath planning, and every card opens the public page with the whistle view preselected. If a song offers more than one whistle setup, the key choice stays on the same song page.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -779,6 +781,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         bullets: [
           'Pick one familiar tune and one longer phrase tune.',
           'Use the same song page for repeated practice instead of jumping between transcriptions.',
+          'Keep the matching whistle key selected when the song offers more than one setup.',
           'Treat numbered notes as a backup view, not the main reading mode.'
         ]
       }
@@ -792,7 +795,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Can I still reach the full song page from here?',
         answer:
-          'Yes. Every song card opens the normal public detail page, where the melody page, controls, and instrument switching stay intact.'
+          'Yes. Every song card opens the normal public detail page, where the melody page, controls, instrument switching, and supported whistle key choices stay intact.'
       }
     ],
     relatedGuideSlugs: [
@@ -893,11 +896,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'guide',
     title: 'How to Start Recorder With Letter Notes',
     description:
-      'A practical starter guide for beginners and teachers who want to start recorder with letter notes, easy songs, and a clear bridge into simple finger patterns.',
+      'A practical starter guide for beginners and teachers who want to start recorder with letter notes, easy songs, and a clear bridge into simple finger patterns, including Baroque or German setup choices where supported.',
     heroLabel: 'Starter Guide',
     intro: [
       'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want recorder letter notes, a handful of familiar songs, and a practice flow that works in short lessons or classroom warmups.',
-      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players, teachers, and home practice built around easy beginner recorder songs.'
+      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players, teachers, and home practice built around easy beginner recorder songs. When the page offers both Baroque and German recorder setups, choose the one that matches the physical recorder before the first read-through.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -936,6 +939,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         bullets: [
           'Use one short song as the class warm-up every week.',
+          'Match the Baroque or German setup to the recorder before students start reading.',
           'Keep the fingering chart on until finger changes feel automatic.',
           'Turn lyrics on only when they help students hear phrase timing more clearly.'
         ],
@@ -961,7 +965,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a different recorder page?',
         answer:
-          'No. They open the same public song route, but the recorder view is preselected so the landing page matches the search intent more closely.'
+          'No. They open the same public song route, but the recorder view is preselected so the landing page matches the search intent more closely. Supported Baroque or German setup choices stay inside that same page.'
       }
     ],
     relatedGuideSlugs: [
@@ -977,11 +981,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     kind: 'guide',
     title: 'How to Start Tin Whistle With Letter Notes',
     description:
-      'A practical starter guide for new tin whistle players who want easy letter-note songs, visible fingerings, and a familiar first route into folk and beginner melody pages.',
+      'A practical starter guide for new tin whistle players who want easy letter-note songs, visible fingerings, and a familiar first route into folk and beginner melody pages with key-specific setup support where available.',
     heroLabel: 'Starter Guide',
     intro: [
       'New tin whistle players often begin by searching for easy songs and clear fingerings, not by searching for ornament-heavy whistle repertoire. They want to know which melodies will actually feel manageable in the first week.',
-      'This guide gives that first route using the same public song pages already on the site. It keeps the melody pages simple, recognizable, and closer to the whistle view that beginners expect.'
+      'This guide gives that first route using the same public song pages already on the site. It keeps the melody pages simple, recognizable, and closer to the whistle view that beginners expect, while keeping any supported whistle key choice on the same page.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1014,6 +1018,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         bullets: [
           'Keep the fingering chart on until the tune feels stable.',
+          'Use the whistle key option that matches the fingering chart on the song page.',
           'Use zoom when a longer page feels crowded instead of abandoning the song.',
           'Choose one familiar song and one slower folk melody for each practice block.'
         ],
@@ -1039,7 +1044,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this page change the public whistle player?',
         answer:
-          'No. It only organizes the same public song pages into a clearer beginner path and opens them with the whistle view selected.'
+          'No. It only organizes the same public song pages into a clearer beginner path and opens them with the whistle view selected. Supported key choices remain part of the same public song page.'
       }
     ],
     relatedGuideSlugs: [
@@ -4132,7 +4137,7 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
       '6-hole-ocarina-letter-notes',
       songCard?.hasPublicLyrics ? 'songs-with-lyrics' : null
     ].filter((slug): slug is string => Boolean(slug))
-  } else if (family === 'nursery' || family === 'song') {
+  } else if (family === 'nursery' || family === 'media' || family === 'song') {
     suggestedSlugs = [
       family === 'nursery' ? 'nursery-rhyme-letter-notes' : 'easy-recorder-songs-for-beginners',
       FIRST_PERFORMANCE_SONG_SLUGS.has(songSlug) ? 'first-performance-letter-note-songs' : null,

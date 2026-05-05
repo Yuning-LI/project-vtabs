@@ -6,7 +6,7 @@ import { siteUrl } from '@/lib/site'
 
 const learnIndexTitle = 'Learn Song Guides, Tabs, and Finger Charts'
 const learnIndexDescription =
-  'Browse beginner song guides, easy tabs, and fingering chart pathways for ocarina, recorder, and tin whistle players across public song pages.'
+  'Browse beginner song guides, easy tabs, and fingering chart pathways for ocarina, recorder, and tin whistle players, including Baroque/German recorder fingering and whistle key paths on supported songs.'
 
 export const metadata: Metadata = {
   title: learnIndexTitle,
@@ -79,7 +79,9 @@ export default function LearnIndexPage() {
               That means you can start with easy tabs, lyric-backed songs, whistle folk tunes,
               recorder classroom pieces, or finger chart entry pages for first-time ocarina
               players, then move into the same public song pages without switching systems. Use
-              these guides to narrow the library by context first, then by song title.
+              these guides to narrow the library by context first, then by song title. When a
+              song supports more than one setup, the guide keeps the choice on the same song page
+              instead of creating separate duplicate pages.
             </p>
           </div>
         </section>
@@ -88,8 +90,9 @@ export default function LearnIndexPage() {
           <h2 className="text-2xl font-bold text-stone-900">Featured Entry Pages</h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
             Start with the narrowest page that matches your search intent: instrument-specific
-            guides for ocarina, recorder, or tin whistle, a lyric-focused route, or a broader guide
-            for beginners and music education.
+            guides for ocarina, recorder, or tin whistle, recorder setup paths for Baroque or
+            German fingering, a lyric-focused route, or a broader guide for beginners and music
+            education.
           </p>
           <div className="mt-6">
             <LearnGuideCardGrid guides={featuredGuides} />

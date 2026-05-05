@@ -168,7 +168,7 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('combobox', { name: 'Note Labels' })).toHaveValue('letter')
     await expect(page.getByRole('combobox', { name: 'Diagram Direction' })).toHaveValue('1u')
     await expect(page.locator('.page-warm-hero')).toContainText(
-      'switchable ocarina, recorder, and tin whistle views'
+      'switchable instrument-specific views'
     )
     await expect(page.locator('.page-warm-hero')).not.toContainText('recorder, recorder')
     await expect(page.locator('.page-warm-hero')).not.toContainText('tin whistle, recorder')

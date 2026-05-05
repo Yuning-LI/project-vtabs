@@ -86,7 +86,7 @@
   {
     "id": "yankee-doodle",
     "slug": "yankee-doodle",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 13,
     "published": true
   },
@@ -261,7 +261,7 @@
   {
     "id": "going-home",
     "slug": "going-home",
-    "family": "song",
+    "family": "classical",
     "featuredRank": 38,
     "published": true
   },
@@ -282,7 +282,7 @@
   {
     "id": "home-sweet-home",
     "slug": "home-sweet-home",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 41,
     "published": true
   },
@@ -324,7 +324,7 @@
   {
     "id": "lullaby",
     "slug": "lullaby",
-    "family": "song",
+    "family": "classical",
     "featuredRank": 47,
     "published": true
   },
@@ -338,7 +338,7 @@
   {
     "id": "old-folks-at-home",
     "slug": "old-folks-at-home",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 49,
     "published": true
   },
@@ -576,14 +576,14 @@
   {
     "id": "the-internationale",
     "slug": "the-internationale",
-    "family": "song",
+    "family": "march",
     "featuredRank": 83,
     "published": true
   },
   {
     "id": "russian-national-anthem",
     "slug": "russian-national-anthem",
-    "family": "song",
+    "family": "march",
     "featuredRank": 84,
     "published": true
   },
@@ -597,21 +597,21 @@
   {
     "id": "katyusha",
     "slug": "katyusha",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 86,
     "published": true
   },
   {
     "id": "moscow-nights",
     "slug": "moscow-nights",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 87,
     "published": true
   },
   {
     "id": "troika",
     "slug": "troika",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 88,
     "published": true
   },
@@ -625,14 +625,14 @@
   {
     "id": "red-berries-blossom",
     "slug": "red-berries-blossom",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 90,
     "published": true
   },
   {
     "id": "the-hawthorn-tree",
     "slug": "the-hawthorn-tree",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 91,
     "published": true
   },
@@ -660,7 +660,7 @@
   {
     "id": "grandfathers-clock",
     "slug": "grandfathers-clock",
-    "family": "song",
+    "family": "folk",
     "featuredRank": 95,
     "published": true
   },
@@ -674,14 +674,14 @@
   {
     "id": "song-of-time",
     "slug": "song-of-time",
-    "family": "song",
+    "family": "media",
     "featuredRank": 97,
     "published": true
   },
   {
     "id": "carrying-you",
     "slug": "carrying-you",
-    "family": "song",
+    "family": "media",
     "featuredRank": 98,
     "published": true
   },
@@ -702,7 +702,7 @@
   {
     "id": "my-heart-will-go-on",
     "slug": "my-heart-will-go-on",
-    "family": "song",
+    "family": "media",
     "featuredRank": 101,
     "published": true
   },
@@ -716,49 +716,49 @@
   {
     "id": "merry-christmas-mr-lawrence",
     "slug": "merry-christmas-mr-lawrence",
-    "family": "song",
+    "family": "media",
     "featuredRank": 103,
     "published": true
   },
   {
     "id": "summer",
     "slug": "summer",
-    "family": "song",
+    "family": "media",
     "featuredRank": 104,
     "published": true
   },
   {
     "id": "always-with-me",
     "slug": "always-with-me",
-    "family": "song",
+    "family": "media",
     "featuredRank": 105,
     "published": true
   },
   {
     "id": "one-summers-day",
     "slug": "one-summers-day",
-    "family": "song",
+    "family": "media",
     "featuredRank": 106,
     "published": true
   },
   {
     "id": "princess-mononoke",
     "slug": "princess-mononoke",
-    "family": "song",
+    "family": "media",
     "featuredRank": 107,
     "published": true
   },
   {
     "id": "path-of-the-wind",
     "slug": "path-of-the-wind",
-    "family": "song",
+    "family": "media",
     "featuredRank": 108,
     "published": true
   },
   {
     "id": "game-of-thrones-theme",
     "slug": "game-of-thrones-theme",
-    "family": "song",
+    "family": "media",
     "featuredRank": 109,
     "published": true
   },
@@ -772,21 +772,21 @@
   {
     "id": "speak-softly-love",
     "slug": "speak-softly-love",
-    "family": "song",
+    "family": "media",
     "featuredRank": 111,
     "published": true
   },
   {
     "id": "moon-river",
     "slug": "moon-river",
-    "family": "song",
+    "family": "media",
     "featuredRank": 112,
     "published": true
   },
   {
     "id": "can-you-feel-the-love-tonight",
     "slug": "can-you-feel-the-love-tonight",
-    "family": "song",
+    "family": "media",
     "featuredRank": 113,
     "published": true
   },
@@ -800,7 +800,7 @@
   {
     "id": "zeldas-lullaby",
     "slug": "zeldas-lullaby",
-    "family": "song",
+    "family": "media",
     "featuredRank": 115,
     "published": true
   },
@@ -863,7 +863,7 @@
   {
     "id": "over-the-rainbow",
     "slug": "over-the-rainbow",
-    "family": "song",
+    "family": "media",
     "featuredRank": 124,
     "published": true
   },
@@ -940,7 +940,7 @@
   {
     "id": "do-re-mi",
     "slug": "do-re-mi",
-    "family": "song",
+    "family": "media",
     "featuredRank": 135,
     "published": true
   },
@@ -954,7 +954,7 @@
   {
     "id": "edelweiss",
     "slug": "edelweiss",
-    "family": "song",
+    "family": "media",
     "featuredRank": 137,
     "published": true
   },
@@ -1024,119 +1024,119 @@
   {
     "id": "let-it-go",
     "slug": "let-it-go",
-    "family": "song",
+    "family": "media",
     "featuredRank": 147,
     "published": true
   },
   {
     "id": "lemon-kenshi-yonezu",
     "slug": "lemon-kenshi-yonezu",
-    "family": "song",
+    "family": "media",
     "featuredRank": 148,
     "published": true
   },
   {
     "id": "blue-bird",
     "slug": "blue-bird",
-    "family": "song",
+    "family": "media",
     "featuredRank": 149,
     "published": true
   },
   {
     "id": "gurenge",
     "slug": "gurenge",
-    "family": "song",
+    "family": "media",
     "featuredRank": 150,
     "published": true
   },
   {
     "id": "cruel-angels-thesis",
     "slug": "cruel-angels-thesis",
-    "family": "song",
+    "family": "media",
     "featuredRank": 151,
     "published": true
   },
   {
     "id": "senbonzakura",
     "slug": "senbonzakura",
-    "family": "song",
+    "family": "media",
     "featuredRank": 152,
     "published": true
   },
   {
     "id": "uchiage-hanabi",
     "slug": "uchiage-hanabi",
-    "family": "song",
+    "family": "media",
     "featuredRank": 153,
     "published": true
   },
   {
     "id": "zen-zen-zense",
     "slug": "zen-zen-zense",
-    "family": "song",
+    "family": "media",
     "featuredRank": 154,
     "published": true
   },
   {
     "id": "unravel",
     "slug": "unravel",
-    "family": "song",
+    "family": "media",
     "featuredRank": 155,
     "published": true
   },
   {
     "id": "butter-fly",
     "slug": "butter-fly",
-    "family": "song",
+    "family": "media",
     "featuredRank": 156,
     "published": true
   },
   {
     "id": "until-the-end-of-the-world",
     "slug": "until-the-end-of-the-world",
-    "family": "song",
+    "family": "media",
     "featuredRank": 157,
     "published": true
   },
   {
     "id": "only-my-railgun",
     "slug": "only-my-railgun",
-    "family": "song",
+    "family": "media",
     "featuredRank": 158,
     "published": true
   },
   {
     "id": "detective-conan-main-theme",
     "slug": "detective-conan-main-theme",
-    "family": "song",
+    "family": "media",
     "featuredRank": 159,
     "published": true
   },
   {
     "id": "inuyashas-affection",
     "slug": "inuyashas-affection",
-    "family": "song",
+    "family": "media",
     "featuredRank": 160,
     "published": true
   },
   {
     "id": "see-you-again",
     "slug": "see-you-again",
-    "family": "song",
+    "family": "media",
     "featuredRank": 161,
     "published": true
   },
   {
     "id": "city-of-stars",
     "slug": "city-of-stars",
-    "family": "song",
+    "family": "media",
     "featuredRank": 162,
     "published": true
   },
   {
     "id": "the-avengers",
     "slug": "the-avengers",
-    "family": "song",
+    "family": "media",
     "featuredRank": 163,
     "published": true
   },
@@ -1150,7 +1150,7 @@
   {
     "id": "where-do-i-begin",
     "slug": "where-do-i-begin",
-    "family": "song",
+    "family": "media",
     "featuredRank": 165,
     "published": true
   },
@@ -1164,21 +1164,21 @@
   {
     "id": "stroll",
     "slug": "stroll",
-    "family": "song",
+    "family": "media",
     "featuredRank": 167,
     "published": true
   },
   {
     "id": "my-neighbor-totoro",
     "slug": "my-neighbor-totoro",
-    "family": "song",
+    "family": "media",
     "featuredRank": 168,
     "published": true
   },
   {
     "id": "chihiros-waltz",
     "slug": "chihiros-waltz",
-    "family": "song",
+    "family": "media",
     "featuredRank": 169,
     "published": true
   }
