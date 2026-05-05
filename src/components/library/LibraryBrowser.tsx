@@ -451,6 +451,10 @@ function LibrarySongCard({
       return
     }
 
+    if ('pointerType' in event && event.pointerType === 'touch') {
+      return
+    }
+
     onSaveState()
     onPending(song.slug)
   }
