@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react'
+import { ChevronDown, ChevronUp, LoaderCircle, PlayCircle, SlidersHorizontal, Square } from 'lucide-react'
 import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -30,9 +30,19 @@ export type SongPageFunctionZoneToggleControl = {
   variant?: 'buttons' | 'switch'
 }
 
+export type SongPageFunctionZoneActionControl = {
+  id: string
+  label: string
+  ariaLabel: string
+  onClick: () => void
+  icon?: 'play' | 'stop' | 'loading'
+  disabled?: boolean
+}
+
 type SongPageFunctionZoneProps = {
   selects: SongPageFunctionZoneSelectControl[]
   toggles: SongPageFunctionZoneToggleControl[]
+  actions?: SongPageFunctionZoneActionControl[]
   onNavigate?: (href: string) => void
 }
 
@@ -44,6 +54,7 @@ type NavigateOptions = {
 export default function SongPageFunctionZone({
   selects,
   toggles,
+  actions = [],
   onNavigate
 }: SongPageFunctionZoneProps) {
   const [isReady, setIsReady] = useState(false)
@@ -184,6 +195,7 @@ export default function SongPageFunctionZone({
   const primaryToggles = toggles.filter(control => primaryToggleIds.has(control.id))
   const secondaryToggles = toggles.filter(control => !primaryToggleIds.has(control.id))
   const hasDesktopMoreControls = desktopSecondarySelects.length > 0 || toggles.length > 0
+  const hasMobileMoreControls = secondarySelects.length > 0 || secondaryToggles.length > 0
   const navigateWithinMobileSheet = (href: string) =>
     navigate(href, { closeMobile: false, closeDesktop: false })
   const navigateWithinDesktopPanel = (href: string) =>
@@ -253,22 +265,35 @@ export default function SongPageFunctionZone({
             </div>
           ) : null}
 
-          {secondarySelects.length > 0 || secondaryToggles.length > 0 ? (
+          {hasMobileMoreControls || actions.length > 0 ? (
             <>
-              <button
-                type="button"
-                className="page-function-zone-disclosure-summary page-function-zone-mobile-more-button"
-                aria-expanded={isMobileExpanded}
-                onClick={() => setIsMobileExpanded(current => !current)}
+              <div
+                className={
+                  hasMobileMoreControls
+                    ? 'page-function-zone-mobile-action-row'
+                    : 'page-function-zone-mobile-action-row page-function-zone-mobile-action-row-actions-only'
+                }
               >
-                <span className="page-function-zone-mobile-more-left">
-                  <SlidersHorizontal className="page-function-zone-mobile-more-icon" aria-hidden="true" />
-                  <span>More Tools</span>
-                </span>
-                <span className="page-function-zone-disclosure-summary-state">
-                  {isMobileExpanded ? 'Close' : 'Open'}
-                </span>
-              </button>
+                {hasMobileMoreControls ? (
+                  <button
+                    type="button"
+                    className="page-function-zone-disclosure-summary page-function-zone-mobile-more-button"
+                    aria-expanded={isMobileExpanded}
+                    onClick={() => setIsMobileExpanded(current => !current)}
+                  >
+                    <span className="page-function-zone-mobile-more-left">
+                      <SlidersHorizontal className="page-function-zone-mobile-more-icon" aria-hidden="true" />
+                      <span>More Tools</span>
+                    </span>
+                    <span className="page-function-zone-disclosure-summary-state">
+                      {isMobileExpanded ? 'Close' : 'Open'}
+                    </span>
+                  </button>
+                ) : null}
+                {actions.map(action => (
+                  <ActionButton key={action.id} action={action} variant="mobile" />
+                ))}
+              </div>
 
               {isMobileExpanded ? (
                 <div className="page-function-zone-mobile-sheet-layer" aria-hidden="false">
@@ -463,9 +488,56 @@ export default function SongPageFunctionZone({
               ) : null}
             </div>
           ) : null}
+
+          {actions.length > 0 ? (
+            <div
+              className={
+                hasDesktopMoreControls
+                  ? 'page-function-zone-desktop-actions'
+                  : 'page-function-zone-desktop-actions page-function-zone-desktop-actions-only'
+              }
+            >
+              {actions.map(action => (
+                <ActionButton key={action.id} action={action} variant="desktop" />
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>
+  )
+}
+
+function ActionButton({
+  action,
+  variant
+}: {
+  action: SongPageFunctionZoneActionControl
+  variant: 'desktop' | 'mobile'
+}) {
+  const icon =
+    action.icon === 'stop' ? (
+      <Square className="page-function-zone-action-icon" aria-hidden="true" />
+    ) : action.icon === 'loading' ? (
+      <LoaderCircle
+        className="page-function-zone-action-icon page-function-zone-action-icon-spinning"
+        aria-hidden="true"
+      />
+    ) : (
+      <PlayCircle className="page-function-zone-action-icon" aria-hidden="true" />
+    )
+
+  return (
+    <button
+      type="button"
+      className={`page-function-zone-action page-function-zone-action-${variant}`}
+      aria-label={action.ariaLabel}
+      disabled={action.disabled}
+      onClick={action.onClick}
+    >
+      {icon}
+      <span>{action.label}</span>
+    </button>
   )
 }
 

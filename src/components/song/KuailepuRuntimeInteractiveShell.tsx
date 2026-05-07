@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { sendGaEvent } from '@/lib/analytics/ga'
 import type { SongPresentation } from '@/lib/songbook/presentation'
@@ -17,6 +17,7 @@ import {
 } from '@/lib/songbook/publicRuntimeControls'
 import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
 import SongPageFunctionZone, {
+  type SongPageFunctionZoneActionControl,
   type SongPageFunctionZoneSelectControl,
   type SongPageFunctionZoneToggleControl
 } from './SongPageFunctionZone'
@@ -47,6 +48,8 @@ export type KuailepuRuntimeControlPayload = {
   sheetScaleList?: number[]
 }
 
+type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
+
 type KuailepuRuntimeInteractiveShellProps = {
   songId: string
   supportedInstruments: PublicSongInstrument[]
@@ -71,6 +74,11 @@ export default function KuailepuRuntimeInteractiveShell({
   hasLyricToggle
 }: KuailepuRuntimeInteractiveShellProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
+  const [isPlaybackFeatureEnabled, setIsPlaybackFeatureEnabled] = useState(false)
+  const [playbackStatus, setPlaybackStatus] = useState<PlaybackUiStatus>('idle')
+  const [isPlaybackPanelOpen, setIsPlaybackPanelOpen] = useState(false)
+  const runtimeFrameRef = useRef<HTMLIFrameElement | null>(null)
+  const pendingPlaybackOpenRef = useRef(false)
   const trackedSongViewRef = useRef<string | null>(null)
   const previousSongRef = useRef<string | null>(null)
   const previousInstrumentRef = useRef<string | null>(null)
@@ -228,12 +236,16 @@ export default function KuailepuRuntimeInteractiveShell({
       next.set('sheet_scale', String(normalizedQueryState.sheetScale))
     }
     if (normalizedQueryState.practiceTool === 'metronome') {
-      next.set('public_feature', 'metronome')
+      next.append('public_feature', 'metronome')
+    }
+    if (isPlaybackFeatureEnabled) {
+      next.append('public_feature', 'playback')
     }
     return next
   }, [
     activeInstrument.id,
     controlConfig.activeGraphValue,
+    isPlaybackFeatureEnabled,
     normalizedQueryState,
     noteLabelMode,
     shouldPinDefaultGraphDirection,
@@ -242,6 +254,10 @@ export default function KuailepuRuntimeInteractiveShell({
   const query = params.toString()
   const frameSrc = query ? `/api/kuailepu-runtime/${songId}?${query}` : `/api/kuailepu-runtime/${songId}`
   const loadingId = `kuailepu-runtime-${songId}-loading`
+
+  useEffect(() => {
+    setIsPlaybackPanelOpen(false)
+  }, [frameSrc])
 
   useEffect(() => {
     if (trackedSongViewRef.current === songId) {
@@ -299,6 +315,154 @@ export default function KuailepuRuntimeInteractiveShell({
       `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
     )
   }
+
+  useEffect(() => {
+    function handlePlaybackMessage(event: MessageEvent) {
+      if (typeof window === 'undefined' || event.origin !== window.location.origin) {
+        return
+      }
+
+      const data = event.data
+      if (!data || typeof data !== 'object' || data.songId !== songId) {
+        return
+      }
+
+      if (data.type === 'vtabs-playback-panel-status') {
+        setIsPlaybackPanelOpen(Boolean(data.isOpen))
+        return
+      }
+
+      if (data.type !== 'vtabs-playback-status') {
+        return
+      }
+
+      if (data.status === 'idle' || data.status === 'loading' || data.status === 'playing') {
+        if (pendingPlaybackOpenRef.current && data.status === 'idle') {
+          return
+        }
+        setPlaybackStatus(data.status)
+      }
+    }
+
+    window.addEventListener('message', handlePlaybackMessage)
+    return () => {
+      window.removeEventListener('message', handlePlaybackMessage)
+    }
+  }, [songId])
+
+  const postPlaybackCommandMessage = useCallback((action: 'open' | 'stop' | 'close') => {
+    if (typeof window === 'undefined') {
+      return false
+    }
+
+    const frameWindow = runtimeFrameRef.current?.contentWindow
+    if (!frameWindow) {
+      return false
+    }
+
+    frameWindow.postMessage(
+      {
+        type:
+          action === 'stop'
+            ? 'vtabs-stop-playback'
+            : action === 'close'
+              ? 'vtabs-close-playback-panel'
+              : 'vtabs-open-playback',
+        songId
+      },
+      window.location.origin
+    )
+    return true
+  }, [songId])
+
+  useEffect(() => {
+    if (!isPlaybackPanelOpen) {
+      return
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      const target = event.target
+      if (!(target instanceof Node)) {
+        return
+      }
+
+      if (
+        target instanceof Element &&
+        target.closest('a, button, select, input, textarea, label, summary, [role="button"]')
+      ) {
+        return
+      }
+
+      if (runtimeFrameRef.current === target) {
+        return
+      }
+
+      postPlaybackCommandMessage('close')
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+    }
+  }, [isPlaybackPanelOpen, postPlaybackCommandMessage])
+
+  const handlePlaybackAction = useCallback(() => {
+    if (playbackStatus === 'loading') {
+      return
+    }
+
+    if (playbackStatus === 'playing') {
+      sendGaEvent('song_playback_stop', {
+        song_slug: songId,
+        instrument_id: activeInstrument.id,
+        note_label_mode: noteLabelMode
+      })
+      if (postPlaybackCommandMessage('stop')) {
+        setPlaybackStatus('idle')
+      }
+      return
+    }
+
+    pendingPlaybackOpenRef.current = true
+    setPlaybackStatus('loading')
+    sendGaEvent('song_playback_open', {
+      song_slug: songId,
+      instrument_id: activeInstrument.id,
+      note_label_mode: noteLabelMode
+    })
+
+    if (!isPlaybackFeatureEnabled) {
+      setIsPlaybackFeatureEnabled(true)
+      return
+    }
+
+    if (postPlaybackCommandMessage('open')) {
+      pendingPlaybackOpenRef.current = false
+    }
+  }, [
+    activeInstrument.id,
+    isPlaybackFeatureEnabled,
+    noteLabelMode,
+    playbackStatus,
+    postPlaybackCommandMessage,
+    songId
+  ])
+
+  const handleRuntimeFrameLoad = useCallback(() => {
+    if (!pendingPlaybackOpenRef.current || !isPlaybackFeatureEnabled) {
+      return
+    }
+
+    window.setTimeout(() => {
+      if (postPlaybackCommandMessage('open')) {
+        pendingPlaybackOpenRef.current = false
+      }
+    }, 80)
+  }, [isPlaybackFeatureEnabled, postPlaybackCommandMessage])
+
+  const handleFrameElementChange = useCallback((frame: HTMLIFrameElement | null) => {
+    runtimeFrameRef.current = frame
+  }, [])
 
   const instrumentSelect =
     supportedInstruments.length > 1
@@ -558,10 +722,37 @@ export default function KuailepuRuntimeInteractiveShell({
       ]
     }
   ]
+  const actions: SongPageFunctionZoneActionControl[] = [
+    {
+      id: 'listen',
+      label:
+        playbackStatus === 'playing'
+          ? 'Stop'
+          : playbackStatus === 'loading'
+            ? 'Loading'
+            : 'Listen',
+      ariaLabel:
+        playbackStatus === 'playing'
+          ? 'Stop audio playback'
+          : playbackStatus === 'loading'
+            ? 'Audio playback is loading'
+            : 'Open audio playback controls',
+      icon:
+        playbackStatus === 'playing'
+          ? 'stop'
+          : playbackStatus === 'loading'
+            ? 'loading'
+            : 'play',
+      disabled: playbackStatus === 'loading',
+      onClick: handlePlaybackAction
+    }
+  ]
 
   return (
     <>
-      <section className="page-warm-hero mb-2 px-4 py-3 md:mb-3 md:px-7 md:py-[1.125rem]">
+      <section
+        className="page-warm-hero mb-2 px-4 py-3 md:mb-3 md:px-7 md:py-[1.125rem]"
+      >
         <Link
           href="/"
           className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:mb-3 md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
@@ -579,6 +770,7 @@ export default function KuailepuRuntimeInteractiveShell({
           <SongPageFunctionZone
             selects={selects}
             toggles={toggles}
+            actions={actions}
             onNavigate={navigateWithinSongPage}
           />
         </div>
@@ -591,6 +783,8 @@ export default function KuailepuRuntimeInteractiveShell({
           frameSrc={frameSrc}
           loadingId={loadingId}
           initialHeight={320}
+          onFrameElementChange={handleFrameElementChange}
+          onFrameLoad={handleRuntimeFrameLoad}
         />
       </div>
     </>

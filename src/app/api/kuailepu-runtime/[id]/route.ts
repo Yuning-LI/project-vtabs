@@ -33,8 +33,12 @@ export async function GET(
 ) {
   const { searchParams } = new URL(request.url)
   const runtimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
-  const publicFeatures =
-    searchParams.get('public_feature') === 'metronome' ? (['metronome'] as const) : []
+  const publicFeatures = searchParams
+    .getAll('public_feature')
+    .filter(
+      (feature): feature is 'metronome' | 'playback' =>
+        feature === 'metronome' || feature === 'playback'
+    )
   /**
    * 公开详情页默认走最小公开资产 profile：
    * - 当前不会触发的旧模块脚本默认不注入

@@ -1,7 +1,7 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type KuailepuRuntimeFrameProps = {
   songId: string
@@ -20,6 +20,8 @@ type KuailepuRuntimeFrameProps = {
   fitCropBottom?: number
   runtimeTextHideRules?: RuntimeTextHideRule[]
   runtimeMaskRects?: RuntimeMaskRect[]
+  onFrameElementChange?: (frame: HTMLIFrameElement | null) => void
+  onFrameLoad?: () => void
 }
 
 type RuntimeTextHideRule = {
@@ -63,7 +65,9 @@ export default function KuailepuRuntimeFrame({
   fitCropTop = 0,
   fitCropBottom = 0,
   runtimeTextHideRules,
-  runtimeMaskRects
+  runtimeMaskRects,
+  onFrameElementChange,
+  onFrameLoad
 }: KuailepuRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const previousFrameSrcRef = useRef(frameSrc)
@@ -71,6 +75,13 @@ export default function KuailepuRuntimeFrame({
   const [isLoading, setIsLoading] = useState(true)
   const [frameHeight, setFrameHeight] = useState(initialHeight)
   const [frameElementSrc, setFrameElementSrc] = useState(frameSrc)
+  const assignFrameRef = useCallback(
+    (node: HTMLIFrameElement | null) => {
+      frameRef.current = node
+      onFrameElementChange?.(node)
+    },
+    [onFrameElementChange]
+  )
 
   useEffect(() => {
     const frame = frameRef.current
@@ -435,6 +446,7 @@ export default function KuailepuRuntimeFrame({
       installFrameObservers()
       startSheetReadyPolling()
       scheduleSyncBursts()
+      onFrameLoad?.()
       timeoutIds.push(window.setTimeout(hideLoading, 4000))
     }
 
@@ -474,6 +486,7 @@ export default function KuailepuRuntimeFrame({
     frameSrc,
     initialHeight,
     loadingId,
+    onFrameLoad,
     overlayClassName,
     runtimeMaskRects,
     runtimeTextHideRules,
@@ -567,7 +580,7 @@ export default function KuailepuRuntimeFrame({
         </div>
       ) : null}
       <iframe
-        ref={frameRef}
+        ref={assignFrameRef}
         title={`${title} Kuailepu runtime`}
         src={frameElementSrc}
         loading="eager"
