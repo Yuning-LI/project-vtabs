@@ -22,7 +22,7 @@ import type { ParsedToken } from './types.ts'
  */
 const MAJOR_SCALE_OFFSETS = [0, 2, 4, 5, 7, 9, 11]
 
-const TOKEN_PATTERN = /#?[1-7][',]*|b[1-7][',]*|0|-|\|/g
+const TOKEN_PATTERN = /#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi
 
 /**
  * 将每一行简谱字符串解析成结构化 token 列表。
@@ -37,7 +37,7 @@ const TOKEN_PATTERN = /#?[1-7][',]*|b[1-7][',]*|0|-|\|/g
  */
 export function parseNotation(notation: string[], tonicMidi: number): ParsedToken[][] {
   return notation.map(line => {
-    const tokens = line.match(TOKEN_PATTERN) ?? []
+    const tokens = line.replace(/\{cn:[^}]+\}/g, ' ').match(TOKEN_PATTERN) ?? []
     return tokens.map(token => parseToken(token, tonicMidi))
   })
 }
@@ -103,7 +103,7 @@ function parseToken(token: string, tonicMidi: number): ParsedToken {
   const degree = Number(body[0])
   const octaveMarkers = body.slice(1)
   const octaveShift =
-    (octaveMarkers.match(/'/g)?.length ?? 0) - (octaveMarkers.match(/,/g)?.length ?? 0)
+    (octaveMarkers.match(/[g']/gi)?.length ?? 0) - (octaveMarkers.match(/[d,]/gi)?.length ?? 0)
 
   /**
    * 简谱到 MIDI 的换算规则：

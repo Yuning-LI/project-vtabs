@@ -1,4 +1,5 @@
 import type { PublicSongFamily } from './types'
+import { renderExpandedHappy123Measure, renderHappy123DraftLines } from './happy123Notation.ts'
 
 export type SongIngestLyricPolicy =
   | 'show-publicly'
@@ -18,6 +19,22 @@ export type ExtractedMusicXmlPart = {
   name: string | null
 }
 
+export type ExtractedMusicXmlGraceNote = {
+  midi: number | null
+  slash: boolean
+  voice: string
+}
+
+export type SongIngestGraceAttachment = {
+  measureNumber: string | null
+  voice: string
+  anchorMidi: number | null
+  graceNotes: Array<{
+    midi: number | null
+    slash: boolean
+  }>
+}
+
 export type ExtractedMusicXmlEvent = {
   voice: string
   duration: number
@@ -26,6 +43,23 @@ export type ExtractedMusicXmlEvent = {
   lyric: string | null
   tieStart: boolean
   tieStop: boolean
+  sourceFeatures?: {
+    hasGrace: boolean
+    hasChordStack: boolean
+    leadingGraceNotes?: ExtractedMusicXmlGraceNote[]
+    timeModification: {
+      actualNotes: number | null
+      normalNotes: number | null
+    } | null
+  }
+}
+
+export type ExtractedMusicXmlHarmony = {
+  offset: number
+  name: string
+  root: string
+  kind: string | null
+  bass: string | null
 }
 
 export type ExtractedMusicXmlMeasure = {
@@ -35,6 +69,7 @@ export type ExtractedMusicXmlMeasure = {
   fifths: number | null
   beats: number | null
   beatType: number | null
+  harmonies: ExtractedMusicXmlHarmony[]
   events: ExtractedMusicXmlEvent[]
 }
 
@@ -81,7 +116,18 @@ export type SongIngestDraft = {
     noteCount: number
     restCount: number
     lyricNoteCount: number
+    chordCount: number
+    graceNoteCount: number
     durationUnit: number
+  }
+  chords: {
+    count: number
+    names: string[]
+  }
+  ornaments: {
+    graceNoteCount: number
+    songsWithGraceLikeSource: boolean
+    graceAttachments: SongIngestGraceAttachment[]
   }
   notation: {
     lines: string[]
@@ -133,24 +179,6 @@ const FIFTHS_TO_KEYNOTE: Record<number, string> = {
   [7]: '1=#C'
 }
 
-const DEGREE_MAP: Array<{
-  offset: number
-  degree: string
-}> = [
-  { offset: 0, degree: '1' },
-  { offset: 1, degree: '#1' },
-  { offset: 2, degree: '2' },
-  { offset: 3, degree: 'b3' },
-  { offset: 4, degree: '3' },
-  { offset: 5, degree: '4' },
-  { offset: 6, degree: '#4' },
-  { offset: 7, degree: '5' },
-  { offset: 8, degree: 'b6' },
-  { offset: 9, degree: '6' },
-  { offset: 10, degree: 'b7' },
-  { offset: 11, degree: '7' }
-]
-
 export function buildSongIngestDraftFromMusicXmlExtract(
   extract: ExtractedMusicXmlScore,
   options: BuildSongIngestDraftOptions = {}
@@ -195,6 +223,35 @@ export function buildSongIngestDraftFromMusicXmlExtract(
     (count, measure) => count + measure.events.filter(event => event.isRest).length,
     0
   )
+  const chordNames = Array.from(
+    new Set(selectedMeasures.flatMap(measure => measure.harmonies.map(harmony => harmony.name)))
+  )
+  const chordCount = selectedMeasures.reduce(
+    (count, measure) => count + measure.harmonies.length,
+    0
+  )
+  const graceNoteCount = selectedMeasures.reduce(
+    (count, measure) =>
+      count +
+      measure.events.reduce(
+        (sum, event) => sum + (event.sourceFeatures?.leadingGraceNotes?.length ?? 0),
+        0
+      ),
+    0
+  )
+  const graceAttachments = selectedMeasures.flatMap(measure =>
+    measure.events
+      .filter(event => (event.sourceFeatures?.leadingGraceNotes?.length ?? 0) > 0)
+      .map(event => ({
+        measureNumber: measure.number,
+        voice: event.voice,
+        anchorMidi: event.midi,
+        graceNotes: (event.sourceFeatures?.leadingGraceNotes ?? []).map(grace => ({
+          midi: grace.midi,
+          slash: grace.slash
+        }))
+      }))
+  )
   const lyricNoteCount = selectedMeasures.reduce(
     (count, measure) =>
       count +
@@ -209,7 +266,15 @@ export function buildSongIngestDraftFromMusicXmlExtract(
     ...(lyricLanguage === 'cjk-only'
       ? ['Lyrics are pure CJK, so the current public rule would keep them hidden and not expose a lyric toggle.']
       : []),
-    ...(lyricLanguage === 'none' ? ['No usable lyric track was found in the selected part/voice.'] : [])
+    ...(lyricLanguage === 'none' ? ['No usable lyric track was found in the selected part/voice.'] : []),
+    ...(graceNoteCount > 0
+      ? ['Grace notes were captured as source metadata and omitted from the current runtime notation output.']
+      : []),
+    ...(selectedMeasures.some(measure =>
+      measure.harmonies.some(harmony => harmony.offset > sumMeasureDuration(measure.events))
+    )
+      ? ['Some MusicXML harmony offsets fell outside the selected melody duration and were kept at the closest available notation position.']
+      : [])
   ]
 
   return {
@@ -235,7 +300,18 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       noteCount,
       restCount,
       lyricNoteCount,
+      chordCount,
+      graceNoteCount,
       durationUnit
+    },
+    chords: {
+      count: chordCount,
+      names: chordNames
+    },
+    ornaments: {
+      graceNoteCount,
+      songsWithGraceLikeSource: graceNoteCount > 0,
+      graceAttachments
     },
     notation: {
       lines: notationLines
@@ -247,7 +323,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       title,
       meter,
       keynote,
-      notationText: notationLines.join('\n'),
+      notationText: renderHappy123DraftLines(groupedLines, tonicMidi, durationUnit).join('\n'),
       lyricText: alignedLyricLines.length > 0 ? alignedLyricLines.join('\n') : null
     },
     songDocDraft: {
@@ -271,11 +347,18 @@ export function buildSongIngestDraftFromMusicXmlExtract(
   ) {
     const lines: Array<
       Array<{
+        events: ExtractedMusicXmlEvent[]
+        harmonies: ExtractedMusicXmlHarmony[]
         eventsToNotation: string
         lyricSlots: string[]
       }>
     > = []
-    let currentLine: Array<{ eventsToNotation: string; lyricSlots: string[] }> = []
+    let currentLine: Array<{
+      events: ExtractedMusicXmlEvent[]
+      harmonies: ExtractedMusicXmlHarmony[]
+      eventsToNotation: string
+      lyricSlots: string[]
+    }> = []
 
     measures.forEach((measure, index) => {
       if (
@@ -287,7 +370,9 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       }
 
       currentLine.push({
-        eventsToNotation: renderMeasureNotation(measure.events, tonicMidi, durationUnit),
+        events: measure.events,
+        harmonies: measure.harmonies,
+        eventsToNotation: renderMeasureNotation(measure.events, tonicMidi, durationUnit, measure.harmonies),
         lyricSlots: renderMeasureLyricSlots(measure.events)
       })
 
@@ -347,16 +432,16 @@ function computeDurationUnit(measures: ExtractedMusicXmlMeasure[]) {
   return durations.reduce((current, value) => gcd(current, value), durations[0] ?? 1)
 }
 
-function renderMeasureNotation(events: ExtractedMusicXmlEvent[], tonicMidi: number, durationUnit: number) {
-  return events
-    .flatMap(event => {
-      const slotCount = Math.max(1, Math.round(event.duration / durationUnit))
-      const head = event.isRest ? '0' : midiToJianpu(event.midi ?? tonicMidi, tonicMidi)
-
-      return [head, ...Array.from({ length: Math.max(0, slotCount - 1) }, () => '-')]
-    })
-    .join(' ')
-    .trim()
+function renderMeasureNotation(
+  events: ExtractedMusicXmlEvent[],
+  tonicMidi: number,
+  durationUnit: number,
+  harmonies: ExtractedMusicXmlHarmony[] = []
+) {
+  return renderExpandedHappy123Measure(events, tonicMidi, durationUnit, harmonies).replace(
+    /#?[1-7][gd]*|b[1-7][gd]*/g,
+    token => token.replace(/g/g, "'").replace(/d/g, ',')
+  )
 }
 
 function renderMeasureLyricSlots(events: ExtractedMusicXmlEvent[]) {
@@ -364,19 +449,6 @@ function renderMeasureLyricSlots(events: ExtractedMusicXmlEvent[]) {
     .filter(event => !event.isRest)
     .map(event => normalizeLyricSlot(event.lyric))
 }
-
-function midiToJianpu(midi: number, tonicMidi: number) {
-  const diff = midi - tonicMidi
-  const pitchClass = ((diff % 12) + 12) % 12
-  const mapping = DEGREE_MAP[pitchClass] ?? DEGREE_MAP[0]
-  const baseOffset = DEGREE_MAP.findIndex(candidate => candidate.offset === pitchClass)
-  const octaveShift = Math.floor((diff - (DEGREE_MAP[baseOffset]?.offset ?? 0)) / 12)
-  const octaveMarks =
-    octaveShift > 0 ? "'".repeat(octaveShift) : octaveShift < 0 ? ','.repeat(-octaveShift) : ''
-
-  return `${mapping.degree}${octaveMarks}`
-}
-
 function normalizeLyricSlot(value: string | null) {
   const normalized = value?.replace(/\s+/g, ' ').trim() ?? ''
   return normalized.length > 0 ? normalized : '_'
@@ -471,4 +543,8 @@ function gcd(left: number, right: number): number {
   }
 
   return a || 1
+}
+
+function sumMeasureDuration(events: ExtractedMusicXmlEvent[]) {
+  return events.reduce((sum, event) => sum + event.duration, 0)
 }

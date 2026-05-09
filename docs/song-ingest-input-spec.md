@@ -71,13 +71,70 @@ Current scope:
 
 - internal draft only
 - uncompressed MusicXML / `.xml`
-- outputs recommended title, slug, keynote, tonic MIDI, structured numbered notation, aligned lyrics, and warnings
+- compressed MusicXML / `.mxl`
+- outputs recommended title, slug, keynote, tonic MIDI, structured numbered notation, aligned lyrics, MusicXML harmony markers, warnings, and a `happi123Draft.notationText` string in the currently supported Happy123/Kuailepu native syntax subset
+
+Candidate runtime generation:
+
+```bash
+npm run generate:kuailepu-from-ingest -- reference/song-ingest-drafts/<slug>.json \
+  --template=happy-birthday-to-you \
+  --slug=<slug> \
+  --title="Song Title" \
+  --auto-transpose=o12 \
+  --rank-base-url=http://127.0.0.1:3000 \
+  --grace-mode=source-only \
+  --out-runtime=data/kuailepu-runtime/<slug>.json \
+  --out-songdoc=data/kuailepu/<slug>.json \
+  --out-report=exports/song-ingest/<slug>-report.json
+```
+
+This candidate generator:
+
+- converts draft notation into Kuailepu-compatible raw notation through the shared Happy123-native notation generator
+- preserves extracted MusicXML chords as `{cn:...}` notation markers when available
+- transposes extracted letter chord names together with the melody
+- generates public `instrumentFingerings` from our import-side preset/range logic instead of copying the template song's full fingering matrix
+- defaults to scrubbing template runtime caches such as `mpn`, `music_list`, and `fetch_score`
+- writes a range-fit report for the public runtime instruments
+- when `--rank-base-url` is provided, runs a second pass against the local runtime page and
+  reorders each instrument's fingering candidates by rendered graph quality instead of trusting
+  the initial import-side recall order
+- supports grace handling modes:
+  - `source-only` keeps grace notes in ingest metadata only
+  - `payload-metadata` also writes structured grace attachments into the generated runtime payload
+
+Batch generation from a local MusicXML corpus:
+
+```bash
+npm run generate:song-ingest-batch -- private/openewld/dataset \
+  --template=happy-birthday-to-you \
+  --auto-transpose=o12 \
+  --rank-base-url=http://127.0.0.1:3000 \
+  --slug-prefix=openewld- \
+  --out-draft-dir=reference/song-ingest-drafts \
+  --out-runtime-dir=data/kuailepu-runtime \
+  --out-songdoc-dir=data/kuailepu \
+  --report=exports/song-ingest/batch-generate.json
+```
+
+Batch generation writes one draft per input file and, when both output dirs are provided,
+also writes runtime candidates plus compact SongDocs through the same Happy123-native chain.
+If `--rank-base-url` is present and a local dev server is already serving `/song/<slug>` plus
+`/api/kuailepu-runtime/<slug>`, the batch script also runs the runtime fingering re-ranker after
+all candidates are written.
+Use `--slug-prefix=` and explicit output dirs so local bulk runs do not accidentally mix with publication-ready files.
+
+Coverage details and current unsupported areas:
+
+- `docs/happy123-notation-coverage.md`
 
 Not yet covered:
 
+- full Happy123 grammar coverage for every advanced construct already seen in legacy runtime files
 - MIDI auto melody-track selection
-- compressed `.mxl`
-- full equivalence for complex voices, chords, grace notes, tuplets
+- full equivalence for complex voices, complex harmony, grace notes, tuplets
+- batch folder ingest
 
 ## Do Not
 
