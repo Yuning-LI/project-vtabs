@@ -1973,6 +1973,72 @@ function buildRuntimeBridgeScript(
     setOptionText(selectId, 'off', 'Off');
   }
 
+  function normalizeStoredPlaybackTranspose(value) {
+    if (value === null || value === undefined || value === '') {
+      return null;
+    }
+
+    var normalized = String(value);
+    return /^-?\d+$/.test(normalized) ? normalized : null;
+  }
+
+  function getStoredPlaybackTranspose() {
+    try {
+      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.readFromStorage !== 'function') {
+        return null;
+      }
+
+      return normalizeStoredPlaybackTranspose(window.Kit.storage.readFromStorage('song_play_transpose'));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function setStoredPlaybackTranspose(value) {
+    try {
+      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.writeToStorage !== 'function') {
+        return;
+      }
+
+      window.Kit.storage.writeToStorage('song_play_transpose', String(value));
+    } catch (error) {
+      // Keep playback usable even if storage is unavailable.
+    }
+  }
+
+  function formatSemitoneLabel(value) {
+    var numberValue = Number(value);
+    if (!Number.isFinite(numberValue) || numberValue === 0) {
+      return 'Off';
+    }
+
+    var magnitude = Math.abs(numberValue);
+    return (numberValue > 0 ? '+' : '-') + String(magnitude) + ' semitone' + (magnitude === 1 ? '' : 's');
+  }
+
+  function syncPublicPlaybackTransposeControl() {
+    var playTranspose = document.getElementById('play_transpose');
+    if (!playTranspose) {
+      return;
+    }
+
+    var storedValue = getStoredPlaybackTranspose();
+    if (
+      storedValue !== null &&
+      storedValue !== undefined &&
+      playTranspose.querySelector('option[value="' + storedValue + '"]')
+    ) {
+      playTranspose.value = storedValue;
+    }
+
+    if (playTranspose.getAttribute('data-vtabs-play-transpose-hooked') !== '1') {
+      playTranspose.setAttribute('data-vtabs-play-transpose-hooked', '1');
+      playTranspose.addEventListener('change', function () {
+        setStoredPlaybackTranspose(playTranspose.value);
+      });
+    }
+  }
+
   function forceEnglishPublicPlaybackLocale() {
     if (!hasPublicPlayback || typeof window.I18n !== 'object') {
       return;
@@ -2283,7 +2349,7 @@ function buildRuntimeBridgeScript(
     setLabelText('play_note', 'Melody');
     setLabelText('play_metronome', 'Metronome');
     setLabelText('play_drum', 'Drums');
-    setLabelText('play_chord', 'Chords');
+    setLabelText('play_chord', 'Accompaniment');
     setLabelText('play_microphone', 'Microphone');
     setLabelText('play_transpose', 'Transpose');
     setLabelText('locate_note', 'Follow note');
@@ -2303,15 +2369,10 @@ function buildRuntimeBridgeScript(
 
     Array.prototype.slice.call(document.querySelectorAll('#play_transpose option')).forEach(function (option) {
       var value = option.getAttribute('value') || '';
-      if (value === '0') {
-        option.textContent = 'Off';
-        return;
-      }
-      var numberValue = Number(value);
-      if (Number.isFinite(numberValue)) {
-        option.textContent = (numberValue > 0 ? '+' : '') + String(numberValue) + ' semitones';
-      }
+      option.textContent = formatSemitoneLabel(value);
     });
+
+    syncPublicPlaybackTransposeControl();
 
     var start = playModal.querySelector('.op-replay.start-play-1');
     if (start) {
