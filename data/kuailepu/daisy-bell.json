@@ -1,0 +1,40 @@
+{
+  "id": "daisy-bell",
+  "slug": "daisy-bell",
+  "title": "Daisy Bell",
+  "description": "The classic Bicycle Built for Two melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "There is a flo wer With in my heart, Dai sy, Dai sy! Plan ted one",
+    "day By a glan cing dart, Plan ted by Dai _ sy Bell! _ Whe ther she loves me Or",
+    "loves me not, Some times it's hard to tell; _ Yet I am long ing to share the",
+    "lot Of beau ti ful Dai sy Bell! _ Dai sy, Dai sy, Give me your ans wer do! _",
+    "I'm half cra zy, all for the love of you! _ It won't be a sty lish mar riage, _ I can't af",
+    "ford a car riage, _ But you'll look sweet up on the seat of a bi cy cle made for two. _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain source review required before wider distribution outside the current song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported through the MusicXML ingest pipeline and kept as a publication candidate for local QA."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:G} 2g - #1g - 2g - | 7 - 6 - 5 - | {cn:D7} 6 - - - #4 - | 2 - - - 0 - | 6 - - - - - | 2 - - - - - | {cn:G} 2g - - - - - | 7 - - - 0 - | {cn:G} 2g - #1g - 2g -",
+    "7 - 6 - 5 - | {cn:D7} 6 - - - #4 - | 2 - - - 0 - | {cn:G} 5 - 2g - 5 - | {cn:D7} #4 - 2 - 6 - | {cn:G} 5 - - - - - | 5 - - - 0 - | {cn:E} 7 - 1g - 7 - | {cn:B7} 6 - 5 - #4 -",
+    "{cn:E} 7 - - - 5 - | 3 - - - 0 - | {cn:D7} 2g - 1g - 7 - | 6 - - - b7 - | {cn:G} 7 - - - - - | 7 - 0 - - - | {cn:E} 7 - 1g - 7 - | {cn:B7} 6 - 5 - #4 - | {cn:E} 7 - - - 5 -",
+    "3 - 0 - 7 - | {cn:A7} 6 - 3g - #1g - | 7 - - - 6 - | {cn:D7} 2g - - - - - | 2g - - - 0 - | {cn:G} 2g - - - - - | 7 - - - - - | 5 - - - - - | 2 - - - 0 - | {cn:C} 3 - #4 - 5 - | 3 - - - 5 - | {cn:G} 2 - - - - - | 2 - - - 0 -",
+    "{cn:D7} 6 - - - - - | 2g - - - - - | {cn:G} 7 - - - - - | 5 - - - - - | {cn:A7} 3 - #4 - 5 - | 6 - - - 7 - | {cn:D7} 6 - - - - - | 6 - 0 - 7 - | {cn:D7} 1g - 7 - 6 - | 2g - - - 7 - | {cn:G} 6 - 5 - - - | 5 - 0 - 6 - | {cn:G} 7 - - - 5 -",
+    "{cn:C} 3 - - - 5 - | {cn:G} 3 - 2 - - - | 2 - 0 - 2 - | {cn:G} 5 - - - 7 - | {cn:D7} 6 - - - 7 - | {cn:G} 5 - - - 7 - | {cn:D7} 6 - 0 - 7 1g | {cn:G} 2g - 7 - 5 - | {cn:D7} 6 - - - 2 - | {cn:G} 5 - - - - - | 5 - - - 0 -"
+  ]
+}

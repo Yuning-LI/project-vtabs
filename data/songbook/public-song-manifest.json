@@ -1181,5 +1181,40 @@
     "family": "media",
     "featuredRank": 169,
     "published": true
+  },
+  {
+    "id": "america-the-beautiful",
+    "slug": "america-the-beautiful",
+    "family": "folk",
+    "featuredRank": 170,
+    "published": true
+  },
+  {
+    "id": "aloha-oe",
+    "slug": "aloha-oe",
+    "family": "folk",
+    "featuredRank": 171,
+    "published": true
+  },
+  {
+    "id": "daisy-bell",
+    "slug": "daisy-bell",
+    "family": "song",
+    "featuredRank": 172,
+    "published": true
+  },
+  {
+    "id": "beautiful-dreamer",
+    "slug": "beautiful-dreamer",
+    "family": "song",
+    "featuredRank": 173,
+    "published": true
+  },
+  {
+    "id": "nearer-my-god-to-thee",
+    "slug": "nearer-my-god-to-thee",
+    "family": "hymn",
+    "featuredRank": 174,
+    "published": true
   }
 ]

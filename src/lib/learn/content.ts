@@ -149,12 +149,14 @@ const CEREMONY_SONG_SLUGS = new Set([
   'wedding-march',
   'wedding-march-alt',
   'amazing-grace',
+  'nearer-my-god-to-thee',
   'speak-softly-love',
   'air-on-the-g-string',
   'going-home'
 ])
 
 const PATRIOTIC_ANTHEM_SONG_SLUGS = new Set([
+  'america-the-beautiful',
   'yankee-doodle',
   'american-patrol',
   'scotland-the-brave',
@@ -180,9 +182,11 @@ const WORLD_FOLK_SONG_SLUGS = new Set([
 ])
 
 const CALM_LYRICAL_SONG_SLUGS = new Set([
+  'aloha-oe',
   'always-with-me',
   'amazing-grace',
   'air-on-the-g-string',
+  'beautiful-dreamer',
   'can-you-feel-the-love-tonight',
   'chihiros-waltz',
   'city-of-stars',
@@ -212,6 +216,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'moon-represents-my-heart',
   'moon-river',
   'moonlight-sonata',
+  'nearer-my-god-to-thee',
   'over-the-rainbow',
   'old-memory',
   'one-summers-day',
@@ -286,6 +291,7 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
 ])
 
 const SING_ALONG_SONG_SLUGS = new Set([
+  'daisy-bell',
   'twinkle-twinkle-little-star',
   'mary-had-a-little-lamb',
   'row-row-row-your-boat',

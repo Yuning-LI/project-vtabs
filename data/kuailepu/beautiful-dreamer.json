@@ -1,0 +1,38 @@
+{
+  "id": "beautiful-dreamer",
+  "slug": "beautiful-dreamer",
+  "title": "Beautiful Dreamer",
+  "description": "A flowing parlor-song melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Beau ti ful dream er wake un to me _ star light and",
+    "dew drops are wait ing for thee _ _",
+    "way! _ _ Beau ti ful dream er queen of my song _",
+    "list while I woo thee with soft mel o dy _",
+    "thee _ _ Beau ti ful dream er a wake un to me _ _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain source review required before wider distribution outside the current song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported through the MusicXML ingest pipeline and kept as a publication candidate for local QA."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 1g 7 1g | 5 - - | 3 - - | {cn:D} 2 #1 2 | 6 - - | 6 - - | {cn:G7} 5 7 6",
+    "6 5 4 | 4 3 2 | {cn:C} 3 - - | 3 - - | 3 - -",
+    "{cn:C} 1 - - | 1 - - | 1 - - | {cn:G7} 5 4 2 | 7d - - | 6 - - | {cn:C} 6 5 3 | 1 - - | 1 - -",
+    "{cn:D7} 1g 7 1g | 6 - - | 2g - 1g | 7 1g 6 | {cn:G7} 5 - - | 5 - -",
+    "{cn:C} 3 - - | 3 - - | 3 - - | {cn:F} 6 7 1g | {cn:C} 1g 5 3 | {cn:G7} 4 3 2 | {cn:C} 1 - - | 1 - - | 1 - -"
+  ]
+}

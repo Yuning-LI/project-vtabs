@@ -1,0 +1,38 @@
+{
+  "id": "aloha-oe",
+  "slug": "aloha-oe",
+  "title": "Aloha Oe",
+  "description": "A lyrical Hawaiian melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Fare well dear love I'll dream of you no pass ing grief is",
+    "this my heart is feel ing I love you so be fore you go I'll say dear",
+    "lov'd one fare well _ fare well dear love I'll dream of you no",
+    "pass ing grief is this my heart is feel ing I love you so be fore you",
+    "go I'll say dear lov'd one fare well. _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain source review required before wider distribution outside the current song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported through the MusicXML ingest pipeline and kept as a publication candidate for local QA."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 - 0 2 | {cn:C} 3 - 5 - | 1g - - 3 | {cn:G} 2 - 5 - | 7 - - 5 | {cn:D7} #4 3 #4 5",
+    "6 6 1g 1g | {cn:G} 7 - - - | 5 - - 2 | {cn:C} 3 - 5 - | 1g - - 3 | {cn:G} 2 - 5 - | 7 - - 5 | {cn:D7} #4 - - 5",
+    "7 6 - #4 | {cn:G} 5 - - - | 5 - - 5 | {cn:F} 6 - 1g - | 4g - - 6 | {cn:C} 5 - 1g - | 3g - - 1g",
+    "{cn:G7} 7 6 7 1g | 2g 2g 4g 4g | {cn:C} 3g - - - | 1g - - 5 | {cn:F} 6 - 1g - | 4g - - 6 | {cn:C} 5 - 1g -",
+    "3g - - 1g | {cn:G7} 7 - - 1g | 3g 2g - 7 | {cn:C} 1g - - - | 1g - - 0"
+  ]
+}

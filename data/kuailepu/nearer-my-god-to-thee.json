@@ -1,0 +1,36 @@
+{
+  "id": "nearer-my-god-to-thee",
+  "slug": "nearer-my-god-to-thee",
+  "title": "Nearer, My God, to Thee",
+  "description": "A reflective hymn melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Near er my God to Thee, Near er to Thee!",
+    "E'en though it be a cross that _ rais eth me.",
+    "Still all my dreams shall be Near er, my God to Thee.",
+    "Near er, my god to Thee, Near _ er to Thee!"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain source review required before wider distribution outside the current song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported through the MusicXML ingest pipeline and kept as a publication candidate for local QA."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 3 - - - 2 - {cn:F7} 1 - | {cn:Bb} 1 - - 6d 6d - - - | {cn:F} 5d - - - 1 - 3 - | {cn:C7} 2 - - - - - - -",
+    "{cn:F7} 3 - - - 2 - 1 - | {cn:Bb} 1 - - 6d {cn:G#d} 6d - - - | {cn:F} 5d - 1 - {cn:C7} 7d - 2 - | {cn:F} 1 - - - - - - -",
+    "{cn:F} 5 - - - {cn:Bb} 6 - 5 - | {cn:F} 5 - - 3 5 - - - | {cn:F} 5 - - - {cn:Bb} 6 - 5 - | {cn:F/C} 5 - - 3 {cn:C7} 2 - - -",
+    "{cn:F7/C} 3 - - - 2 - 1 - | {cn:Bb} 1 - - 6d {cn:G#d} 6d - - - | {cn:F} 5d - 1 - {cn:C7} 7d - 2 - | {cn:F} 1 - - - - - - -"
+  ]
+}

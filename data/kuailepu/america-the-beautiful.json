@@ -1,0 +1,36 @@
+{
+  "id": "america-the-beautiful",
+  "slug": "america-the-beautiful",
+  "title": "America the Beautiful",
+  "description": "A familiar patriotic melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Oh, beau ti ful for spa cious skies, for am ber waves of grain for",
+    "pur ple moun tain maj est ies a bove the frui ted plain! A",
+    "me ri ca A me ri ca God shed his grace on thee and",
+    "crown thy good with broth er hood from sea to shi ning sea."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain source review required before wider distribution outside the current song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported through the MusicXML ingest pipeline and kept as a publication candidate for local QA."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "5 - | {cn:C} 5 - - 3 {cn:A} 3 - {cn:Ad} 5 - | {cn:D7} 5 - - 2 {cn:G7} 2 - {cn:F} 3 - | {cn:F/E} 4 - {cn:D7} 5 - {cn:G7} 6 - 7 - | {cn:C} 5 - - - - - {cn:Ad} {cn:G7} 5 -",
+    "{cn:C} 5 - - 3 {cn:A} 3 - {cn:Ad} 5 - | {cn:D7} 5 - - 2 {cn:G7} 2 - 2g - | {cn:Bbd} #1g - {cn:G7} 2g - {cn:A7} 3g - {cn:D7} 6 - | {cn:G7} 2g - - - - - 5 -",
+    "{cn:C} 3g - - 3g {cn:G7} 2g - {cn:G9} 1g - | {cn:F} 1g - - {cn:G7} 7 7 - {cn:D7} 1g - | {cn:G9} 2g - {cn:D7} 7 - {cn:G} 6 - {cn:G7} 5 - | {cn:C} 1g - - - - - {cn:Ca7} {cn:C7} {cn:Bbd} 1g -",
+    "{cn:F} 1g - - 6 {cn:D7} 6 - 1g - | {cn:C} 1g - - {cn:C/B} 5 {cn:A} 5 - {cn:G7} 5 - | {cn:F} 6 - {cn:D7} 1g - {cn:G} 5 - {cn:G7} 2g - | {cn:C} 1g - - - - - - - {cn:A7} {cn:G7}"
+  ]
+}
