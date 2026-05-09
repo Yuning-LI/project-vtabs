@@ -73,6 +73,7 @@ Current scope:
 - uncompressed MusicXML / `.xml`
 - compressed MusicXML / `.mxl`
 - outputs recommended title, slug, keynote, tonic MIDI, structured numbered notation, aligned lyrics, MusicXML harmony markers, warnings, and a `happi123Draft.notationText` string in the currently supported Happy123/Kuailepu native syntax subset
+- when `--out` is used, also writes a per-song source sanity report to `exports/song-ingest/source-sanity/<slug>.json` unless `--out-sanity` overrides the path
 
 Candidate runtime generation:
 
@@ -86,7 +87,8 @@ npm run generate:kuailepu-from-ingest -- reference/song-ingest-drafts/<slug>.jso
   --grace-mode=source-only \
   --out-runtime=data/kuailepu-runtime/<slug>.json \
   --out-songdoc=data/kuailepu/<slug>.json \
-  --out-report=exports/song-ingest/<slug>-report.json
+  --out-report=exports/song-ingest/<slug>-report.json \
+  --out-sanity=exports/song-ingest/source-sanity/<slug>.json
 ```
 
 This candidate generator:
@@ -103,6 +105,7 @@ This candidate generator:
 - supports grace handling modes:
   - `source-only` keeps grace notes in ingest metadata only
   - `payload-metadata` also writes structured grace attachments into the generated runtime payload
+- includes a `sourceSanity` block in the ingest report so publication review keeps the source-verification context together with the generated runtime report
 
 Batch generation from a local MusicXML corpus:
 
@@ -115,6 +118,7 @@ npm run generate:song-ingest-batch -- private/openewld/dataset \
   --out-draft-dir=reference/song-ingest-drafts \
   --out-runtime-dir=data/kuailepu-runtime \
   --out-songdoc-dir=data/kuailepu \
+  --out-sanity-dir=exports/song-ingest/source-sanity \
   --report=exports/song-ingest/batch-generate.json
 ```
 
@@ -123,7 +127,14 @@ also writes runtime candidates plus compact SongDocs through the same Happy123-n
 If `--rank-base-url` is present and a local dev server is already serving `/song/<slug>` plus
 `/api/kuailepu-runtime/<slug>`, the batch script also runs the runtime fingering re-ranker after
 all candidates are written.
+It now also writes one source sanity report per song under `exports/song-ingest/source-sanity/`
+by default, plus a batch summary field `sanityReviewSongs` so suspicious sources stand out before
+publication.
 Use `--slug-prefix=` and explicit output dirs so local bulk runs do not accidentally mix with publication-ready files.
+
+Publication workflow details and the required external melody/version verification step:
+
+- `docs/song-ingest-publication-playbook.md`
 
 Coverage details and current unsupported areas:
 

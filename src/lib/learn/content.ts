@@ -182,7 +182,6 @@ const WORLD_FOLK_SONG_SLUGS = new Set([
 ])
 
 const CALM_LYRICAL_SONG_SLUGS = new Set([
-  'aloha-oe',
   'always-with-me',
   'amazing-grace',
   'air-on-the-g-string',

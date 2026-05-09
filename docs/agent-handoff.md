@@ -4,7 +4,7 @@ Shortest useful context for a new AI / developer session.
 
 ## One Sentence
 
-Public song pages are runtime-backed Kuailepu raw JSON pages with an English SEO shell, default `letter` view, optional `number` view, and public instrument views for ocarina, recorder, and tin whistle.
+Public song pages are runtime-backed Kuailepu raw JSON pages with an English SEO shell, default `letter` view, optional `number` view, public instrument views for ocarina/recorder/tin whistle, and shell-level metronome/playback tools.
 
 ## First Checks
 
@@ -20,9 +20,12 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 ## Stable Rules
 
 - Production runtime JSON: `data/kuailepu-runtime/<slug>.json`.
+- Production-packed runtime JSON: `data/kuailepu-runtime-packed/<slug>.json.gz`.
 - Compact public song docs: `data/kuailepu/<slug>.json`.
 - Local fallback only: `reference/songs/<slug>.json`.
 - Runtime archive: `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
+- Public runtime assets: `public/k-static/**`.
+- Public playback soundfonts: `public/static/soundfont/**`.
 - Public note modes: `letter`, `number`; do not restore `both`.
 - Public instruments: `o12`, `o6`, `r8b`, `r8g`, `w6`.
 - Public visible copy must be English.
@@ -58,11 +61,23 @@ npm run login:kuailepu
 
 Do not replace a user-approved target song without explicit approval.
 
+For songs imported from local MusicXML/MXL instead of Kuailepu:
+
+- do not publish directly after local generation
+- first run local generate/audit/classify flow
+- then do lightweight external melody/version verification against public references
+- only after that move approved songs into the public import/publish layer
+
+Playbook:
+
+- `docs/song-ingest-publication-playbook.md`
+
 ## Runtime Boundaries
 
 - Do not move public song pages back to old native rendering.
 - Compare / publish gates use `note_label_mode=number`.
 - Keep letter transformation in `src/lib/kuailepu/runtime.ts`.
+- Keep playback / metronome integration as shell-to-runtime bridges instead of forking the archived renderer.
 - Prefer runtime asset profile changes over deleting bundled old assets.
 
 ## Topic Docs

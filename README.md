@@ -20,13 +20,17 @@ The older rule of reading every major document for every substantial task has be
 
 - Public `/song/<slug>` pages use deployable raw JSON plus the original Kuailepu runtime path.
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
+- Production-packed runtime JSON lives in `data/kuailepu-runtime-packed/<slug>.json.gz` and is preferred in production builds.
 - Compact public song docs live in `data/kuailepu/<slug>.json`.
 - `reference/songs/<slug>.json` is local fallback for import/debug only.
 - Runtime archive lives at `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
+- Public runtime static assets live under `public/k-static/**`.
+- Public playback soundfont assets live under `public/static/soundfont/**`.
 - Captured SVG is only a local debug/parity baseline.
 - Default note view is `letter`; public backup mode is `number`; do not restore `both`.
 - Public instrument set is currently `o12`, `o6`, `r8b`, `r8g`, `w6`.
 - `/api/kuailepu-runtime/<slug>` returns runtime HTML and must stay `noindex`.
+- Public song-shell feature set currently includes instrument/fingering controls, metronome, and playback.
 
 ## Public Copy Rules
 
@@ -75,6 +79,7 @@ If an approved target song fails during search, import, compare, or preflight, d
 - Keep public song pages on the runtime-backed route; do not restore old native `SongClient` fallback.
 - Publish/parity checks must use `note_label_mode=number`.
 - Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
+- Keep playback and metronome behavior as shell/runtime bridges; do not fork the core `Song.draw()/hc.parse` rendering chain.
 - When reducing old Kuailepu assets, change runtime asset profiles instead of deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
 ## Validation Commands

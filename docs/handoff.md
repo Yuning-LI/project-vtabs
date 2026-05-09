@@ -1,13 +1,16 @@
 # Handoff Notes
 
-This file keeps current execution context. Stable rules live in `README.md` and `docs/agent-handoff.md`; long technical detail lives in the topic docs.
+This file keeps only short current-state notes. Stable rules live in `README.md` and `docs/agent-handoff.md`; topic detail lives in the docs map there.
 
 ## Current Product State
 
 - Public `/song/<slug>` pages use `data/kuailepu-runtime/<slug>.json -> /api/kuailepu-runtime/<slug> -> original runtime -> SVG`.
+- Production builds prefer `data/kuailepu-runtime-packed/<slug>.json.gz` before raw JSON.
 - The public shell is English SEO content plus a playable notation page.
 - Default note mode is `letter`; `number` remains the parity / backup mode.
 - Public instruments are `o12`, `o6`, `r8b`, `r8g`, `w6`.
+- Public shell tools currently include compact controls, metronome, and playback.
+- Playback soundfonts are served from `public/static/soundfont/**`.
 - `reference/songs/*.json` is local fallback only.
 - `captured SVG` is debug/parity material only.
 - `/api/kuailepu-runtime/<slug>` must remain `noindex, nofollow, noarchive`.
@@ -20,42 +23,11 @@ Do not trust hand-written counts in docs. Verify current public counts with:
 npm run validate:content
 ```
 
-## Network Coordination
+## Runtime Notes
 
-- Kuailepu import, compare, preflight, login checks, and live debugging need China-reachable network.
-- Google / western research usually needs foreign VPN.
-- If the wrong network is active, ask the user to switch before continuing.
-
-## Publishing Rules
-
-For each public import:
-
-- add deployable raw JSON
-- add compact SongDoc
-- update public manifest
-- update SEO profile with aliases
-- update learn / hub internal links
-- update grey rollout tracker when relevant
-- validate content, songbook, doctor output, preflight compare, and usually build
-
-Preflight:
-
-```bash
-npm run preflight:kuailepu-publish -- <slug...>
-```
-
-If login fails:
-
-```bash
-npm run login:kuailepu
-```
-
-## SEO State
-
-- Public titles prioritize long-tail search fit over brand suffixes.
-- Song page SEO profiles are in `data/songbook/song-seo-profiles.json`.
-- Learn / hub content is in `src/lib/learn/content.ts`.
-- Growth strategy and completed GSC work are summarized in `docs/seo-growth-roadmap.md`.
+- Default public pages still use `public-song` asset profile.
+- Any request with `public_feature=metronome` or `public_feature=playback` currently upgrades to `full-template`.
+- Keep runtime bridge changes isolated to `src/lib/kuailepu/runtime.ts`; do not fork archived `song_*.js` behavior unless unavoidable.
 
 ## Current GSC Batch Boundary
 
@@ -68,10 +40,9 @@ The 2026-04-23 GSC cleanup was a bounded content-layer pass:
 
 Do not blindly continue that exact batch. Re-check current GSC data before another GSC-driven pass.
 
-## Git
+## Before Push
 
-- Commit messages must be detailed Chinese messages with `变更：`, `原因：`, `验证：`.
-- Before pushing, check:
+Check:
 
 ```bash
 git status --short --branch

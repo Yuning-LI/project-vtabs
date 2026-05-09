@@ -3,6 +3,7 @@ import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { generateKuailepuRuntimeCandidate } from '../src/lib/songbook/kuailepuIngest.ts'
 import type { SongIngestDraft } from '../src/lib/songbook/songIngestDraft.ts'
+import { buildSourceSanityReport } from '../src/lib/songbook/sourceSanity.ts'
 
 type CliOptions = {
   input: string
@@ -16,12 +17,13 @@ type CliOptions = {
   outRuntime: string
   outSongDoc?: string
   outReport?: string
+  outSanity?: string
   scrubRuntimeCache: boolean
   graceMode: 'source-only' | 'payload-metadata'
 }
 
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-kuailepu-runtime-from-ingest.ts <draft.json> --template=<slug> --slug=<slug> [--title="Title"] [--keynote=1=F] [--transpose=-7|--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] --out-runtime=data/kuailepu-runtime/<slug>.json [--out-songdoc=data/kuailepu/<slug>.json] [--out-report=exports/song-ingest/<slug>-report.json] [--keep-template-cache]'
+  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-kuailepu-runtime-from-ingest.ts <draft.json> --template=<slug> --slug=<slug> [--title="Title"] [--keynote=1=F] [--transpose=-7|--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] --out-runtime=data/kuailepu-runtime/<slug>.json [--out-songdoc=data/kuailepu/<slug>.json] [--out-report=exports/song-ingest/<slug>-report.json] [--out-sanity=exports/song-ingest/source-sanity/<slug>.json] [--keep-template-cache]'
 
 const options = parseArgs(process.argv.slice(2))
 if (!options) {
@@ -32,6 +34,10 @@ if (!options) {
 const draft = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), options.input), 'utf8')
 ) as SongIngestDraft
+const sourceSanity = buildSourceSanityReport({
+  draft,
+  sourceFile: path.relative(process.cwd(), path.resolve(process.cwd(), options.input))
+})
 const templatePath = path.resolve(
   process.cwd(),
   'data',
@@ -87,7 +93,8 @@ const ingestReport = {
   generation: {
     ...generated.ingestReport.generation,
     templateSlug: options.templateSlug
-  }
+  },
+  sourceSanity
 }
 
 if (options.outReport) {
@@ -95,6 +102,11 @@ if (options.outReport) {
   console.log(`Wrote ingest report to ${options.outReport}`)
 } else {
   console.log(JSON.stringify(ingestReport, null, 2))
+}
+
+if (options.outSanity) {
+  writeJson(options.outSanity, sourceSanity)
+  console.log(`Wrote source sanity report to ${options.outSanity}`)
 }
 
 function parseArgs(args: string[]): CliOptions | null {
@@ -136,6 +148,7 @@ function parseArgs(args: string[]): CliOptions | null {
     outRuntime,
     outSongDoc: values.get('out-songdoc'),
     outReport: values.get('out-report'),
+    outSanity: values.get('out-sanity'),
     scrubRuntimeCache: values.get('keep-template-cache') !== 'true',
     graceMode:
       values.get('grace-mode') === 'payload-metadata' ? 'payload-metadata' : 'source-only'

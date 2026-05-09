@@ -8,7 +8,8 @@ This is the runtime strategy document. It should answer what must stay stable, n
 - Production source is `data/kuailepu-runtime/<slug>.json`.
 - Runtime template archive is `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Static runtime assets are served from `/k-static/...`, currently backed by `public/k-static`.
-- The public shell owns SEO copy, navigation, controls, and English UI.
+- Playback soundfonts are served from `public/static/soundfont/**`.
+- The public shell owns SEO copy, navigation, controls, playback/metronome bridges, and English UI.
 
 Runtime chain:
 
@@ -44,13 +45,14 @@ Do not change compare to `letter`; letter mode is a public overlay, not the pari
 Current public runtime profile:
 
 - `public-song`: default public page, minimal validated script set
-- `full-template`: debugging / compare / recovery mode
+- `full-template`: debugging / compare / recovery mode and current public feature mode for playback / metronome
 
 When reducing old Kuailepu assets:
 
 - change profile behavior in `src/lib/kuailepu/runtime.ts`
 - keep bundled assets and recovery path
 - do not delete `vendor/kuailepu-static` or `public/k-static` just because a public page does not currently load a file
+- do not move public playback soundfonts out of `public/static/soundfont/**` unless the runtime load path changes too
 
 More detail: `docs/public-runtime-asset-profiles.md`.
 
@@ -78,6 +80,7 @@ Runtime changes are justified for:
 - correctness bugs
 - height / overlay / loading regressions
 - letter-mode label issues
+- playback / metronome shell-to-runtime integration
 - asset profile maintenance
 - public control integration that cannot be solved in the shell
 

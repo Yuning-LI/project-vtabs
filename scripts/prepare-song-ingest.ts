@@ -5,16 +5,18 @@ import {
   type BuildSongIngestDraftOptions,
   type SongIngestLyricPolicy
 } from '../src/lib/songbook/songIngestDraft.ts'
+import { buildSourceSanityReport } from '../src/lib/songbook/sourceSanity.ts'
 import { extractMusicXmlScore, readMusicXmlText } from '../src/lib/songbook/musicXml.ts'
 import type { PublicSongFamily } from '../src/lib/songbook/types.ts'
 
 type CliOptions = BuildSongIngestDraftOptions & {
   input: string
   out?: string
+  outSanity?: string
 }
 
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts <input.musicxml|input.mxl> [--title="My Song"] [--slug=my-song] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/my-song.json]'
+  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts <input.musicxml|input.mxl> [--title="My Song"] [--slug=my-song] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/my-song.json] [--out-sanity=exports/song-ingest/source-sanity/my-song.json]'
 
 const options = parseArgs(process.argv.slice(2))
 
@@ -41,6 +43,11 @@ if (!stats?.isFile()) {
 const xmlText = await readMusicXmlText(inputPath)
 const extract = await extractMusicXmlScore(xmlText, options.partId)
 const draft = buildSongIngestDraftFromMusicXmlExtract(extract, options)
+const sanity = buildSourceSanityReport({
+  draft,
+  extract,
+  sourceFile: path.relative(process.cwd(), inputPath)
+})
 const outputJson = JSON.stringify(draft, null, 2) + '\n'
 
 if (options.out) {
@@ -48,6 +55,21 @@ if (options.out) {
   await fs.promises.mkdir(path.dirname(outPath), { recursive: true })
   await fs.promises.writeFile(outPath, outputJson, 'utf8')
   console.log(`Wrote song ingest draft to ${path.relative(process.cwd(), outPath)}`)
+}
+
+const shouldWriteSanity = Boolean(options.out || options.outSanity)
+if (shouldWriteSanity) {
+  const resolvedSanityPath = path.resolve(
+    process.cwd(),
+    options.outSanity || `exports/song-ingest/source-sanity/${draft.metadata.slug}.json`
+  )
+  await fs.promises.mkdir(path.dirname(resolvedSanityPath), { recursive: true })
+  await fs.promises.writeFile(
+    resolvedSanityPath,
+    `${JSON.stringify(sanity, null, 2)}\n`,
+    'utf8'
+  )
+  console.log(`Wrote source sanity report to ${path.relative(process.cwd(), resolvedSanityPath)}`)
 }
 
 console.log(outputJson)
@@ -89,6 +111,10 @@ function parseArgs(args: string[]): CliOptions | null {
     }
     if (arg.startsWith('--out=')) {
       options.out = arg.slice('--out='.length)
+      return
+    }
+    if (arg.startsWith('--out-sanity=')) {
+      options.outSanity = arg.slice('--out-sanity='.length)
       return
     }
 

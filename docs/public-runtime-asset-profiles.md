@@ -19,16 +19,22 @@ Instead:
 - `public-song`
   - default public profile
   - minimal validated runtime script set
-  - currently loads 6 template scripts
+  - currently injects the 6 critical scripts only
 - `full-template`
   - full original template injection
-  - used for compare / debugging / recovery
-  - currently keeps 28 template scripts
+  - used for compare / debugging / recovery and for current public playback / metronome paths
 
 API selector:
 
 ```text
 /api/kuailepu-runtime/<slug>?runtime_asset_profile=full-template
+```
+
+Feature auto-upgrade:
+
+```text
+/api/kuailepu-runtime/<slug>?public_feature=metronome
+/api/kuailepu-runtime/<slug>?public_feature=playback
 ```
 
 ## Hard Dependencies
@@ -47,13 +53,15 @@ Do not remove from the minimal public profile without a new runtime QA pass:
 The disabled-by-default scripts cover legacy UI/features such as:
 
 - Materialize / jQuery UI
-- soundmanager / MIDI playback
+- soundmanager / MIDI playback / countdown
 - metronome
 - microphone
 - favorites / login-related UI
 - clipboard / chip tags / media helpers
 
 These are reserved assets, not deleted code.
+
+Public playback also depends on local soundfont assets under `public/static/soundfont/**`; those are deployable runtime assets, not temporary debug files.
 
 ## CSS
 

@@ -14,6 +14,7 @@ import {
   type SongIngestDraft,
   type SongIngestLyricPolicy
 } from '../src/lib/songbook/songIngestDraft.ts'
+import { buildSourceSanityReport } from '../src/lib/songbook/sourceSanity.ts'
 import type { PublicSongFamily } from '../src/lib/songbook/types.ts'
 
 type CliOptions = BuildSongIngestDraftOptions & {
@@ -25,6 +26,7 @@ type CliOptions = BuildSongIngestDraftOptions & {
   outDraftDir: string
   outRuntimeDir?: string
   outSongDocDir?: string
+  outSanityDir: string
   rankBaseUrl?: string
   outReport?: string
   graceMode: 'source-only' | 'payload-metadata'
@@ -39,9 +41,15 @@ type BatchEntry = {
     draft: string
     runtime?: string
     songDoc?: string
+    sanity?: string
   }
   warnings: string[]
   stats?: SongIngestDraft['stats']
+  sourceSanity?: {
+    status: 'pass' | 'review'
+    highestSeverity: 'error' | 'warning' | 'info' | 'none'
+    issueCount: number
+  }
   generation?: {
     sourceKeynote: string
     targetKeynote: string
@@ -51,7 +59,7 @@ type BatchEntry = {
 }
 
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-song-ingest-batch.ts [path ...] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] [--family=folk] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--part=P1] [--voice=1] [--limit=50] [--slug-prefix=openewld-] [--out-draft-dir=reference/song-ingest-drafts] [--out-runtime-dir=data/kuailepu-runtime] [--out-songdoc-dir=data/kuailepu] [--report=exports/song-ingest/batch-generate.json]'
+  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-song-ingest-batch.ts [path ...] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] [--family=folk] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--part=P1] [--voice=1] [--limit=50] [--slug-prefix=openewld-] [--out-draft-dir=reference/song-ingest-drafts] [--out-runtime-dir=data/kuailepu-runtime] [--out-songdoc-dir=data/kuailepu] [--out-sanity-dir=exports/song-ingest/source-sanity] [--report=exports/song-ingest/batch-generate.json]'
 
 const options = parseArgs(process.argv.slice(2))
 if (!options) {
@@ -128,6 +136,12 @@ try {
         draft.metadata.slug,
         draft
       )
+      const sanityReport = buildSourceSanityReport({
+        draft,
+        extract,
+        sourceFile: relativeFile
+      })
+      const sanityOutput = writeJsonFile(options.outSanityDir, draft.metadata.slug, sanityReport)
 
       let runtimeOutput: string | undefined
       let songDocOutput: string | undefined
@@ -161,11 +175,13 @@ try {
         status: 'ok',
         outputs: {
           draft: draftOutput,
+          sanity: sanityOutput,
           ...(runtimeOutput ? { runtime: runtimeOutput } : {}),
           ...(songDocOutput ? { songDoc: songDocOutput } : {})
         },
         warnings: draft.warnings,
         stats: draft.stats,
+        sourceSanity: sanityReport.summary,
         ...(generation ? { generation } : {})
       })
     } catch (error) {
@@ -209,6 +225,7 @@ const report = {
   outDraftDir: options.outDraftDir,
   outRuntimeDir: options.outRuntimeDir ?? null,
   outSongDocDir: options.outSongDocDir ?? null,
+  outSanityDir: options.outSanityDir,
   summary: summarize(entries),
   entries
 }
@@ -259,6 +276,7 @@ function parseArgs(args: string[]): CliOptions | null {
     outDraftDir: values.get('out-draft-dir') || 'reference/song-ingest-drafts',
     outRuntimeDir: values.get('out-runtime-dir'),
     outSongDocDir: values.get('out-songdoc-dir'),
+    outSanityDir: values.get('out-sanity-dir') || 'exports/song-ingest/source-sanity',
     rankBaseUrl: values.get('rank-base-url'),
     outReport: values.get('report'),
     graceMode:
@@ -332,7 +350,8 @@ function summarize(entries: BatchEntry[]) {
     lyricSongs: ok.filter(entry => (entry.stats?.lyricNoteCount ?? 0) > 0).length,
     chordSongs: ok.filter(entry => (entry.stats?.chordCount ?? 0) > 0).length,
     graceSongs: ok.filter(entry => (entry.stats?.graceNoteCount ?? 0) > 0).length,
-    warningSongs: ok.filter(entry => entry.warnings.length > 0).length
+    warningSongs: ok.filter(entry => entry.warnings.length > 0).length,
+    sanityReviewSongs: ok.filter(entry => entry.sourceSanity?.status === 'review').length
   }
 }
 

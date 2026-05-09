@@ -6,8 +6,10 @@ Production public song pages must not depend on local-only `reference/` files.
 
 Must be deployable:
 
+- `data/kuailepu-runtime-packed/<slug>.json.gz`
+  - production-preferred packed raw runtime payload
 - `data/kuailepu-runtime/<slug>.json`
-  - full raw runtime payload for public song pages
+  - readable raw runtime payload and local fallback for production truth
 - `data/kuailepu/<slug>.json`
   - compact public SongDoc for catalog / SEO / lists
 - `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
@@ -16,6 +18,8 @@ Must be deployable:
   - committed source static snapshot
 - `public/k-static/**`
   - deployable static assets served by the app
+- `public/static/soundfont/**`
+  - deployable public playback soundfont assets
 
 ## Local-Only Files
 
@@ -31,8 +35,9 @@ Allowed for local import/debug, not production truth:
 
 Raw JSON:
 
-1. `data/kuailepu-runtime/<slug>.json`
-2. `reference/songs/<slug>.json` as local fallback
+1. `data/kuailepu-runtime-packed/<slug>.json.gz` in production when present
+2. `data/kuailepu-runtime/<slug>.json`
+3. `reference/songs/<slug>.json` as local fallback
 
 Template archive:
 
@@ -53,6 +58,7 @@ data/kuailepu-runtime/<slug>.json
 
 For any newly public song, update at minimum:
 
+- packed/raw deployable runtime truth
 - `data/kuailepu-runtime/<slug>.json`
 - `data/kuailepu/<slug>.json`
 - public manifest / SEO profile as needed
