@@ -2612,6 +2612,13 @@ function buildRuntimeBridgeScript(
   }
 
   function formatGlyphLetterName(letter, accidental, octave) {
+    if (accidental > 1 || accidental < -1) {
+      var midiNumber = getMidiNumberForRuntimeLetter(letter, accidental, octave);
+      if (midiNumber !== null) {
+        return getRuntimeSharpMidiLabel(midiNumber);
+      }
+    }
+
     var accidentalText =
       accidental === 0
         ? ''
@@ -2620,6 +2627,277 @@ function buildRuntimeBridgeScript(
           : 'b'.repeat(Math.abs(accidental));
 
     return '' + letter + accidentalText + octave;
+  }
+
+  function getPitchClassForRuntimeLetter(letter) {
+    switch (letter) {
+      case 'C':
+        return 0;
+      case 'D':
+        return 2;
+      case 'E':
+        return 4;
+      case 'F':
+        return 5;
+      case 'G':
+        return 7;
+      case 'A':
+        return 9;
+      case 'B':
+        return 11;
+      default:
+        return null;
+    }
+  }
+
+  function getMidiNumberForRuntimeLetter(letter, accidental, octave) {
+    var pitchClass = getPitchClassForRuntimeLetter(letter);
+    if (pitchClass === null) {
+      return null;
+    }
+    return (octave + 1) * 12 + pitchClass + accidental;
+  }
+
+  function getRuntimeSharpMidiLabel(noteNumber) {
+    var noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    var pitchClass = ((noteNumber % 12) + 12) % 12;
+    var octave = Math.floor(noteNumber / 12) - 1;
+    return noteNames[pitchClass] + octave;
+  }
+
+  function mapMpnNodeToLetterLabel(node) {
+    if (!node) {
+      return null;
+    }
+
+    if (Number(node.scale) === 0 || Number(node.noteNumber) === 0) {
+      return 'R';
+    }
+
+    var noteNumber = Number(node.noteNumber);
+    var scaleDegree = Number(node.scale);
+    if (
+      Array.isArray(letterTrack.scale) &&
+      letterTrack.scale.length >= 7 &&
+      scaleDegree >= 1 &&
+      scaleDegree <= 7
+    ) {
+      var base = letterTrack.scale[scaleDegree - 1];
+      if (base) {
+        var accidental = base.accidental + Number(node.accidental || 0);
+        var octave = base.octave + Number(node.octave || 0);
+
+        if (Number.isFinite(noteNumber) && noteNumber > 0) {
+          var spelledMidi = getMidiNumberForRuntimeLetter(base.letter, accidental, octave);
+          if (spelledMidi !== null) {
+            while (spelledMidi - noteNumber >= 12) {
+              octave -= 1;
+              spelledMidi -= 12;
+            }
+            while (noteNumber - spelledMidi >= 12) {
+              octave += 1;
+              spelledMidi += 12;
+            }
+            if (((spelledMidi - noteNumber) % 12 + 12) % 12 !== 0) {
+              return getRuntimeSharpMidiLabel(noteNumber);
+            }
+          }
+        }
+
+        return formatGlyphLetterName(base.letter, accidental, octave);
+      }
+    }
+
+    if (Number.isFinite(noteNumber) && noteNumber > 0) {
+      return getRuntimeSharpMidiLabel(noteNumber);
+    }
+
+    return null;
+  }
+
+  function getRuntimeMpnNoteLabelsById(noteGlyphs) {
+    var runtimeNodesById = getRuntimeMpnVisibleNodesById(noteGlyphs);
+    if (!runtimeNodesById) {
+      return null;
+    }
+
+    var labelsById = {};
+    Object.keys(runtimeNodesById).forEach(function (id) {
+      var label = mapMpnNodeToLetterLabel(runtimeNodesById[id]);
+      if (label) {
+        labelsById[id] = label;
+      }
+    });
+
+    return Object.keys(labelsById).length > 0 ? labelsById : null;
+  }
+
+  function getRuntimeMpnVisibleNodesById(noteGlyphs) {
+    var context =
+      window.Kit &&
+      window.Kit.context &&
+      typeof window.Kit.context.getContext === 'function'
+        ? window.Kit.context.getContext()
+        : null;
+    var tracks = context && context.mpn && Array.isArray(context.mpn.tracks) ? context.mpn.tracks : null;
+    if (!tracks || !Array.isArray(noteGlyphs) || noteGlyphs.length === 0) {
+      return null;
+    }
+
+    var targetIds = {};
+    noteGlyphs.forEach(function (glyph) {
+      if (glyph && glyph.id) {
+        targetIds[glyph.id] = true;
+      }
+    });
+
+    var trackOrder = tracks.slice().sort(function (left, right) {
+      var leftMain = left && left.name === 'main' ? 0 : 1;
+      var rightMain = right && right.name === 'main' ? 0 : 1;
+      return leftMain - rightMain;
+    });
+    var nodesById = {};
+
+    trackOrder.forEach(function (track) {
+      var nodes = track && Array.isArray(track.nodes) ? track.nodes : [];
+      nodes.forEach(function (node) {
+        if (!node || !node.id || !targetIds[node.id] || nodesById[node.id]) {
+          return;
+        }
+        nodesById[node.id] = node;
+      });
+    });
+
+    return Object.keys(nodesById).length > 0 ? nodesById : null;
+  }
+
+  function getRuntimeMpnDegreePitchMap(noteGlyphs) {
+    var runtimeNodesById = getRuntimeMpnVisibleNodesById(noteGlyphs);
+    if (!runtimeNodesById) {
+      return null;
+    }
+
+    var exact = {};
+    var byDegreeAccidental = {};
+    Object.keys(runtimeNodesById).forEach(function (id) {
+      var node = runtimeNodesById[id];
+      var scaleDegree = Number(node && node.scale);
+      var noteNumber = Number(node && node.noteNumber);
+      if (!(scaleDegree >= 1 && scaleDegree <= 7) || !Number.isFinite(noteNumber) || noteNumber <= 0) {
+        return;
+      }
+
+      var accidental = Number(node.accidental || 0);
+      var octave = Number(node.octave || 0);
+      var exactKey = scaleDegree + ':' + accidental + ':' + octave;
+      var degreeKey = scaleDegree + ':' + accidental;
+      if (!(exactKey in exact)) {
+        exact[exactKey] = noteNumber;
+      }
+      if (!byDegreeAccidental[degreeKey]) {
+        byDegreeAccidental[degreeKey] = [];
+      }
+      byDegreeAccidental[degreeKey].push({
+        octave: octave,
+        noteNumber: noteNumber
+      });
+    });
+
+    return Object.keys(exact).length > 0
+      ? {
+        exact: exact,
+        byDegreeAccidental: byDegreeAccidental
+      }
+      : null;
+  }
+
+  function getRuntimeMpnDegreePitchLabel(degree, accidental, octave, pitchMap) {
+    if (!pitchMap) {
+      return null;
+    }
+
+    var exactKey = degree + ':' + accidental + ':' + octave;
+    if (exactKey in pitchMap.exact) {
+      return getRuntimeSharpMidiLabel(pitchMap.exact[exactKey]);
+    }
+
+    var degreeKey = degree + ':' + accidental;
+    var samples = pitchMap.byDegreeAccidental[degreeKey];
+    var accidentalOffset = 0;
+    if ((!Array.isArray(samples) || samples.length === 0) && accidental !== 0) {
+      samples = pitchMap.byDegreeAccidental[degree + ':0'];
+      accidentalOffset = accidental;
+    }
+    if (!Array.isArray(samples) || samples.length === 0) {
+      return null;
+    }
+
+    var nearest = samples
+      .slice()
+      .sort(function (left, right) {
+        return Math.abs(left.octave - octave) - Math.abs(right.octave - octave);
+      })[0];
+    if (!nearest) {
+      return null;
+    }
+
+    return getRuntimeSharpMidiLabel(nearest.noteNumber + accidentalOffset + (octave - nearest.octave) * 12);
+  }
+
+  function getGlyphMarkerOffsets(glyph, glyphMarkers) {
+    var highCount = glyphMarkers.filter(function (marker) {
+      return (
+        (marker.href === '#yingao_gao' || marker.href === '#yiyin_yingao_gao') &&
+        Math.abs(marker.x - glyph.sourceX) <= 3 &&
+        marker.y <= glyph.sourceY + 2 &&
+        marker.y >= glyph.sourceY - 28
+      );
+    }).length;
+    var lowCount = glyphMarkers.filter(function (marker) {
+      return (
+        (marker.href === '#yingao_di' || marker.href === '#yiyin_yingao_di') &&
+        Math.abs(marker.x - glyph.sourceX) <= 3 &&
+        marker.y >= glyph.sourceY - 2 &&
+        marker.y <= glyph.sourceY + 20
+      );
+    }).length;
+    var accidentalShift =
+      glyphMarkers.filter(function (marker) {
+        return (
+          marker.href === '#yiyin_bianyinfu_sheng' &&
+          marker.x >= glyph.sourceX - 26 &&
+          marker.x <= glyph.sourceX - 2 &&
+          Math.abs(marker.y - glyph.sourceY) <= 10
+        );
+      }).length -
+      glyphMarkers.filter(function (marker) {
+        return (
+          marker.href === '#yiyin_bianyinfu_jiang' &&
+          marker.x >= glyph.sourceX - 26 &&
+          marker.x <= glyph.sourceX - 2 &&
+          Math.abs(marker.y - glyph.sourceY) <= 10
+        );
+      }).length;
+
+    return {
+      highCount: highCount,
+      lowCount: lowCount,
+      accidentalShift: accidentalShift
+    };
+  }
+
+  function mapGraceGlyphToRuntimeMpnLabel(glyph, glyphMarkers, pitchMap) {
+    if (!glyph || !glyphMarkers || !pitchMap || glyph.degree === 0) {
+      return null;
+    }
+
+    var offsets = getGlyphMarkerOffsets(glyph, glyphMarkers);
+    return getRuntimeMpnDegreePitchLabel(
+      glyph.degree,
+      offsets.accidentalShift,
+      offsets.highCount - offsets.lowCount,
+      pitchMap
+    );
   }
 
   function getAlignedGlyphTokens(noteGlyphs) {
@@ -2657,7 +2935,7 @@ function buildRuntimeBridgeScript(
       return null;
     }
 
-    var match = token.match(/^([#b]?)([0-7])([',]*)$/);
+    var match = token.match(/^([#b]?)([0-7])([',dg]*)$/i);
     if (!match) {
       return null;
     }
@@ -2675,7 +2953,8 @@ function buildRuntimeBridgeScript(
     var octaveMarks = match[3] || '';
     var octaveShift = 0;
     for (var index = 0; index < octaveMarks.length; index += 1) {
-      octaveShift += octaveMarks[index] === "'" ? 1 : -1;
+      var octaveMark = octaveMarks[index].toLowerCase();
+      octaveShift += octaveMark === "'" || octaveMark === 'g' ? 1 : -1;
     }
 
     return formatGlyphLetterName(
@@ -2703,44 +2982,12 @@ function buildRuntimeBridgeScript(
       return null;
     }
 
-    var highCount = glyphMarkers.filter(function (marker) {
-      return (
-        (marker.href === '#yingao_gao' || marker.href === '#yiyin_yingao_gao') &&
-        Math.abs(marker.x - glyph.sourceX) <= 3 &&
-        marker.y <= glyph.sourceY + 2 &&
-        marker.y >= glyph.sourceY - 28
-      );
-    }).length;
-    var lowCount = glyphMarkers.filter(function (marker) {
-      return (
-        (marker.href === '#yingao_di' || marker.href === '#yiyin_yingao_di') &&
-        Math.abs(marker.x - glyph.sourceX) <= 3 &&
-        marker.y >= glyph.sourceY - 2 &&
-        marker.y <= glyph.sourceY + 20
-      );
-    }).length;
-    var accidentalShift =
-      glyphMarkers.filter(function (marker) {
-        return (
-          marker.href === '#yiyin_bianyinfu_sheng' &&
-          marker.x >= glyph.sourceX - 26 &&
-          marker.x <= glyph.sourceX - 2 &&
-          Math.abs(marker.y - glyph.sourceY) <= 10
-        );
-      }).length -
-      glyphMarkers.filter(function (marker) {
-        return (
-          marker.href === '#yiyin_bianyinfu_jiang' &&
-          marker.x >= glyph.sourceX - 26 &&
-          marker.x <= glyph.sourceX - 2 &&
-          Math.abs(marker.y - glyph.sourceY) <= 10
-        );
-      }).length;
+    var offsets = getGlyphMarkerOffsets(glyph, glyphMarkers);
 
     return formatGlyphLetterName(
       base.letter,
-      base.accidental + accidentalShift,
-      base.octave + highCount - lowCount
+      base.accidental + offsets.accidentalShift,
+      base.octave + offsets.highCount - offsets.lowCount
     );
   }
 
@@ -3426,16 +3673,37 @@ function buildRuntimeBridgeScript(
       hideLetterModeJianpuOnlyMarks(svg);
       var breathMarks = getLetterTrackBreathMarks(svg);
       var alignedGlyphTokens = getAlignedGlyphTokens(noteGlyphs);
-      var glyphMarkers = alignedGlyphTokens ? null : getLetterTrackGlyphMarkers(svg);
+      var runtimeGlyphMarkers = getLetterTrackGlyphMarkers(svg);
+      var glyphMarkers = alignedGlyphTokens ? null : runtimeGlyphMarkers;
       var graceNoteGlyphs = getLetterTrackGraceNoteGlyphs(svg);
-      var graceGlyphMarkers = graceNoteGlyphs.length > 0 ? getLetterTrackGlyphMarkers(svg) : null;
+      var graceGlyphMarkers = graceNoteGlyphs.length > 0 ? runtimeGlyphMarkers : null;
       var letterCovers = [];
       var letterLabels = [];
       var playbackHighlightItems = [];
+      var runtimeNoteLabelsById = getRuntimeMpnNoteLabelsById(noteGlyphs);
+      var runtimeDegreePitchMap = getRuntimeMpnDegreePitchMap(noteGlyphs);
       noteGlyphs.forEach(function (glyph, index) {
+        // 主音符优先走我们自己的 notation token -> 当前指法 scale 的链路。
+        //
+        // 原因：
+        // - 快乐谱 runtime 里的 mpn.noteNumber 更接近固定播放绝对音高
+        // - 切 fingering_index 时，图谱/字母谱语义会变，但播放绝对音高未必变
+        // - 如果主音符优先读 noteNumber，字母谱就会被锁死在同一套绝对音名上
+        //
+        // 所以这里的优先级必须是：
+        // 1. 我们自己的 glyph token 对位结果
+        // 2. runtime 的 mpn label / marker 作为兜底
         var label = alignedGlyphTokens
           ? mapGlyphTokenToLetterLabel(alignedGlyphTokens[index])
           : null;
+
+        if (!label && glyph.id && runtimeNoteLabelsById) {
+          label = runtimeNoteLabelsById[glyph.id];
+        }
+
+        if (!label && runtimeGlyphMarkers) {
+          label = mapGraceGlyphToRuntimeMpnLabel(glyph, runtimeGlyphMarkers, runtimeDegreePitchMap);
+        }
 
         if (!label && glyphMarkers) {
           label = mapGlyphMarkersToLetterLabel(glyph, glyphMarkers);
@@ -3488,6 +3756,9 @@ function buildRuntimeBridgeScript(
       });
 
       graceNoteGlyphs.forEach(function (glyph) {
+        // 装饰音先保持旧链路：
+        // 仅根据 SVG marker 做字母映射，避免影响现有线上歌的既有语义。
+        // MusicXML 导歌 MVP 暂不把 grace-note 语义并入新的 mpn 推断链。
         var label = mapGlyphMarkersToLetterLabel(glyph, graceGlyphMarkers);
         if (!label) {
           return;
@@ -3715,8 +3986,8 @@ function extractCompactNotationNoteTokens(
 
   const text = notation.join(' ')
   const pattern = options?.includeRest
-    ? /[#b]?[0-7](?:[',]+)?/g
-    : /[#b]?[1-7](?:[',]+)?/g
+    ? /[#b]?[0-7](?:[',dg]+)?/gi
+    : /[#b]?[1-7](?:[',dg]+)?/gi
   return text.match(pattern) ?? []
 }
 
@@ -3813,7 +4084,7 @@ function mapCompactNotationTokenToLetterLabel(
     return null
   }
 
-  const match = token.match(/^([#b]?)([0-7])([',]*)$/)
+  const match = token.match(/^([#b]?)([0-7])([',dg]*)$/i)
   if (!match) {
     return null
   }
@@ -3825,7 +4096,10 @@ function mapCompactNotationTokenToLetterLabel(
   const accidentalShift = match[1] === '#' ? 1 : match[1] === 'b' ? -1 : 0
   const octaveMarks = match[3] ?? ''
   const octaveShift =
-    Array.from(octaveMarks).reduce((count, char) => count + (char === '\'' ? 1 : -1), 0)
+    Array.from(octaveMarks).reduce((count, char) => {
+      const octaveMark = char.toLowerCase()
+      return count + (octaveMark === '\'' || octaveMark === 'g' ? 1 : -1)
+    }, 0)
   const degree = Number(match[2]) - 1
   const base = scale[degree]
   if (!base) {

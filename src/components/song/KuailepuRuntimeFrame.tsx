@@ -512,30 +512,16 @@ export default function KuailepuRuntimeFrame({
     previousFrameSrcRef.current = frameSrc
     setIsLoading(true)
     setFrameHeight(initialHeight)
-
-    if (typeof window === 'undefined') {
-      setFrameElementSrc(frameSrc)
-      return
-    }
-
-    const frame = frameRef.current
-    if (!frame) {
-      setFrameElementSrc(frameSrc)
-      return
-    }
-
-    const nextSrc = new URL(frameSrc, window.location.origin).toString()
-    const currentLocation = frame.contentWindow?.location?.href
-    if (!currentLocation || currentLocation === 'about:blank') {
-      setFrameElementSrc(frameSrc)
-      return
-    }
-
-    try {
-      frame.contentWindow.location.replace(nextSrc)
-    } catch {
-      setFrameElementSrc(frameSrc)
-    }
+    /**
+     * 这里不要只依赖 `contentWindow.location.replace()`。
+     *
+     * 实测在站内切换指法时，外层 URL 已经更新，但 iframe 可能仍停留在旧 query，
+     * 导致字母谱和图谱没有跟着新的 `fingering_index` 重算。
+     *
+     * 对当前公开 song page 来说，明确把 `src` state 切到新的 runtime URL 更可靠，
+     * 也更容易和 React 的受控数据流保持一致。
+     */
+    setFrameElementSrc(frameSrc)
   }, [frameSrc, initialHeight, songId])
 
   const effectiveSourceHeight = Math.max(1, frameHeight - fitCropTop - fitCropBottom)
