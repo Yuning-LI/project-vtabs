@@ -28,6 +28,20 @@ async function openMoreTools(page: Parameters<typeof test>[0]['page']) {
   await expect(page.locator('#song-page-more-controls')).toBeVisible()
 }
 
+async function openMobileMoreTools(page: Parameters<typeof test>[0]['page']) {
+  await expect(page.getByLabel('Function Zone')).toHaveAttribute(
+    'data-function-zone-ready',
+    '1',
+    { timeout: 15000 }
+  )
+  const moreTools = page.getByRole('button', { name: 'More Tools' })
+  await expect(moreTools).toBeVisible()
+  if ((await moreTools.getAttribute('aria-expanded')) !== 'true') {
+    await moreTools.click()
+  }
+  await expect(page.locator('.page-function-zone-mobile-sheet-layer')).toBeVisible()
+}
+
 test.describe('runtime-backed song pages', () => {
   test.describe.configure({ timeout: 60000 })
 
@@ -496,6 +510,32 @@ test.describe('runtime-backed song pages', () => {
 
     await page.goBack()
     await expect(page).toHaveURL(/\/$/)
+  })
+
+  test('mobile more tools drawer closes cleanly after opening', async ({ browser }) => {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      userAgent:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+      isMobile: true,
+      hasTouch: true
+    })
+    const page = await context.newPage()
+
+    await page.goto('/song/ode-to-joy', { waitUntil: 'domcontentloaded' })
+    await openMobileMoreTools(page)
+
+    const closeButton = page.getByRole('button', { name: 'Close more tools' })
+    await expect(closeButton).toBeVisible()
+    await closeButton.click()
+
+    await expect(page.locator('.page-function-zone-mobile-sheet-layer')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'More Tools' })).toHaveAttribute(
+      'aria-expanded',
+      'false'
+    )
+
+    await context.close()
   })
 
   test('metronome mode keeps the same song page and shows a docked English metronome panel', async ({

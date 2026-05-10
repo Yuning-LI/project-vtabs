@@ -57,6 +57,7 @@ export default function SongPageFunctionZone({
   actions = [],
   onNavigate
 }: SongPageFunctionZoneProps) {
+  const MOBILE_REOPEN_GUARD_MS = 320
   const [isReady, setIsReady] = useState(false)
   const [isMobileExpanded, setIsMobileExpanded] = useState(false)
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false)
@@ -66,6 +67,7 @@ export default function SongPageFunctionZone({
     lastY: number
     moved: boolean
   } | null>(null)
+  const mobileCloseGuardUntilRef = useRef(0)
   const desktopMoreRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -154,7 +156,7 @@ export default function SongPageFunctionZone({
       event.currentTarget.releasePointerCapture(event.pointerId)
     }
     if (!gesture?.moved) {
-      setIsMobileExpanded(false)
+      closeMobileSheet()
     }
   }
 
@@ -183,6 +185,24 @@ export default function SongPageFunctionZone({
     }
 
     window.location.replace(href)
+  }
+
+  function closeMobileSheet() {
+    mobileCloseGuardUntilRef.current = Date.now() + MOBILE_REOPEN_GUARD_MS
+    setIsMobileExpanded(false)
+  }
+
+  function toggleMobileSheet() {
+    if (isMobileExpanded) {
+      closeMobileSheet()
+      return
+    }
+
+    if (Date.now() < mobileCloseGuardUntilRef.current) {
+      return
+    }
+
+    setIsMobileExpanded(true)
   }
 
   const primarySelectIds = new Set(['instrument', 'fingering-key'])
@@ -279,7 +299,7 @@ export default function SongPageFunctionZone({
                     type="button"
                     className="page-function-zone-disclosure-summary page-function-zone-mobile-more-button"
                     aria-expanded={isMobileExpanded}
-                    onClick={() => setIsMobileExpanded(current => !current)}
+                    onClick={toggleMobileSheet}
                   >
                     <span className="page-function-zone-mobile-more-left">
                       <SlidersHorizontal className="page-function-zone-mobile-more-icon" aria-hidden="true" />
@@ -325,7 +345,15 @@ export default function SongPageFunctionZone({
                         type="button"
                         className="page-function-zone-mobile-sheet-close"
                         aria-label="Close more tools"
-                        onClick={() => setIsMobileExpanded(false)}
+                        onPointerDown={event => {
+                          event.preventDefault()
+                          event.stopPropagation()
+                        }}
+                        onClick={event => {
+                          event.preventDefault()
+                          event.stopPropagation()
+                          closeMobileSheet()
+                        }}
                       >
                         <ChevronDown aria-hidden="true" />
                       </button>
