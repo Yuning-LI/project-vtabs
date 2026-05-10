@@ -1313,7 +1313,6 @@ function buildRuntimeOverrideStyle(publicFeatures: Set<KuailepuRuntimePublicFeat
     '#nosound-modal',
     '#score-modal',
     '#preload',
-    '.count-down-area',
     '.fab-wrapper',
     '#comment-wrapper',
     '#tags-wrapper',
@@ -1321,6 +1320,7 @@ function buildRuntimeOverrideStyle(publicFeatures: Set<KuailepuRuntimePublicFeat
   ]
 
   if (!hasPublicPlayback) {
+    hiddenSelectors.push('.count-down-area')
     hiddenSelectors.push('.lean-overlay')
   }
   if (!hasPublicPlayback) {
