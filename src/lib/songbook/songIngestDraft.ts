@@ -193,6 +193,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
 
   const firstMeasure = selectedMeasures[0] ?? null
   const title = options.title?.trim() || extract.title?.trim() || 'Untitled Song'
+  const composer = normalizeOptionalMetadataValue(extract.composer)
   const slug = sanitizeSongSlug(options.slug || title)
   const keynote = options.keynote?.trim() || guessKeynoteFromFifths(firstMeasure?.fifths)
   const tonicMidi = parseKeynoteToMidi(keynote)
@@ -288,7 +289,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       title,
       slug,
       family: options.family ?? null,
-      composer: extract.composer,
+      composer,
       meter,
       recommendedKeynote: keynote,
       recommendedTonicMidi: tonicMidi,
@@ -383,6 +384,23 @@ export function buildSongIngestDraftFromMusicXmlExtract(
 
     return lines
   }
+}
+
+function normalizeOptionalMetadataValue(value: string | null | undefined) {
+  if (!value) {
+    return null
+  }
+
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (!normalized) {
+    return null
+  }
+
+  if (/^(unknown|unk|n\/a|na|none|null|nil|undefined|anonymous)$/i.test(normalized)) {
+    return null
+  }
+
+  return normalized
 }
 
 function chooseDominantVoice(measures: ExtractedMusicXmlMeasure[]) {

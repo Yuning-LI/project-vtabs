@@ -1125,6 +1125,10 @@ function normalizeLocalizedText(value: string | null | undefined) {
     return null
   }
 
+  if (/^(unknown|unk|n\/a|na|none|null|nil|undefined|anonymous)$/i.test(text)) {
+    return null
+  }
+
   return /[\u3400-\u9fff]/.test(text) && !/[A-Za-z]/.test(text) ? null : text
 }
 
