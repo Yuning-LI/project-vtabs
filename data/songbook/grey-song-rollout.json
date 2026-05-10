@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-04",
+  "updatedOn": "2026-05-10",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -672,6 +672,96 @@
       "addedOn": "2026-05-04",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/rvcJb1NBv.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "song-of-storms",
+      "title": "Song of Storms",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/grkUu1clZ.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "sarias-song",
+      "title": "Saria's Song",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/x7uig11u7.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "eponas-song",
+      "title": "Epona's Song",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/8iuig1wV6.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "kakariko-village",
+      "title": "Kakariko Village",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Dwuig1Y2t.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "ballad-of-the-wind-fish",
+      "title": "Ballad of the Wind Fish",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/F56Hl18fr.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "miphas-theme",
+      "title": "Mipha's Theme",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TVLwe1WoM.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "revalis-theme",
+      "title": "Revali's Theme",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wCW1i17kQ.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "stable-theme",
+      "title": "Stable Theme",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/DMf0i1Xgp.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "breath-of-the-wild-theme",
+      "title": "Breath of the Wild Theme",
+      "status": "validated-local",
+      "batch": "24",
+      "group": "game",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5GePe1aGH.html",
+      "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

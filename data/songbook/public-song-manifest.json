@@ -1209,5 +1209,68 @@
     "family": "hymn",
     "featuredRank": 174,
     "published": true
+  },
+  {
+    "id": "song-of-storms",
+    "slug": "song-of-storms",
+    "family": "media",
+    "featuredRank": 175,
+    "published": true
+  },
+  {
+    "id": "sarias-song",
+    "slug": "sarias-song",
+    "family": "media",
+    "featuredRank": 176,
+    "published": true
+  },
+  {
+    "id": "eponas-song",
+    "slug": "eponas-song",
+    "family": "media",
+    "featuredRank": 177,
+    "published": true
+  },
+  {
+    "id": "kakariko-village",
+    "slug": "kakariko-village",
+    "family": "media",
+    "featuredRank": 178,
+    "published": true
+  },
+  {
+    "id": "ballad-of-the-wind-fish",
+    "slug": "ballad-of-the-wind-fish",
+    "family": "media",
+    "featuredRank": 179,
+    "published": true
+  },
+  {
+    "id": "miphas-theme",
+    "slug": "miphas-theme",
+    "family": "media",
+    "featuredRank": 180,
+    "published": true
+  },
+  {
+    "id": "revalis-theme",
+    "slug": "revalis-theme",
+    "family": "media",
+    "featuredRank": 181,
+    "published": true
+  },
+  {
+    "id": "stable-theme",
+    "slug": "stable-theme",
+    "family": "media",
+    "featuredRank": 182,
+    "published": true
+  },
+  {
+    "id": "breath-of-the-wild-theme",
+    "slug": "breath-of-the-wild-theme",
+    "family": "media",
+    "featuredRank": 183,
+    "published": true
   }
 ]

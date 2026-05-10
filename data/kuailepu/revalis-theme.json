@@ -1,0 +1,32 @@
+{
+  "id": "revalis-theme",
+  "slug": "revalis-theme",
+  "title": "Revali's Theme",
+  "description": "Revali's Theme melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/wCW1i17kQ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song wCW1i17kQ on 2026-05-09."
+  },
+  "meta": {
+    "key": "1 = bG",
+    "tempo": 100,
+    "meter": "6/8"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-09",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 66,
+  "notation": [
+    "3 - - - - - 3 - - 2 1 - | 2 - - - - - 5, - - - - - | 6, - - - - - 6, - - 7, 1 - | 5, - - - 3 - 3 - - - - - | 1 - - 7, 6, - 7, - - - 3 - | 6 - - 5 4 - 5 - 5 - - 5 |",
+    "4 - - - 3 3 2 - - - 1 - | 6, - - - - - 6, - - - - - |",
+    "3 - - - - - 3 - 2 - 6 - | 3 - - - - - 3 - - - - - | 2 - - - - - 2 - 1 - 5 - | 2 - - - - - 1 - - - - - | 2 - - - - - 2 - 1 - 5 - | 2' - - - - - 3' - - - - - | 6 - - - - - 6 - - - - - |",
+    "3 - 2 - 6 - 3 - - - - - | 2 - 1 - 5 - 2 - - - - - | 2 - 1 - 5 - 2' - - - 3' - | 7 - 5 6 5 6 7 1' 2' 3' 4' 5' |",
+    "3 - - - - - 3 - - 2 1 - | 2 - - - - - 5, - - - - - | 6, - - - - - 6, - - 7, 1 - | 5, - - - 3 - 3 - - - - - | 1 - - 7 6 - 7 - - - 3 - | 6 - - 5 4 - 5 - - - - - | 0 0 0 0 5 - 4 - - - 3 - |",
+    "2 - - - 1 - 6 - 0 0 0 0 | 6 - - - - - 6 - - - 7 - | 6 - - - - - 6 - - - - - | | |"
+  ]
+}

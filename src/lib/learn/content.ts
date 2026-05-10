@@ -185,7 +185,9 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'always-with-me',
   'amazing-grace',
   'air-on-the-g-string',
+  'ballad-of-the-wind-fish',
   'beautiful-dreamer',
+  'breath-of-the-wild-theme',
   'can-you-feel-the-love-tonight',
   'chihiros-waltz',
   'city-of-stars',
@@ -195,10 +197,12 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'carrying-you',
   'childhood-memory',
   'edelweiss',
+  'eponas-song',
   'going-home',
   'greensleeves',
   'hotel-california',
   'imagine',
+  'kakariko-village',
   'la-vie-en-rose',
   'kiss-the-rain',
   'lemon-kenshi-yonezu',
@@ -210,6 +214,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'mariage-damour',
   'memory-sky',
   'merry-christmas-mr-lawrence',
+  'miphas-theme',
   'moonlight-lover',
   'my-heart-will-go-on',
   'moon-represents-my-heart',
@@ -222,6 +227,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'on-wings-of-song',
   'path-of-the-wind',
   'princess-mononoke',
+  'revalis-theme',
   'reminiscence',
   'right-here-waiting',
   'romeo-and-juliet',
@@ -233,6 +239,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'sealed-with-a-kiss',
   'song-of-time',
   'speak-softly-love',
+  'stable-theme',
   'summer',
   'sailing',
   'tennessee-waltz',
@@ -251,6 +258,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
 ])
 
 const LULLABY_BEDTIME_SONG_SLUGS = new Set([
+  'ballad-of-the-wind-fish',
   'lullaby',
   'moonlight-sonata',
   'schubert-serenade',
@@ -328,6 +336,8 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'the-imperial-march',
   'game-of-thrones-theme',
   'see-you-again',
+  'song-of-storms',
+  'sarias-song',
   'the-avengers',
   'stroll',
   'turkish-march',
@@ -336,6 +346,20 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'zen-zen-zense',
   'parade-of-the-wooden-soldiers',
   'jingle-bells'
+])
+
+const ZELDA_SONG_SLUGS = new Set([
+  'ballad-of-the-wind-fish',
+  'breath-of-the-wild-theme',
+  'eponas-song',
+  'kakariko-village',
+  'miphas-theme',
+  'revalis-theme',
+  'sarias-song',
+  'song-of-storms',
+  'song-of-time',
+  'stable-theme',
+  'zeldas-lullaby'
 ])
 
 const EASY_OCARINA_SONG_SLUGS = new Set([
@@ -2331,6 +2355,93 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ]
   },
   {
+    slug: 'zelda-ocarina-songs',
+    kind: 'guide',
+    title: 'Zelda Ocarina Songs and Letter Notes',
+    description:
+      'A focused Zelda melody guide for ocarina, recorder, and whistle players who want recognizable game themes on one clean letter-note path.',
+    heroLabel: 'Game Theme Guide',
+    intro: [
+      'Zelda melody searches are rarely looking for one random game tune. Most players want a recognizable cluster: the calm Ocarina of Time melodies, a few stronger performance themes, and a page that keeps those songs readable without depending on scattered tab screenshots.',
+      'This guide gathers the Zelda pages already on the site into one practical route, so visitors can compare the main melodies, keep the fingering chart visible, and stay inside the same public song workflow from one theme to the next.'
+    ],
+    featuredSongSlugs: [
+      'song-of-time',
+      'zeldas-lullaby',
+      'song-of-storms',
+      'sarias-song',
+      'eponas-song',
+      'kakariko-village',
+      'ballad-of-the-wind-fish',
+      'breath-of-the-wild-theme',
+      'miphas-theme',
+      'revalis-theme',
+      'stable-theme'
+    ],
+    sections: [
+      {
+        title: 'Best Known Zelda Songs To Open First',
+        paragraphs: [
+          'If you want the highest-recognition Zelda pages first, start with the Ocarina of Time group. These melodies are the ones most players already hear in their heads before they even open the page.'
+        ],
+        songSlugs: [
+          'song-of-time',
+          'zeldas-lullaby',
+          'song-of-storms',
+          'sarias-song',
+          'eponas-song'
+        ]
+      },
+      {
+        title: 'Calmer Zelda Melodies For Breath And Phrase Practice',
+        paragraphs: [
+          'Not every Zelda tune needs to be bright or urgent. These pages work better when you want lyrical practice, calmer phrasing, and a game melody that still sounds complete at a slower tempo.'
+        ],
+        songSlugs: [
+          'zeldas-lullaby',
+          'song-of-time',
+          'eponas-song',
+          'kakariko-village',
+          'ballad-of-the-wind-fish',
+          'miphas-theme',
+          'revalis-theme',
+          'stable-theme',
+          'breath-of-the-wild-theme'
+        ]
+      },
+      {
+        title: 'What To Add After The First Two Themes',
+        paragraphs: [
+          'Once the most familiar melodies feel stable, add one brighter song and one broader Breath of the Wild era theme. That gives the practice set more rhythmic range without leaving the same Zelda search intent.'
+        ],
+        songSlugs: [
+          'song-of-storms',
+          'sarias-song',
+          'kakariko-village',
+          'breath-of-the-wild-theme'
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this guide only for ocarina players?',
+        answer:
+          'No. It is especially relevant for ocarina searchers because Zelda demand is strong there, but the same pages also work for recorder and tin whistle visitors who want the melody in a simpler letter-note format.'
+      },
+      {
+        question: 'Do these songs use a different page or notation system?',
+        answer:
+          'No. Every card still opens the same public song detail page used across the site, with the same letter-note layout, fingering chart support, and numbered-note backup mode.'
+      }
+    ],
+    relatedGuideSlugs: [
+      '12-hole-ocarina-letter-notes',
+      'easy-songs-for-adult-beginners',
+      'calm-and-lyrical-letter-note-songs',
+      'first-performance-letter-note-songs'
+    ]
+  },
+  {
     slug: 'simple-instruments-for-music-education',
     kind: 'guide',
     title: 'Simple Instruments for Music Education',
@@ -4064,6 +4175,16 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
       'easy-songs-for-adult-beginners',
       songCard?.hasPublicLyrics ? 'songs-with-lyrics' : null,
       'tin-whistle-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (ZELDA_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'zelda-ocarina-songs',
+      LULLABY_BEDTIME_SONG_SLUGS.has(songSlug) ? 'lullaby-and-bedtime-letter-note-songs' : null,
+      CALM_LYRICAL_SONG_SLUGS.has(songSlug) ? 'calm-and-lyrical-letter-note-songs' : null,
+      FIRST_PERFORMANCE_SONG_SLUGS.has(songSlug) ? 'first-performance-letter-note-songs' : null,
+      '12-hole-ocarina-letter-notes',
+      'easy-songs-for-adult-beginners',
+      'recorder-letter-notes'
     ].filter((slug): slug is string => Boolean(slug))
   } else if (LULLABY_BEDTIME_SONG_SLUGS.has(songSlug)) {
     suggestedSlugs = [
