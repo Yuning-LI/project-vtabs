@@ -21,6 +21,10 @@ type KuailepuLegacyRuntimePageProps = {
   hasLyricToggle: boolean
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
+  pageBasePath?: string
+  runtimeApiBasePath?: string
+  backHref?: string
+  backLabel?: string
 }
 
 /**
@@ -39,7 +43,11 @@ export default function KuailepuLegacyRuntimePage({
   runtimeDefaultShowGraph,
   hasLyricToggle,
   relatedSongs,
-  relatedGuides
+  relatedGuides,
+  pageBasePath,
+  runtimeApiBasePath,
+  backHref,
+  backLabel
 }: KuailepuLegacyRuntimePageProps) {
   const seo = resolveInitialPresentation(songId, queryState, presentationByInstrument)
   const title = seo.title
@@ -57,6 +65,10 @@ export default function KuailepuLegacyRuntimePage({
           runtimeDefaultFingeringIndex={runtimeDefaultFingeringIndex}
           runtimeDefaultShowGraph={runtimeDefaultShowGraph}
           hasLyricToggle={hasLyricToggle}
+          pageBasePath={pageBasePath}
+          runtimeApiBasePath={runtimeApiBasePath}
+          backHref={backHref}
+          backLabel={backLabel}
         />
 
         <article className="mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
@@ -107,47 +119,51 @@ export default function KuailepuLegacyRuntimePage({
           </div>
         </article>
 
-        <section className="page-warm-panel mt-8 p-6 md:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-bold text-stone-900">More Songs to Explore</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
-                Keep moving through songs with a similar feel or learning pattern instead of
-                bouncing back to the full library after every tune.
-              </p>
+        {relatedSongs.length > 0 ? (
+          <section className="page-warm-panel mt-8 p-6 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-2xl font-bold text-stone-900">More Songs to Explore</h2>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+                  Keep moving through songs with a similar feel or learning pattern instead of
+                  bouncing back to the full library after every tune.
+                </p>
+              </div>
+              <Link
+                href="/"
+                className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+              >
+                Open full library
+              </Link>
             </div>
-            <Link
-              href="/"
-              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
-            >
-              Open full library
-            </Link>
-          </div>
-          <div className="mt-6">
-            <StaticSongCardGrid songs={relatedSongs} />
-          </div>
-        </section>
+            <div className="mt-6">
+              <StaticSongCardGrid songs={relatedSongs} />
+            </div>
+          </section>
+        ) : null}
 
-        <section className="page-warm-panel mt-8 p-6 md:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-bold text-stone-900">Related Guides</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
-                These topic pages answer broader beginner and instrument questions, then route
-                visitors back into the same public song experience.
-              </p>
+        {relatedGuides.length > 0 ? (
+          <section className="page-warm-panel mt-8 p-6 md:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-2xl font-bold text-stone-900">Related Guides</h2>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+                  These topic pages answer broader beginner and instrument questions, then route
+                  visitors back into the same public song experience.
+                </p>
+              </div>
+              <Link
+                href="/learn"
+                className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+              >
+                Browse learn section
+              </Link>
             </div>
-            <Link
-              href="/learn"
-              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
-            >
-              Browse learn section
-            </Link>
-          </div>
-          <div className="mt-6">
-            <StaticGuideCardGrid guides={relatedGuides} />
-          </div>
-        </section>
+            <div className="mt-6">
+              <StaticGuideCardGrid guides={relatedGuides} />
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   )

@@ -6,6 +6,7 @@ import {
   loadKuailepuSongPayload,
   type KuailepuRuntimeState
 } from '@/lib/kuailepu/runtime'
+import { loadImportedSongDoc } from '@/lib/songbook/importedCatalog'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
@@ -105,7 +106,7 @@ export async function GET(
     sheet_scale: searchParams.get('sheet_scale'),
     note_label_mode: searchParams.get('note_label_mode')
   }
-  const song = songCatalogBySlug[params.id]
+  const song = songCatalogBySlug[params.id] ?? loadImportedSongDoc(params.id)
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
   const presentation = song ? getSongPresentation(song) : null
   /**

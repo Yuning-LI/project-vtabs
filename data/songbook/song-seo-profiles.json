@@ -5080,5 +5080,108 @@
         "answer": "Yes. The page supports the public instrument views, so you can use the same melody route across supported fingering systems."
       }
     ]
+  },
+  "alouette": {
+    "aliases": [
+      "Alouette, gentille alouette",
+      "French Canadian folk song"
+    ],
+    "metaTitle": "Alouette Letter Notes, Recorder Notes and Ocarina Tabs",
+    "overview": "This Alouette page turns the familiar French-Canadian folk tune into a clean letter-note layout, so players can practice the melody without depending on classroom screenshots or staff-heavy children's songbooks.",
+    "searchTerms": [
+      "Alouette letter notes",
+      "Alouette recorder notes",
+      "Alouette ocarina tabs"
+    ],
+    "background": "Alouette is a durable music-class and folk-song search because the tune is widely recognized, highly singable, and often used by players who want one page that works for recorder, ocarina, or tin whistle.",
+    "practice": "It works well for phrase repetition, moderate articulation control, and keeping a bright folk melody even across repeated sections.",
+    "metaDescription": "Play Alouette with letter notes, recorder notes, and ocarina tab support. A familiar French-Canadian folk tune for classroom, choir, and beginner practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the familiar Alouette, gentille alouette melody?",
+        "answer": "Yes. This page covers the common Alouette tune most players know from school, choir, or French-language folk-song collections."
+      },
+      {
+        "question": "Why is Alouette useful for beginners?",
+        "answer": "Because the melody repeats clearly, stays memorable by ear, and gives you a good balance of lyric-friendly pacing and manageable note movement."
+      }
+    ]
+  },
+  "swing-low-sweet-chariot": {
+    "aliases": [
+      "Swing Low Sweet Chariot",
+      "African American spiritual"
+    ],
+    "metaTitle": "Swing Low Sweet Chariot Recorder Notes and Ocarina Tabs",
+    "overview": "This Swing Low, Sweet Chariot page keeps the spiritual melody in a clear letter-note format for players who want a recognizable hymn-like tune without opening a large hymnal or choral arrangement.",
+    "searchTerms": [
+      "Swing Low Sweet Chariot recorder notes",
+      "Swing Low Sweet Chariot letter notes",
+      "Swing Low Sweet Chariot ocarina tabs"
+    ],
+    "background": "Swing Low, Sweet Chariot remains one of the best-known spiritual melodies in English-language search, so it works well for reflective practice, school repertoire, and players who want a tune with instant recognition.",
+    "practice": "The melody is useful for breath pacing, sustained tone, and holding a steady vocal contour through repeated refrain material.",
+    "metaDescription": "Play Swing Low, Sweet Chariot with recorder notes, letter notes, and ocarina tab support. A classic spiritual melody for reflective practice and sing-through playing.",
+    "extraFaqs": [
+      {
+        "question": "Is this the standard Swing Low, Sweet Chariot melody?",
+        "answer": "Yes. This page follows the familiar public-domain spiritual tune most players expect when they search for Swing Low, Sweet Chariot notes."
+      },
+      {
+        "question": "Is Swing Low, Sweet Chariot good for slower practice?",
+        "answer": "Yes. Its repeated refrain and broad phrase shape make it practical for slower breath control work and steady melodic playing."
+      }
+    ]
+  },
+  "sweet-hour-of-prayer": {
+    "aliases": [
+      "Sweet Hour of Prayer hymn"
+    ],
+    "metaTitle": "Sweet Hour of Prayer Letter Notes and Fingering Chart",
+    "overview": "This Sweet Hour of Prayer page presents the hymn tune in a melody-first letter-note layout, giving players a calm practice page for devotional use, slower phrasing, and simple home playing.",
+    "searchTerms": [
+      "Sweet Hour of Prayer letter notes",
+      "Sweet Hour of Prayer recorder notes",
+      "Sweet Hour of Prayer ocarina tabs"
+    ],
+    "background": "Sweet Hour of Prayer is a long-lived hymn search that fits melody instruments well because the contour is vocal, the pacing is patient, and the tune stays useful even in a single-line arrangement.",
+    "practice": "It is especially useful for connected tone, thoughtful breathing, and keeping hymn phrasing balanced from line to line.",
+    "metaDescription": "Play Sweet Hour of Prayer with letter notes and fingering chart support. A reflective hymn melody for devotional practice and slower phrasing.",
+    "extraFaqs": [
+      {
+        "question": "Is this Sweet Hour of Prayer the common hymn tune?",
+        "answer": "Yes. This page covers the familiar hymn melody associated with Sweet Hour of Prayer in public-domain hymn collections."
+      },
+      {
+        "question": "What is Sweet Hour of Prayer good for in practice?",
+        "answer": "It is a strong fit for players who want calmer breath pacing, smoother note connection, and a more lyrical hymn style than a short beginner tune."
+      }
+    ]
+  },
+  "battle-hymn-of-the-republic": {
+    "aliases": [
+      "Battle Hymn",
+      "Mine Eyes Have Seen the Glory"
+    ],
+    "metaTitle": "Battle Hymn of the Republic Recorder Notes and Ocarina Tabs",
+    "overview": "This Battle Hymn of the Republic page gives you the well-known patriotic hymn melody in a cleaner letter-note layout, so you can practice the tune itself without opening a choral score or band arrangement.",
+    "searchTerms": [
+      "Battle Hymn of the Republic recorder notes",
+      "Battle Hymn of the Republic letter notes",
+      "Battle Hymn of the Republic ocarina tabs"
+    ],
+    "background": "Battle Hymn of the Republic has strong school, ceremony, and American patriotic search value, especially for players who want the melody line in a practical solo format.",
+    "practice": "The tune helps with firmer pulse control, longer phrase planning, and keeping a stately melodic line steady across repeated climactic figures.",
+    "metaDescription": "Play Battle Hymn of the Republic with recorder notes, letter notes, and ocarina tab support. A patriotic hymn melody for school, ceremony, and home practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the same tune as Mine Eyes Have Seen the Glory?",
+        "answer": "Yes. Battle Hymn of the Republic is commonly searched under that opening lyric, and this page keeps the familiar melody in a solo-friendly format."
+      },
+      {
+        "question": "Is Battle Hymn of the Republic useful for school or ceremony practice?",
+        "answer": "Yes. The melody is widely recognized and works well when you need a clear patriotic tune for class, recital, or ceremonial practice."
+      }
+    ]
   }
 }

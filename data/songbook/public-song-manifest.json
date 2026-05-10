@@ -1272,5 +1272,33 @@
     "family": "media",
     "featuredRank": 183,
     "published": true
+  },
+  {
+    "id": "alouette",
+    "slug": "alouette",
+    "family": "folk",
+    "featuredRank": 184,
+    "published": true
+  },
+  {
+    "id": "swing-low-sweet-chariot",
+    "slug": "swing-low-sweet-chariot",
+    "family": "hymn",
+    "featuredRank": 185,
+    "published": true
+  },
+  {
+    "id": "sweet-hour-of-prayer",
+    "slug": "sweet-hour-of-prayer",
+    "family": "hymn",
+    "featuredRank": 186,
+    "published": true
+  },
+  {
+    "id": "battle-hymn-of-the-republic",
+    "slug": "battle-hymn-of-the-republic",
+    "family": "hymn",
+    "featuredRank": 187,
+    "published": true
   }
 ]

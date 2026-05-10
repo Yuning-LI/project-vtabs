@@ -299,7 +299,13 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     selectedTranspose
   )
   const rawNotation = renderHappy123NotationFromExpandedLines(notationLines)
-  const alignedLyrics = draft.lyrics.alignedLines.filter(line => !isPlaceholderLyricLine(line))
+  const extractedAlignedLyrics = draft.lyrics.alignedLines.filter(
+    line => !isPlaceholderLyricLine(line)
+  )
+  const exposesLyricsPublicly =
+    draft.metadata.lyricPolicy === 'show-publicly' ||
+    draft.metadata.lyricPolicy === 'hide-by-default'
+  const alignedLyrics = exposesLyricsPublicly ? extractedAlignedLyrics : []
   const lyricText = alignedLyrics.length > 0 ? alignedLyrics.join('\n') : ''
   const templatePayload = scrubRuntimeCache ? scrubTemplateRuntimeCache(template) : template
   const generatedNoteMidis = sourceNoteMidis.map(midi => midi + selectedTranspose)
@@ -321,7 +327,8 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     lyric: lyricText ? JSON.stringify([lyricText]) : '[]',
     lyric_text: lyricText,
     notation: rawNotation,
-    show_lyric: lyricText ? 'on' : 'off',
+    show_lyric:
+      lyricText && draft.metadata.lyricPolicy === 'show-publicly' ? 'on' : 'off',
     fingerings: generatedFingerings,
     instrument: 'none',
     fingering: '',

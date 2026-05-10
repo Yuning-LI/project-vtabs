@@ -157,6 +157,7 @@ const CEREMONY_SONG_SLUGS = new Set([
 
 const PATRIOTIC_ANTHEM_SONG_SLUGS = new Set([
   'america-the-beautiful',
+  'battle-hymn-of-the-republic',
   'yankee-doodle',
   'american-patrol',
   'scotland-the-brave',
@@ -168,6 +169,7 @@ const PATRIOTIC_ANTHEM_SONG_SLUGS = new Set([
 ])
 
 const WORLD_FOLK_SONG_SLUGS = new Set([
+  'alouette',
   'arirang',
   'jasmine-flower',
   'sakura-sakura',
@@ -240,6 +242,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'song-of-time',
   'speak-softly-love',
   'stable-theme',
+  'sweet-hour-of-prayer',
+  'swing-low-sweet-chariot',
   'summer',
   'sailing',
   'tennessee-waltz',
@@ -298,6 +302,7 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
 ])
 
 const SING_ALONG_SONG_SLUGS = new Set([
+  'alouette',
   'daisy-bell',
   'twinkle-twinkle-little-star',
   'mary-had-a-little-lamb',
@@ -311,7 +316,8 @@ const SING_ALONG_SONG_SLUGS = new Set([
   'we-wish-you-a-merry-christmas',
   'joy-to-the-world',
   'auld-lang-syne',
-  'imagine'
+  'imagine',
+  'swing-low-sweet-chariot'
 ])
 
 const FIRST_PERFORMANCE_SONG_SLUGS = new Set([

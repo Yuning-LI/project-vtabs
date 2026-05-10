@@ -60,6 +60,10 @@ type KuailepuRuntimeInteractiveShellProps = {
   runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
+  pageBasePath?: string
+  runtimeApiBasePath?: string
+  backHref?: string
+  backLabel?: string
 }
 
 export default function KuailepuRuntimeInteractiveShell({
@@ -71,7 +75,11 @@ export default function KuailepuRuntimeInteractiveShell({
   runtimeDefaultInstrumentId,
   runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
-  hasLyricToggle
+  hasLyricToggle,
+  pageBasePath = '/song',
+  runtimeApiBasePath = '/api/kuailepu-runtime',
+  backHref = '/',
+  backLabel = 'Back to Song Library'
 }: KuailepuRuntimeInteractiveShellProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
   const [isPlaybackFeatureEnabled, setIsPlaybackFeatureEnabled] = useState(false)
@@ -252,8 +260,19 @@ export default function KuailepuRuntimeInteractiveShell({
     shouldPinDefaultInstrument
   ])
   const query = params.toString()
-  const frameSrc = query ? `/api/kuailepu-runtime/${songId}?${query}` : `/api/kuailepu-runtime/${songId}`
+  const frameSrc = query
+    ? `${runtimeApiBasePath}/${songId}?${query}`
+    : `${runtimeApiBasePath}/${songId}`
   const loadingId = `kuailepu-runtime-${songId}-loading`
+  const pageHref = useCallback(
+    (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
+      buildSongPageHref({
+        songId,
+        basePath: pageBasePath,
+        ...nextQueryState
+      }),
+    [pageBasePath, songId]
+  )
 
   useEffect(() => {
     setIsPlaybackPanelOpen(false)
@@ -302,7 +321,7 @@ export default function KuailepuRuntimeInteractiveShell({
     }
 
     const nextUrl = new URL(href, window.location.origin)
-    if (nextUrl.pathname !== `/song/${songId}`) {
+    if (nextUrl.pathname !== `${pageBasePath}/${songId}`) {
       window.location.replace(nextUrl.toString())
       return
     }
@@ -473,7 +492,7 @@ export default function KuailepuRuntimeInteractiveShell({
           options: supportedInstruments.map(instrument => ({
             value: instrument.id,
             label: instrument.shortLabel,
-            href: buildSongPageHref({
+            href: pageHref({
               songId,
               ...normalizedQueryState,
               instrumentId: instrument.id,
@@ -494,7 +513,7 @@ export default function KuailepuRuntimeInteractiveShell({
           options: controlConfig.fingeringOptions.map(option => ({
             value: option.value,
             label: option.label,
-            href: buildSongPageHref({
+            href: pageHref({
               songId,
               ...normalizedQueryState,
               instrumentId: activeInstrument.id,
@@ -513,7 +532,7 @@ export default function KuailepuRuntimeInteractiveShell({
       {
         value: 'letter',
         label: 'Letter Notes',
-        href: buildSongPageHref({
+        href: pageHref({
           songId,
           ...normalizedQueryState,
           instrumentId: activeInstrument.id,
@@ -523,7 +542,7 @@ export default function KuailepuRuntimeInteractiveShell({
       {
         value: 'number',
         label: 'Numbered Notes',
-        href: buildSongPageHref({
+        href: pageHref({
           songId,
           ...normalizedQueryState,
           instrumentId: activeInstrument.id,
@@ -543,7 +562,7 @@ export default function KuailepuRuntimeInteractiveShell({
     ] as const).map(option => ({
       value: option.value,
       label: option.label,
-      href: buildSongPageHref({
+      href: pageHref({
         songId,
         ...normalizedQueryState,
         instrumentId: activeInstrument.id,
@@ -562,7 +581,7 @@ export default function KuailepuRuntimeInteractiveShell({
           options: controlConfig.graphOptions.map(option => ({
             value: option.value,
             label: option.label,
-            href: buildSongPageHref({
+            href: pageHref({
               songId,
               ...normalizedQueryState,
               instrumentId: activeInstrument.id,
@@ -580,7 +599,7 @@ export default function KuailepuRuntimeInteractiveShell({
     options: controlConfig.scaleOptions.map(option => ({
       value: option.value,
       label: option.label,
-      href: buildSongPageHref({
+      href: pageHref({
         songId,
         ...normalizedQueryState,
         instrumentId: activeInstrument.id,
@@ -607,7 +626,7 @@ export default function KuailepuRuntimeInteractiveShell({
       options: [
         {
           label: 'On',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -619,7 +638,7 @@ export default function KuailepuRuntimeInteractiveShell({
         },
         {
           label: 'Off',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -639,7 +658,7 @@ export default function KuailepuRuntimeInteractiveShell({
             options: [
               {
                 label: 'On',
-                href: buildSongPageHref({
+                href: pageHref({
                   songId,
                   ...normalizedQueryState,
                   instrumentId: activeInstrument.id,
@@ -650,7 +669,7 @@ export default function KuailepuRuntimeInteractiveShell({
               },
               {
                 label: 'Off',
-                href: buildSongPageHref({
+                href: pageHref({
                   songId,
                   ...normalizedQueryState,
                   instrumentId: activeInstrument.id,
@@ -670,7 +689,7 @@ export default function KuailepuRuntimeInteractiveShell({
       options: [
         {
           label: 'On',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -681,7 +700,7 @@ export default function KuailepuRuntimeInteractiveShell({
         },
         {
           label: 'Off',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -699,7 +718,7 @@ export default function KuailepuRuntimeInteractiveShell({
       options: [
         {
           label: 'On',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -710,7 +729,7 @@ export default function KuailepuRuntimeInteractiveShell({
         },
         {
           label: 'Off',
-          href: buildSongPageHref({
+          href: pageHref({
             songId,
             ...normalizedQueryState,
             instrumentId: activeInstrument.id,
@@ -754,11 +773,11 @@ export default function KuailepuRuntimeInteractiveShell({
         className="page-warm-hero mb-2 px-4 py-3 md:mb-3 md:px-7 md:py-[1.125rem]"
       >
         <Link
-          href="/"
+          href={backHref}
           className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:mb-3 md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
         >
           <span aria-hidden="true" className="text-[0.95rem] leading-none md:text-base">←</span>
-          <span>Back to Song Library</span>
+          <span>{backLabel}</span>
         </Link>
         <h1 className="mt-1.5 text-[1.7rem] font-black leading-tight tracking-tight text-stone-900 md:mt-2 md:text-[3.05rem]">
           {title}

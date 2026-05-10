@@ -1,0 +1,34 @@
+{
+  "id": "alouette",
+  "slug": "alouette",
+  "title": "Alouette",
+  "description": "A French-Canadian folk melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "A lou et te gen tille A lou et te, A lou et te, je te plu me rai.",
+    "Je te plu me rai la tête, Je te plu me rai la tête, Et la tête, et la tête, Et la tête, et la tête, O!",
+    "A lou et te, gen tille A lou et te, A lou et te, je te plu me rai."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-10",
+    "note": "Imported through the MusicXML ingest pipeline and checked against common public references before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 1 - - 2 3 - 3 - | {cn:C7} 2 1 2 3 {cn:F} 1 - 5d - | 1 - - 2 3 - 3 - | {cn:G7} 2 1 2 3 {cn:F} 1 - - -",
+    "1 2 3 4 5 5 5 - | {cn:C7} 5 6 5 4 {cn:F} 3 2 1 0 | {cn:C7} 5 5 5 - 5d 5d 5d - | 5 5 5 - 5d 5d 5d - | 5 - - - - - - -",
+    "{cn:F} 1 - - 2 3 - 3 - | {cn:C7} 2 1 2 3 {cn:F} 1 - 5d - | 1 - - 2 3 - 3 - | {cn:C7} 2 1 2 3 {cn:F} 1 - - -"
+  ]
+}

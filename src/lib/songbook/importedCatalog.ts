@@ -4,6 +4,19 @@ import type { SongDoc } from './types'
 
 const importedSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu')
 
+export function resolveImportedSongDocPath(slug: string) {
+  return path.join(importedSongsDir, `${slug}.json`)
+}
+
+export function loadImportedSongDoc(slug: string) {
+  const filePath = resolveImportedSongDocPath(slug)
+  if (!fs.existsSync(filePath)) {
+    return null
+  }
+
+  return JSON.parse(fs.readFileSync(filePath, 'utf8')) as SongDoc
+}
+
 /**
  * 读取仓库内可提交的快乐谱轻量导入结果。
  *
@@ -19,10 +32,8 @@ export function loadImportedSongCatalog(): SongDoc[] {
     .readdirSync(importedSongsDir)
     .filter(file => file.endsWith('.json'))
     .sort()
-    .map(file => {
-      const filePath = path.join(importedSongsDir, file)
-      return JSON.parse(fs.readFileSync(filePath, 'utf8')) as SongDoc
-    })
+    .map(file => loadImportedSongDoc(file.replace(/\.json$/i, '')))
+    .filter((song): song is SongDoc => Boolean(song))
 }
 
 export const importedSongCatalog = loadImportedSongCatalog()

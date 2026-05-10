@@ -1,0 +1,42 @@
+{
+  "id": "swing-low-sweet-chariot",
+  "slug": "swing-low-sweet-chariot",
+  "title": "Swing Low, Sweet Chariot",
+  "description": "A classic spiritual melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Swing low sweet char i ot, _ Com in' for to car ry me home.",
+    "Swing _ low, sweet char i ot, _ Com in' for to car ry me home.",
+    "_ I look ov er Jor dan and what did I see, _",
+    "Com in for to car ry me home? A band _ of an gels",
+    "com in' af ter me, _ Com in' for to car ry me home.",
+    "Swing low sweet char i ot, _ Com in' for to car ry me home.",
+    "Swing _ low sweet char i ot, _ Com in' for to car ry me home. _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-10",
+    "note": "Imported through the MusicXML ingest pipeline and checked against common public references before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "{cn:G} 3 - - - 1 - - - - - - - 3 - - - | 1 - - - - - 1 - 6d - 5d - - - - - | 1 1 - - 1 - - 1 3 - 5 - 5 - - - | {cn:D7} 5 - - - - - - - - - - - - - - -",
+    "{cn:G} 6 5 - - 3 - - - - - - - 5 - - - | 1 - - - - - 1 - 6d - 5d - - - - - | {cn:E} 1 1 - - 1 - - 1 {cn:A9} 3 3 - - {cn:D7} 2 - - - | {cn:G} 1 - - - - - - - - - - - - - - -",
+    "1 - - - - - - - 0 - - - 3 - - - | {cn:G} 5 - 1 - - - 6d - 1 - - - 1 - 1 - | {cn:A7} 1 - 1 - 1 - - - {cn:D7} 6d - 5d - - - - -",
+    "{cn:G} 1 1 - - 1 - - 1 3 5 - - 5 - - - | {cn:D7} 5 - - - - - - - - - - - 5 - - - | {cn:G6} 6 5 - - 3 - - - 3 - - - 1 - - -",
+    "{cn:C} 1 - 1 - 1 - - 1 {cn:D7} 6d - - - 5d - - - | {cn:G} 1 1 - - 1 - - 1 {cn:A9} 3 3 - - {cn:D7} 2 - - - | {cn:G} 1 - - - - - - - - - - - - - - -",
+    "{cn:G} 3 - - - 1 - - - - - - - 3 - - - | 1 - - - - - 1 - 6d - 5d - - - - - | 1 1 - - 1 - - 1 3 - 5 - 5 - - - | {cn:D7} 5 - - - - - - - - - - - - - - -",
+    "{cn:G} 6 5 - - 3 - - - - - - - 5 - - - | 1 - - - - - 1 - 6d - 5d - - - - - | {cn:E} 1 1 - - 1 - - 1 {cn:A9} 3 3 - - {cn:D7} 2 - - - | {cn:G} 1 - - - - - - - - - - - - - - - | 1 - - - - - - - 0 - - - - - - -"
+  ]
+}

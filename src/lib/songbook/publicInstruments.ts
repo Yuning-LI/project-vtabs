@@ -96,9 +96,11 @@ export function normalizePublicSongInstrument(
 export function buildSongPageHref(
   input: {
     songId: string
+    basePath?: string
   } & PublicSongPageQueryState
 ) {
   const params = new URLSearchParams()
+  const basePath = input.basePath?.trim() || '/song'
 
   if (input.instrumentId && input.instrumentId !== 'o12') {
     params.set('instrument', input.instrumentId)
@@ -141,7 +143,7 @@ export function buildSongPageHref(
   }
 
   const query = params.toString()
-  return query ? `/song/${input.songId}?${query}` : `/song/${input.songId}`
+  return query ? `${basePath}/${input.songId}?${query}` : `${basePath}/${input.songId}`
 }
 
 export function adaptPresentationForInstrument(

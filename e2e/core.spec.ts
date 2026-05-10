@@ -592,22 +592,22 @@ test.describe('runtime-backed song pages', () => {
   test('pure Chinese runtime lyrics stay hidden and do not expose a public lyrics toggle', async ({
     page
   }) => {
-    await page.goto('/song/happy-birthday-to-you?show_lyric=on', {
+    await page.goto('/song/oh-susanna?show_lyric=on', {
       waitUntil: 'domcontentloaded'
     })
 
     await expect(page.getByRole('button', { name: /Lyrics:/ })).toHaveCount(0)
 
-    const frame = page.locator('iframe[title="Happy Birthday to You Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/happy-birthday-to-you?runtime_text_mode=english'
-    )
+    const frame = page.locator('iframe[title="Oh! Susanna Kuailepu runtime"]')
+    const frameSrc = await frame.getAttribute('src')
+    expect(frameSrc).toContain('/api/kuailepu-runtime/oh-susanna?')
+    expect(frameSrc).toContain('runtime_text_mode=english')
+    expect(frameSrc).not.toContain('show_lyric=on')
 
-    await expectRuntimeSheet(page, 'happy-birthday-to-you')
-    const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/happy-birthday-to-you"]`)
+    await expectRuntimeSheet(page, 'oh-susanna')
+    const runtime = page.frameLocator(`iframe[src*="/api/kuailepu-runtime/oh-susanna"]`)
     const visibleText = await runtime.locator('body').innerText()
-    expect(visibleText).not.toContain('祝你生日快乐')
+    expect(visibleText).not.toContain('我打从阿拉巴马来')
   })
 
   test('empty runtime lyric arrays do not expose a public lyrics toggle', async ({ page }) => {
