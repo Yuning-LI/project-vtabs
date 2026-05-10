@@ -124,6 +124,7 @@ const FEATURED_GUIDE_SLUGS = [
   'march-and-parade-letter-note-songs',
   'patriotic-and-anthem-letter-note-songs',
   'world-folk-letter-note-songs',
+  'ghibli-ocarina-songs',
   'wedding-and-ceremony-letter-note-songs',
   'calm-and-lyrical-letter-note-songs',
   'lullaby-and-bedtime-letter-note-songs',
@@ -370,6 +371,21 @@ const ZELDA_SONG_SLUGS = new Set([
   'song-of-time',
   'stable-theme',
   'zeldas-lullaby'
+])
+
+const GHIBLI_SONG_SLUGS = new Set([
+  'a-town-with-an-ocean-view',
+  'always-with-me',
+  'carrying-you',
+  'chihiros-waltz',
+  'merry-go-round-of-life',
+  'my-neighbor-totoro',
+  'one-summers-day',
+  'path-of-the-wind',
+  'ponyo-on-the-cliff-by-the-sea',
+  'princess-mononoke',
+  'stroll',
+  'the-promise-of-the-world'
 ])
 
 const EASY_OCARINA_SONG_SLUGS = new Set([
@@ -2459,6 +2475,93 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ]
   },
   {
+    slug: 'ghibli-ocarina-songs',
+    kind: 'guide',
+    title: 'Studio Ghibli Songs and Letter Notes',
+    description:
+      'A focused Studio Ghibli melody guide for ocarina, recorder, and whistle players who want recognizable film themes on one clean letter-note path.',
+    heroLabel: 'Film Theme Guide',
+    intro: [
+      'Studio Ghibli searches rarely stop at one title. Players usually want a cluster of recognisable melodies: one or two calm themes, a brighter song they already know by ear, and a page that lets them move across those pieces without going back to scattered screenshots or mixed notation systems.',
+      'This guide gathers the Ghibli pages already in the library into one practical route, so visitors can compare the major Joe Hisaishi themes, vocal melodies, and lighter performance pieces while staying inside the same fingering-first song workflow.'
+    ],
+    featuredSongSlugs: [
+      'merry-go-round-of-life',
+      'always-with-me',
+      'one-summers-day',
+      'my-neighbor-totoro',
+      'ponyo-on-the-cliff-by-the-sea',
+      'the-promise-of-the-world',
+      'a-town-with-an-ocean-view',
+      'carrying-you',
+      'princess-mononoke',
+      'path-of-the-wind',
+      'stroll',
+      'chihiros-waltz'
+    ],
+    sections: [
+      {
+        title: 'Best Known Ghibli Songs To Open First',
+        paragraphs: [
+          'If you want the highest-recognition Ghibli pages first, start with the melodies most listeners already know by name or by ear. These pages give the strongest immediate payoff and usually make the easiest first internal-link path for soundtrack visitors.'
+        ],
+        songSlugs: [
+          'merry-go-round-of-life',
+          'always-with-me',
+          'one-summers-day',
+          'my-neighbor-totoro',
+          'ponyo-on-the-cliff-by-the-sea'
+        ]
+      },
+      {
+        title: 'Calmer Ghibli Melodies For Breath And Phrase Practice',
+        paragraphs: [
+          'Not every Ghibli visitor wants the brightest or most theatrical page first. These songs work better when the goal is slower phrasing, softer articulation, and a melody that still feels complete at a moderate tempo.'
+        ],
+        songSlugs: [
+          'always-with-me',
+          'one-summers-day',
+          'the-promise-of-the-world',
+          'a-town-with-an-ocean-view',
+          'path-of-the-wind',
+          'carrying-you',
+          'princess-mononoke'
+        ]
+      },
+      {
+        title: 'What To Add After The First Two Themes',
+        paragraphs: [
+          'Once the calmest pages feel stable, add one brighter singable song and one page with more rhythmic motion. That keeps the same Ghibli search intent while broadening articulation, pulse, and phrase shape.'
+        ],
+        songSlugs: [
+          'ponyo-on-the-cliff-by-the-sea',
+          'stroll',
+          'my-neighbor-totoro',
+          'chihiros-waltz',
+          'merry-go-round-of-life'
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: 'Is this guide only for ocarina players?',
+        answer:
+          'No. Ghibli demand is especially strong on ocarina, but the same public song pages also work for recorder and tin whistle visitors who want the melody in a simpler letter-note format.'
+      },
+      {
+        question: 'Do these songs use a different page or notation system?',
+        answer:
+          'No. Every card still opens the same public song detail page used across the site, with the same letter-note layout, fingering chart support, and numbered-note backup mode.'
+      }
+    ],
+    relatedGuideSlugs: [
+      'calm-and-lyrical-letter-note-songs',
+      'first-performance-letter-note-songs',
+      'easy-songs-for-adult-beginners',
+      'dance-and-waltz-letter-note-songs'
+    ]
+  },
+  {
     slug: 'simple-instruments-for-music-education',
     kind: 'guide',
     title: 'Simple Instruments for Music Education',
@@ -4209,6 +4312,16 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
       FIRST_PERFORMANCE_SONG_SLUGS.has(songSlug) ? 'first-performance-letter-note-songs' : null,
       '12-hole-ocarina-letter-notes',
       'easy-songs-for-adult-beginners',
+      'recorder-letter-notes'
+    ].filter((slug): slug is string => Boolean(slug))
+  } else if (GHIBLI_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'ghibli-ocarina-songs',
+      CALM_LYRICAL_SONG_SLUGS.has(songSlug) ? 'calm-and-lyrical-letter-note-songs' : null,
+      FIRST_PERFORMANCE_SONG_SLUGS.has(songSlug) ? 'first-performance-letter-note-songs' : null,
+      DANCE_WALTZ_SONG_SLUGS.has(songSlug) ? 'dance-and-waltz-letter-note-songs' : null,
+      'easy-songs-for-adult-beginners',
+      '12-hole-ocarina-letter-notes',
       'recorder-letter-notes'
     ].filter((slug): slug is string => Boolean(slug))
   } else if (LULLABY_BEDTIME_SONG_SLUGS.has(songSlug)) {
