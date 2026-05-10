@@ -762,6 +762,36 @@
       "addedOn": "2026-05-10",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5GePe1aGH.html",
       "notes": "Imported with public content layer, Zelda guide linking, aliases, and SEO profile. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "ponyo-on-the-cliff-by-the-sea",
+      "title": "Ponyo on the Cliff by the Sea",
+      "status": "validated-local",
+      "batch": "25",
+      "group": "ghibli",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/zjv5b1D5X.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "the-promise-of-the-world",
+      "title": "The Promise of the World",
+      "status": "validated-local",
+      "batch": "25",
+      "group": "ghibli",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/RAPcb1PQf.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "a-town-with-an-ocean-view",
+      "title": "A Town with an Ocean View",
+      "status": "validated-local",
+      "batch": "25",
+      "group": "ghibli",
+      "addedOn": "2026-05-10",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/VNxKb1EHn.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

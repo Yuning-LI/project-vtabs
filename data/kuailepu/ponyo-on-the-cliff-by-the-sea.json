@@ -1,0 +1,50 @@
+{
+  "id": "ponyo-on-the-cliff-by-the-sea",
+  "slug": "ponyo-on-the-cliff-by-the-sea",
+  "title": "Ponyo on the Cliff by the Sea",
+  "description": "A bright Ponyo melody page with letter notes, visual fingering charts, and switchable ocarina, recorder, and tin whistle views for playful Ghibli practice.",
+  "published": true,
+  "alignedLyrics": [
+    "ポー ニョ ポー ニョ ポニ ョ さ か な の 子 青い 海 か ら や っ て き た ポー ニョ ポー ニョ ポニ",
+    "ョ ふ く ら ん だ ま ん ま る お な か の 女 の 子 べ ー タ べタ ビョ－ ンビ",
+    "ョ ン 足 っ て い い な か け ち ゃお！ ニー ギ ニ ギ ブー ン",
+    "ブ ン おて て は い い な つな いじ ゃ お！ あ の 子 と は ね",
+    "る と 心 も お ど る よ バー クバ クチ ュッ ギュ ッ！ バー クバ",
+    "クチ ュッ ギュ ッ！ あ の 子 が 大 好 き ま っ が っ が の ポー ニョ ポー",
+    "ニョ ポニ ョ さ か な の 子 崖 の 上 に や っ て き た ポー ニョ ポー ニョ ポニ ョ 女 の 子 ま ん",
+    "ま る お な か の 元 気 な 子 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+  ],
+  "extraLyrics": [
+    "Ponyo Ponyo Ponyo 金鱼 公主 的 孩 子 从 蔚 蓝 的 大 海 来 的 孩 子 Ponyo Ponyo Ponyo 浮 出 来 了 一 个 肚 皮 圆 鼓 鼓 的 女 孩 子",
+    "呗 哒 呗 哒 咘 噜 咘 噜 游 足 够 了 吧 到 岸 了！ 呢 叽 呢 叽 咘 噜 咘 噜 变 成 和 你 一 样 了 呦！",
+    "和 那 孩 子 一 起 跳 着 心 也 怦 然 心 动 了 呦 吧 咕 吧 咕 叽 啾 吧 咕 吧 咕 叽 啾 最 喜 欢 那 个 孩 子 通 红 通 红 的 女 孩 子",
+    "Ponyo Ponyo Ponyo 金鱼 公主 的 孩 子 住 在 悬 崖 上 的 孩 子 Ponyo Ponyo Ponyo 一 个 女 孩 子 一 个 肚 皮 圆 鼓 鼓 的 女 孩 子"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/zjv5b1D5X.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song zjv5b1D5X on 2026-05-10."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-10",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5 - - - 3 - 1 - - - 5, - 5, - 5, - | 6, - 1 - 4 - 6 - 5 - - - 0 0 3 - | 4 - 2 - 2 - 4 - 3 - 1 - 1 - 3 - | 2 - 6, - 7, - 1 - 2 - 0 0 0 0 0 0 |",
+    "5 - - - 3 - 1 - - - 5, - 5, - 5, - | 6, - 1 - 4 - 6 - 5 - - - 0 0 3 - | 4 - 2 - 2 - 4 - 3 - 1 - 1 - 3 - | 2 - 7, - - - 1 - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 1 - - - 5, - 1 - 2 - - - 0 0 0 0 | 2 - - - 5, - 2 - 3 - - - 0 0 0 0 | 3 - 1 - - - 3 - 4 - 5 - 6 - - - | 5 - 3 - - - 1 - 2 - - - 0 0 0 0 |",
+    "1 - - - 5, - 1 - 2 - - - 0 0 0 0 | 2 - - - 5, - 2 - 3 - - - 0 0 0 0 | 3 - 1 - - - 3 - 4 - 5 - 6 - - - | 5 - 3 - 0 0 5, - 1 - - - 0 0 0 0 |",
+    "0 0 2 - 2 - 2 - 2 - - - 1 - 2 - | 3 - - - - - - - 5 - - - - - - - | 0 0 2 - 2 - 3 - 2 - 1 - - - b6, - | 5, - - - 3 - - - - - - - - - - - |",
+    "1 - - 1 5, - 1 - 6 - 5 - 0 0 0 0 | 6, - - 6, 6, - 1, - 5 - 3 - 0 0 0 0 | 0 0 0 0 3 - - - 4 - - - 5 - - - | 1 - - - 1 - - - 2 - - - 3 - - - | 2 - - - - - - - - - - - - - - - |",
+    "5, - 1 - 1 - 2 - 2 - 3 - 3 - 4 - | 5 - - - 3 - 1 - - - 5, - 5, - 5, - | 6, - 1 - 4 - 6 - 5 - - - 0 0 3 - | 4 - 2 - 2 - 4 - 3 - 1 - 1 - 3 - |",
+    "2 - 6, - 7, - 1 - 2 - 0 0 0 0 0 0 | 5 - - - 3 - 1 - - - 5, - 5, - 5, - | 6, - 1 - 4 - 6 - 5 - - - 0 0 3 - | 4 - 2 - 2 - 4 - 3 - 1 - 1 - 3 - | 2 - 7, - - - 1 - 0 0 0 0 0 0 0 0 | | |"
+  ]
+}
