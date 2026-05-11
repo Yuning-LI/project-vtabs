@@ -1992,7 +1992,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Beginner Song Guide',
     intro: [
       'Nursery rhymes are often the best first search answer for absolute beginners because the melody is already memorized before any note reading begins.',
-      'This page gathers the strongest nursery-rhyme-style song pages on the site so parents, teachers, and self-learners can begin with the shortest and most recognizable tunes.'
+      'This page stays tighter than the broader beginner hubs by focusing on ultra-familiar children’s repertoire, so parents, teachers, and self-learners can begin with the shortest and most recognizable tunes first.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -2047,7 +2047,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'easy-songs-for-beginners',
       'easy-recorder-songs-for-beginners',
-      '12-hole-ocarina-letter-notes'
+      'music-class-songs-for-beginners'
     ]
   },
   {
@@ -2059,7 +2059,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Beginner Song Guide',
     intro: [
       'This is the main entry page for searchers who are not looking for one specific song yet. They want easy songs, familiar tunes, and a place to begin without sorting through the whole catalog.',
-      'The best beginner songs on this site are recognizable in one listen, short enough for phrase-by-phrase repetition, and simple to practice inside the letter-note layout.'
+      'Unlike the nursery or classroom-focused pages, this hub is meant to be the broad cross-instrument starter shelf: nursery tunes, birthday songs, first hymns, and first classical themes in one place.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -2657,7 +2657,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Learning Guide',
     intro: [
       'This page plays the role of a blog-style education article, but it stays anchored to the actual product: searchable melody pages with letter notes, fingering charts, and familiar songs.',
-      'The goal is to answer a broader question about beginner music learning while still giving visitors a clear path into the public song pages.'
+      'The goal is to answer a broader question about beginner music learning rather than to compete with the song-list hubs directly, while still giving visitors a clear path into practical melody pages.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -2715,8 +2715,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
+      'music-class-songs-for-beginners',
       'easy-songs-for-beginners',
-      '12-hole-ocarina-letter-notes',
       'songs-with-lyrics'
     ]
   },
@@ -2729,7 +2729,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Seasonal Song Guide',
     intro: [
       'This page is built for searchers who are not looking for just one carol. They want a practical set of Christmas letter note songs they can open quickly for December practice, school use, church use, or family playing.',
-      'The linked songs still open the normal public song pages, so visitors can keep the fingering chart visible, turn lyrics on when available, and stay inside the same runtime shell.'
+      'It works as the broad holiday overview page, while the recorder and tin whistle Christmas hubs stay narrower for instrument-specific searches and seasonal rehearsal use.'
     ],
     featuredSongSlugs: [
       'jingle-bells',
@@ -2801,7 +2801,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Folk Song Guide',
     intro: [
       'Folk and traditional melodies make strong beginner material because they usually have a clear vocal contour, memorable phrase shape, and a slower musical feel than fast showpieces or dense classical excerpts.',
-      'This page gathers the folk-oriented song pages that are easiest to enter through melody recognition, while still giving room for more lyrical breath and phrase work than the shortest nursery songs.'
+      'This page stays with the broad beginner folk lane first: singable Anglo-American, British, and crossover traditional tunes that are easier to enter through melody recognition before moving into narrower Celtic or international clusters.'
     ],
     featuredSongSlugs: [
       'red-river-valley',
@@ -2886,9 +2886,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
-      'tin-whistle-letter-notes',
       'celtic-tin-whistle-songs',
-      'songs-with-lyrics',
+      'world-folk-letter-note-songs',
       'easy-songs-for-adult-beginners',
       'easy-songs-for-beginners'
     ]
@@ -2902,7 +2901,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Tin Whistle Guide',
     intro: [
       'Some visitors are not just looking for any beginner song. They are searching specifically for Celtic or Irish-style whistle melodies that feel closer to the tunes they already hear in sessions, school groups, or home practice.',
-      'This page gives that narrower entry path by grouping whistle-friendly Celtic melodies in one place, with the whistle view preselected so the first click already feels closer to session-oriented search intent.'
+      'This page is intentionally narrower than the broad folk hubs: it centers on whistle-native Irish, Scottish, and Celtic-flavored repertoire where phrasing and instrument color matter as much as melody recognition.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -2994,7 +2993,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'March Song Guide',
     intro: [
       'Some visitors are not searching for nursery songs or lyrical folk tunes. They want march-style melodies, parade tunes, or recognizable ceremonial music that feels steadier, brighter, and more rhythm-driven.',
-      'This page gives that narrower entry path while keeping the practical tools beginners need: readable letter notes, fingering support, and a stable place to rehearse strong-pulse tunes.'
+      'This page is about pulse-first repertoire more than patriotic identity or wedding-only use, so it groups the tunes that help players rehearse strong beat shape, repeated leaps, and public-event energy.'
     ],
     featuredSongSlugs: [
       'american-patrol',
@@ -3060,9 +3059,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       }
     ],
     relatedGuideSlugs: [
-      'easy-classical-letter-note-songs',
-      'music-class-songs-for-beginners',
-      'how-to-read-letter-notes'
+      'patriotic-and-anthem-letter-note-songs',
+      'wedding-and-ceremony-letter-note-songs',
+      'first-performance-letter-note-songs'
     ]
   },
   {
@@ -3074,7 +3073,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Anthem Song Guide',
     intro: [
       'Some visitors are not searching for a general beginner library. They want patriotic melodies, anthem-style tunes, or ceremonial songs that feel recognisable right away for school use, parade practice, or personal playing.',
-      'This page gathers those public song pages into one focused entry point while keeping the same detail-page workflow, so the letter-note layout, fingering chart support, and normal practice controls stay familiar.'
+      'This page is more civic and anthem-led than the broader march hub, so it favors recognisable public-memory repertoire for assemblies, school contexts, and statelier personal practice.'
     ],
     featuredSongSlugs: [
       'yankee-doodle',
@@ -3129,7 +3128,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'march-and-parade-letter-note-songs',
       'music-class-songs-for-beginners',
-      'easy-songs-for-adult-beginners'
+      'first-performance-letter-note-songs'
     ]
   },
   {
@@ -3141,7 +3140,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'World Folk Song Guide',
     intro: [
       'Some visitors are not searching for only Western beginner songs. They want familiar traditional melodies from different regions, often because they already know the tune from school, family, culture, or international music classes.',
-      'This page groups those public song pages into one practical entry point while keeping the same letter-note layout, fingering chart support, and normal practice workflow used across the rest of the site.'
+      'This page intentionally reaches beyond the English-language and Celtic-heavy folk hubs, grouping East Asian, European, Slavic, and Latin American standards into one international repertoire shelf.'
     ],
     featuredSongSlugs: [
       'arirang',
@@ -3196,7 +3195,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'folk-songs-for-beginners',
       'music-class-songs-for-beginners',
-      'easy-songs-for-adult-beginners'
+      'songs-with-lyrics'
     ]
   },
   {
@@ -3688,7 +3687,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Ceremony Song Guide',
     intro: [
       'Some visitors are not searching for a general beginner song list. They need a smaller set of calm, recognisable melodies that fit wedding aisles, ceremonies, and formal moments, and they need those pages quickly.',
-      'This guide answers that intent directly with a tighter adult-first shortlist, where the fingering chart, letter notes, and optional numbered-note backup view stay easy to revisit from song to song.'
+      'This guide is about formal event fit more than march pulse or patriotic context, so it keeps the focus on processional, recessional, and reflective melodies that hold up in ceremony settings.'
     ],
     featuredSongSlugs: [
       'canon',
@@ -3746,7 +3745,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     relatedGuideSlugs: [
       'easy-classical-letter-note-songs',
       'hymns-and-spiritual-letter-note-songs',
-      'easy-songs-for-adult-beginners'
+      'first-performance-letter-note-songs'
     ]
   },
   {
@@ -4123,16 +4122,32 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
     ]
   },
   'nursery-rhyme-letter-notes': {
+    metaTitle: 'Nursery Rhyme Letter Notes and Easy First Songs',
     heroSummary: [
       'Nursery rhyme pages are not filler content on a beginner music site. They are some of the most effective first reading material because the melodies are short, repetitive, and deeply familiar from school, family singing, and early classroom music. This hub gathers that repertoire into one place for players who want letter notes, easy tabs, and visual charts that match the first songs children and beginners actually recognize. It is especially useful for recorder classes, where eight-hole beginner fingering lines up naturally with simple tune contours.',
       'These songs also reduce cognitive load in a way advanced repertoire cannot. When a student already knows the melody, attention can go to finger placement, pulse, and breathing instead of guessing pitch direction. That is why nursery songs remain central to music education across generations. They are public-domain standards, adaptable across instruments, and ideal for short lesson cycles. Use this page when you need starter repertoire for school, home practice, or early childhood music sessions built around songs children already recognize immediately.'
-    ]
+    ],
+    metaDescription:
+      'Nursery rhyme letter notes, easy first songs, and short melody pages for parent-led practice, classroom starters, and early beginners.'
   },
   'easy-songs-for-beginners': {
+    metaTitle: 'Easy Beginner Songs with Letter Notes for Ocarina, Recorder, Tin Whistle',
     heroSummary: [
       'Beginner players do not always search by instrument first. Many simply want easy songs they can recognize, play in one sitting, and repeat enough times to feel real progress. This hub is built for that broader intent. It collects melody pages that stay useful across ocarina, recorder, and tin whistle, while still emphasizing easy tabs, visual charts, and beginner-friendly repertoire instead of dense notation or advanced arrangements. In other words, it acts as a true entry shelf for the public library rather than a thin category page.',
       'The song mix matters here. Familiar nursery melodies, carols, folk tunes, and first classical themes all teach slightly different skills while staying accessible to new readers. They also come with strong search demand because beginners often ask for exactly these song names plus phrases like visual chart, letter notes, or easy tabs. That gives the page both search relevance and practical value. Use it when you want one place to compare easy repertoire, discover low-pressure first songs, and branch into more specific instrument or theme guides only after the basics feel comfortable.'
-    ]
+    ],
+    metaDescription:
+      'Easy beginner songs with letter notes, visual charts, and first-step melody pages for ocarina, recorder, and tin whistle.'
+  },
+  'simple-instruments-for-music-education': {
+    metaTitle: 'Simple Instruments for Music Education and Beginner Song Practice',
+    metaDescription:
+      'Simple instruments for music education, beginner song practice, and classroom-friendly melody pages with letter notes and fingering support.'
+  },
+  'music-class-songs-for-beginners': {
+    metaTitle: 'Easy Music Class Songs with Letter Notes for School and Home',
+    metaDescription:
+      'Easy music class songs with letter notes, lyric-friendly melody pages, and reusable practice songs for school lessons and home review.'
   },
   'songs-with-lyrics': {
     heroSummary: [
@@ -4157,12 +4172,16 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
     ]
   },
   'christmas-letter-note-songs': {
+    metaTitle: 'Christmas Letter Note Songs for Ocarina, Recorder, Tin Whistle',
     heroSummary: [
       'Christmas song searches bring in players from many directions: parents looking for family carols, teachers preparing winter concerts, church musicians needing a simple melody line, and beginners who just want festive songs they already know. This hub gives those users one broad holiday entry point. It gathers Christmas letter-note songs across the site into a single page built around public-domain carols, seasonal sing-alongs, and easy tabs that work on melody instruments without changing the underlying song pages.',
       'Holiday repertoire benefits from familiarity more than almost any other category. Most players can already hear these tunes in their heads, which makes visual charts and note labels far more effective for quick learning. The songs also carry strong seasonal intent for search, especially around classroom music, church performance, and family gatherings. Use this page when you need a wider holiday overview than an instrument-specific hub can offer, or when you want one place to compare Christmas melodies before branching into recorder, whistle, sing-along, or beginner-focused routes.'
-    ]
+    ],
+    metaDescription:
+      'Christmas letter note songs, seasonal carols, and visual-chart melody pages for ocarina, recorder, tin whistle, school, and family practice.'
   },
   'folk-songs-for-beginners': {
+    metaTitle: 'Easy Folk Songs for Beginners with Letter Notes',
     heroSummary: [
       'Folk songs remain some of the best beginner repertoire because they were built to travel by memory, voice, and simple instruments long before modern tab pages existed. This hub gathers beginner-friendly folk melodies with letter notes and visual charts, giving players a route into centuries of public-domain repertoire that still feels alive on ocarina, recorder, and tin whistle. The melodies are singable, structurally clear, and often familiar enough that new players can hear the phrase direction before every fingering pattern feels secure.',
       'That historical context matters. Folk music is not just an SEO theme. It is one of the deepest sources of practical melody-first teaching material, and it suits the whistle in particular because the instrument shares so much of its color, breath phrasing, and ornament potential with traditional song and dance culture. Recorder and ocarina players benefit too, especially on slower airs and ballad-like tunes. Use this page when you want public-domain repertoire, easy tabs, and traditional songs that feel culturally grounded instead of algorithmically grouped.'
@@ -4171,15 +4190,19 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Easy folk songs for beginners with letter notes, visual charts, and public-domain melodies suited to ocarina, recorder, and tin whistle.'
   },
   'celtic-tin-whistle-songs': {
+    metaTitle: 'Celtic Tin Whistle Songs with Letter Notes',
     heroSummary: [
       'Celtic whistle players usually are not searching for generic beginner tabs. They want tunes that actually sound right on the instrument: Irish airs, Scottish songs, and traditional melodies that match the bright edge and singing sustain of the whistle. This hub is built for that repertoire. It collects whistle-friendly pages with letter notes and visual charts so players can begin with the melody itself, whether they are learning a first air, preparing for a folk session, or looking for a tune that still sounds idiomatic before ornament enters the picture.',
       'The whistle belongs naturally to this music because the repertoire and the instrument have grown together in popular imagination and in real playing traditions. Public-domain songs such as Auld Lang Syne, Loch Lomond, and other traditional airs remain strong beginner material precisely because they teach phrasing, breath shape, and expressive timing without requiring technical complexity at the start. Use this page when you want Celtic and British traditional melodies, clear whistle tabs, and a more culturally specific route than a broad beginner or folk hub can provide.'
-    ]
+    ],
+    metaDescription:
+      'Celtic tin whistle songs with letter notes, Irish and Scottish airs, and beginner-friendly whistle melodies for folk practice.'
   },
   'how-to-read-letter-notes': {
     metaTitle: 'Read Letter Notes for Ocarina, Recorder, Tin Whistle'
   },
   'march-and-parade-letter-note-songs': {
+    metaTitle: 'March and Parade Songs with Letter Notes',
     heroSummary: [
       'March and parade melodies answer a very different search intent from lullabies or nursery songs. Players looking for this repertoire usually need a strong pulse, ceremonial energy, and tunes that project clearly in a school program, recital, civic event, or themed practice session. This hub gathers those melody pages in one place, with letter notes and visual charts that help beginners hold steady rhythm while working through recognizable march-like themes, patriotic staples, and public-domain parade tunes.',
       'These pieces are useful because they teach beat stability and articulation in a way slower lyrical songs do not. A march exposes rushing, weak entries, and uneven breath very quickly, which makes it practical practice material as well as performance repertoire. Many of the melodies here also carry historical associations with ceremonies, public events, and traditional band culture, giving the category real context beyond keywords. Use this page when you want easy tabs for strong-pulse music, beginner recital pieces, or melody pages that feel formal and energetic at the same time.'
@@ -4188,6 +4211,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'March and parade songs with letter notes, visual charts, and steady pulse practice for recital, band, and ceremony repertoire.'
   },
   'patriotic-and-anthem-letter-note-songs': {
+    metaTitle: 'Patriotic and Anthem Songs with Letter Notes',
     heroSummary: [
       'Patriotic songs and anthem melodies are often searched for with a specific event in mind: a school ceremony, civic program, memorial observance, or classroom music lesson tied to cultural history. This hub gives those searches a focused landing page. It gathers letter-note melody pages for patriotic tunes, anthems, and ceremonial songs that can be approached by beginners with visual charts and familiar melodic outlines instead of large ensemble scores or staff-heavy arrangements.',
       'The category works because these pieces live at the intersection of public memory and practical performance. Many are recognizable after only a few notes, which helps learners keep time and phrasing under pressure. At the same time, they introduce a more formal emotional register than nursery or holiday music. That makes them useful for assemblies, recitals, and history-linked music education. Use this page when you need civic or anthem repertoire with easy tabs, searchable melody pages, and a cleaner route into songs that fit formal public occasions.'
@@ -4196,12 +4220,13 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Patriotic songs and anthems with letter notes, visual charts, and beginner-friendly melody pages for school and civic performances.'
   },
   'world-folk-letter-note-songs': {
+    metaTitle: 'World Folk and Traditional Songs with Letter Notes',
     heroSummary: [
       'World folk repertoire gives beginners something a generic song list cannot: melodies shaped by different languages, histories, and regional traditions, yet still simple enough to learn through letter notes and visual charts. This hub brings those songs together across Asian, European, and American traditions so players can move from one cultural sound world to another without losing a familiar melody-first reading setup. It is a useful page for curious beginners, teachers building a broader repertoire set, and anyone searching for traditional songs beyond the usual English-language standards.',
       'The value here is variety with context, not random international keywords. Songs such as Arirang, Jasmine Flower, Sakura Sakura, Bella Ciao, and other traditional melodies have real historical depth, public-domain visibility, and strong educational use because they are memorable while still sounding distinct from one another. They also work well on melody instruments that thrive on clear contour and singable phrasing. Use this page when you want global beginner repertoire, easy tabs with cultural range, and traditional songs that expand the site beyond one narrow folk tradition.'
     ],
     metaDescription:
-      'World folk songs with letter notes, visual charts, and beginner-friendly melodies from Asia, Europe, and the Americas.'
+      'World folk songs with letter notes, visual charts, and international beginner melodies from Asia, Europe, and the Americas.'
   },
   'easy-classical-letter-note-songs': {
     heroSummary: [
@@ -4228,6 +4253,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
       'Easy songs for adult beginners with letter notes, visual charts, and low-pressure melodies for steady practice on melody instruments.'
   },
   'wedding-and-ceremony-letter-note-songs': {
+    metaTitle: 'Wedding and Ceremony Songs with Letter Notes',
     heroSummary: [
       'Wedding and ceremony music brings a more formal kind of search intent than ordinary beginner pages. Visitors landing here are often preparing for a procession, recessional, vow renewal, memorial, or another event where the melody needs dignity more than difficulty. This hub collects songs that suit those moments, from wedding staples and hymn-like ceremony pieces to slow classical melodies that remain clear in letter notes and visual chart form. It gives players a direct route into repertoire that feels appropriate for a public occasion.',
       'That context matters because ceremony music needs both recognition and emotional steadiness. A beginner-friendly melody page can still be suitable for an aisle entrance or reflective event if the tune is familiar, balanced, and played with control. Canon, Wedding March, Amazing Grace, and similar pieces carry that kind of cultural weight. Use this page when you need ceremony repertoire, processional melody ideas, or easy tabs for formal events without relying on dense arrangement sheets.'
