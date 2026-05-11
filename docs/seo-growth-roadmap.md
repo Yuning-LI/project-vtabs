@@ -86,3 +86,9 @@ After fresh data:
 1. high-impression song pages with low CTR
 2. learn / hub pages with impressions but weak ranking
 3. only then, new intent pages
+
+For learn / hub overlap checks with fresh GSC export, use:
+
+```bash
+npm run audit:learn-gsc -- /absolute/path/to/gsc-export.csv
+```

@@ -94,6 +94,7 @@ Playbook:
 - Runtime QA: `docs/manual-runtime-qa-checklist.md`
 - Instrument rollout: `docs/instrument-rollout-plan.md`
 - SEO / learn / hub growth: `docs/seo-growth-roadmap.md`
+- Search Console learn overlap audit: `docs/search-console-learn-audit.md`
 - Grey songs: `docs/grey-song-rollout-playbook.md`
 - Pinterest export: `docs/pinterest-engineering-plan.md`
 - Internal print: `docs/internal-print-workflow.md`
