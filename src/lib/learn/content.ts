@@ -7,6 +7,11 @@ import {
   getPublicSongManifestEntry,
   resolvePublicSongFamily
 } from '@/lib/songbook/publicManifest'
+import {
+  getRecentlyAddedSongSlugs,
+  RECENTLY_ADDED_HOMEPAGE_LIMIT,
+  RECENTLY_ADDED_SONG_WINDOW
+} from '@/lib/songbook/recentSongs'
 
 export type LearnGuideKind = 'hub' | 'guide'
 
@@ -92,6 +97,7 @@ const FEATURED_GUIDE_SLUGS = [
   '12-hole-ocarina-letter-notes',
   'how-to-start-ocarina-with-letter-notes',
   'how-to-practice-ocarina-with-letter-notes',
+  'new-songs',
   '6-hole-ocarina-letter-notes',
   'easy-12-hole-ocarina-songs',
   'recorder-letter-notes',
@@ -440,7 +446,88 @@ const CHRISTMAS_OCARINA_SONG_SLUGS = new Set([
   'happy-new-year'
 ])
 
+const RECENT_SONG_SLUGS = getRecentlyAddedSongSlugs()
+const RECENT_FEATURED_SONG_SLUGS = RECENT_SONG_SLUGS.slice(0, 12)
+const RECENT_MID_WINDOW_SONG_SLUGS = RECENT_SONG_SLUGS.slice(12, 24)
+const RECENT_LIBRARY_WINDOW_SONG_SLUGS = RECENT_SONG_SLUGS.slice(24, 36)
+const RECENT_TRAILING_WINDOW_SONG_SLUGS = RECENT_SONG_SLUGS.slice(36)
+
 const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
+  {
+    slug: 'new-songs',
+    kind: 'hub',
+    title: 'Recently Added Song Pages',
+    description:
+      'Track the newest public song pages added to Play By Fingering, with fresh ocarina tabs, recorder notes, tin whistle letter notes, and fingering-chart-ready melody links.',
+    heroLabel: 'Library Update',
+    intro: [
+      `This page is the public update hub for the newest songs added to the library. Instead of making Google discover each new melody page only through the sitemap or the homepage, this guide groups the latest ${RECENTLY_ADDED_SONG_WINDOW} public additions into one crawlable route with direct links back into the main song pages.`,
+      'That makes the page useful for visitors as well. If you already know the core beginner songs and want to see what changed most recently, this is the fastest way to browse fresh additions without scanning the full library. The linked songs still open the same public runtime-backed song pages, so instrument views, fingering charts, and note-mode controls stay exactly where regular visitors expect them.'
+    ],
+    metaTitle: 'Recently Added Ocarina Tabs, Recorder Notes, and Song Pages',
+    metaDescription:
+      'Browse the latest public song pages added to Play By Fingering, including new ocarina tabs, recorder notes, tin whistle letter notes, and fingering-chart-ready melody pages.',
+    featuredSongSlugs: RECENT_FEATURED_SONG_SLUGS,
+    sections: [
+      {
+        title: 'Why This Update Hub Exists',
+        paragraphs: [
+          'A sitemap is necessary, but it is not the same thing as a public internal-link page. New song pages benefit from a route that people can browse, link to, and revisit when the library is growing quickly.',
+          'This guide keeps the newest additions grouped in one place so search engines can recrawl a stable update route while human visitors can spot fresh melody pages without guessing which songs were added recently.'
+        ],
+        bullets: [
+          `The page keeps a rolling window of ${RECENTLY_ADDED_SONG_WINDOW} recently added songs.`,
+          'The newest cards stay near the top instead of being buried inside the full library.',
+          'Every card still opens the same public song page used everywhere else on the site.'
+        ]
+      },
+      {
+        title: 'Still Fresh In The Current Release Window',
+        paragraphs: [
+          'These songs are no longer the very latest batch, but they are still part of the same current release wave. Keeping them on the page helps the site avoid a one-day-only update pattern and gives newer pages a little more internal-link breathing room.'
+        ],
+        songSlugs: RECENT_MID_WINDOW_SONG_SLUGS
+      },
+      {
+        title: 'Earlier Additions In The Same Rolling Window',
+        paragraphs: [
+          'This part of the page carries the songs that have already moved beyond the newest release burst but still deserve a current-period link source. That matters more now that the publishing goal is multiple songs per day.'
+        ],
+        songSlugs: RECENT_LIBRARY_WINDOW_SONG_SLUGS
+      },
+      {
+        title: 'About To Rotate Out',
+        paragraphs: [
+          'These are the oldest songs still inside the active recent-song window. They remain here until newer releases push them into the broader library, which keeps this page useful without turning it into a duplicate full catalog.'
+        ],
+        songSlugs: RECENT_TRAILING_WINDOW_SONG_SLUGS
+      }
+    ],
+    faq: [
+      {
+        question: 'How many songs does this page keep at one time?',
+        answer: `It keeps a rolling window of ${RECENTLY_ADDED_SONG_WINDOW} recently added public song pages, which matches roughly one week of updates at the current publishing pace.`
+      },
+      {
+        question: 'Does this replace the full song library?',
+        answer:
+          'No. It is an update-focused hub. Use it when you want the newest additions first, then go back to the full library or the topic guides when you want broader browsing.'
+      },
+      {
+        question: 'Do these links open a different kind of song page?',
+        answer:
+          'No. They open the same public song route used throughout the site, with the same fingering-chart support, note views, playback tools, and instrument controls where supported.'
+      }
+    ],
+    relatedGuideSlugs: [
+      '12-hole-ocarina-letter-notes',
+      'recorder-letter-notes',
+      'tin-whistle-letter-notes',
+      'easy-songs-for-adult-beginners',
+      'ghibli-ocarina-songs',
+      'zelda-ocarina-songs'
+    ]
+  },
   {
     slug: '12-hole-ocarina-letter-notes',
     kind: 'hub',
@@ -4227,6 +4314,14 @@ export function getResolvedLearnGuide(slug: string): ResolvedLearnGuide | null {
       songs: resolveLearnSongCards(section.songSlugs ?? [])
     }))
   }
+}
+
+export function getRecentLearnSongCards(limit = RECENTLY_ADDED_HOMEPAGE_LIMIT) {
+  return resolveLearnSongCards(getRecentlyAddedSongSlugs(limit))
+}
+
+export function getRecentlyAddedSongWindowSize() {
+  return RECENTLY_ADDED_SONG_WINDOW
 }
 
 export function getRelatedSongCards(currentSlug: string, limit = 6) {

@@ -1,8 +1,14 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
+import LearnSongCardGrid from '@/components/learn/LearnSongCardGrid'
 import LibraryBrowser from '@/components/library/LibraryBrowser'
-import { getFeaturedLearnGuideCards, getLearnGuideUrl } from '@/lib/learn/content'
+import {
+  getFeaturedLearnGuideCards,
+  getLearnGuideUrl,
+  getRecentLearnSongCards,
+  getRecentlyAddedSongWindowSize
+} from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
 import { songCatalog } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
@@ -47,6 +53,8 @@ export const metadata: Metadata = {
  */
 export default function Home() {
   const featuredGuides = getFeaturedLearnGuideCards()
+  const recentSongCards = getRecentLearnSongCards()
+  const recentSongWindowSize = getRecentlyAddedSongWindowSize()
   const librarySongs = songCatalog.map((song, index) => {
     const presentation = getSongPresentation(song)
 
@@ -192,6 +200,28 @@ export default function Home() {
           </div>
           <div className="mt-6">
             <LearnGuideCardGrid guides={featuredGuides} />
+          </div>
+        </section>
+
+        <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-bold text-stone-900">Recently Added Song Pages</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-700">
+                Follow the newest public song additions from the current rolling window of{' '}
+                {recentSongWindowSize} recent releases. This update hub gives fresh melody pages a
+                stronger public internal-link route than the sitemap alone.
+              </p>
+            </div>
+            <Link
+              href="/learn/new-songs"
+              className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+            >
+              View all recent songs
+            </Link>
+          </div>
+          <div className="mt-6">
+            <LearnSongCardGrid songs={recentSongCards} />
           </div>
         </section>
 
