@@ -462,7 +462,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Library Update',
     intro: [
       `This page is the public update hub for the newest songs added to the library. Instead of making Google discover each new melody page only through the sitemap or the homepage, this guide groups the latest ${RECENTLY_ADDED_SONG_WINDOW} public additions into one crawlable route with direct links back into the main song pages.`,
-      'That makes the page useful for visitors as well. If you already know the core beginner songs and want to see what changed most recently, this is the fastest way to browse fresh additions without scanning the full library. The linked songs still open the same public runtime-backed song pages, so instrument views, fingering charts, and note-mode controls stay exactly where regular visitors expect them.'
+      'That makes the page useful for visitors as well. If you already know the core beginner songs and want to see what changed most recently, this is the fastest way to browse fresh additions without scanning the full library. Every card still opens a full runtime-backed practice page, so fresh releases stay immediately playable instead of feeling like announcement-only content.'
     ],
     metaTitle: 'Recently Added Ocarina Tabs, Recorder Notes, and Song Pages',
     metaDescription:
@@ -478,7 +478,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         bullets: [
           `The page keeps a rolling window of ${RECENTLY_ADDED_SONG_WINDOW} recently added songs.`,
           'The newest cards stay near the top instead of being buried inside the full library.',
-          'Every card still opens the same public song page used everywhere else on the site.'
+          'Each card leads directly into a full playable song page instead of a teaser-only update list.'
         ]
       },
       {
@@ -516,7 +516,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a different kind of song page?',
         answer:
-          'No. They open the same public song route used throughout the site, with the same fingering-chart support, note views, playback tools, and instrument controls where supported.'
+          'No. The update hub exists to surface fresh releases, not to fork the song experience, so the usual fingering, playback, and note-view tools stay available when you open a song.'
       }
     ],
     relatedGuideSlugs: [
@@ -658,7 +658,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'How To Practice These 12-Hole Pages',
         paragraphs: [
-          'Start in the default 12-hole view and keep the fingering chart visible until the melody feels stable. The goal is to build consistency on the same public page instead of collecting multiple screenshots or alternate tab versions.',
+          'Start in the default 12-hole view and keep the fingering chart visible until the melody feels stable. The goal is to build consistency on one reusable melody page instead of collecting screenshots or alternate tab versions.',
           'Use lyrics when they help phrase timing, and use zoom before changing note mode. That keeps the page closer to how a beginner actually reads.'
         ],
         bullets: [
@@ -694,7 +694,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'A public guide for players who want 6-hole ocarina songs with letter notes, beginner-friendly melody choices, and direct links that open the song page with the 6-hole fingering view selected.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'This guide is for visitors who search specifically for 6-hole ocarina letter notes and want song pages that feel ready to use right away. The linked songs still open the same public detail pages, but these entry links can point straight into the 6-hole instrument view.',
+      'This guide is for visitors who search specifically for 6-hole ocarina letter notes and want a starter set that opens with the right fingering view already in place. It removes the extra filtering step and keeps attention on short, range-safe melodies that make sense on 6-hole ocarina.',
       'That narrower focus matters because 6-hole players usually need short, range-safe melodies and setup confidence before they care about broader library coverage.'
     ],
     featuredSongSlugs: [
@@ -1090,7 +1090,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'What To Add After The First Easy Songs',
         paragraphs: [
-          'Once the first classroom melodies feel steady, move into one seasonal tune and one slightly longer lyrical tune. That adds variety without leaving the same public workflow or forcing beginners into a new notation system.'
+          'Once the first classroom melodies feel steady, move into one seasonal tune and one slightly longer lyrical tune. That adds variety without forcing beginners into a new notation system or a more complicated reading setup.'
         ],
         songSlugs: withInstrument(
           ['amazing-grace', 'deck-the-halls', 'we-wish-you-a-merry-christmas'],
@@ -1186,7 +1186,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this page change the public whistle player?',
         answer:
-          'No. It only organizes the same public song pages into a clearer beginner path and opens them with the whistle view selected. Supported key choices remain part of the same public song page.'
+          'No. It is a beginner path, not a separate player. The whistle view opens first, and supported key choices remain available when you start moving beyond the first few tunes.'
       }
     ],
     relatedGuideSlugs: [
@@ -1206,7 +1206,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Practice Guide',
     intro: [
       'After the first few songs, many players stop searching for one melody and start searching for a better practice routine. They want to know how to use letter notes in a way that builds consistency instead of just collecting more tabs.',
-      'This guide keeps the practice answer close to the same public song pages already on the site. It suggests how to use short songs, longer phrases, and repeat practice without leaving the main ocarina song route.'
+      'This guide keeps the practice answer tied to real songs already worth repeating. Instead of abstract drills, it shows how to rotate short tunes, longer phrases, and repeat work so an ocarina routine stays simple enough to follow.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -1260,7 +1260,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this guide change the public ocarina song page?',
         answer:
-          'No. It only organizes practice advice around the same public detail pages and controls that already exist on the site.'
+          'No. It simply explains how to reuse the existing melody pages more deliberately, with a smaller routine and clearer practice priorities.'
       }
     ],
     relatedGuideSlugs: [
@@ -1323,7 +1323,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'Keep Home Practice And Class Practice Aligned',
         paragraphs: [
-          'Students improve faster when the home page and the class page are the same page. Instead of sending families to unrelated lyric sheets or screenshots, reuse the same public song links the student already saw in class.'
+          'Students improve faster when home practice uses the exact melody page they already saw in class. Instead of sending families to unrelated lyric sheets or screenshots, reuse the same song links so finger memory and visual memory stay aligned.'
         ],
         songSlugs: withInstrument(
           ['jingle-bells', 'deck-the-halls', 'we-wish-you-a-merry-christmas'],
@@ -1359,7 +1359,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Practice Guide',
     intro: [
       'Tin whistle beginners often improve faster when they stop chasing more tabs and start repeating a few stable melodies. The question becomes less about finding another song and more about how to practice the songs they already have.',
-      'This guide keeps that answer inside the same public whistle pages. It uses familiar tunes, slower folk songs, and seasonal melodies to build a simple routine without changing the main song route.'
+      'This guide keeps that answer anchored to whistle-friendly melody pages already worth revisiting. It uses familiar tunes, slower folk songs, and seasonal melodies to build a simple routine without turning practice into a search project.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1483,7 +1483,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this only for 12-hole ocarina?',
         answer:
-          'No. It is an ocarina-focused beginner guide built on the same public song pages, and related links can also take you into the 6-hole ocarina view.'
+          'No. It is an ocarina-first beginner guide, and related links can still send you straight into the 6-hole view when that instrument makes more sense.'
       },
       {
         question: 'Why not just list every easy song on one page?',
@@ -1553,7 +1553,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         bullets: [
           'Keep one ultra-easy song as a daily reset tune.',
           'Add one new melody at a time instead of rotating through many pages.',
-          'Use the broader ocarina guides when you want longer tunes without leaving the same public song route.'
+          'Use the broader ocarina guides when you want longer tunes without giving up the same easy-to-follow note layout.'
         ]
       }
     ],
@@ -1699,7 +1699,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'How To Use These Recorder Pages',
         paragraphs: [
           'Start with the shortest nursery songs in the default letter-note layout, then keep the fingering chart visible until the melody feels automatic.',
-          'When the page starts to feel busy, use zoom and lyrics controls before switching away from the same public song page.'
+          'When the page starts to feel busy, use zoom and lyrics controls before abandoning a song that is otherwise good for practice.'
         ],
         bullets: [
           'Pick one song you can finish in a single session.',
@@ -1754,7 +1754,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'Tin whistle searchers often start with easy songs, not with theory terms. They want tunes they already know, readable note labels, and a page that feels useful before they commit to learning ornamented traditional notation.',
-      'This guide answers that intent with a small set of public-domain melodies that still open the same public song pages used throughout the site, with the whistle view selected from the first click.'
+      'This guide answers that intent with a small set of public-domain melodies that sound natural on whistle, start cleanly for beginners, and open with the whistle view selected from the first click.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1842,7 +1842,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Seasonal Song Guide',
     intro: [
       'Holiday recorder searchers often want one practical answer: a small set of Christmas songs they can open quickly for class, rehearsal, or home practice without sorting through the full library first.',
-      'This page gives them that answer while keeping every click on the same public song pages. The difference is that these cards open in recorder view by default, so the landing page matches the holiday recorder query more closely.'
+      'This page gives them that answer with a recorder-first shortlist for seasonal practice, so teachers, students, and families can open familiar carols quickly with recorder view selected from the start.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1885,7 +1885,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'What To Add After The Easiest Carols',
         paragraphs: [
-          'Once the first holiday set feels settled, add one richer carol with longer phrases. That gives recorder players more breath-planning practice without leaving the same public page workflow.'
+          'Once the first holiday set feels settled, add one richer carol with longer phrases. That gives recorder players more breath-planning practice without forcing a different reading setup.'
         ],
         songSlugs: withInstrument(['god-rest-you-merry-gentlemen', 'silent-night', 'joy-to-the-world'], 'r8b')
       }
@@ -1894,7 +1894,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a separate recorder product?',
         answer:
-          'No. They open the same public song detail pages already used across the site. This guide simply makes recorder-specific Christmas traffic land closer to the right instrument view.'
+          'No. They open the normal playable song pages already used across the site. This guide simply makes recorder-specific Christmas traffic land closer to the right instrument view.'
       },
       {
         question: 'Can students still switch away from recorder view?',
@@ -2108,7 +2108,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this page only for one instrument?',
         answer:
-          'No. It is a beginner guide for the site as a whole, and the linked songs keep the same public detail page controls for the supported instrument views.'
+          'No. It is a beginner guide for the site as a whole, and the linked songs still let players switch among the supported instrument views when they need them.'
       },
       {
         question: 'Should beginners start with lyrics on or off?',
@@ -2465,7 +2465,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Can these pages work for school or ceremony settings?',
         answer:
-          'Yes. Many of the linked songs fit birthdays, school sharing, church use, wedding-related settings, or beginner recitals while keeping the same public detail page workflow.'
+          'Yes. Many of the linked songs fit birthdays, school sharing, church use, wedding-related settings, or beginner recitals because they are familiar enough to work in front of listeners, not just in private practice.'
       }
     ],
     relatedGuideSlugs: [
@@ -2483,7 +2483,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Game Theme Guide',
     intro: [
       'Zelda melody searches are rarely looking for one random game tune. Most players want a recognizable cluster: the calm Ocarina of Time melodies, a few stronger performance themes, and a page that keeps those songs readable without depending on scattered tab screenshots.',
-      'This guide gathers the Zelda pages already on the site into one practical route, so visitors can compare the main melodies, keep the fingering chart visible, and stay inside the same public song workflow from one theme to the next.'
+      'This guide gathers the Zelda pages already on the site into one practical route, so visitors can compare the main melodies, keep the fingering chart visible, and move from one theme to the next without relearning the interface each time.'
     ],
     featuredSongSlugs: [
       'song-of-time',
@@ -2546,12 +2546,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this guide only for ocarina players?',
         answer:
-          'No. It is especially relevant for ocarina searchers because Zelda demand is strong there, but the same pages also work for recorder and tin whistle visitors who want the melody in a simpler letter-note format.'
+          'No. It is especially relevant for ocarina searchers because Zelda demand is strong there, but recorder and tin whistle players also use it when they want familiar game themes in a simpler melody-first format.'
       },
       {
         question: 'Do these songs use a different page or notation system?',
         answer:
-          'No. Every card still opens the same public song detail page used across the site, with the same letter-note layout, fingering chart support, and numbered-note backup mode.'
+          'No. The Zelda guide changes the discovery path, not the reading system. Once you open a song, you still get the usual letter notes, fingering help, and numbered-note backup view.'
       }
     ],
     relatedGuideSlugs: [
@@ -2633,12 +2633,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this guide only for ocarina players?',
         answer:
-          'No. Ghibli demand is especially strong on ocarina, but the same public song pages also work for recorder and tin whistle visitors who want the melody in a simpler letter-note format.'
+          'No. Ghibli demand is especially strong on ocarina, but recorder and tin whistle players also use these pages when they want recognizable soundtrack melodies in a lighter reading format.'
       },
       {
         question: 'Do these songs use a different page or notation system?',
         answer:
-          'No. Every card still opens the same public song detail page used across the site, with the same letter-note layout, fingering chart support, and numbered-note backup mode.'
+          'No. The Ghibli guide simply groups soundtrack favorites together. The actual song pages keep the usual letter notes, fingering help, and numbered-note backup view.'
       }
     ],
     relatedGuideSlugs: [
@@ -2711,7 +2711,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'How does this connect to the rest of the site?',
         answer:
-          'Each song card opens the same public detail page used everywhere else on the site, so the guide becomes a real traffic entry point instead of a dead-end article.'
+          'Each song card opens a full song page with playback, fingering support, and note controls, so the guide works as a real practice entry point rather than a blog post with dead-end links.'
       }
     ],
     relatedGuideSlugs: [
@@ -2783,7 +2783,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these songs open a different player?',
         answer:
-          'No. Every card still opens the same public song detail page used elsewhere on the site, so the seasonal guide is an entry layer rather than a separate product flow.'
+          'No. This is mainly a seasonal shortlist. The carols still open in the standard song experience, with recorder view ready when that fits the search best.'
       }
     ],
     relatedGuideSlugs: [
@@ -2877,7 +2877,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Are these songs only for tin whistle players?',
         answer:
-          'No. Folk melodies are a natural fit for tin whistle, but the same public pages also work for recorder and ocarina users who want singable traditional tunes.'
+          'No. Folk melodies are a natural fit for tin whistle, but recorder and ocarina users also come here when they want singable traditional tunes with lighter reading support.'
       },
       {
         question: 'Why not just use the main song library?',
@@ -2902,7 +2902,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Tin Whistle Guide',
     intro: [
       'Some visitors are not just looking for any beginner song. They are searching specifically for Celtic or Irish-style whistle melodies that feel closer to the tunes they already hear in sessions, school groups, or home practice.',
-      'This page gives that narrower entry path while still routing every click into the same public song pages, with the whistle view preselected so the landing experience stays closer to Celtic whistle search intent.'
+      'This page gives that narrower entry path by grouping whistle-friendly Celtic melodies in one place, with the whistle view preselected so the first click already feels closer to session-oriented search intent.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -2994,7 +2994,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'March Song Guide',
     intro: [
       'Some visitors are not searching for nursery songs or lyrical folk tunes. They want march-style melodies, parade tunes, or recognizable ceremonial music that feels steadier, brighter, and more rhythm-driven.',
-      'This page gives that narrower entry path while keeping every click inside the same public song pages, so the familiar letter-note layout, fingering support, and practice controls do not change.'
+      'This page gives that narrower entry path while keeping the practical tools beginners need: readable letter notes, fingering support, and a stable place to rehearse strong-pulse tunes.'
     ],
     featuredSongSlugs: [
       'american-patrol',
@@ -3056,7 +3056,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this guide use a different song player?',
         answer:
-          'No. It is a themed public entry page. Every card still opens the same public song detail page used across the site.'
+          'No. It is a themed entry page only. The march songs still use the standard playback and note-reading tools, which matters when players want to compare pulse-heavy pieces quickly.'
       }
     ],
     relatedGuideSlugs: [
@@ -3185,7 +3185,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this page only for advanced players?',
         answer:
-          'No. The songs vary in length and shape, but this guide is still built as a melody-first entry page. It helps learners find recognisable international tunes without leaving the same public letter-note workflow.'
+          'No. The songs vary in length and shape, but this guide is still built as a melody-first entry page. It helps learners find recognisable international tunes without leaving a familiar letter-note reading setup.'
       },
       {
         question: 'Are these full traditional arrangements?',
@@ -3279,7 +3279,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Classical Song Guide',
     intro: [
       'Many search visitors do not want a full classical catalog first. They want one page that gathers the best-known themes they can recognize quickly and start reading without staff-heavy notation.',
-      'This guide keeps that entry path simple by sending visitors into the same public song pages, where the melody stays readable, the fingering chart stays available, and the runtime workflow does not change.'
+      'This guide keeps that entry path simple by leading with famous themes that are easy to recognize, easy to compare, and practical to start without reading full notation.'
     ],
     featuredSongSlugs: [
       'ode-to-joy',
@@ -3326,7 +3326,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these songs open a different classical player?',
         answer:
-          'No. Every card still opens the same public song detail page used across the site, so this guide improves entry paths without creating a separate product flow.'
+          'No. The classical guide only simplifies discovery. Once you choose a theme, the reading tools stay the same, which keeps famous melodies easy to compare across difficulty levels.'
       }
     ],
     relatedGuideSlugs: [
@@ -3344,7 +3344,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Learning Guide',
     intro: [
       'This page plays the role of a practical education article, not just another filtered list. It is designed for people who search for easy music class songs and then need real melody pages they can actually use.',
-      'The goal is to connect that broad classroom intent to the same public song pages, so the transition from discovery to practice stays direct and consistent.'
+      'The goal is to connect that broad classroom intent to melody pages that teachers and families can actually reuse, so discovery turns into repeat practice instead of a one-time read.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -3399,7 +3399,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this replace the main song library?',
         answer:
-          'No. It gives classroom and home-practice visitors a narrower landing page first, then routes them into the same public song pages used by the rest of the site.'
+          'No. It gives classroom and home-practice visitors a narrower landing page first, then sends them into reusable song pages instead of leaving them with a one-off article.'
       }
     ],
     relatedGuideSlugs: [
@@ -3417,7 +3417,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Hymn Song Guide',
     intro: [
       'Some visitors are not looking for a mixed beginner catalog. They want a smaller set of hymn or spiritual-style melodies they can open quickly for personal practice, church use, or quiet home playing.',
-      'This page gives them a direct entry point into the same public song pages, where the fingering chart stays available, lyrics can be turned on when supported, and the reading workflow stays simple.'
+      'This page gives them a direct entry point into reflective repertoire, where lyrics can help phrasing, the fingering chart stays close at hand, and the overall reading load remains light.'
     ],
     featuredSongSlugs: [
       'amazing-grace',
@@ -3466,7 +3466,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these songs use a different public player?',
         answer:
-          'No. Every card still opens the same public song detail page used elsewhere on the site, so the hymn guide is an entry layer rather than a separate playback system.'
+          'No. The hymn page narrows the repertoire, not the player. Once opened, the songs keep the usual note layout and playback controls that make slower lyrical practice easy to revisit.'
       }
     ],
     relatedGuideSlugs: [
@@ -3484,7 +3484,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Learning Guide',
     intro: [
       'Adult beginners often want the same low-friction reading support as younger learners, but they do not necessarily want to begin with only children’s songs or classroom framing. This page answers that broader search intent directly.',
-      'The goal is to give returning adults and first-time hobby players a cleaner route into familiar melodies that still open the same public song pages already used across the site.'
+      'The goal is to give returning adults and first-time hobby players a cleaner route into familiar melodies that feel less child-centered and more personally motivating.'
     ],
     featuredSongSlugs: [
       'ode-to-joy',
@@ -3688,7 +3688,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Ceremony Song Guide',
     intro: [
       'Some visitors are not searching for a general beginner song list. They need a smaller set of calm, recognisable melodies that fit wedding aisles, ceremonies, and formal moments, and they need those pages quickly.',
-      'This guide answers that intent directly while still sending every click into the same public song detail pages, where the fingering chart, letter notes, and optional numbered-note backup view stay in one stable layout.'
+      'This guide answers that intent directly with a tighter adult-first shortlist, where the fingering chart, letter notes, and optional numbered-note backup view stay easy to revisit from song to song.'
     ],
     featuredSongSlugs: [
       'canon',
@@ -3758,7 +3758,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Lyrical Song Guide',
     intro: [
       'Some visitors are not looking for a flashy first tune or a classroom nursery song. They want calmer melody pages that feel reflective, lyrical, and useful for slower practice or quiet performance.',
-      'This guide answers that intent directly while keeping every click inside the same public song detail pages, so the letter-note layout, fingering chart, and optional numbered-note backup view stay familiar from song to song.'
+      'This guide answers that intent directly by keeping the letter-note layout, fingering chart, and optional numbered-note backup view familiar from song to song, so learners can focus on pulse rather than interface changes.'
     ],
     featuredSongSlugs: [
       'amazing-grace',
@@ -3860,7 +3860,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this calm-song guide change the player or notation system?',
         answer:
-          'No. It is a public entry page only. Every song card still opens the same public detail page with the usual letter notes, fingering chart, and optional numbered-note backup view.'
+          'No. It is only a themed entry page. The songs keep the usual letter notes, fingering chart, and optional numbered-note backup view once you open them.'
       }
     ],
     relatedGuideSlugs: [
@@ -3879,7 +3879,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Bedtime Song Guide',
     intro: [
       'Some visitors are specifically looking for lullabies, bedtime melodies, or other songs that feel gentle enough for quiet home playing. They are not searching for a mixed song list or a faster beginner set.',
-      'This guide answers that intent with a smaller group of calm public song pages, so players can move straight into readable letter notes, keep the fingering chart on, and stay inside the same public song workflow.'
+      'This guide answers that intent with a smaller group of calm song pages, so players can move straight into readable letter notes, keep the fingering chart on, and settle into a quieter practice flow.'
     ],
     featuredSongSlugs: [
       'lullaby',
@@ -3929,7 +3929,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these bedtime songs use a different player?',
         answer:
-          'No. This guide only narrows the entry path. Every card still opens the same public song detail page with the usual letter notes, fingering support, and optional numbered-note backup view.'
+          'No. This guide only narrows the entry path. The bedtime songs still use the usual letter notes, fingering support, and optional numbered-note backup view once you open them.'
       }
     ],
     relatedGuideSlugs: [
@@ -3947,7 +3947,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Dance Song Guide',
     intro: [
       'Some visitors are not looking for the calmest beginner page or a seasonal song list. They want something more rhythmic: a dance melody, a polka, a waltz-like song, or another tune with a clear pulse and stronger motion.',
-      'This guide gives that entry point while keeping every click on the same public song pages, so players still get the familiar letter-note layout, fingering chart, and optional numbered-note backup view.'
+      'This guide gives that entry point while preserving the familiar note layout and fingering support, so players can work on pulse and motion without switching to a different kind of reading page.'
     ],
     featuredSongSlugs: [
       'can-can',
@@ -3998,7 +3998,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'What To Add After The First Polkas And Waltz-Like Tunes',
         paragraphs: [
-          'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read on the same public workflow.'
+          'Once the shorter dance pages feel secure, add one broader classical page and one march-like tune. That keeps the brighter energy while expanding the rhythm shapes you can read without changing to a different practice setup.'
         ],
         songSlugs: ['turkish-march', 'american-patrol', 'parade-of-the-wooden-soldiers', 'hes-a-pirate', 'detective-conan-main-theme', 'merry-go-round-of-life', 'chihiros-waltz', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz']
       }
@@ -4113,7 +4113,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   'easy-christmas-recorder-songs': {
     heroSummary: [
       'Christmas recorder pages serve a real seasonal use case: school concerts, classroom rotations, winter assemblies, and families looking for carols that students can actually play in time. This hub focuses on that practical repertoire. It brings together easy Christmas songs that fit recorder technique, keep the melody clear, and give beginners a visual chart they can trust while holiday performance pressure is still low but very real. The result is a much better landing page than sending a teacher or student into a general mixed song list.',
-      'Recorder works especially well for holiday material because so many carols are public-domain melodies with balanced phrases and easy-to-recognize contours. Students can often sing them before they touch the instrument, which makes rhythm entry and finger planning much easier. That is why this page leans on familiar Christmas tunes instead of novelty filler. Use it when you need easy tabs, winter recital pieces, or short seasonal songs that still sound complete on recorder and connect smoothly to the same public song pages used across the site.'
+      'Recorder works especially well for holiday material because so many carols are public-domain melodies with balanced phrases and easy-to-recognize contours. Students can often sing them before they touch the instrument, which makes rhythm entry and finger planning much easier. That is why this page leans on familiar Christmas tunes instead of novelty filler. Use it when you need easy tabs, winter recital pieces, or short seasonal songs that still sound complete on recorder and lead straight into usable practice pages.'
     ]
   },
   'easy-christmas-tin-whistle-songs': {
@@ -4125,7 +4125,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   'nursery-rhyme-letter-notes': {
     heroSummary: [
       'Nursery rhyme pages are not filler content on a beginner music site. They are some of the most effective first reading material because the melodies are short, repetitive, and deeply familiar from school, family singing, and early classroom music. This hub gathers that repertoire into one place for players who want letter notes, easy tabs, and visual charts that match the first songs children and beginners actually recognize. It is especially useful for recorder classes, where eight-hole beginner fingering lines up naturally with simple tune contours.',
-      'These songs also reduce cognitive load in a way advanced repertoire cannot. When a student already knows the melody, attention can go to finger placement, pulse, and breathing instead of guessing pitch direction. That is why nursery songs remain central to music education across generations. They are public-domain standards, adaptable across instruments, and ideal for short lesson cycles. Use this page when you need starter repertoire for school, home practice, or early childhood music sessions that still routes cleanly into the same public song pages as the rest of the library.'
+      'These songs also reduce cognitive load in a way advanced repertoire cannot. When a student already knows the melody, attention can go to finger placement, pulse, and breathing instead of guessing pitch direction. That is why nursery songs remain central to music education across generations. They are public-domain standards, adaptable across instruments, and ideal for short lesson cycles. Use this page when you need starter repertoire for school, home practice, or early childhood music sessions built around songs children already recognize immediately.'
     ]
   },
   'easy-songs-for-beginners': {
@@ -4153,7 +4153,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   'first-performance-letter-note-songs': {
     heroSummary: [
       'A first performance needs repertoire that feels reliable under pressure. Beginners preparing for a recital, school assembly, family celebration, or short public appearance usually need songs that are recognizable, steady in pulse, and forgiving enough to survive nerves. This hub is built around that reality. It collects melody pages that can serve as first-performance material, from ceremonial tunes and holiday pieces to famous film, game, and public-event themes that sound complete without requiring advanced technique or a full arrangement.',
-      'That makes the page more than a recital keyword target. It gives learners and teachers a practical shortlist of songs that are easier to announce, easier for listeners to recognize, and easier to practice repeatedly on the same public page. A good first performance song often has a strong hook, manageable length, and enough dignity to fit a formal moment, whether the player chooses a wedding classic, a march-like favorite, or a famous soundtrack melody. Use this hub when you want easy tabs, visual charts, and public melody pages that help beginners move from private practice toward their first confident appearance in front of other people.'
+      'That makes the page more than a recital keyword target. It gives learners and teachers a practical shortlist of songs that are easier to announce, easier for listeners to recognize, and easier to rehearse repeatedly without switching materials. A good first performance song often has a strong hook, manageable length, and enough dignity to fit a formal moment, whether the player chooses a wedding classic, a march-like favorite, or a famous soundtrack melody. Use this hub when you want easy tabs, visual charts, and public melody pages that help beginners move from private practice toward their first confident appearance in front of other people.'
     ]
   },
   'christmas-letter-note-songs': {
@@ -4197,7 +4197,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   },
   'world-folk-letter-note-songs': {
     heroSummary: [
-      'World folk repertoire gives beginners something a generic song list cannot: melodies shaped by different languages, histories, and regional traditions, yet still simple enough to learn through letter notes and visual charts. This hub brings those songs together across Asian, European, and American traditions so players can move from one cultural sound world to another without leaving the same public melody workflow. It is a useful page for curious beginners, teachers building a broader repertoire set, and anyone searching for traditional songs beyond the usual English-language standards.',
+      'World folk repertoire gives beginners something a generic song list cannot: melodies shaped by different languages, histories, and regional traditions, yet still simple enough to learn through letter notes and visual charts. This hub brings those songs together across Asian, European, and American traditions so players can move from one cultural sound world to another without losing a familiar melody-first reading setup. It is a useful page for curious beginners, teachers building a broader repertoire set, and anyone searching for traditional songs beyond the usual English-language standards.',
       'The value here is variety with context, not random international keywords. Songs such as Arirang, Jasmine Flower, Sakura Sakura, Bella Ciao, and other traditional melodies have real historical depth, public-domain visibility, and strong educational use because they are memorable while still sounding distinct from one another. They also work well on melody instruments that thrive on clear contour and singable phrasing. Use this page when you want global beginner repertoire, easy tabs with cultural range, and traditional songs that expand the site beyond one narrow folk tradition.'
     ],
     metaDescription:
@@ -4230,7 +4230,7 @@ const LEARN_GUIDE_SEO_OVERRIDES: Partial<
   'wedding-and-ceremony-letter-note-songs': {
     heroSummary: [
       'Wedding and ceremony music brings a more formal kind of search intent than ordinary beginner pages. Visitors landing here are often preparing for a procession, recessional, vow renewal, memorial, or another event where the melody needs dignity more than difficulty. This hub collects songs that suit those moments, from wedding staples and hymn-like ceremony pieces to slow classical melodies that remain clear in letter notes and visual chart form. It gives players a direct route into repertoire that feels appropriate for a public occasion.',
-      'That context matters because ceremony music needs both recognition and emotional steadiness. A beginner-friendly melody page can still be suitable for an aisle entrance or reflective event if the tune is familiar, balanced, and played with control. Canon, Wedding March, Amazing Grace, and similar pieces carry that kind of cultural weight. Use this page when you need ceremony repertoire, processional melody ideas, or easy tabs for formal events that still connect to the same public song pages instead of fragmenting into special-purpose versions.'
+      'That context matters because ceremony music needs both recognition and emotional steadiness. A beginner-friendly melody page can still be suitable for an aisle entrance or reflective event if the tune is familiar, balanced, and played with control. Canon, Wedding March, Amazing Grace, and similar pieces carry that kind of cultural weight. Use this page when you need ceremony repertoire, processional melody ideas, or easy tabs for formal events without relying on dense arrangement sheets.'
     ],
     metaDescription:
       'Wedding and ceremony songs with letter notes, visual charts, and melody pages for processionals, recessional music, and formal events.'
