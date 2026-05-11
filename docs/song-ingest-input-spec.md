@@ -15,6 +15,8 @@ Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI
 
 MusicXML is preferred because it can preserve measures, rhythm, key, repeats, rests, and lyric alignment.
 
+Current caveat: MusicXML can preserve those things in principle, but our current single-voice ingest path does not yet fully preserve every measure-internal timing offset from complex sources.
+
 ## Required Metadata
 
 Collect:
@@ -139,6 +141,18 @@ Publication workflow details and the required external melody/version verificati
 Coverage details and current unsupported areas:
 
 - `docs/happy123-notation-coverage.md`
+
+## Current Known Limitation
+
+- Happy123 / Kuailepu notation can store barlines with `|`.
+- MusicXML also has explicit `<measure>` boundaries.
+- Some imported songs still show wrong barline placement after conversion because the current ingest path can lose part of the measure-internal timing structure when:
+  - the source relies on `backup` / `forward`
+  - the selected melody voice omits explicit rests
+  - the source is effectively multi-voice even after choosing one voice
+- In those cases, the problem is not “missing barline support”; it is incomplete timeline reconstruction before notation generation.
+- The proper future fix is to preserve per-event measure offsets and rebuild explicit rests for the chosen melody voice before writing Happy123/Kuailepu notation.
+- Until that is implemented, treat barline mismatch as a known ingest limitation unless it also causes real melody/rhythm failure.
 
 Not yet covered:
 

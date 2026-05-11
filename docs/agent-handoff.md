@@ -79,6 +79,13 @@ Playbook:
 - Keep letter transformation in `src/lib/kuailepu/runtime.ts`.
 - Keep playback / metronome integration as shell-to-runtime bridges instead of forking the archived renderer.
 - Prefer runtime asset profile changes over deleting bundled old assets.
+- Do not run `npm run build` and `npm run test:e2e` concurrently in the same workspace; both touch `.next` and can create false failures.
+
+## Current Known Limitation
+
+- MusicXML ingest can still produce incorrect barline placement on some songs even when melody pitch is usable.
+- The issue is not that Happy123/Kuailepu notation lacks `|`; the issue is current single-voice extraction not fully preserving measure-internal timing when the source relies on `backup`, `forward`, implicit rests, or multi-voice timing.
+- If this becomes worth fixing, do it at the ingest timeline layer by preserving per-event measure offsets and rebuilding explicit rests before notation generation.
 
 ## Topic Docs
 

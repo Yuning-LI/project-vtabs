@@ -5,6 +5,11 @@
  * becoming a second full library index. With the current release goal of about
  * 5-6 songs per day, a 42-song window covers roughly one week of fresh public
  * additions.
+ *
+ * Maintenance rule:
+ * - after each public publish batch, prepend the new slugs
+ * - keep only the newest 42 public songs in this file
+ * - do not include candidate-only or unpublished songs
  */
 export const RECENTLY_ADDED_SONG_WINDOW = 42
 export const RECENTLY_ADDED_HOMEPAGE_LIMIT = 12

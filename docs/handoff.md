@@ -15,6 +15,14 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 - `captured SVG` is debug/parity material only.
 - `/api/kuailepu-runtime/<slug>` must remain `noindex, nofollow, noarchive`.
 
+## Latest Verified Changes
+
+- Public playback keeps the original Kuailepu countdown overlay. The shell no longer hides `.count-down-area` when `public_feature=playback` is enabled.
+- Mobile `More Tools` now closes reliably after opening. The drawer close path is centralized and guarded against touch-event reopen races.
+- Full verification for the latest runtime-shell changes:
+  - `npm run build` passes
+  - `npm run test:e2e` passes (`21 passed`)
+
 ## Counts
 
 Do not trust hand-written counts in docs. Verify current public counts with:
@@ -29,16 +37,20 @@ npm run validate:content
 - Any request with `public_feature=metronome` or `public_feature=playback` currently upgrades to `full-template`.
 - Keep runtime bridge changes isolated to `src/lib/kuailepu/runtime.ts`; do not fork archived `song_*.js` behavior unless unavoidable.
 
-## Current GSC Batch Boundary
+## Current MusicXML Ingest Boundary
 
-The 2026-04-23 GSC cleanup was a bounded content-layer pass:
+- The main MusicXML -> draft -> Happy123/Kuailepu notation -> runtime candidate path is usable for normal melody imports.
+- Do not keep polishing the generator in the abstract. Prefer sample-driven fixes when a real song exposes a concrete failure.
+- Known limitation not yet fixed:
+  - some imported songs can show incorrect barline positions even though melody pitch is broadly correct
+  - root cause is not missing `|` support in Happy123/Kuailepu notation
+  - root cause is current single-voice extraction dropping part of the measure-internal timing structure when the source uses `backup` / `forward` / implicit rests / multi-voice timing
+  - if this is revisited, the proper fix is to preserve per-event measure offsets and rebuild a full measure timeline with explicit rests before notation generation
+- Treat that barline issue as a separate ingest-timing project, not a quick shell/runtime tweak.
 
-- No new URL.
-- No slug changes.
-- No runtime / route changes.
-- Edited only `data/songbook/song-seo-profiles.json` and `src/lib/learn/content.ts`.
+## Local Validation Note
 
-Do not blindly continue that exact batch. Re-check current GSC data before another GSC-driven pass.
+- Do not run `npm run build` and `npm run test:e2e` against the same workspace at the same time. Both mutate/read `.next` and can produce false `MODULE_NOT_FOUND` or manifest errors.
 
 ## Before Push
 

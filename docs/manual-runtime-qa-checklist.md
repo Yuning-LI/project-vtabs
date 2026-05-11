@@ -81,9 +81,11 @@ When controls are touched:
 - Metronome does not cover the fingering chart.
 - Playback opens from the shell `Listen` button and can return to `Stop`.
 - Playback panel opens in the upper-right area on desktop and stays readable on mobile.
+- Playback start shows the native Kuailepu `3 / 2 / 1` countdown overlay before audio begins.
 - Clicking blank area inside the iframe closes the playback panel without breaking the page.
 - Clicking blank area outside the iframe also closes the playback panel without stopping playback.
 - In `letter` mode, playback note highlight remains visible on the overlay instead of disappearing behind the white label cover.
+- On mobile, `More Tools` opens and `Close more tools` fully dismisses the drawer without immediately reopening.
 
 ## SEO Shell
 
