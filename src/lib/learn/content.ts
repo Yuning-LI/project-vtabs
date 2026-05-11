@@ -537,7 +537,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'This page gathers the song pages that work best as a first stop for players searching for 12-hole ocarina letter notes, 12-hole ocarina notes, or an easy finger chart song list. The goal is not to replace the song library, but to give search users a clearer way to begin.',
-      'Every linked melody still opens the same public song page, so visitors can keep the fingering chart visible, switch to numbered notes when needed, and stay inside the same page shell instead of jumping between disconnected tab images.'
+      'It is built around the practical first-use situations that make 12-hole search intent different from a generic library browse: a first warm-up song, a first sing-along melody, and one or two longer tunes that still stay readable in the standard 12-hole range.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -591,7 +591,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Is this a separate ocarina notation system?',
         answer:
-          'No. It is a themed entry page that points into the same public song detail pages, where letter notes, fingering charts, and numbered-note backup views already exist.'
+          'No. It is a curated first-stop page for players who already search in 12-hole terms and want a smaller, more teachable opening set than the full library.'
       },
       {
         question: 'Who is this guide for?',
@@ -617,7 +617,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Beginner Guide',
     intro: [
       'This page is for visitors who already know they want easy 12-hole ocarina songs and do not need a mixed-instrument landing page first. It narrows the site down to a cleaner first batch of melodies that fit the standard 12-hole public view well and answer the usual 12-hole ocarina songs or 12-hole ocarina notes search intent more directly.',
-      'The linked songs still use the same public detail pages. This guide simply gives beginners a more obvious first path, stronger finger-chart context, and a better search landing page for 12-hole-specific intent.'
+      'The goal is to create a cleaner progression: very short nursery tunes first, then holiday, hymn, and first-classical melodies that still sit comfortably for a standard 12-hole reader.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -677,7 +677,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Does this change how the song pages work?',
         answer:
-          'No. It is still the same public song page route with the same controls, fingering chart, and note-label options.'
+          'No. What changes is the repertoire order, not the page mechanics. This guide simply narrows the first batch to songs that behave well for a standard 12-hole beginner.'
       }
     ],
     relatedGuideSlugs: [
@@ -695,7 +695,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'This guide is for visitors who search specifically for 6-hole ocarina letter notes and want song pages that feel ready to use right away. The linked songs still open the same public detail pages, but these entry links can point straight into the 6-hole instrument view.',
-      'That makes the page more useful as a landing page for search traffic while keeping the public song route, fingering logic, and runtime behavior exactly the same.'
+      'That narrower focus matters because 6-hole players usually need short, range-safe melodies and setup confidence before they care about broader library coverage.'
     ],
     featuredSongSlugs: [
       { slug: 'twinkle-twinkle-little-star', instrumentId: 'o6' },
@@ -751,7 +751,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a different kind of song page?',
         answer:
-          'No. They open the same public song pages, but this guide can point into the 6-hole ocarina view so visitors do not need to reselect the instrument every time.'
+          'No. The practical difference is convenience: this guide starts from the 6-hole view so beginners can spend time on fingering and breath, not setup clicks.'
       },
       {
         question: 'Is this page only for absolute beginners?',
@@ -774,7 +774,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'This guide is aimed at players and teachers searching for recorder letter notes instead of a full mixed song catalog. It gives them a narrower page with clearer next steps.',
-      'The linked songs still use the same public runtime page, but these cards open the recorder view by default so visitors land closer to the instrument they searched for. When a song supports Baroque or German recorder setups, that choice stays inside the same song page instead of splitting into another URL.'
+      'That makes the page useful for classroom and home practice alike: it emphasizes melodies teachers can cue quickly, songs students can already sing, and setup choices that match the actual recorder in hand.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -866,7 +866,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'Tin whistle players often search for simple melody pages before they search by tune family. This guide is built to catch that intent and move visitors straight into songs they already recognize.',
-      'The best first links here mix familiar beginner melodies with a few slower folk and hymn tunes that reward cleaner breath planning, and every card opens the public page with the whistle view preselected. If a song offers more than one whistle setup, the key choice stays on the same song page.'
+      'The first links mix familiar beginner melodies with slower folk and hymn tunes that reward cleaner breath planning, so the page feels like a whistle-first practice shelf instead of a generic mixed library.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -937,7 +937,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Can I still reach the full song page from here?',
         answer:
-          'Yes. Every song card opens the normal public detail page, where the melody page, controls, instrument switching, and supported whistle key choices stay intact.'
+          'Yes. The value here is not a different destination but a whistle-first starting point, with the matching key view already selected when the song supports it.'
       }
     ],
     relatedGuideSlugs: [
@@ -959,7 +959,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Starter Guide',
     intro: [
       'Many beginners search for help before they search for one song title. They want to know how to start ocarina in a way that feels readable, familiar, and close to the instrument in their hands.',
-      'This guide answers that beginner intent with the same public song pages already on the site. The difference is that it organizes those pages into a cleaner first path, so visitors can start with letter notes, keep the fingering chart visible, and move into longer melodies without leaving the main song route.'
+      'Instead of explaining technique in the abstract, it organizes the first week around a small sequence of songs: one tune you can hum already, one birthday or classroom melody, and one longer phrase piece once the fingers settle.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -1017,12 +1017,12 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do I need to learn staff notation before using these pages?',
         answer:
-          'No. This starter guide is for melody-first practice. It uses the same public song pages with letter notes and fingering support so beginners can start with recognizable tunes first.'
+          'No. The point is to let beginners start from recognizable tunes first, so note reading grows out of melody memory instead of depending on staff notation from day one.'
       },
       {
         question: 'Does this guide replace the main ocarina song pages?',
         answer:
-          'No. It only organizes the first steps more clearly. Every song card still opens the normal public detail page with the same controls and instrument options.'
+          'No. It simply organizes the first steps more clearly, so a new player can move from one useful tune to the next without guessing where to begin.'
       }
     ],
     relatedGuideSlugs: [
@@ -1042,7 +1042,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Starter Guide',
     intro: [
       'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want recorder letter notes, a handful of familiar songs, and a practice flow that works in short lessons or classroom warmups.',
-      'This guide uses the same public song pages as the rest of the site, but it organizes them as a clearer first step for recorder players, teachers, and home practice built around easy beginner recorder songs. When the page offers both Baroque and German recorder setups, choose the one that matches the physical recorder before the first read-through.'
+      'The page is structured around short-lesson reality: a few tunes students already know, a readable first pass with visible fingering, and setup choices that match Baroque or German classroom recorders.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1107,7 +1107,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a different recorder page?',
         answer:
-          'No. They open the same public song route, but the recorder view is preselected so the landing page matches the search intent more closely. Supported Baroque or German setup choices stay inside that same page.'
+          'No. The point is to land recorder learners closer to the right setup from the first click, especially when Baroque or German fingering choices matter.'
       }
     ],
     relatedGuideSlugs: [
@@ -1127,7 +1127,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Starter Guide',
     intro: [
       'New tin whistle players often begin by searching for easy songs and clear fingerings, not by searching for ornament-heavy whistle repertoire. They want to know which melodies will actually feel manageable in the first week.',
-      'This guide gives that first route using the same public song pages already on the site. It keeps the melody pages simple, recognizable, and closer to the whistle view that beginners expect, while keeping any supported whistle key choice on the same page.'
+      'The first set leans on tunes that teach breath and phrase shape without requiring ornament, which is closer to what a new whistle player actually needs than a broad folk archive.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1506,7 +1506,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Beginner Guide',
     intro: [
       'This page narrows the beginner problem even further than the general ocarina guides. It is for players who specifically want easy 6-hole ocarina songs and would rather begin with the shortest, most repeatable melodies in the library.',
-      'Each song link can open the same public detail page with the 6-hole fingering view selected, so the landing page matches the practice setup more closely.'
+      'Each song here is chosen to keep the first sessions compact: short range, repeatable rhythm, and enough familiarity that a beginner can tell quickly whether the fingering pattern is settling in.'
     ],
     featuredSongSlugs: [
       { slug: 'twinkle-twinkle-little-star', instrumentId: 'o6' },
@@ -1561,7 +1561,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do I need a different site section for 6-hole songs?',
         answer:
-          'No. These are the same public song pages, but this guide groups the most approachable ones and links into the 6-hole instrument view.'
+          'No. What you need is a cleaner first subset, and that is what this page provides: the most approachable songs, already framed for 6-hole use.'
       },
       {
         question: 'Why are nursery songs included here?',
@@ -1584,7 +1584,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Seasonal Guide',
     intro: [
       'Holiday searchers usually do not want a broad mixed-song page. They want a short list of Christmas melodies that already feel playable on ocarina and can open straight into a readable public song page.',
-      'This guide gives that narrower landing page while keeping the existing public song route, fingering chart, and note-label controls unchanged.'
+      'This guide gives seasonal players a smaller shelf of carols and sing-along tunes that work quickly on ocarina, instead of making them scan the whole library during a short holiday practice window.'
     ],
     featuredSongSlugs: [
       'jingle-bells',
@@ -1636,7 +1636,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         question: 'Do these links open a different ocarina page?',
         answer:
-          'No. They open the same public song pages. This guide only gives holiday searchers a more direct way into them.'
+          'No. The advantage is focus, not a separate format: holiday visitors get straight to the most usable Christmas melodies without wading through the full library first.'
       }
     ],
     relatedGuideSlugs: [
@@ -1654,7 +1654,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     heroLabel: 'Instrument Guide',
     intro: [
       'Some searchers are not looking for recorder theory or a full catalog. They want easy recorder songs, simple recorder songs, and beginner tunes they can recognize quickly and start reading in letter notes right away.',
-      'This page gives that narrower entry point while still routing every click into the same public song pages, now landing in recorder view by default so the first click matches recorder-specific intent more closely.'
+      'This page answers that need with a smaller recorder-first set: familiar classroom tunes first, then a few longer melodies that still feel realistic for early breath and fingering practice.'
     ],
     featuredSongSlugs: withInstrument(
       [
