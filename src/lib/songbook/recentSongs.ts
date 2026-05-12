@@ -15,6 +15,8 @@ export const RECENTLY_ADDED_SONG_WINDOW = 42
 export const RECENTLY_ADDED_HOMEPAGE_LIMIT = 12
 
 const RECENTLY_ADDED_SONG_SLUGS = [
+  'molly-malone',
+  'for-hes-a-jolly-good-fellow',
   'a-town-with-an-ocean-view',
   'the-promise-of-the-world',
   'ponyo-on-the-cliff-by-the-sea',
@@ -55,8 +57,6 @@ const RECENTLY_ADDED_SONG_SLUGS = [
   'senbonzakura',
   'cruel-angels-thesis',
   'gurenge',
-  'blue-bird',
-  'lemon-kenshi-yonezu'
 ] as const
 
 export function getRecentlyAddedSongSlugs(limit = RECENTLY_ADDED_SONG_WINDOW) {

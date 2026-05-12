@@ -1,0 +1,38 @@
+{
+  "id": "for-hes-a-jolly-good-fellow",
+  "slug": "for-hes-a-jolly-good-fellow",
+  "title": "For He's A Jolly Good Fellow",
+  "description": "A familiar celebration song arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "For _ he's a jol ly good fel low, For he's a jol ly good",
+    "fel low, For _ he's a jol ly good fel _ low, and so say all of",
+    "us, And _ so say all of us, And _ so say all of",
+    "us, For he's a jol ly good fel low, For he's a jol ly good",
+    "fel low, For _ he's a jol ly good fel _ low, and so say all of us."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "6/8"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-12",
+    "note": "Imported through the MusicXML ingest pipeline and checked against common public references before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "1 2 | {cn:F} 3 - - - 3 - 3 - 2 - 3 - | {cn:C7} 4 - - - - - {cn:F} 3 - - - 3 - | {cn:C7} 2 - - - 2 - 2 - 1 - 2 -",
+    "{cn:F} 3 - - - - - 1 - - - 1 2 | 3 - - - 3 - {cn:F7} 3 - 2 - 3 - | {cn:Bb} 4 - - - 5 - {cn:Fd} 6 - - - 6 - | {cn:F} 5 - - - {cn:G} 4 - {cn:A} 3 - - - {cn:C7} 2 -",
+    "{cn:F} 1 - - - - - - - - - 3 4 | 5 - - - 5 - {cn:Bb} 6 - - - 6 - | {cn:F} 5 - - - - - - - - - 3 4 | 5 - - - 5 - {cn:Bb} 6 - - - 6 -",
+    "{cn:F} 5 - - - - - - - - - {cn:C7} 4 - | {cn:F} 3 - - - 3 - 3 - 2 - 3 - | {cn:C7} 4 - - - - - {cn:F} 3 - - - 3 - | {cn:C7} 2 - - - 2 - 2 - 1 - 2 -",
+    "{cn:F} 3 - - - - - 1 - - - 1 2 | 3 - - - 3 - {cn:F7} 3 - 2 - 3 - | {cn:Bb} 4 - - - {cn:F} 5 - {cn:Fd} 6 - - - 6 - | {cn:F} 5 - - - {cn:G} 4 - {cn:A} 3 - - - {cn:C7} 2 - | {cn:F} 1 - - - - - - - - - 0 -"
+  ]
+}

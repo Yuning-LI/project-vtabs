@@ -1,0 +1,40 @@
+{
+  "id": "molly-malone",
+  "slug": "molly-malone",
+  "title": "Molly Malone",
+  "description": "A well-known Irish folk song arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "In Dub lin's fair cit y, where girls are so pret ty, I",
+    "first set my eyes on sweet Mol ly Ma lone. As she",
+    "pushed her wheel bar row thru streets broad and",
+    "nar row sing ing, \"Coc kles! and Mus sels, a live, a live oh!\" A",
+    "live, a live oh, _ a live, a live oh, _ sing ing \"Coc kles and",
+    "Mus sels a live a live oh!\" _ _ _ _ _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-12",
+    "note": "Imported through the MusicXML ingest pipeline and checked against common Irish public references before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 - - - 5d - | {cn:G} 1 1 - - 1 - | {cn:E7} 1 3 - - 1 - | {cn:C6} 2 - 2 - - 2 | {cn:D7} 2 4 - - 2 -",
+    "{cn:G} 3 - 4 - 5 - | {cn:E7} 5 - 4 - 3 - | {cn:A7} 3 - 2 - - 2 | {cn:D7} 2 - - - 5d 5d",
+    "{cn:G} 1 - 1 - 1 - | {cn:G7} 1 3 - - 1 - | {cn:A} 2 - 2 - - 2",
+    "{cn:D7} 2 4 - - 3 2 | {cn:G} 5 3 - - 1 - | 5 - 3 - - 1 | {cn:A} 2 - - 1 {cn:D7} 2 - | {cn:G} 1 - - - 5d -",
+    "1 - - 1 1 - | 1 - 3 - 1 - | {cn:D7} 2 - - 2 2 - | 2 - 4 - 3 2 | {cn:G} 5 - 3 - - 1",
+    "{cn:E7} 5 3 - - 1 - | {cn:A7} 2 - - 1 {cn:D7} 2 - | {cn:G} 1 - - - {cn:D7} 5d - | {cn:G} 1 - - - {cn:D7} 5d - | {cn:G} 1 - - - - - | 1 - - - - -"
+  ]
+}
