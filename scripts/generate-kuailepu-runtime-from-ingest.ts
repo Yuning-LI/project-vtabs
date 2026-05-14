@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { generateKuailepuRuntimeCandidate } from '../src/lib/songbook/kuailepuIngest.ts'
+import { analyzeHcNotation, buildHcConsistencySummary } from '../src/lib/songbook/hcNotation.ts'
 import type { SongIngestDraft } from '../src/lib/songbook/songIngestDraft.ts'
 import { buildSourceSanityReport } from '../src/lib/songbook/sourceSanity.ts'
 
@@ -22,8 +23,14 @@ type CliOptions = {
   graceMode: 'source-only' | 'payload-metadata'
 }
 
+const DEFAULT_CANDIDATE_DRAFT_DIR = 'reference/song-publish-candidates/drafts'
+const DEFAULT_CANDIDATE_RUNTIME_DIR = 'reference/song-publish-candidates/runtime'
+const DEFAULT_CANDIDATE_SONGDOC_DIR = 'reference/song-publish-candidates/songdocs'
+const DEFAULT_CANDIDATE_REPORT_DIR = 'reference/song-publish-candidates/reports'
+const DEFAULT_CANDIDATE_SANITY_DIR = 'reference/song-publish-candidates/source-sanity'
+
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-kuailepu-runtime-from-ingest.ts <draft.json> --template=<slug> --slug=<slug> [--title="Title"] [--keynote=1=F] [--transpose=-7|--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] --out-runtime=data/kuailepu-runtime/<slug>.json [--out-songdoc=data/kuailepu/<slug>.json] [--out-report=exports/song-ingest/<slug>-report.json] [--out-sanity=exports/song-ingest/source-sanity/<slug>.json] [--keep-template-cache]'
+  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-kuailepu-runtime-from-ingest.ts <draft.json> --template=<slug> --slug=<slug> [--title="Title"] [--keynote=1=F] [--transpose=-7|--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] [--out-runtime=${DEFAULT_CANDIDATE_RUNTIME_DIR}/<slug>.json] [--out-songdoc=${DEFAULT_CANDIDATE_SONGDOC_DIR}/<slug>.json] [--out-report=${DEFAULT_CANDIDATE_REPORT_DIR}/<slug>-report.json] [--out-sanity=${DEFAULT_CANDIDATE_SANITY_DIR}/<slug>.json] [--keep-template-cache]`
 
 const options = parseArgs(process.argv.slice(2))
 if (!options) {
@@ -82,6 +89,7 @@ if (options.rankBaseUrl) {
   )
 }
 
+const hcValidation = analyzeHcNotation(String(generated.runtimePayload.notation ?? ''))
 const ingestReport = {
   ...generated.ingestReport,
   source: {
@@ -94,6 +102,8 @@ const ingestReport = {
     ...generated.ingestReport.generation,
     templateSlug: options.templateSlug
   },
+  hcValidation,
+  hcConsistency: buildHcConsistencySummary(draft, hcValidation),
   sourceSanity
 }
 
@@ -133,8 +143,7 @@ function parseArgs(args: string[]): CliOptions | null {
   const input = positional[0]
   const templateSlug = values.get('template')
   const slug = values.get('slug')
-  const outRuntime = values.get('out-runtime')
-  if (!input || !templateSlug || !slug || !outRuntime) return null
+  if (!input || !templateSlug || !slug) return null
 
   return {
     input,
@@ -145,10 +154,10 @@ function parseArgs(args: string[]): CliOptions | null {
     transpose: values.has('transpose') ? Number(values.get('transpose')) : null,
     autoTransposeInstrument: values.get('auto-transpose'),
     rankBaseUrl: values.get('rank-base-url'),
-    outRuntime,
-    outSongDoc: values.get('out-songdoc'),
-    outReport: values.get('out-report'),
-    outSanity: values.get('out-sanity'),
+    outRuntime: values.get('out-runtime') || `${DEFAULT_CANDIDATE_RUNTIME_DIR}/${slug}.json`,
+    outSongDoc: values.get('out-songdoc') || `${DEFAULT_CANDIDATE_SONGDOC_DIR}/${slug}.json`,
+    outReport: values.get('out-report') || `${DEFAULT_CANDIDATE_REPORT_DIR}/${slug}-report.json`,
+    outSanity: values.get('out-sanity') || `${DEFAULT_CANDIDATE_SANITY_DIR}/${slug}.json`,
     scrubRuntimeCache: values.get('keep-template-cache') !== 'true',
     graceMode:
       values.get('grace-mode') === 'payload-metadata' ? 'payload-metadata' : 'source-only'

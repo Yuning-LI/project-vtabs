@@ -4,6 +4,8 @@ import { chooseBestRangeShift } from './rangeFit.ts'
 import { parseKeynoteToMidi } from './songIngestDraft.ts'
 import type { ParsedToken, SongDoc } from './types.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
+import type { KuailepuRuntimePayload } from '../kuailepu/runtime.ts'
+import type { PublicSongInstrumentId } from './publicInstruments.ts'
 
 export type RuntimeInstrumentProfile = {
   id: string
@@ -292,13 +294,17 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
   const selectedTranspose = transpose ?? rangeReport.selectedAutoTranspose?.recommendedShift ?? 0
   const targetKeynote = keynote ?? transposeKeynote(sourceKeynote, selectedTranspose)
   const targetTonicMidi = parseKeynoteToMidi(targetKeynote)
+  const runtimeTempoBpm = resolveRuntimeTempoBpm(template, draft)
   const notationLines = transposeNotationLines(
     draft.notation.lines,
     sourceTonicMidi,
     targetTonicMidi,
     selectedTranspose
   )
-  const rawNotation = renderHappy123NotationFromExpandedLines(notationLines)
+  const rawNotation = ensureNotationTempoDirective(
+    renderHappy123NotationFromExpandedLines(notationLines),
+    runtimeTempoBpm
+  )
   const extractedAlignedLyrics = draft.lyrics.alignedLines.filter(
     line => !isPlaceholderLyricLine(line)
   )
@@ -323,6 +329,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     song_pinyin: slug.replace(/-/g, ''),
     keynote: targetKeynote,
     rhythm: draft.metadata.meter ?? template.rhythm ?? '4/4',
+    bpm: runtimeTempoBpm,
     music_composer: draft.metadata.composer ?? '',
     lyric: lyricText ? JSON.stringify([lyricText]) : '[]',
     lyric_text: lyricText,
@@ -359,12 +366,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     },
     meta: {
       key: formatKeynoteLabel(targetKeynote),
-      tempo:
-        Number(
-          template.meta && typeof template.meta === 'object' && 'tempo' in template.meta
-            ? (template.meta as Record<string, unknown>).tempo
-            : 100
-        ) || 100,
+      tempo: runtimeTempoBpm,
       meter: draft.metadata.meter ?? String(template.rhythm ?? '4/4')
     },
     review: {
@@ -476,6 +478,97 @@ export function buildRangeReport(noteMidis: number[], autoTransposeInstrument: s
   return {
     selectedAutoTranspose,
     fits
+  }
+}
+
+export function buildGeneratedPublicInstrumentFingerings(
+  targetKeynote: string,
+  sourceNoteMidis: number[],
+  sourceTonicMidi: number
+) {
+  return buildGeneratedInstrumentFingerings(targetKeynote, sourceNoteMidis, sourceTonicMidi)
+}
+
+export function buildGeneratedPublicFingeringsField(
+  instrumentFingerings: Array<{
+    instrument: string
+    fingeringSetList?: Array<Array<{ fingering: string }>>
+  }>
+) {
+  return buildGeneratedFingeringsField(instrumentFingerings)
+}
+
+export function buildSyntheticRuntimePayloadForInstrument(
+  payload: KuailepuRuntimePayload,
+  instrumentId: PublicSongInstrumentId
+) {
+  const songUuid = typeof payload.song_uuid === 'string' ? payload.song_uuid : ''
+  const keynote = typeof payload.keynote === 'string' ? payload.keynote : ''
+  const rawNotation = typeof payload.notation === 'string' ? payload.notation : ''
+
+  if (!songUuid.startsWith('synthetic-') || !keynote || !rawNotation.trim()) {
+    return null
+  }
+
+  const sourceTonicMidi = parseKeynoteToMidi(keynote)
+  const notationLines = rawNotation.split(/\n+/).map(line => line.trim()).filter(Boolean)
+  if (notationLines.length < 1) {
+    return null
+  }
+
+  const sourceNoteMidis = parseNotation(notationLines, sourceTonicMidi)
+    .flat()
+    .filter((token): token is ParsedToken & { kind: 'note' } => token.kind === 'note')
+    .map(token => token.midi)
+  if (sourceNoteMidis.length < 1) {
+    return null
+  }
+
+  const rangeReport = buildRangeReport(sourceNoteMidis, undefined)
+  const fit = rangeReport.fits.find(candidate => candidate.instrumentId === instrumentId)
+  if (!fit) {
+    return null
+  }
+
+  const selectedTranspose = fit.recommendedShift
+  const targetKeynote = transposeKeynote(keynote, selectedTranspose)
+  const targetTonicMidi = parseKeynoteToMidi(targetKeynote)
+  const transposedNotationLines = transposeNotationLines(
+    notationLines,
+    sourceTonicMidi,
+    targetTonicMidi,
+    selectedTranspose
+  )
+  const transposedNoteMidis = sourceNoteMidis.map(midi => midi + selectedTranspose)
+  const instrumentFingerings = buildGeneratedPublicInstrumentFingerings(
+    targetKeynote,
+    transposedNoteMidis,
+    targetTonicMidi
+  )
+
+  const nextPayload = {
+    ...scrubTemplateRuntimeCache(payload),
+    keynote: targetKeynote,
+    notation: renderHappy123NotationFromExpandedLines(transposedNotationLines),
+    instrument: 'none',
+    fingering: '',
+    fingering_index: 0,
+    show_graph: '',
+    instrumentFingerings,
+    fingerings: buildGeneratedPublicFingeringsField(instrumentFingerings)
+  } satisfies KuailepuRuntimePayload
+
+  return {
+    payload: nextPayload,
+    report: {
+      instrumentId,
+      sourceKeynote: keynote,
+      targetKeynote,
+      selectedTranspose,
+      sourceNoteRange: summarizeNoteRange(sourceNoteMidis),
+      targetNoteRange: summarizeNoteRange(transposedNoteMidis),
+      instrumentFit: fit
+    }
   }
 }
 
@@ -591,6 +684,35 @@ export function scrubTemplateRuntimeCache(template: Record<string, unknown>) {
   delete payload.comment_list
   delete payload.comment
   return payload
+}
+
+function resolveRuntimeTempoBpm(template: Record<string, unknown>, draft: SongIngestDraft) {
+  const sourceTempo = Number(draft.metadata.tempoBpm)
+  if (Number.isFinite(sourceTempo) && sourceTempo > 0) {
+    return Math.round(sourceTempo)
+  }
+
+  const templateTempo =
+    template.meta && typeof template.meta === 'object' && 'tempo' in template.meta
+      ? (template.meta as Record<string, unknown>).tempo
+      : undefined
+  const tempo = Number(templateTempo)
+
+  if (Number.isFinite(tempo) && tempo > 0) {
+    return Math.round(tempo)
+  }
+
+  return 100
+}
+
+function ensureNotationTempoDirective(notation: string, bpm: number) {
+  if (/\{bpm\s*:\s*\d+\}/i.test(notation)) {
+    return notation
+  }
+
+  const normalized = String(notation || '').trim()
+  const tempoDirective = `{bpm:${Math.max(1, Math.round(bpm))}}`
+  return normalized ? `${tempoDirective}\n${normalized}` : tempoDirective
 }
 
 export function transposeKeynote(keynote: string, transpose: number) {

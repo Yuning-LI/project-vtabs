@@ -4,7 +4,48 @@ Use this for songs that are not available through Kuailepu but may enter interna
 
 ## Goal
 
-Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI as the public production format, and do not bypass Kuailepu/runtime preflight for public songs.
+Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI as the public production format, and do not bypass runtime validation for public songs.
+
+## Source Boundary
+
+Keep these stages separate:
+
+1. upstream corpus preparation
+2. local MusicXML ingest
+3. public publication review
+
+For the current 500-song public-domain XML corpus, the upstream preparation step is already done.
+That corpus lives under `private/openewld/dataset` and comes from an OpenEWLD-derived offline
+normalization process.
+
+Important:
+
+- OpenEWLD is the upstream corpus-preparation layer
+- it is not a command that runs automatically inside `npm run prepare:song-ingest`
+- current ingest commands read the already-prepared `.xml` / `.mxl` files directly
+- local candidate runtime JSON under `reference/song-publish-candidates/runtime/**` can still be used by local preview/debug tooling
+- if we ever refresh the corpus from more raw sources, that would be a separate offline dataset task, not part of routine per-song import
+
+Current practical chain:
+
+`raw external score sources -> OpenEWLD/offline corpus preparation -> private/openewld/dataset -> prepare:song-ingest -> generate:kuailepu-from-ingest -> review -> publish`
+
+For songs that overlap with existing Kuailepu-imported pages, also treat that overlap set as a notation-sample library:
+
+- do not assume Kuailepu is a strict per-song melody truth source
+- use strong/partial overlap songs to refine converter rules cautiously
+- use weak overlap songs mainly to catalog real Kuailepu grammar and notation habits before expanding generator coverage
+- additionally separate overlap samples by engineering usefulness:
+  - `converter-training`
+  - `structure-variant`
+  - `notation-sample`
+  - `low-value`
+- export the current bucketed overlap view with:
+  - `npm run export:song-ingest-overlap-buckets`
+
+Additional candidate-source workflow:
+
+- `docs/musescore-candidate-workflow.md`
 
 ## Input Priority
 
@@ -16,6 +57,12 @@ Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI
 MusicXML is preferred because it can preserve measures, rhythm, key, repeats, rests, and lyric alignment.
 
 Current caveat: MusicXML can preserve those things in principle, but our current single-voice ingest path does not yet fully preserve every measure-internal timing offset from complex sources.
+
+MuseScore note:
+
+- MuseScore can be used as an upstream candidate source for `MusicXML`
+- downloaded MuseScore `MusicXML` still requires selection and verification; do not treat it as canonical by default
+- keep raw MuseScore acquisitions under `private/musescore-candidates/**`, not under `reference/song-publish-candidates/**`
 
 ## Required Metadata
 
@@ -66,7 +113,7 @@ MIDI often needs manual track selection and metadata cleanup.
 ## Current Tool
 
 ```bash
-npm run prepare:song-ingest -- <input.musicxml> [--title=...] [--slug=...] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/<slug>.json]
+npm run prepare:song-ingest -- <input.musicxml> [--title=...] [--slug=...] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-publish-candidates/drafts/<slug>.json]
 ```
 
 Current scope:
@@ -74,23 +121,24 @@ Current scope:
 - internal draft only
 - uncompressed MusicXML / `.xml`
 - compressed MusicXML / `.mxl`
+- reads the current file as-is from disk; it does not rerun OpenEWLD corpus normalization first
 - outputs recommended title, slug, keynote, tonic MIDI, structured numbered notation, aligned lyrics, MusicXML harmony markers, warnings, and a `happi123Draft.notationText` string in the currently supported Happy123/Kuailepu native syntax subset
-- when `--out` is used, also writes a per-song source sanity report to `exports/song-ingest/source-sanity/<slug>.json` unless `--out-sanity` overrides the path
+- when `--out` is used, also writes a per-song source sanity report to `reference/song-publish-candidates/source-sanity/<slug>.json` unless `--out-sanity` overrides the path
 
 Candidate runtime generation:
 
 ```bash
-npm run generate:kuailepu-from-ingest -- reference/song-ingest-drafts/<slug>.json \
+npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/drafts/<slug>.json \
   --template=happy-birthday-to-you \
   --slug=<slug> \
   --title="Song Title" \
   --auto-transpose=o12 \
   --rank-base-url=http://127.0.0.1:3000 \
   --grace-mode=source-only \
-  --out-runtime=data/kuailepu-runtime/<slug>.json \
-  --out-songdoc=data/kuailepu/<slug>.json \
-  --out-report=exports/song-ingest/<slug>-report.json \
-  --out-sanity=exports/song-ingest/source-sanity/<slug>.json
+  --out-runtime=reference/song-publish-candidates/runtime/<slug>.json \
+  --out-songdoc=reference/song-publish-candidates/songdocs/<slug>.json \
+  --out-report=reference/song-publish-candidates/reports/<slug>-report.json \
+  --out-sanity=reference/song-publish-candidates/source-sanity/<slug>.json
 ```
 
 This candidate generator:
@@ -117,11 +165,11 @@ npm run generate:song-ingest-batch -- private/openewld/dataset \
   --auto-transpose=o12 \
   --rank-base-url=http://127.0.0.1:3000 \
   --slug-prefix=openewld- \
-  --out-draft-dir=reference/song-ingest-drafts \
-  --out-runtime-dir=data/kuailepu-runtime \
-  --out-songdoc-dir=data/kuailepu \
-  --out-sanity-dir=exports/song-ingest/source-sanity \
-  --report=exports/song-ingest/batch-generate.json
+  --out-draft-dir=reference/song-publish-candidates/drafts \
+  --out-runtime-dir=reference/song-publish-candidates/runtime \
+  --out-songdoc-dir=reference/song-publish-candidates/songdocs \
+  --out-sanity-dir=reference/song-publish-candidates/source-sanity \
+  --report=reference/song-publish-candidates/batch-generate.json
 ```
 
 Batch generation writes one draft per input file and, when both output dirs are provided,
@@ -129,14 +177,21 @@ also writes runtime candidates plus compact SongDocs through the same Happy123-n
 If `--rank-base-url` is present and a local dev server is already serving `/song/<slug>` plus
 `/api/kuailepu-runtime/<slug>`, the batch script also runs the runtime fingering re-ranker after
 all candidates are written.
-It now also writes one source sanity report per song under `exports/song-ingest/source-sanity/`
+It now also writes one source sanity report per song under `reference/song-publish-candidates/source-sanity/`
 by default, plus a batch summary field `sanityReviewSongs` so suspicious sources stand out before
 publication.
-Use `--slug-prefix=` and explicit output dirs so local bulk runs do not accidentally mix with publication-ready files.
+Use `--slug-prefix=` and the candidate output dirs so local bulk runs do not accidentally mix with publication-ready files.
 
 Publication workflow details and the required external melody/version verification step:
 
 - `docs/song-ingest-publication-playbook.md`
+
+Important distinction:
+
+- local candidate runtime/songdoc files should stay under `reference/song-publish-candidates/**` until publication is approved
+- local MusicXML songs still need runtime validation before publication
+- local MusicXML songs still need mandatory external melody/version verification
+- Kuailepu live compare is only required when the song maps to a real Kuailepu detail page
 
 Coverage details and current unsupported areas:
 
@@ -164,7 +219,8 @@ Not yet covered:
 ## Do Not
 
 - publish directly from MusicXML/MIDI
-- skip runtime compare gate
+- skip mandatory external melody/version verification
+- skip runtime validation for public songs
 - restore old native song page as public route
 - expose Chinese/source wording publicly
 - publish unauthorized copyrighted material

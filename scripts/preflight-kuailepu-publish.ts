@@ -1,5 +1,7 @@
 import net from 'node:net'
 import { spawn, type ChildProcess } from 'node:child_process'
+import fs from 'node:fs'
+import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 
 const preferredPort = Number(process.env.PORT || 3000)
 const slugArgs = process.argv.slice(2)
@@ -9,35 +11,38 @@ const port = await findAvailablePort(preferredPort, preferredPort + 20)
 const baseUrl = `http://127.0.0.1:${port}`
 let devServer: ChildProcess | null = null
 let devServerLog = ''
+const liveComparableSlugs = resolveLiveComparableSlugs(slugArgs)
 
 try {
-  const loginStatus = await runLoginCheck()
-  if (!loginStatus.loggedIn || !loginStatus.canReadContext) {
-    console.error(
-      JSON.stringify(
-        {
-          ok: false,
-          stage: 'check:kuailepu-login',
-          message:
-            'Kuailepu login is not valid. Ask the user to run `npm run login:kuailepu` manually, then rerun this preflight.',
-          login: loginStatus
-        },
-        null,
-        2
+  if (liveComparableSlugs.length > 0) {
+    const loginStatus = await runLoginCheck()
+    if (!loginStatus.loggedIn || !loginStatus.canReadContext) {
+      console.error(
+        JSON.stringify(
+          {
+            ok: false,
+            stage: 'check:kuailepu-login',
+            message:
+              'Kuailepu login is not valid. Ask the user to run `npm run login:kuailepu` manually, then rerun this preflight.',
+            login: loginStatus
+          },
+          null,
+          2
+        )
       )
-    )
-    process.exit(1)
-  }
-
-  devServer = startDevServer(port, chunk => {
-    devServerLog += chunk
-    if (devServerLog.length > 12000) {
-      devServerLog = devServerLog.slice(-12000)
+      process.exit(1)
     }
-  })
 
-  await waitForServer(baseUrl, 45000)
-  await runCompare(baseUrl, slugArgs)
+    devServer = startDevServer(port, chunk => {
+      devServerLog += chunk
+      if (devServerLog.length > 12000) {
+        devServerLog = devServerLog.slice(-12000)
+      }
+    })
+
+    await waitForServer(baseUrl, 45000)
+    await runCompare(baseUrl, liveComparableSlugs)
+  }
 
   console.log(
     JSON.stringify(
@@ -46,7 +51,12 @@ try {
         baseUrl,
         preferredPort,
         selectedPort: port,
-        comparedSlugs: slugArgs
+        comparedSlugs: liveComparableSlugs,
+        skippedSlugs: slugArgs.filter(slug => !liveComparableSlugs.includes(slug)),
+        skippedReason:
+          liveComparableSlugs.length === slugArgs.length
+            ? null
+            : 'Synthetic/local-ingest songs do not have a Kuailepu live parity target, so live compare was skipped for those slugs.'
       },
       null,
       2
@@ -60,7 +70,7 @@ try {
         baseUrl,
         preferredPort,
         selectedPort: port,
-        comparedSlugs: slugArgs,
+        comparedSlugs: liveComparableSlugs,
         error: error instanceof Error ? error.message : String(error),
         devServerLog: devServerLog.trim() || null
       },
@@ -210,6 +220,26 @@ function runCommand(args: string[]) {
       )
     })
   })
+}
+
+function resolveLiveComparableSlugs(slugs: string[]) {
+  return slugs.filter(slug => {
+    const filePath = resolveKuailepuRuntimeSongPath(slug)
+    if (!filePath || !fs.existsSync(filePath)) {
+      return false
+    }
+
+    const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid?: string }
+    return isLiveComparableSongUuid(payload.song_uuid)
+  })
+}
+
+function isLiveComparableSongUuid(songUuid: string | undefined) {
+  return (
+    typeof songUuid === 'string' &&
+    songUuid.trim().length > 0 &&
+    !songUuid.startsWith('synthetic-')
+  )
 }
 
 function safeJsonParse(value: string) {

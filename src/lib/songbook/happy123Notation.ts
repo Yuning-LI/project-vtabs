@@ -46,7 +46,8 @@ const DEGREE_MAP: Array<{
 ]
 
 const EXPANDED_TOKEN_PATTERN = /\{cn:[^}]+\}|#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi
-const COMPACT_TOKEN_PATTERN = /\{cn:[^}]+\}|#?[1-7][gd]*-+_?|b[1-7][gd]*-+_?|0-+_?|#?[1-7][gd]*x?|b[1-7][gd]*x?|0x?|\|/gi
+const COMPACT_TOKEN_PATTERN =
+  /\{[^}]+\}|(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*|\|/gi
 
 export const HAPPY123_GENERATOR_COVERAGE: Happy123CoverageItem[] = [
   {
@@ -60,8 +61,9 @@ export const HAPPY123_GENERATOR_COVERAGE: Happy123CoverageItem[] = [
     key: 'octave-gd',
     status: 'supported',
     category: 'pitch',
-    description: 'Happy123-native octave markers `g` / `d`.',
-    notes: 'Generator emits `g` for up-octave and `d` for down-octave.'
+    description: 'Happy123/Kuailepu octave markers `g` / `d` with parser support for `\'` / `,` / `\"` aliases.',
+    notes:
+      'Generator emits normalized `g` / `d`; parser also accepts engine-native apostrophe/comma aliases seen in Kuailepu originals.'
   },
   {
     key: 'rest-zero',
@@ -74,8 +76,9 @@ export const HAPPY123_GENERATOR_COVERAGE: Happy123CoverageItem[] = [
     key: 'compact-duration-x-dash-underscore',
     status: 'supported',
     category: 'duration',
-    description: 'Compact duration encoding with `x`, `-`, `_`.',
-    notes: 'Round-trip parser and generator both support the emitted subset.'
+    description: 'Compact duration encoding with native Happy123 suffixes such as `x`, `_`, `.`, and additive `-` segments.',
+    notes:
+      'Generator now emits an HC-aligned canonical subset instead of treating `-` as a local-only hold suffix.'
   },
   {
     key: 'barlines',
@@ -215,11 +218,6 @@ export function compactExpandedHappy123Line(line: string) {
       continue
     }
 
-    if (token === '-') {
-      output.push('-')
-      continue
-    }
-
     let holdCount = 0
     while (tokens[index + 1] === '-') {
       holdCount += 1
@@ -251,8 +249,10 @@ export function parseHappy123CompactNotation(notation: string, tonicMidi: number
   let measures = 0
 
   tokens.forEach(token => {
-    if (token.startsWith('{cn:')) {
-      chordMarkers.push(token)
+    if (token.startsWith('{')) {
+      if (token.startsWith('{cn:')) {
+        chordMarkers.push(token)
+      }
       return
     }
 
@@ -261,7 +261,7 @@ export function parseHappy123CompactNotation(notation: string, tonicMidi: number
       return
     }
 
-    const match = token.match(/^(#?[1-7][gd]*|b[1-7][gd]*|0)(x|-+_?)?$/i)
+    const match = token.match(/^([#bn]?[1-7][',"gd#bn]*|0)([\-._x/=]*)$/i)
     if (!match) {
       return
     }
@@ -286,57 +286,45 @@ export function parseHappy123CompactNotation(notation: string, tonicMidi: number
 }
 
 export function detectHappy123NotationFeatures(notation: string) {
+  const notationWithoutKnownMetadata = notation
+    .replace(/\{cn:[^}]+\}/gi, '')
+    .replace(/\{bpm\s*:\s*[^}]+\}/gi, '')
+
   return {
     usesChordMarkers: /\{cn:[^}]+\}/.test(notation),
-    usesOctaveG: /[1-7]g/.test(notation),
-    usesOctaveD: /[1-7]d/.test(notation),
-    usesCompactX: /(?:^|[^A-Za-z])(?:#?[1-7][gd]*|b[1-7][gd]*|0)x/.test(notation),
-    usesCompactUnderscore: /(?:#?[1-7][gd]*|b[1-7][gd]*|0)-+_/.test(notation),
+    usesOctaveG: /[1-7](?:g|'|")/.test(notation),
+    usesOctaveD: /[1-7](?:d|,)/.test(notation),
+    usesCompactX: /(?:^|[^A-Za-z])(?:[#bn]?[1-7][',"gd#bn]*|0)x/i.test(notation),
+    usesCompactUnderscore: /(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*_/i.test(notation),
     usesRepeats: /:\||\|:|\[\d/.test(notation),
-    usesGraceLike: /\{[^}]+}/.test(notation.replace(/\{cn:[^}]+\}/g, '')),
+    usesGraceLike: /\{[^}]+\}/.test(notationWithoutKnownMetadata),
     usesTupletLike: /\(\d|=|\./.test(notation),
     usesSlurLike: /\([^)]*[1-7]/.test(notation)
   }
 }
 
 function renderHappy123DurationToken(token: string, holdCount: number) {
-  if (holdCount === 0) {
-    return `${token}x`
-  }
-
-  if (holdCount === 1) {
-    return token
-  }
-
-  if (holdCount % 2 === 1) {
-    return `${token}${'-'.repeat(Math.max(1, (holdCount - 1) / 2))}`
-  }
-
-  return `${token}${'-'.repeat(Math.max(1, Math.floor(holdCount / 2)))}_`
+  return `${token}${renderHappy123DurationSuffix(holdCount + 1)}`
 }
 
 function parseHappy123DurationSlotCount(suffix: string) {
-  if (!suffix) return 2
-  if (suffix === 'x') return 1
-
-  const dashCount = (suffix.match(/-/g) ?? []).length
-  if (suffix.endsWith('_')) {
-    return dashCount * 2 + 1
-  }
-
-  return dashCount * 2 + 2
+  const leadingDashCount = suffix.match(/^-+/)?.[0]?.length ?? 0
+  const tail = suffix.slice(leadingDashCount)
+  const tailSlots = parseHappy123BaseDurationSuffix(tail)
+  return leadingDashCount * 4 + tailSlots
 }
 
 function parseHappy123PitchTokenToMidi(token: string, tonicMidi: number) {
+  const normalizedToken = normalizeHappy123NativePitchToken(token)
   let accidental = 0
-  let body = token
+  let body = normalizedToken
 
-  if (token.startsWith('#')) {
+  if (normalizedToken.startsWith('#')) {
     accidental = 1
-    body = token.slice(1)
-  } else if (token.startsWith('b')) {
+    body = normalizedToken.slice(1)
+  } else if (normalizedToken.startsWith('b')) {
     accidental = -1
-    body = token.slice(1)
+    body = normalizedToken.slice(1)
   }
 
   const degree = Number(body[0])
@@ -346,3 +334,121 @@ function parseHappy123PitchTokenToMidi(token: string, tonicMidi: number) {
 
   return tonicMidi + baseOffset + accidental + octaveShift * 12
 }
+
+function normalizeHappy123NativePitchToken(token: string) {
+  if (token === '0') {
+    return token
+  }
+
+  let accidental: '' | '#' | 'b' = ''
+  let cursor = 0
+  const prefix = token[cursor]?.toLowerCase()
+
+  if (prefix === '#' || prefix === 'b' || prefix === 'n') {
+    accidental = prefix === 'n' ? '' : (prefix as '' | '#' | 'b')
+    cursor += 1
+  }
+
+  const degree = token[cursor]
+  if (!degree || !/[1-7]/.test(degree)) {
+    return token
+  }
+
+  let octaveShift = 0
+  for (const char of token.slice(cursor + 1)) {
+    const normalized = char.toLowerCase()
+    if (normalized === 'g' || normalized === "'") {
+      octaveShift += 1
+      continue
+    }
+    if (normalized === 'd' || normalized === ',') {
+      octaveShift -= 1
+      continue
+    }
+    if (char === '"') {
+      octaveShift += 2
+      continue
+    }
+    if (normalized === '#' || normalized === 'b' || normalized === 'n') {
+      accidental = normalized === 'n' ? '' : (normalized as '' | '#' | 'b')
+    }
+  }
+
+  const octaveMarks =
+    octaveShift > 0 ? 'g'.repeat(octaveShift) : octaveShift < 0 ? 'd'.repeat(-octaveShift) : ''
+
+  return `${accidental}${degree}${octaveMarks}`
+}
+
+function renderHappy123DurationSuffix(slotCount: number): string {
+  if (slotCount <= 0) {
+    return 'x'
+  }
+
+  const direct = HAPPY123_CANONICAL_DURATION_SUFFIX[slotCount]
+  if (direct !== undefined) {
+    return direct
+  }
+
+  let best: string | null = null
+  for (let carried = 1; carried * 4 < slotCount; carried += 1) {
+    const remainder = slotCount - carried * 4
+    const tail = renderHappy123DurationSuffix(remainder)
+    const candidate = `${'-'.repeat(carried)}${tail}`
+    if (best === null || candidate.length < best.length) {
+      best = candidate
+    }
+  }
+
+  return best ?? `${'-'.repeat(Math.max(1, Math.floor((slotCount - 1) / 4)))}__`
+}
+
+function parseHappy123BaseDurationSuffix(suffix: string) {
+  if (suffix in HAPPY123_DURATION_SUFFIX_TO_SLOTS) {
+    return HAPPY123_DURATION_SUFFIX_TO_SLOTS[suffix as keyof typeof HAPPY123_DURATION_SUFFIX_TO_SLOTS]
+  }
+
+  let slots = 4
+  for (const char of suffix) {
+    if (char === 'x' || char === '_' || char === '/') {
+      slots /= 2
+      continue
+    }
+    if (char === '=') {
+      slots /= 4
+      continue
+    }
+    if (char === '.') {
+      slots += slots / 2
+    }
+  }
+
+  return Math.max(1, Math.round(slots))
+}
+
+const HAPPY123_CANONICAL_DURATION_SUFFIX: Record<number, string> = {
+  1: '__',
+  2: 'x',
+  3: '._',
+  4: '',
+  5: '-__',
+  6: '.',
+  7: '..',
+  8: '-'
+}
+
+const HAPPY123_DURATION_SUFFIX_TO_SLOTS = {
+  '': 4,
+  x: 2,
+  _: 2,
+  '/': 2,
+  __: 1,
+  '=': 1,
+  x_: 1,
+  '//': 1,
+  '._': 3,
+  'x.': 3,
+  '/.': 3,
+  '.': 6,
+  '..': 7
+} as const

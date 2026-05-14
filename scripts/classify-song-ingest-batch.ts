@@ -7,6 +7,10 @@ type GenerateEntry = {
   title: string
   status: 'ok' | 'error'
   warnings: string[]
+  hcConsistency?: {
+    status: 'ok' | 'review' | 'warning'
+    warningCount: number
+  }
   sourceSanity?: {
     status: 'pass' | 'review'
     highestSeverity: 'error' | 'warning' | 'info' | 'none'
@@ -46,6 +50,7 @@ type ClassifiedEntry = {
   generateStatus: GenerateEntry['status']
   sourceSanityStatus: GenerateEntry['sourceSanity']['status'] | 'missing'
   sourceSanitySeverity: GenerateEntry['sourceSanity']['highestSeverity'] | 'missing'
+  hcConsistencyStatus: GenerateEntry['hcConsistency']['status'] | 'missing'
   auditErrorCount: number
   auditWarningCount: number
 }
@@ -92,6 +97,12 @@ const entries: ClassifiedEntry[] = generateReport.entries.map(entry => {
     reasons.push(`source-sanity:${entry.sourceSanity.highestSeverity}`)
   }
 
+  if (entry.hcConsistency?.status === 'warning') {
+    reasons.push('hc-consistency:warning')
+  } else if (entry.hcConsistency?.status === 'review') {
+    reasons.push('hc-consistency:review')
+  }
+
   if (auditWarnings.length > 0) {
     reasons.push(...auditWarnings.map(issue => `audit-warning:${issue.code}`))
   }
@@ -105,6 +116,8 @@ const entries: ClassifiedEntry[] = generateReport.entries.map(entry => {
     classification = 'reject'
   } else if (
     entry.sourceSanity?.status === 'review' ||
+    entry.hcConsistency?.status === 'warning' ||
+    entry.hcConsistency?.status === 'review' ||
     auditWarnings.length > 0 ||
     entry.warnings.length > 0
   ) {
@@ -120,6 +133,7 @@ const entries: ClassifiedEntry[] = generateReport.entries.map(entry => {
     generateStatus: entry.status,
     sourceSanityStatus: entry.sourceSanity?.status ?? 'missing',
     sourceSanitySeverity: entry.sourceSanity?.highestSeverity ?? 'missing',
+    hcConsistencyStatus: entry.hcConsistency?.status ?? 'missing',
     auditErrorCount: auditErrors.length,
     auditWarningCount: auditWarnings.length
   }

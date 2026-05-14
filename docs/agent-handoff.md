@@ -63,10 +63,14 @@ Do not replace a user-approved target song without explicit approval.
 
 For songs imported from local MusicXML/MXL instead of Kuailepu:
 
+- treat `private/openewld/dataset` as an already-prepared upstream corpus, not as a preprocessing command that still runs during each import
+- treat `reference/song-publish-candidates/runtime` as a local-only candidate runtime area, not as a published catalog
 - do not publish directly after local generation
 - first run local generate/audit/classify flow
 - then do lightweight external melody/version verification against public references
 - only after that move approved songs into the public import/publish layer
+- only require Kuailepu live compare when the runtime payload maps to a real Kuailepu page
+- if the song uses a synthetic `song_uuid`, treat external verification plus local runtime validation as the release gate instead
 
 Playbook:
 
@@ -93,9 +97,11 @@ Playbook:
 - Runtime strategy: `docs/kuailepu-compatibility-roadmap.md`
 - Runtime QA: `docs/manual-runtime-qa-checklist.md`
 - Instrument rollout: `docs/instrument-rollout-plan.md`
+- Public instrument fit / transposition / fingering rules: `docs/public-instrument-selection-rules.md`
 - SEO / learn / hub growth: `docs/seo-growth-roadmap.md`
 - Search Console learn overlap audit: `docs/search-console-learn-audit.md`
 - Grey songs: `docs/grey-song-rollout-playbook.md`
 - Pinterest export: `docs/pinterest-engineering-plan.md`
 - Internal print: `docs/internal-print-workflow.md`
 - MusicXML ingest: `docs/song-ingest-input-spec.md`
+- MuseScore candidate sourcing: `docs/musescore-candidate-workflow.md`

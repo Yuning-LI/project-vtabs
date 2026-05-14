@@ -9,10 +9,13 @@ Read as little as the task allows:
 - Every new session: `AGENTS.md`, then `docs/agent-handoff.md`.
 - Release / current state / dirty tree questions: also read `docs/handoff.md`.
 - Kuailepu import, publishing, runtime, letter mode, or song SEO: read `docs/kuailepu-compatibility-roadmap.md`, `docs/manual-runtime-qa-checklist.md`, `src/lib/kuailepu/runtime.ts`.
+- Public instrument fit, transposition, or fingering-selection work: also read `docs/public-instrument-selection-rules.md`.
 - Learn / hub / growth work: read `docs/seo-growth-roadmap.md`.
 - Grey-song import work: read `docs/grey-song-rollout-playbook.md`.
 - Pinterest image/export work: read `docs/pinterest-engineering-plan.md`.
 - Internal print, copyright-only workflow, or MusicXML ingest: read `docs/internal-print-workflow.md`, `docs/song-ingest-input-spec.md`.
+- Public-domain candidate search / traffic ranking: also read `docs/public-domain-candidate-search.md`.
+- MuseScore candidate sourcing for MusicXML ingest: also read `docs/musescore-candidate-workflow.md`.
 
 The older rule of reading every major document for every substantial task has been replaced by this topic map to save context.
 
@@ -51,6 +54,14 @@ When the user asks to import songs for publication, default scope includes:
 - relevant learn / hub internal links
 - `data/songbook/grey-song-rollout.json` when it is a grey song
 - validation and Kuailepu preflight compare
+
+MusicXML source boundary:
+
+- `private/openewld/dataset` is an already-prepared upstream corpus derived from an OpenEWLD offline normalization step
+- routine `prepare:song-ingest` / `generate:kuailepu-from-ingest` runs do not rerun OpenEWLD
+- local candidate runtime/songdoc outputs should stay under `reference/song-publish-candidates/**` until publication is approved
+- local candidate runtime JSON under `reference/song-publish-candidates/runtime/**` may still be read by local-only preview/debug tooling
+- if the corpus itself needs to be refreshed or regenerated, treat that as a separate dataset-maintenance task
 
 Only keep songs unpublished when the user explicitly asks for candidate-only import.
 

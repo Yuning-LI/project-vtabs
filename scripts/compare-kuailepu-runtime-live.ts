@@ -68,11 +68,11 @@ const candidates = allSongCatalog.filter(song => {
   }
 
   const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid?: string }
-  return typeof payload.song_uuid === 'string' && payload.song_uuid.trim().length > 0
+  return isLiveComparableSongUuid(payload.song_uuid)
 })
 
 if (candidates.length < 1) {
-  console.error('No matching raw-backed songs with a Kuailepu song_uuid were found.')
+  console.error('No matching raw-backed songs with a live-comparable Kuailepu song_uuid were found.')
   process.exit(1)
 }
 
@@ -535,4 +535,12 @@ function getPreferredPublicGraphValue(
   })
 
   return upward?.value.trim() ?? available[0]!.value.trim()
+}
+
+function isLiveComparableSongUuid(songUuid: string | undefined) {
+  return (
+    typeof songUuid === 'string' &&
+    songUuid.trim().length > 0 &&
+    !songUuid.startsWith('synthetic-')
+  )
 }

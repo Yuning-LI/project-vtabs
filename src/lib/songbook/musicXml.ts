@@ -142,10 +142,19 @@ async function evaluateMusicXmlScore(
         throw new Error('Unable to locate a playable part in MusicXML input')
       }
 
+      const availableLyricNumbers = collectLyricNumbers(partNode)
+      const preferredLyricNumber = detectPreferredLyricNumber(availableLyricNumbers)
+      let strippedLyricPrefixCount = 0
+      let skippedNonPreferredLyricCount = 0
+      let skippedMismatchedVersePrefixCount = 0
+      let suppressedPreferredLyricContinuationCount = 0
+      let suppressPreferredLyricContinuation = false
+
       let currentDivisions = 1
       let currentFifths = 0
       let currentBeats: number | null = null
       let currentBeatType: number | null = null
+      let currentTempoBpm: number | null = null
 
       const measures = Array.from(partNode.children)
         .filter(node => node.tagName === 'measure')
@@ -153,6 +162,7 @@ async function evaluateMusicXmlScore(
           let newSystem = false
           const events: Array<{
             voice: string
+            offset: number
             duration: number
             midi: number | null
             isRest: boolean
@@ -195,6 +205,24 @@ async function evaluateMusicXmlScore(
               currentFifths = fifthsText !== null ? Number(fifthsText) : currentFifths
               currentBeats = beatsText !== null ? Number(beatsText) : currentBeats
               currentBeatType = beatTypeText !== null ? Number(beatTypeText) : currentBeatType
+              return
+            }
+
+            if (child.tagName === 'direction') {
+              const soundTempo = Number(child.getElementsByTagName('sound')[0]?.getAttribute('tempo') || '0')
+              const metronomeTempo = Number(
+                Array.from(child.getElementsByTagName('per-minute'))[0]?.textContent?.trim() || '0'
+              )
+              const nextTempo =
+                Number.isFinite(soundTempo) && soundTempo > 0
+                  ? soundTempo
+                  : Number.isFinite(metronomeTempo) && metronomeTempo > 0
+                    ? metronomeTempo
+                    : null
+
+              if (nextTempo) {
+                currentTempoBpm = nextTempo
+              }
               return
             }
 
@@ -253,7 +281,7 @@ async function evaluateMusicXmlScore(
             const tieNodes = Array.from(child.getElementsByTagName('tie'))
             const tieStart = tieNodes.some(node => node.getAttribute('type') === 'start')
             const tieStop = tieNodes.some(node => node.getAttribute('type') === 'stop')
-            const lyric = getFirstLyricText(child)
+            const lyric = getPreferredLyricText(child)
 
             const leadingGraceNotes = pendingGraceByVoice.get(voice) ?? []
             if (leadingGraceNotes.length > 0) {
@@ -262,6 +290,7 @@ async function evaluateMusicXmlScore(
 
             events.push({
               voice,
+              offset: cursor,
               duration: Number.isFinite(duration) && duration > 0 ? duration : currentDivisions,
               midi: isRest ? null : buildMidiFromNote(child),
                 isRest,
@@ -290,6 +319,7 @@ async function evaluateMusicXmlScore(
             fifths: Number.isFinite(currentFifths) ? currentFifths : null,
             beats: Number.isFinite(currentBeats) ? currentBeats : null,
             beatType: Number.isFinite(currentBeatType) ? currentBeatType : null,
+            tempoBpm: Number.isFinite(currentTempoBpm) ? currentTempoBpm : null,
             harmonies,
             events
           }
@@ -302,6 +332,36 @@ async function evaluateMusicXmlScore(
 
       if (parts.length > 1) {
         warnings.add(`Multiple parts detected (${parts.map(part => part.id).join(', ')}); the draft uses ${selectedPartId}.`)
+      }
+
+      if (availableLyricNumbers.length > 1 && preferredLyricNumber) {
+        warnings.add(
+          `Multiple lyric verses detected; lyric track ${preferredLyricNumber} was preferred for extraction.`
+        )
+      }
+
+      if (skippedNonPreferredLyricCount > 0) {
+        warnings.add(
+          `${skippedNonPreferredLyricCount} note(s) had lyrics only on non-preferred verses and were blanked in the extracted lyric track.`
+        )
+      }
+
+      if (skippedMismatchedVersePrefixCount > 0) {
+        warnings.add(
+          `${skippedMismatchedVersePrefixCount} lyric token(s) carried a different verse-number prefix inside the preferred lyric track and were blanked.`
+        )
+      }
+
+      if (suppressedPreferredLyricContinuationCount > 0) {
+        warnings.add(
+          `${suppressedPreferredLyricContinuationCount} lyric token(s) immediately following a mismatched verse prefix were blanked as continuation residue.`
+        )
+      }
+
+      if (strippedLyricPrefixCount > 0) {
+        warnings.add(
+          `${strippedLyricPrefixCount} lyric token(s) had leading verse-number prefixes stripped during extraction.`
+        )
       }
 
       return {
@@ -326,11 +386,85 @@ async function evaluateMusicXmlScore(
         return first?.textContent?.replace(/\s+/g, ' ').trim() || null
       }
 
-      function getFirstLyricText(note: Element) {
-        const lyricNode = Array.from(note.getElementsByTagName('lyric'))[0]
-        if (!lyricNode) return null
-        const textNode = Array.from(lyricNode.getElementsByTagName('text'))[0]
-        return textNode?.textContent?.replace(/\s+/g, ' ').trim() || null
+      function collectLyricNumbers(root: Element) {
+        return [
+          ...new Set(
+            Array.from(root.getElementsByTagName('lyric'))
+              .map(node => (node.getAttribute('number') || '').trim())
+              .filter(Boolean)
+          )
+        ]
+      }
+
+      function detectPreferredLyricNumber(lyricNumbers: string[]) {
+        if (lyricNumbers.length === 0) {
+          return null
+        }
+
+        if (lyricNumbers.includes('1')) {
+          return '1'
+        }
+
+        const numericNumbers = lyricNumbers.filter(value => /^\d+$/.test(value))
+        if (numericNumbers.length > 0) {
+          return numericNumbers
+            .map(value => Number(value))
+            .sort((left, right) => left - right)[0]
+            ?.toString() ?? null
+        }
+
+        return [...new Set(lyricNumbers)].sort()[0] ?? null
+      }
+
+      function getPreferredLyricText(note: Element) {
+        const lyricNodes = Array.from(note.getElementsByTagName('lyric'))
+        if (lyricNodes.length === 0) return null
+
+        const preferredNode =
+          (preferredLyricNumber
+            ? lyricNodes.find(node => (node.getAttribute('number') || '').trim() === preferredLyricNumber)
+            : null) ??
+          lyricNodes.find(node => !(node.getAttribute('number') || '').trim()) ??
+          (preferredLyricNumber ? null : lyricNodes[0])
+
+        if (!preferredNode) {
+          skippedNonPreferredLyricCount += 1
+          return null
+        }
+
+        const textNode = Array.from(preferredNode.getElementsByTagName('text'))[0]
+        const rawText = textNode?.textContent?.replace(/\s+/g, ' ').trim() || ''
+        if (!rawText) return null
+
+        const versePrefixMatch = rawText.match(/^\(?(\d+)\)?\s*[\.\):]?\s+/)
+        const versePrefixNumber = versePrefixMatch?.[1] ?? null
+        if (versePrefixNumber && preferredLyricNumber && versePrefixNumber === preferredLyricNumber) {
+          suppressPreferredLyricContinuation = false
+        }
+        if (
+          versePrefixNumber &&
+          preferredLyricNumber &&
+          versePrefixNumber !== preferredLyricNumber
+        ) {
+          suppressPreferredLyricContinuation = true
+          skippedMismatchedVersePrefixCount += 1
+          return null
+        }
+        if (suppressPreferredLyricContinuation && !versePrefixNumber) {
+          suppressedPreferredLyricContinuationCount += 1
+          return null
+        }
+
+        const cleanedText = rawText
+          .replace(/^\(?\d+\)?\s*[\.\):]\s*/g, '')
+          .replace(/^\(?\d+\)?\s+/g, '')
+          .trim()
+
+        if (cleanedText !== rawText) {
+          strippedLyricPrefixCount += 1
+        }
+
+        return cleanedText || null
       }
 
       function buildMidiFromNote(note: Element) {

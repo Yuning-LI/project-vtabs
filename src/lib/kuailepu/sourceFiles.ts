@@ -4,6 +4,12 @@ import path from 'node:path'
 const trackedRuntimeSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu-runtime')
 const packedRuntimeSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu-runtime-packed')
 const localReferenceSongsDir = path.resolve(process.cwd(), 'reference', 'songs')
+const localCandidateRuntimeSongsDir = path.resolve(
+  process.cwd(),
+  'reference',
+  'song-publish-candidates',
+  'runtime'
+)
 
 function resolveFirstExistingPath(candidates: string[]) {
   return candidates.find(candidate => fs.existsSync(candidate)) ?? null
@@ -12,7 +18,8 @@ function resolveFirstExistingPath(candidates: string[]) {
 export function resolveKuailepuRuntimeSongPath(songId: string) {
   return resolveFirstExistingPath([
     path.join(trackedRuntimeSongsDir, `${songId}.json`),
-    path.join(localReferenceSongsDir, `${songId}.json`)
+    path.join(localReferenceSongsDir, `${songId}.json`),
+    path.join(localCandidateRuntimeSongsDir, `${songId}.json`)
   ])
 }
 

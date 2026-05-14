@@ -43,12 +43,20 @@ export default function KuailepuPreviewIndexPage() {
             `SongDoc` data.
           </p>
           <div className="mt-5">
-            <Link
-              href="/dev/song-import-dashboard"
-              className="inline-flex items-center rounded-full border border-stone-300 bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800"
-            >
-              Open Song Import Dashboard
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/dev/unpublished-song-preview"
+                className="inline-flex items-center rounded-full border border-stone-300 bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 transition hover:-translate-y-0.5 hover:bg-stone-800"
+              >
+                Open Unpublished Candidates
+              </Link>
+              <Link
+                href="/dev/song-import-dashboard"
+                className="inline-flex items-center rounded-full border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition hover:-translate-y-0.5 hover:bg-stone-50"
+              >
+                Open Song Import Dashboard
+              </Link>
+            </div>
           </div>
         </section>
 

@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { generateKuailepuRuntimeCandidate } from '../src/lib/songbook/kuailepuIngest.ts'
+import { analyzeHcNotation, buildHcConsistencySummary } from '../src/lib/songbook/hcNotation.ts'
 import {
   closeMusicXmlExtractorSession,
   createMusicXmlExtractorSession,
@@ -55,11 +56,25 @@ type BatchEntry = {
     targetKeynote: string
     transpose: number
   }
+  hcConsistency?: {
+    status: 'ok' | 'review' | 'warning'
+    warningCount: number
+    noteDelta: number
+    eventDelta: number
+    measureDelta: number | null
+  }
   error?: string
 }
 
+const DEFAULT_CANDIDATE_ROOT = 'reference/song-publish-candidates'
+const DEFAULT_DRAFT_DIR = `${DEFAULT_CANDIDATE_ROOT}/drafts`
+const DEFAULT_RUNTIME_DIR = `${DEFAULT_CANDIDATE_ROOT}/runtime`
+const DEFAULT_SONGDOC_DIR = `${DEFAULT_CANDIDATE_ROOT}/songdocs`
+const DEFAULT_SANITY_DIR = `${DEFAULT_CANDIDATE_ROOT}/source-sanity`
+const DEFAULT_REPORT_PATH = `${DEFAULT_CANDIDATE_ROOT}/batch-generate.json`
+
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-song-ingest-batch.ts [path ...] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] [--family=folk] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--part=P1] [--voice=1] [--limit=50] [--slug-prefix=openewld-] [--out-draft-dir=reference/song-ingest-drafts] [--out-runtime-dir=data/kuailepu-runtime] [--out-songdoc-dir=data/kuailepu] [--out-sanity-dir=exports/song-ingest/source-sanity] [--report=exports/song-ingest/batch-generate.json]'
+  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-song-ingest-batch.ts [path ...] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata] [--family=folk] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--part=P1] [--voice=1] [--limit=50] [--slug-prefix=openewld-] [--out-draft-dir=${DEFAULT_DRAFT_DIR}] [--out-runtime-dir=${DEFAULT_RUNTIME_DIR}] [--out-songdoc-dir=${DEFAULT_SONGDOC_DIR}] [--out-sanity-dir=${DEFAULT_SANITY_DIR}] [--report=${DEFAULT_REPORT_PATH}]`
 
 const options = parseArgs(process.argv.slice(2))
 if (!options) {
@@ -146,6 +161,7 @@ try {
       let runtimeOutput: string | undefined
       let songDocOutput: string | undefined
       let generation: BatchEntry['generation']
+      let hcConsistency: BatchEntry['hcConsistency']
 
       if (shouldGenerateRuntime && template && options.outRuntimeDir && options.outSongDocDir) {
         const generated = generateKuailepuRuntimeCandidate({
@@ -161,10 +177,19 @@ try {
         runtimeOutput = writeJsonFile(options.outRuntimeDir, draft.metadata.slug, generated.runtimePayload)
         songDocOutput = writeJsonFile(options.outSongDocDir, draft.metadata.slug, generated.songDoc)
         generatedRuntimeSlugs.push(draft.metadata.slug)
+        const hcValidation = analyzeHcNotation(String(generated.runtimePayload.notation ?? ''))
+        const summary = buildHcConsistencySummary(draft, hcValidation)
         generation = {
           sourceKeynote: generated.sourceKeynote,
           targetKeynote: generated.targetKeynote,
           transpose: generated.selectedTranspose
+        }
+        hcConsistency = {
+          status: summary.status,
+          warningCount: summary.warnings.length,
+          noteDelta: summary.deltas.noteCount,
+          eventDelta: summary.deltas.eventCount,
+          measureDelta: summary.deltas.measures
         }
       }
 
@@ -182,6 +207,7 @@ try {
         warnings: draft.warnings,
         stats: draft.stats,
         sourceSanity: sanityReport.summary,
+        ...(hcConsistency ? { hcConsistency } : {}),
         ...(generation ? { generation } : {})
       })
     } catch (error) {
@@ -273,12 +299,12 @@ function parseArgs(args: string[]): CliOptions | null {
       : undefined,
     limit: values.has('limit') ? Number(values.get('limit')) : undefined,
     slugPrefix: values.get('slug-prefix'),
-    outDraftDir: values.get('out-draft-dir') || 'reference/song-ingest-drafts',
+    outDraftDir: values.get('out-draft-dir') || DEFAULT_DRAFT_DIR,
     outRuntimeDir: values.get('out-runtime-dir'),
     outSongDocDir: values.get('out-songdoc-dir'),
-    outSanityDir: values.get('out-sanity-dir') || 'exports/song-ingest/source-sanity',
+    outSanityDir: values.get('out-sanity-dir') || DEFAULT_SANITY_DIR,
     rankBaseUrl: values.get('rank-base-url'),
-    outReport: values.get('report'),
+    outReport: values.get('report') || DEFAULT_REPORT_PATH,
     graceMode:
       values.get('grace-mode') === 'payload-metadata' ? 'payload-metadata' : 'source-only'
   }
@@ -351,7 +377,10 @@ function summarize(entries: BatchEntry[]) {
     chordSongs: ok.filter(entry => (entry.stats?.chordCount ?? 0) > 0).length,
     graceSongs: ok.filter(entry => (entry.stats?.graceNoteCount ?? 0) > 0).length,
     warningSongs: ok.filter(entry => entry.warnings.length > 0).length,
-    sanityReviewSongs: ok.filter(entry => entry.sourceSanity?.status === 'review').length
+    sanityReviewSongs: ok.filter(entry => entry.sourceSanity?.status === 'review').length,
+    hcOkSongs: ok.filter(entry => entry.hcConsistency?.status === 'ok').length,
+    hcReviewSongs: ok.filter(entry => entry.hcConsistency?.status === 'review').length,
+    hcWarningSongs: ok.filter(entry => entry.hcConsistency?.status === 'warning').length
   }
 }
 

@@ -15,8 +15,11 @@ type CliOptions = BuildSongIngestDraftOptions & {
   outSanity?: string
 }
 
+const DEFAULT_CANDIDATE_DRAFT_DIR = 'reference/song-publish-candidates/drafts'
+const DEFAULT_CANDIDATE_SANITY_DIR = 'reference/song-publish-candidates/source-sanity'
+
 const usage =
-  'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts <input.musicxml|input.mxl> [--title="My Song"] [--slug=my-song] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=reference/song-ingest-drafts/my-song.json] [--out-sanity=exports/song-ingest/source-sanity/my-song.json]'
+  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/prepare-song-ingest.ts <input.musicxml|input.mxl> [--title="My Song"] [--slug=my-song] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--out=${DEFAULT_CANDIDATE_DRAFT_DIR}/my-song.json] [--out-sanity=${DEFAULT_CANDIDATE_SANITY_DIR}/my-song.json]`
 
 const options = parseArgs(process.argv.slice(2))
 
@@ -61,7 +64,7 @@ const shouldWriteSanity = Boolean(options.out || options.outSanity)
 if (shouldWriteSanity) {
   const resolvedSanityPath = path.resolve(
     process.cwd(),
-    options.outSanity || `exports/song-ingest/source-sanity/${draft.metadata.slug}.json`
+    options.outSanity || `${DEFAULT_CANDIDATE_SANITY_DIR}/${draft.metadata.slug}.json`
   )
   await fs.promises.mkdir(path.dirname(resolvedSanityPath), { recursive: true })
   await fs.promises.writeFile(

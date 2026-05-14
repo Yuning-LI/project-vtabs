@@ -59,6 +59,7 @@ export type KuailepuImportPreview = {
   lyricBlocks: string[]
   alignedLyricBlocks: string[]
   simplifiedNotationLines: string[]
+  notationMetadata: KuailepuNotationMetadata
 }
 
 export type KuailepuRenderablePreview = KuailepuImportPreview & {
@@ -70,6 +71,72 @@ export type KuailepuRenderablePreview = KuailepuImportPreview & {
   extraLyricBlocks: string[]
   renderNoteSlotCounts: number[]
   renderLyricSlotCounts: number[]
+}
+
+export type KuailepuDirectiveCategory =
+  | 'bpm'
+  | 'play'
+  | 'hot'
+  | 'keynote'
+  | 'group'
+  | 'dynamic-toggle'
+  | 'other'
+
+export type KuailepuDirectiveMatch = {
+  raw: string
+  category: KuailepuDirectiveCategory
+  lineIndex: number
+  lineText: string
+}
+
+export type KuailepuSectionLabelMatch = {
+  label: string
+  lineIndex: number
+  lineText: string
+}
+
+export type KuailepuKeynoteHintMatch = {
+  value: string
+  lineIndex: number
+  lineText: string
+}
+
+export type KuailepuTempoDirectiveMatch = {
+  bpm: number
+  lineIndex: number
+  lineText: string
+}
+
+export type KuailepuRepeatStats = {
+  repeatStartCount: number
+  repeatEndCount: number
+  numberedEndingCount: number
+  playDirectiveCount: number
+  sectionLabelCount: number
+}
+
+export type KuailepuRhythmMarkerStats = {
+  dotCount: number
+  underscoreCount: number
+  equalsCount: number
+  slashCount: number
+  tupletHeadCount: number
+  vMarkerCount: number
+  dollarMarkerCount: number
+  tildeMarkerCount: number
+}
+
+export type KuailepuNotationMetadata = {
+  rawLines: string[]
+  expandedLines: string[]
+  normalizedLines: string[]
+  directives: KuailepuDirectiveMatch[]
+  keynoteHints: KuailepuKeynoteHintMatch[]
+  tempoDirectives: KuailepuTempoDirectiveMatch[]
+  sectionLabels: KuailepuSectionLabelMatch[]
+  repeatStats: KuailepuRepeatStats
+  rhythmMarkerStats: KuailepuRhythmMarkerStats
+  simplifiedNotationLines: string[]
 }
 
 /**
@@ -195,16 +262,116 @@ export function buildAlignedLyricPreview(blocks: string[]): string[] {
  * - 但它已经足够接近当前站点的 token 体系，可以做页面预览和正式导入候选
  */
 export function simplifyKuailepuNotation(rawNotation: string | undefined): string[] {
-  if (!rawNotation) return []
+  return extractKuailepuNotationMetadata(rawNotation).simplifiedNotationLines
+}
 
-  const sourceLines = expandKuailepuSectionPlayback(rawNotation)
-  const parsedLines = sourceLines.map(parseKuailepuNotationLine)
+export function extractKuailepuNotationMetadata(
+  rawNotation: string | undefined
+): KuailepuNotationMetadata {
+  if (!rawNotation) {
+    return {
+      rawLines: [],
+      expandedLines: [],
+      normalizedLines: [],
+      directives: [],
+      keynoteHints: [],
+      tempoDirectives: [],
+      sectionLabels: [],
+      repeatStats: {
+        repeatStartCount: 0,
+        repeatEndCount: 0,
+        numberedEndingCount: 0,
+        playDirectiveCount: 0,
+        sectionLabelCount: 0
+      },
+      rhythmMarkerStats: {
+        dotCount: 0,
+        underscoreCount: 0,
+        equalsCount: 0,
+        slashCount: 0,
+        tupletHeadCount: 0,
+        vMarkerCount: 0,
+        dollarMarkerCount: 0,
+        tildeMarkerCount: 0
+      },
+      simplifiedNotationLines: []
+    }
+  }
+  const rawLines = splitKuailepuNotationLines(rawNotation)
+  const directives = rawLines.flatMap((line, lineIndex) =>
+    extractKuailepuDirectiveMatches(line, lineIndex)
+  )
+  const keynoteHints = directives
+    .filter(match => match.category === 'keynote')
+    .map(match => ({
+      value: match.raw,
+      lineIndex: match.lineIndex,
+      lineText: match.lineText
+    }))
+  const tempoDirectives = directives
+    .filter(match => match.category === 'bpm')
+    .map(match => ({
+      bpm: extractTempoValue(match.raw) ?? 100,
+      lineIndex: match.lineIndex,
+      lineText: match.lineText
+    }))
+  const sectionLabels = rawLines.flatMap((line, lineIndex) =>
+    extractKuailepuSectionLabels(line, lineIndex)
+  )
+  const repeatStats = rawLines.reduce<KuailepuRepeatStats>(
+    (stats, line) => {
+      stats.repeatStartCount += countMatches(line, /\|:/g)
+      stats.repeatEndCount += countMatches(line, /:\|/g)
+      stats.numberedEndingCount += countMatches(line, /\[\d+\s*:/g)
+      stats.playDirectiveCount += extractKuailepuDirectiveMatches(line, 0).filter(
+        match => match.category === 'play'
+      ).length
+      stats.sectionLabelCount += countMatches(line, /^[A-Za-z0-9\u4e00-\u9fff]+:/gm)
+      return stats
+    },
+    {
+      repeatStartCount: 0,
+      repeatEndCount: 0,
+      numberedEndingCount: 0,
+      playDirectiveCount: 0,
+      sectionLabelCount: 0
+    }
+  )
+  const rhythmMarkerStats = rawLines.reduce<KuailepuRhythmMarkerStats>(
+    (stats, line) => {
+      stats.dotCount += countMatches(line, /\./g)
+      stats.underscoreCount += countMatches(line, /_/g)
+      stats.equalsCount += countMatches(line, /=/g)
+      stats.slashCount += countMatches(line, /\//g)
+      stats.tupletHeadCount += countMatches(line, /\(\s*\d+\s*:/g)
+      stats.vMarkerCount += countMatches(line, /v/g)
+      stats.dollarMarkerCount += countMatches(line, /\$/g)
+      stats.tildeMarkerCount += countMatches(line, /~/g)
+      return stats
+    },
+    {
+      dotCount: 0,
+      underscoreCount: 0,
+      equalsCount: 0,
+      slashCount: 0,
+      tupletHeadCount: 0,
+      vMarkerCount: 0,
+      dollarMarkerCount: 0,
+      tildeMarkerCount: 0
+    }
+  )
+  const expandedLines = expandKuailepuSectionPlayback(rawNotation)
+  const normalizedLines = expandedLines
+    .map(normalizeKuailepuRepeatMarkup)
+    .map(stripLowConfidenceRhythmMarkers)
+    .map(stripNonTupletParentheses)
+  const parsedLines = normalizedLines.map(parseKuailepuNotationLine)
   const durationDenominator = parsedLines
     .flat()
     .filter(token => token.kind !== 'bar')
     .reduce((currentLcm, token) => lcm(currentLcm, token.duration.denominator), 1)
 
-  return parsedLines
+  const simplifiedNotationLines = parsedLines
     .map(tokens =>
       tokens
         .flatMap(token => {
@@ -234,6 +401,19 @@ export function simplifyKuailepuNotation(rawNotation: string | undefined): strin
         .trim()
     )
     .filter(Boolean)
+
+  return {
+    rawLines,
+    expandedLines,
+    normalizedLines,
+    directives,
+    keynoteHints,
+    tempoDirectives,
+    sectionLabels,
+    repeatStats,
+    rhythmMarkerStats,
+    simplifiedNotationLines
+  }
 }
 
 /**
@@ -257,17 +437,14 @@ export function simplifyKuailepuNotation(rawNotation: string | undefined): strin
  * - 避免导入后页面长度比快乐谱详情页肉眼看到的谱面长很多
  */
 function expandKuailepuSectionPlayback(rawNotation: string) {
-  const sourceLines = rawNotation
-    .split(/\n+/)
-    .map(line => line.trim())
-    .filter(Boolean)
+  const sourceLines = splitKuailepuNotationLines(rawNotation)
 
   const sections = new Map<string, string[]>()
   const plainLines: string[] = []
   let currentSection: string | null = null
 
   sourceLines.forEach(line => {
-    if (/^\{play:/i.test(line)) {
+    if (classifyKuailepuDirectiveLine(line) === 'play') {
       return
     }
 
@@ -293,6 +470,108 @@ function expandKuailepuSectionPlayback(rawNotation: string) {
   })
 
   return [...plainLines, ...Array.from(sections.values()).flat()]
+}
+
+/**
+ * 快乐谱里的括号大多数是视觉分组，而不是独立节奏语义。
+ *
+ * 当前策略：
+ * - 保留真正的 tuplet 头 `(3:` `(5:` 等
+ * - 其余括号只做表面剥离，让内部 token 继续按正常音符/时值解析
+ *
+ * 这样可以先提升本地导入/分析的可解释性，而不把“括号=强语义”过早写死。
+ */
+export function stripNonTupletParentheses(line: string) {
+  let output = ''
+  let cursor = 0
+
+  while (cursor < line.length) {
+    const rest = line.slice(cursor)
+    const tupletMatch = rest.match(/^\(\s*\d+\s*:/)
+    if (tupletMatch) {
+      output += tupletMatch[0]
+      cursor += tupletMatch[0].length
+      continue
+    }
+
+    const char = line[cursor]
+    if (char === '(' || char === ')') {
+      cursor += 1
+      continue
+    }
+
+    output += char
+    cursor += 1
+  }
+
+  return output
+}
+
+/**
+ * 先剥掉快乐谱里的重复导航标记，避免 `[1:` / `[2:` 这类结尾编号
+ * 被本地轻量解析误当作真实音符 `1` / `2`。
+ *
+ * 当前仅做最小正规化：
+ * - 去掉 numbered ending 头 `[1:` `[2:` `[12:`
+ * - 去掉 repeat start / end 标记 `|:` `:|`
+ * - 去掉孤立的 `]`
+ * - 保留真正的谱面内容与 barline 本身
+ */
+export function normalizeKuailepuRepeatMarkup(line: string) {
+  return line
+    .replace(/\[\d+\s*:/g, '')
+    .replace(/\|:/g, '|')
+    .replace(/:\|/g, '|')
+    .replace(/\]/g, '')
+    .trim()
+}
+
+/**
+ * 在不动核心时值语法的前提下，先剥掉目前低置信度的杂符号。
+ *
+ * 当前仅移除：
+ * - `v`
+ * - `$`
+ *
+ * 原因：
+ * - 它们在 overlap 样本里出现频率低
+ * - 目前没有足够证据表明它们应进入本地轻量时值语义
+ * - 但它们确实会污染我们对旋律/时值 token 的读取
+ */
+export function stripLowConfidenceRhythmMarkers(line: string) {
+  return line.replace(/[v$]/g, '')
+}
+
+export function classifyKuailepuDirectiveText(
+  directive: string
+): KuailepuDirectiveCategory {
+  const trimmed = directive.trim()
+  if (/^bpm\s*:/i.test(trimmed)) {
+    return 'bpm'
+  }
+  if (/^play\s*:/i.test(trimmed)) {
+    return 'play'
+  }
+  if (/^hot$/i.test(trimmed)) {
+    return 'hot'
+  }
+  if (/^1=\s*[#b]?[A-G]$/i.test(trimmed)) {
+    return 'keynote'
+  }
+  if (/^\/?group$/i.test(trimmed)) {
+    return 'group'
+  }
+  if (/^[a-z]{1,3}\s*:\s*(?:on|off)$/i.test(trimmed)) {
+    return 'dynamic-toggle'
+  }
+  return 'other'
+}
+
+function classifyKuailepuDirectiveLine(line: string) {
+  const trimmed = line.trim()
+  const directiveMatch = trimmed.match(/^\{(?!cn:)([^}]+)\}/i)
+  if (!directiveMatch) return null
+  return classifyKuailepuDirectiveText(directiveMatch[1] ?? '')
 }
 
 type KuailepuDuration = {
@@ -527,6 +806,7 @@ function lcm(left: number, right: number): number {
 
 export function buildKuailepuImportPreview(payload: KuailepuSongPayload): KuailepuImportPreview {
   const lyricBlocks = parseKuailepuLyricBlocks(payload.lyric)
+  const notationMetadata = extractKuailepuNotationMetadata(payload.notation)
 
   return {
     songUuid: payload.song_uuid ?? '',
@@ -536,7 +816,8 @@ export function buildKuailepuImportPreview(payload: KuailepuSongPayload): Kuaile
     meter: payload.rhythm ?? null,
     lyricBlocks,
     alignedLyricBlocks: buildAlignedLyricPreview(lyricBlocks),
-    simplifiedNotationLines: simplifyKuailepuNotation(payload.notation)
+    simplifiedNotationLines: notationMetadata.simplifiedNotationLines,
+    notationMetadata
   }
 }
 
@@ -777,7 +1058,7 @@ export function buildKuailepuSongDoc(
     },
     meta: {
       key: formatKeynoteLabel(preview.keynote),
-      tempo: extractTempoFromNotation(payload.notation),
+      tempo: extractTempoFromNotationMetadata(preview.notationMetadata),
       meter: preview.meter ?? '4/4'
     },
     review: {
@@ -820,6 +1101,62 @@ function formatKeynoteLabel(keynote: string | null) {
 }
 
 function extractTempoFromNotation(rawNotation: string | undefined) {
-  const match = rawNotation?.match(/\{bpm:(\d+)\}/i)
-  return match ? Number(match[1]) : 100
+  return extractTempoFromNotationMetadata(extractKuailepuNotationMetadata(rawNotation))
+}
+
+function extractTempoFromNotationMetadata(metadata: KuailepuNotationMetadata) {
+  return metadata.tempoDirectives[0]?.bpm ?? 100
+}
+
+function splitKuailepuNotationLines(rawNotation: string) {
+  return rawNotation
+    .split(/\n+/)
+    .map(line => line.trim())
+    .filter(Boolean)
+}
+
+export function extractKuailepuDirectiveMatches(line: string, lineIndex: number) {
+  const directives: KuailepuDirectiveMatch[] = []
+  const pattern = /\{(?!cn:)([^}]+)\}/gi
+  let match: RegExpExecArray | null
+
+  while ((match = pattern.exec(line)) !== null) {
+    const raw = match[1]?.trim()
+    if (!raw) continue
+    directives.push({
+      raw,
+      category: classifyKuailepuDirectiveText(raw),
+      lineIndex,
+      lineText: line
+    })
+  }
+
+  return directives
+}
+
+export function extractKuailepuSectionLabels(line: string, lineIndex: number) {
+  const labels: KuailepuSectionLabelMatch[] = []
+  const pattern = /^([A-Za-z0-9\u4e00-\u9fff]+):(.*)$/gm
+  let match: RegExpExecArray | null
+
+  while ((match = pattern.exec(line)) !== null) {
+    const label = match[1]?.trim()
+    if (!label) continue
+    labels.push({
+      label,
+      lineIndex,
+      lineText: line
+    })
+  }
+
+  return labels
+}
+
+function extractTempoValue(directive: string) {
+  const match = directive.match(/^bpm\s*:\s*(\d+)$/i)
+  return match ? Number(match[1]) : null
+}
+
+function countMatches(line: string, pattern: RegExp) {
+  return [...line.matchAll(pattern)].length
 }
