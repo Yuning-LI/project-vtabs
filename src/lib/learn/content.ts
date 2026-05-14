@@ -146,6 +146,7 @@ const CELTIC_TIN_WHISTLE_SONG_SLUGS = new Set([
   'irish-morning-wind',
   'irish-blackbird',
   'loch-lomond',
+  'skye-boat-song',
   'scotland-the-brave',
   'auld-lang-syne',
   'wellerman'
@@ -185,9 +186,11 @@ const WORLD_FOLK_SONG_SLUGS = new Set([
   'el-condor-pasa',
   'hej-sokoly',
   'moscow-nights',
+  'skye-boat-song',
   'troika',
   'red-berries-blossom',
-  'the-hawthorn-tree'
+  'the-hawthorn-tree',
+  'waltzing-matilda'
 ])
 
 const CALM_LYRICAL_SONG_SLUGS = new Set([
@@ -205,6 +208,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'casablanca',
   'careless-whisper',
   'carrying-you',
+  'skye-boat-song',
   'childhood-memory',
   'edelweiss',
   'eponas-song',
@@ -326,7 +330,8 @@ const SING_ALONG_SONG_SLUGS = new Set([
   'joy-to-the-world',
   'auld-lang-syne',
   'imagine',
-  'swing-low-sweet-chariot'
+  'swing-low-sweet-chariot',
+  'waltzing-matilda'
 ])
 
 const FIRST_PERFORMANCE_SONG_SLUGS = new Set([

@@ -1,0 +1,40 @@
+{
+  "id": "skye-boat-song",
+  "slug": "skye-boat-song",
+  "title": "The Skye Boat Song",
+  "description": "A lyrical Scottish folk melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-14",
+    "note": "Externally verified against common public references before release. The melody identity matches the familiar Skye Boat Song version; later lyric noise was reviewed separately from the tune check."
+  },
+  "tonicMidi": 67,
+  "alignedLyrics": [
+    "Speed, bon nie boat, like a bird on the wing, On ward, the sai lors",
+    "cry. _ Car ry the lad that's _ born to be King,",
+    "O ver the sea to Skye. _",
+    "Loud the winds howl, _ loud the waves roar, _",
+    "Thun der claps rend the air: _ Baf fled our foes _ stand on the shore, _",
+    "Fol low they will not dare. _"
+  ],
+  "notation": [
+    "{cn:G} 5d - - 6d 5d - | {cn:E/B} 1 - - - 1 1 | {cn:A/C} 2 - - 3 2 - | {cn:D7} 5 - - - - - | {cn:G} 3 - - 2 3 - | {cn:C} 6d - - - 6d -",
+    "{cn:D7} 5d - - - - - | 5d - - - - - | {cn:G} 5d - - 6d 5d - | {cn:E/B} 1 - - - 1 1 | {cn:A/C} 2 - - 3 2 - | {cn:D7} 5 - - - - -",
+    "{cn:G} 3 - - 2 3 - | {cn:E} 6d - - - 6d - | {cn:G} 5d - - - - - | 1 - - - - -",
+    "{cn:E} 3 - - 1 3 - | {cn:Ea7} 3 - - - 3 - | {cn:A} 2 - - 6d 2 - | {cn:Gb7b5} 2 - - - 2 -",
+    "{cn:E} 1 - - 6d 1 - | 1 - - - {cn:B} 7d - | {cn:E} 6d - - - - - | 6d - - - - - | 3 - - 1 3 - | {cn:Ea7} 3 - - - 3 - | {cn:A} 2 - - 6d 2 - | {cn:Gb7b5} 2 - - - 2 -",
+    "{cn:E} 1 - - 6d 1 - | 1 - - - {cn:B} 7d - | {cn:E} 6d - - - - - | {cn:D7} 5d - - - - -"
+  ]
+}

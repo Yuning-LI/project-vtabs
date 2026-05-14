@@ -1,0 +1,42 @@
+{
+  "id": "waltzing-matilda",
+  "slug": "waltzing-matilda",
+  "title": "Waltzing Matilda",
+  "description": "A familiar Australian folk song arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Once a jol ly swag man camp'd _ by a bil la bong",
+    "un der the shade of a cool li bah tree and he",
+    "sang as he watch'd and wait ed till his bil ly boiled",
+    "You'll come a waltz ing Ma til da with me. Waltz ing Ma til da",
+    "Waltz ing Ma til da you'll come a waltz ing Ma til da with me and he",
+    "sang as he watched and wait ed till his bil ly boiled",
+    "you'll come a waltz ing Ma til da with me."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-14",
+    "note": "Externally verified against common Australian public references before release. The melody identity matches the familiar public Waltzing Matilda version."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "{cn:D} 3 3 3 3 {cn:A} 2 - 2 - | {cn:B} 1 2 3 1 {cn:G} 6d 7d {cn:D} 1 -",
+    "5d - 1 3 {cn:A7} 5 - 5 5 | {cn:D} 5 5 {cn:A7} 5 - {cn:D} 5 - 1 2",
+    "3 - 3 3 {cn:A} 2 - 2 - | {cn:B} 1 2 3 1 {cn:G} 6d 7d 1 -",
+    "{cn:D} 5d - 1 3 5 - 4 3 | {cn:A7} 2 - 2 2 {cn:D} 1 - 0 - | {cn:D} 5 - 5 5 5 - 3 -",
+    "{cn:G} 1g - 1g 7 {cn:D} 6 - 5 - | 5 - 5 5 {cn:G} 6 - 5 {cn:D} 5 | 5 - 4 3 {cn:A} 2 - 1 2",
+    "{cn:D} 3 - 3 3 {cn:A7} 2 - 2 - | {cn:B} 1 2 3 1 {cn:G} 6d 7d 1 -",
+    "{cn:D} 5d - 1 3 5 - 4 3 | {cn:A7} 2 - 2 2 {cn:D} 1 - 0 -"
+  ]
+}

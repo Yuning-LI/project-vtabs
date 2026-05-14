@@ -1356,5 +1356,19 @@
     "family": "folk",
     "featuredRank": 195,
     "published": true
+  },
+  {
+    "id": "skye-boat-song",
+    "slug": "skye-boat-song",
+    "family": "folk",
+    "featuredRank": 196,
+    "published": true
+  },
+  {
+    "id": "waltzing-matilda",
+    "slug": "waltzing-matilda",
+    "family": "folk",
+    "featuredRank": 197,
+    "published": true
   }
 ]
