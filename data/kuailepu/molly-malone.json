@@ -6,11 +6,11 @@
   "published": true,
   "alignedLyrics": [
     "In Dub lin's fair cit y, where girls are so pret ty, I",
-    "first set my eyes on sweet Mol ly Ma lone. As she",
-    "pushed her wheel bar row thru streets broad and",
-    "nar row sing ing, \"Coc kles! and Mus sels, a live, a live oh!\" A",
-    "live, a live oh, _ a live, a live oh, _ sing ing \"Coc kles and",
-    "Mus sels a live a live oh!\" _ _ _ _ _"
+    "first set my eyes on sweet Mol ly Ma lone, As she",
+    "wheeled her wheel bar row through streets broad and",
+    "nar row, cry ing, Coc kles and mus sels a live, a live, oh! A",
+    "live, a live, oh! _ A live, a live, oh! _ cry ing Coc kles and",
+    "mus sels a live, a live, oh! _ _ _ _ _"
   ],
   "source": {
     "title": "MusicXML source corpus",
@@ -25,8 +25,8 @@
   },
   "review": {
     "status": "pending",
-    "checkedOn": "2026-05-12",
-    "note": "Imported through the MusicXML ingest pipeline and checked against common Irish public references before publication."
+    "checkedOn": "2026-05-13",
+    "note": "Imported through the MusicXML ingest pipeline. The published lyric track was manually rebuilt against common Irish public references after the upstream source lyric text proved structurally dirty in the latter half."
   },
   "tonicMidi": 67,
   "notation": [

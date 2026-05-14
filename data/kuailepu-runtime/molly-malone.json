@@ -10,10 +10,10 @@
   "rhythm": "3/4",
   "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
   "tags": "12孔AC陶笛F调指法",
-  "fingerings": "o6-G,o6-F,o6-D,o12-G,o12-F,o12-bB,r8b-G,r8b-F,r8b-bB,r8g-G,r8g-F,r8g-bB,w6-bB,w6-C,w6-bA,w6-F",
+  "fingerings": "o6-G,o12-G,o12-F,r8b-G,r8b-F,r8b-bB,r8g-G,r8g-F,r8g-bB,w6-bB,w6-C",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
-  "lyric": "[\"In Dub lin's fair cit y, where girls are so pret ty, I\\nfirst set my eyes on sweet Mol ly Ma lone. As she\\npushed her wheel bar row thru streets broad and\\nnar row sing ing, \\\"Coc kles! and Mus sels, a live, a live oh!\\\" A\\nlive, a live oh, _ a live, a live oh, _ sing ing \\\"Coc kles and\\nMus sels a live a live oh!\\\" _ _ _ _ _\"]",
-  "notation": "0-5d|{cn:G}1x1-_1|{cn:E7}1x3-_1|{cn:C6}22-_2x|{cn:D7}2x4-_2\n{cn:G}345|{cn:E7}543|{cn:A7}32-_2x|{cn:D7}2-5dx5dx\n{cn:G}111|{cn:G7}1x3-_1|{cn:A}22-_2x\n{cn:D7}2x4-_3x2x|{cn:G}5x3-_1|53-_1x|{cn:A}2-_1x{cn:D7}2|{cn:G}1-5d\n1-_1x1|131|{cn:D7}2-_2x2|243x2x|{cn:G}53-_1x\n{cn:E7}5x3-_1|{cn:A7}2-_1x{cn:D7}2|{cn:G}1-{cn:D7}5d|{cn:G}1-{cn:D7}5d|{cn:G}1--|1-- |||",
+  "lyric": "[\"In Dub lin's fair cit y, where girls are so pret ty, I\\nfirst set my eyes on sweet Mol ly Ma lone, As she\\nwheeled her wheel bar row through streets broad and\\nnar row, cry ing, Coc kles and mus sels a live, a live, oh! A\\nlive, a live, oh! _ A live, a live, oh! _ cry ing Coc kles and\\nmus sels a live, a live, oh! _ _ _ _ _\"]",
+  "notation": "{bpm:100}\n0-5d|{cn:G}1x1-_1|{cn:E7}1x3-_1|{cn:C6}22-_2x|{cn:D7}2x4-_2\n{cn:G}345|{cn:E7}543|{cn:A7}32-_2x|{cn:D7}2-5dx5dx\n{cn:G}111|{cn:G7}1x3-_1|{cn:A}22-_2x\n{cn:D7}2x4-_3x2x|{cn:G}5x3-_1|53-_1x|{cn:A}2-_1x{cn:D7}2|{cn:G}1-5d\n1-_1x1|131|{cn:D7}2-_2x2|243x2x|{cn:G}53-_1x\n{cn:E7}5x3-_1|{cn:A7}2-_1x{cn:D7}2|{cn:G}1-{cn:D7}5d|{cn:G}1-{cn:D7}5d|{cn:G}1--|1-- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",
@@ -28,7 +28,7 @@
   "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/71833351D2AD4DB4CF7608FAA657F67E/100",
   "last_login_ip": "112.0.143.192",
   "last_login_time": "2026-03-29 20:30:05",
-  "lyric_text": "In Dub lin's fair cit y, where girls are so pret ty, I\nfirst set my eyes on sweet Mol ly Ma lone. As she\npushed her wheel bar row thru streets broad and\nnar row sing ing, \"Coc kles! and Mus sels, a live, a live oh!\" A\nlive, a live oh, _ a live, a live oh, _ sing ing \"Coc kles and\nMus sels a live a live oh!\" _ _ _ _ _",
+  "lyric_text": "In Dub lin's fair cit y, where girls are so pret ty, I\nfirst set my eyes on sweet Mol ly Ma lone, As she\nwheeled her wheel bar row through streets broad and\nnar row, cry ing, Coc kles and mus sels a live, a live, oh! A\nlive, a live, oh! _ A live, a live, oh! _ cry ing Coc kles and\nmus sels a live, a live, oh! _ _ _ _ _",
   "user_id": "295870",
   "no_check_vip": true,
   "user_favorite": 0,
@@ -83,24 +83,6 @@
             "tonalityName": "AC",
             "match": 2
           }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
-            "match": 2
-          }
         ]
       ],
       "fingeringSetList": [
@@ -110,24 +92,6 @@
             "fingering": "G5",
             "fingeringName": "G调指法",
             "tonalityName": "AC",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
             "match": 2
           }
         ]
@@ -160,24 +124,6 @@
             "tonalityName": "",
             "match": 2
           }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB5",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
         ]
       ],
       "fingeringSetList": [
@@ -195,24 +141,6 @@
             "instrument": "o12",
             "fingering": "F5",
             "fingeringName": "F调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB5",
-            "fingeringName": "bB调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -426,24 +354,6 @@
             "tonalityName": "",
             "match": 2
           }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bA5",
-            "fingeringName": "bA调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "",
-            "match": 2
-          }
         ]
       ],
       "fingeringSetList": [
@@ -464,24 +374,6 @@
             "tonalityName": "",
             "match": 2
           }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bA5",
-            "fingeringName": "bA调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "",
-            "match": 2
-          }
         ]
       ],
       "graphList": [
@@ -499,5 +391,6 @@
   "instrumentIndex": "0",
   "instrument": "none",
   "fingering": "",
-  "fingering_index": 0
+  "fingering_index": 0,
+  "bpm": 100
 }

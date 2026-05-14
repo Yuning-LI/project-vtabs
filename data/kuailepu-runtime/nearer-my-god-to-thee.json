@@ -10,10 +10,10 @@
   "rhythm": "4/4",
   "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
   "tags": "12孔AC陶笛F调指法",
-  "fingerings": "o6-G,o6-F,o12-F,o12-G,o12-D,r8b-F,r8b-G,r8b-D,r8b-bB,r8g-F,r8g-G,r8g-D,r8g-bB,w6-bA,w6-bB,w6-C,w6-F",
+  "fingerings": "o6-F,o6-G,o12-F,o12-G,o12-D,r8b-F,r8b-G,r8b-D,r8b-bB,r8g-F,r8g-G,r8g-D,r8g-bB,w6-F,w6-bA,w6-bB,w6-C",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Near er my God to Thee, Near er to Thee!\\nE'en though it be a cross that _ rais eth me.\\nStill all my dreams shall be Near er, my God to Thee.\\nNear er, my god to Thee, Near _ er to Thee!\"]",
-  "notation": "{cn:F}3-2{cn:F7}1|{cn:Bb}1-_6dx6d-|{cn:F}5d-13|{cn:C7}2---\n{cn:F7}3-21|{cn:Bb}1-_6dx{cn:G#d}6d-|{cn:F}5d1{cn:C7}7d2|{cn:F}1---\n{cn:F}5-{cn:Bb}65|{cn:F}5-_3x5-|{cn:F}5-{cn:Bb}65|{cn:F/C}5-_3x{cn:C7}2-\n{cn:F7/C}3-21|{cn:Bb}1-_6dx{cn:G#d}6d-|{cn:F}5d1{cn:C7}7d2|{cn:F}1--- |||",
+  "notation": "{bpm:100}\n{cn:F}3-2{cn:F7}1|{cn:Bb}1-_6dx6d-|{cn:F}5d-13|{cn:C7}2---\n{cn:F7}3-21|{cn:Bb}1-_6dx{cn:G#d}6d-|{cn:F}5d1{cn:C7}7d2|{cn:F}1---\n{cn:F}5-{cn:Bb}65|{cn:F}5-_3x5-|{cn:F}5-{cn:Bb}65|{cn:F/C}5-_3x{cn:C7}2-\n{cn:F7/C}3-21|{cn:Bb}1-_6dx{cn:G#d}6d-|{cn:F}5d1{cn:C7}7d2|{cn:F}1--- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",
@@ -78,8 +78,8 @@
         [
           {
             "instrument": "o6",
-            "fingering": "G5",
-            "fingeringName": "G调指法",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -87,8 +87,8 @@
         [
           {
             "instrument": "o6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -98,8 +98,8 @@
         [
           {
             "instrument": "o6",
-            "fingering": "G5",
-            "fingeringName": "G调指法",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -107,8 +107,8 @@
         [
           {
             "instrument": "o6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -376,6 +376,15 @@
         [
           {
             "instrument": "w6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
             "fingering": "bA5",
             "fingeringName": "bA调指法",
             "tonalityName": "",
@@ -396,15 +405,6 @@
             "instrument": "w6",
             "fingering": "C6",
             "fingeringName": "C调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -414,6 +414,15 @@
         [
           {
             "instrument": "w6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
             "fingering": "bA5",
             "fingeringName": "bA调指法",
             "tonalityName": "",
@@ -434,15 +443,6 @@
             "instrument": "w6",
             "fingering": "C6",
             "fingeringName": "C调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -463,5 +463,6 @@
   "instrumentIndex": "0",
   "instrument": "none",
   "fingering": "",
-  "fingering_index": 0
+  "fingering_index": 0,
+  "bpm": 100
 }
