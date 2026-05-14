@@ -122,7 +122,30 @@ try {
           const noteRows = groupRows(noteLabels)
           const outlineRows = groupRows(outlineNodes)
           const outlineLabelMap = new Map<string, Set<string>>()
+          const outlineStates = new Map<string, { allClosed: boolean; allOpen: boolean }>()
           const rowCount = Math.min(noteRows.length, outlineRows.length)
+
+          refs.forEach(ref => {
+            if (outlineStates.has(ref)) {
+              return
+            }
+
+            const symbol = document.querySelector(`#sheet svg symbol[id="${ref.replace(/^#/, '')}"]`)
+            const symbolCircleFills = Array.from(symbol?.querySelectorAll('circle') ?? []).map(circle =>
+              (circle.getAttribute('fill') || '').trim().toLowerCase()
+            )
+            const symbolFilledCount = symbolCircleFills.filter(
+              fill => fill === '#000' || fill === '#000000'
+            ).length
+            const symbolOpenCount = symbolCircleFills.filter(
+              fill => fill === '#fff' || fill === '#ffffff'
+            ).length
+            outlineStates.set(ref, {
+              allClosed:
+                symbolCircleFills.length > 0 && symbolFilledCount === symbolCircleFills.length,
+              allOpen: symbolCircleFills.length > 0 && symbolOpenCount === symbolCircleFills.length
+            })
+          })
 
           for (let rowIndex = 0; rowIndex < rowCount; rowIndex += 1) {
             const notes = [...(noteRows[rowIndex]?.items ?? [])]
@@ -148,6 +171,21 @@ try {
             }
           }
 
+          let maxAmbiguousExtremeOutlineLabelCount = 0
+          const ambiguousExtremeOutlineLabels: Record<string, string[]> = {}
+          outlineLabelMap.forEach((labels, ref) => {
+            const state = outlineStates.get(ref)
+            if (!state || (!state.allClosed && !state.allOpen) || labels.size <= 1) {
+              return
+            }
+
+            maxAmbiguousExtremeOutlineLabelCount = Math.max(
+              maxAmbiguousExtremeOutlineLabelCount,
+              labels.size
+            )
+            ambiguousExtremeOutlineLabels[ref] = Array.from(labels)
+          })
+
           return {
             totalOutlineCount: refs.length,
             uniqueOutlineCount: new Set(refs).size,
@@ -158,9 +196,11 @@ try {
             dominantOutlineOpenCircleCount: openCircleCount,
             dominantOutlineAllClosed: circleFills.length > 0 && filledCircleCount === circleFills.length,
             dominantOutlineAllOpen: circleFills.length > 0 && openCircleCount === circleFills.length,
+            maxAmbiguousExtremeOutlineLabelCount,
             outlineLabels: Object.fromEntries(
               Array.from(outlineLabelMap.entries()).map(([ref, labels]) => [ref, Array.from(labels)])
             ),
+            ambiguousExtremeOutlineLabels,
             topOutlineRefs: ranked.slice(0, 8)
           }
         })

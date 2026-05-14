@@ -699,13 +699,20 @@ function resolveRuntimeInstrumentSelection(
     instrumentOptions.find(option => option.instrument === 'o12') ??
     instrumentOptions.find(option => option.instrument === 'o6') ??
     instrumentOptions[0]
-  const selectedFingeringIndex = Number(
+  const requestedFingeringIndex = Number(
     hasExplicitInstrumentOverride
       ? state?.fingering_index ?? 0
       : state?.fingering_index ??
           payload.fingering_index ??
           0
   )
+  const maxFingeringIndex = Math.max(
+    0,
+    (selectedInstrument?.fingeringSetList?.length ?? selectedInstrument?.fingeringsList?.length ?? 1) - 1
+  )
+  const selectedFingeringIndex = Number.isFinite(requestedFingeringIndex)
+    ? Math.min(Math.max(requestedFingeringIndex, 0), maxFingeringIndex)
+    : 0
   const selectedFingeringSet =
     selectedInstrument?.fingeringSetList?.[selectedFingeringIndex]
 

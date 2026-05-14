@@ -42,6 +42,9 @@ type GraphAuditSummary = {
   ambiguousExtremeOutlineRatio: number
   ambiguousAllClosedOutlineCount: number
   ambiguousAllOpenOutlineCount: number
+  maxAmbiguousExtremeOutlineLabelCount: number
+  maxAmbiguousAllClosedOutlineLabelCount: number
+  maxAmbiguousAllOpenOutlineLabelCount: number
   ambiguousOutlines: Array<{
     ref: string
     count: number
@@ -75,6 +78,18 @@ type RankedCandidate = {
 }
 
 const KUAILEPU_OCARINA_REFERENCE_SHIFT_TIE_THRESHOLD = 12
+const PUBLIC_WIND_INSTRUMENTS_WITH_EXTREME_OUTLINE_GUARD = new Set([
+  'o12',
+  'o6',
+  'r8b',
+  'r8g',
+  'w6'
+])
+const PUBLIC_RECORDER_WHISTLE_INSTRUMENTS = new Set([
+  'r8b',
+  'r8g',
+  'w6'
+])
 
 const usage =
   'Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/optimize-runtime-fingerings.ts <slug...> [--base-url=http://127.0.0.1:3000] [--instruments=o12,o6,r8b,r8g,w6] [--report=exports/song-ingest/runtime-fingering-optimize.json] [--dry-run=true]'
@@ -91,97 +106,171 @@ page.setDefaultTimeout(60000)
 
 try {
   const reports = []
+  let hasSongErrors = false
 
   for (const slug of options.slugs) {
     const filePath = resolveKuailepuRuntimeSongPath(slug)
-    if (!filePath) {
-      reports.push({ slug, error: 'Runtime payload not found.' })
-      continue
-    }
 
-    const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
-    const targetTonicMidi = parseKeynoteToMidi(String(payload.keynote || '1=C'))
-    const nextInstrumentFingerings = [...(payload.instrumentFingerings ?? [])]
-    const selectedInstruments = (options.instruments ?? ['o12', 'o6', 'r8b', 'r8g', 'w6']).filter(
-      instrument =>
-        nextInstrumentFingerings.some(option => option.instrument === instrument)
-    )
-
-    const perInstrumentReports = []
-
-    for (const instrument of selectedInstruments) {
-      const instrumentIndex = nextInstrumentFingerings.findIndex(option => option.instrument === instrument)
-      if (instrumentIndex < 0) {
+    try {
+      if (!filePath) {
+        hasSongErrors = true
+        reports.push({ slug, error: 'Runtime payload not found.' })
         continue
       }
 
-      const entry = nextInstrumentFingerings[instrumentIndex]!
-      const sourceSetList = cloneSetList(entry.fingeringSetList ?? entry.fingeringsList ?? [])
-      const ranked: RankedCandidate[] = []
-      for (let fingeringIndex = 0; fingeringIndex < sourceSetList.length; fingeringIndex += 1) {
-        const audit = await auditRuntimeGraph(page, options.baseUrl, slug, instrument, fingeringIndex)
-        const firstFingering = sourceSetList[fingeringIndex]?.[0]?.fingering ?? null
-        const shift = firstFingering ? parseMidiFromFingering(firstFingering) - targetTonicMidi : null
-        const absShift = shift === null ? Number.POSITIVE_INFINITY : Math.abs(shift)
-        ranked.push({
-          originalIndex: fingeringIndex,
+      const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
+      const targetTonicMidi = parseKeynoteToMidi(String(payload.keynote || '1=C'))
+      const nextInstrumentFingerings = [...(payload.instrumentFingerings ?? [])]
+      const selectedInstruments = (options.instruments ?? ['o12', 'o6', 'r8b', 'r8g', 'w6']).filter(
+        instrument =>
+          nextInstrumentFingerings.some(option => option.instrument === instrument)
+      )
+
+      const perInstrumentReports = []
+
+      for (const instrument of selectedInstruments) {
+        const instrumentIndex = nextInstrumentFingerings.findIndex(option => option.instrument === instrument)
+        if (instrumentIndex < 0) {
+          continue
+        }
+
+        const entry = nextInstrumentFingerings[instrumentIndex]!
+        const sourceSetList = cloneSetList(entry.fingeringSetList ?? entry.fingeringsList ?? [])
+        const ranked: RankedCandidate[] = []
+        for (let fingeringIndex = 0; fingeringIndex < sourceSetList.length; fingeringIndex += 1) {
+          const audit = await auditRuntimeGraph(page, options.baseUrl, slug, instrument, fingeringIndex)
+          const firstFingering = sourceSetList[fingeringIndex]?.[0]?.fingering ?? null
+          const shift = firstFingering ? parseMidiFromFingering(firstFingering) - targetTonicMidi : null
+          const absShift = shift === null ? Number.POSITIVE_INFINITY : Math.abs(shift)
+          ranked.push({
+            originalIndex: fingeringIndex,
+            instrument,
+            fingeringSet: sourceSetList[fingeringIndex] ?? [],
+            firstFingering,
+            shift,
+            exact: shift === 0,
+            octaveAligned: shift !== null && shift % 12 === 0,
+            absShift,
+            pitchClassDistance:
+              shift === null ? Number.POSITIVE_INFINITY : Math.min(((shift % 12) + 12) % 12, (12 - (((shift % 12) + 12) % 12)) % 12),
+            referencePriority:
+              firstFingering === null
+                ? Number.POSITIVE_INFINITY
+                : getKuailepuOcarinaReferencePriority(instrument, firstFingering),
+            qualityTier: classifyGraphQualityForInstrument(instrument, audit),
+            audit
+          })
+        }
+
+        const sorted = [...ranked].sort(compareRankedCandidates)
+        const viableCandidates = sorted.filter(candidate => candidate.qualityTier !== 2)
+        /**
+         * 对竖笛 / 哨笛再加一层公开偏好：
+         * - 如果已经存在“极端边界轮廓最多只对应 1 个音高”的可用候选，
+         *   就不要再公开“同一个边界轮廓对应 2 个音高”的候选。
+         * - 只有在不存在这种更干净的候选时，才退而接受 2 音高版本。
+         *
+         * 这里仍然只影响公开曝光，不影响生成层召回。
+         */
+        const recorderWhistleSinglePitchEdgeViableCandidates =
+          PUBLIC_RECORDER_WHISTLE_INSTRUMENTS.has(instrument)
+            ? viableCandidates.filter(
+                candidate =>
+                  Math.max(
+                    candidate.audit.maxAmbiguousAllClosedOutlineLabelCount,
+                    candidate.audit.maxAmbiguousAllOpenOutlineLabelCount
+                  ) <= 1
+              )
+            : []
+        const exposureViableCandidates =
+          recorderWhistleSinglePitchEdgeViableCandidates.length > 0
+            ? recorderWhistleSinglePitchEdgeViableCandidates
+            : viableCandidates
+        /**
+         * 极端轻重吹扩展（全按+轻吹 / 全开+重吹）仍然可以作为公开页上的备选指法，
+         * 但它不应该抢到默认位。
+         *
+         * 所以公开层的顺序应该是：
+         * 1. 非极端 clean
+         * 2. 非极端 acceptable
+         * 3. 极端 clean
+         * 4. 极端 acceptable
+         *
+         * 这样用户仍然可以在下拉列表里看到靠轻重吹扩展音域的候选，
+         * 但默认首先落到不依赖这类扩展的更稳妥指法。
+         */
+        const nonExtremeViableCandidates = exposureViableCandidates.filter(
+          candidate => candidate.audit.totalExtremeOutlineCount === 0
+        )
+        const extremeViableCandidates = exposureViableCandidates.filter(
+          candidate => candidate.audit.totalExtremeOutlineCount > 0
+        )
+        const cleanNonExtremeCandidates = nonExtremeViableCandidates.filter(
+          candidate => candidate.qualityTier === 0
+        )
+        const acceptableNonExtremeCandidates = nonExtremeViableCandidates.filter(
+          candidate => candidate.qualityTier === 1
+        )
+        const cleanExtremeCandidates = extremeViableCandidates.filter(
+          candidate => candidate.qualityTier === 0
+        )
+        const acceptableExtremeCandidates = extremeViableCandidates.filter(
+          candidate => candidate.qualityTier === 1
+        )
+        /**
+         * 公开页不要再把明确判成“不适合公开候选”的指法兜底塞回去。
+         *
+         * 如果一个乐器在当前歌曲上没有任何 viable 候选，
+         * 就应该直接隐藏该乐器，而不是为了“至少有得选”把坏候选重新暴露出去。
+         */
+        const finalCandidates = [
+          ...cleanNonExtremeCandidates,
+          ...acceptableNonExtremeCandidates,
+          ...cleanExtremeCandidates,
+          ...acceptableExtremeCandidates
+        ].slice(0, 4)
+
+        entry.fingeringSetList = finalCandidates.map(candidate => candidate.fingeringSet)
+        if (entry.fingeringsList) {
+          entry.fingeringsList = finalCandidates.map(candidate => candidate.fingeringSet)
+        }
+
+        perInstrumentReports.push({
           instrument,
-          fingeringSet: sourceSetList[fingeringIndex] ?? [],
-          firstFingering,
-          shift,
-          exact: shift === 0,
-          octaveAligned: shift !== null && shift % 12 === 0,
-          absShift,
-          pitchClassDistance:
-            shift === null ? Number.POSITIVE_INFINITY : Math.min(((shift % 12) + 12) % 12, (12 - (((shift % 12) + 12) % 12)) % 12),
-          referencePriority:
-            firstFingering === null
-              ? Number.POSITIVE_INFINITY
-              : getKuailepuOcarinaReferencePriority(instrument, firstFingering),
-          qualityTier: classifyGraphQualityForInstrument(instrument, audit),
-          audit
+          before: ranked.map(candidate => describeCandidate(candidate)),
+          after: finalCandidates.map(candidate => describeCandidate(candidate))
         })
       }
 
-      const sorted = [...ranked].sort(compareRankedCandidates)
-      const cleanCandidates = sorted.filter(candidate => candidate.qualityTier === 0)
-      const acceptableCandidates = sorted.filter(candidate => candidate.qualityTier !== 2)
-      const finalCandidates = (
-        cleanCandidates.length > 0 ? cleanCandidates : acceptableCandidates.length > 0 ? acceptableCandidates : sorted
-      ).slice(0, 4)
+      payload.instrumentFingerings = nextInstrumentFingerings.filter(option => {
+        if (option.instrument === 'none') {
+          return true
+        }
+        const fingeringSetList = option.fingeringSetList ?? option.fingeringsList ?? []
+        return fingeringSetList.length > 0
+      })
+      payload.fingerings = buildFingeringsField(nextInstrumentFingerings)
+      payload.fingering_index = 0
 
-      entry.fingeringSetList = finalCandidates.map(candidate => candidate.fingeringSet)
-      if (entry.fingeringsList) {
-        entry.fingeringsList = finalCandidates.map(candidate => candidate.fingeringSet)
+      if (!options.dryRun) {
+        fs.writeFileSync(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
       }
 
-      perInstrumentReports.push({
-        instrument,
-        before: ranked.map(candidate => describeCandidate(candidate)),
-        after: finalCandidates.map(candidate => describeCandidate(candidate))
+      reports.push({
+        slug,
+        file: path.relative(process.cwd(), filePath),
+        dryRun: options.dryRun,
+        instruments: perInstrumentReports
+      })
+    } catch (error) {
+      hasSongErrors = true
+      reports.push({
+        slug,
+        file: filePath ? path.relative(process.cwd(), filePath) : null,
+        dryRun: options.dryRun,
+        error: error instanceof Error ? error.message : String(error)
       })
     }
-
-    payload.instrumentFingerings = nextInstrumentFingerings.filter(option => {
-      if (option.instrument === 'none') {
-        return true
-      }
-      const fingeringSetList = option.fingeringSetList ?? option.fingeringsList ?? []
-      return fingeringSetList.length > 0
-    })
-    payload.fingerings = buildFingeringsField(nextInstrumentFingerings)
-    payload.fingering_index = 0
-
-    if (!options.dryRun) {
-      fs.writeFileSync(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
-    }
-
-    reports.push({
-      slug,
-      file: path.relative(process.cwd(), filePath),
-      dryRun: options.dryRun,
-      instruments: perInstrumentReports
-    })
   }
 
   if (options.report) {
@@ -192,6 +281,9 @@ try {
   }
 
   console.log(JSON.stringify(reports, null, 2))
+  if (hasSongErrors) {
+    process.exitCode = 1
+  }
 } finally {
   await browser.close()
 }
@@ -316,6 +408,34 @@ async function auditRuntimeGraph(
       }))
       .filter(item => /Outline|outline/i.test(item.href))
 
+    function parsePitchLabelToMidi(label) {
+      const normalized = String(label || '').trim()
+      const match = normalized.match(/^([A-Ga-g])([#b]?)(\d+)$/)
+      if (!match) {
+        return null
+      }
+
+      const note = match[1].toUpperCase()
+      const accidental = match[2]
+      const octave = Number.parseInt(match[3], 10)
+      const basePitchClasses = {
+        C: 0,
+        D: 2,
+        E: 4,
+        F: 5,
+        G: 7,
+        A: 9,
+        B: 11
+      }
+      const basePitchClass = basePitchClasses[note]
+      if (typeof basePitchClass !== 'number') {
+        return null
+      }
+
+      const accidentalOffset = accidental === '#' ? 1 : accidental === 'b' ? -1 : 0
+      return (octave + 1) * 12 + basePitchClass + accidentalOffset
+    }
+
     const noteRows = groupRows(noteLabels)
     const outlineRows = groupRows(outlineNodes)
     const outlineLabelMap = new Map<
@@ -323,6 +443,7 @@ async function auditRuntimeGraph(
       {
         count: number
         labels: Set<string>
+        labelCounts: Map<string, number>
       }
     >()
     const alignedRowCount = Math.min(noteRows.length, outlineRows.length)
@@ -349,7 +470,8 @@ async function auditRuntimeGraph(
           (() => {
             const next = {
               count: 0,
-              labels: new Set<string>()
+              labels: new Set<string>(),
+              labelCounts: new Map<string, number>()
             }
             outlineLabelMap.set(ref, next)
             return next
@@ -358,6 +480,7 @@ async function auditRuntimeGraph(
         entry.count += 1
         if (label && label.toUpperCase() !== 'R') {
           entry.labels.add(label)
+          entry.labelCounts.set(label, (entry.labelCounts.get(label) || 0) + 1)
         }
       }
     }
@@ -371,15 +494,15 @@ async function auditRuntimeGraph(
     let ambiguousExtremeOutlineCount = 0
     let ambiguousAllClosedOutlineCount = 0
     let ambiguousAllOpenOutlineCount = 0
+    let maxAmbiguousExtremeOutlineLabelCount = 0
+    let maxAmbiguousAllClosedOutlineLabelCount = 0
+    let maxAmbiguousAllOpenOutlineLabelCount = 0
     const ambiguousOutlines: GraphAuditSummary['ambiguousOutlines'] = []
     const ambiguousExtremeOutlines: GraphAuditSummary['ambiguousExtremeOutlines'] = []
     counts.forEach((count, ref) => {
       const state = outlineStates.get(ref)
       if (!state) {
         return
-      }
-      if (state.allClosed || state.allOpen) {
-        totalExtremeOutlineCount += count
       }
       if (state.allClosed) {
         totalAllClosedOutlineCount += count
@@ -390,6 +513,34 @@ async function auditRuntimeGraph(
 
       const outlineLabels = outlineLabelMap.get(ref)
       const nonRestLabelCount = outlineLabels?.labels.size ?? 0
+      const labelMidis = Array.from(outlineLabels?.labels ?? [])
+        .map(label => ({ label, midi: parsePitchLabelToMidi(label) }))
+        .filter(item => Number.isFinite(item.midi))
+        .sort((left, right) => left.midi - right.midi)
+      const baseExtremeMidi =
+        state.allClosed
+          ? labelMidis[labelMidis.length - 1]?.midi ?? null
+          : state.allOpen
+            ? labelMidis[0]?.midi ?? null
+            : null
+      const extensionLabels = new Set(
+        labelMidis
+          .filter(item =>
+            state.allClosed
+              ? baseExtremeMidi !== null && item.midi < baseExtremeMidi
+              : state.allOpen
+                ? baseExtremeMidi !== null && item.midi > baseExtremeMidi
+                : false
+          )
+          .map(item => item.label)
+      )
+      const extensionCount = Array.from(extensionLabels).reduce(
+        (sum, label) => sum + (outlineLabels?.labelCounts.get(label) || 0),
+        0
+      )
+      if ((state.allClosed || state.allOpen) && extensionCount > 0) {
+        totalExtremeOutlineCount += extensionCount
+      }
       if (nonRestLabelCount > 1) {
         ambiguousOutlineCount += count
         ambiguousOutlines.push({
@@ -401,12 +552,30 @@ async function auditRuntimeGraph(
         })
       }
       if ((state.allClosed || state.allOpen) && nonRestLabelCount > 1) {
-        ambiguousExtremeOutlineCount += count
         if (state.allClosed) {
-          ambiguousAllClosedOutlineCount += count
+          maxAmbiguousAllClosedOutlineLabelCount = Math.max(
+            maxAmbiguousAllClosedOutlineLabelCount,
+            nonRestLabelCount
+          )
         }
         if (state.allOpen) {
-          ambiguousAllOpenOutlineCount += count
+          maxAmbiguousAllOpenOutlineLabelCount = Math.max(
+            maxAmbiguousAllOpenOutlineLabelCount,
+            nonRestLabelCount
+          )
+        }
+      }
+      if ((state.allClosed || state.allOpen) && nonRestLabelCount > 1 && extensionCount > 0) {
+        ambiguousExtremeOutlineCount += extensionCount
+        maxAmbiguousExtremeOutlineLabelCount = Math.max(
+          maxAmbiguousExtremeOutlineLabelCount,
+          nonRestLabelCount
+        )
+        if (state.allClosed) {
+          ambiguousAllClosedOutlineCount += extensionCount
+        }
+        if (state.allOpen) {
+          ambiguousAllOpenOutlineCount += extensionCount
         }
         ambiguousExtremeOutlines.push({
           ref,
@@ -440,6 +609,9 @@ async function auditRuntimeGraph(
         refs.length > 0 ? ambiguousExtremeOutlineCount / refs.length : 0,
       ambiguousAllClosedOutlineCount,
       ambiguousAllOpenOutlineCount,
+      maxAmbiguousExtremeOutlineLabelCount,
+      maxAmbiguousAllClosedOutlineLabelCount,
+      maxAmbiguousAllOpenOutlineLabelCount,
       ambiguousOutlines: ambiguousOutlines.sort((left, right) => right.count - left.count),
       ambiguousExtremeOutlines: ambiguousExtremeOutlines.sort((left, right) => right.count - left.count),
       topOutlineRefs: ranked.slice(0, 8)
@@ -517,13 +689,22 @@ function classifyGraphQualityForInstrument(
 ): 0 | 1 | 2 {
   const baseTier = classifyGraphQuality(audit)
 
-  if (instrument === 'o12' || instrument === 'o6') {
+  if (PUBLIC_WIND_INSTRUMENTS_WITH_EXTREME_OUTLINE_GUARD.has(instrument)) {
     /**
-     * 对陶笛更严格：
-     * - 如果同一个极端按孔（全按 / 全开）被复用于多个音高，而且出现次数超过 2，
+     * 公开风类乐器统一更严格：
+     * - 如果同一个极端按孔（全按 / 全开）被复用于超过 2 个不同音高，
      *   这基本就是在靠轻重吹硬撑音域，不适合作为公开候选。
+     *
+     * 这条规则不只适用于陶笛。对竖笛 / 哨笛也一样：
+     * 如果一个候选需要反复依赖全按 / 全开 + 轻重吹去覆盖多个音高，
+     * 用户感知上同样会很差，公开页应该直接放弃这个候选。
      */
-    if (audit.ambiguousExtremeOutlineCount > 2) {
+    if (
+      Math.max(
+        audit.maxAmbiguousAllClosedOutlineLabelCount,
+        audit.maxAmbiguousAllOpenOutlineLabelCount
+      ) > 2
+    ) {
       return 2
     }
 
@@ -603,6 +784,9 @@ function describeCandidate(candidate: RankedCandidate) {
     ambiguousOutlines: candidate.audit.ambiguousOutlines,
     ambiguousExtremeOutlineCount: candidate.audit.ambiguousExtremeOutlineCount,
     ambiguousExtremeOutlineRatio: candidate.audit.ambiguousExtremeOutlineRatio,
+    maxAmbiguousExtremeOutlineLabelCount: candidate.audit.maxAmbiguousExtremeOutlineLabelCount,
+    maxAmbiguousAllClosedOutlineLabelCount: candidate.audit.maxAmbiguousAllClosedOutlineLabelCount,
+    maxAmbiguousAllOpenOutlineLabelCount: candidate.audit.maxAmbiguousAllOpenOutlineLabelCount,
     ambiguousExtremeOutlines: candidate.audit.ambiguousExtremeOutlines,
     dominantOutlineRef: candidate.audit.dominantOutlineRef,
     topOutlineRefs: candidate.audit.topOutlineRefs

@@ -19,6 +19,7 @@ type GraphAuditSummary = {
   dominantOutlineRatio: number
   ambiguousExtremeOutlineCount: number
   ambiguousExtremeOutlineRatio: number
+  maxAmbiguousExtremeOutlineLabelCount: number
   topOutlineRefs: Array<[string, number]>
 }
 
@@ -296,6 +297,7 @@ async function auditRuntimeGraph(
     }
 
     let ambiguousExtremeOutlineCount = 0
+    let maxAmbiguousExtremeOutlineLabelCount = 0
     counts.forEach((count, ref) => {
       const state = outlineStates.get(ref)
       const labels = outlineLabelMap.get(ref)
@@ -304,6 +306,10 @@ async function auditRuntimeGraph(
       }
       if ((state.allClosed || state.allOpen) && labels.size > 1) {
         ambiguousExtremeOutlineCount += count
+        maxAmbiguousExtremeOutlineLabelCount = Math.max(
+          maxAmbiguousExtremeOutlineLabelCount,
+          labels.size
+        )
       }
     })
 
@@ -313,6 +319,7 @@ async function auditRuntimeGraph(
       dominantOutlineRatio: refs.length > 0 ? (ranked[0]?.[1] ?? 0) / refs.length : 0,
       ambiguousExtremeOutlineCount,
       ambiguousExtremeOutlineRatio: refs.length > 0 ? ambiguousExtremeOutlineCount / refs.length : 0,
+      maxAmbiguousExtremeOutlineLabelCount,
       topOutlineRefs: ranked.slice(0, 8)
     } satisfies GraphAuditSummary
   })
