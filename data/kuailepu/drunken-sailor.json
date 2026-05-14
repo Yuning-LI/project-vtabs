@@ -1,0 +1,36 @@
+{
+  "id": "drunken-sailor",
+  "slug": "drunken-sailor",
+  "title": "Drunken Sailor",
+  "description": "A brisk sea shanty melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "What shall we do with the drun ken sai lor, what shall we do with the drun ken sai lor,",
+    "what shall we do with the drun ken sai lor ear ly in the mor ning?",
+    "Hur ray and up she ri ses, hur ray and up she ri ses,",
+    "hur ray and up she ri ses, ear ly in the mor ning."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-13",
+    "note": "Imported through the MusicXML ingest pipeline and checked against Wikipedia plus common public references before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:D} 6 - 6 6 6 - 6 6 6 - 2 - 4 - 6 - | {cn:C} 5 - 5 5 5 - 5 5 5 - 1 - 3 - 5 -",
+    "{cn:D} 6 - 6 6 6 - 6 6 6 - 7 - 1g - 2g - | {cn:C} 1g - 6 - 5 - 3 - {cn:D} 2 - - - 2 - - -",
+    "{cn:D} 6 - - - 6 - - 6 6 - 2 - 4 - 6 - | {cn:C} 5 - - - 5 - - 5 5 - 1 - 3 - 5 -",
+    "{cn:D} 6 - - - 6 - - 6 6 - 7 - 1g - 2g - | {cn:C} 1g - 6 - 5 - 3 - {cn:D} 2 - - - 2 - - -"
+  ]
+}

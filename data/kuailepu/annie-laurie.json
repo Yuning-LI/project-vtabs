@@ -1,0 +1,36 @@
+{
+  "id": "annie-laurie",
+  "slug": "annie-laurie",
+  "title": "Annie Laurie",
+  "description": "A lyrical Scottish folk ballad arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Max well ton's braes are bon nie where ear ly falls the _",
+    "dew _ and its there that Ann ie Lau rie gied me her pro mise",
+    "true gied me her pro mise true which ne'er for got will be and for",
+    "bon nie Ann ie _ Lau rie I'd _ lay _ me down and dee."
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = A",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-11",
+    "note": "Imported through the MusicXML ingest pipeline and checked against IMSLP plus other common public references before publication."
+  },
+  "tonicMidi": 69,
+  "notation": [
+    "{cn:A} 1d - 1d 1d 1 - - 1 | {cn:D} 7d - 6d - - - 6d - | {cn:A} 5d - - 3d 3d - 2d 1d",
+    "{cn:E} 3d - 2d - - - 3d 2d | {cn:A} 1d - - 1d 1 - - 1 | {cn:D} 7d - 6d - - - 6d - | {cn:A} 5d - - 3d {cn:E} 3d - - 2d",
+    "{cn:A} 1d - - - - - 5d - | 1 - - 1 {cn:E} 2 - - 2 | {cn:A} 3 - - - - - 5d - | 1 - - 1 {cn:E} 2 - - 2 | {cn:A} 3 - - - - - 3 2",
+    "1 - - 7d {cn:D} 6d - 1 6d | {cn:A} 5d - 3d - - - {cn:E} 3d 2d | {cn:A} 1d 1 - 3d {cn:E} 3d - - 2d | {cn:A} 1d - - - - - 0 -"
+  ]
+}

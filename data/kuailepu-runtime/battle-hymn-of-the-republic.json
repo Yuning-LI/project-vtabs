@@ -10,10 +10,10 @@
   "rhythm": "4/4",
   "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
   "tags": "12孔AC陶笛F调指法",
-  "fingerings": "o6-bB,o6-C,o12-C,o12-bB,o12-G,o12-F,r8b-C,r8b-bB,r8b-D,r8g-C,r8g-bB,r8g-D,w6-bB,w6-bE,w6-F",
+  "fingerings": "o6-C,o6-bB,o12-C,o12-bB,o12-F,o12-G,r8b-C,r8b-bB,r8b-D,r8g-C,r8g-bB,r8g-D,w6-bB,w6-bE,w6-F",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[]",
-  "notation": "0-00x5x|{cn:C}5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1gx7x\n{cn:F}6x6x6x7x1gx7x1gx6x|{cn:C}5x6x5x3x55x5x\n5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1g|{cn:F}2g2g{cn:G7}1g7\n{cn:C}1g--0|5-_4x3x5x1gx2gx|3g-1g-|{cn:F}6-_7x1gx7x1gx6x|{cn:C}5-3-\n5-_4x3x5x1gx2gx|3g-1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--5x5x|{cn:C}5x5x5x4x3x5x1gx2gx\n3gx3gx3gx2gx1g1gx7x|{cn:F}6x6x6x7x1gx7x1gx6x|{cn:C}5x6x5x3x55x5x\n5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--0\n5-_4x3x5x1gx2gx|3g-1g-|{cn:F}6-_7x1gx7x1gx6x|{cn:C}5-3-|5-_4x3x5x1gx2gx|3g-1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--0 |||",
+  "notation": "{bpm:100}\n0-00x5x|{cn:C}5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1gx7x\n{cn:F}6x6x6x7x1gx7x1gx6x|{cn:C}5x6x5x3x55x5x\n5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1g|{cn:F}2g2g{cn:G7}1g7\n{cn:C}1g--0|5-_4x3x5x1gx2gx|3g-1g-|{cn:F}6-_7x1gx7x1gx6x|{cn:C}5-3-\n5-_4x3x5x1gx2gx|3g-1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--5x5x|{cn:C}5x5x5x4x3x5x1gx2gx\n3gx3gx3gx2gx1g1gx7x|{cn:F}6x6x6x7x1gx7x1gx6x|{cn:C}5x6x5x3x55x5x\n5x5x5x4x3x5x1gx2gx|3gx3gx3gx2gx1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--0\n5-_4x3x5x1gx2gx|3g-1g-|{cn:F}6-_7x1gx7x1gx6x|{cn:C}5-3-|5-_4x3x5x1gx2gx|3g-1g1g|{cn:F}2g2g{cn:G7}1g7|{cn:C}1g--0 |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",
@@ -78,18 +78,18 @@
         [
           {
             "instrument": "o6",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
             "match": 2
           }
         ],
         [
           {
             "instrument": "o6",
-            "fingering": "C5",
-            "fingeringName": "C调指法",
-            "tonalityName": "AC",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
             "match": 2
           }
         ]
@@ -98,18 +98,18 @@
         [
           {
             "instrument": "o6",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
             "match": 2
           }
         ],
         [
           {
             "instrument": "o6",
-            "fingering": "C5",
-            "fingeringName": "C调指法",
-            "tonalityName": "AC",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
             "match": 2
           }
         ]
@@ -146,18 +146,18 @@
         [
           {
             "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
-            "tonalityName": "SF",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "SG",
             "match": 2
           }
         ],
         [
           {
             "instrument": "o12",
-            "fingering": "F4",
-            "fingeringName": "F调指法",
-            "tonalityName": "SG",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "SF",
             "match": 2
           }
         ]
@@ -184,18 +184,18 @@
         [
           {
             "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
-            "tonalityName": "SF",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "SG",
             "match": 2
           }
         ],
         [
           {
             "instrument": "o12",
-            "fingering": "F4",
-            "fingeringName": "F调指法",
-            "tonalityName": "SG",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "SF",
             "match": 2
           }
         ]
@@ -481,5 +481,6 @@
   "instrumentIndex": "0",
   "instrument": "none",
   "fingering": "",
-  "fingering_index": 0
+  "fingering_index": 0,
+  "bpm": 100
 }

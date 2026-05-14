@@ -1323,17 +1323,31 @@
     "published": true
   },
   {
+    "id": "annie-laurie",
+    "slug": "annie-laurie",
+    "family": "folk",
+    "featuredRank": 191,
+    "published": true
+  },
+  {
     "id": "molly-malone",
     "slug": "molly-malone",
     "family": "folk",
-    "featuredRank": 191,
+    "featuredRank": 192,
     "published": true
   },
   {
     "id": "for-hes-a-jolly-good-fellow",
     "slug": "for-hes-a-jolly-good-fellow",
     "family": "song",
-    "featuredRank": 192,
+    "featuredRank": 193,
+    "published": true
+  },
+  {
+    "id": "drunken-sailor",
+    "slug": "drunken-sailor",
+    "family": "folk",
+    "featuredRank": 194,
     "published": true
   }
 ]

@@ -1,19 +1,19 @@
 {
-  "song_uuid": "synthetic-america-the-beautiful",
-  "song_name": "America the Beautiful",
+  "song_uuid": "synthetic-drunken-sailor",
+  "song_name": "Drunken Sailor",
   "alias_name": "",
-  "song_pinyin": "americathebeautiful",
+  "song_pinyin": "drunkensailor",
   "song_code": "srgznsrkl",
-  "music_composer": "Samuel Ward",
+  "music_composer": "Traditional",
   "lyric_composer": "",
   "keynote": "1=C",
   "rhythm": "4/4",
   "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
   "tags": "12孔AC陶笛F调指法",
-  "fingerings": "o6-C,o6-bB,o6-D,o12-C,o12-bB,o12-G,o12-D,r8b-C,r8b-D,r8b-bB,r8b-F,r8g-C,r8g-D,r8g-bB,r8g-F,w6-bB,w6-bE,w6-bA,w6-F",
+  "fingerings": "o6-C,o6-D,o6-bB,o12-C,o12-bB,o12-D,o12-F,r8b-C,r8b-D,r8b-bB,r8g-C,r8g-D,r8g-bB,w6-C,w6-D,w6-bB",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
-  "lyric": "[\"Oh, beau ti ful for spa cious skies, for am ber waves of grain for\\npur ple moun tain maj est ies a bove the frui ted plain! A\\nme ri ca A me ri ca God shed his grace on thee and\\ncrown thy good with broth er hood from sea to shi ning sea.\"]",
-  "notation": "{bpm:100}\n5|{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}2{cn:F}3|{cn:F/E}4{cn:D7}5{cn:G7}67|{cn:C}5--{cn:Ad}{cn:G7}5\n{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}22g|{cn:Bbd}#1g{cn:G7}2g{cn:A7}3g{cn:D7}6|{cn:G7}2g--5\n{cn:C}3g-_3gx{cn:G7}2g{cn:G9}1g|{cn:F}1g-_{cn:G7}7x7{cn:D7}1g|{cn:G9}2g{cn:D7}7{cn:G}6{cn:G7}5|{cn:C}1g--{cn:Ca7}{cn:C7}{cn:Bbd}1g\n{cn:F}1g-_6x{cn:D7}61g|{cn:C}1g-_{cn:C/B}5x{cn:A}5{cn:G7}5|{cn:F}6{cn:D7}1g{cn:G}5{cn:G7}2g|{cn:C}1g---{cn:A7}{cn:G7} |||",
+  "lyric": "[\"What shall we do with the drun ken sai lor, what shall we do with the drun ken sai lor,\\nwhat shall we do with the drun ken sai lor ear ly in the mor ning?\\nHur ray and up she ri ses, hur ray and up she ri ses,\\nhur ray and up she ri ses, ear ly in the mor ning.\"]",
+  "notation": "{bpm:100}\n{cn:D}66x6x66x6x6246|{cn:C}55x5x55x5x5135\n{cn:D}66x6x66x6x671g2g|{cn:C}1g653{cn:D}2-2-\n{cn:D}6-6-_6x6246|{cn:C}5-5-_5x5135\n{cn:D}6-6-_6x671g2g|{cn:C}1g653{cn:D}2-2- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",
@@ -28,7 +28,7 @@
   "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/71833351D2AD4DB4CF7608FAA657F67E/100",
   "last_login_ip": "112.0.143.192",
   "last_login_time": "2026-03-29 20:30:05",
-  "lyric_text": "Oh, beau ti ful for spa cious skies, for am ber waves of grain for\npur ple moun tain maj est ies a bove the frui ted plain! A\nme ri ca A me ri ca God shed his grace on thee and\ncrown thy good with broth er hood from sea to shi ning sea.",
+  "lyric_text": "What shall we do with the drun ken sai lor, what shall we do with the drun ken sai lor,\nwhat shall we do with the drun ken sai lor ear ly in the mor ning?\nHur ray and up she ri ses, hur ray and up she ri ses,\nhur ray and up she ri ses, ear ly in the mor ning.",
   "user_id": "295870",
   "no_check_vip": true,
   "user_favorite": 0,
@@ -80,6 +80,15 @@
             "instrument": "o6",
             "fingering": "C5",
             "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -89,15 +98,6 @@
             "instrument": "o6",
             "fingering": "bB4",
             "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -109,6 +109,15 @@
             "instrument": "o6",
             "fingering": "C5",
             "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -118,15 +127,6 @@
             "instrument": "o6",
             "fingering": "bB4",
             "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o6",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -148,7 +148,7 @@
             "instrument": "o12",
             "fingering": "C5",
             "fingeringName": "C调指法",
-            "tonalityName": "",
+            "tonalityName": "AC",
             "match": 2
           }
         ],
@@ -164,8 +164,8 @@
         [
           {
             "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -173,9 +173,9 @@
         [
           {
             "instrument": "o12",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "AG",
             "match": 2
           }
         ]
@@ -186,7 +186,7 @@
             "instrument": "o12",
             "fingering": "C5",
             "fingeringName": "C调指法",
-            "tonalityName": "",
+            "tonalityName": "AC",
             "match": 2
           }
         ],
@@ -202,8 +202,8 @@
         [
           {
             "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -211,9 +211,9 @@
         [
           {
             "instrument": "o12",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "AG",
             "match": 2
           }
         ]
@@ -241,6 +241,15 @@
         [
           {
             "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
             "fingering": "D5",
             "fingeringName": "D调指法",
             "tonalityName": "",
@@ -253,15 +262,6 @@
             "fingering": "bB5",
             "fingeringName": "bB调指法",
             "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "r8b",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "Soprano",
             "match": 2
           }
         ]
@@ -279,6 +279,15 @@
         [
           {
             "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
             "fingering": "D5",
             "fingeringName": "D调指法",
             "tonalityName": "",
@@ -291,15 +300,6 @@
             "fingering": "bB5",
             "fingeringName": "bB调指法",
             "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "r8b",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "Soprano",
             "match": 2
           }
         ]
@@ -331,6 +331,15 @@
         [
           {
             "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
             "fingering": "D5",
             "fingeringName": "D调指法",
             "tonalityName": "",
@@ -343,15 +352,6 @@
             "fingering": "bB5",
             "fingeringName": "bB调指法",
             "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "r8g",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "Soprano",
             "match": 2
           }
         ]
@@ -369,6 +369,15 @@
         [
           {
             "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
             "fingering": "D5",
             "fingeringName": "D调指法",
             "tonalityName": "",
@@ -381,15 +390,6 @@
             "fingering": "bB5",
             "fingeringName": "bB调指法",
             "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "r8g",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
-            "tonalityName": "Soprano",
             "match": 2
           }
         ]
@@ -412,35 +412,35 @@
         [
           {
             "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
             "fingering": "bB5",
             "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bE5",
-            "fingeringName": "bE调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bA5",
-            "fingeringName": "bA调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
@@ -450,35 +450,35 @@
         [
           {
             "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
             "fingering": "bB5",
             "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bE5",
-            "fingeringName": "bE调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "bA5",
-            "fingeringName": "bA调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "w6",
-            "fingering": "F5",
-            "fingeringName": "F调指法",
             "tonalityName": "",
             "match": 2
           }
