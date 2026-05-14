@@ -792,6 +792,16 @@
       "addedOn": "2026-05-10",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/VNxKb1EHn.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "concerning-hobbits",
+      "title": "Concerning Hobbits",
+      "status": "validated-local",
+      "batch": "26",
+      "group": "film",
+      "addedOn": "2026-05-14",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OHSsf1Glg.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

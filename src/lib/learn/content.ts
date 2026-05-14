@@ -2910,6 +2910,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     ],
     featuredSongSlugs: withInstrument(
       [
+        'concerning-hobbits',
         'scarborough-fair',
         'greensleeves',
         'loch-lomond',
@@ -2933,6 +2934,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: withInstrument(
           [
+            'concerning-hobbits',
             'scarborough-fair',
             'greensleeves',
             'loch-lomond',
@@ -2955,7 +2957,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the melody plain and connected before adding more speed or ornament.'
         ],
         songSlugs: withInstrument(
-          ['the-south-wind', 'lough-leane', 'irish-blackbird', 'irish-morning-wind'],
+          [
+            'concerning-hobbits',
+            'the-south-wind',
+            'lough-leane',
+            'irish-blackbird',
+            'irish-morning-wind'
+          ],
           'w6'
         )
       },
@@ -3637,6 +3645,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'song-of-time',
           'my-heart-will-go-on',
           'summer',
+          'concerning-hobbits',
           'ponyo-on-the-cliff-by-the-sea',
           'the-promise-of-the-world',
           'a-town-with-an-ocean-view',
@@ -3660,7 +3669,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'flower-dance', 'let-it-go', 'lemon-kenshi-yonezu', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'uchiage-hanabi', 'unravel', 'butter-fly', 'until-the-end-of-the-world', 'inuyashas-affection', 'zen-zen-zense', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'ponyo-on-the-cliff-by-the-sea', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'stroll', 'my-neighbor-totoro', 'chihiros-waltz', 'city-of-stars', 'see-you-again', 'the-avengers', 'princess-mononoke', 'speak-softly-love']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'flower-dance', 'let-it-go', 'lemon-kenshi-yonezu', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'uchiage-hanabi', 'unravel', 'butter-fly', 'until-the-end-of-the-world', 'inuyashas-affection', 'zen-zen-zense', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'concerning-hobbits', 'ponyo-on-the-cliff-by-the-sea', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'stroll', 'my-neighbor-totoro', 'chihiros-waltz', 'city-of-stars', 'see-you-again', 'the-avengers', 'princess-mononoke', 'speak-softly-love']
       }
     ],
     faq: [
@@ -3792,6 +3801,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'river-flows-in-you',
       'merry-christmas-mr-lawrence',
       'speak-softly-love',
+      'concerning-hobbits',
       'summer',
       'always-with-me',
       'the-promise-of-the-world',
@@ -3832,7 +3842,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
+        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'concerning-hobbits', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3845,14 +3855,14 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'over-the-rainbow', 'moonlight-lover', 'moon-river', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'one-summers-day', 'chihiros-waltz', 'city-of-stars', 'see-you-again']
+        songSlugs: ['lullaby', 'over-the-rainbow', 'moonlight-lover', 'moon-river', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'one-summers-day', 'chihiros-waltz', 'city-of-stars', 'see-you-again']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'over-the-rainbow', 'moonlight-lover', 'sakura-sakura', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'inuyashas-affection', 'always-with-me', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'princess-mononoke', 'speak-softly-love', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'city-of-stars', 'see-you-again', 'yesterday', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
+        songSlugs: ['scarborough-fair', 'over-the-rainbow', 'moonlight-lover', 'sakura-sakura', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'inuyashas-affection', 'always-with-me', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'princess-mononoke', 'speak-softly-love', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'city-of-stars', 'see-you-again', 'yesterday', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
       }
     ],
     faq: [
