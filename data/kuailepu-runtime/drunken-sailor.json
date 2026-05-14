@@ -13,7 +13,7 @@
   "fingerings": "o6-C,o6-D,o6-bB,o12-C,o12-bB,o12-D,o12-F,r8b-C,r8b-D,r8b-bB,r8g-C,r8g-D,r8g-bB,w6-C,w6-D,w6-bB",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"What shall we do with the drun ken sai lor, what shall we do with the drun ken sai lor,\\nwhat shall we do with the drun ken sai lor ear ly in the mor ning?\\nHur ray and up she ri ses, hur ray and up she ri ses,\\nhur ray and up she ri ses, ear ly in the mor ning.\"]",
-  "notation": "{bpm:100}\n{cn:D}66x6x66x6x6246|{cn:C}55x5x55x5x5135\n{cn:D}66x6x66x6x671g2g|{cn:C}1g653{cn:D}2-2-\n{cn:D}6-6-_6x6246|{cn:C}5-5-_5x5135\n{cn:D}6-6-_6x671g2g|{cn:C}1g653{cn:D}2-2- |||",
+  "notation": "{bpm:100}\n{cn:D}66x6x66x6x6246|{cn:C}55x5x55x5x5135|\n{cn:D}66x6x66x6x671g2g|{cn:C}1g653{cn:D}2-2-|\n{cn:D}6-6-_6x6246|{cn:C}5-5-_5x5135|\n{cn:D}6-6-_6x671g2g|{cn:C}1g653{cn:D}2-2- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

@@ -13,7 +13,7 @@
   "fingerings": "o6-F,o6-G,o6-D,o12-F,o12-G,o12-D,o12-bB,r8b-F,r8b-G,r8b-D,r8b-bB,r8g-F,r8g-G,r8g-D,r8g-bB,w6-F,w6-bA,w6-bB,w6-C",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"A lou et te gen tille A lou et te, A lou et te, je te plu me rai.\\nJe te plu me rai la tête, Je te plu me rai la tête, Et la tête, et la tête, Et la tête, et la tête, O!\\nA lou et te, gen tille A lou et te, A lou et te, je te plu me rai.\"]",
-  "notation": "{bpm:100}\n{cn:F}1-_2x33|{cn:C7}2x1x2x3x{cn:F}15d|1-_2x33|{cn:G7}2x1x2x3x{cn:F}1-\n1x2x3x4x5x5x5|{cn:C7}5x6x5x4x{cn:F}3x2x1x0x|{cn:C7}5x5x55dx5dx5d|5x5x55dx5dx5d|5---\n{cn:F}1-_2x33|{cn:C7}2x1x2x3x{cn:F}15d|1-_2x33|{cn:C7}2x1x2x3x{cn:F}1- |||",
+  "notation": "{bpm:100}\n{cn:F}1-_2x33|{cn:C7}2x1x2x3x{cn:F}15d|1-_2x33|{cn:G7}2x1x2x3x{cn:F}1-|\n1x2x3x4x5x5x5|{cn:C7}5x6x5x4x{cn:F}3x2x1x0x|{cn:C7}5x5x55dx5dx5d|5x5x55dx5dx5d|5---|\n{cn:F}1-_2x33|{cn:C7}2x1x2x3x{cn:F}15d|1-_2x33|{cn:C7}2x1x2x3x{cn:F}1- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

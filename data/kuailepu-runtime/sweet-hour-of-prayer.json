@@ -13,7 +13,7 @@
   "fingerings": "o6-C,o6-D,o12-C,o12-bB,o12-D,o12-F,r8b-C,r8b-D,r8b-bB,r8g-C,r8g-D,r8g-bB,w6-bB,w6-bE,w6-bA,w6-F",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"sweet hour of prayer sweet\\nhour of prayer that calls me from _ a world of care and bids me at my\\nFather's _ throne make all my wants _ and wish es known in sea sons of dis\\ntress and grief my soul has of ten found re lief and oft es caped the\\ntemp ters snare by thy re turn _ sweet hour of prayer sweet prayer\"]",
-  "notation": "{bpm:100}\n{cn:D7}0{cn:C}1x|3{cn:G7/C}4x|{cn:C}55x\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G7/C}2x{cn:C}1x|{cn:G}2{cn:C/G}3x|{cn:G}2{cn:C}1x|3{cn:G7/C}4x|{cn:C}55x\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G7/C}2x{cn:C/E}1x|{cn:C/G}3{cn:G7}2x|{cn:C}15x|1g{cn:G7/D}7x|{cn:C/E}1g{cn:F}6x\n{cn:C}53x|55x|1g{cn:G7/D}7x|{cn:C/E}1g{cn:F}6x|{cn:C}53x|{cn:G}21x|{cn:C}3{cn:G7}4x|{cn:C}55x\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G/C}2x1x|{cn:C/G}3{cn:G7}2x|{cn:C}11x|{cn:C}1-_ |||",
+  "notation": "{bpm:100}\n{cn:D7}0{cn:C}1x|3{cn:G7/C}4x|{cn:C}55x|\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G7/C}2x{cn:C}1x|{cn:G}2{cn:C/G}3x|{cn:G}2{cn:C}1x|3{cn:G7/C}4x|{cn:C}55x|\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G7/C}2x{cn:C/E}1x|{cn:C/G}3{cn:G7}2x|{cn:C}15x|1g{cn:G7/D}7x|{cn:C/E}1g{cn:F}6x|\n{cn:C}53x|55x|1g{cn:G7/D}7x|{cn:C/E}1g{cn:F}6x|{cn:C}53x|{cn:G}21x|{cn:C}3{cn:G7}4x|{cn:C}55x|\n{cn:F}67x|1g6x|{cn:C}53x|3x{cn:G/C}2x1x|{cn:C/G}3{cn:G7}2x|{cn:C}11x|{cn:C}1-_ |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

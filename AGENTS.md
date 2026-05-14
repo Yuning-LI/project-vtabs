@@ -37,6 +37,7 @@ If the task touches Pinterest image/export workflow:
 If the task touches internal print/PDF export, copyrighted-song local workflow, or `MusicXML` ingest:
 
 - `docs/internal-print-workflow.md`
+- `docs/song-ingest-operator-runbook.md`
 - `docs/song-ingest-input-spec.md`
 - `docs/public-domain-candidate-search.md`
 - `docs/musescore-candidate-workflow.md`
@@ -48,6 +49,8 @@ For `MusicXML` ingest, keep one boundary in mind:
 - local candidate runtime/songdoc outputs belong under `reference/song-publish-candidates/**` until publish approval
 - local candidate runtime JSON may still be used by local preview/debug tooling; do not treat that as public publication
 - corpus regeneration is a separate offline dataset task, not part of routine song import
+- `docs/song-ingest-operator-runbook.md` is the canonical operator playbook for per-song execution
+- `npm run ingest:song-candidate -- <input> --slug=<slug> ...` is the standard candidate-generation entry
 
 ## Product Truth
 

@@ -13,7 +13,7 @@
   "fingerings": "o6-C,o6-bB,o6-D,o12-C,o12-bB,o12-G,o12-D,r8b-C,r8b-D,r8b-bB,r8b-F,r8g-C,r8g-D,r8g-bB,r8g-F,w6-bB,w6-bE,w6-bA,w6-F",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Oh, beau ti ful for spa cious skies, for am ber waves of grain for\\npur ple moun tain maj est ies a bove the frui ted plain! A\\nme ri ca A me ri ca God shed his grace on thee and\\ncrown thy good with broth er hood from sea to shi ning sea.\"]",
-  "notation": "{bpm:100}\n5|{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}2{cn:F}3|{cn:F/E}4{cn:D7}5{cn:G7}67|{cn:C}5--{cn:Ad}{cn:G7}5\n{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}22g|{cn:Bbd}#1g{cn:G7}2g{cn:A7}3g{cn:D7}6|{cn:G7}2g--5\n{cn:C}3g-_3gx{cn:G7}2g{cn:G9}1g|{cn:F}1g-_{cn:G7}7x7{cn:D7}1g|{cn:G9}2g{cn:D7}7{cn:G}6{cn:G7}5|{cn:C}1g--{cn:Ca7}{cn:C7}{cn:Bbd}1g\n{cn:F}1g-_6x{cn:D7}61g|{cn:C}1g-_{cn:C/B}5x{cn:A}5{cn:G7}5|{cn:F}6{cn:D7}1g{cn:G}5{cn:G7}2g|{cn:C}1g---{cn:A7}{cn:G7} |||",
+  "notation": "{bpm:100}\n5|{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}2{cn:F}3|{cn:F/E}4{cn:D7}5{cn:G7}67|{cn:C}5--{cn:Ad}{cn:G7}5|\n{cn:C}5-_3x{cn:A}3{cn:Ad}5|{cn:D7}5-_2x{cn:G7}22g|{cn:Bbd}#1g{cn:G7}2g{cn:A7}3g{cn:D7}6|{cn:G7}2g--5|\n{cn:C}3g-_3gx{cn:G7}2g{cn:G9}1g|{cn:F}1g-_{cn:G7}7x7{cn:D7}1g|{cn:G9}2g{cn:D7}7{cn:G}6{cn:G7}5|{cn:C}1g--{cn:Ca7}{cn:C7}{cn:Bbd}1g|\n{cn:F}1g-_6x{cn:D7}61g|{cn:C}1g-_{cn:C/B}5x{cn:A}5{cn:G7}5|{cn:F}6{cn:D7}1g{cn:G}5{cn:G7}2g|{cn:C}1g---{cn:A7}{cn:G7} |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

@@ -2,6 +2,10 @@
 
 Use this when publishing songs that originate from local `MusicXML` / `MXL` files rather than from Kuailepu.
 
+For the shortest operator path, start with:
+
+- `docs/song-ingest-operator-runbook.md`
+
 ## Goal
 
 Keep two truths separate:
@@ -49,6 +53,8 @@ npm run audit:song-ingest-batch -- private/openewld/dataset \
 This checks:
 
 - round-trip notation stability
+- explicit measure-bar preservation across line breaks
+- runtime tempo-directive preservation
 - grace-note / tuplet / multi-voice risks
 - unsupported grammar categories
 
@@ -206,6 +212,12 @@ npm run validate:songbook
 npm run doctor:song -- <slug>
 npm run preflight:kuailepu-publish -- <slug...>
 ```
+
+Before approving a notation-only maintenance rewrite, also confirm:
+
+- every real measure end is still explicitly encoded in runtime notation instead of relying on line breaks
+- the runtime notation still contains a resolved `{bpm:...}` directive
+- note / rest counts still match the public SongDoc melody
 
 For MusicXML songs whose runtime payload uses a synthetic `song_uuid`, `preflight:kuailepu-publish`
 may skip Kuailepu live compare automatically. That is expected and should not be treated as a failure

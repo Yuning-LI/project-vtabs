@@ -1,5 +1,9 @@
 import { parseNotation } from './jianpu.ts'
-import { renderHappy123NotationFromExpandedLines, midiToHappy123PitchToken } from './happy123Notation.ts'
+import {
+  buildRuntimeHappy123NotationFromCompactBody,
+  midiToHappy123PitchToken,
+  stripHappy123TempoDirective
+} from './happy123Notation.ts'
 import { chooseBestRangeShift } from './rangeFit.ts'
 import { parseKeynoteToMidi } from './songIngestDraft.ts'
 import type { ParsedToken, SongDoc } from './types.ts'
@@ -301,8 +305,14 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     targetTonicMidi,
     selectedTranspose
   )
+  const compactNotationBody = transposeCompactNotationBody(
+    draft.happi123Draft.notationText,
+    sourceTonicMidi,
+    targetTonicMidi,
+    selectedTranspose
+  )
   const rawNotation = ensureNotationTempoDirective(
-    renderHappy123NotationFromExpandedLines(notationLines),
+    buildRuntimeHappy123NotationFromCompactBody(compactNotationBody),
     runtimeTempoBpm
   )
   const extractedAlignedLyrics = draft.lyrics.alignedLines.filter(
@@ -450,6 +460,25 @@ export function transposeNotationLines(
   )
 }
 
+export function transposeCompactNotationBody(
+  notationBody: string,
+  sourceTonicMidi: number,
+  targetTonicMidi: number,
+  transpose: number
+) {
+  return String(notationBody || '')
+    .split(/\n+/)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line =>
+      tokenizeCompactGeneratedNotationLine(line)
+        .map(token => renderCompactToken(token, sourceTonicMidi, targetTonicMidi, transpose))
+        .join('')
+        .trim()
+    )
+    .join('\n')
+}
+
 export function buildRangeReport(noteMidis: number[], autoTransposeInstrument: string | undefined) {
   const fits: RangeFitResult[] = PUBLIC_RUNTIME_INSTRUMENT_PROFILES.map(profile => {
     const recommendedShift = chooseBestRangeShift(noteMidis, profile.range, {
@@ -511,7 +540,10 @@ export function buildSyntheticRuntimePayloadForInstrument(
   }
 
   const sourceTonicMidi = parseKeynoteToMidi(keynote)
-  const notationLines = rawNotation.split(/\n+/).map(line => line.trim()).filter(Boolean)
+  const notationLines = rawNotation
+    .split(/\n+/)
+    .map(line => line.trim())
+    .filter(Boolean)
   if (notationLines.length < 1) {
     return null
   }
@@ -539,6 +571,12 @@ export function buildSyntheticRuntimePayloadForInstrument(
     targetTonicMidi,
     selectedTranspose
   )
+  const compactNotationBody = transposeCompactNotationBody(
+    stripHappy123TempoDirective(rawNotation).replace(/\s*\|\|\|\s*$/i, '').trim(),
+    sourceTonicMidi,
+    targetTonicMidi,
+    selectedTranspose
+  )
   const transposedNoteMidis = sourceNoteMidis.map(midi => midi + selectedTranspose)
   const instrumentFingerings = buildGeneratedPublicInstrumentFingerings(
     targetKeynote,
@@ -549,7 +587,10 @@ export function buildSyntheticRuntimePayloadForInstrument(
   const nextPayload = {
     ...scrubTemplateRuntimeCache(payload),
     keynote: targetKeynote,
-    notation: renderHappy123NotationFromExpandedLines(transposedNotationLines),
+    notation: ensureNotationTempoDirective(
+      buildRuntimeHappy123NotationFromCompactBody(compactNotationBody),
+      Number(payload.bpm) > 0 ? Number(payload.bpm) : 100
+    ),
     instrument: 'none',
     fingering: '',
     fingering_index: 0,
@@ -723,6 +764,10 @@ function tokenizeGeneratedNotationLine(line: string) {
   return line.match(/\{cn:[^}]+\}|#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi) ?? []
 }
 
+function tokenizeCompactGeneratedNotationLine(line: string) {
+  return line.match(/\{cn:[^}]+\}|(?:\|\|\||:\|:|:\||\|:|\|\||\|)|(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*/gi) ?? []
+}
+
 function renderToken(token: string, sourceTonicMidi: number, targetTonicMidi: number, transpose: number) {
   if (token.startsWith('{cn:')) {
     return transposeChordMarker(token, transpose)
@@ -742,6 +787,43 @@ function renderToken(token: string, sourceTonicMidi: number, targetTonicMidi: nu
   }
 
   return midiToHappy123PitchToken(parsedToken.midi + transpose, targetTonicMidi)
+}
+
+function renderCompactToken(
+  token: string,
+  sourceTonicMidi: number,
+  targetTonicMidi: number,
+  transpose: number
+) {
+  if (token.startsWith('{cn:')) {
+    return transposeChordMarker(token, transpose)
+  }
+
+  if (/^(?:\|\|\||:\|:|:\||\|:|\|\||\|)$/i.test(token)) {
+    return token
+  }
+
+  const match = token.match(/^([#bn]?[1-7][',"gd#bn]*|0)([\-._x/=]*)$/i)
+  if (!match) {
+    return token
+  }
+
+  const head = match[1] ?? token
+  const suffix = match[2] ?? ''
+  const parsedToken = parseNotation([head], sourceTonicMidi)[0]?.[0]
+  if (!parsedToken) {
+    return token
+  }
+
+  if (parsedToken.kind === 'rest') {
+    return `${parsedToken.token}${suffix}`
+  }
+
+  if (parsedToken.kind !== 'note') {
+    return token
+  }
+
+  return `${midiToHappy123PitchToken(parsedToken.midi + transpose, targetTonicMidi)}${suffix}`
 }
 
 function transposeChordMarker(token: string, transpose: number) {

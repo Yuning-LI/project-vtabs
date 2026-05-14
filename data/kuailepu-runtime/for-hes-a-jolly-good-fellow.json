@@ -13,7 +13,7 @@
   "fingerings": "o6-F,o6-G,o6-D,o6-C,o12-F,o12-G,o12-D,o12-bB,r8b-F,r8b-G,r8b-D,r8g-F,r8g-G,r8g-D,w6-F,w6-bE,w6-G,w6-D",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"For _ he's a jol ly good fel low, For he's a jol ly good\\nfel low, For _ he's a jol ly good fel _ low, and so say all of\\nus, And _ so say all of us, And _ so say all of\\nus, For he's a jol ly good fel low, For he's a jol ly good\\nfel low, For _ he's a jol ly good fel _ low, and so say all of us.\"]",
-  "notation": "{bpm:100}\n1x2x|{cn:F}3-3323|{cn:C7}4--{cn:F}3-3|{cn:C7}2-2212\n{cn:F}3--1-1x2x|3-3{cn:F7}323|{cn:Bb}4-5{cn:Fd}6-6|{cn:F}5-{cn:G}4{cn:A}3-{cn:C7}2\n{cn:F}1----3x4x|5-5{cn:Bb}6-6|{cn:F}5----3x4x|5-5{cn:Bb}6-6\n{cn:F}5----{cn:C7}4|{cn:F}3-3323|{cn:C7}4--{cn:F}3-3|{cn:C7}2-2212\n{cn:F}3--1-1x2x|3-3{cn:F7}323|{cn:Bb}4-{cn:F}5{cn:Fd}6-6|{cn:F}5-{cn:G}4{cn:A}3-{cn:C7}2|{cn:F}1----0 |||",
+  "notation": "{bpm:100}\n1x2x|{cn:F}3-3323|{cn:C7}4--{cn:F}3-3|{cn:C7}2-2212|\n{cn:F}3--1-1x2x|3-3{cn:F7}323|{cn:Bb}4-5{cn:Fd}6-6|{cn:F}5-{cn:G}4{cn:A}3-{cn:C7}2|\n{cn:F}1----3x4x|5-5{cn:Bb}6-6|{cn:F}5----3x4x|5-5{cn:Bb}6-6|\n{cn:F}5----{cn:C7}4|{cn:F}3-3323|{cn:C7}4--{cn:F}3-3|{cn:C7}2-2212|\n{cn:F}3--1-1x2x|3-3{cn:F7}323|{cn:Bb}4-{cn:F}5{cn:Fd}6-6|{cn:F}5-{cn:G}4{cn:A}3-{cn:C7}2|{cn:F}1----0 |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

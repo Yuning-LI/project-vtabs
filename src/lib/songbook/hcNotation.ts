@@ -1,4 +1,5 @@
 import { createRequire } from 'node:module'
+import { parseHappy123CompactNotation } from './happy123Notation.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
 
 type HcParseResult = {
@@ -44,6 +45,7 @@ export type HcNotationAnalysis = {
   parseOk: boolean
   error: string | null
   totalMeasures: number | null
+  encodedMeasureCount: number | null
   paperCount: number | null
   bpm: number | null
   mainEventCount: number
@@ -63,6 +65,7 @@ export type HcConsistencySummary = {
   }
   hc: {
     totalMeasures: number | null
+    encodedMeasureCount: number | null
     mainNoteCount: number
     mainRestCount: number
     mainEventCount: number
@@ -89,12 +92,14 @@ export function analyzeHcNotation(notation: string): HcNotationAnalysis {
     const nodes = parsed.mpn?.tracks?.flatMap(track => track.nodes ?? []) ?? []
     const mainMelodyNodes = nodes.filter(isMainMelodyNode)
     const events = normalizeMainMelodyNodes(mainMelodyNodes)
+    const encodedMeasureCount = parseHappy123CompactNotation(notation, 60).measures
 
     return {
       parseOk: true,
       error: null,
       totalMeasures:
         typeof parsed.totalMeasures === 'number' ? parsed.totalMeasures : null,
+      encodedMeasureCount,
       paperCount: typeof parsed.paperCount === 'number' ? parsed.paperCount : null,
       bpm: typeof parsed.mpn?.bpm === 'number' ? parsed.mpn.bpm : null,
       mainEventCount: events.length,
@@ -107,6 +112,7 @@ export function analyzeHcNotation(notation: string): HcNotationAnalysis {
       parseOk: false,
       error: error instanceof Error ? error.message : String(error),
       totalMeasures: null,
+      encodedMeasureCount: null,
       paperCount: null,
       bpm: null,
       mainEventCount: 0,
@@ -128,8 +134,8 @@ export function buildHcConsistencySummary(
   const restDelta = hcValidation.mainRestCount - draft.stats.restCount
   const eventDelta = hcValidation.mainEventCount - draftEventCount
   const measureDelta =
-    typeof hcValidation.totalMeasures === 'number'
-      ? hcValidation.totalMeasures - draft.stats.measures
+    typeof hcValidation.encodedMeasureCount === 'number'
+      ? hcValidation.encodedMeasureCount - draft.stats.measures
       : null
   const tempoDelta =
     typeof draftTempoBpm === 'number' && typeof hcTempoBpm === 'number'
@@ -149,12 +155,18 @@ export function buildHcConsistencySummary(
   if (eventDelta !== 0) {
     warnings.push(`HC main event count differs from draft by ${eventDelta}.`)
   }
+  if (measureDelta !== null && measureDelta !== 0) {
+    warnings.push(`Encoded measure count differs from draft by ${measureDelta}.`)
+  }
   if (tempoDelta !== null && tempoDelta !== 0) {
     warnings.push(`HC BPM differs from draft metadata by ${tempoDelta}.`)
   }
 
   const status =
-    !hcValidation.parseOk || Math.abs(noteDelta) > 2 || Math.abs(eventDelta) > 4
+    !hcValidation.parseOk ||
+    measureDelta !== null && measureDelta !== 0 ||
+    Math.abs(noteDelta) > 2 ||
+    Math.abs(eventDelta) > 4
       ? 'warning'
       : warnings.length > 0
         ? 'review'
@@ -171,6 +183,7 @@ export function buildHcConsistencySummary(
     },
     hc: {
       totalMeasures: hcValidation.totalMeasures,
+      encodedMeasureCount: hcValidation.encodedMeasureCount,
       mainNoteCount: hcValidation.mainNoteCount,
       mainRestCount: hcValidation.mainRestCount,
       mainEventCount: hcValidation.mainEventCount,

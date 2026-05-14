@@ -14,6 +14,7 @@ Read as little as the task allows:
 - Grey-song import work: read `docs/grey-song-rollout-playbook.md`.
 - Pinterest image/export work: read `docs/pinterest-engineering-plan.md`.
 - Internal print, copyright-only workflow, or MusicXML ingest: read `docs/internal-print-workflow.md`, `docs/song-ingest-input-spec.md`.
+- For routine MusicXML ingest execution, prefer `docs/song-ingest-operator-runbook.md` as the canonical step-by-step path.
 - Public-domain candidate search / traffic ranking: also read `docs/public-domain-candidate-search.md`.
 - MuseScore candidate sourcing for MusicXML ingest: also read `docs/musescore-candidate-workflow.md`.
 
@@ -62,6 +63,7 @@ MusicXML source boundary:
 - local candidate runtime/songdoc outputs should stay under `reference/song-publish-candidates/**` until publication is approved
 - local candidate runtime JSON under `reference/song-publish-candidates/runtime/**` may still be read by local-only preview/debug tooling
 - if the corpus itself needs to be refreshed or regenerated, treat that as a separate dataset-maintenance task
+- the operator-facing canonical workflow lives in `docs/song-ingest-operator-runbook.md`
 
 Only keep songs unpublished when the user explicitly asks for candidate-only import.
 
@@ -98,9 +100,11 @@ If an approved target song fails during search, import, compare, or preflight, d
 Common checks:
 
 ```bash
+npm run ingest:song-candidate -- <input.xml|input.mxl> --slug=<slug> --title="Song Title"
 npm run validate:content
 npm run validate:songbook
 npm run doctor:song -- <slug>
+npm run doctor:song-ingest -- <slug>
 npm run preflight:kuailepu-publish -- <slug...>
 npm run build
 ```

@@ -13,7 +13,7 @@
   "fingerings": "o6-G,o12-G,o12-F,r8b-G,r8b-F,r8b-bB,r8g-G,r8g-F,r8g-bB,w6-bB,w6-C",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"In Dub lin's fair cit y, where girls are so pret ty, I\\nfirst set my eyes on sweet Mol ly Ma lone, As she\\nwheeled her wheel bar row through streets broad and\\nnar row, cry ing, Coc kles and mus sels a live, a live, oh! A\\nlive, a live, oh! _ A live, a live, oh! _ cry ing Coc kles and\\nmus sels a live, a live, oh! _ _ _ _ _\"]",
-  "notation": "{bpm:100}\n0-5d|{cn:G}1x1-_1|{cn:E7}1x3-_1|{cn:C6}22-_2x|{cn:D7}2x4-_2\n{cn:G}345|{cn:E7}543|{cn:A7}32-_2x|{cn:D7}2-5dx5dx\n{cn:G}111|{cn:G7}1x3-_1|{cn:A}22-_2x\n{cn:D7}2x4-_3x2x|{cn:G}5x3-_1|53-_1x|{cn:A}2-_1x{cn:D7}2|{cn:G}1-5d\n1-_1x1|131|{cn:D7}2-_2x2|243x2x|{cn:G}53-_1x\n{cn:E7}5x3-_1|{cn:A7}2-_1x{cn:D7}2|{cn:G}1-{cn:D7}5d|{cn:G}1-{cn:D7}5d|{cn:G}1--|1-- |||",
+  "notation": "{bpm:100}\n0-5d|{cn:G}1x1-_1|{cn:E7}1x3-_1|{cn:C6}22-_2x|{cn:D7}2x4-_2|\n{cn:G}345|{cn:E7}543|{cn:A7}32-_2x|{cn:D7}2-5dx5dx|\n{cn:G}111|{cn:G7}1x3-_1|{cn:A}22-_2x|\n{cn:D7}2x4-_3x2x|{cn:G}5x3-_1|53-_1x|{cn:A}2-_1x{cn:D7}2|{cn:G}1-5d|\n1-_1x1|131|{cn:D7}2-_2x2|243x2x|{cn:G}53-_1x|\n{cn:E7}5x3-_1|{cn:A7}2-_1x{cn:D7}2|{cn:G}1-{cn:D7}5d|{cn:G}1-{cn:D7}5d|{cn:G}1--|1-- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

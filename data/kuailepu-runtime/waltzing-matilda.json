@@ -13,7 +13,7 @@
   "fingerings": "o12-D,o12-F,r8b-D,r8b-C,r8b-bB,r8b-G,r8g-D,r8g-C,r8g-bB,r8g-G,w6-C,w6-F,w6-bB,w6-bA",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Once a jol ly swag man camp'd _ by a bil la bong\\nun der the shade of a cool li bah tree and he\\nsang as he watch'd and wait ed till his bil ly boiled\\nYou'll come a waltz ing Ma til da with me. Waltz ing Ma til da\\nWaltz ing Ma til da you'll come a waltz ing Ma til da with me and he\\nsang as he watched and wait ed till his bil ly boiled\\nyou'll come a waltz ing Ma til da with me.\"]",
-  "notation": "{bpm:100}\n{cn:D}3x3x3x3x{cn:A}22|{cn:B}1x2x3x1x{cn:G}6dx7dx{cn:D}1\n5d1x3x{cn:A7}55x5x|{cn:D}5x5x{cn:A7}5{cn:D}51x2x\n33x3x{cn:A}22|{cn:B}1x2x3x1x{cn:G}6dx7dx1\n{cn:D}5d1x3x54x3x|{cn:A7}22x2x{cn:D}10|{cn:D}55x5x53\n{cn:G}1g1gx7x{cn:D}65|55x5x{cn:G}65x{cn:D}5x|54x3x{cn:A}21x2x\n{cn:D}33x3x{cn:A7}22|{cn:B}1x2x3x1x{cn:G}6dx7dx1\n{cn:D}5d1x3x54x3x|{cn:A7}22x2x{cn:D}10 |||",
+  "notation": "{bpm:100}\n{cn:D}3x3x3x3x{cn:A}22|{cn:B}1x2x3x1x{cn:G}6dx7dx{cn:D}1|\n5d1x3x{cn:A7}55x5x|{cn:D}5x5x{cn:A7}5{cn:D}51x2x|\n33x3x{cn:A}22|{cn:B}1x2x3x1x{cn:G}6dx7dx1|\n{cn:D}5d1x3x54x3x|{cn:A7}22x2x{cn:D}10|{cn:D}55x5x53|\n{cn:G}1g1gx7x{cn:D}65|55x5x{cn:G}65x{cn:D}5x|54x3x{cn:A}21x2x|\n{cn:D}33x3x{cn:A7}22|{cn:B}1x2x3x1x{cn:G}6dx7dx1|\n{cn:D}5d1x3x54x3x|{cn:A7}22x2x{cn:D}10 |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

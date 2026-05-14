@@ -66,6 +66,9 @@ For songs imported from local MusicXML/MXL instead of Kuailepu:
 - treat `private/openewld/dataset` as an already-prepared upstream corpus, not as a preprocessing command that still runs during each import
 - treat `reference/song-publish-candidates/runtime` as a local-only candidate runtime area, not as a published catalog
 - do not publish directly after local generation
+- prefer `npm run ingest:song-candidate -- <input> --slug=<slug> ...` as the standard candidate-generation entry
+- use `npm run doctor:song-ingest -- <slug>` as the per-song readiness check
+- use `npm run scaffold:song-ingest-review-note -- <slug>` to standardize the external-review record
 - first run local generate/audit/classify flow
 - then do lightweight external melody/version verification against public references
 - only after that move approved songs into the public import/publish layer
@@ -74,6 +77,7 @@ For songs imported from local MusicXML/MXL instead of Kuailepu:
 
 Playbook:
 
+- `docs/song-ingest-operator-runbook.md`
 - `docs/song-ingest-publication-playbook.md`
 
 ## Runtime Boundaries
@@ -87,6 +91,9 @@ Playbook:
 
 ## Current Known Limitation
 
+- Line breaks in Happy123 / Kuailepu notation are presentation-only; they are not reliable measure boundaries.
+- Every exported measure end must stay explicitly encoded as a bar token such as `|`.
+- If a maintenance rewrite touches runtime notation, preserve `{bpm:...}` directives; otherwise the public player can fall back to its default BPM even when `payload.bpm` still exists.
 - MusicXML ingest can still produce incorrect barline placement on some songs even when melody pitch is usable.
 - The issue is not that Happy123/Kuailepu notation lacks `|`; the issue is current single-voice extraction not fully preserving measure-internal timing when the source relies on `backup`, `forward`, implicit rests, or multi-voice timing.
 - If this becomes worth fixing, do it at the ingest timeline layer by preserving per-event measure offsets and rebuilding explicit rests before notation generation.
@@ -103,5 +110,6 @@ Playbook:
 - Grey songs: `docs/grey-song-rollout-playbook.md`
 - Pinterest export: `docs/pinterest-engineering-plan.md`
 - Internal print: `docs/internal-print-workflow.md`
+- MusicXML ingest operator runbook: `docs/song-ingest-operator-runbook.md`
 - MusicXML ingest: `docs/song-ingest-input-spec.md`
 - MuseScore candidate sourcing: `docs/musescore-candidate-workflow.md`

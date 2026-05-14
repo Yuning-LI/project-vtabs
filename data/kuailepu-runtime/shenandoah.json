@@ -13,7 +13,7 @@
   "fingerings": "o6-D,o6-F,o6-C,o12-F,o12-D,o12-bB,o12-C,r8b-F,r8b-G,r8b-D,r8g-F,r8g-G,r8g-D,w6-F,w6-bE,w6-G,w6-D",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Oh, Shen an doah _ I long to hear you A _ way\\n_ you rol ling riv er Oh _ Shen an doah\\n_ I long to hear you A way way I'm bound a way\\n_ cross the wide _ Mis sour i _\"]",
-  "notation": "{bpm:100}\n5d|{cn:F}111-|1234|{cn:Bb}6---|{cn:F}5-1g7|{cn:Bb}6---\n{cn:C7}6565|{cn:F}35--|5--5|{cn:Bb}666-\n6{cn:F}3{cn:F}53|{cn:Bb}2---|{cn:F}1--2|3---|{cn:D}3136|{cn:A}5---\n{cn:F}501-_2x|{cn:D}3---|{cn:G7}3--1|{cn:C7}{cn:F}2-{cn:F}1-|1--- |||",
+  "notation": "{bpm:100}\n5d|{cn:F}111-|1234|{cn:Bb}6---|{cn:F}5-1g7|{cn:Bb}6---|\n{cn:C7}6565|{cn:F}35--|5--5|{cn:Bb}666-|\n6{cn:F}3{cn:F}53|{cn:Bb}2---|{cn:F}1--2|3---|{cn:D}3136|{cn:A}5---|\n{cn:F}501-_2x|{cn:D}3---|{cn:G7}3--1|{cn:C7}{cn:F}2-{cn:F}1-|1--- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

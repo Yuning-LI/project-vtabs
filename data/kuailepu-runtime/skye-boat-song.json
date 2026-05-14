@@ -13,7 +13,7 @@
   "fingerings": "o6-G,o6-F,o12-G,o12-F,o12-bB,o12-D,r8b-G,r8b-F,r8g-G,r8g-F,w6-G,w6-bA,w6-F,w6-bB",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Speed, bon nie boat, like a bird on the wing, On ward, the sai lors\\ncry. _ Car ry the lad that's _ born to be King,\\nO ver the sea to Skye. _\\nLoud the winds howl, _ loud the waves roar, _\\nThun der claps rend the air: _ Baf fled our foes _ stand on the shore, _\\nFol low they will not dare. _\"]",
-  "notation": "{bpm:100}\n{cn:G}5d-_6dx5d|{cn:E/B}1-1x1x|{cn:A/C}2-_3x2|{cn:D7}5--|{cn:G}3-_2x3|{cn:C}6d-6d\n{cn:D7}5d--|5d--|{cn:G}5d-_6dx5d|{cn:E/B}1-1x1x|{cn:A/C}2-_3x2|{cn:D7}5--\n{cn:G}3-_2x3|{cn:E}6d-6d|{cn:G}5d--|1--\n{cn:E}3-_1x3|{cn:Ea7}3-3|{cn:A}2-_6dx2|{cn:Gb7b5}2-2\n{cn:E}1-_6dx1|1-{cn:B}7d|{cn:E}6d--|6d--|3-_1x3|{cn:Ea7}3-3|{cn:A}2-_6dx2|{cn:Gb7b5}2-2\n{cn:E}1-_6dx1|1-{cn:B}7d|{cn:E}6d--|{cn:D7}5d-- |||",
+  "notation": "{bpm:100}\n{cn:G}5d-_6dx5d|{cn:E/B}1-1x1x|{cn:A/C}2-_3x2|{cn:D7}5--|{cn:G}3-_2x3|{cn:C}6d-6d|\n{cn:D7}5d--|5d--|{cn:G}5d-_6dx5d|{cn:E/B}1-1x1x|{cn:A/C}2-_3x2|{cn:D7}5--|\n{cn:G}3-_2x3|{cn:E}6d-6d|{cn:G}5d--|1--|\n{cn:E}3-_1x3|{cn:Ea7}3-3|{cn:A}2-_6dx2|{cn:Gb7b5}2-2|\n{cn:E}1-_6dx1|1-{cn:B}7d|{cn:E}6d--|6d--|3-_1x3|{cn:Ea7}3-3|{cn:A}2-_6dx2|{cn:Gb7b5}2-2|\n{cn:E}1-_6dx1|1-{cn:B}7d|{cn:E}6d--|{cn:D7}5d-- |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",

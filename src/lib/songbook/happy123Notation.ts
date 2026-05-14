@@ -45,9 +45,11 @@ const DEGREE_MAP: Array<{
   { offset: 11, degree: '7' }
 ]
 
+const BAR_TOKEN_PATTERN = /(?:\|\|\||:\|:|:\||\|:|\|\||\|)/i
+const BPM_DIRECTIVE_PATTERN = /\{bpm\s*:\s*\d+\}/i
 const EXPANDED_TOKEN_PATTERN = /\{cn:[^}]+\}|#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi
 const COMPACT_TOKEN_PATTERN =
-  /\{[^}]+\}|(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*|\|/gi
+  /\{[^}]+\}|(?:\|\|\||:\|:|:\||\|:|\|\||\|)|(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*/gi
 
 export const HAPPY123_GENERATOR_COVERAGE: Happy123CoverageItem[] = [
   {
@@ -192,13 +194,48 @@ export function renderHappy123DraftLines(
         )
       )
       .filter(Boolean)
-      .join('|')
+      .map(ensureTrailingSingleBar)
+      .join('')
       .trim()
   )
 }
 
 export function renderHappy123NotationFromExpandedLines(lines: string[]) {
-  return `${lines.map(compactExpandedHappy123Line).join('\n')} |||`
+  const compactLines = lines
+    .map(compactExpandedHappy123Line)
+    .map(line => stripTrailingBarToken(line.trim()))
+    .filter(Boolean)
+
+  if (compactLines.length === 0) {
+    return '|||'
+  }
+
+  const body = compactLines.map((line, index) =>
+    index < compactLines.length - 1 ? ensureTrailingSingleBar(line) : line
+  )
+
+  return `${body.join('\n')} |||`
+}
+
+export function buildRuntimeHappy123NotationFromCompactBody(bodyText: string) {
+  const normalizedLines = String(bodyText || '')
+    .split(/\n+/)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(ensureTrailingSingleBar)
+
+  if (normalizedLines.length === 0) {
+    return '|||'
+  }
+
+  const lastLine = normalizedLines[normalizedLines.length - 1] ?? '|'
+  normalizedLines[normalizedLines.length - 1] = stripTrailingBarToken(lastLine)
+
+  return `${normalizedLines.join('\n')} |||`
+}
+
+export function stripHappy123TempoDirective(notation: string) {
+  return String(notation || '').replace(BPM_DIRECTIVE_PATTERN, '').trim()
 }
 
 export function compactExpandedHappy123Line(line: string) {
@@ -242,7 +279,7 @@ export function sanitizeHappy123ChordName(name: string) {
 }
 
 export function parseHappy123CompactNotation(notation: string, tonicMidi: number): Happy123ParsedNotation {
-  const normalized = notation.replace(/\|\|\|/g, ' ').replace(/\s+/g, ' ').trim()
+  const normalized = notation.replace(/\s+/g, ' ').trim()
   const tokens = normalized.match(COMPACT_TOKEN_PATTERN) ?? []
   const events: Happy123Event[] = []
   const chordMarkers: string[] = []
@@ -256,7 +293,7 @@ export function parseHappy123CompactNotation(notation: string, tonicMidi: number
       return
     }
 
-    if (token === '|') {
+    if (isBarToken(token)) {
       measures += 1
       return
     }
@@ -283,6 +320,19 @@ export function parseHappy123CompactNotation(notation: string, tonicMidi: number
     measures,
     chordMarkers
   }
+}
+
+function ensureTrailingSingleBar(line: string) {
+  const normalized = stripTrailingBarToken(line.trim())
+  return normalized ? `${normalized}|` : '|'
+}
+
+function stripTrailingBarToken(line: string) {
+  return line.replace(/(?:\|\|\||:\|:|:\||\|:|\|\||\|)\s*$/i, '').trim()
+}
+
+function isBarToken(token: string) {
+  return BAR_TOKEN_PATTERN.test(token)
 }
 
 export function detectHappy123NotationFeatures(notation: string) {

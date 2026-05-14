@@ -2,6 +2,10 @@
 
 Use this for songs that are not available through Kuailepu but may enter internal print workflow or later public preparation.
 
+Operator-facing step order:
+
+- `docs/song-ingest-operator-runbook.md`
+
 ## Goal
 
 Convert outside sources into a stable internal draft. Do not treat MusicXML/MIDI as the public production format, and do not bypass runtime validation for public songs.
@@ -145,6 +149,8 @@ This candidate generator:
 
 - converts draft notation into Kuailepu-compatible raw notation through the shared Happy123-native notation generator
 - preserves extracted MusicXML chords as `{cn:...}` notation markers when available
+- emits an explicit bar token for every real measure end; do not rely on line breaks as implicit measure separators
+- keeps a `{bpm:...}` directive in runtime notation so playback/metronome speed stays tied to the resolved song BPM
 - transposes extracted letter chord names together with the melody
 - generates public `instrumentFingerings` from our import-side preset/range logic instead of copying the template song's full fingering matrix
 - defaults to scrubbing template runtime caches such as `mpn`, `music_list`, and `fetch_score`
@@ -184,6 +190,7 @@ Use `--slug-prefix=` and the candidate output dirs so local bulk runs do not acc
 
 Publication workflow details and the required external melody/version verification step:
 
+- `docs/song-ingest-operator-runbook.md`
 - `docs/song-ingest-publication-playbook.md`
 
 Important distinction:
@@ -200,6 +207,7 @@ Coverage details and current unsupported areas:
 ## Current Known Limitation
 
 - Happy123 / Kuailepu notation can store barlines with `|`.
+- Happy123 / Kuailepu line breaks are layout only; they must not be treated as implicit measure boundaries.
 - MusicXML also has explicit `<measure>` boundaries.
 - Some imported songs still show wrong barline placement after conversion because the current ingest path can lose part of the measure-internal timing structure when:
   - the source relies on `backup` / `forward`
@@ -207,6 +215,7 @@ Coverage details and current unsupported areas:
   - the source is effectively multi-voice even after choosing one voice
 - In those cases, the problem is not “missing barline support”; it is incomplete timeline reconstruction before notation generation.
 - The proper future fix is to preserve per-event measure offsets and rebuild explicit rests for the chosen melody voice before writing Happy123/Kuailepu notation.
+- Any notation rewrite or post-processing step must preserve both explicit bar tokens and the resolved `{bpm:...}` directive.
 - Until that is implemented, treat barline mismatch as a known ingest limitation unless it also causes real melody/rhythm failure.
 
 Not yet covered:

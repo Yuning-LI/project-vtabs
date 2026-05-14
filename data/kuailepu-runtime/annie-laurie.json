@@ -13,7 +13,7 @@
   "fingerings": "o12-bB,o12-C,r8b-G,r8b-C,r8b-F,r8b-D,r8g-G,r8g-C,r8g-F,r8g-D,w6-C",
   "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
   "lyric": "[\"Max well ton's braes are bon nie where ear ly falls the _\\ndew _ and its there that Ann ie Lau rie gied me her pro mise\\ntrue gied me her pro mise true which ne'er for got will be and for\\nbon nie Ann ie _ Lau rie I'd _ lay _ me down and dee.\"]",
-  "notation": "{bpm:100}\n{cn:A}1d1dx1dx1-_1x|{cn:D}7d6d-6d|{cn:A}5d-_3dx3d2dx1dx\n{cn:E}3d2d-3dx2dx|{cn:A}1d-_1dx1-_1x|{cn:D}7d6d-6d|{cn:A}5d-_3dx{cn:E}3d-_2dx\n{cn:A}1d--5d|1-_1x{cn:E}2-_2x|{cn:A}3--5d|1-_1x{cn:E}2-_2x|{cn:A}3--3x2x\n1-_7dx{cn:D}6d1x6dx|{cn:A}5d3d-{cn:E}3dx2dx|{cn:A}1dx13dx{cn:E}3d-_2dx|{cn:A}1d--0 |||",
+  "notation": "{bpm:100}\n{cn:A}1d1dx1dx1-_1x|{cn:D}7d6d-6d|{cn:A}5d-_3dx3d2dx1dx|\n{cn:E}3d2d-3dx2dx|{cn:A}1d-_1dx1-_1x|{cn:D}7d6d-6d|{cn:A}5d-_3dx{cn:E}3d-_2dx|\n{cn:A}1d--5d|1-_1x{cn:E}2-_2x|{cn:A}3--5d|1-_1x{cn:E}2-_2x|{cn:A}3--3x2x|\n1-_7dx{cn:D}6d1x6dx|{cn:A}5d3d-{cn:E}3dx2dx|{cn:A}1dx13dx{cn:E}3d-_2dx|{cn:A}1d--0 |||",
   "category": "0",
   "song_type": "0",
   "difficulty": "1",
