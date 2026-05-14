@@ -15,14 +15,20 @@ Both are required before public publication.
 
 ## Required Pipeline
 
+If the source song is being acquired from MuseScore first, use:
+
+- `docs/musescore-candidate-workflow.md`
+
 ### 1. Generate local candidates
 
 ```bash
 npm run generate:song-ingest-batch -- private/openewld/dataset \
   --slug-prefix=openewld- \
-  --out-draft-dir=tmp/openewld-<date>/drafts \
-  --out-sanity-dir=tmp/openewld-<date>/sanity \
-  --report=tmp/openewld-<date>/batch-generate.json
+  --out-draft-dir=reference/song-publish-candidates/drafts \
+  --out-runtime-dir=reference/song-publish-candidates/runtime \
+  --out-songdoc-dir=reference/song-publish-candidates/songdocs \
+  --out-sanity-dir=reference/song-publish-candidates/source-sanity \
+  --report=reference/song-publish-candidates/batch-generate.json
 ```
 
 This produces:
@@ -50,9 +56,9 @@ This checks:
 
 ```bash
 npm run classify:song-ingest-batch -- \
-  --generate-report=tmp/openewld-<date>/batch-generate.json \
+  --generate-report=reference/song-publish-candidates/batch-generate.json \
   --audit-report=tmp/openewld-<date>/batch-audit.json \
-  --out=tmp/openewld-<date>/classified.json
+  --out=reference/song-publish-candidates/classified.json
 ```
 
 Current buckets mean:
@@ -67,11 +73,11 @@ Important: `publish` means **candidate for public review**, not “already safe 
 
 ```bash
 npm run export:song-ingest-review-queue -- \
-  --classified-report=tmp/openewld-<date>/classified.json \
-  --sanity-dir=tmp/openewld-<date>/sanity \
+  --classified-report=reference/song-publish-candidates/classified.json \
+  --sanity-dir=reference/song-publish-candidates/source-sanity \
   --bucket=publish \
   --limit=50 \
-  --out=tmp/openewld-<date>/publish-review-queue.md
+  --out=reference/song-publish-candidates/publish-review-queue.md
 ```
 
 The queue includes:
@@ -86,6 +92,10 @@ The queue includes:
 
 Before a song enters the public import/publish layer, do a lightweight web verification.
 
+This verification is about **public melody identity**, not Kuailepu parity.
+Do not treat local parse success, synthetic runtime generation, or a passing build as proof that
+the public song is the common version users expect.
+
 ### What to compare
 
 Check at least these:
@@ -95,6 +105,63 @@ Check at least these:
 3. opening melody contour matches a common public version
 4. the source begins at the main tune, not a bridge, coda, or verse-only fragment
 
+### Required review record
+
+For every MusicXML song approved for publication, keep a short internal review note covering:
+
+1. which references were checked
+2. whether title/composer attribution is exact, approximate, or traditional/anonymous
+3. whether the lyric opening matches the common version, a known variant, or no public lyric target
+4. whether the opening melody contour was confirmed against a public reference
+5. whether any risk remains, such as alternate verses, arrangement-specific pickup bars, or unclear attribution
+
+Do not move a song into the public manifest until this review is complete.
+
+If lyric extraction looks suspicious but the melody candidate is still worth reviewing:
+
+- keep the lyric track visible in the local candidate / unpublished preview layer
+- record the exact suspicious lines or tokens in the internal review note
+- do not silently strip or hide the lyrics before a human reviewer has seen the problematic text
+- only hide public lyrics after an explicit review decision
+
+### Variant handling rule
+
+If the source is a known alternate version:
+
+1. keep it unpublished unless the variant is still a common search target
+2. make the page title and aliases describe the version honestly
+3. do not present a less-common verse opening or arrangement fragment as if it were the default canonical tune
+
+### Runtime gate vs external verification
+
+Keep these checks separate:
+
+1. **External verification**
+   Confirms that the song identity and melody version are correct for public users.
+2. **Runtime validation**
+   Confirms that our generated raw JSON, SongDoc, page shell, and Kuailepu-compatible renderer still work technically.
+3. **Kuailepu live compare**
+   Only applies when the song actually maps to a real Kuailepu detail page.
+
+For local MusicXML songs with a synthetic `song_uuid` such as `synthetic-<slug>`:
+
+- do not block publication on Kuailepu live compare
+- do still run the normal local runtime validation commands
+- do still complete mandatory external verification against public references
+
+### Network rule
+
+Use the network that matches the job:
+
+- Kuailepu login / import / live compare: China-reachable network required
+- External melody/version verification: whichever network can reach the best public references
+
+Practical default:
+
+- foreign VPN is preferred for Google, Wikipedia, IMSLP, Library of Congress, Mutopia, and western educational references
+- China VPN is acceptable only when the chosen references are still directly reachable and sufficient for review
+- if the target references are blocked or incomplete on the current network, switch VPN before approving publication
+
 ### Acceptable reference types
 
 Prefer primary or widely trusted sources:
@@ -103,6 +170,11 @@ Prefer primary or widely trusted sources:
 - public-domain hymn or folk archives
 - reputable ABC / lead-sheet references
 - well-known educational sheet-music references
+
+Supporting-source note:
+
+- MuseScore can help as a candidate-acquisition source or as secondary cross-check evidence
+- do not let one MuseScore upload replace the stronger references above when those are available
 
 ### Do not trust by itself
 
@@ -120,6 +192,12 @@ Only after the external verification step passes should a song move into:
 - `data/songbook/song-seo-profiles.json`
 - learn / hub / rollout files as needed
 
+Promote the candidate runtime artifacts first:
+
+```bash
+npm run promote:song-ingest-candidate -- <slug...>
+```
+
 Then run:
 
 ```bash
@@ -128,6 +206,10 @@ npm run validate:songbook
 npm run doctor:song -- <slug>
 npm run preflight:kuailepu-publish -- <slug...>
 ```
+
+For MusicXML songs whose runtime payload uses a synthetic `song_uuid`, `preflight:kuailepu-publish`
+may skip Kuailepu live compare automatically. That is expected and should not be treated as a failure
+by itself.
 
 ## Working Rule
 

@@ -1,5 +1,6 @@
 import { parseNotation, tokenToLabel } from './jianpu.ts'
 import type { ExtractedMusicXmlScore, SongIngestDraft } from './songIngestDraft.ts'
+import { auditLyricAlignment } from './lyricAudit.ts'
 
 export type SourceSanitySeverity = 'error' | 'warning' | 'info'
 
@@ -37,6 +38,9 @@ export type SourceSanityReport = {
     lyricLineCount: number
     lyricWordCount: number
     titleAppearsInOpeningLyrics: boolean
+    crossMeasureTieCount: number
+    hasShortOpeningMeasure: boolean
+    hasShortClosingMeasure: boolean
   }
   issues: SourceSanityIssue[]
   suggestedSearchQueries: string[]
@@ -50,7 +54,7 @@ export type SourceSanityReport = {
 
 type BuildSourceSanityReportOptions = {
   draft: SongIngestDraft
-  extract?: Pick<ExtractedMusicXmlScore, 'parts' | 'warnings'> | null
+  extract?: Pick<ExtractedMusicXmlScore, 'parts' | 'warnings' | 'measures'> | null
   sourceFile?: string | null
 }
 
@@ -72,8 +76,28 @@ export function buildSourceSanityReport({
   const openingLyricsText = openingLyricsLines.join(' ').replace(/\s+/g, ' ').trim()
   const titleTokenOverlap = countTitleTokenOverlap(draft.metadata.title, openingLyricsText)
   const leadingRestCount = countLeadingRestCount(parsedTokens)
+  const crossMeasureTieCount = countCrossMeasureTies(extract?.measures ?? null)
+  const hasShortOpeningMeasure = detectShortOpeningMeasure(extract?.measures ?? null)
+  const hasShortClosingMeasure = detectShortClosingMeasure(extract?.measures ?? null)
   const issues = dedupeIssues([
-    ...buildDraftIssues(draft, openingLyricsLines, leadingRestCount, titleTokenOverlap),
+    ...buildDraftIssues(
+      draft,
+      openingLyricsLines,
+      leadingRestCount,
+      titleTokenOverlap,
+      crossMeasureTieCount,
+      hasShortOpeningMeasure,
+      hasShortClosingMeasure
+    ),
+    ...auditLyricAlignment({
+      notationLines: draft.notation.lines,
+      tonicMidi: draft.metadata.recommendedTonicMidi,
+      lyricLines: draft.lyrics.alignedLines
+    }).map(issue => ({
+      code: issue.code,
+      severity: issue.severity,
+      message: issue.message
+    })),
     ...buildExtractIssues(extract),
     ...classifyWarnings(draft.warnings)
   ])
@@ -105,7 +129,10 @@ export function buildSourceSanityReport({
       measureCount: draft.stats.measures,
       lyricLineCount: draft.lyrics.alignedLines.length,
       lyricWordCount: openingLyricsText ? openingLyricsText.split(/\s+/).length : 0,
-      titleAppearsInOpeningLyrics: titleTokenOverlap > 0
+      titleAppearsInOpeningLyrics: titleTokenOverlap > 0,
+      crossMeasureTieCount,
+      hasShortOpeningMeasure,
+      hasShortClosingMeasure
     },
     issues,
     suggestedSearchQueries: buildSuggestedQueries(draft.metadata.title, draft.metadata.composer, openingLyricsText),
@@ -128,7 +155,10 @@ export function buildSourceSanityReport({
     localDraft: SongIngestDraft,
     localOpeningLyricsLines: string[],
     localLeadingRestCount: number,
-    localTitleTokenOverlap: number
+    localTitleTokenOverlap: number,
+    localCrossMeasureTieCount: number,
+    localHasShortOpeningMeasure: boolean,
+    localHasShortClosingMeasure: boolean
   ) {
     const localIssues: SourceSanityIssue[] = []
 
@@ -172,6 +202,19 @@ export function buildSourceSanityReport({
       })
     }
 
+    if (
+      localDraft.lyrics.alignedLines.some(line =>
+        /(?:^|\s)\d+(?:[\.\)](?:\s|$)|[\.\)_-]{2,}[A-Za-z])/.test(line)
+      )
+    ) {
+      localIssues.push({
+        code: 'lyric-verse-numbering-residue',
+        severity: 'warning',
+        message:
+          'Aligned lyrics still contain verse-number tokens such as "1." or "2."; verify that stanza numbering was removed cleanly and that later verses were not mixed into verse 1.'
+      })
+    }
+
     if (localOpeningLyricsLines[0] && /^[a-z]/.test(localOpeningLyricsLines[0])) {
       localIssues.push({
         code: 'opening-lyrics-lowercase',
@@ -194,6 +237,28 @@ export function buildSourceSanityReport({
         severity: 'warning',
         message:
           'Opening starts after multiple rest slots and the first lyric lines do not overlap with the title; verify that the source does not begin mid-section or from a less common verse.'
+      })
+    }
+
+    if (localCrossMeasureTieCount >= 4) {
+      localIssues.push({
+        code: 'cross-measure-tie-heavy',
+        severity: 'warning',
+        message: `Source uses ${localCrossMeasureTieCount} cross-measure tie hand-offs; current ingest is less reliable on long tie-driven phrase structures.`
+      })
+    } else if (localCrossMeasureTieCount > 0) {
+      localIssues.push({
+        code: 'cross-measure-tie-present',
+        severity: 'info',
+        message: `Source uses ${localCrossMeasureTieCount} cross-measure tie hand-offs.`
+      })
+    }
+
+    if (localHasShortOpeningMeasure && localHasShortClosingMeasure) {
+      localIssues.push({
+        code: 'pickup-structure-detected',
+        severity: 'info',
+        message: 'Source appears to use an opening pickup / short closing-bar complement structure.'
       })
     }
 
@@ -239,6 +304,26 @@ function classifyWarnings(warnings: string[]) {
       return {
         code: 'draft-warning-lyrics',
         severity: 'warning',
+        message: warning
+      }
+    }
+
+    if (
+      /Multiple lyric verses detected|non-preferred verses|verse-number prefixes stripped|mismatched verse prefix|continuation residue/i.test(
+        warning
+      )
+    ) {
+      return {
+        code: 'draft-warning-lyric-variants',
+        severity: 'info',
+        message: warning
+      }
+    }
+
+    if (/Rebalanced .*line-initial tie continuation lyric slot/i.test(warning)) {
+      return {
+        code: 'draft-warning-tie-lyric-rebalanced',
+        severity: 'info',
         message: warning
       }
     }
@@ -312,6 +397,72 @@ function buildSuggestedQueries(title: string, composer: string | null, openingLy
       ].filter(Boolean) as string[]
     )
   )
+}
+
+function countCrossMeasureTies(measures: ExtractedMusicXmlScore['measures'] | null) {
+  if (!measures || measures.length < 2) {
+    return 0
+  }
+
+  let count = 0
+  for (let index = 0; index < measures.length - 1; index += 1) {
+    const currentLast = [...measures[index]!.events].reverse().find(event => !event.isRest) ?? null
+    const nextFirst = measures[index + 1]!.events.find(event => !event.isRest) ?? null
+    if (
+      currentLast &&
+      nextFirst &&
+      currentLast.tieStart &&
+      nextFirst.tieStop &&
+      currentLast.midi !== null &&
+      currentLast.midi === nextFirst.midi
+    ) {
+      count += 1
+    }
+  }
+
+  return count
+}
+
+function detectShortOpeningMeasure(measures: ExtractedMusicXmlScore['measures'] | null) {
+  if (!measures || measures.length === 0) {
+    return false
+  }
+
+  const first = measures[0]!
+  const expected = getExpectedMeasureDuration(first)
+  if (!expected) {
+    return false
+  }
+
+  const actual = sumMeasureDuration(first.events)
+  return actual > 0 && actual < expected
+}
+
+function detectShortClosingMeasure(measures: ExtractedMusicXmlScore['measures'] | null) {
+  if (!measures || measures.length === 0) {
+    return false
+  }
+
+  const last = measures[measures.length - 1]!
+  const expected = getExpectedMeasureDuration(last)
+  if (!expected) {
+    return false
+  }
+
+  const actual = sumMeasureDuration(last.events)
+  return actual > 0 && actual < expected
+}
+
+function sumMeasureDuration(events: ExtractedMusicXmlScore['measures'][number]['events']) {
+  return events.reduce((sum, event) => Math.max(sum, event.offset + event.duration), 0)
+}
+
+function getExpectedMeasureDuration(measure: ExtractedMusicXmlScore['measures'][number]) {
+  if (!measure.beats || !measure.beatType || !measure.divisions) {
+    return null
+  }
+
+  return Math.round((measure.divisions * 4 * measure.beats) / measure.beatType)
 }
 
 function getHighestSeverity(issues: SourceSanityIssue[]): SourceSanitySeverity | 'none' {

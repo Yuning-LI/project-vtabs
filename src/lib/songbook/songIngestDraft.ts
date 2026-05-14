@@ -37,6 +37,7 @@ export type SongIngestGraceAttachment = {
 
 export type ExtractedMusicXmlEvent = {
   voice: string
+  offset: number
   duration: number
   midi: number | null
   isRest: boolean
@@ -69,6 +70,7 @@ export type ExtractedMusicXmlMeasure = {
   fifths: number | null
   beats: number | null
   beatType: number | null
+  tempoBpm: number | null
   harmonies: ExtractedMusicXmlHarmony[]
   events: ExtractedMusicXmlEvent[]
 }
@@ -106,6 +108,7 @@ export type SongIngestDraft = {
     family: PublicSongFamily | null
     composer: string | null
     meter: string | null
+    tempoBpm: number | null
     recommendedKeynote: string
     recommendedTonicMidi: number
     lyricPolicy: SongIngestLyricPolicy
@@ -150,6 +153,7 @@ export type SongIngestDraft = {
     meta: {
       key: string
       meter: string | null
+      tempoBpm: number | null
     }
     notation: string[]
     alignedLyrics?: string[]
@@ -184,12 +188,16 @@ export function buildSongIngestDraftFromMusicXmlExtract(
   options: BuildSongIngestDraftOptions = {}
 ): SongIngestDraft {
   const selectedVoice = options.voice?.trim() || chooseDominantVoice(extract.measures)
-  const selectedMeasures = extract.measures
+  const normalizedSelectedMeasures = extract.measures
     .map(measure => ({
       ...measure,
-      events: mergeTiedEvents(measure.events.filter(event => event.voice === selectedVoice))
+      events: normalizeSelectedMeasureEvents(
+        measure.events.filter(event => event.voice === selectedVoice)
+      )
     }))
     .filter(measure => measure.events.length > 0)
+  const pickupAdjusted = alignPickupMeasures(normalizedSelectedMeasures)
+  const selectedMeasures = pickupAdjusted.measures
 
   const firstMeasure = selectedMeasures[0] ?? null
   const title = options.title?.trim() || extract.title?.trim() || 'Untitled Song'
@@ -201,10 +209,14 @@ export function buildSongIngestDraftFromMusicXmlExtract(
     firstMeasure?.beats && firstMeasure?.beatType
       ? `${firstMeasure.beats}/${firstMeasure.beatType}`
       : null
+  const tempoBpm =
+    selectedMeasures.find(measure => typeof measure.tempoBpm === 'number' && measure.tempoBpm > 0)
+      ?.tempoBpm ?? null
   const durationUnit = computeDurationUnit(selectedMeasures)
   const hasSystemBreaks = selectedMeasures.some(measure => measure.newSystem)
 
   const groupedLines = groupMeasuresIntoLines(selectedMeasures, hasSystemBreaks)
+  const tieLyricRebalance = rebalanceLineInitialTieContinuationLyrics(groupedLines)
   const notationLines = groupedLines.map(group =>
     group
       .map(measure => measure.eventsToNotation)
@@ -275,6 +287,14 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       measure.harmonies.some(harmony => harmony.offset > sumMeasureDuration(measure.events))
     )
       ? ['Some MusicXML harmony offsets fell outside the selected melody duration and were kept at the closest available notation position.']
+      : []),
+    ...(pickupAdjusted.applied
+      ? ['Detected an incomplete opening pickup bar and synthesized leading rests for notation alignment.']
+      : []),
+    ...(tieLyricRebalance.rebalancedCount > 0
+      ? [
+          `Rebalanced ${tieLyricRebalance.rebalancedCount} line-initial tie continuation lyric slot(s) where the source appeared to restart a new word on a sustained carry-over note.`
+        ]
       : [])
   ]
 
@@ -291,6 +311,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       family: options.family ?? null,
       composer,
       meter,
+      tempoBpm,
       recommendedKeynote: keynote,
       recommendedTonicMidi: tonicMidi,
       lyricPolicy,
@@ -334,7 +355,8 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       tonicMidi,
       meta: {
         key: formatKeynoteLabel(keynote),
-        meter
+        meter,
+        tempoBpm
       },
       notation: notationLines,
       ...(alignedLyricLines.length > 0 ? { alignedLyrics: alignedLyricLines } : {})
@@ -384,6 +406,57 @@ export function buildSongIngestDraftFromMusicXmlExtract(
 
     return lines
   }
+
+  function rebalanceLineInitialTieContinuationLyrics(
+    lines: ReturnType<typeof groupMeasuresIntoLines>
+  ) {
+    let rebalancedCount = 0
+
+    for (let lineIndex = 1; lineIndex < lines.length; lineIndex += 1) {
+      const previousLine = lines[lineIndex - 1]
+      const currentLine = lines[lineIndex]
+      const previousMeasure = previousLine[previousLine.length - 1]
+      const currentMeasure = currentLine[0]
+      const previousLast = [...previousMeasure.events].reverse().find(event => !event.isRest) ?? null
+      const currentFirst = currentMeasure.events.find(event => !event.isRest) ?? null
+
+      if (
+        !previousLast ||
+        !currentFirst ||
+        previousLast.isRest ||
+        currentFirst.isRest ||
+        previousLast.midi === null ||
+        currentFirst.midi === null ||
+        previousLast.midi !== currentFirst.midi ||
+        !previousLast.tieStart ||
+        !currentFirst.tieStop
+      ) {
+        continue
+      }
+
+      const previousLyric = normalizeLyricSlot(previousLast.lyric)
+      const currentLyric = normalizeLyricSlot(currentFirst.lyric)
+      if (previousLyric === '_' || currentLyric === '_') {
+        continue
+      }
+
+      const flattenedSlots = currentLine.flatMap(measure => measure.lyricSlots)
+      const placeholderIndex = flattenedSlots.indexOf('_')
+      if (placeholderIndex <= 0) {
+        continue
+      }
+
+      const shiftedSlots = ['_', ...flattenedSlots.slice(0, placeholderIndex), ...flattenedSlots.slice(placeholderIndex + 1)]
+      let cursor = 0
+      currentLine.forEach(measure => {
+        measure.lyricSlots = shiftedSlots.slice(cursor, cursor + measure.lyricSlots.length)
+        cursor += measure.lyricSlots.length
+      })
+      rebalancedCount += 1
+    }
+
+    return { rebalancedCount }
+  }
 }
 
 function normalizeOptionalMetadataValue(value: string | null | undefined) {
@@ -404,15 +477,62 @@ function normalizeOptionalMetadataValue(value: string | null | undefined) {
 }
 
 function chooseDominantVoice(measures: ExtractedMusicXmlMeasure[]) {
-  const voiceCounts = new Map<string, number>()
+  const voiceScores = new Map<
+    string,
+    {
+      eventCount: number
+      noteCount: number
+      lyricNoteCount: number
+      soundingDuration: number
+      restDuration: number
+    }
+  >()
 
   measures.forEach(measure => {
     measure.events.forEach(event => {
-      voiceCounts.set(event.voice, (voiceCounts.get(event.voice) ?? 0) + 1)
+      const current = voiceScores.get(event.voice) ?? {
+        eventCount: 0,
+        noteCount: 0,
+        lyricNoteCount: 0,
+        soundingDuration: 0,
+        restDuration: 0
+      }
+      current.eventCount += 1
+      if (event.isRest) {
+        current.restDuration += event.duration
+      } else {
+        current.noteCount += 1
+        current.soundingDuration += event.duration
+        if (normalizeLyricSlot(event.lyric) !== '_') {
+          current.lyricNoteCount += 1
+        }
+      }
+      voiceScores.set(event.voice, current)
     })
   })
 
-  return [...voiceCounts.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? '1'
+  return (
+    [...voiceScores.entries()].sort((left, right) => {
+      const a = left[1]
+      const b = right[1]
+      if (a.lyricNoteCount !== b.lyricNoteCount) {
+        return b.lyricNoteCount - a.lyricNoteCount
+      }
+      if (a.noteCount !== b.noteCount) {
+        return b.noteCount - a.noteCount
+      }
+      if (a.soundingDuration !== b.soundingDuration) {
+        return b.soundingDuration - a.soundingDuration
+      }
+      if (a.restDuration !== b.restDuration) {
+        return a.restDuration - b.restDuration
+      }
+      if (a.eventCount !== b.eventCount) {
+        return b.eventCount - a.eventCount
+      }
+      return left[0].localeCompare(right[0])
+    })[0]?.[0] ?? '1'
+  )
 }
 
 function mergeTiedEvents(events: ExtractedMusicXmlEvent[]) {
@@ -425,6 +545,7 @@ function mergeTiedEvents(events: ExtractedMusicXmlEvent[]) {
       !previous.isRest &&
       !event.isRest &&
       previous.midi === event.midi &&
+      previous.offset + previous.duration === event.offset &&
       previous.tieStart &&
       event.tieStop
     ) {
@@ -440,6 +561,146 @@ function mergeTiedEvents(events: ExtractedMusicXmlEvent[]) {
   })
 
   return merged
+}
+
+function normalizeSelectedMeasureEvents(events: ExtractedMusicXmlEvent[]) {
+  const sortedEvents = [...events]
+    .map(event => ({
+      ...event,
+      offset: Math.max(0, event.offset),
+      duration: Math.max(1, event.duration)
+    }))
+    .sort((left, right) => {
+      if (left.offset !== right.offset) {
+        return left.offset - right.offset
+      }
+      if (left.isRest !== right.isRest) {
+        return left.isRest ? -1 : 1
+      }
+      return 0
+    })
+
+  const normalized: ExtractedMusicXmlEvent[] = []
+  let cursor = 0
+
+  sortedEvents.forEach(event => {
+    if (event.offset > cursor) {
+      normalized.push({
+        voice: event.voice,
+        offset: cursor,
+        duration: event.offset - cursor,
+        midi: null,
+        isRest: true,
+        lyric: null,
+        tieStart: false,
+        tieStop: false
+      })
+      cursor = event.offset
+    }
+
+    if (event.offset < cursor) {
+      const overlap = cursor - event.offset
+      const trimmedDuration = event.duration - overlap
+      if (trimmedDuration <= 0) {
+        return
+      }
+
+      normalized.push({
+        ...event,
+        offset: cursor,
+        duration: trimmedDuration
+      })
+      cursor += trimmedDuration
+      return
+    }
+
+    normalized.push(event)
+    cursor += event.duration
+  })
+
+  return mergeTiedEvents(normalized)
+}
+
+function alignPickupMeasures(measures: ExtractedMusicXmlMeasure[]) {
+  if (measures.length < 2) {
+    return { measures, applied: false }
+  }
+
+  const firstMeasure = measures[0]!
+  const lastMeasure = measures[measures.length - 1]!
+  const expectedDuration = getExpectedMeasureDuration(firstMeasure)
+  const lastExpectedDuration = getExpectedMeasureDuration(lastMeasure)
+  if (!expectedDuration || !lastExpectedDuration) {
+    return { measures, applied: false }
+  }
+
+  const firstActualDuration = sumMeasureDuration(firstMeasure.events)
+  const lastActualDuration = sumMeasureDuration(lastMeasure.events)
+  const missingDuration = expectedDuration - firstActualDuration
+  const durationUnit = computeDurationUnit(measures)
+  const hasLeadingExplicitRest = firstMeasure.events.some(event => event.isRest && event.offset === 0)
+  const hasFullMeasureLater = measures
+    .slice(1)
+    .some(measure => sumMeasureDuration(measure.events) === getExpectedMeasureDuration(measure))
+  const plausiblePickupLength =
+    missingDuration > 0 &&
+    durationUnit > 0 &&
+    missingDuration % durationUnit === 0
+  const clearlyShortOpeningMeasure = firstActualDuration > 0 && firstActualDuration <= expectedDuration * 0.75
+
+  const shouldPadLeadingPickup =
+    plausiblePickupLength &&
+    firstMeasure.events[0]?.offset === 0 &&
+    !hasLeadingExplicitRest &&
+    (
+      (
+        expectedDuration === lastExpectedDuration &&
+        lastActualDuration > 0 &&
+        lastActualDuration < expectedDuration &&
+        firstActualDuration + lastActualDuration === expectedDuration
+      ) ||
+      (
+        clearlyShortOpeningMeasure &&
+        hasFullMeasureLater
+      )
+    )
+
+  if (!shouldPadLeadingPickup) {
+    return { measures, applied: false }
+  }
+
+  const shiftedFirstMeasure: ExtractedMusicXmlMeasure = {
+    ...firstMeasure,
+    events: [
+      {
+        voice: firstMeasure.events[0]?.voice ?? '1',
+        offset: 0,
+        duration: missingDuration,
+        midi: null,
+        isRest: true,
+        lyric: null,
+        tieStart: false,
+        tieStop: false
+      },
+      ...firstMeasure.events.map(event => ({
+        ...event,
+        offset: event.offset + missingDuration
+      }))
+    ],
+    harmonies: firstMeasure.harmonies.map(harmony => ({
+      ...harmony,
+      offset: harmony.offset + missingDuration
+    }))
+  }
+
+  return {
+    measures: [
+      shiftedFirstMeasure,
+      ...measures.slice(1, -1),
+      lastMeasure
+    ],
+    applied: true
+  }
 }
 
 function computeDurationUnit(measures: ExtractedMusicXmlMeasure[]) {
@@ -467,6 +728,7 @@ function renderMeasureLyricSlots(events: ExtractedMusicXmlEvent[]) {
     .filter(event => !event.isRest)
     .map(event => normalizeLyricSlot(event.lyric))
 }
+
 function normalizeLyricSlot(value: string | null) {
   const normalized = value?.replace(/\s+/g, ' ').trim() ?? ''
   return normalized.length > 0 ? normalized : '_'
@@ -564,5 +826,13 @@ function gcd(left: number, right: number): number {
 }
 
 function sumMeasureDuration(events: ExtractedMusicXmlEvent[]) {
-  return events.reduce((sum, event) => sum + event.duration, 0)
+  return events.reduce((sum, event) => Math.max(sum, event.offset + event.duration), 0)
+}
+
+function getExpectedMeasureDuration(measure: ExtractedMusicXmlMeasure) {
+  if (!measure.beats || !measure.beatType || !measure.divisions) {
+    return null
+  }
+
+  return Math.round((measure.divisions * 4 * measure.beats) / measure.beatType)
 }

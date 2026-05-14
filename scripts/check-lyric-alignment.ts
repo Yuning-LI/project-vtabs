@@ -1,5 +1,5 @@
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
-import { countSingableSlots, parseNotation, tokenizeLyricLine } from '../src/lib/songbook/jianpu.ts'
+import { auditLyricAlignment } from '../src/lib/songbook/lyricAudit.ts'
 
 let errorCount = 0
 
@@ -7,26 +7,15 @@ for (const song of allSongCatalog) {
   const lyricLines = song.alignedLyrics ?? song.lyrics
   if (!lyricLines) continue
 
-  const parsedLines = parseNotation(song.notation, song.tonicMidi)
+  const issues = auditLyricAlignment({
+    notationLines: song.notation,
+    tonicMidi: song.tonicMidi,
+    lyricLines
+  })
 
-  if (lyricLines.length !== parsedLines.length) {
-    console.log(
-      `[${song.id}] line-count mismatch: lyrics=${lyricLines.length} notation=${parsedLines.length}`
-    )
-    errorCount += 1
-    continue
-  }
-
-  lyricLines.forEach((line, index) => {
-    const lyricSlots = tokenizeLyricLine(line).length
-    const noteSlots = countSingableSlots(parsedLines[index])
-
-    if (lyricSlots !== noteSlots) {
-      console.log(
-        `[${song.id}] line ${index + 1} slot mismatch: lyrics=${lyricSlots} notes=${noteSlots}`
-      )
-      console.log(`  lyrics: ${line}`)
-      console.log(`  notes:  ${song.notation[index]}`)
+  issues.forEach(issue => {
+    console.log(`[${song.id}] ${issue.code}: ${issue.message}`)
+    if (issue.severity === 'warning') {
       errorCount += 1
     }
   })

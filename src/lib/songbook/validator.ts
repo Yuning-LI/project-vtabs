@@ -1,8 +1,9 @@
 import type { SongDoc } from './types.ts'
-import { countSingableSlots, parseNotation, tokenizeLyricLine } from './jianpu.ts'
+import { parseNotation } from './jianpu.ts'
 import { parseAbcTune } from './abcImport.ts'
 import { instrumentProfiles } from './instruments.ts'
 import { chooseBestRangeShift } from './rangeFit.ts'
+import { auditLyricAlignment } from './lyricAudit.ts'
 
 /**
  * 这个文件的角色不是“渲染前校验一下语法”这么简单，
@@ -70,7 +71,6 @@ export function validateSong(song: SongDoc): SongValidationReport {
     .flat()
     .filter(token => token.kind === 'note')
     .map(token => token.midi)
-  const parsedNotationLines = parseNotation(song.notation, song.tonicMidi)
 
   if (song.abc) {
     try {
@@ -97,18 +97,6 @@ export function validateSong(song: SongDoc): SongValidationReport {
           code: 'abc-empty',
           message: 'ABC parsed successfully but produced no note events.'
         })
-      }
-
-      if (lyricLines) {
-        const lyricCount = countLyricSlots(lyricLines)
-        const singableEvents = parsed.noteEvents.filter(event => !event.isRest).length
-        if (Math.abs(lyricCount - singableEvents) > 2) {
-          issues.push({
-            severity: 'warning',
-            code: 'lyrics-mismatch',
-            message: `Lyric syllable count (${lyricCount}) differs from singable events (${singableEvents}).`
-          })
-        }
       }
 
       if (abcComparison.manualNoteCount !== abcComparison.abcNoteCount) {
@@ -140,27 +128,13 @@ export function validateSong(song: SongDoc): SongValidationReport {
     })
   }
 
-  if (lyricLines) {
-    if (lyricLines.length !== parsedNotationLines.length) {
-      issues.push({
-        severity: 'warning',
-        code: 'lyrics-line-count-mismatch',
-        message: `Lyrics have ${lyricLines.length} lines but notation has ${parsedNotationLines.length} lines.`
-      })
-    }
-
-    lyricLines.forEach((line, index) => {
-      const noteSlots = countSingableSlots(parsedNotationLines[index] ?? [])
-      const lyricSlots = countLyricSlots([line])
-      if (noteSlots !== lyricSlots) {
-        issues.push({
-          severity: 'warning',
-          code: 'lyrics-line-slot-mismatch',
-          message: `Line ${index + 1} lyric slots (${lyricSlots}) differ from singable note slots (${noteSlots}).`
-        })
-      }
+  issues.push(
+    ...auditLyricAlignment({
+      notationLines: song.notation,
+      tonicMidi: song.tonicMidi,
+      lyricLines
     })
-  }
+  )
 
   const instrumentFits = Object.values(instrumentProfiles).map(profile => {
     const shift = chooseBestRangeShift(noteMidis, profile.range, {
@@ -198,21 +172,6 @@ export function validateSong(song: SongDoc): SongValidationReport {
     instrumentFits,
     abcComparison
   }
-}
-
-/**
- * 当前歌词计数是“面向上线实用”的轻量规则，不是完整歌词语义引擎。
- *
- * 这里主要用来做异常检测：
- * - 如果歌词 token 数和可唱音符事件差距很大，就说明这首歌值得人工复核
- *
- * 真正完整的 ABC lyrics 规则（melisma、连续下划线、更多 divider 语义）
- * 以后仍然可以继续补强，但这一步已经足够拦截大量脏数据。
- */
-function countLyricSlots(lines: string[]) {
-  return lines
-    .flatMap(line => tokenizeLyricLine(line))
-    .length
 }
 
 /**

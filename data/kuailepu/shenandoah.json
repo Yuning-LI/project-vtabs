@@ -1,0 +1,36 @@
+{
+  "id": "shenandoah",
+  "slug": "shenandoah",
+  "title": "Shenandoah",
+  "description": "A broad American folk melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Oh, Shen an doah _ I long to hear you A _ way",
+    "_ you rol ling riv er Oh _ Shen an doah",
+    "_ I long to hear you A way way I'm bound a way",
+    "_ cross the wide _ Mis sour i _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-13",
+    "note": "Imported through the MusicXML ingest pipeline and checked against Wikipedia plus common public references before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5d - | {cn:F} 1 - 1 - 1 - - - | 1 - 2 - 3 - 4 - | {cn:Bb} 6 - - - - - - - | {cn:F} 5 - - - 1g - 7 - | {cn:Bb} 6 - - - - - - -",
+    "{cn:C7} 6 - 5 - 6 - 5 - | {cn:F} 3 - 5 - - - - - | 5 - - - - - 5 - | {cn:Bb} 6 - 6 - 6 - - -",
+    "6 - {cn:F} 3 - {cn:F} 5 - 3 - | {cn:Bb} 2 - - - - - - - | {cn:F} 1 - - - - - 2 - | 3 - - - - - - - | {cn:D} 3 - 1 - 3 - 6 - | {cn:A} 5 - - - - - - -",
+    "{cn:F} 5 - 0 - 1 - - 2 | {cn:D} 3 - - - - - - - | {cn:G7} 3 - - - - - 1 - | {cn:C7} {cn:F} 2 - - - {cn:F} 1 - - - | 1 - - - - - - -"
+  ]
+}
