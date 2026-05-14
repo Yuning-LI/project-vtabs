@@ -457,6 +457,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
 
     return { rebalancedCount }
   }
+
 }
 
 function normalizeOptionalMetadataValue(value: string | null | undefined) {
@@ -730,7 +731,13 @@ function renderMeasureLyricSlots(events: ExtractedMusicXmlEvent[]) {
 }
 
 function normalizeLyricSlot(value: string | null) {
-  const normalized = value?.replace(/\s+/g, ' ').trim() ?? ''
+  const normalized =
+    value
+      ?.replace(/\s+/g, ' ')
+      .trim()
+      .replace(/^\d+(?:[.)_-]{2,}|[.]{2,})(?=[A-Za-z])/, '')
+      .replace(/^["“”]+/, '')
+      .replace(/["“”]+$/, '') ?? ''
   return normalized.length > 0 ? normalized : '_'
 }
 

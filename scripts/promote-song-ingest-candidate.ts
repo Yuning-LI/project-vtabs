@@ -7,15 +7,19 @@ type CliOptions = {
   songDocDir: string
   targetRuntimeDir: string
   targetSongDocDir: string
+  force: boolean
 }
 
 const DEFAULT_CANDIDATE_RUNTIME_DIR = 'reference/song-publish-candidates/runtime'
 const DEFAULT_CANDIDATE_SONGDOC_DIR = 'reference/song-publish-candidates/songdocs'
+const DEFAULT_CANDIDATE_REPORT_DIR = 'reference/song-publish-candidates/reports'
+const DEFAULT_CANDIDATE_SANITY_DIR = 'reference/song-publish-candidates/source-sanity'
+const DEFAULT_REVIEW_NOTE_DIR = 'reference/song-publish-candidates/review-notes'
 const DEFAULT_TARGET_RUNTIME_DIR = 'data/kuailepu-runtime'
 const DEFAULT_TARGET_SONGDOC_DIR = 'data/kuailepu'
 
 const usage =
-  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/promote-song-ingest-candidate.ts <slug...> [--runtime-dir=${DEFAULT_CANDIDATE_RUNTIME_DIR}] [--songdoc-dir=${DEFAULT_CANDIDATE_SONGDOC_DIR}] [--target-runtime-dir=${DEFAULT_TARGET_RUNTIME_DIR}] [--target-songdoc-dir=${DEFAULT_TARGET_SONGDOC_DIR}]`
+  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/promote-song-ingest-candidate.ts <slug...> [--runtime-dir=${DEFAULT_CANDIDATE_RUNTIME_DIR}] [--songdoc-dir=${DEFAULT_CANDIDATE_SONGDOC_DIR}] [--target-runtime-dir=${DEFAULT_TARGET_RUNTIME_DIR}] [--target-songdoc-dir=${DEFAULT_TARGET_SONGDOC_DIR}] [--force=true]`
 
 const options = parseArgs(process.argv.slice(2))
 
@@ -27,6 +31,8 @@ if (!options) {
 const promoted: string[] = []
 
 for (const slug of options.slugs) {
+  assertPromotable(slug, options)
+
   const runtimeSource = path.resolve(process.cwd(), options.runtimeDir, `${slug}.json`)
   const songDocSource = path.resolve(process.cwd(), options.songDocDir, `${slug}.json`)
   const runtimeTarget = path.resolve(process.cwd(), options.targetRuntimeDir, `${slug}.json`)
@@ -96,6 +102,152 @@ function parseArgs(args: string[]): CliOptions | null {
     runtimeDir: values.get('runtime-dir') || DEFAULT_CANDIDATE_RUNTIME_DIR,
     songDocDir: values.get('songdoc-dir') || DEFAULT_CANDIDATE_SONGDOC_DIR,
     targetRuntimeDir: values.get('target-runtime-dir') || DEFAULT_TARGET_RUNTIME_DIR,
-    targetSongDocDir: values.get('target-songdoc-dir') || DEFAULT_TARGET_SONGDOC_DIR
+    targetSongDocDir: values.get('target-songdoc-dir') || DEFAULT_TARGET_SONGDOC_DIR,
+    force: values.get('force') === 'true'
+  }
+}
+
+function assertPromotable(slug: string, options: CliOptions) {
+  if (options.force) {
+    return
+  }
+
+  const runtimeSource = path.resolve(process.cwd(), options.runtimeDir, `${slug}.json`)
+  const songDocSource = path.resolve(process.cwd(), options.songDocDir, `${slug}.json`)
+  const reportPath = path.resolve(process.cwd(), DEFAULT_CANDIDATE_REPORT_DIR, `${slug}-report.json`)
+  const sanityPath = path.resolve(process.cwd(), DEFAULT_CANDIDATE_SANITY_DIR, `${slug}.json`)
+
+  const problems: string[] = []
+
+  if (!fs.existsSync(runtimeSource)) {
+    problems.push(`Missing candidate runtime JSON: ${path.relative(process.cwd(), runtimeSource)}`)
+  }
+  if (!fs.existsSync(songDocSource)) {
+    problems.push(`Missing candidate SongDoc: ${path.relative(process.cwd(), songDocSource)}`)
+  }
+  if (!fs.existsSync(reportPath)) {
+    problems.push(`Missing candidate report: ${path.relative(process.cwd(), reportPath)}`)
+  }
+  if (!fs.existsSync(sanityPath)) {
+    problems.push(`Missing source sanity report: ${path.relative(process.cwd(), sanityPath)}`)
+  }
+
+  const reviewClearance = getPromotionReviewClearance(slug, songDocSource)
+  if (!reviewClearance.ok) {
+    problems.push(
+      reviewClearance.reason ||
+        `Missing external review evidence for ${slug}. Add a review note under ${DEFAULT_REVIEW_NOTE_DIR}/ and mark it approved, or update the candidate SongDoc review status to verified with a non-default review summary.`
+    )
+  }
+
+  if (fs.existsSync(reportPath)) {
+    const report = JSON.parse(fs.readFileSync(reportPath, 'utf8')) as {
+      hcConsistency?: {
+        status?: 'ok' | 'review' | 'warning'
+        warnings?: string[]
+      }
+    }
+
+    if (!report.hcConsistency?.status) {
+      problems.push(
+        `Candidate report is missing hcConsistency status: ${path.relative(process.cwd(), reportPath)}`
+      )
+    } else if (report.hcConsistency.status === 'warning') {
+      problems.push(
+        `HC consistency is warning for ${slug}: ${(report.hcConsistency.warnings ?? []).join(' | ') || 'see candidate report'}`
+      )
+    }
+  }
+
+  if (fs.existsSync(sanityPath)) {
+    const sanity = JSON.parse(fs.readFileSync(sanityPath, 'utf8')) as {
+      summary?: {
+        status?: 'pass' | 'review'
+      }
+    }
+
+    if (!sanity.summary?.status) {
+      problems.push(
+        `Source sanity summary is missing: ${path.relative(process.cwd(), sanityPath)}`
+      )
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(
+      [
+        `Refusing to promote ${slug} because the candidate has not cleared the required ingest gates.`,
+        ...problems.map(problem => `- ${problem}`),
+        'Run `npm run doctor:song-ingest -- <slug>` for the full readiness summary, or rerun with `--force=true` only if you are intentionally overriding the gate.'
+      ].join('\n')
+    )
+  }
+}
+
+function getPromotionReviewClearance(slug: string, songDocPath: string) {
+  const exactReviewNotePath = path.resolve(process.cwd(), DEFAULT_REVIEW_NOTE_DIR, `${slug}.md`)
+  if (fs.existsSync(exactReviewNotePath)) {
+    const text = fs.readFileSync(exactReviewNotePath, 'utf8')
+    const decisionMatch = text.match(/^- Decision:\s*(.+)$/m)
+    const approvedMatch = text.match(/^- Approved for publication:\s*(.+)$/m)
+    const decision = decisionMatch?.[1]?.trim().toLowerCase() ?? ''
+    const approved = approvedMatch?.[1]?.trim().toLowerCase() ?? ''
+
+    if (!decision || decision === 'pending') {
+      return {
+        ok: false,
+        reason: `Review note exists but Decision is still pending: ${path.relative(process.cwd(), exactReviewNotePath)}`
+      }
+    }
+
+    if (!/\byes\b/.test(approved)) {
+      return {
+        ok: false,
+        reason: `Review note exists but is not marked approved for publication: ${path.relative(process.cwd(), exactReviewNotePath)}`
+      }
+    }
+
+    return {
+      ok: true,
+      reason: null
+    }
+  }
+
+  if (!fs.existsSync(songDocPath)) {
+    return {
+      ok: false,
+      reason: `Candidate SongDoc is missing, so promotion review status cannot be confirmed for ${slug}.`
+    }
+  }
+
+  const songDoc = JSON.parse(fs.readFileSync(songDocPath, 'utf8')) as {
+    review?: {
+      status?: 'verified' | 'pending'
+      note?: string
+    }
+  }
+  const note = songDoc.review?.note?.trim() ?? ''
+
+  if (songDoc.review?.status === 'verified') {
+    return {
+      ok: true,
+      reason: null
+    }
+  }
+
+  if (
+    note &&
+    note !==
+      'Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication.'
+  ) {
+    return {
+      ok: false,
+      reason: `Candidate SongDoc review note exists but status is not verified for ${slug}; set review.status to verified only after external review actually passes.`
+    }
+  }
+
+  return {
+    ok: false,
+    reason: `No approval-grade external review record found for ${slug}. Create ${DEFAULT_REVIEW_NOTE_DIR}/${slug}.md with a non-pending decision and mark publication approved once review passes.`
   }
 }
