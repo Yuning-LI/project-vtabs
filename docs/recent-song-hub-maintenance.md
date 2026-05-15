@@ -17,27 +17,23 @@ Its job is to:
 - rolling recent-song window: `42` songs
 - homepage recent-song teaser: `12` songs
 - source file: `src/lib/songbook/recentSongs.ts`
+- source of truth: `data/songbook/public-song-manifest.json`
 
 The `42`-song window matches roughly one week of updates when publication runs at about `5-6` songs per day.
 
 ## Update Rule
 
+The recent-song hub is now automatic.
+
 Whenever a song batch is publicly published:
 
-1. add the newly published song slugs to the top of `RECENTLY_ADDED_SONG_SLUGS`
-2. keep the list in newest-first order
-3. trim the tail so the list stays at `42` songs
-4. do not add unpublished or candidate-only songs
-5. do not reorder older songs unless publication history was entered incorrectly
+1. add the public song to `data/songbook/public-song-manifest.json`
+2. keep `featuredRank` increasing with real public release order
+3. do not manually edit a second recent-song slug list
+4. do not include unpublished or candidate-only songs in the manifest
+5. only correct older `featuredRank` values if publication history was entered incorrectly
 
-## Practical Batch Rule
-
-For a normal publish batch:
-
-- if `5` songs were published, insert `5` new slugs at the top and remove the oldest `5`
-- if `6` songs were published, insert `6` new slugs at the top and remove the oldest `6`
-
-That keeps the page acting like a moving one-week window instead of slowly expanding into a duplicate library page.
+`src/lib/songbook/recentSongs.ts` now derives the recent-song window directly from the published manifest entries, sorted by descending `featuredRank`.
 
 ## When To Revisit
 
