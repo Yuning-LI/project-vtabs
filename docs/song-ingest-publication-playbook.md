@@ -113,7 +113,17 @@ Check at least these:
 
 ### Required review record
 
-For every MusicXML song approved for publication, keep a short internal review note covering:
+Preferred path: record each review in the central ledger:
+
+```bash
+npm run record:song-ingest-review -- <slug> \
+  --status=verified \
+  --approve=true \
+  --refs=Wikipedia,MuseScore \
+  --summary="Opening title, melody, and source version verified."
+```
+
+For every MusicXML song approved for publication, keep at least:
 
 1. which references were checked
 2. whether title/composer attribution is exact, approximate, or traditional/anonymous
@@ -123,10 +133,15 @@ For every MusicXML song approved for publication, keep a short internal review n
 
 Do not move a song into the public manifest until this review is complete.
 
+Legacy markdown review notes are still accepted for old candidates, but the preferred operator path
+is now the single ledger file:
+
+- `reference/song-publish-candidates/review-log.json`
+
 If lyric extraction looks suspicious but the melody candidate is still worth reviewing:
 
 - keep the lyric track visible in the local candidate / unpublished preview layer
-- record the exact suspicious lines or tokens in the internal review note
+- record the exact suspicious lines or tokens in the review ledger entry
 - do not silently strip or hide the lyrics before a human reviewer has seen the problematic text
 - only hide public lyrics after an explicit review decision
 
@@ -204,7 +219,19 @@ Promote the candidate runtime artifacts first:
 npm run promote:song-ingest-candidate -- <slug...>
 ```
 
-Then run:
+The promote gate now also requires:
+
+- runtime fingering audit status `optimized`
+- runtime notation contains a resolved `{bpm:...}` directive
+- runtime payload has a valid BPM value
+
+Preferred final publish command:
+
+```bash
+npm run publish:song-ingest-candidate -- <slug...>
+```
+
+Equivalent manual validation:
 
 ```bash
 npm run validate:content

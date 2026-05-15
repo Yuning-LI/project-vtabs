@@ -1,5 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { KuailepuRuntimePayload } from '../src/lib/kuailepu/runtime.ts'
+import {
+  hasResolvedRuntimeBpmDirective,
+  readResolvedRuntimeBpm,
+  readSongIngestRuntimeMetadata
+} from '../src/lib/songbook/songIngestRuntimeMetadata.ts'
+import {
+  SONG_INGEST_REVIEW_LOG_PATH,
+  getSongIngestReviewLogEntry
+} from './lib/song-ingest-review-log.ts'
 
 type SongDoc = {
   id?: string
@@ -94,6 +104,14 @@ type DoctorRow = {
   }
   automaticChecks: {
     candidateArtifactsComplete: boolean
+    runtimeFingeringAudit: {
+      status: 'optimized' | 'pending' | 'missing'
+      rulesVersion: string | null
+    }
+    runtimeTempo: {
+      bpmDirectivePresent: boolean
+      bpm: number | null
+    }
     hcConsistency: {
       status: 'ok' | 'review' | 'warning' | 'missing'
       warnings: string[]
@@ -109,6 +127,7 @@ type DoctorRow = {
     recorded: boolean
     clearedForPromotion: boolean
     clearanceReason: string | null
+    reviewLogRecorded: boolean
     reviewNoteFiles: string[]
     candidateSongDocReview: ReviewSummary | null
     publicSongDocReview: ReviewSummary | null
@@ -185,6 +204,9 @@ function inspectSlug(
 
   const candidateSongDoc = files.candidateSongDoc ? readJson<SongDoc>(files.candidateSongDoc, null) : null
   const publicSongDoc = files.publicSongDoc ? readJson<SongDoc>(files.publicSongDoc, null) : null
+  const candidateRuntime = files.candidateRuntime
+    ? readJson<KuailepuRuntimePayload>(files.candidateRuntime, null)
+    : null
   const sanity = files.candidateSanity
     ? readJson<SourceSanityReport>(files.candidateSanity, null)
     : null
@@ -193,8 +215,16 @@ function inspectSlug(
   const manifestEntry = manifest.find(entry => entry.slug === slug) ?? null
   const seoProfile = seoProfiles[slug] ?? null
   const reviewNoteFiles = findReviewNoteFiles(slug)
+  const reviewLogEntry = getSongIngestReviewLogEntry(slug)
   const candidateReview = summarizeReview(candidateSongDoc?.review)
   const publicReview = summarizeReview(publicSongDoc?.review)
+  const runtimeMetadata = candidateRuntime ? readSongIngestRuntimeMetadata(candidateRuntime) : {}
+  const runtimeAuditStatus =
+    runtimeMetadata.runtimeFingeringAudit?.status === 'optimized'
+      ? 'optimized'
+      : runtimeMetadata.runtimeFingeringAudit?.status === 'pending'
+        ? 'pending'
+        : 'missing'
 
   const automaticChecks = {
     candidateArtifactsComplete: Boolean(
@@ -204,6 +234,14 @@ function inspectSlug(
         files.candidateReport &&
         files.candidateSanity
     ),
+    runtimeFingeringAudit: {
+      status: runtimeAuditStatus,
+      rulesVersion: runtimeMetadata.runtimeFingeringAudit?.rulesVersion ?? null
+    },
+    runtimeTempo: {
+      bpmDirectivePresent: candidateRuntime ? hasResolvedRuntimeBpmDirective(candidateRuntime) : false,
+      bpm: candidateRuntime ? readResolvedRuntimeBpm(candidateRuntime) : null
+    },
     hcConsistency: {
       status: report?.hcConsistency?.status ?? 'missing',
       warnings: report?.hcConsistency?.warnings ?? []
@@ -217,6 +255,7 @@ function inspectSlug(
   } as const
 
   const externalReviewRecorded =
+    Boolean(reviewLogEntry) ||
     reviewNoteFiles.length > 0 ||
     Boolean(candidateReview?.countsAsEvidence) ||
     Boolean(publicReview?.countsAsEvidence)
@@ -264,6 +303,7 @@ function inspectSlug(
       recorded: externalReviewRecorded,
       clearedForPromotion: externalReviewClearance.ok,
       clearanceReason: externalReviewClearance.reason,
+      reviewLogRecorded: Boolean(reviewLogEntry),
       reviewNoteFiles,
       candidateSongDocReview: candidateReview,
       publicSongDocReview: publicReview,
@@ -314,9 +354,24 @@ function buildNextSteps(input: {
     steps.push('Fix the ingest/converter issue until HC consistency is no longer in warning status.')
   }
 
+  if (input.automaticChecks.runtimeFingeringAudit.status !== 'optimized') {
+    steps.push(
+      `Rerun candidate generation or npm run optimize:runtime-fingerings -- ${input.slug} so runtime fingering pruning definitely uses the current public rules.`
+    )
+  }
+
+  if (
+    !input.automaticChecks.runtimeTempo.bpmDirectivePresent ||
+    !input.automaticChecks.runtimeTempo.bpm
+  ) {
+    steps.push(
+      `Regenerate ${input.slug} with a resolved BPM so runtime notation contains {bpm:...} and the payload has a valid bpm value.`
+    )
+  }
+
   if (!input.externalReviewCleared) {
     steps.push(
-      `Run npm run scaffold:song-ingest-review-note -- ${input.slug} and complete the mandatory external melody/version review.`
+      `Run npm run record:song-ingest-review -- ${input.slug} --status=verified --approve=true --refs=Wikipedia,MuseScore --summary="External review passed." after the mandatory external melody/version review.`
     )
   }
 
@@ -338,9 +393,7 @@ function buildNextSteps(input: {
     input.seoProfileExists &&
     !input.manifestPublished
   ) {
-    steps.push(
-      `Run npm run validate:content && npm run validate:songbook && npm run doctor:song -- ${input.slug} && npm run preflight:kuailepu-publish -- ${input.slug}.`
-    )
+    steps.push(`Run npm run publish:song-ingest-candidate -- ${input.slug}.`)
   }
 
   return dedupe(steps)
@@ -359,7 +412,10 @@ function resolvePipelineStage(input: {
 
   if (
     !input.automaticChecks.candidateArtifactsComplete ||
-    input.automaticChecks.hcConsistency.status === 'warning'
+    input.automaticChecks.hcConsistency.status === 'warning' ||
+    input.automaticChecks.runtimeFingeringAudit.status !== 'optimized' ||
+    !input.automaticChecks.runtimeTempo.bpmDirectivePresent ||
+    !input.automaticChecks.runtimeTempo.bpm
   ) {
     return 'blocked'
   }
@@ -403,6 +459,26 @@ function getReviewClearance(
   candidateSongDoc: SongDoc | null,
   publicSongDoc: SongDoc | null
 ) {
+  const reviewLogEntry = getSongIngestReviewLogEntry(slug)
+  if (reviewLogEntry) {
+    if (reviewLogEntry.status !== 'verified') {
+      return {
+        ok: false,
+        reason: `Review log exists but status is ${reviewLogEntry.status}: ${SONG_INGEST_REVIEW_LOG_PATH}`
+      }
+    }
+    if (!reviewLogEntry.approvedForPublication) {
+      return {
+        ok: false,
+        reason: `Review log exists but approvedForPublication=false: ${SONG_INGEST_REVIEW_LOG_PATH}`
+      }
+    }
+    return {
+      ok: true,
+      reason: null
+    }
+  }
+
   const exactReviewNotePath = path.resolve(
     process.cwd(),
     'reference/song-publish-candidates/review-notes',
@@ -529,6 +605,10 @@ function renderHumanSummary(row: DoctorRow) {
   lines.push('')
   lines.push('automatic checks:')
   lines.push(`- candidate artifacts complete: ${String(row.automaticChecks.candidateArtifactsComplete)}`)
+  lines.push(`- runtime fingering audit: ${row.automaticChecks.runtimeFingeringAudit.status}`)
+  lines.push(
+    `- runtime bpm: ${row.automaticChecks.runtimeTempo.bpm ?? '(missing)'}; directive present: ${String(row.automaticChecks.runtimeTempo.bpmDirectivePresent)}`
+  )
   lines.push(`- hc consistency: ${row.automaticChecks.hcConsistency.status}`)
   lines.push(`- source sanity: ${row.automaticChecks.sourceSanity.status}`)
 
@@ -540,6 +620,7 @@ function renderHumanSummary(row: DoctorRow) {
   lines.push('external review:')
   lines.push(`- recorded: ${String(row.externalReview.recorded)}`)
   lines.push(`- cleared for promotion: ${String(row.externalReview.clearedForPromotion)}`)
+  lines.push(`- review log: ${String(row.externalReview.reviewLogRecorded)} (${SONG_INGEST_REVIEW_LOG_PATH})`)
   if (row.externalReview.clearanceReason) {
     lines.push(`- clearance note: ${row.externalReview.clearanceReason}`)
   }

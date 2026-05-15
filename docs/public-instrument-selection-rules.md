@@ -122,6 +122,11 @@ Current implementation:
 Runtime graph audit is the authoritative public exposure gate.
 Generation may recall broadly, but public pages should only expose candidates that survive runtime audit.
 
+Operational publication rule:
+
+- publish-ready runtime JSON must carry a `vtabs_import.runtimeFingeringAudit.status="optimized"` marker
+- candidate promote/publish should be blocked if that marker is missing or still `pending`
+
 ### Generic graph quality signals
 
 The current runtime audit penalizes or rejects candidates when graph evidence suggests that:

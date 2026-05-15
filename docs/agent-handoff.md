@@ -76,7 +76,8 @@ For songs imported from local MusicXML/MXL instead of Kuailepu:
 - do not publish directly after local generation
 - prefer `npm run ingest:song-candidate -- <input> --slug=<slug> ...` as the standard candidate-generation entry
 - use `npm run doctor:song-ingest -- <slug>` as the per-song readiness check
-- use `npm run scaffold:song-ingest-review-note -- <slug>` to standardize the external-review record
+- use `npm run record:song-ingest-review -- <slug> ...` as the standard external-review record path
+- use `npm run publish:song-ingest-candidate -- <slug>` as the standard publish entry once manifest/SEO are ready
 - first run local generate/audit/classify flow
 - then do lightweight external melody/version verification against public references
 - only after that move approved songs into the public import/publish layer

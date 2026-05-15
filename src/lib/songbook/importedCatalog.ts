@@ -3,6 +3,12 @@ import path from 'node:path'
 import type { SongDoc } from './types'
 
 const importedSongsDir = path.resolve(process.cwd(), 'data', 'kuailepu')
+const candidateSongsDir = path.resolve(
+  process.cwd(),
+  'reference',
+  'song-publish-candidates',
+  'songdocs'
+)
 
 export function resolveImportedSongDocPath(slug: string) {
   return path.join(importedSongsDir, `${slug}.json`)
@@ -15,6 +21,23 @@ export function loadImportedSongDoc(slug: string) {
   }
 
   return JSON.parse(fs.readFileSync(filePath, 'utf8')) as SongDoc
+}
+
+export function resolveCandidateSongDocPath(slug: string) {
+  return path.join(candidateSongsDir, `${slug}.json`)
+}
+
+export function loadCandidateSongDoc(slug: string) {
+  const filePath = resolveCandidateSongDocPath(slug)
+  if (!fs.existsSync(filePath)) {
+    return null
+  }
+
+  return JSON.parse(fs.readFileSync(filePath, 'utf8')) as SongDoc
+}
+
+export function loadImportedOrCandidateSongDoc(slug: string) {
+  return loadImportedSongDoc(slug) ?? loadCandidateSongDoc(slug)
 }
 
 /**

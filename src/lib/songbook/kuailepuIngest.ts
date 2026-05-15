@@ -10,6 +10,11 @@ import type { ParsedToken, SongDoc } from './types.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
 import type { KuailepuRuntimePayload } from '../kuailepu/runtime.ts'
 import type { PublicSongInstrumentId } from './publicInstruments.ts'
+import {
+  mergeSongIngestRuntimeMetadata,
+  SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION,
+  type SongIngestRuntimeTempoResolution
+} from './songIngestRuntimeMetadata.ts'
 
 export type RuntimeInstrumentProfile = {
   id: string
@@ -256,6 +261,7 @@ export type KuailepuGenerationOptions = {
   keynote?: string
   transpose?: number | null
   autoTransposeInstrument?: string
+  tempoBpm?: number | null
   scrubRuntimeCache?: boolean
   graceMode?: 'source-only' | 'payload-metadata'
 }
@@ -283,6 +289,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     keynote,
     transpose,
     autoTransposeInstrument,
+    tempoBpm,
     scrubRuntimeCache = true,
     graceMode = 'source-only'
   } = options
@@ -298,7 +305,8 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
   const selectedTranspose = transpose ?? rangeReport.selectedAutoTranspose?.recommendedShift ?? 0
   const targetKeynote = keynote ?? transposeKeynote(sourceKeynote, selectedTranspose)
   const targetTonicMidi = parseKeynoteToMidi(targetKeynote)
-  const runtimeTempoBpm = resolveRuntimeTempoBpm(template, draft)
+  const runtimeTempoResolution = resolveRuntimeTempoBpm(template, draft, tempoBpm)
+  const runtimeTempoBpm = runtimeTempoResolution.bpm
   const notationLines = transposeNotationLines(
     draft.notation.lines,
     sourceTonicMidi,
@@ -338,7 +346,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     alias_name: '',
     song_pinyin: slug.replace(/-/g, ''),
     keynote: targetKeynote,
-    rhythm: draft.metadata.meter ?? template.rhythm ?? '4/4',
+    rhythm: draft.metadata.meter ?? String(template.rhythm ?? '4/4'),
     bpm: runtimeTempoBpm,
     music_composer: draft.metadata.composer ?? '',
     lyric: lyricText ? JSON.stringify([lyricText]) : '[]',
@@ -354,12 +362,22 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     instrumentFingerings: generatedInstrumentFingerings
   }
 
-  if (graceMode === 'payload-metadata' && draft.ornaments.graceAttachments.length > 0) {
-    ;(runtimePayload as Record<string, unknown>).vtabs_import = {
-      graceMode,
-      graceAttachments: draft.ornaments.graceAttachments
+  mergeSongIngestRuntimeMetadata(runtimePayload, {
+    sourceKind: 'musicxml',
+    graceMode,
+    graceAttachments:
+      graceMode === 'payload-metadata' && draft.ornaments.graceAttachments.length > 0
+        ? draft.ornaments.graceAttachments
+        : undefined,
+    tempoResolution: runtimeTempoResolution,
+    runtimeFingeringAudit: {
+      status: 'pending',
+      rulesVersion: SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION,
+      optimizedAt: null,
+      instrumentCount: generatedInstrumentFingerings.filter(option => option.instrument !== 'none')
+        .length
     }
-  }
+  })
 
   const songDoc: SongDoc = {
     id: slug,
@@ -407,6 +425,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
           : autoTransposeInstrument
             ? 'auto'
             : 'none',
+      runtimeTempoResolution,
       scrubbedTemplateRuntimeCache: scrubRuntimeCache,
       graceMode
     },
@@ -727,10 +746,29 @@ export function scrubTemplateRuntimeCache(template: Record<string, unknown>) {
   return payload
 }
 
-function resolveRuntimeTempoBpm(template: Record<string, unknown>, draft: SongIngestDraft) {
+function resolveRuntimeTempoBpm(
+  template: Record<string, unknown>,
+  draft: SongIngestDraft,
+  tempoOverrideBpm?: number | null
+) {
+  const manualTempo = Number(tempoOverrideBpm)
+  if (Number.isFinite(manualTempo) && manualTempo > 0) {
+    return {
+      bpm: Math.round(manualTempo),
+      source: 'manual',
+      family: draft.metadata.family ?? null,
+      heuristic: null
+    } satisfies SongIngestRuntimeTempoResolution
+  }
+
   const sourceTempo = Number(draft.metadata.tempoBpm)
   if (Number.isFinite(sourceTempo) && sourceTempo > 0) {
-    return Math.round(sourceTempo)
+    return {
+      bpm: Math.round(sourceTempo),
+      source: 'musicxml',
+      family: draft.metadata.family ?? null,
+      heuristic: null
+    } satisfies SongIngestRuntimeTempoResolution
   }
 
   const templateTempo =
@@ -740,10 +778,64 @@ function resolveRuntimeTempoBpm(template: Record<string, unknown>, draft: SongIn
   const tempo = Number(templateTempo)
 
   if (Number.isFinite(tempo) && tempo > 0) {
-    return Math.round(tempo)
+    return {
+      bpm: Math.round(tempo),
+      source: 'template',
+      family: draft.metadata.family ?? null,
+      heuristic: null
+    } satisfies SongIngestRuntimeTempoResolution
   }
 
-  return 100
+  return resolveFamilyFallbackTempo(draft)
+}
+
+function resolveFamilyFallbackTempo(draft: SongIngestDraft) {
+  const title = `${draft.metadata.title || ''}`.toLowerCase()
+  const family = draft.metadata.family ?? null
+
+  if (/\b(lullaby|berceuse|air)\b/.test(title)) {
+    return {
+      bpm: 72,
+      source: 'family-fallback',
+      family,
+      heuristic: 'title:lullaby-air'
+    } satisfies SongIngestRuntimeTempoResolution
+  }
+
+  if (/\b(waltz|waltzing)\b/.test(title)) {
+    return {
+      bpm: 90,
+      source: 'family-fallback',
+      family,
+      heuristic: 'title:waltz'
+    } satisfies SongIngestRuntimeTempoResolution
+  }
+
+  if (/\b(march|polka)\b/.test(title) || family === 'march') {
+    return {
+      bpm: 116,
+      source: 'family-fallback',
+      family,
+      heuristic: family === 'march' ? 'family:march' : 'title:march-polka'
+    } satisfies SongIngestRuntimeTempoResolution
+  }
+
+  if (/\b(hymn|prayer|carol)\b/.test(title) || family === 'hymn' || family === 'holiday') {
+    return {
+      bpm: 88,
+      source: 'family-fallback',
+      family,
+      heuristic:
+        family === 'hymn' || family === 'holiday' ? `family:${family}` : 'title:hymn-prayer-carol'
+    } satisfies SongIngestRuntimeTempoResolution
+  }
+
+  return {
+    bpm: 96,
+    source: 'family-fallback',
+    family,
+    heuristic: family ? `family:${family}` : 'default:song'
+  } satisfies SongIngestRuntimeTempoResolution
 }
 
 function ensureNotationTempoDirective(notation: string, bpm: number) {

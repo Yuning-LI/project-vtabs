@@ -137,7 +137,7 @@ npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/draft
   --slug=<slug> \
   --title="Song Title" \
   --auto-transpose=o12 \
-  --rank-base-url=http://127.0.0.1:3000 \
+  --tempo-bpm=96 \
   --grace-mode=source-only \
   --out-runtime=reference/song-publish-candidates/runtime/<slug>.json \
   --out-songdoc=reference/song-publish-candidates/songdocs/<slug>.json \
@@ -155,9 +155,11 @@ This candidate generator:
 - generates public `instrumentFingerings` from our import-side preset/range logic instead of copying the template song's full fingering matrix
 - defaults to scrubbing template runtime caches such as `mpn`, `music_list`, and `fetch_score`
 - writes a range-fit report for the public runtime instruments
-- when `--rank-base-url` is provided, runs a second pass against the local runtime page and
-  reorders each instrument's fingering candidates by rendered graph quality instead of trusting
-  the initial import-side recall order
+- now runs a second pass against the local runtime page by default and reorders each instrument's
+  fingering candidates by rendered graph quality instead of trusting the initial import-side recall order
+- if no `--rank-base-url` is provided, the generator can start a managed local dev server automatically
+- writes runtime audit metadata so later promote/publish gates can prove fingering pruning already ran
+- supports `--tempo-bpm=<number>` as a manual override when external review establishes a better BPM
 - supports grace handling modes:
   - `source-only` keeps grace notes in ingest metadata only
   - `payload-metadata` also writes structured grace attachments into the generated runtime payload
@@ -199,6 +201,7 @@ Important distinction:
 - local MusicXML songs still need runtime validation before publication
 - local MusicXML songs still need mandatory external melody/version verification
 - Kuailepu live compare is only required when the song maps to a real Kuailepu detail page
+- runtime fingering optimization is mandatory before promote; batch-only staging runs may defer it, but publish-ready songs may not
 
 Coverage details and current unsupported areas:
 

@@ -9,15 +9,17 @@ type CliOptions = {
   part?: string
   voice?: string
   keynote?: string
+  tempoBpm?: string
   lyricPolicy?: string
   template: string
   autoTranspose: string
   rankBaseUrl?: string
+  skipRuntimeFingeringOptimize: boolean
   graceMode: 'source-only' | 'payload-metadata'
 }
 
 const usage =
-  'Usage: npm run ingest:song-candidate -- <input.xml|input.mxl> --slug=<slug> [--title="Song Title"] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--grace-mode=source-only|payload-metadata]'
+  'Usage: npm run ingest:song-candidate -- <input.xml|input.mxl> --slug=<slug> [--title="Song Title"] [--family=folk] [--part=P1] [--voice=1] [--keynote=1=G] [--tempo-bpm=96] [--lyric-policy=show-publicly|hide-by-default|do-not-expose-toggle|no-lyrics] [--template=happy-birthday-to-you] [--auto-transpose=o12] [--rank-base-url=http://127.0.0.1:3000] [--skip-runtime-fingering-optimize=true] [--grace-mode=source-only|payload-metadata]'
 
 const options = parseArgs(process.argv.slice(2))
 
@@ -53,7 +55,9 @@ runScript('scripts/generate-kuailepu-runtime-from-ingest.ts', [
   `--slug=${slug}`,
   `--title=${title}`,
   `--auto-transpose=${options.autoTranspose}`,
+  ...(options.tempoBpm ? [`--tempo-bpm=${options.tempoBpm}`] : []),
   ...(options.rankBaseUrl ? [`--rank-base-url=${options.rankBaseUrl}`] : []),
+  ...(options.skipRuntimeFingeringOptimize ? ['--skip-runtime-fingering-optimize=true'] : []),
   `--grace-mode=${options.graceMode}`,
   `--out-runtime=${runtimePath}`,
   `--out-songdoc=${songDocPath}`,
@@ -76,7 +80,7 @@ console.log(
       },
       nextSteps: [
         `npm run doctor:song-ingest -- ${slug}`,
-        `npm run scaffold:song-ingest-review-note -- ${slug}`
+        `npm run record:song-ingest-review -- ${slug} --status=verified --approve=true --refs=Wikipedia,MuseScore --summary="External review passed."`
       ]
     },
     null,
@@ -132,10 +136,12 @@ function parseArgs(args: string[]): CliOptions | null {
     part: values.get('part'),
     voice: values.get('voice'),
     keynote: values.get('keynote'),
+    tempoBpm: values.get('tempo-bpm'),
     lyricPolicy: values.get('lyric-policy'),
     template: values.get('template') || 'happy-birthday-to-you',
     autoTranspose: values.get('auto-transpose') || 'o12',
     rankBaseUrl: values.get('rank-base-url'),
+    skipRuntimeFingeringOptimize: values.get('skip-runtime-fingering-optimize') === 'true',
     graceMode:
       values.get('grace-mode') === 'payload-metadata' ? 'payload-metadata' : 'source-only'
   }

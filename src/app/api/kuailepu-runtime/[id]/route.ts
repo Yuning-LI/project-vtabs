@@ -6,7 +6,10 @@ import {
   loadKuailepuSongPayload,
   type KuailepuRuntimeState
 } from '@/lib/kuailepu/runtime'
-import { loadImportedSongDoc } from '@/lib/songbook/importedCatalog'
+import {
+  loadImportedOrCandidateSongDoc,
+  loadImportedSongDoc
+} from '@/lib/songbook/importedCatalog'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 
@@ -106,7 +109,8 @@ export async function GET(
     sheet_scale: searchParams.get('sheet_scale'),
     note_label_mode: searchParams.get('note_label_mode')
   }
-  const song = songCatalogBySlug[params.id] ?? loadImportedSongDoc(params.id)
+  const song = songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
+  const runtimeNotationSong = songCatalogBySlug[params.id] ?? loadImportedSongDoc(params.id)
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
   const presentation = song ? getSongPresentation(song) : null
   /**
@@ -119,9 +123,9 @@ export async function GET(
    * - `graph`：内部残留调试模式，前台不再暴露
    */
   const letterTrack = buildKuailepuLetterTrackData({
-    notation: song?.notation,
+    notation: runtimeNotationSong?.notation,
     rawNotation: typeof payload.notation === 'string' ? payload.notation : null,
-    key: song?.meta?.key,
+    key: runtimeNotationSong?.meta?.key,
     mode: state.note_label_mode,
     payload,
     state

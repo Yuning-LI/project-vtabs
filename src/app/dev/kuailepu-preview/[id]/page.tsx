@@ -5,7 +5,7 @@ import {
   hasPublicKuailepuLyricToggle,
   loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
-import { loadImportedSongDoc } from '@/lib/songbook/importedCatalog'
+import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
@@ -41,7 +41,7 @@ type PreviewSearchParams = {
 }
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
-  const songDoc = loadImportedSongDoc(params.id)
+  const songDoc = loadImportedOrCandidateSongDoc(params.id)
 
   return {
     title: `${songDoc?.title ?? params.id} Runtime Preview`,
@@ -60,7 +60,7 @@ export default function KuailepuPreviewPage({
   params: { id: string }
   searchParams?: PreviewSearchParams
 }) {
-  const songDoc = loadImportedSongDoc(params.id)
+  const songDoc = loadImportedOrCandidateSongDoc(params.id)
   const runtimePayload = loadKuailepuSongPayload(params.id)
 
   if (!songDoc || !runtimePayload) {

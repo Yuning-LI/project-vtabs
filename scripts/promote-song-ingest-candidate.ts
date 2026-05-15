@@ -1,5 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import type { KuailepuRuntimePayload } from '../src/lib/kuailepu/runtime.ts'
+import {
+  hasResolvedRuntimeBpmDirective,
+  readResolvedRuntimeBpm,
+  readSongIngestRuntimeMetadata
+} from '../src/lib/songbook/songIngestRuntimeMetadata.ts'
+import {
+  SONG_INGEST_REVIEW_LOG_PATH,
+  summarizeSongIngestReviewLogClearance
+} from './lib/song-ingest-review-log.ts'
 
 type CliOptions = {
   slugs: string[]
@@ -136,8 +146,29 @@ function assertPromotable(slug: string, options: CliOptions) {
   if (!reviewClearance.ok) {
     problems.push(
       reviewClearance.reason ||
-        `Missing external review evidence for ${slug}. Add a review note under ${DEFAULT_REVIEW_NOTE_DIR}/ and mark it approved, or update the candidate SongDoc review status to verified with a non-default review summary.`
+        `Missing external review evidence for ${slug}. Record review in ${SONG_INGEST_REVIEW_LOG_PATH}, or add a legacy review note under ${DEFAULT_REVIEW_NOTE_DIR}/ and mark it approved, or update the candidate SongDoc review status to verified with a non-default review summary.`
     )
+  }
+
+  if (fs.existsSync(runtimeSource)) {
+    const runtimePayload = JSON.parse(fs.readFileSync(runtimeSource, 'utf8')) as KuailepuRuntimePayload
+    const runtimeMetadata = readSongIngestRuntimeMetadata(runtimePayload)
+    const runtimeAudit = runtimeMetadata.runtimeFingeringAudit
+    if (runtimeAudit?.status !== 'optimized') {
+      problems.push(
+        `Candidate runtime fingering audit is not optimized for ${slug}; rerun the candidate generation or npm run optimize:runtime-fingerings -- ${slug}.`
+      )
+    }
+    if (!hasResolvedRuntimeBpmDirective(runtimePayload)) {
+      problems.push(
+        `Candidate runtime notation is missing a resolved {bpm:...} directive: ${path.relative(process.cwd(), runtimeSource)}`
+      )
+    }
+    if (!readResolvedRuntimeBpm(runtimePayload)) {
+      problems.push(
+        `Candidate runtime BPM is missing or invalid: ${path.relative(process.cwd(), runtimeSource)}`
+      )
+    }
   }
 
   if (fs.existsSync(reportPath)) {
@@ -185,6 +216,21 @@ function assertPromotable(slug: string, options: CliOptions) {
 }
 
 function getPromotionReviewClearance(slug: string, songDocPath: string) {
+  const reviewLogClearance = summarizeSongIngestReviewLogClearance(slug)
+  if (reviewLogClearance.ok) {
+    return {
+      ok: true,
+      reason: null
+    }
+  }
+
+  if (reviewLogClearance.entry && reviewLogClearance.reason) {
+    return {
+      ok: false,
+      reason: reviewLogClearance.reason
+    }
+  }
+
   const exactReviewNotePath = path.resolve(process.cwd(), DEFAULT_REVIEW_NOTE_DIR, `${slug}.md`)
   if (fs.existsSync(exactReviewNotePath)) {
     const text = fs.readFileSync(exactReviewNotePath, 'utf8')
@@ -248,6 +294,6 @@ function getPromotionReviewClearance(slug: string, songDocPath: string) {
 
   return {
     ok: false,
-    reason: `No approval-grade external review record found for ${slug}. Create ${DEFAULT_REVIEW_NOTE_DIR}/${slug}.md with a non-pending decision and mark publication approved once review passes.`
+    reason: `No approval-grade external review record found for ${slug}. Prefer recording it in ${SONG_INGEST_REVIEW_LOG_PATH}; legacy markdown review notes under ${DEFAULT_REVIEW_NOTE_DIR}/${slug}.md are still accepted.`
   }
 }

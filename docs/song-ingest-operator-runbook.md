@@ -53,12 +53,20 @@ npm run ingest:song-candidate -- <input.xml|input.mxl> \
   --slug=<slug> \
   --title="Song Title" \
   --family=folk \
-  --lyric-policy=show-publicly \
-  --rank-base-url=http://127.0.0.1:3000
+  --lyric-policy=show-publicly
 ```
 
-This wrapper writes the standard draft/runtime/songdoc/report/sanity outputs and then tells the
-operator to run `doctor:song-ingest` plus the review-note scaffold.
+This wrapper is now the standard candidate path.
+
+It writes the standard draft/runtime/songdoc/report/sanity outputs and, by default:
+
+- resolves runtime BPM from manual override or source metadata before falling back
+- runs runtime fingering optimization automatically
+- writes a runtime audit marker into candidate runtime JSON
+
+Use `--tempo-bpm=<number>` when external verification establishes a better BPM than the source file.
+Only use `--skip-runtime-fingering-optimize=true` for bulk staging/debug work that is explicitly not
+ready for publish review yet.
 
 ### 1. Prepare draft
 
@@ -93,8 +101,7 @@ npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/draft
   --template=happy-birthday-to-you \
   --slug=<slug> \
   --title="Song Title" \
-  --auto-transpose=o12 \
-  --rank-base-url=http://127.0.0.1:3000
+  --auto-transpose=o12
 ```
 
 Expected artifact set:
@@ -127,13 +134,17 @@ Interpretation:
 
 ### 4. External verification is mandatory
 
-Generate the per-song review-note template:
+Preferred lightweight review record:
 
 ```bash
-npm run scaffold:song-ingest-review-note -- <slug>
+npm run record:song-ingest-review -- <slug> \
+  --status=verified \
+  --approve=true \
+  --refs=Wikipedia,MuseScore \
+  --summary="Opening title, melody, and source version verified."
 ```
 
-Fill `reference/song-publish-candidates/review-notes/<slug>.md` with:
+Record at least:
 
 - references checked
 - title / attribution result
@@ -156,6 +167,11 @@ Preferred references:
 - Wikipedia for identity / attribution
 - trusted traditional / hymn archives
 - MuseScore as secondary cross-check, not sole authority
+
+Legacy compatibility:
+
+- `reference/song-publish-candidates/review-notes/<slug>.md` is still accepted
+- but the central `reference/song-publish-candidates/review-log.json` ledger is now the preferred operator path
 
 ### 5. Local preview and manual QA
 
@@ -184,8 +200,13 @@ npm run promote:song-ingest-candidate -- <slug>
 ```
 
 This copies only the runtime/songdoc payloads into the public data layer.
-It now refuses by default when candidate report / source sanity / external review evidence are
-missing, unless the operator explicitly overrides with `--force=true`.
+It now refuses by default when any of these are missing:
+
+- candidate report
+- source sanity
+- approval-grade external review evidence
+- runtime fingering audit marker with `optimized` status
+- resolved `{bpm:...}` directive in runtime notation
 
 That gate exists to prevent "jumping straight into data/" with an incompletely reviewed candidate.
 
@@ -208,7 +229,23 @@ Before publication, ensure:
 
 ### 8. Final publish gate
 
-Run:
+Preferred final command:
+
+```bash
+npm run publish:song-ingest-candidate -- <slug>
+```
+
+This canonical publish entry now runs:
+
+- promote candidate runtime/songdoc
+- pack deployable runtime archive
+- `doctor:song-ingest`
+- `validate:content`
+- `validate:songbook`
+- `doctor:song`
+- `preflight:kuailepu-publish`
+
+Equivalent manual checks:
 
 ```bash
 npm run doctor:song-ingest -- <slug>
@@ -221,7 +258,7 @@ npm run preflight:kuailepu-publish -- <slug>
 Public publish is ready only when:
 
 - `doctor:song-ingest` is no longer `blocked` / `review-needed`
-- external review note exists
+- external review record exists
 - manifest entry exists
 - SEO profile exists
 - final validation passes
@@ -251,6 +288,7 @@ Even in batch mode, every song still needs:
 - per-song external review evidence
 - per-song `doctor:song-ingest` passable state
 - per-song publish metadata
+- per-song runtime fingering audit completion before promote
 
 ## Definition Of Done
 
@@ -262,7 +300,7 @@ A local-ingest song is ready for public release only when all are true:
 - candidate report exists
 - source sanity exists
 - HC consistency is not `warning`
-- external review note exists
+- external review record exists
 - SEO profile exists
 - manifest entry exists
 - aliases are filled when applicable
@@ -273,7 +311,7 @@ A local-ingest song is ready for public release only when all are true:
 - `doctor:song-ingest` says `blocked`
   - missing artifacts or generator inconsistency; fix generation first
 - lyrics look suspicious
-  - keep them visible in local candidate preview, record the suspicion in the review note, do not silently strip first
+  - keep them visible in local candidate preview, record the suspicion in the review ledger, do not silently strip first
 - source sanity says `review`
   - this is not auto-fail by itself; it means a human must explicitly clear the source/version risk
 - synthetic song skips live Kuailepu compare
@@ -282,14 +320,11 @@ A local-ingest song is ready for public release only when all are true:
 ## Current Canonical Commands
 
 ```bash
-npm run ingest:song-candidate -- <input.xml|input.mxl> --slug=<slug> --title="Song Title" --family=folk --lyric-policy=show-publicly --rank-base-url=http://127.0.0.1:3000
+npm run ingest:song-candidate -- <input.xml|input.mxl> --slug=<slug> --title="Song Title" --family=folk --lyric-policy=show-publicly
 npm run prepare:song-ingest -- <input.xml|input.mxl> --slug=<slug> --out=reference/song-publish-candidates/drafts/<slug>.json
-npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/drafts/<slug>.json --template=happy-birthday-to-you --slug=<slug> --auto-transpose=o12 --rank-base-url=http://127.0.0.1:3000
+npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/drafts/<slug>.json --template=happy-birthday-to-you --slug=<slug> --auto-transpose=o12
 npm run doctor:song-ingest -- <slug>
-npm run scaffold:song-ingest-review-note -- <slug>
+npm run record:song-ingest-review -- <slug> --status=verified --approve=true --refs=Wikipedia,MuseScore --summary="External review passed."
 npm run promote:song-ingest-candidate -- <slug>
-npm run validate:content
-npm run validate:songbook
-npm run doctor:song -- <slug>
-npm run preflight:kuailepu-publish -- <slug>
+npm run publish:song-ingest-candidate -- <slug>
 ```

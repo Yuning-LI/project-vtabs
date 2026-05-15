@@ -4,10 +4,14 @@ import { chromium } from 'playwright'
 import { parseKeynoteToMidi } from '../src/lib/songbook/songIngestDraft.ts'
 import { getKuailepuOcarinaReferencePriority } from '../src/lib/songbook/kuailepuIngest.ts'
 import {
-  resolveKuailepuRuntimeSongPath,
+  resolveKuailepuRuntimeMutationSourcePath,
   resolveKuailepuRuntimeWriteTargets
 } from '../src/lib/kuailepu/sourceFiles.ts'
 import type { KuailepuRuntimePayload } from '../src/lib/kuailepu/runtime.ts'
+import {
+  mergeSongIngestRuntimeMetadata,
+  SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION
+} from '../src/lib/songbook/songIngestRuntimeMetadata.ts'
 
 type CliOptions = {
   slugs: string[]
@@ -112,7 +116,7 @@ try {
   let hasSongErrors = false
 
   for (const slug of options.slugs) {
-    const filePath = resolveKuailepuRuntimeSongPath(slug)
+    const filePath = resolveKuailepuRuntimeMutationSourcePath(slug)
     const writeTargets = resolveKuailepuRuntimeWriteTargets(slug)
 
     try {
@@ -255,6 +259,18 @@ try {
       })
       payload.fingerings = buildFingeringsField(nextInstrumentFingerings)
       payload.fingering_index = 0
+
+      mergeSongIngestRuntimeMetadata(payload, {
+        runtimeFingeringAudit: {
+          status: 'optimized',
+          rulesVersion: SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION,
+          optimizedAt: new Date().toISOString(),
+          baseUrl: options.baseUrl,
+          instrumentCount: payload.instrumentFingerings.filter(
+            option => option.instrument !== 'none'
+          ).length
+        }
+      })
 
       if (!options.dryRun) {
         if (writeTargets.length < 1) {
