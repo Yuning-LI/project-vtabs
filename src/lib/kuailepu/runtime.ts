@@ -1045,15 +1045,13 @@ function localizeRuntimePayload(
           englishTitle.subtitle ??
           translateNonLatinText(payload.subtitle)
       ) ?? '',
-    music_composer:
-      normalizeLocalizedText(translateKuailepuPersonName(payload.music_composer)) ?? undefined,
-    lyric_composer:
-      normalizeLocalizedText(translateKuailepuPersonName(payload.lyric_composer)) ?? undefined,
-    composer: normalizeLocalizedText(translateKuailepuPersonName(payload.composer)) ?? undefined,
-    lyricist: normalizeLocalizedText(translateKuailepuPersonName(payload.lyricist)) ?? undefined,
-    arranger: normalizeLocalizedText(translateKuailepuPersonName(payload.arranger)) ?? undefined,
-    player: normalizeLocalizedText(translateKuailepuPersonName(payload.player)) ?? undefined,
-    author: normalizeLocalizedText(translateKuailepuPersonName(payload.author)) ?? undefined,
+    music_composer: normalizeRuntimePersonField(payload.music_composer),
+    lyric_composer: normalizeRuntimePersonField(payload.lyric_composer),
+    composer: normalizeRuntimePersonField(payload.composer),
+    lyricist: normalizeRuntimePersonField(payload.lyricist),
+    arranger: normalizeRuntimePersonField(payload.arranger),
+    player: normalizeRuntimePersonField(payload.player),
+    author: normalizeRuntimePersonField(payload.author),
     nickname: normalizeLocalizedText(translateKuailepuPersonName(payload.nickname)) ?? undefined
   }
 
@@ -1137,6 +1135,51 @@ function normalizeLocalizedText(value: string | null | undefined) {
   }
 
   return /[\u3400-\u9fff]/.test(text) && !/[A-Za-z]/.test(text) ? null : text
+}
+
+/**
+ * 快乐谱原始作者字段里经常混有“Traditional / folk song / spiritual”这类来源标签，
+ * 它们不是真正适合前台展示的作曲家姓名。
+ *
+ * 这里仅在英文公开 runtime 输出层隐藏这类泛化标签：
+ * - 不改原始 raw JSON
+ * - 也不影响实名作曲家、词作者等信息
+ */
+function normalizeRuntimePersonField(value: string | null | undefined) {
+  const text = normalizeLocalizedText(translateKuailepuPersonName(value))
+  if (!text) {
+    return undefined
+  }
+
+  return isGenericRuntimePersonLabel(text) ? undefined : text
+}
+
+function isGenericRuntimePersonLabel(value: string) {
+  const normalized = value
+    .toLowerCase()
+    .replace(/[()[\]{}"'.;,!?/_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  if (!normalized) {
+    return true
+  }
+
+  if (
+    normalized === 'traditional' ||
+    normalized === 'traditional english' ||
+    normalized === 'anonymous' ||
+    normalized === 'folk song' ||
+    normalized === 'spiritual'
+  ) {
+    return true
+  }
+
+  if (normalized.startsWith('traditional ')) {
+    return true
+  }
+
+  return /(?:folk song|nursery rhyme|spiritual)$/.test(normalized)
 }
 
 /**
