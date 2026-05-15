@@ -1,0 +1,36 @@
+{
+  "id": "the-holly-and-the-ivy",
+  "slug": "the-holly-and-the-ivy",
+  "title": "The Holly and the Ivy",
+  "description": "Traditional Christmas carol melody presented in a lyric-friendly letter-note layout for recorder, ocarina, and tin whistle practice.",
+  "published": true,
+  "alignedLyrics": [
+    "The hol ly and the i vy when they are both full grown of _",
+    "all the trees that are in the wood, the _ hol ly bears the crown. the",
+    "ris ing of the sun _ and the run ning of the deer The _",
+    "play ing of the mer ry or gan sweet sing ing in the choir"
+  ],
+  "source": {
+    "title": "The Holly and the Ivy public-domain carol references",
+    "url": "https://hymnary.org/text/the_holly_and_the_ivy_when_they_are",
+    "rights": "Reviewed against public-domain hymn and carol references before publication.",
+    "note": "Locally generated from MusicXML and externally rechecked against public references."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 56,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-15",
+    "note": "Refs: Wikipedia, Hymnary. Externally rechecked against Wikipedia and Hymnary; approved as the common The Holly and the Ivy carol melody."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "0 - - - 1 - | {cn:F} 1 1 1 - {cn:Bb/F} 6 - | {cn:F} 5 - 3 - - 1 | 1 1 1 - {cn:Bb/F} 6 - | {cn:F} 5 - - - {cn:C} 5 4",
+    "{cn:F} 3 2 1 - {cn:Bb} 4 4 | 6d 6d {cn:F} 5d - 1 2 | {cn:F/C} 3 4 3 - {cn:C7} 2 - | {cn:F} 1 - - - 0 1",
+    "{cn:F} 1 1 1 - {cn:Bb/F} 6 - | {cn:F} 5 - 3 - 1 1 | 1 1 1 - {cn:Bb/F} 6 - | {cn:F} 5 - - - {cn:C7} 5 4",
+    "{cn:F} 3 2 {cn:D} 1 - 3 - | {cn:Bb} 6d 6d {cn:F} 5d - 1 2 | {cn:F/C} 3 4 5 - {cn:C7} 4 - | {cn:F} 1 - - - 0 -"
+  ]
+}
