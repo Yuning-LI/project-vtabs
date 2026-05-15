@@ -448,6 +448,7 @@ const CHRISTMAS_OCARINA_SONG_SLUGS = new Set([
   'joy-to-the-world',
   'jolly-old-saint-nicholas',
   'god-rest-you-merry-gentlemen',
+  'good-king-wenceslas',
   'happy-new-year'
 ])
 
@@ -1617,7 +1618,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'After the shortest tunes, slower Christmas melodies often work better than faster ones because they teach breath timing, phrase shape, and steadier fingering transitions without feeling technical.'
         ],
-        songSlugs: ['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen']
+        songSlugs: ['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen', 'good-king-wenceslas']
       },
       {
         title: 'How To Use This Page During The Holiday Season',
@@ -1892,7 +1893,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the first holiday set feels settled, add one richer carol with longer phrases. That gives recorder players more breath-planning practice without forcing a different reading setup.'
         ],
-        songSlugs: withInstrument(['god-rest-you-merry-gentlemen', 'silent-night', 'joy-to-the-world'], 'r8b')
+        songSlugs: withInstrument(
+          ['god-rest-you-merry-gentlemen', 'good-king-wenceslas', 'silent-night', 'joy-to-the-world'],
+          'r8b'
+        )
       }
     ],
     faq: [
@@ -1960,7 +1964,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics when they help you hear phrase boundaries.',
           'Stay on one carol until the line feels stable, then add a second contrasting tune.'
         ],
-        songSlugs: withInstrument(['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen'], 'w6')
+        songSlugs: withInstrument(
+          ['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen', 'good-king-wenceslas'],
+          'w6'
+        )
       },
       {
         title: 'What To Add After The First Holiday Favorites',
@@ -2776,7 +2783,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'After the easiest carols feel comfortable, move into songs with a more lyrical or minor-mode shape. These pages are still approachable, but they ask for steadier breath and cleaner phrase control.'
         ],
-        songSlugs: ['god-rest-you-merry-gentlemen', 'silent-night', 'auld-lang-syne']
+        songSlugs: ['god-rest-you-merry-gentlemen', 'good-king-wenceslas', 'silent-night', 'auld-lang-syne']
       }
     ],
     faq: [

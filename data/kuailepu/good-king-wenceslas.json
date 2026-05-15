@@ -1,0 +1,44 @@
+{
+  "id": "good-king-wenceslas",
+  "slug": "good-king-wenceslas",
+  "title": "Good King Wenceslas",
+  "description": "Traditional Christmas carol melody presented in a lyric-friendly letter-note layout for recorder, ocarina, and tin whistle practice.",
+  "published": true,
+  "alignedLyrics": [
+    "Good King Wen ces las looked out on the feast of Ste phen",
+    "when the snow lay round a bout deep and crisp and e ven",
+    "bright ly shone the moon that night though the frost was cru el",
+    "when a poor man came in sight gath ring win ter fu _ el",
+    "hith er page and stand by me if thou know'st it, tell ing yon der peas ant",
+    "who is he? where and what his dwell ing? Sire he lives a",
+    "good league hence, un der neath the moun tain right a gainst the",
+    "for est fence by Saint Ag nes foun _ tain."
+  ],
+  "source": {
+    "title": "Good King Wenceslas public-domain carol references",
+    "url": "https://hymnary.org/text/good_king_wenceslas_looked_out",
+    "rights": "Reviewed against public-domain hymn and carol references before publication.",
+    "note": "Locally generated from MusicXML and externally rechecked against public references."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-14",
+    "note": "Externally rechecked against Hymnary and other public references; approved as the common Good King Wenceslas carol melody."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 1 1 1 {cn:C7} 2 | {cn:F} 1 1 5d - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 -",
+    "1 1 1 {cn:C7} 2 | {cn:F} 1 1 5d - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 -",
+    "5 4 3 2 | 3 2 1 - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 -",
+    "5d 5d {cn:C7} 6d 7d | {cn:F} 1 1 {cn:C7} 2 - | {cn:F} 5 4 {cn:C7} 3 2 | {cn:F} 1 - {cn:Bb} 4 - | {cn:F} 1 - - -",
+    "1 1 1 {cn:C7} 2 | {cn:F} 1 1 5d - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 - | 1 1 1 {cn:C7} 2",
+    "{cn:F} 1 1 5d - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 - | 5 4 3 2",
+    "3 2 1 - | {cn:Bb} 6d 5d {cn:C7} 6d 7d | {cn:F} 1 - 1 - | 5d 5d {cn:C7} 6d 7d",
+    "{cn:F} 1 1 {cn:C7} 2 - | {cn:F} 5 4 {cn:C7} 3 2 | {cn:F} 1 - {cn:Bb} 4 - | {cn:F} 1 - - -"
+  ]
+}

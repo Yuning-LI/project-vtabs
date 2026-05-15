@@ -1377,5 +1377,12 @@
     "family": "media",
     "featuredRank": 198,
     "published": true
+  },
+  {
+    "id": "good-king-wenceslas",
+    "slug": "good-king-wenceslas",
+    "family": "holiday",
+    "featuredRank": 199,
+    "published": true
   }
 ]

@@ -3598,7 +3598,7 @@ function buildRuntimeBridgeScript(
     //
     // 当前产品判断：
     // - 保留：歌词、指法图、段落/小节/重复等结构信息
-    // - 隐藏：简谱八度点、附点、简谱升降号独立字形、简谱换气 V、部分短时值线
+    // - 隐藏：原始数字音符字形、简谱八度点、附点、简谱升降号独立字形、简谱换气 V、部分短时值线
     //
     // 不要把这个函数扩张成“删除所有非字母元素”。
     // 站点当前最重要的是保留快乐谱原排版骨架，只去掉对 western 用户阅读帮助不大的简谱专属痕迹。
@@ -3607,6 +3607,8 @@ function buildRuntimeBridgeScript(
       .forEach(function (node) {
         var href = getUseHref(node);
         if (
+          /^#note_serif_[0-7](?:_s)?$/.test(href) ||
+          /^#yiyin_yinfu_[0-7]$/.test(href) ||
           href === '#yingao_gao' ||
           href === '#yingao_di' ||
           href === '#yiyin_yingao_gao' ||
@@ -3634,7 +3636,7 @@ function buildRuntimeBridgeScript(
         var y2 = Number(node.getAttribute('y2') || 0);
         var strokeWidth = Number(node.getAttribute('stroke-width') || 0);
 
-        if (strokeWidth === 2 && Math.abs(y1 - y2) < 0.2 && Math.abs(x2 - x1) < 220) {
+        if (strokeWidth === 2 && Math.abs(y1 - y2) < 0.2) {
           node.setAttribute('data-vtabs-letter-hidden', '1');
           node.style.opacity = '0';
         }

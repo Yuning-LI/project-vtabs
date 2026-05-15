@@ -23,6 +23,32 @@ export function resolveKuailepuRuntimeSongPath(songId: string) {
   ])
 }
 
+/**
+ * Runtime payload write targets are not identical to read fallback order.
+ *
+ * For maintenance scripts that mutate `instrumentFingerings` or other runtime-facing fields:
+ *
+ * - prefer the deployable public runtime JSON when it exists
+ * - also keep the local candidate runtime in sync when it exists
+ * - only fall back to `reference/songs` when neither public nor candidate runtime exists
+ *
+ * This avoids a broken state where a post-generation optimizer rewrites only the old
+ * `reference/songs` fallback while the later publish/promote path still copies an unoptimized
+ * candidate runtime into `data/kuailepu-runtime`.
+ */
+export function resolveKuailepuRuntimeWriteTargets(songId: string) {
+  const publicRuntimePath = path.join(trackedRuntimeSongsDir, `${songId}.json`)
+  const candidateRuntimePath = path.join(localCandidateRuntimeSongsDir, `${songId}.json`)
+  const referenceRuntimePath = path.join(localReferenceSongsDir, `${songId}.json`)
+
+  const targets = [publicRuntimePath, candidateRuntimePath].filter(candidate => fs.existsSync(candidate))
+  if (targets.length > 0) {
+    return targets
+  }
+
+  return fs.existsSync(referenceRuntimePath) ? [referenceRuntimePath] : []
+}
+
 export function resolvePackedKuailepuRuntimeSongPath(songId: string) {
   return resolveFirstExistingPath([
     path.join(packedRuntimeSongsDir, `${songId}.json.gz`)

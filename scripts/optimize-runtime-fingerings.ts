@@ -3,7 +3,10 @@ import path from 'node:path'
 import { chromium } from 'playwright'
 import { parseKeynoteToMidi } from '../src/lib/songbook/songIngestDraft.ts'
 import { getKuailepuOcarinaReferencePriority } from '../src/lib/songbook/kuailepuIngest.ts'
-import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
+import {
+  resolveKuailepuRuntimeSongPath,
+  resolveKuailepuRuntimeWriteTargets
+} from '../src/lib/kuailepu/sourceFiles.ts'
 import type { KuailepuRuntimePayload } from '../src/lib/kuailepu/runtime.ts'
 
 type CliOptions = {
@@ -110,6 +113,7 @@ try {
 
   for (const slug of options.slugs) {
     const filePath = resolveKuailepuRuntimeSongPath(slug)
+    const writeTargets = resolveKuailepuRuntimeWriteTargets(slug)
 
     try {
       if (!filePath) {
@@ -253,12 +257,20 @@ try {
       payload.fingering_index = 0
 
       if (!options.dryRun) {
-        fs.writeFileSync(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
+        if (writeTargets.length < 1) {
+          throw new Error(`No writable runtime target found for ${slug}.`)
+        }
+
+        for (const targetPath of writeTargets) {
+          fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+          fs.writeFileSync(targetPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8')
+        }
       }
 
       reports.push({
         slug,
         file: path.relative(process.cwd(), filePath),
+        writtenFiles: writeTargets.map(targetPath => path.relative(process.cwd(), targetPath)),
         dryRun: options.dryRun,
         instruments: perInstrumentReports
       })
