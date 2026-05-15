@@ -23,6 +23,7 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Production-packed runtime JSON: `data/kuailepu-runtime-packed/<slug>.json.gz`.
 - Compact public song docs: `data/kuailepu/<slug>.json`.
 - Local fallback only: `reference/songs/<slug>.json`.
+- Local-only unpublished Kuailepu candidates: `reference/kuailepu-candidates/**`.
 - Runtime archive: `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Public runtime assets: `public/k-static/**`.
 - Public playback soundfonts: `public/static/soundfont/**`.
@@ -58,6 +59,7 @@ Execution rule for Kuailepu-backed songs:
 - New import: always run `doctor:song` and `preflight:kuailepu-publish` for that song.
 - Batch of several songs: run `validate:content`, `validate:songbook`, and `build` once after the batch, not after every single song.
 - Content-only follow-up edits after a passing compare may skip another live compare if `data/kuailepu-runtime/<slug>.json`, `data/kuailepu/<slug>.json`, and runtime behavior did not change afterward.
+- Do not leave unpublished Kuailepu candidate JSON under `data/kuailepu/**` or `data/kuailepu-runtime/**`; keep that material in `reference/kuailepu-candidates/**` until publish approval.
 
 If login fails, stop and ask:
 

@@ -736,8 +736,7 @@ function normalizeLyricSlot(value: string | null) {
       ?.replace(/\s+/g, ' ')
       .trim()
       .replace(/^\d+(?:[.)_-]{2,}|[.]{2,})(?=[A-Za-z])/, '')
-      .replace(/^["“”]+/, '')
-      .replace(/["“”]+$/, '') ?? ''
+      .replace(/["“”]+/g, '') ?? ''
   return normalized.length > 0 ? normalized : '_'
 }
 

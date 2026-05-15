@@ -114,6 +114,21 @@ Generated local fallback:
 
 `reference/` is local/debug material and may be gitignored.
 
+Unpublished Kuailepu candidates:
+
+- do not park unpublished candidate SongDocs under `data/kuailepu/`
+- do not park unpublished candidate runtime JSON under `data/kuailepu-runtime/`
+- keep local-only Kuailepu candidate material under `reference/kuailepu-candidates/**`
+- current local convention:
+  - candidate songdocs: `reference/kuailepu-candidates/songdocs/<slug>.json`
+  - candidate runtime payloads when needed: `reference/kuailepu-candidates/runtime/<slug>.json`
+  - local priority / operating queues: `reference/kuailepu-candidates/queues/**`
+
+Reason:
+
+- `data/kuailepu/**` and `data/kuailepu-runtime/**` are production-facing public asset directories
+- unpublished candidates in those directories create dirty-worktree noise and make it easier to accidentally treat local drafts as release assets
+
 ## Public English Layer
 
 Public-facing English fields belong in:
