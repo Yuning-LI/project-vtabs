@@ -802,6 +802,26 @@
       "addedOn": "2026-05-14",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OHSsf1Glg.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "cant-help-falling-in-love",
+      "title": "Can't Help Falling in Love",
+      "status": "validated-local",
+      "batch": "27",
+      "group": "song",
+      "addedOn": "2026-05-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/1wCdk1qxw.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "a-thousand-years",
+      "title": "A Thousand Years",
+      "status": "validated-local",
+      "batch": "27",
+      "group": "song",
+      "addedOn": "2026-05-15",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/t4I9l1ZAj.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

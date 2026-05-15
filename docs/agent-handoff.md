@@ -53,6 +53,12 @@ npm run doctor:song -- <slug>
 npm run preflight:kuailepu-publish -- <slug...>
 ```
 
+Execution rule for Kuailepu-backed songs:
+
+- New import: always run `doctor:song` and `preflight:kuailepu-publish` for that song.
+- Batch of several songs: run `validate:content`, `validate:songbook`, and `build` once after the batch, not after every single song.
+- Content-only follow-up edits after a passing compare may skip another live compare if `data/kuailepu-runtime/<slug>.json`, `data/kuailepu/<slug>.json`, and runtime behavior did not change afterward.
+
 If login fails, stop and ask:
 
 ```bash
@@ -88,6 +94,7 @@ Playbook:
 - Keep playback / metronome integration as shell-to-runtime bridges instead of forking the archived renderer.
 - Prefer runtime asset profile changes over deleting bundled old assets.
 - Do not run `npm run build` and `npm run test:e2e` concurrently in the same workspace; both touch `.next` and can create false failures.
+- Kuailepu live compare should minimize repeated detail-page reloads; prefer direct detail URLs and grouped per-song checks over repeated site search.
 
 ## Current Known Limitation
 

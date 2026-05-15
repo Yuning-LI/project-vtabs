@@ -26,6 +26,72 @@ Grey-song work is content-layer work. It must not change:
 
 If an approved song fails at search, import, identity check, compare, or preflight, report the exact failure and wait for replacement approval.
 
+## Execution Tiers
+
+Use the lightest tier that still protects parity and release quality.
+
+### Tier A: Per-song minimum gate
+
+Use this for each newly imported Kuailepu song before it is treated as release-ready.
+
+Required:
+
+```bash
+npm run import:kuailepu -- <kuailepu-url> --slug=<slug> --title="<English Title>" --publish
+npm run doctor:song -- <slug>
+npm run preflight:kuailepu-publish -- <slug>
+```
+
+Meaning:
+
+- import raw runtime JSON and compact SongDoc
+- confirm manifest/runtime/songdoc assumptions are coherent
+- run the live Kuailepu parity gate in `number` mode
+
+Do not skip Tier A for a newly imported Kuailepu-backed song.
+
+### Tier B: Batch content validation
+
+Use this after finishing several songs in one editing batch.
+
+Required once per batch, not once per song:
+
+```bash
+npm run validate:content
+npm run validate:songbook
+npm run build
+```
+
+Meaning:
+
+- check manifest / SEO / learn content integrity
+- verify the site still builds after all publication-layer edits
+
+This is the main place to save time. Do not rerun these after every single song unless the batch is only one song.
+
+### Tier C: Content-only follow-up edits after a passing compare
+
+If a song already passed `preflight:kuailepu-publish` in the current work cycle, and the runtime payload did not change afterward, a second live compare is usually unnecessary.
+
+Typical safe-to-skip cases:
+
+- only `data/songbook/song-seo-profiles.json` changed
+- only `src/lib/learn/content.ts` changed
+- only `data/songbook/public-song-manifest.json` changed
+- only `data/songbook/grey-song-rollout.json` changed
+
+Do not skip live compare if any of these changed after the last passing compare:
+
+- `data/kuailepu-runtime/<slug>.json`
+- `data/kuailepu/<slug>.json`
+- runtime rendering code
+- instrument pruning / fingering / note-mode behavior
+
+Rule of thumb:
+
+- runtime changed: rerun `doctor:song` and `preflight:kuailepu-publish`
+- content only changed: rerun batch validation, skip extra live compare if one already passed for the same runtime payload
+
 ## Import Command
 
 Typical command:
@@ -98,3 +164,10 @@ npm run build
 ```
 
 Publish readiness requires content validation, acceptable doctor output, and number-mode preflight compare passing.
+
+## Network / Footprint Notes
+
+- Prefer importing from a known Kuailepu detail URL instead of repeating on-site search.
+- Keep a local catalog of approved song names and detail URLs when possible.
+- Batch local content work, then do compare close to publish time.
+- Current compare tooling reuses one live detail-page visit per song and switches instrument state inside the same page, which reduces repeated detail-page reloads during parity checks.

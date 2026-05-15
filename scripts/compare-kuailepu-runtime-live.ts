@@ -47,6 +47,18 @@ type CompareResult = {
   state?: CompareState
 }
 
+type CompareTarget = {
+  slug: string
+  title: string
+  songUuid: string
+  instrumentId: PublicSongInstrumentId
+  runtimeDefaultInstrumentId: string | null
+  runtimeDefaultShowGraph: string | null
+  runtimeControlPayload: {
+    instrumentFingerings?: Array<{ instrument?: string | null }>
+  }
+}
+
 const baseUrl = process.argv[2] ?? 'http://127.0.0.1:3000'
 const requestedSlugs = process.argv.slice(3)
 
@@ -76,7 +88,7 @@ if (candidates.length < 1) {
   process.exit(1)
 }
 
-const compareTargets = candidates.flatMap(song => {
+const compareTargets: CompareTarget[] = candidates.flatMap(song => {
   const filePath = resolveKuailepuRuntimeSongPath(song.slug)
   if (!filePath) {
     return []
@@ -102,6 +114,8 @@ const compareTargets = candidates.flatMap(song => {
     }
   }))
 })
+
+const compareTargetGroups = groupCompareTargetsBySong(compareTargets)
 
 const context = await launchKuailepuPersistentContext({ headless: true })
 const localBrowser = await chromium.launch({ headless: true })
@@ -136,56 +150,64 @@ try {
   })
   const compareResults: CompareResult[] = []
 
-  for (const target of compareTargets) {
-    /**
-     * compare 时强制把本地 runtime 切回 `note_label_mode=number`。
-     *
-     * 这是当前发布流程里的硬规则：
-     * - parity 校验比对的是“快乐谱原谱真相”
-     * - 字母谱属于我们自己的显示层变换
-     * - 所以发布 gate 必须回到原始 number 视图
-     */
-    const localUrl = buildLocalCompareUrl(baseUrl, target)
-    const liveUrl = `https://www.kuaiyuepu.com/jianpu/${target.songUuid}.html`
+  for (const group of compareTargetGroups) {
+    const liveUrl = `https://www.kuaiyuepu.com/jianpu/${group.songUuid}.html`
+    let livePrepared = false
 
-    try {
-      const localCapture = await captureLocalRuntime(localPage, localUrl)
-      const liveCapture = await captureLiveRuntime(livePage, liveUrl, localCapture.state)
-      const normalizedMatch = localCapture.normalizedHash === liveCapture.normalizedHash
-      const firstDiffIndex = findFirstDiffIndex(localCapture.rawSvg, liveCapture.rawSvg)
-      const localDiffSnippet = buildDiffSnippet(localCapture.rawSvg, firstDiffIndex)
-      const liveDiffSnippet = buildDiffSnippet(liveCapture.rawSvg, firstDiffIndex)
+    for (const target of group.targets) {
+      /**
+       * compare 时强制把本地 runtime 切回 `note_label_mode=number`。
+       *
+       * 这是当前发布流程里的硬规则：
+       * - parity 校验比对的是“快乐谱原谱真相”
+       * - 字母谱属于我们自己的显示层变换
+       * - 所以发布 gate 必须回到原始 number 视图
+       */
+      const localUrl = buildLocalCompareUrl(baseUrl, target)
 
-      compareResults.push({
-        slug: target.slug,
-        title: target.title,
-        songUuid: target.songUuid,
-        instrumentId: target.instrumentId,
-        liveUrl,
-        localUrl,
-        ok: normalizedMatch,
-        reason: normalizedMatch ? undefined : 'svg hash mismatch',
-        localHash: localCapture.hash,
-        liveHash: liveCapture.hash,
-        localNormalizedHash: localCapture.normalizedHash,
-        liveNormalizedHash: liveCapture.normalizedHash,
-        normalizedMatch,
-        firstDiffIndex: normalizedMatch ? undefined : firstDiffIndex,
-        localDiffSnippet: normalizedMatch ? undefined : localDiffSnippet ?? undefined,
-        liveDiffSnippet: normalizedMatch ? undefined : liveDiffSnippet ?? undefined,
-        state: localCapture.state
-      })
-    } catch (error) {
-      compareResults.push({
-        slug: target.slug,
-        title: target.title,
-        songUuid: target.songUuid,
-        instrumentId: target.instrumentId,
-        liveUrl,
-        localUrl,
-        ok: false,
-        reason: error instanceof Error ? error.message : String(error)
-      })
+      try {
+        const localCapture = await captureLocalRuntime(localPage, localUrl)
+        if (!livePrepared) {
+          await prepareLiveRuntimePage(livePage, liveUrl)
+          livePrepared = true
+        }
+        const liveCapture = await captureLiveRuntimeFromPreparedPage(livePage, localCapture.state)
+        const normalizedMatch = localCapture.normalizedHash === liveCapture.normalizedHash
+        const firstDiffIndex = findFirstDiffIndex(localCapture.rawSvg, liveCapture.rawSvg)
+        const localDiffSnippet = buildDiffSnippet(localCapture.rawSvg, firstDiffIndex)
+        const liveDiffSnippet = buildDiffSnippet(liveCapture.rawSvg, firstDiffIndex)
+
+        compareResults.push({
+          slug: target.slug,
+          title: target.title,
+          songUuid: target.songUuid,
+          instrumentId: target.instrumentId,
+          liveUrl,
+          localUrl,
+          ok: normalizedMatch,
+          reason: normalizedMatch ? undefined : 'svg hash mismatch',
+          localHash: localCapture.hash,
+          liveHash: liveCapture.hash,
+          localNormalizedHash: localCapture.normalizedHash,
+          liveNormalizedHash: liveCapture.normalizedHash,
+          normalizedMatch,
+          firstDiffIndex: normalizedMatch ? undefined : firstDiffIndex,
+          localDiffSnippet: normalizedMatch ? undefined : localDiffSnippet ?? undefined,
+          liveDiffSnippet: normalizedMatch ? undefined : liveDiffSnippet ?? undefined,
+          state: localCapture.state
+        })
+      } catch (error) {
+        compareResults.push({
+          slug: target.slug,
+          title: target.title,
+          songUuid: target.songUuid,
+          instrumentId: target.instrumentId,
+          liveUrl,
+          localUrl,
+          ok: false,
+          reason: error instanceof Error ? error.message : String(error)
+        })
+      }
     }
   }
 
@@ -220,7 +242,14 @@ async function captureLocalRuntime(page: Page, url: string) {
 
   const payload = await page.evaluate(() => {
     const svg = document.querySelector<SVGSVGElement>('svg.sheet-svg')
-    const context = globalThis.Kit?.context?.getContext?.() ?? null
+    const pageGlobals = globalThis as typeof globalThis & {
+      Kit?: {
+        context?: {
+          getContext?: () => unknown
+        }
+      }
+    }
+    const context = pageGlobals.Kit?.context?.getContext?.() ?? null
     const getValue = (selector: string) =>
       document.querySelector<HTMLSelectElement>(selector)?.value ?? null
 
@@ -283,12 +312,15 @@ async function captureLocalRuntime(page: Page, url: string) {
   }
 }
 
-async function captureLiveRuntime(page: Page, url: string, state: CompareState) {
+async function prepareLiveRuntimePage(page: Page, url: string) {
   await page.setViewportSize({ width: 1280, height: 1600 })
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 })
   await page.waitForTimeout(800)
   await dismissKuailepuLoginOverlay(page)
   await page.waitForSelector('svg.sheet-svg', { timeout: 30000 })
+}
+
+async function captureLiveRuntimeFromPreparedPage(page: Page, state: CompareState) {
   await applyContextState(page, state)
 
   const svgHtml = await page
@@ -306,11 +338,50 @@ async function captureLiveRuntime(page: Page, url: string, state: CompareState) 
   }
 }
 
+function groupCompareTargetsBySong(targets: CompareTarget[]) {
+  const groups = new Map<
+    string,
+    {
+      slug: string
+      title: string
+      songUuid: string
+      targets: CompareTarget[]
+    }
+  >()
+
+  targets.forEach(target => {
+    const existing = groups.get(target.slug)
+    if (existing) {
+      existing.targets.push(target)
+      return
+    }
+
+    groups.set(target.slug, {
+      slug: target.slug,
+      title: target.title,
+      songUuid: target.songUuid,
+      targets: [target]
+    })
+  })
+
+  return Array.from(groups.values())
+}
+
 async function applyContextState(page: Page, state: CompareState) {
   await page
     .evaluate(
       state => {
-        const ctx = globalThis.Kit?.context?.getContext?.()
+        const pageGlobals = globalThis as typeof globalThis & {
+          Kit?: {
+            context?: {
+              getContext?: () => unknown
+            }
+          }
+          Song?: {
+            draw?: () => void
+          }
+        }
+        const ctx = pageGlobals.Kit?.context?.getContext?.()
         if (!ctx) {
           return
         }
@@ -356,8 +427,8 @@ async function applyContextState(page: Page, state: CompareState) {
           select.value = targetValue
           select.dispatchEvent(new Event('change', { bubbles: true }))
         })
-        if (globalThis.Song && typeof globalThis.Song.draw === 'function') {
-          globalThis.Song.draw()
+        if (pageGlobals.Song && typeof pageGlobals.Song.draw === 'function') {
+          pageGlobals.Song.draw()
         }
       },
       state
