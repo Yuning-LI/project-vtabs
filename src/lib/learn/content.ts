@@ -1602,7 +1602,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'silent-night',
       'we-wish-you-a-merry-christmas',
       'jolly-old-saint-nicholas',
-      'joy-to-the-world'
+      'joy-to-the-world',
+      'hark-the-herald-angels-sing'
     ],
     sections: [
       {
@@ -1622,7 +1623,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'After the shortest tunes, slower Christmas melodies often work better than faster ones because they teach breath timing, phrase shape, and steadier fingering transitions without feeling technical.'
         ],
-        songSlugs: ['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen', 'good-king-wenceslas']
+        songSlugs: [
+          'silent-night',
+          'joy-to-the-world',
+          'god-rest-you-merry-gentlemen',
+          'good-king-wenceslas',
+          'hark-the-herald-angels-sing'
+        ]
       },
       {
         title: 'How To Use This Page During The Holiday Season',
@@ -1862,6 +1869,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         'deck-the-halls',
         'joy-to-the-world',
         'god-rest-you-merry-gentlemen',
+        'hark-the-herald-angels-sing',
         'jolly-old-saint-nicholas',
         'happy-new-year',
         'auld-lang-syne',
@@ -1898,7 +1906,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Once the first holiday set feels settled, add one richer carol with longer phrases. That gives recorder players more breath-planning practice without forcing a different reading setup.'
         ],
         songSlugs: withInstrument(
-          ['god-rest-you-merry-gentlemen', 'good-king-wenceslas', 'silent-night', 'joy-to-the-world'],
+          [
+            'god-rest-you-merry-gentlemen',
+            'good-king-wenceslas',
+            'silent-night',
+            'joy-to-the-world',
+            'hark-the-herald-angels-sing'
+          ],
           'r8b'
         )
       }
@@ -1939,6 +1953,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         'deck-the-halls',
         'we-wish-you-a-merry-christmas',
         'joy-to-the-world',
+        'hark-the-herald-angels-sing',
         'god-rest-you-merry-gentlemen',
         'jolly-old-saint-nicholas',
         'happy-new-year',
@@ -1969,7 +1984,13 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Stay on one carol until the line feels stable, then add a second contrasting tune.'
         ],
         songSlugs: withInstrument(
-          ['silent-night', 'joy-to-the-world', 'god-rest-you-merry-gentlemen', 'good-king-wenceslas'],
+          [
+            'silent-night',
+            'joy-to-the-world',
+            'god-rest-you-merry-gentlemen',
+            'good-king-wenceslas',
+            'hark-the-herald-angels-sing'
+          ],
           'w6'
         )
       },
@@ -2759,7 +2780,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'we-wish-you-a-merry-christmas',
       'deck-the-halls',
       'god-rest-you-merry-gentlemen',
-      'joy-to-the-world'
+      'joy-to-the-world',
+      'hark-the-herald-angels-sing'
     ],
     sections: [
       {
@@ -2786,14 +2808,25 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Stay on the fingering chart for the first few passes, especially on unfamiliar instruments.',
           'Use zoom before switching away from the default letter-note view.'
         ],
-        songSlugs: ['silent-night', 'jingle-bells', 'we-wish-you-a-merry-christmas']
+        songSlugs: [
+          'silent-night',
+          'jingle-bells',
+          'we-wish-you-a-merry-christmas',
+          'hark-the-herald-angels-sing'
+        ]
       },
       {
         title: 'Longer Or Richer Carols To Add Next',
         paragraphs: [
           'After the easiest carols feel comfortable, move into songs with a more lyrical or minor-mode shape. These pages are still approachable, but they ask for steadier breath and cleaner phrase control.'
         ],
-        songSlugs: ['god-rest-you-merry-gentlemen', 'good-king-wenceslas', 'silent-night', 'auld-lang-syne']
+        songSlugs: [
+          'god-rest-you-merry-gentlemen',
+          'good-king-wenceslas',
+          'silent-night',
+          'auld-lang-syne',
+          'hark-the-herald-angels-sing'
+        ]
       }
     ],
     faq: [

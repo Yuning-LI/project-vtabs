@@ -1398,5 +1398,12 @@
     "family": "song",
     "featuredRank": 201,
     "published": true
+  },
+  {
+    "id": "hark-the-herald-angels-sing",
+    "slug": "hark-the-herald-angels-sing",
+    "family": "holiday",
+    "featuredRank": 202,
+    "published": true
   }
 ]

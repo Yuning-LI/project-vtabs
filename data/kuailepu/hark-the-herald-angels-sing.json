@@ -1,0 +1,38 @@
+{
+  "id": "hark-the-herald-angels-sing",
+  "slug": "hark-the-herald-angels-sing",
+  "title": "Hark the Herald Angels Sing",
+  "description": "Traditional Christmas carol melody presented in a lyric-friendly letter-note layout for recorder, ocarina, and tin whistle practice.",
+  "published": true,
+  "alignedLyrics": [
+    "Hark the her ald an gels sing _ Glo ry to the new born king!",
+    "peace on earth and mer cy mild _ God and sin ners re con ciled",
+    "Joy ful all ye na tions rise _ Join the tri umph of the skies _",
+    "With an gel ic host pro claim _ Christ is born in Beth le hem",
+    "Hark the Her ald an gels sing Glo ry _ to the new born King!"
+  ],
+  "source": {
+    "title": "Hark! The Herald Angels Sing public-domain hymn references",
+    "url": "https://hymnary.org/text/hark_how_the_welkin_rings_glory_to_the",
+    "rights": "Reviewed against public-domain hymn references before publication.",
+    "note": "Locally generated from MusicXML and externally rechecked against public references."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-15",
+    "note": "Externally rechecked against Wikipedia, Wikisource, and Hymnary; approved as the common Hark! The Herald Angels Sing carol melody."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "{cn:G} 5d - 1 - 1 - - {cn:D} 7d | {cn:G} 1 - 3 - 3 - {cn:D} 2 - | {cn:G} 5 - {cn:B} 5 - {cn:C} 5 - - 4 | {cn:G} 3 - {cn:D} 2 - {cn:G} 3 - - -",
+    "{cn:G} 5d - 1 - 1 - - {cn:D} 7d | {cn:E} 1 - {cn:G} 3 - {cn:A7} 3 - 2 - | {cn:B} 5 - {cn:A7} 2 - {cn:D} 2 - - 7d | {cn:G} 7d - {cn:A7} 6d - {cn:D} 5d - - -",
+    "{cn:G} 5 - {cn:D7} 5 - {cn:G} 5 - 1 - | {cn:D7} 4 - {cn:G} 3 - 3 - {cn:D} 2 - | {cn:G} 5 - {cn:D7} 5 - {cn:G} 5 - 1 - | {cn:D7} 4 - {cn:G} 3 - 3 - {cn:D} 2 -",
+    "{cn:C} 6 - 6 - {cn:E7} 6 - 5 - | {cn:A} 4 - {cn:E7} 3 - {cn:A} 4 - - - | {cn:D7} 2 - 3 4 {cn:G} 5 - - 1 | 1 - {cn:D} 2 - {cn:G} 3 - - -",
+    "{cn:C} 6 - - 6 {cn:E7} 6 - 5 - | {cn:A} 4 - {cn:E7} 3 - {cn:A} 4 - - - | {cn:D7} 2 - 3 4 {cn:G} 5 - - 1 | 1 - {cn:D} 2 - {cn:G} 1 - - -"
+  ]
+}
