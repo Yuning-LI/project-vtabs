@@ -320,6 +320,43 @@ export default function KuailepuRuntimeFrame({
       }
     }
 
+    function hideRuntimeTempoLabel() {
+      try {
+        const currentFrame = frameRef.current
+        const doc = currentFrame?.contentDocument
+        const svg = doc?.querySelector('#sheet svg, #sheet .sheet-svg')
+        if (!svg) {
+          return
+        }
+
+        Array.from(svg.querySelectorAll('text')).forEach(node => {
+          if (node.tagName.toLowerCase() !== 'text') {
+            return
+          }
+          if (node.hasAttribute('data-vtabs-letter-track')) {
+            return
+          }
+
+          const text = (node.textContent ?? '').trim()
+          if (!/^\d+$/.test(text)) {
+            return
+          }
+
+          const x = Number.parseFloat(node.getAttribute('x') ?? 'NaN')
+          const y = Number.parseFloat(node.getAttribute('y') ?? 'NaN')
+          if (!Number.isFinite(x) || !Number.isFinite(y)) {
+            return
+          }
+
+          if (x <= 140 && y <= 220) {
+            hideRuntimeTextElement(node)
+          }
+        })
+      } catch {
+        return
+      }
+    }
+
     function applyFrameHeight(height: number | null) {
       const currentFrame = frameRef.current
       if (!Number.isFinite(height) || !height || height <= 200) {
@@ -362,6 +399,7 @@ export default function KuailepuRuntimeFrame({
     }
 
     function syncFrameHeight() {
+      hideRuntimeTempoLabel()
       applyRuntimeTextHides()
       applyRuntimeMaskRects()
       hideLoadingIfRuntimeContentReady()
