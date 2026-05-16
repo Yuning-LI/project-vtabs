@@ -1426,5 +1426,12 @@
     "family": "song",
     "featuredRank": 205,
     "published": true
+  },
+  {
+    "id": "joshua-fit-the-battle-of-jericho",
+    "slug": "joshua-fit-the-battle-of-jericho",
+    "family": "hymn",
+    "featuredRank": 206,
+    "published": true
   }
 ]

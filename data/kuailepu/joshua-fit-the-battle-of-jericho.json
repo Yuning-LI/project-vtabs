@@ -1,0 +1,42 @@
+{
+  "id": "joshua-fit-the-battle-of-jericho",
+  "slug": "joshua-fit-the-battle-of-jericho",
+  "title": "Joshua Fit The Battle Of Jericho",
+  "description": "A familiar spiritual melody arranged for the runtime-backed letter-note and fingering chart song page.",
+  "published": true,
+  "alignedLyrics": [
+    "Jo shu a fit the bat tle of Jer i cho, Jer i cho, Jer i cho, _ Lord, _",
+    "Jo shu a fit the bat tle of Jer i cho, And the walls came tumb lin' down. You may",
+    "talk a bout your king of Gid e on, you may talk a bout your men of",
+    "Saul, But there's none like good old Jo shu a, At the",
+    "bat tle of Jer i cho. Jo shu a fit the bat tle of Jer i cho,",
+    "Jer i cho, Jer i cho, _ Lord, _ Jo shu a fit the bat tle of",
+    "Jer i cho, And the walls came tumb lin' down. _ _"
+  ],
+  "source": {
+    "title": "MusicXML source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 88,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-16",
+    "note": "Imported through the MusicXML ingest pipeline and checked against Wikipedia plus common public references before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:D} 6d - b6d - 6d - 7d - 1 - 7d - 1 - 2 - | 3 - 1 - - - 3 - - - - - 0 - - - | {cn:A7} 2 - 7d - - - 2 - - - - - 0 - - - | {cn:D} 3 - 1 - - - 3 - - - 2 - 1 - 7d -",
+    "6d - b6d - 6d - 7d - 1 - 7d - 1 - 2 - | 3 - 1 - - - 3 - - - - - 1 - 2 - | {cn:A7} 3 - - - 2 - - - 1 - - - 7d - - - | 6d - - - - - - - 0 - - - {cn:D} 6 - 6 -",
+    "6 - 3 - 3 - 3 - 3 - - - 3 - - - | 3 - 3 - 3 - - - - - - - 3 - 3 - | 6 - 3 - 3 - 3 - 3 - - - 3 - - -",
+    "{cn:A7} 3 - - - - - - - 0 - - - 6 - 6 - | {cn:D} 6 - - - 3 - - - 3 - - - 3 - - - | 3 - - - 3 - 3 - - - 0 - 1 - 2 -",
+    "{cn:A7} 3 - 3 - 2 - - - 1 - - - 7d - - - | {cn:D} 6d - - - - - - - 0 - - - - - - - | {cn:D} 6d - b6d - 6d - 7d - 1 - 7d - 1 - 2 - | 3 - 1 - - - 3 - - - - - 0 - - -",
+    "{cn:A7} 2 - 7d - - - 2 - - - - - 0 - - - | {cn:D} 3 - 1 - - - 3 - - - 2 - 1 - 7d - | 6d - b6d - 6d - 7d - 1 - 7d - 1 - 2 -",
+    "3 - 1 - - - 3 - - - - - 1 - 2 - | {cn:A7} 3 - - - 2 - - - 1 - - - 7d - - - | {cn:D} 6d - - - - - - - 0 - - - 6 - - - | {cn:D} 6d - - - - - - - 0 - - - - - - -"
+  ]
+}
