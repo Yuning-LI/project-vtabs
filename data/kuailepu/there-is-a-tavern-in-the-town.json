@@ -1,0 +1,48 @@
+{
+  "id": "there-is-a-tavern-in-the-town",
+  "slug": "there-is-a-tavern-in-the-town",
+  "title": "There Is A Tavern In The Town",
+  "description": "There Is A Tavern In The Town candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "alignedLyrics": [
+    "There is _ a tav ern in the town, in the town, and there",
+    "my true love sits him down sits him down _ and _ drinks",
+    "his wine mid laugh _ ter _ free and",
+    "nev er nev er thinks of me thinks of me, Fare thee",
+    "well for I must leave thee do not let this part ing grieve me",
+    "_ _ and re mem ber that the best of friends must part, must part A",
+    "dieu a dieu kind friends a dieu a dieu a dieu I",
+    "can no long er stay with you stay with you _ I'll _",
+    "hang my harp on a weep ing wil low tree and",
+    "may the world go well with thee."
+  ],
+  "source": {
+    "title": "There Is A Tavern In The Town MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = A",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-16",
+    "note": "Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication."
+  },
+  "tonicMidi": 69,
+  "notation": [
+    "0 - - - - - - - - - - - 5d - - - | {cn:A} 5d - - - 5d - 5d - 6d - 5d - #4d - 5d - | 3d - - - 5d - 5d - 5d - - - - - 5d -",
+    "5d - - - - - 5d - 6d - 5d - #4d - 5d - | {cn:E} 2d - - - 5d - 5d - 5d - 4d - 3d - 2d -",
+    "{cn:A} 1d - - - 3d - - - 5d - - - 1 - - - | {cn:D} 2 - 1 - 7d - 1 - 6d - - - - - 6d -",
+    "{cn:E7} 7d - - - - - 7d - 7d - 5d - 6d - 7d - | {cn:A} 1 - - - 1 - 1 - 1 - - - 5d - 5d -",
+    "{cn:E7} 4d - 7d - 7d - 7d - 7d - 5d - 4d - 2d - | {cn:A} 1d - 1 - 1 - 1 - 1 - 5d - 3d - 3d -",
+    "{cn:E7} 4d - 7d - 7d - 7d - 7d - 7d - 7d - 5d - | {cn:G} 6d - - - 7d - - - 1 - 6d - 5d - 5d -",
+    "{cn:A} 5d - 5d - - - 5d - 6d - - - 4d - 5d - | 3d - 5d - 5d - 5d - 5d - - - - - 5d -",
+    "5d - - - - - 5d - 6d - 5d - #4d - 5d - | {cn:E} 2d - - - 5d - 5d - 5d - 4d - 3d - 2d -",
+    "{cn:A} 1d - - - 3d - - - 5d - - - 1 - 2 - | {cn:D} 2 - 1 - 7d - 1 - 6d - - - - - 1 -",
+    "{cn:E7} 7d - - - - - 7d - 7d - 5d - 6d - 7d - | {cn:A} 1 - - - - - - - - - - - - - - -"
+  ]
+}

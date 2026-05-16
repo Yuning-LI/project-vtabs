@@ -1419,5 +1419,12 @@
     "family": "song",
     "featuredRank": 204,
     "published": true
+  },
+  {
+    "id": "there-is-a-tavern-in-the-town",
+    "slug": "there-is-a-tavern-in-the-town",
+    "family": "song",
+    "featuredRank": 205,
+    "published": true
   }
 ]
