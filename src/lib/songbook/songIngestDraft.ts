@@ -733,7 +733,7 @@ function computeDurationUnit(measures: ExtractedMusicXmlMeasure[]) {
         ? Math.max(1, Math.round(measure.divisions / 4))
         : null
     )
-    .filter((value): value is number => Number.isFinite(value) && value > 0)
+    .filter((value): value is number => typeof value === 'number' && Number.isFinite(value) && value > 0)
 
   const sixteenthBaseline =
     sixteenthUnits.length > 0
