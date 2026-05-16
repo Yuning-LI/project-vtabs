@@ -362,14 +362,24 @@ export function buildKuailepuLetterTrackData(input: {
       scale: null
     }
   }
+  const hasAlignedFingeringAwareGlyphLabels =
+    Array.isArray(fingeringAwareLabels?.glyphLabels) &&
+    fingeringAwareLabels.glyphLabels.length === glyphTokens.length
+  const hasAlignedFingeringAwareAnchorLabels =
+    Array.isArray(fingeringAwareLabels?.anchorLabels) &&
+    fingeringAwareLabels.anchorLabels.length === anchorTokens.length
 
   const anchorLabels =
-    fingeringAwareLabels?.anchorLabels ??
+    hasAlignedFingeringAwareAnchorLabels
+      ? fingeringAwareLabels!.anchorLabels
+      :
     anchorTokens
       .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
       .filter((label): label is string => Boolean(label))
   const glyphLabels =
-    fingeringAwareLabels?.glyphLabels ??
+    hasAlignedFingeringAwareGlyphLabels
+      ? fingeringAwareLabels!.glyphLabels
+      :
     glyphTokens
       .map(token => mapCompactNotationTokenToLetterLabel(token, scale))
       .filter((label): label is string => Boolean(label))
@@ -3022,27 +3032,73 @@ function buildRuntimeBridgeScript(
       return null;
     }
 
-    var tokenIndex = 0;
-    var aligned = [];
+    var glyphDegrees = noteGlyphs.map(function (glyph) {
+      return String(glyph.degree);
+    });
+    var tokenDegrees = letterTrack.glyphTokens.map(function (token) {
+      var match = token && token.match(/[0-7]/);
+      return match ? match[0] : '';
+    });
 
-    for (var glyphIndex = 0; glyphIndex < noteGlyphs.length; glyphIndex += 1) {
-      var targetDegree = String(noteGlyphs[glyphIndex].degree);
+    if (glyphDegrees.length === 0 || tokenDegrees.length === 0) {
+      return null;
+    }
 
-      while (tokenIndex < letterTrack.glyphTokens.length) {
-        var token = letterTrack.glyphTokens[tokenIndex];
-        var match = token && token.match(/[0-7]/);
-        tokenIndex += 1;
+    // 之前这里用的是“从左到右贪心撞 degree”。
+    // 对 faded 这类重复 degree 很多、结构又长的旋律，
+    // 一次误撞就会把后面的 token 全部吃偏，最后整首歌退回 runtime mpn fallback，
+    // 表现成“切换 fingering_index 后字母谱不变”。
+    //
+    // 这里改成完整的最长公共子序列对齐：
+    // - token 序列保留我们自己的休止/升降/八度语义
+    // - glyph 序列保留最终 SVG 真正画出来的 note 顺序
+    // - 只要 glyph degree 序列确实是 token degree 序列的一个子序列，
+    //   就能稳定找回整条映射，不再被局部重复片段带偏
+    var dp = new Array(tokenDegrees.length + 1);
+    for (var tokenRow = 0; tokenRow <= tokenDegrees.length; tokenRow += 1) {
+      dp[tokenRow] = new Uint16Array(glyphDegrees.length + 1);
+    }
 
-        if (!match || match[0] !== targetDegree) {
-          continue;
+    for (var tokenIndex = tokenDegrees.length - 1; tokenIndex >= 0; tokenIndex -= 1) {
+      for (var glyphIndex = glyphDegrees.length - 1; glyphIndex >= 0; glyphIndex -= 1) {
+        if (tokenDegrees[tokenIndex] === glyphDegrees[glyphIndex]) {
+          dp[tokenIndex][glyphIndex] = dp[tokenIndex + 1][glyphIndex + 1] + 1;
+        } else {
+          dp[tokenIndex][glyphIndex] = Math.max(
+            dp[tokenIndex + 1][glyphIndex],
+            dp[tokenIndex][glyphIndex + 1]
+          );
         }
-
-        aligned.push(token);
-        break;
       }
     }
 
-    return aligned.length === noteGlyphs.length ? aligned : null;
+    if (dp[0][0] !== glyphDegrees.length) {
+      return null;
+    }
+
+    var aligned = [];
+    var tokenCursor = 0;
+    var glyphCursor = 0;
+
+    while (tokenCursor < tokenDegrees.length && glyphCursor < glyphDegrees.length) {
+      if (
+        tokenDegrees[tokenCursor] === glyphDegrees[glyphCursor] &&
+        dp[tokenCursor][glyphCursor] === dp[tokenCursor + 1][glyphCursor + 1] + 1
+      ) {
+        aligned.push(letterTrack.glyphTokens[tokenCursor]);
+        tokenCursor += 1;
+        glyphCursor += 1;
+        continue;
+      }
+
+      if (dp[tokenCursor + 1][glyphCursor] >= dp[tokenCursor][glyphCursor + 1]) {
+        tokenCursor += 1;
+      } else {
+        glyphCursor += 1;
+      }
+    }
+
+    return aligned.length === glyphDegrees.length ? aligned : null;
   }
 
   function mapGlyphTokenToLetterLabel(token) {
@@ -3050,7 +3106,7 @@ function buildRuntimeBridgeScript(
       return null;
     }
 
-    var match = token.match(/^([#b]?)([0-7])([',dg]*)$/i);
+    var match = token.match(/^([#bn]?)([0-7])([',dg]*)$/i);
     if (!match) {
       return null;
     }
@@ -3814,17 +3870,25 @@ function buildRuntimeBridgeScript(
           ? mapGlyphTokenToLetterLabel(alignedGlyphTokens[index])
           : null;
 
-        if (!label && glyph.id && runtimeNoteLabelsById) {
-          label = runtimeNoteLabelsById[glyph.id];
+        if (!label && glyphMarkers) {
+          label = mapGlyphMarkersToLetterLabel(glyph, glyphMarkers);
         }
 
+        // 当 token 对位失败时，优先退回“当前 SVG 上可见的 degree / 升降号 / 高低音点”。
+        //
+        // 原因：
+        // - 这些标记天然跟着当前 fingering / transposed SVG 一起变
+        // - 而 runtime mpn.noteNumber 更像绝对播放音高
+        // - 某些快乐谱歌（如 faded）在不同指法下 mpn 仍会给出同一套绝对音高，
+        //   如果这里过早吃 mpn fallback，就会出现“切指法但字母谱不变”
         if (!label && runtimeGlyphMarkers) {
           label = mapGraceGlyphToRuntimeMpnLabel(glyph, runtimeGlyphMarkers, runtimeDegreePitchMap);
         }
 
-        if (!label && glyphMarkers) {
-          label = mapGlyphMarkersToLetterLabel(glyph, glyphMarkers);
+        if (!label && glyph.id && runtimeNoteLabelsById) {
+          label = runtimeNoteLabelsById[glyph.id];
         }
+
         if (!label) {
           return;
         }
@@ -4101,11 +4165,32 @@ function extractCompactNotationNoteTokens(
     return []
   }
 
-  const text = notation.join(' ')
+  const text = notation.join(' ').replace(/\{[^}]+\}/g, ' ')
   const pattern = options?.includeRest
-    ? /[#b]?[0-7](?:[',dg]+)?/gi
-    : /[#b]?[1-7](?:[',dg]+)?/gi
-  return text.match(pattern) ?? []
+    ? /(?:[#bn]?[0-7](?:[',dg]+)?[#bn]?|0)/gi
+    : /[#bn]?[1-7](?:[',dg]+)?[#bn]?/gi
+
+  return (text.match(pattern) ?? [])
+    .map(normalizeCompactNotationPitchToken)
+    .filter((token): token is string => Boolean(token))
+}
+
+function normalizeCompactNotationPitchToken(token: string) {
+  const normalized = token.trim()
+  if (normalized === '0') {
+    return normalized
+  }
+
+  const match = normalized.match(/^([#bn]?)([1-7])([',dg]*)([#bn]?)$/i)
+  if (!match) {
+    return null
+  }
+
+  const accidental = (match[1] || match[4] || '').toLowerCase()
+  const degree = match[2] ?? ''
+  const octaveMarks = match[3] ?? ''
+
+  return `${accidental}${degree}${octaveMarks}`
 }
 
 function parseScaleTonic(key: string | null | undefined) {
@@ -4201,7 +4286,8 @@ function mapCompactNotationTokenToLetterLabel(
     return null
   }
 
-  const match = token.match(/^([#b]?)([0-7])([',dg]*)$/i)
+  const normalizedToken = normalizeCompactNotationPitchToken(token)
+  const match = normalizedToken?.match(/^([#bn]?)([0-7])([',dg]*)$/i)
   if (!match) {
     return null
   }
