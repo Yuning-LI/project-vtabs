@@ -822,6 +822,26 @@
       "addedOn": "2026-05-15",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/t4I9l1ZAj.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "fly-me-to-the-moon",
+      "title": "Fly Me to the Moon",
+      "status": "validated-local",
+      "batch": "28",
+      "group": "song",
+      "addedOn": "2026-05-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/cIRGd18KX.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "faded",
+      "title": "Faded",
+      "status": "validated-local",
+      "batch": "28",
+      "group": "song",
+      "addedOn": "2026-05-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/GAMvc1yOC.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

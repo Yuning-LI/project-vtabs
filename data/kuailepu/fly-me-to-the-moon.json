@@ -1,0 +1,70 @@
+{
+  "id": "fly-me-to-the-moon",
+  "slug": "fly-me-to-the-moon",
+  "title": "Fly Me to the Moon",
+  "description": "Fly Me to the Moon melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "Fly me to the _ moon _ And let me _ play _ among _ the _ stars _",
+    "Let me see what _ spring _ is like On _ Jupiter _ _ _ and _ Mars _",
+    "In",
+    "other _ words, _ Hold my hand In",
+    "other _ words, _ Darling _, kiss me _",
+    "Fill my heart with _ song _ And let me _ sing _ forever _ _ _ more _",
+    "You _ are all I _ long _ for All I _ worship _ and _ adore _ _ _ In",
+    "other _ words, _ please be true In",
+    "other _ words _, I love you _",
+    "In",
+    "other _ words, _ Hold my hand In",
+    "other _ words, _ Darling _, kiss me _",
+    "Fill my heart with _ song _ And let me _ sing _ forever _ _ _ more _",
+    "You _ are all I _ long _ for All I _ worship _ and _ adore _ _ _ In",
+    "other _ words, _ please be true In",
+    "other _ words _, I love you _",
+    "only _ you only _ you _ _",
+    "Fill my heart with _ song _ And let me _ sing _ forever _ _ _ more _",
+    "You _ are all I _ long _ for All I _ worship _ and _ adore _ _ _ In",
+    "other _ words, _ I love you In",
+    "other _ words _, I love you _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/cIRGd18KX.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song cIRGd18KX on 2026-05-16."
+  },
+  "meta": {
+    "key": "1 = A",
+    "tempo": 110,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-16",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 69,
+  "notation": [
+    "1' - - 7 6 5 5 4 | 4 - - 5 6 1' 1' 7 | 7 - - 6 5 4 4 3 | 3 - - - 0 0 0 0 |",
+    "6 - 5 - 4 3 3 2 | 2 - - 3 4 - 6 - 6 - #5 - 4 3 3 2 2 1 | 1 - - - - -",
+    "#1 - |",
+    "2 - 6 6 6 - - - - - - - 1' - 7 - | 5 - - - - - - - | 0 0 0 0 0 0 7, - |",
+    "1 - 4 4 4 - - - | 0 0 0 0 6 - 5 - | 4 - - 3 3 - - - |",
+    "1' - - 7 - 6 5 5 4 4 - 5 6 1' 1' 7 | 7 - - 6 5 4 4 3 | 3 - - - - - - - |",
+    "0 0 6 6 5 - 4 3 3 2 | 2 - - 3 4 6 6 - | #5 - 4 3 3 2 2 1 | 1 - - - - - #1 - |",
+    "2 - 6 - 6 6 - - | 0 0 0 0 1' - 7 - | 3' - - - - - - - | 0 0 0 0 0 0 3' - |",
+    "3' - 1' - 1' 1' - - | 0 0 0 0 1' - 2' - | 1' - - - - - - - | 1' - - - - - - - |",
+    "#1 - |",
+    "2 - 6 6 6 - - - - - - - 1' - 7 - | 5 - - - - - - - | 0 0 0 0 0 0 7, - |",
+    "1 - 4 4 4 - - - | 0 0 0 0 6 - 5 - | 4 - - 3 3 - - - |",
+    "1' - - 7 - 6 5 5 4 4 - 5 6 1' 1' 7 | 7 - - 6 5 4 4 3 | 3 - - - - - - - |",
+    "0 0 6 6 5 - 4 3 3 2 | 2 - - 3 4 6 6 - | #5 - 4 3 3 2 2 1 | 1 - - - - - #1 - |",
+    "2 - 6 - 6 6 - - | 0 0 0 0 1' - 7 - | 3' - - - - - - - | 0 0 0 0 0 0 3' - |",
+    "3' - 1' - 1' 1' - - | 0 0 0 0 1' - 7 - | 1' - - - - - - - | 1' - - - - - - - |",
+    "1' 7 1' - - - | 1' - 2' 3' 4' - | 4' - - - - - - - |",
+    "1' - - 7 - 6 5 5 4 4 - 5 6 1' 1' 7 | 7 - - 6 5 4 4 3 | 3 - - - - - - - |",
+    "0 0 6 6 5 - 4 3 3 2 | 2 - - 3 4 6 6 - | #5 - 4 3 3 2 2 1 | 1 - - - - - #1 - |",
+    "2 - 6 - 6 6 - - | 0 0 0 0 1' - 7 - | 3' - - - - - - - | 0 0 0 0 0 0 3' - |",
+    "3' - 1' - 1' 1' - - | 0 0 0 0 1' - 7 - | 1' - - - - - - - | 1' - - - - - - - | | |"
+  ]
+}

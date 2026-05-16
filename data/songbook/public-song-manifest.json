@@ -1433,5 +1433,19 @@
     "family": "hymn",
     "featuredRank": 206,
     "published": true
+  },
+  {
+    "id": "fly-me-to-the-moon",
+    "slug": "fly-me-to-the-moon",
+    "family": "song",
+    "featuredRank": 207,
+    "published": true
+  },
+  {
+    "id": "faded",
+    "slug": "faded",
+    "family": "song",
+    "featuredRank": 208,
+    "published": true
   }
 ]

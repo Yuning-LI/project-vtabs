@@ -207,6 +207,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'cant-help-falling-in-love',
   'chihiros-waltz',
   'city-of-stars',
+  'fly-me-to-the-moon',
   'see-you-again',
   'casablanca',
   'careless-whisper',
@@ -343,6 +344,7 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'blue-bird',
   'butter-fly',
   'cruel-angels-thesis',
+  'faded',
   'happy-birthday-to-you',
   'my-neighbor-totoro',
   'ode-to-joy',
@@ -2183,6 +2185,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'cant-help-falling-in-love',
       'a-thousand-years',
+      'fly-me-to-the-moon',
       'can-you-feel-the-love-tonight',
       'sealed-with-a-kiss',
       'yesterday-once-more',
@@ -2228,6 +2231,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'moon-river',
           'cant-help-falling-in-love',
           'a-thousand-years',
+          'fly-me-to-the-moon',
           'can-you-feel-the-love-tonight',
           'sealed-with-a-kiss',
           'yesterday-once-more',
@@ -2256,7 +2260,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'If you want slower modern songs where the lyric line helps you hear the phrase shape, these pages are strong next choices after the best-known standards above.'
         ],
-        songSlugs: ['edelweiss', 'sealed-with-a-kiss', 'cant-help-falling-in-love', 'a-thousand-years', 'you-raise-me-up', 'tears-in-heaven', 'imagine', 'love-is-blue', 'where-do-i-begin', 'see-you-again']
+        songSlugs: ['edelweiss', 'sealed-with-a-kiss', 'cant-help-falling-in-love', 'a-thousand-years', 'fly-me-to-the-moon', 'you-raise-me-up', 'tears-in-heaven', 'imagine', 'love-is-blue', 'where-do-i-begin', 'see-you-again']
       }
     ],
     faq: [
@@ -2403,6 +2407,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'detective-conan-main-theme',
       'only-my-railgun',
       'senbonzakura',
+      'faded',
       'unravel',
       'butter-fly',
       'until-the-end-of-the-world',
@@ -2450,6 +2455,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'detective-conan-main-theme',
           'only-my-railgun',
           'senbonzakura',
+          'faded',
           'unravel',
           'butter-fly',
           'until-the-end-of-the-world',
@@ -3556,6 +3562,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'cant-help-falling-in-love',
       'a-thousand-years',
+      'fly-me-to-the-moon',
       'scarborough-fair',
       'greensleeves',
       'auld-lang-syne',
@@ -3645,6 +3652,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'moon-river',
           'cant-help-falling-in-love',
           'a-thousand-years',
+          'fly-me-to-the-moon',
           'scarborough-fair',
           'greensleeves',
           'auld-lang-syne',
@@ -3835,6 +3843,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'moon-river',
       'cant-help-falling-in-love',
       'a-thousand-years',
+      'fly-me-to-the-moon',
       'air-on-the-g-string',
       'childhood-memory',
       'edelweiss',
@@ -3899,7 +3908,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'concerning-hobbits', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
+        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'fly-me-to-the-moon', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'concerning-hobbits', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
       },
       {
         title: 'How To Practice Lyrical Pages',
