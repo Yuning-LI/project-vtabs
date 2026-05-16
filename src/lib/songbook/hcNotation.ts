@@ -70,6 +70,8 @@ export type HcConsistencySummary = {
     mainRestCount: number
     mainEventCount: number
     bpm: number | null
+    totalDuration: number | null
+    expectedDuration: number | null
   }
   deltas: {
     measures: number | null
@@ -77,6 +79,7 @@ export type HcConsistencySummary = {
     restCount: number
     eventCount: number
     tempoBpm: number | null
+    durationSeconds: number | null
   }
   warnings: string[]
 }
@@ -141,6 +144,16 @@ export function buildHcConsistencySummary(
     typeof draftTempoBpm === 'number' && typeof hcTempoBpm === 'number'
       ? hcTempoBpm - draftTempoBpm
       : null
+  const hcTotalDuration =
+    hcValidation.events.length > 0
+      ? hcValidation.events[hcValidation.events.length - 1]!.time +
+        hcValidation.events[hcValidation.events.length - 1]!.duration
+      : null
+  const expectedDuration = estimateExpectedSongDurationSeconds(draft.stats.measures, draft.metadata.meter, hcTempoBpm)
+  const durationDelta =
+    typeof hcTotalDuration === 'number' && typeof expectedDuration === 'number'
+      ? hcTotalDuration - expectedDuration
+      : null
 
   const warnings: string[] = []
   if (!hcValidation.parseOk) {
@@ -161,10 +174,22 @@ export function buildHcConsistencySummary(
   if (tempoDelta !== null && tempoDelta !== 0) {
     warnings.push(`HC BPM differs from draft metadata by ${tempoDelta}.`)
   }
+  if (
+    durationDelta !== null &&
+    expectedDuration !== null &&
+    expectedDuration > 0 &&
+    Math.abs(durationDelta) / expectedDuration > 0.15
+  ) {
+    warnings.push(
+      `HC runtime duration differs from meter/BPM expectation by ${durationDelta.toFixed(2)}s.`
+    )
+  }
 
   const status =
     !hcValidation.parseOk ||
     measureDelta !== null && measureDelta !== 0 ||
+    durationDelta !== null && expectedDuration !== null && expectedDuration > 0 &&
+      Math.abs(durationDelta) / expectedDuration > 0.15 ||
     Math.abs(noteDelta) > 2 ||
     Math.abs(eventDelta) > 4
       ? 'warning'
@@ -187,17 +212,43 @@ export function buildHcConsistencySummary(
       mainNoteCount: hcValidation.mainNoteCount,
       mainRestCount: hcValidation.mainRestCount,
       mainEventCount: hcValidation.mainEventCount,
-      bpm: hcTempoBpm
+      bpm: hcTempoBpm,
+      totalDuration: hcTotalDuration,
+      expectedDuration
     },
     deltas: {
       measures: measureDelta,
       noteCount: noteDelta,
       restCount: restDelta,
       eventCount: eventDelta,
-      tempoBpm: tempoDelta
+      tempoBpm: tempoDelta,
+      durationSeconds: durationDelta
     },
     warnings
   }
+}
+
+function estimateExpectedSongDurationSeconds(
+  measures: number,
+  meter: string | null,
+  bpm: number | null
+) {
+  if (!meter || typeof bpm !== 'number' || bpm <= 0 || measures <= 0) {
+    return null
+  }
+
+  const match = meter.match(/^(\d+)\s*\/\s*(\d+)$/)
+  if (!match) {
+    return null
+  }
+
+  const beats = Number(match[1])
+  const beatType = Number(match[2])
+  if (!Number.isFinite(beats) || !Number.isFinite(beatType) || beats <= 0 || beatType <= 0) {
+    return null
+  }
+
+  return measures * beats * (60 / bpm) * (4 / beatType)
 }
 
 function isMainMelodyNode(node: HcRuntimeNode) {

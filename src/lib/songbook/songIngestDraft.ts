@@ -709,7 +709,42 @@ function computeDurationUnit(measures: ExtractedMusicXmlMeasure[]) {
     .flatMap(measure => measure.events)
     .map(event => Math.max(1, event.duration))
 
-  return durations.reduce((current, value) => gcd(current, value), durations[0] ?? 1)
+  const gcdDurationUnit = durations.reduce((current, value) => gcd(current, value), durations[0] ?? 1)
+
+  /**
+   * Happy123/Kuailepu 的紧凑时值语法不是“最小事件时值 = 1 槽”。
+   *
+   * 例如：
+   * - `3`   => 4 槽
+   * - `3x`  => 2 槽
+   * - `3__` => 1 槽
+   *
+   * 也就是说，四分音符应当稳定落到 4 槽，而不是在“整首歌只有四分/二分音”
+   * 的情况下被压成 1 槽。否则 runtime 会把整首歌按约 4 倍速解释，连带让
+   * 小节号、播放、节拍器对齐一起出错。
+   *
+   * 当前公开导歌链路优先用“十六分音符槽位”作为最低基准：
+   * - 如果源谱的 gcd 已经细到十六分或更细（如三连音），保留 gcd
+   * - 如果源谱只有四分/二分等较粗时值，就把单位下探到 divisions/4
+   */
+  const sixteenthUnits = measures
+    .map(measure =>
+      measure.divisions && measure.divisions > 0
+        ? Math.max(1, Math.round(measure.divisions / 4))
+        : null
+    )
+    .filter((value): value is number => Number.isFinite(value) && value > 0)
+
+  const sixteenthBaseline =
+    sixteenthUnits.length > 0
+      ? sixteenthUnits.reduce((current, value) => gcd(current, value), sixteenthUnits[0]!)
+      : null
+
+  if (sixteenthBaseline && gcdDurationUnit > sixteenthBaseline) {
+    return sixteenthBaseline
+  }
+
+  return gcdDurationUnit
 }
 
 function renderMeasureNotation(

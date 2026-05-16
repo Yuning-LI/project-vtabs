@@ -1,0 +1,42 @@
+{
+  "id": "drink-to-me-only-with-thine-eyes",
+  "slug": "drink-to-me-only-with-thine-eyes",
+  "title": "Drink To Me Only With Thine Eyes",
+  "description": "Drink To Me Only With Thine Eyes candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "alignedLyrics": [
+    "Drink to me on ly with _ thine eyes _ and",
+    "I _ will pledge with mine _",
+    "Or leave a kiss with in _ the cup _ and",
+    "I'll _ not ask for wine the thirst _",
+    "that from my soul _ doth rise and asks",
+    "a drink _ di vine _ But might I",
+    "of Jove's nec _ tar sup _ I would _ not change for thine"
+  ],
+  "source": {
+    "title": "Drink To Me Only With Thine Eyes MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-16",
+    "note": "Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 3 - - - 3 - - - 3 - - - | {cn:G} 4 - - - - - - - 4 - - - | {cn:C} 5 - - - 4 - - - 3 - - - | {cn:F} 2 - - - 3 - - - 4 - - -",
+    "{cn:C} 5 - - - 1 - - - 4 - - - | {cn:G} 3 - - - - - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - | 1 - - - - - - - - - - -",
+    "3 - - - 3 - - - 3 - - - | {cn:G} 4 - - - - - - - 4 - - - | {cn:C} 5 - - - 4 - - - 3 - - - | {cn:F} 2 - - - 3 - - - 4 - - -",
+    "{cn:C} 5 - - - 1 - - - 4 - - - | {cn:G} 3 - - - - - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - | 5 - - - 5 - - - 3 - - -",
+    "5 - - - 1g - - - - - - - | 5 - - - 5 - - - 3 - - - | 5 - - - 5 - - - - - - - | 5 - - - {cn:F} 6 - - - - - - -",
+    "5 - - - 5 - - - 4 - - - | 3 - - - {cn:G} 3 - - - - - - - | 2 - - - - - - - - - - - | {cn:C} 3 - - - 3 - - - 3 - - -",
+    "{cn:G} 4 - - - - - - - 4 - - - | {cn:C} 5 - - - 4 - - - 3 - - - | {cn:F} 2 - - - 3 - - - 4 - - - | {cn:C} 5 - - - 1 - - - 4 - - - | {cn:G} 3 - - - - - - - 2 - - - | {cn:C} 1 - - - - - - - - - - -"
+  ]
+}

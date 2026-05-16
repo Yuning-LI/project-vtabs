@@ -7,8 +7,7 @@ import {
   type KuailepuRuntimeState
 } from '@/lib/kuailepu/runtime'
 import {
-  loadImportedOrCandidateSongDoc,
-  loadImportedSongDoc
+  loadImportedOrCandidateSongDoc
 } from '@/lib/songbook/importedCatalog'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
@@ -110,7 +109,13 @@ export async function GET(
     note_label_mode: searchParams.get('note_label_mode')
   }
   const song = songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
-  const runtimeNotationSong = songCatalogBySlug[params.id] ?? loadImportedSongDoc(params.id)
+  /**
+   * 未上线候选页也需要用 candidate SongDoc 参与字母谱计算。
+   *
+   * 否则 preview 场景下拿不到 `notation/meta.key`，`letterTrack` 会退化成空值，
+   * 最终只能依赖 runtime 里的固定 mpn fallback，切换 `fingering_index` 时字母谱就不会变。
+   */
+  const runtimeNotationSong = songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
   const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
   const presentation = song ? getSongPresentation(song) : null
   /**
