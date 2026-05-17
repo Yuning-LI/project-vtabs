@@ -842,6 +842,26 @@
       "addedOn": "2026-05-17",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/GAMvc1yOC.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "despacito",
+      "title": "Despacito",
+      "status": "validated-local",
+      "batch": "29",
+      "group": "song",
+      "addedOn": "2026-05-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ivize1GKi.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "love-story",
+      "title": "Love Story",
+      "status": "validated-local",
+      "batch": "29",
+      "group": "song",
+      "addedOn": "2026-05-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AXWya1xuS.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

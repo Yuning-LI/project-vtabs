@@ -227,6 +227,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'let-it-be',
   'let-it-go',
   'love-is-blue',
+  'love-story',
   'londonderry-air',
   'lullaby',
   'mariage-damour',
@@ -297,6 +298,7 @@ const DANCE_WALTZ_SONG_SLUGS = new Set([
   'can-can',
   'chihiros-waltz',
   'cruel-angels-thesis',
+  'despacito',
   'detective-conan-main-theme',
   'habanera',
   'hes-a-pirate',
@@ -344,6 +346,7 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'blue-bird',
   'butter-fly',
   'cruel-angels-thesis',
+  'despacito',
   'faded',
   'happy-birthday-to-you',
   'my-neighbor-totoro',
@@ -2404,6 +2407,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'blue-bird',
       'gurenge',
       'cruel-angels-thesis',
+      'despacito',
       'detective-conan-main-theme',
       'only-my-railgun',
       'senbonzakura',
@@ -2452,6 +2456,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'blue-bird',
           'gurenge',
           'cruel-angels-thesis',
+          'despacito',
           'detective-conan-main-theme',
           'only-my-railgun',
           'senbonzakura',
@@ -3563,6 +3568,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'cant-help-falling-in-love',
       'a-thousand-years',
       'fly-me-to-the-moon',
+      'love-story',
       'scarborough-fair',
       'greensleeves',
       'auld-lang-syne',
@@ -3653,6 +3659,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'cant-help-falling-in-love',
           'a-thousand-years',
           'fly-me-to-the-moon',
+          'love-story',
           'scarborough-fair',
           'greensleeves',
           'auld-lang-syne',
@@ -3844,6 +3851,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'cant-help-falling-in-love',
       'a-thousand-years',
       'fly-me-to-the-moon',
+      'love-story',
       'air-on-the-g-string',
       'childhood-memory',
       'edelweiss',
@@ -3908,7 +3916,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first pages in this group are the ones with an immediately singable line and enough melodic familiarity that the player can focus on tone and breath instead of on decoding a dense tune. That is why Amazing Grace, Greensleeves, and Air on the G String work so well here.',
           'They give slower practice value without forcing the player into long technical passages or large jumps right away.'
         ],
-        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'fly-me-to-the-moon', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'concerning-hobbits', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
+        songSlugs: ['amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'fly-me-to-the-moon', 'love-story', 'air-on-the-g-string', 'childhood-memory', 'edelweiss', 'going-home', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'let-it-go', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'merry-christmas-mr-lawrence', 'concerning-hobbits', 'path-of-the-wind', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'chihiros-waltz', 'speak-softly-love', 'city-of-stars', 'see-you-again']
       },
       {
         title: 'How To Practice Lyrical Pages',
@@ -3921,7 +3929,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics only when they help you hear cadence points and phrase entry.',
           'Zoom in on longer lyrical pages instead of trying to rush through the full sheet.'
         ],
-        songSlugs: ['lullaby', 'over-the-rainbow', 'moonlight-lover', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'one-summers-day', 'chihiros-waltz', 'city-of-stars', 'see-you-again']
+        songSlugs: ['lullaby', 'over-the-rainbow', 'moonlight-lover', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'love-story', 'traumerei', 'schubert-serenade', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'hotel-california', 'imagine', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'lemon-kenshi-yonezu', 'uchiage-hanabi', 'until-the-end-of-the-world', 'inuyashas-affection', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'zeldas-lullaby', 'song-of-time', 'river-flows-in-you', 'summer', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'one-summers-day', 'chihiros-waltz', 'city-of-stars', 'see-you-again']
       },
       {
         title: 'What To Add After The First Reflective Tunes',
@@ -4046,6 +4054,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'blue-bird',
       'gurenge',
       'cruel-angels-thesis',
+      'despacito',
       'detective-conan-main-theme',
       'only-my-railgun',
       'senbonzakura',
@@ -4060,7 +4069,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The easiest first picks in this group are the melodies with a clear repeated pulse and a recognizable hook. Can-Can and Habanera work well because players usually already know the contour, which frees them to focus on articulation and beat placement.',
           'They also make a good contrast with slower lyrical pages, so visitors who want more energy can find a better fit right away.'
         ],
-        songSlugs: ['can-can', 'habanera', 'chihiros-waltz', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'unravel', 'butter-fly', 'zen-zen-zense']
+        songSlugs: ['can-can', 'habanera', 'despacito', 'chihiros-waltz', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'woodpecker-polka', 'blacksmith-polka', 'merry-go-round-of-life', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'unravel', 'butter-fly', 'zen-zen-zense']
       },
       {
         title: 'How To Practice Brighter Rhythmic Songs',
@@ -4073,7 +4082,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Count the pulse out loud before trying to increase speed.',
           'Use shorter practice loops so articulation stays clear instead of blurry.'
         ],
-        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'chihiros-waltz', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'the-hawthorn-tree', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'unravel', 'butter-fly', 'zen-zen-zense']
+        songSlugs: ['dancing-doll-and-teddy-bear', 'swan-lake', 'despacito', 'chihiros-waltz', 'waltz-no-2', 'tennessee-waltz', 'the-last-waltz', 'the-hawthorn-tree', 'flower-dance', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'unravel', 'butter-fly', 'zen-zen-zense']
       },
       {
         title: 'What To Add After The First Polkas And Waltz-Like Tunes',
