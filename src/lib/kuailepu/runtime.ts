@@ -1175,17 +1175,17 @@ function normalizeRuntimePersonField(value: string | null | undefined) {
   return isGenericRuntimePersonLabel(text) ? undefined : text
 }
 
-function sanitizeSourceRuntimePersonField(value: unknown) {
+function sanitizeSourceRuntimePersonField(value: string | null | undefined) {
   if (typeof value !== 'string') {
-    return value
+    return undefined
   }
 
   const text = normalizeLocalizedPunctuation(value).trim()
   if (!text) {
-    return ''
+    return undefined
   }
 
-  return isGenericRuntimePersonLabel(text) ? '' : text
+  return isGenericRuntimePersonLabel(text) ? undefined : text
 }
 
 function isGenericRuntimePersonLabel(value: string) {
