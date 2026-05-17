@@ -17,18 +17,25 @@ export function SiteFooter() {
           <Link href="/" className="font-serif text-base text-primary">
             PlayByFingering
           </Link>
+          <Link href="/about" className="underline-offset-4 hover:underline">
+            About
+          </Link>
           <Link href="/learn" className="underline-offset-4 hover:underline">
             Learn
           </Link>
           <Link href="/resources" className="underline-offset-4 hover:underline">
             Resources
           </Link>
+          <Link href="/copyright" className="underline-offset-4 hover:underline">
+            Copyright
+          </Link>
           <span>Recorder, ocarina, and tin whistle learning library.</span>
         </div>
         <p className="max-w-4xl leading-6">
           All fingering charts and melody pages on this site are provided for personal study,
           education, and instrument exchange only. Copyright remains with the original rights
-          holders. For removal requests, please contact us by email.
+          holders. For copyright or removal requests, please use the Copyright page contact
+          details.
         </p>
       </div>
     </footer>

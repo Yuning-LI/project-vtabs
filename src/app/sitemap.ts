@@ -14,6 +14,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date()
     },
     {
+      url: `${siteUrl}/about`,
+      lastModified: new Date()
+    },
+    {
+      url: `${siteUrl}/copyright`,
+      lastModified: new Date()
+    },
+    {
       url: `${siteUrl}/resources`,
       lastModified: new Date()
     },
