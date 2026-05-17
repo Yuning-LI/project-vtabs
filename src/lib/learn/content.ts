@@ -1622,6 +1622,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'jingle-bells',
       'deck-the-halls',
       'silent-night',
+      'still-still-still',
       'we-wish-you-a-merry-christmas',
       'jolly-old-saint-nicholas',
       'joy-to-the-world',
@@ -1647,6 +1648,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: [
           'silent-night',
+          'still-still-still',
           'joy-to-the-world',
           'god-rest-you-merry-gentlemen',
           'good-king-wenceslas',
@@ -1893,6 +1895,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       [
         'jingle-bells',
         'silent-night',
+        'still-still-still',
         'we-wish-you-a-merry-christmas',
         'deck-the-halls',
         'joy-to-the-world',
@@ -1938,6 +1941,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
             'god-rest-you-merry-gentlemen',
             'good-king-wenceslas',
             'silent-night',
+            'still-still-still',
             'joy-to-the-world',
             'hark-the-herald-angels-sing'
           ],
@@ -1978,6 +1982,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       [
         'jingle-bells',
         'silent-night',
+        'still-still-still',
         'deck-the-halls',
         'we-wish-you-a-merry-christmas',
         'joy-to-the-world',
@@ -2014,6 +2019,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         songSlugs: withInstrument(
           [
             'silent-night',
+            'still-still-still',
             'joy-to-the-world',
             'god-rest-you-merry-gentlemen',
             'good-king-wenceslas',
@@ -2027,7 +2033,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'After the easiest carols feel secure, add one slower hymn-like melody and one brighter sing-along. That expands holiday repertoire while keeping the same whistle-friendly landing flow.'
         ],
-        songSlugs: withInstrument(['silent-night', 'god-rest-you-merry-gentlemen', 'jingle-bells'], 'w6')
+        songSlugs: withInstrument(
+          ['silent-night', 'still-still-still', 'god-rest-you-merry-gentlemen', 'jingle-bells'],
+          'w6'
+        )
       }
     ],
     faq: [
@@ -2811,6 +2820,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: [
       'jingle-bells',
       'silent-night',
+      'still-still-still',
       'we-wish-you-a-merry-christmas',
       'deck-the-halls',
       'god-rest-you-merry-gentlemen',
@@ -2844,6 +2854,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: [
           'silent-night',
+          'still-still-still',
           'jingle-bells',
           'we-wish-you-a-merry-christmas',
           'hark-the-herald-angels-sing'
@@ -2858,6 +2869,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'god-rest-you-merry-gentlemen',
           'good-king-wenceslas',
           'silent-night',
+          'still-still-still',
           'auld-lang-syne',
           'hark-the-herald-angels-sing'
         ]
