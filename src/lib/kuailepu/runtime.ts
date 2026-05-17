@@ -1026,46 +1026,57 @@ function localizeRuntimePayload(
     preferredSubtitle?: string | null
   }
 ) {
-  if (options.mode !== 'english') {
-    return payload
+  const sourceSanitized: KuailepuRuntimePayload = {
+    ...payload,
+    music_composer: sanitizeSourceRuntimePersonField(payload.music_composer),
+    lyric_composer: sanitizeSourceRuntimePersonField(payload.lyric_composer),
+    composer: sanitizeSourceRuntimePersonField(payload.composer),
+    lyricist: sanitizeSourceRuntimePersonField(payload.lyricist),
+    arranger: sanitizeSourceRuntimePersonField(payload.arranger),
+    player: sanitizeSourceRuntimePersonField(payload.player),
+    author: sanitizeSourceRuntimePersonField(payload.author)
   }
 
-  const englishTitle = getKuailepuEnglishTitle(payload)
+  if (options.mode !== 'english') {
+    return sourceSanitized
+  }
+
+  const englishTitle = getKuailepuEnglishTitle(sourceSanitized)
   const localized: KuailepuRuntimePayload = {
-    ...payload,
+    ...sourceSanitized,
     song_name:
       options.preferredTitle?.trim() ||
       englishTitle.title?.trim() ||
-      payload.song_name,
+      sourceSanitized.song_name,
     alias_name:
       normalizeLocalizedText(
         options.preferredSubtitle ??
           englishTitle.subtitle ??
-          translateNonLatinText(payload.alias_name)
+          translateNonLatinText(sourceSanitized.alias_name)
       ) ?? '',
     title:
       normalizeLocalizedText(
         options.preferredTitle ??
           englishTitle.title ??
-          translateNonLatinText(payload.title)
-      ) ?? payload.title,
+          translateNonLatinText(sourceSanitized.title)
+      ) ?? sourceSanitized.title,
     subtitle:
       normalizeLocalizedText(
         options.preferredSubtitle ??
           englishTitle.subtitle ??
-          translateNonLatinText(payload.subtitle)
+          translateNonLatinText(sourceSanitized.subtitle)
       ) ?? '',
-    music_composer: normalizeRuntimePersonField(payload.music_composer),
-    lyric_composer: normalizeRuntimePersonField(payload.lyric_composer),
-    composer: normalizeRuntimePersonField(payload.composer),
-    lyricist: normalizeRuntimePersonField(payload.lyricist),
-    arranger: normalizeRuntimePersonField(payload.arranger),
-    player: normalizeRuntimePersonField(payload.player),
-    author: normalizeRuntimePersonField(payload.author),
-    nickname: normalizeLocalizedText(translateKuailepuPersonName(payload.nickname)) ?? undefined
+    music_composer: normalizeRuntimePersonField(sourceSanitized.music_composer),
+    lyric_composer: normalizeRuntimePersonField(sourceSanitized.lyric_composer),
+    composer: normalizeRuntimePersonField(sourceSanitized.composer),
+    lyricist: normalizeRuntimePersonField(sourceSanitized.lyricist),
+    arranger: normalizeRuntimePersonField(sourceSanitized.arranger),
+    player: normalizeRuntimePersonField(sourceSanitized.player),
+    author: normalizeRuntimePersonField(sourceSanitized.author),
+    nickname: normalizeLocalizedText(translateKuailepuPersonName(sourceSanitized.nickname)) ?? undefined
   }
 
-  localized.instrumentFingerings = payload.instrumentFingerings?.map(option => ({
+  localized.instrumentFingerings = sourceSanitized.instrumentFingerings?.map(option => ({
     ...option,
     instrumentName:
       normalizeLocalizedText(
@@ -1164,6 +1175,19 @@ function normalizeRuntimePersonField(value: string | null | undefined) {
   return isGenericRuntimePersonLabel(text) ? undefined : text
 }
 
+function sanitizeSourceRuntimePersonField(value: unknown) {
+  if (typeof value !== 'string') {
+    return value
+  }
+
+  const text = normalizeLocalizedPunctuation(value).trim()
+  if (!text) {
+    return ''
+  }
+
+  return isGenericRuntimePersonLabel(text) ? '' : text
+}
+
 function isGenericRuntimePersonLabel(value: string) {
   const normalized = value
     .toLowerCase()
@@ -1177,6 +1201,7 @@ function isGenericRuntimePersonLabel(value: string) {
 
   if (
     normalized === 'traditional' ||
+    normalized === 'traditionnel' ||
     normalized === 'traditional english' ||
     normalized === 'anonymous' ||
     normalized === 'folk song' ||
@@ -1189,7 +1214,11 @@ function isGenericRuntimePersonLabel(value: string) {
     return true
   }
 
-  return /(?:folk song|nursery rhyme|spiritual)$/.test(normalized)
+  if (normalized.startsWith('traditionnel ')) {
+    return true
+  }
+
+  return /(?:folk song|nursery rhyme|spiritual|carol|hymn|tune|air|ballad|melody)$/.test(normalized)
 }
 
 /**
