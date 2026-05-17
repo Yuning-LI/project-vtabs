@@ -3467,6 +3467,33 @@ function buildRuntimeBridgeScript(
     primaryTitle.setAttribute('font-size', String(Math.round(nextFontSize * 10) / 10));
   }
 
+  function shouldHideTopHeaderNumericMetadata(node, normalized) {
+    if (!node || !normalized || !/^\\d+$/.test(normalized)) {
+      return false;
+    }
+
+    var showMeasureNum =
+      typeof context !== 'undefined' && context && context.show_measure_num
+        ? String(context.show_measure_num).toLowerCase()
+        : 'off';
+    if (showMeasureNum === 'on') {
+      return false;
+    }
+
+    var x = Number(node.getAttribute('x'));
+    var y = Number(node.getAttribute('y'));
+    var fontSize = Number(node.getAttribute('font-size') || 0);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) {
+      return false;
+    }
+
+    if (y >= 240) {
+      return false;
+    }
+
+    return x < 180 || (Number.isFinite(fontSize) && fontSize >= 16);
+  }
+
   function hideTopLeftSheetMetadata(svg) {
     if (!svg || textMode !== 'english') {
       return;
@@ -3486,7 +3513,14 @@ function buildRuntimeBridgeScript(
           return;
         }
 
-        if (x > 280 || y > 220) {
+        var normalized = '';
+        var shouldCheckWideTopHeaderNumeric = false;
+        if (tagName === 'text') {
+          normalized = String(node.textContent || '').replace(/\\s+/g, ' ').trim();
+          shouldCheckWideTopHeaderNumeric = shouldHideTopHeaderNumericMetadata(node, normalized);
+        }
+
+        if ((x > 280 || y > 220) && !shouldCheckWideTopHeaderNumeric) {
           return;
         }
 
@@ -3499,14 +3533,13 @@ function buildRuntimeBridgeScript(
             (/^#shuzi_/.test(href) && x < 180 && y < 170) ||
             href === '#bpm';
         } else {
-          var normalized = String(node.textContent || '').replace(/\s+/g, ' ').trim();
           shouldHide =
             /(?:fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
               normalized
             ) ||
-            // 左上角调号前导数字与速度数字属于 metadata，本身不应显示；
-            // 第一小节的小节号会出现在更靠下的位置，不应被这里误伤。
-            (/^\d+$/.test(normalized) && x < 150 && y < 220);
+            // 头部区里孤立的纯数字通常是调号前导数字、速度数字或快乐谱原头部残留；
+            // 当公开页小节号开关默认关闭时，这类顶部数字应一并隐藏。
+            shouldHideTopHeaderNumericMetadata(node, normalized);
         }
 
         if (!shouldHide) {
