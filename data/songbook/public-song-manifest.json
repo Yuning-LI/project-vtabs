@@ -1475,5 +1475,12 @@
     "family": "folk",
     "featuredRank": 212,
     "published": true
+  },
+  {
+    "id": "angels-from-the-realms-of-glory",
+    "slug": "angels-from-the-realms-of-glory",
+    "family": "holiday",
+    "featuredRank": 213,
+    "published": true
   }
 ]

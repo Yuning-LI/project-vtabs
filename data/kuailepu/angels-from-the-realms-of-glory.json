@@ -1,0 +1,48 @@
+{
+  "id": "angels-from-the-realms-of-glory",
+  "slug": "angels-from-the-realms-of-glory",
+  "title": "Angels from the Realms of Glory",
+  "description": "Angels from the Realms of Glory candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "An gels from the realms of glo ry wing your flight o'er all the earth",
+    "ye, who sang cre a tions sto ry now pro claim Mes _ si ahs birth",
+    "come and wor ship come and wor ship wor ship Christ the new born king!",
+    "Shep herds in the field a bid ing watch ing o'er your flocks by night",
+    "God with man is now re sid ing yon der shines the _ in fant light",
+    "come and wor ship come and wor ship wor ship Christ the new born King."
+  ],
+  "alignedLyrics": [
+    "An gels from the realms of glo ry wing your flight oer all the earth",
+    "ye who sang cre a tions sto ry now pro claim Mes _ si ahs birth",
+    "come and wor ship come and wor ship wor ship Christ the new born king",
+    "Shep herds in the field a bid ing watch ing oer your flocks by night",
+    "God with man is now re sid ing yon der shines the _ in fant light",
+    "come and wor ship come and wor ship wor ship Christ the new born King"
+  ],
+  "source": {
+    "title": "Angels from the Realms of Glory MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 88,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-17",
+    "note": "Refs: Wikipedia, Hymnary, BethsNotes. Verified common Christmas hymn identity, Henry Smart / James Montgomery attribution, opening lyric, and opening melody contour against public references; source starts at the main tune."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 5 - - - 3 - - - 1g - - - 5 - - - | 3g - - - - - 2g - 1g - - - 5 - - - | {cn:F} 6 - - - 6 - - - {cn:C} 5 - - - 1g - - - | {cn:G7} 5 - - - - - 4 - {cn:C} 3 - - - - - - -",
+    "5 - - - 3 - - - 1g - - - 5 - - - | 3g - - - - - 2g - 1g - - - 7 - - - | {cn:A} 1g - - - 7 - - - 6 - - - 7 - 1g - | {cn:D7} 7 - - - - - 6 - {cn:G7} 5 - - - - - - -",
+    "2g - - - - - 2g - 7 - - - 5 - - - | {cn:C} 3g - - - - - 2g - {cn:F} 1g - - - 6 - - - | {cn:D} 4g - - - - - 3g - 2g - - - 1g - - - | {cn:G7} 1g - - - 7 - - - {cn:C} 1g - - - - - - -",
+    "5 - - - 3 - - - 1g - - - 5 - - - | 3g - - - - - 2g - 1g - - - 5 - - - | {cn:F} 6 - - - 6 - - - {cn:C} 5 - - - 1g - - - | {cn:G7} 5 - - - - - 4 - {cn:C} 3 - - - - - - -",
+    "5 - - - 3 - - - 1g - - - 5 - - - | 3g - - - - - 2g - 1g - - - 7 - - - | {cn:A} 1g - - - 7 - - - 6 - - - 7 - 1g - | {cn:D7} 7 - - - - - 6 - {cn:G7} 5 - - - - - - -",
+    "2g - - - - - 2g - 7 - - - 5 - - - | {cn:C} 3g - - - - - 2g - {cn:F} 1g - - - 6 - - - | {cn:D} 4g - - - - - 3g - 2g - - - 1g - - - | {cn:G7} 1g - - - 7 - - - {cn:C} 1g - - - - - - -"
+  ]
+}
