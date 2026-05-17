@@ -47,7 +47,7 @@ const DEGREE_MAP: Array<{
 
 const BAR_TOKEN_PATTERN = /(?:\|\|\||:\|:|:\||\|:|\|\||\|)/i
 const BPM_DIRECTIVE_PATTERN = /\{bpm\s*:\s*\d+\}/i
-const EXPANDED_TOKEN_PATTERN = /\{cn:[^}]+\}|#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi
+const EXPANDED_TOKEN_PATTERN = /\{cn:[^}]+\}|[#bn]?[1-7][',dg]*[#bn]?|0|-|\|/gi
 const COMPACT_TOKEN_PATTERN =
   /\{[^}]+\}|(?:\|\|\||:\|:|:\||\|:|\|\||\|)|(?:[#bn]?[1-7][',"gd#bn]*|0)[\-._x/=]*/gi
 
@@ -148,8 +148,18 @@ export function midiToHappy123PitchToken(midi: number, tonicMidi: number) {
   const octaveShift = Math.floor((diff - (DEGREE_MAP[baseOffset]?.offset ?? 0)) / 12)
   const octaveMarks =
     octaveShift > 0 ? 'g'.repeat(octaveShift) : octaveShift < 0 ? 'd'.repeat(-octaveShift) : ''
+  const accidentalPrefix = mapping.degree.startsWith('#')
+    ? '#'
+    : mapping.degree.startsWith('b')
+      ? 'b'
+      : ''
+  const degree = accidentalPrefix ? mapping.degree.slice(1) : mapping.degree
+  const accidentalSuffix = accidentalPrefix
 
-  return `${mapping.degree}${octaveMarks}`
+  // HC 的 note 语法是“级数 + 关键字”组合式。
+  // 对自动生成谱，优先输出更贴近原生 lexer 的形式：`7db` / `4#`，
+  // 避免 `b7d._1__` 这类前缀降号在紧凑相邻音里被 runtime 误绑到下一个音。
+  return `${degree}${octaveMarks}${accidentalSuffix}`
 }
 
 export function renderExpandedHappy123Measure(

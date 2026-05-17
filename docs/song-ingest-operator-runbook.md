@@ -62,6 +62,8 @@ It writes the standard draft/runtime/songdoc/report/sanity outputs and, by defau
 
 - resolves runtime BPM from manual override or source metadata before falling back
 - runs runtime fingering optimization automatically
+- writes punctuation-free aligned lyric slots for stable note-to-lyric matching
+- keeps a separate display lyric layer so punctuation stays attached to words instead of consuming slots
 - writes a runtime audit marker into candidate runtime JSON
 
 Use `--tempo-bpm=<number>` when external verification establishes a better BPM than the source file.

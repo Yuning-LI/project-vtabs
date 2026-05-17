@@ -326,11 +326,15 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
   const extractedAlignedLyrics = draft.lyrics.alignedLines.filter(
     line => !isPlaceholderLyricLine(line)
   )
+  const extractedDisplayLyrics = (draft.lyrics.displayLines ?? draft.lyrics.alignedLines).filter(
+    line => !isPlaceholderLyricLine(line)
+  )
   const exposesLyricsPublicly =
     draft.metadata.lyricPolicy === 'show-publicly' ||
     draft.metadata.lyricPolicy === 'hide-by-default'
   const alignedLyrics = exposesLyricsPublicly ? extractedAlignedLyrics : []
-  const lyricText = alignedLyrics.length > 0 ? alignedLyrics.join('\n') : ''
+  const displayLyrics = exposesLyricsPublicly ? extractedDisplayLyrics : []
+  const lyricText = displayLyrics.length > 0 ? displayLyrics.join('\n') : ''
   const templatePayload = scrubRuntimeCache ? scrubTemplateRuntimeCache(template) : template
   const generatedNoteMidis = sourceNoteMidis.map(midi => midi + selectedTranspose)
   const generatedInstrumentFingerings = buildGeneratedInstrumentFingerings(
@@ -385,6 +389,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
     title,
     description: `${title} candidate generated from a MusicXML ingest draft for runtime compatibility testing.`,
     published: false,
+    lyrics: displayLyrics.length > 0 ? displayLyrics : undefined,
     alignedLyrics: alignedLyrics.length > 0 ? alignedLyrics : undefined,
     source: {
       title: `${title} MusicXML ingest draft`,
@@ -853,7 +858,7 @@ export function transposeKeynote(keynote: string, transpose: number) {
 }
 
 function tokenizeGeneratedNotationLine(line: string) {
-  return line.match(/\{cn:[^}]+\}|#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi) ?? []
+  return line.match(/\{cn:[^}]+\}|[#bn]?[1-7][',dg]*[#bn]?|0|-|\|/gi) ?? []
 }
 
 function tokenizeCompactGeneratedNotationLine(line: string) {

@@ -99,6 +99,14 @@ function auditSuspiciousLyricTokens(lines: string[]) {
           message: `Line ${lineIndex + 1} contains an unusually noisy lyric token: "${printable}".`
         })
       }
+
+      if (/[;:]/.test(printable)) {
+        issues.push({
+          severity: 'info',
+          code: 'lyrics-runtime-risk-punctuation',
+          message: `Line ${lineIndex + 1} contains ";" or ":" inside aligned lyrics; Happy123/Kuailepu runtime may miscount that slot.`
+        })
+      }
     })
 
     const quoteCount = (line.match(/["“”]/g) ?? []).length

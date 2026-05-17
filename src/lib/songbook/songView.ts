@@ -120,12 +120,22 @@ function mergeAlignedLinePunctuation(alignedLine: string, lyricLine: string) {
       return alignedLine
     }
 
+    if (consumedIndices.length === 1) {
+      mergedTokens[consumedIndices[0]] = sourceWord
+      continue
+    }
+
+    const firstIndex = consumedIndices[0]
+    const lastIndex = consumedIndices[consumedIndices.length - 1]
+    const prefixPunctuation = extractLeadingPunctuation(sourceWord)
     const suffixPunctuation = extractTrailingPunctuation(sourceWord)
-    if (suffixPunctuation.length > 0) {
-      const lastIndex = consumedIndices[consumedIndices.length - 1]
-      if (!mergedTokens[lastIndex].endsWith(suffixPunctuation)) {
-        mergedTokens[lastIndex] += suffixPunctuation
-      }
+
+    if (prefixPunctuation.length > 0 && !mergedTokens[firstIndex].startsWith(prefixPunctuation)) {
+      mergedTokens[firstIndex] = `${prefixPunctuation}${mergedTokens[firstIndex]}`
+    }
+
+    if (suffixPunctuation.length > 0 && !mergedTokens[lastIndex].endsWith(suffixPunctuation)) {
+      mergedTokens[lastIndex] += suffixPunctuation
     }
   }
 
@@ -138,6 +148,11 @@ function normalizeLyricWord(word: string) {
 
 function extractTrailingPunctuation(word: string) {
   const match = word.match(/[^a-z0-9'"]+$/i)
+  return match?.[0] ?? ''
+}
+
+function extractLeadingPunctuation(word: string) {
+  const match = word.match(/^[^a-z0-9'"]+/i)
   return match?.[0] ?? ''
 }
 

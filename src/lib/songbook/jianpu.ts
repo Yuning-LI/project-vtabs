@@ -22,7 +22,7 @@ import type { ParsedToken } from './types.ts'
  */
 const MAJOR_SCALE_OFFSETS = [0, 2, 4, 5, 7, 9, 11]
 
-const TOKEN_PATTERN = /#?[1-7][',dg]*|b[1-7][',dg]*|0|-|\|/gi
+const TOKEN_PATTERN = /[#bn]?[1-7][',dg]*[#bn]?|0|-|\|/gi
 
 /**
  * 将每一行简谱字符串解析成结构化 token 列表。
@@ -89,15 +89,18 @@ function parseToken(token: string, tonicMidi: number): ParsedToken {
     return { kind: 'rest', token }
   }
 
+  const normalizedToken = normalizeNotationPitchToken(token)
   let accidental: -1 | 0 | 1 = 0
-  let body = token
+  let body = normalizedToken
 
-  if (token.startsWith('#')) {
+  if (normalizedToken.startsWith('#')) {
     accidental = 1
-    body = token.slice(1)
-  } else if (token.startsWith('b')) {
+    body = normalizedToken.slice(1)
+  } else if (normalizedToken.startsWith('b')) {
     accidental = -1
-    body = token.slice(1)
+    body = normalizedToken.slice(1)
+  } else if (normalizedToken.startsWith('n')) {
+    body = normalizedToken.slice(1)
   }
 
   const degree = Number(body[0])
@@ -127,6 +130,19 @@ function parseToken(token: string, tonicMidi: number): ParsedToken {
     octaveShift,
     midi
   }
+}
+
+function normalizeNotationPitchToken(token: string) {
+  const normalized = token.trim()
+  const match = normalized.match(/^([#bn]?)([1-7])([',dg]*)([#bn]?)$/i)
+  if (!match) {
+    return normalized
+  }
+
+  const accidental = (match[1] || match[4] || '').toLowerCase()
+  const degree = match[2] ?? ''
+  const octaveMarks = match[3] ?? ''
+  return `${accidental}${degree}${octaveMarks}`
 }
 
 /**

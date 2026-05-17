@@ -215,6 +215,15 @@ export function buildSourceSanityReport({
       })
     }
 
+    if (localDraft.lyrics.alignedLines.some(line => /[;:]/.test(line))) {
+      localIssues.push({
+        code: 'lyric-runtime-risk-punctuation',
+        severity: 'info',
+        message:
+          'Aligned lyrics still contain ";" or ":"; Happy123/Kuailepu runtime can miscount these as lyric-slot-breaking punctuation, so verify or strip them before publish.'
+      })
+    }
+
     if (localOpeningLyricsLines[0] && /^[a-z]/.test(localOpeningLyricsLines[0])) {
       localIssues.push({
         code: 'opening-lyrics-lowercase',
@@ -309,7 +318,7 @@ function classifyWarnings(warnings: string[]) {
     }
 
     if (
-      /Multiple lyric verses detected|non-preferred verses|verse-number prefixes stripped|mismatched verse prefix|continuation residue/i.test(
+      /Multiple lyric verses detected|non-preferred verses|different verse-number prefix|verse-number prefixes stripped|leading punctuation noise|mismatched verse prefix|continuation residue/i.test(
         warning
       )
     ) {
@@ -324,6 +333,46 @@ function classifyWarnings(warnings: string[]) {
       return {
         code: 'draft-warning-tie-lyric-rebalanced',
         severity: 'info',
+        message: warning
+      }
+    }
+
+    if (/Synthesized .*full-measure rest span/i.test(warning)) {
+      return {
+        code: 'draft-warning-full-measure-rests',
+        severity: 'info',
+        message: warning
+      }
+    }
+
+    if (/Inserted .*internal rest span/i.test(warning)) {
+      return {
+        code: 'draft-warning-gap-rests',
+        severity: 'info',
+        message: warning
+      }
+    }
+
+    if (/Inserted .*trailing rest span/i.test(warning)) {
+      return {
+        code: 'draft-warning-trailing-rests',
+        severity: 'info',
+        message: warning
+      }
+    }
+
+    if (/Trimmed .*overlapping event span/i.test(warning)) {
+      return {
+        code: 'draft-warning-overlap-trimmed',
+        severity: 'warning',
+        message: warning
+      }
+    }
+
+    if (/Clipped .*overflow event span/i.test(warning)) {
+      return {
+        code: 'draft-warning-measure-overflow',
+        severity: 'warning',
         message: warning
       }
     }

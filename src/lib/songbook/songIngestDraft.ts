@@ -48,6 +48,12 @@ export type ExtractedMusicXmlEvent = {
     hasGrace: boolean
     hasChordStack: boolean
     leadingGraceNotes?: ExtractedMusicXmlGraceNote[]
+    lyric?: {
+      number: string | null
+      syllabic: 'single' | 'begin' | 'middle' | 'end' | null
+      extends: boolean
+      hadText: boolean
+    }
     timeModification: {
       actualNotes: number | null
       normalNotes: number | null
@@ -137,6 +143,7 @@ export type SongIngestDraft = {
   }
   lyrics: {
     alignedLines: string[]
+    displayLines: string[]
   }
   happi123Draft: {
     title: string
@@ -156,6 +163,7 @@ export type SongIngestDraft = {
       tempoBpm: number | null
     }
     notation: string[]
+    lyrics?: string[]
     alignedLyrics?: string[]
   }
   warnings: string[]
@@ -163,6 +171,15 @@ export type SongIngestDraft = {
 
 type NormalizedEvent = ExtractedMusicXmlEvent & {
   duration: number
+}
+
+type MeasureNormalizationDiagnostics = {
+  synthesizedFullMeasureRests: number
+  insertedGapRests: number
+  insertedTrailingRests: number
+  trimmedOverlaps: number
+  clippedOverflowEvents: number
+  droppedOverflowEvents: number
 }
 
 const FIFTHS_TO_KEYNOTE: Record<number, string> = {
@@ -188,14 +205,26 @@ export function buildSongIngestDraftFromMusicXmlExtract(
   options: BuildSongIngestDraftOptions = {}
 ): SongIngestDraft {
   const selectedVoice = options.voice?.trim() || chooseDominantVoice(extract.measures)
+  const normalizationDiagnostics = createEmptyMeasureNormalizationDiagnostics()
   const normalizedSelectedMeasures = extract.measures
-    .map(measure => ({
-      ...measure,
-      events: normalizeSelectedMeasureEvents(
-        measure.events.filter(event => event.voice === selectedVoice)
+    .map(measure => {
+      const normalization = normalizeSelectedMeasureEvents(
+        measure.events.filter(event => event.voice === selectedVoice),
+        getExpectedMeasureDuration(measure)
       )
-    }))
-    .filter(measure => measure.events.length > 0)
+      mergeMeasureNormalizationDiagnostics(normalizationDiagnostics, normalization.diagnostics)
+
+      return {
+        ...measure,
+        events: normalization.events
+      }
+    })
+    .filter(
+      measure =>
+        measure.events.length > 0 ||
+        measure.harmonies.length > 0 ||
+        getExpectedMeasureDuration(measure) !== null
+    )
   const pickupAdjusted = alignPickupMeasures(normalizedSelectedMeasures)
   const selectedMeasures = pickupAdjusted.measures
 
@@ -225,7 +254,10 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       .trim()
   )
   const alignedLyricLines = groupedLines
-    .map(group => group.flatMap(measure => measure.lyricSlots).join(' ').trim())
+    .map(group => group.flatMap(measure => measure.alignedLyricSlots).join(' ').trim())
+    .filter(Boolean)
+  const displayLyricLines = groupedLines
+    .map(group => group.flatMap(measure => measure.displayLyricSlots).join(' ').trim())
     .filter(Boolean)
 
   const noteCount = selectedMeasures.reduce(
@@ -271,7 +303,9 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       measure.events.filter(event => !event.isRest && normalizeLyricSlot(event.lyric) !== '_').length,
     0
   )
-  const lyricLanguage = detectLyricLanguage(groupedLines.flatMap(group => group.flatMap(measure => measure.lyricSlots)))
+  const lyricLanguage = detectLyricLanguage(
+    groupedLines.flatMap(group => group.flatMap(measure => measure.alignedLyricSlots))
+  )
   const lyricPolicy = options.lyricPolicy || inferLyricPolicy(lyricLanguage)
   const warnings = [
     ...extract.warnings,
@@ -290,6 +324,31 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       : []),
     ...(pickupAdjusted.applied
       ? ['Detected an incomplete opening pickup bar and synthesized leading rests for notation alignment.']
+      : []),
+    ...(normalizationDiagnostics.synthesizedFullMeasureRests > 0
+      ? [
+          `Synthesized ${normalizationDiagnostics.synthesizedFullMeasureRests} full-measure rest span(s) for the selected voice so empty measures keep their original timing.`
+        ]
+      : []),
+    ...(normalizationDiagnostics.insertedGapRests > 0
+      ? [
+          `Inserted ${normalizationDiagnostics.insertedGapRests} internal rest span(s) to preserve explicit gaps inside the selected melody voice.`
+        ]
+      : []),
+    ...(normalizationDiagnostics.insertedTrailingRests > 0
+      ? [
+          `Inserted ${normalizationDiagnostics.insertedTrailingRests} trailing rest span(s) so selected-voice measures still fill their written meter.`
+        ]
+      : []),
+    ...(normalizationDiagnostics.trimmedOverlaps > 0
+      ? [
+          `Trimmed ${normalizationDiagnostics.trimmedOverlaps} overlapping event span(s) while rebuilding the selected melody voice timeline.`
+        ]
+      : []),
+    ...(normalizationDiagnostics.clippedOverflowEvents > 0 || normalizationDiagnostics.droppedOverflowEvents > 0
+      ? [
+          `Clipped ${normalizationDiagnostics.clippedOverflowEvents} and dropped ${normalizationDiagnostics.droppedOverflowEvents} overflow event span(s) that ran past explicit measure boundaries.`
+        ]
       : []),
     ...(tieLyricRebalance.rebalancedCount > 0
       ? [
@@ -339,14 +398,15 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       lines: notationLines
     },
     lyrics: {
-      alignedLines: alignedLyricLines
+      alignedLines: alignedLyricLines,
+      displayLines: displayLyricLines
     },
     happi123Draft: {
       title,
       meter,
       keynote,
       notationText: renderHappy123DraftLines(groupedLines, tonicMidi, durationUnit).join('\n'),
-      lyricText: alignedLyricLines.length > 0 ? alignedLyricLines.join('\n') : null
+      lyricText: displayLyricLines.length > 0 ? displayLyricLines.join('\n') : null
     },
     songDocDraft: {
       title,
@@ -359,6 +419,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
         tempoBpm
       },
       notation: notationLines,
+      ...(displayLyricLines.length > 0 ? { lyrics: displayLyricLines } : {}),
       ...(alignedLyricLines.length > 0 ? { alignedLyrics: alignedLyricLines } : {})
     },
     warnings
@@ -373,14 +434,16 @@ export function buildSongIngestDraftFromMusicXmlExtract(
         events: ExtractedMusicXmlEvent[]
         harmonies: ExtractedMusicXmlHarmony[]
         eventsToNotation: string
-        lyricSlots: string[]
+        alignedLyricSlots: string[]
+        displayLyricSlots: string[]
       }>
     > = []
     let currentLine: Array<{
       events: ExtractedMusicXmlEvent[]
       harmonies: ExtractedMusicXmlHarmony[]
       eventsToNotation: string
-      lyricSlots: string[]
+      alignedLyricSlots: string[]
+      displayLyricSlots: string[]
     }> = []
 
     measures.forEach((measure, index) => {
@@ -396,7 +459,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
         events: measure.events,
         harmonies: measure.harmonies,
         eventsToNotation: renderMeasureNotation(measure.events, tonicMidi, durationUnit, measure.harmonies),
-        lyricSlots: renderMeasureLyricSlots(measure.events)
+        ...renderMeasureLyricSlots(measure.events)
       })
 
       if (index === measures.length - 1 && currentLine.length > 0) {
@@ -440,7 +503,7 @@ export function buildSongIngestDraftFromMusicXmlExtract(
         continue
       }
 
-      const flattenedSlots = currentLine.flatMap(measure => measure.lyricSlots)
+      const flattenedSlots = currentLine.flatMap(measure => measure.alignedLyricSlots)
       const placeholderIndex = flattenedSlots.indexOf('_')
       if (placeholderIndex <= 0) {
         continue
@@ -449,8 +512,11 @@ export function buildSongIngestDraftFromMusicXmlExtract(
       const shiftedSlots = ['_', ...flattenedSlots.slice(0, placeholderIndex), ...flattenedSlots.slice(placeholderIndex + 1)]
       let cursor = 0
       currentLine.forEach(measure => {
-        measure.lyricSlots = shiftedSlots.slice(cursor, cursor + measure.lyricSlots.length)
-        cursor += measure.lyricSlots.length
+        measure.alignedLyricSlots = shiftedSlots.slice(
+          cursor,
+          cursor + measure.alignedLyricSlots.length
+        )
+        cursor += measure.alignedLyricSlots.length
       })
       rebalancedCount += 1
     }
@@ -564,7 +630,11 @@ function mergeTiedEvents(events: ExtractedMusicXmlEvent[]) {
   return merged
 }
 
-function normalizeSelectedMeasureEvents(events: ExtractedMusicXmlEvent[]) {
+function normalizeSelectedMeasureEvents(
+  events: ExtractedMusicXmlEvent[],
+  expectedMeasureDuration: number | null
+) {
+  const diagnostics = createEmptyMeasureNormalizationDiagnostics()
   const sortedEvents = [...events]
     .map(event => ({
       ...event,
@@ -582,44 +652,139 @@ function normalizeSelectedMeasureEvents(events: ExtractedMusicXmlEvent[]) {
     })
 
   const normalized: ExtractedMusicXmlEvent[] = []
+  const boundedExpectedDuration =
+    typeof expectedMeasureDuration === 'number' && expectedMeasureDuration > 0
+      ? expectedMeasureDuration
+      : null
   let cursor = 0
 
+  if (sortedEvents.length === 0 && boundedExpectedDuration) {
+    diagnostics.synthesizedFullMeasureRests += 1
+    return {
+      events: [
+        {
+          voice: '1',
+          offset: 0,
+          duration: boundedExpectedDuration,
+          midi: null,
+          isRest: true,
+          lyric: null,
+          tieStart: false,
+          tieStop: false
+        }
+      ],
+      diagnostics
+    }
+  }
+
   sortedEvents.forEach(event => {
-    if (event.offset > cursor) {
-      normalized.push({
-        voice: event.voice,
-        offset: cursor,
-        duration: event.offset - cursor,
-        midi: null,
-        isRest: true,
-        lyric: null,
-        tieStart: false,
-        tieStop: false
-      })
-      cursor = event.offset
+    if (boundedExpectedDuration !== null && event.offset >= boundedExpectedDuration) {
+      diagnostics.droppedOverflowEvents += 1
+      return
     }
 
-    if (event.offset < cursor) {
-      const overlap = cursor - event.offset
-      const trimmedDuration = event.duration - overlap
+    if (event.offset > cursor) {
+      const restDuration =
+        boundedExpectedDuration !== null
+          ? Math.min(event.offset, boundedExpectedDuration) - cursor
+          : event.offset - cursor
+      if (restDuration > 0) {
+        diagnostics.insertedGapRests += 1
+        normalized.push({
+          voice: event.voice,
+          offset: cursor,
+          duration: restDuration,
+          midi: null,
+          isRest: true,
+          lyric: null,
+          tieStart: false,
+          tieStop: false
+        })
+        cursor += restDuration
+      }
+    }
+
+    if (boundedExpectedDuration !== null && cursor >= boundedExpectedDuration) {
+      return
+    }
+
+    let nextOffset = event.offset
+    let nextDuration = event.duration
+
+    if (nextOffset < cursor) {
+      const overlap = cursor - nextOffset
+      const trimmedDuration = nextDuration - overlap
+      diagnostics.trimmedOverlaps += 1
       if (trimmedDuration <= 0) {
         return
       }
 
-      normalized.push({
-        ...event,
-        offset: cursor,
-        duration: trimmedDuration
-      })
-      cursor += trimmedDuration
-      return
+      nextOffset = cursor
+      nextDuration = trimmedDuration
     }
 
-    normalized.push(event)
-    cursor += event.duration
+    if (
+      boundedExpectedDuration !== null &&
+      nextOffset + nextDuration > boundedExpectedDuration
+    ) {
+      const clippedDuration = boundedExpectedDuration - nextOffset
+      diagnostics.clippedOverflowEvents += 1
+      if (clippedDuration <= 0) {
+        diagnostics.droppedOverflowEvents += 1
+        return
+      }
+      nextDuration = clippedDuration
+    }
+
+    normalized.push({
+      ...event,
+      offset: nextOffset,
+      duration: nextDuration
+    })
+    cursor = nextOffset + nextDuration
   })
 
-  return mergeTiedEvents(normalized)
+  if (boundedExpectedDuration !== null && cursor < boundedExpectedDuration) {
+    diagnostics.insertedTrailingRests += 1
+    normalized.push({
+      voice: sortedEvents[0]?.voice ?? '1',
+      offset: cursor,
+      duration: boundedExpectedDuration - cursor,
+      midi: null,
+      isRest: true,
+      lyric: null,
+      tieStart: false,
+      tieStop: false
+    })
+  }
+
+  return {
+    events: mergeTiedEvents(normalized),
+    diagnostics
+  }
+}
+
+function createEmptyMeasureNormalizationDiagnostics(): MeasureNormalizationDiagnostics {
+  return {
+    synthesizedFullMeasureRests: 0,
+    insertedGapRests: 0,
+    insertedTrailingRests: 0,
+    trimmedOverlaps: 0,
+    clippedOverflowEvents: 0,
+    droppedOverflowEvents: 0
+  }
+}
+
+function mergeMeasureNormalizationDiagnostics(
+  target: MeasureNormalizationDiagnostics,
+  source: MeasureNormalizationDiagnostics
+) {
+  target.synthesizedFullMeasureRests += source.synthesizedFullMeasureRests
+  target.insertedGapRests += source.insertedGapRests
+  target.insertedTrailingRests += source.insertedTrailingRests
+  target.trimmedOverlaps += source.trimmedOverlaps
+  target.clippedOverflowEvents += source.clippedOverflowEvents
+  target.droppedOverflowEvents += source.droppedOverflowEvents
 }
 
 function alignPickupMeasures(measures: ExtractedMusicXmlMeasure[]) {
@@ -760,19 +925,69 @@ function renderMeasureNotation(
 }
 
 function renderMeasureLyricSlots(events: ExtractedMusicXmlEvent[]) {
-  return events
-    .filter(event => !event.isRest)
-    .map(event => normalizeLyricSlot(event.lyric))
+  const soundingEvents = events.filter(event => !event.isRest)
+
+  return {
+    alignedLyricSlots: soundingEvents.map(event => normalizeLyricSlot(event.lyric)),
+    displayLyricSlots: soundingEvents.map(event => normalizeDisplayLyricSlot(event.lyric))
+  }
 }
 
 function normalizeLyricSlot(value: string | null) {
-  const normalized =
+  /**
+   * `alignedLyrics` 是“对位真相源”，职责只有一个：
+   * - 每个可唱音符对应一个稳定歌词槽
+   *
+   * 所以这里主动去掉所有标点，仅保留文字/数字本体。
+   * 标点回显交给 `lyrics` 显示层，不让任何标点直接参与槽位计数。
+   */
+  const normalized = normalizeLyricBaseText(value)
+  if (!normalized) {
+    return '_'
+  }
+
+  const contentOnly = normalized.replace(/[^A-Za-z0-9\u3400-\u9fff]+/g, '').trim()
+  return contentOnly.length > 0 ? contentOnly : '_'
+}
+
+function normalizeDisplayLyricSlot(value: string | null) {
+  /**
+   * `lyrics` 是显示层：
+   * - 尽量保留原文标点
+   * - 但要剔除会让快乐谱 runtime 额外生成空歌词槽的字符
+   *
+   * 已确认高风险：
+   * - `;` / `；`
+   * - `@` / `＠`
+   * - `_` / `/`
+   * - 成对括号本身（其内容保留）
+   * - 双引号：在尾部容易拆成独立 token
+   */
+  const normalized = normalizeLyricBaseText(value)
+  if (!normalized) {
+    return '_'
+  }
+
+  const runtimeSafe = normalized
+    .replace(/[;；@＠_/]+/g, '')
+    .replace(/[()[\]{}<>（）【】《》]/g, '')
+    .replace(/["“”]+/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+
+  const contentOnly = runtimeSafe.replace(/[^A-Za-z0-9\u3400-\u9fff]+/g, '').trim()
+  return contentOnly.length > 0 ? runtimeSafe : '_'
+}
+
+function normalizeLyricBaseText(value: string | null) {
+  return (
     value
       ?.replace(/\s+/g, ' ')
       .trim()
       .replace(/^\d+(?:[.)_-]{2,}|[.]{2,})(?=[A-Za-z])/, '')
-      .replace(/["“”]+/g, '') ?? ''
-  return normalized.length > 0 ? normalized : '_'
+      .replace(/^[“”"`.,;:!?()[\]{}<>_-]+(?=[A-Za-z0-9\u3400-\u9fff])/, '')
+      .trim() ?? ''
+  )
 }
 
 function detectLyricLanguage(slots: string[]): SongIngestLyricLanguage {

@@ -145,6 +145,7 @@ async function evaluateMusicXmlScore(
       const availableLyricNumbers = collectLyricNumbers(partNode)
       const preferredLyricNumber = detectPreferredLyricNumber(availableLyricNumbers)
       let strippedLyricPrefixCount = 0
+      let strippedLyricPunctuationNoiseCount = 0
       let skippedNonPreferredLyricCount = 0
       let skippedMismatchedVersePrefixCount = 0
       let suppressedPreferredLyricContinuationCount = 0
@@ -173,6 +174,12 @@ async function evaluateMusicXmlScore(
               hasGrace: boolean
               hasChordStack: boolean
               leadingGraceNotes?: ExtractedMusicXmlGraceNote[]
+              lyric?: {
+                number: string | null
+                syllabic: 'single' | 'begin' | 'middle' | 'end' | null
+                extends: boolean
+                hadText: boolean
+              }
               timeModification: {
                 actualNotes: number | null
                 normalNotes: number | null
@@ -281,7 +288,8 @@ async function evaluateMusicXmlScore(
             const tieNodes = Array.from(child.getElementsByTagName('tie'))
             const tieStart = tieNodes.some(node => node.getAttribute('type') === 'start')
             const tieStop = tieNodes.some(node => node.getAttribute('type') === 'stop')
-            const lyric = getPreferredLyricText(child)
+            const lyricData = getPreferredLyricData(child)
+            const lyric = lyricData.text
 
             const leadingGraceNotes = pendingGraceByVoice.get(voice) ?? []
             if (leadingGraceNotes.length > 0) {
@@ -301,6 +309,12 @@ async function evaluateMusicXmlScore(
                   hasGrace,
                   hasChordStack,
                   ...(leadingGraceNotes.length > 0 ? { leadingGraceNotes } : {}),
+                  lyric: {
+                    number: lyricData.number,
+                    syllabic: lyricData.syllabic,
+                    extends: lyricData.extends,
+                    hadText: lyricData.hadText
+                  },
                   timeModification
                 }
               })
@@ -364,6 +378,12 @@ async function evaluateMusicXmlScore(
         )
       }
 
+      if (strippedLyricPunctuationNoiseCount > 0) {
+        warnings.add(
+          `${strippedLyricPunctuationNoiseCount} lyric token(s) had leading punctuation noise stripped during extraction.`
+        )
+      }
+
       return {
         sourceKind: 'musicxml',
         title:
@@ -416,9 +436,17 @@ async function evaluateMusicXmlScore(
         return [...new Set(lyricNumbers)].sort()[0] ?? null
       }
 
-      function getPreferredLyricText(note: Element) {
+      function getPreferredLyricData(note: Element) {
         const lyricNodes = Array.from(note.getElementsByTagName('lyric'))
-        if (lyricNodes.length === 0) return null
+        if (lyricNodes.length === 0) {
+          return {
+            text: null,
+            number: null,
+            syllabic: null,
+            extends: false,
+            hadText: false
+          }
+        }
 
         const preferredNode =
           (preferredLyricNumber
@@ -429,12 +457,39 @@ async function evaluateMusicXmlScore(
 
         if (!preferredNode) {
           skippedNonPreferredLyricCount += 1
-          return null
+          return {
+            text: null,
+            number: null,
+            syllabic: null,
+            extends: false,
+            hadText: false
+          }
         }
 
-        const textNode = Array.from(preferredNode.getElementsByTagName('text'))[0]
-        const rawText = textNode?.textContent?.replace(/\s+/g, ' ').trim() || ''
-        if (!rawText) return null
+        const rawText = Array.from(preferredNode.getElementsByTagName('text'))
+          .map(node => node.textContent?.replace(/\s+/g, ' ').trim() || '')
+          .filter(Boolean)
+          .join(' ')
+          .trim()
+        const syllabic =
+          (Array.from(preferredNode.getElementsByTagName('syllabic'))[0]?.textContent?.trim().toLowerCase() as
+            | 'single'
+            | 'begin'
+            | 'middle'
+            | 'end'
+            | undefined) ?? null
+        const hasExtend = preferredNode.getElementsByTagName('extend').length > 0
+        const lyricNumber = (preferredNode.getAttribute('number') || '').trim() || null
+
+        if (!rawText) {
+          return {
+            text: null,
+            number: lyricNumber,
+            syllabic,
+            extends: hasExtend,
+            hadText: false
+          }
+        }
 
         const versePrefixMatch = rawText.match(/^\(?(\d+)\)?\s*[\.\):]?\s+/)
         const versePrefixNumber = versePrefixMatch?.[1] ?? null
@@ -448,23 +503,53 @@ async function evaluateMusicXmlScore(
         ) {
           suppressPreferredLyricContinuation = true
           skippedMismatchedVersePrefixCount += 1
-          return null
+          return {
+            text: null,
+            number: lyricNumber,
+            syllabic,
+            extends: hasExtend,
+            hadText: true
+          }
         }
         if (suppressPreferredLyricContinuation && !versePrefixNumber) {
           suppressedPreferredLyricContinuationCount += 1
-          return null
+          return {
+            text: null,
+            number: lyricNumber,
+            syllabic,
+            extends: hasExtend,
+            hadText: true
+          }
         }
 
-        const cleanedText = rawText
+        const prefixStrippedText = rawText
           .replace(/^\(?\d+\)?\s*[\.\):]\s*/g, '')
           .replace(/^\(?\d+\)?\s+/g, '')
+        const cleanedText = prefixStrippedText
+          .replace(/^[“”"`.,;:!?()[\]{}<>_-]+(?=[A-Za-z0-9\u3400-\u9fff])/g, '')
           .trim()
 
         if (cleanedText !== rawText) {
-          strippedLyricPrefixCount += 1
+          if (prefixStrippedText !== rawText) {
+            strippedLyricPrefixCount += 1
+          }
+          if (cleanedText !== prefixStrippedText) {
+            strippedLyricPunctuationNoiseCount += 1
+          }
         }
 
-        return cleanedText || null
+        const punctuationFree = cleanedText.replace(/["“”‘’'`.,;:!?()\[\]{}<>_\-]/g, '').trim()
+
+        return {
+          text:
+            cleanedText && /[A-Za-z0-9\u3400-\u9fff]/.test(punctuationFree)
+              ? cleanedText
+              : null,
+          number: lyricNumber,
+          syllabic,
+          extends: hasExtend,
+          hadText: true
+        }
       }
 
       function buildMidiFromNote(note: Element) {

@@ -148,6 +148,10 @@ npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/draft
 This candidate generator:
 
 - converts draft notation into Kuailepu-compatible raw notation through the shared Happy123-native notation generator
+- stores lyrics in two layers:
+  - `alignedLyrics`: punctuation-free slot truth for stable note-to-lyric alignment
+  - `lyrics`: display text with punctuation reattached to words where safe
+- normalizes runtime lyric text for Happy123/Kuailepu safety so punctuation does not create extra lyric slots
 - preserves extracted MusicXML chords as `{cn:...}` notation markers when available
 - emits an explicit bar token for every real measure end; do not rely on line breaks as implicit measure separators
 - keeps a `{bpm:...}` directive in runtime notation so playback/metronome speed stays tied to the resolved song BPM
