@@ -1447,5 +1447,12 @@
     "family": "song",
     "featuredRank": 208,
     "published": true
+  },
+  {
+    "id": "wexford-carol",
+    "slug": "wexford-carol",
+    "family": "holiday",
+    "featuredRank": 209,
+    "published": true
   }
 ]

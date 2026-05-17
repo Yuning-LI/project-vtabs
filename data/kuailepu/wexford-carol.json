@@ -1,0 +1,48 @@
+{
+  "id": "wexford-carol",
+  "slug": "wexford-carol",
+  "title": "Wexford Carol",
+  "description": "A traditional Irish Christmas carol arranged in a melody-first letter-note and fingering-chart layout for recorder, ocarina, and tin whistle practice.",
+  "published": true,
+  "lyrics": [
+    "Good peo ple _ all this Christ mas time, Con",
+    "sid er _ well and _ bear in mind, What our good God for",
+    "us has done, in send ing His _ be lov ed Son. With",
+    "Mar y ho _ ly we _ should pray to _",
+    "God _ with love _ this _ Christ mas Day In Beth le _ hem up",
+    "on that morn, There was a bless _ ed Mes si _ ah born."
+  ],
+  "alignedLyrics": [
+    "Good peo ple _ all this Christ mas time, Con",
+    "sid er _ well and _ bear in mind, What our good God for",
+    "us has done, in send ing His _ be lov ed Son. With",
+    "Mar y ho _ ly we _ should pray to _",
+    "God _ with love _ this _ Christ mas Day In Beth le _ hem up",
+    "on that morn, There was a bless _ ed Mes si _ ah born."
+  ],
+  "source": {
+    "title": "Traditional Irish carol source corpus",
+    "url": "",
+    "rights": "Public-domain or traditional source reviewed for the current public song library workflow.",
+    "note": "Generated from the internal MusicXML ingest pipeline."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 88,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-17",
+    "note": "Refs: Wikipedia, ChristmasCarols, Hymnary. Identity, opening lyric, and common carol version verified against public references; current candidate matches the familiar Wexford Carol opening and starts at the main tune."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 - - - - - - - 0 - 5d - | {cn:G} 1 - 1 7d 1 - - - - - 2 - | 3 - 4 - {cn:G/B} 5 - - - - - 5 -",
+    "{cn:D7/F#} 4 - - {cn:G} 3 {cn:E} 1 {cn:D7} 5d - - - - {cn:E/G} 5d 6d | {cn:F} 7db - - 1 {cn:D7} 7db - - - - - 5d - | {cn:G} 1 - 7d - 1 - - - - - 2 -",
+    "3 - 4 - {cn:G/B} 5 - - - - - 3 - | {cn:C/G} 2 - {cn:D/F#} 5 - {cn:E} 3 - 1 - - - 2 - | {cn:C} 1 - - 7d {cn:G} 1 - - - - - 1 -",
+    "{cn:C/G} 1 - 7b - {cn:F} 5 - 4 - - - 2 - | {cn:G7} 3b 2 - {cn:F/A} 4 - {cn:Bb} 3b - - - - 5 4",
+    "{cn:G} 3b 2 - 1 1 5d - - - 0 5d 6d | {cn:D} 7db - - 1 {cn:F} 7db - - - - - 5d - | {cn:G} 1 - 1 7d 1 - - - - - 2 -",
+    "3 - 4 - {cn:G/B} 5 - - - - - 3 - | {cn:D} 4 - 5 - 3 1 - 1 - - - 2 | {cn:G} 1 7d 1 - 1 - - - - - 0 -"
+  ]
+}
