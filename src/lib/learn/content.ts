@@ -551,8 +551,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'A public guide for players searching 12-hole ocarina letter notes, easy tabs, and finger chart songs with beginner-friendly starting points.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'This page gathers the song pages that work best as a first stop for players searching for 12-hole ocarina letter notes, 12-hole ocarina notes, or an easy finger chart song list. The goal is not to replace the song library, but to give search users a clearer way to begin.',
-      'It is built around the practical first-use situations that make 12-hole search intent different from a generic library browse: a first warm-up song, a first sing-along melody, and one or two longer tunes that still stay readable in the standard 12-hole range.'
+      'This page gathers the song pages that work best as a first stop for players searching for 12-hole ocarina letter notes, 12-hole ocarina notes, or a 12-hole ocarina finger chart song list. The goal is not to replace the song library, but to give search users a clearer way to begin.',
+      'It is built around the practical first-use situations that make 12-hole search intent different from a generic library browse: a first warm-up song, a first sing-along melody, and one or two longer tunes that still stay readable in the standard 12-hole range for beginners.'
     ],
     featuredSongSlugs: [
       'twinkle-twinkle-little-star',
@@ -586,7 +586,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'How To Use The Song Pages',
         paragraphs: [
           'Open a song page in the default letter-note view first. Keep the fingering chart visible until the phrase shape feels stable, and only switch to numbered notes when you want a backup reading view.',
-          'On longer melodies, use the zoom and layout controls to keep the page readable instead of forcing everything into one glance.'
+          'For players searching 12-hole ocarina notes or a 12-hole ocarina finger chart, this is the most useful workflow: one clear melody page, one visible chart, and no need to jump between separate screenshots or image-only tabs.'
         ],
         bullets: [
           'Start in letter notes, not numbered notes.',
@@ -612,6 +612,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         question: 'Who is this guide for?',
         answer:
           'It is for players who search directly for 12-hole ocarina letter notes and need a cleaner starting point than a full mixed library page.'
+      },
+      {
+        question: 'Can I use this page like a 12-hole ocarina finger chart song list?',
+        answer:
+          'Yes. The idea is to give players a practical starter shelf where each song already opens as a usable melody page with visible fingering support, instead of forcing them to collect separate chart images first.'
       }
     ],
     relatedGuideSlugs: [
@@ -788,8 +793,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'A themed recorder entry page for searchable melody pages with letter notes, fingering support, and practical songs for classroom or beginner practice, including Baroque and German setup paths where supported.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'This guide is aimed at players and teachers searching for recorder letter notes instead of a full mixed song catalog. It gives them a narrower page with clearer next steps.',
-      'That makes the page useful for classroom and home practice alike: it emphasizes melodies teachers can cue quickly, songs students can already sing, and setup choices that match the actual recorder in hand.'
+      'This guide is aimed at players and teachers searching for recorder letter notes, recorder notes with letters, or recorder songs with letters instead of a full mixed song catalog. It gives them a narrower page with clearer next steps.',
+      'That makes the page useful for classroom and home practice alike: it emphasizes melodies teachers can cue quickly, songs students can already sing, and setup choices that match the actual recorder in hand, including Baroque or German fingering where the song supports it.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -812,7 +817,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       {
         title: 'Best Recorder Songs For First Reading Practice',
         paragraphs: [
-          'Short classroom melodies work best here because they let new readers connect the letter-note line to finger movement before rhythm and phrase length become the bigger problem.'
+          'Short classroom melodies work best here because they let new readers connect the letter-note line to finger movement before rhythm and phrase length become the bigger problem.',
+          'For searchers who really mean recorder notes with letters or a recorder finger chart song page, these familiar tunes are the fastest way to confirm the site fits that use case.'
         ],
         songSlugs: withInstrument(
           [
@@ -861,6 +867,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         question: 'Why use a recorder guide instead of the full library?',
         answer:
           'Because search users landing on a recorder-specific page get a clearer answer faster, which is better for both usability and search performance.'
+      },
+      {
+        question: 'Does this page help if I searched for recorder notes with letters?',
+        answer:
+          'Yes. That is exactly the kind of search this page is built to answer. It narrows the site down to recorder-friendly melody pages with visible note labels and practical fingering support.'
       }
     ],
     relatedGuideSlugs: [
@@ -868,6 +879,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'how-to-practice-recorder-with-letter-notes',
       'easy-recorder-songs-for-beginners',
       'easy-christmas-recorder-songs',
+      'music-class-songs-for-beginners',
       'folk-songs-for-beginners',
       'songs-with-lyrics'
     ]
@@ -1056,8 +1068,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'A practical starter guide for beginners and teachers who want to start recorder with letter notes, easy songs, and a clear bridge into simple finger patterns, including Baroque or German setup choices where supported.',
     heroLabel: 'Starter Guide',
     intro: [
-      'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want recorder letter notes, a handful of familiar songs, and a practice flow that works in short lessons or classroom warmups.',
-      'The page is structured around short-lesson reality: a few tunes students already know, a readable first pass with visible fingering, and setup choices that match Baroque or German classroom recorders.'
+      'Recorder beginners often search for a simpler way to begin than a full method book or a mixed library page. They want recorder letter notes, recorder notes with letters, a handful of familiar songs, and a practice flow that works in short lessons or classroom warmups.',
+      'The page is structured around short-lesson reality: a few tunes students already know, a readable first pass with visible fingering, and setup choices that match Baroque or German classroom recorders. It is especially close to what people mean when they search for easy recorder songs for beginners with finger chart support.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1092,7 +1104,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'How To Use These Pages In Class Or Home Practice',
         paragraphs: [
           'Keep the page simple during the first pass. Leave the fingering chart visible, use one familiar tune at a time, and avoid changing settings too often while the melody is still new.',
-          'For classroom use, these pages work best when the teacher can point to one clear melody page instead of moving students between screenshots, lyric sites, and separate fingering diagrams.'
+          'For classroom use, these pages work best when the teacher can point to one clear melody page instead of moving students between screenshots, lyric sites, and separate fingering diagrams. That is also why this guide works well for people explicitly looking for recorder notes with letters and a usable finger chart on the same page.'
         ],
         bullets: [
           'Use one short song as the class warm-up every week.',
@@ -1123,6 +1135,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         question: 'Do these links open a different recorder page?',
         answer:
           'No. The point is to land recorder learners closer to the right setup from the first click, especially when Baroque or German fingering choices matter.'
+      },
+      {
+        question: 'Is this a good page for easy recorder songs for beginners with finger chart support?',
+        answer:
+          'Yes. That is one of the main intents this guide serves: a small recorder-first starting set where the melody, note labels, and fingering support stay on the same page from the beginning.'
       }
     ],
     relatedGuideSlugs: [
@@ -1675,8 +1692,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'A recorder-first beginner guide for easy songs, letter notes, and finger-chart support with a cleaner path into the public melody library.',
     heroLabel: 'Instrument Guide',
     intro: [
-      'Some searchers are not looking for recorder theory or a full catalog. They want easy recorder songs, simple recorder songs, and beginner tunes they can recognize quickly and start reading in letter notes right away.',
-      'This page answers that need with a smaller recorder-first set: familiar classroom tunes first, then a few longer melodies that still feel realistic for early breath and fingering practice.'
+      'Some searchers are not looking for recorder theory or a full catalog. They want easy recorder songs, simple recorder songs, recorder notes with letters, and beginner tunes they can recognize quickly and start reading right away.',
+      'This page answers that need with a smaller recorder-first set: familiar classroom tunes first, then a few longer melodies that still feel realistic for early breath and fingering practice. It is also the closest match on the site for searches like easy recorder songs for beginners with finger chart support.'
     ],
     featuredSongSlugs: withInstrument(
       [
@@ -1721,7 +1738,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         title: 'How To Use These Recorder Pages',
         paragraphs: [
           'Start with the shortest nursery songs in the default letter-note layout, then keep the fingering chart visible until the melody feels automatic.',
-          'When the page starts to feel busy, use zoom and lyrics controls before abandoning a song that is otherwise good for practice.'
+          'When the page starts to feel busy, use zoom and lyrics controls before abandoning a song that is otherwise good for practice. For many beginners, this works better than hunting separately for a recorder finger chart and a second notes-only page.'
         ],
         bullets: [
           'Pick one song you can finish in a single session.',
@@ -1757,11 +1774,17 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         question: 'Why is this different from the main recorder guide?',
         answer:
           'The main recorder guide balances broader recorder intent, while this page focuses tightly on easy beginner songs and the shortest first-step melodies.'
+      },
+      {
+        question: 'Does this page fit searches for easy recorder songs with finger chart support?',
+        answer:
+          'Yes. The page is built for that exact beginner use case: easy recorder songs, clear note labels, and direct links into melody pages where fingering support stays visible from the first pass.'
       }
     ],
     relatedGuideSlugs: [
       'recorder-letter-notes',
       'how-to-start-recorder-with-letter-notes',
+      'music-class-songs-for-beginners',
       'easy-christmas-recorder-songs',
       'nursery-rhyme-letter-notes',
       'folk-songs-for-beginners'

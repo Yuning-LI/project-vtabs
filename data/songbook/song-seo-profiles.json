@@ -1,12 +1,13 @@
 {
   "twinkle-twinkle-little-star": {
-    "metaTitle": "Twinkle Twinkle Little Star Recorder Notes and Finger Chart",
+    "metaTitle": "Twinkle Twinkle Little Star Recorder Notes and Fingering Chart",
     "overview": "This page gives you Twinkle, Twinkle, Little Star in a compact letter-note layout with a visible fingering chart, making it a practical first-song page for recorder players while still working for ocarina or tin whistle practice.",
     "searchTerms": [
       "Twinkle Twinkle Little Star letter notes",
       "Twinkle Twinkle Little Star recorder notes",
       "Twinkle Twinkle Little Star recorder finger chart",
-      "Twinkle Twinkle Little Star ocarina tabs"
+      "Twinkle Twinkle Little Star ocarina tabs",
+      "Twinkle Twinkle Little Star first two notes same note"
     ],
     "background": "Twinkle, Twinkle, Little Star is one of the most familiar first songs in beginner music study, and many players search for this melody because they want readable letter notes, recorder notes, or a simple finger chart before dealing with staff notation or longer children's songs.",
     "practice": "Its repeating phrase pattern makes it especially useful for first-note reading, clean finger changes, lyric timing, and steady beginner breath control across the same short melodic cell. The recorder view is especially useful when players want the note names and finger chart on the same page.",
@@ -19,6 +20,10 @@
       {
         "question": "Can I use this as a recorder finger chart page?",
         "answer": "Yes. The public song page can open in recorder view, so players who search for Twinkle Twinkle Little Star recorder notes or a recorder finger chart can keep the melody and fingering support together."
+      },
+      {
+        "question": "Are the first two notes in Twinkle, Twinkle, Little Star the same note?",
+        "answer": "Yes. The familiar opening repeats the same pitch before the melody starts moving, which is one reason the tune works so well for first-step note reading and early fingering confidence."
       }
     ],
     "aliases": [
@@ -113,6 +118,7 @@
       "Happy Birthday letter notes",
       "Happy Birthday recorder notes",
       "Happy Birthday recorder notes with letters",
+      "Happy Birthday recorder finger chart",
       "Happy Birthday ocarina tabs"
     ],
     "background": "Happy Birthday to You is one of the most recognizable songs on the web, so players often need a clean melody page they can open quickly for parties, school events, family gatherings, and last-minute requests on recorder, ocarina, or tin whistle.",
@@ -126,6 +132,10 @@
       {
         "question": "Does this page work for Happy Birthday recorder notes with letters?",
         "answer": "Yes. The song page supports recorder view and letter-note reading, so it can serve players who want Happy Birthday recorder notes with letters and a visible fingering chart on the same page."
+      },
+      {
+        "question": "Can I use this page as a Happy Birthday recorder finger chart reference?",
+        "answer": "Yes. The recorder view keeps the melody and fingering support together, which makes it useful when you need a quick Happy Birthday recorder finger chart page for a party, class, or family event."
       }
     ]
   },
@@ -584,11 +594,13 @@
       "Brother John",
       "两只老虎"
     ],
-    "metaTitle": "Frere Jacques Notes With Letters and Fingering Chart",
+    "metaTitle": "Frere Jacques Recorder Notes With Letters and Fingering Chart",
     "overview": "This page keeps Frere Jacques short, familiar, and easy to scan, which makes it useful when you want a quick beginner melody with notes and letters that still feels complete from the first play-through.",
     "searchTerms": [
       "Frere Jacques notes",
-      "Brother John recorder notes"
+      "Frere Jacques recorder notes",
+      "Brother John recorder notes",
+      "Frere Jacques first two notes same pitch"
     ],
     "background": "Frere Jacques is a classic French nursery round and one of the easiest melody pages to recognise and memorise quickly, especially for beginners who search the tune as Frere Jacques, Brother John, or Are You Sleeping.",
     "practice": "Its repeated section design makes it ideal for beginners practicing note recall, phrase repetition, and quick confidence-building play-throughs. It also works well for learners who want a short song that still feels complete from start to finish.",
@@ -601,6 +613,10 @@
       {
         "question": "Can this page help if I know the tune as Brother John?",
         "answer": "Yes. Brother John is the common English title for the same melody, so this page is still the right place if that is the version you learned first."
+      },
+      {
+        "question": "Are the first two notes in Frere Jacques the same pitch?",
+        "answer": "Yes. The opening begins with the same pitch repeated, which is why many beginners notice it quickly and why the melody works well for early pitch-pattern recognition."
       }
     ]
   },
@@ -756,11 +772,12 @@
     ]
   },
   "lightly-row": {
-    "metaTitle": "Lightly Row Notes With Letters and Fingering Chart",
+    "metaTitle": "Lightly Row Recorder Notes With Letters and Fingering Chart",
     "overview": "This Lightly Row page is built for very early learners who want a true first-song melody in notes with letters, with simple movement that helps connect note names to fingering without visual overload.",
     "searchTerms": [
       "Lightly Row notes with letters",
-      "Lightly Row recorder notes"
+      "Lightly Row recorder notes",
+      "Lightly Row recorder finger chart"
     ],
     "background": "Lightly Row is a common beginner teaching tune that appears in method books and first-instrument lessons, so it fits players searching for recorder notes, notes with letters, or a very easy melody page they can finish quickly.",
     "practice": "Its simple contours make it suitable for first-step rhythm reading, note-location practice, and early classroom or home repetition.",
@@ -773,6 +790,10 @@
       {
         "question": "Why does Lightly Row appear in so many beginner music books?",
         "answer": "It shows a basic melodic contour clearly, which makes it useful for connecting simple rhythm reading, note location, and repeated practice in a short page that does not overwhelm new players."
+      },
+      {
+        "question": "Does this page work for Lightly Row recorder notes or a recorder finger chart search?",
+        "answer": "Yes. The page is a good fit for Lightly Row recorder-note searches because it keeps the simple melody, letter-note reading, and fingering support together on one beginner-friendly page."
       }
     ],
     "aliases": [
