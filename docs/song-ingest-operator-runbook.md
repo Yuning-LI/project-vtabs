@@ -62,6 +62,7 @@ It writes the standard draft/runtime/songdoc/report/sanity outputs and, by defau
 
 - resolves runtime BPM from manual override or source metadata before falling back
 - runs runtime fingering optimization automatically
+- applies melody-first overlap filtering so competing overlapping notes inside one selected source voice do not silently replace the likely lead melody
 - writes punctuation-free aligned lyric slots for stable note-to-lyric matching
 - keeps a separate display lyric layer so punctuation stays attached to words instead of consuming slots
 - writes a runtime audit marker into candidate runtime JSON
@@ -162,6 +163,7 @@ Minimum review targets:
 2. opening lyric identity when lyrics exist
 3. opening melody contour
 4. source starts at the common tune, not bridge/coda/fragment
+5. if source sanity or draft warnings mention overlapping competing notes, manually confirm the kept line is truly the main melody
 
 Preferred references:
 

@@ -369,6 +369,14 @@ function classifyWarnings(warnings: string[]) {
       }
     }
 
+    if (/Melody-first selection discarded .* overlapping note candidate/i.test(warning)) {
+      return {
+        code: 'draft-warning-melody-overlap-selection',
+        severity: 'warning',
+        message: warning
+      }
+    }
+
     if (/Clipped .*overflow event span/i.test(warning)) {
       return {
         code: 'draft-warning-measure-overflow',

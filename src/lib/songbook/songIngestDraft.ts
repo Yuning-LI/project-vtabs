@@ -180,6 +180,8 @@ type MeasureNormalizationDiagnostics = {
   trimmedOverlaps: number
   clippedOverflowEvents: number
   droppedOverflowEvents: number
+  melodyOverlapResolutions: number
+  melodyDiscardedOverlappingNotes: number
 }
 
 const FIFTHS_TO_KEYNOTE: Record<number, string> = {
@@ -206,10 +208,18 @@ export function buildSongIngestDraftFromMusicXmlExtract(
 ): SongIngestDraft {
   const selectedVoice = options.voice?.trim() || chooseDominantVoice(extract.measures)
   const normalizationDiagnostics = createEmptyMeasureNormalizationDiagnostics()
+  let previousMelodyMidi: number | null = null
   const normalizedSelectedMeasures = extract.measures
     .map(measure => {
-      const normalization = normalizeSelectedMeasureEvents(
+      const melodySelection = selectLikelyMelodyTimelineForVoice(
         measure.events.filter(event => event.voice === selectedVoice),
+        previousMelodyMidi
+      )
+      previousMelodyMidi = melodySelection.lastMidi
+      mergeMeasureNormalizationDiagnostics(normalizationDiagnostics, melodySelection.diagnostics)
+
+      const normalization = normalizeSelectedMeasureEvents(
+        melodySelection.events,
         getExpectedMeasureDuration(measure)
       )
       mergeMeasureNormalizationDiagnostics(normalizationDiagnostics, normalization.diagnostics)
@@ -348,6 +358,11 @@ export function buildSongIngestDraftFromMusicXmlExtract(
     ...(normalizationDiagnostics.clippedOverflowEvents > 0 || normalizationDiagnostics.droppedOverflowEvents > 0
       ? [
           `Clipped ${normalizationDiagnostics.clippedOverflowEvents} and dropped ${normalizationDiagnostics.droppedOverflowEvents} overflow event span(s) that ran past explicit measure boundaries.`
+        ]
+      : []),
+    ...(normalizationDiagnostics.melodyDiscardedOverlappingNotes > 0
+      ? [
+          `Melody-first selection discarded ${normalizationDiagnostics.melodyDiscardedOverlappingNotes} overlapping note candidate(s) across ${normalizationDiagnostics.melodyOverlapResolutions} ambiguous source span(s) so the chosen voice stays monophonic and prioritizes the lead melody.`
         ]
       : []),
     ...(tieLyricRebalance.rebalancedCount > 0
@@ -541,6 +556,133 @@ function normalizeOptionalMetadataValue(value: string | null | undefined) {
   }
 
   return normalized
+}
+
+function scoreMelodyNoteLikelihood(event: ExtractedMusicXmlEvent, previousMidi: number | null) {
+  const hasLyric = normalizeLyricSlot(event.lyric) !== '_'
+  const durationScore = Math.max(1, event.duration)
+  const registerScore = (event.midi ?? 0) * 10
+  const proximityScore =
+    previousMidi !== null && event.midi !== null
+      ? Math.max(0, 240 - Math.abs(event.midi - previousMidi) * 8)
+      : 0
+
+  return (
+    (hasLyric ? 100_000 : 0) +
+    durationScore +
+    registerScore +
+    proximityScore +
+    (event.tieStart || event.tieStop ? 40 : 0) +
+    ((event.sourceFeatures?.leadingGraceNotes?.length ?? 0) > 0 ? 20 : 0)
+  )
+}
+
+function selectLikelyMelodyTimelineForVoice(
+  events: ExtractedMusicXmlEvent[],
+  previousMelodyMidi: number | null
+) {
+  const diagnostics = createEmptyMeasureNormalizationDiagnostics()
+  const noteEvents = events
+    .filter(event => !event.isRest && event.midi !== null)
+    .map((event, index) => ({
+      event,
+      originalIndex: index,
+      start: Math.max(0, event.offset),
+      end: Math.max(0, event.offset) + Math.max(1, event.duration)
+    }))
+    .sort((left, right) => {
+      if (left.end !== right.end) {
+        return left.end - right.end
+      }
+      if (left.start !== right.start) {
+        return left.start - right.start
+      }
+      return left.originalIndex - right.originalIndex
+    })
+
+  if (noteEvents.length <= 1) {
+    return {
+      events: events.filter(event => !event.isRest),
+      lastMidi:
+        [...events]
+          .reverse()
+          .find(event => !event.isRest && event.midi !== null)
+          ?.midi ?? previousMelodyMidi,
+      diagnostics
+    }
+  }
+
+  const previousCompatibleIndex = noteEvents.map((current, currentIndex) => {
+    for (let index = currentIndex - 1; index >= 0; index -= 1) {
+      if (noteEvents[index]!.end <= current.start) {
+        return index
+      }
+    }
+    return -1
+  })
+
+  const scores = noteEvents.map(({ event }) => scoreMelodyNoteLikelihood(event, previousMelodyMidi))
+  const bestTotals = new Array<number>(noteEvents.length).fill(0)
+  const takeNote = new Array<boolean>(noteEvents.length).fill(false)
+
+  noteEvents.forEach((entry, index) => {
+    const includeScore = scores[index]! + (previousCompatibleIndex[index]! >= 0 ? bestTotals[previousCompatibleIndex[index]!] : 0)
+    const excludeScore = index > 0 ? bestTotals[index - 1]! : 0
+
+    if (includeScore > excludeScore) {
+      bestTotals[index] = includeScore
+      takeNote[index] = true
+      return
+    }
+
+    bestTotals[index] = excludeScore
+  })
+
+  const selectedIndices = new Set<number>()
+  let cursor = noteEvents.length - 1
+  while (cursor >= 0) {
+    if (takeNote[cursor]) {
+      selectedIndices.add(cursor)
+      cursor = previousCompatibleIndex[cursor]!
+      continue
+    }
+    cursor -= 1
+  }
+
+  const selectedNotes = noteEvents
+    .filter((_entry, index) => selectedIndices.has(index))
+    .map(entry => entry.event)
+    .sort((left, right) => {
+      if (left.offset !== right.offset) {
+        return left.offset - right.offset
+      }
+      return left.duration - right.duration
+    })
+
+  const discardedNotes = noteEvents.length - selectedNotes.length
+  if (discardedNotes > 0) {
+    diagnostics.melodyDiscardedOverlappingNotes += discardedNotes
+
+    const selectedRanges = selectedNotes.map(event => ({
+      start: Math.max(0, event.offset),
+      end: Math.max(0, event.offset) + Math.max(1, event.duration)
+    }))
+    const ambiguousRanges = noteEvents.filter(({ start, end }) =>
+      selectedRanges.some(
+        range => !(range.end <= start || end <= range.start) && !(range.start === start && range.end === end)
+      )
+    )
+    diagnostics.melodyOverlapResolutions += Math.max(
+      1,
+      new Set(ambiguousRanges.map(range => `${range.start}:${range.end}`)).size
+    )
+  }
+
+  return {
+    events: selectedNotes,
+    lastMidi: selectedNotes[selectedNotes.length - 1]?.midi ?? previousMelodyMidi,
+    diagnostics
+  }
 }
 
 function chooseDominantVoice(measures: ExtractedMusicXmlMeasure[]) {
@@ -771,7 +913,9 @@ function createEmptyMeasureNormalizationDiagnostics(): MeasureNormalizationDiagn
     insertedTrailingRests: 0,
     trimmedOverlaps: 0,
     clippedOverflowEvents: 0,
-    droppedOverflowEvents: 0
+    droppedOverflowEvents: 0,
+    melodyOverlapResolutions: 0,
+    melodyDiscardedOverlappingNotes: 0
   }
 }
 
@@ -785,6 +929,8 @@ function mergeMeasureNormalizationDiagnostics(
   target.trimmedOverlaps += source.trimmedOverlaps
   target.clippedOverflowEvents += source.clippedOverflowEvents
   target.droppedOverflowEvents += source.droppedOverflowEvents
+  target.melodyOverlapResolutions += source.melodyOverlapResolutions
+  target.melodyDiscardedOverlappingNotes += source.melodyDiscardedOverlappingNotes
 }
 
 function alignPickupMeasures(measures: ExtractedMusicXmlMeasure[]) {

@@ -148,6 +148,7 @@ npm run generate:kuailepu-from-ingest -- reference/song-publish-candidates/draft
 This candidate generator:
 
 - converts draft notation into Kuailepu-compatible raw notation through the shared Happy123-native notation generator
+- applies a melody-first overlap filter before notation generation so competing overlapping notes do not silently displace the likely lead melody
 - stores lyrics in two layers:
   - `alignedLyrics`: punctuation-free slot truth for stable note-to-lyric alignment
   - `lyrics`: display text with punctuation reattached to words where safe
@@ -168,6 +169,7 @@ This candidate generator:
   - `source-only` keeps grace notes in ingest metadata only
   - `payload-metadata` also writes structured grace attachments into the generated runtime payload
 - includes a `sourceSanity` block in the ingest report so publication review keeps the source-verification context together with the generated runtime report
+- emits a warning when the selected melody voice had overlapping competing notes and the melody-first filter had to discard any of them; treat that as a mandatory manual review signal
 
 Batch generation from a local MusicXML corpus:
 
