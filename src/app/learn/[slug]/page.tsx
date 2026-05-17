@@ -143,14 +143,14 @@ export default function LearnGuidePage({ params }: { params: { slug: string } })
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/"
-                  className="page-warm-pill-muted inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
                 >
                   <ChevronLeft size={16} aria-hidden="true" />
                   Back to Song Library
                 </Link>
                 <Link
                   href="/learn"
-                  className="page-warm-pill-muted inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
                 >
                   <ChevronLeft size={16} aria-hidden="true" />
                   Back to Learn

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import type { LearnSongCard } from '@/lib/learn/content'
 import { sendGaEvent } from '@/lib/analytics/ga'
 import {
@@ -23,6 +23,7 @@ export default function LearnSongCardGrid({
   analyticsContext
 }: LearnSongCardGridProps) {
   const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch()
+  const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   function handleSongClick(song: LearnSongCard, position: number) {
     if (!analyticsContext || typeof window === 'undefined') {
@@ -47,9 +48,11 @@ export default function LearnSongCardGrid({
           key={song.slug}
           song={song}
           position={index + 1}
+          isPending={pendingSongSlug === song.slug}
           onClick={handleSongClick}
           onPrefetch={prefetchSongRoute}
           onVisiblePrefetch={prefetchVisibleSongRoute}
+          onPending={setPendingSongSlug}
         />
       ))}
     </div>
@@ -59,29 +62,61 @@ export default function LearnSongCardGrid({
 function LearnSongCardLink({
   song,
   position,
+  isPending,
   onClick,
   onPrefetch,
-  onVisiblePrefetch
+  onVisiblePrefetch,
+  onPending
 }: {
   song: LearnSongCard
   position: number
+  isPending: boolean
   onClick: (song: LearnSongCard, position: number) => void
   onPrefetch: (href: string) => void
   onVisiblePrefetch: (href: string) => void
+  onPending: (songSlug: string) => void
 }) {
   const cardRef = useRef<HTMLAnchorElement | null>(null)
 
   useVisibleSongRoutePrefetch(cardRef, song.href, onVisiblePrefetch)
 
+  function markPendingNavigation(
+    event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+  ) {
+    if (!isCurrentTabNavigation(event)) {
+      return
+    }
+
+    if ('pointerType' in event && event.pointerType === 'touch') {
+      return
+    }
+
+    onPending(song.slug)
+  }
+
   return (
     <Link
       ref={cardRef}
       href={song.href}
-      className="page-warm-card-link flex h-full flex-col p-5"
+      aria-busy={isPending}
+      className={
+        isPending
+          ? 'page-warm-card-link relative flex h-full flex-col p-5 pr-28 opacity-80 ring-2 ring-stone-900/15'
+          : 'page-warm-card-link relative flex h-full flex-col p-5'
+      }
       onFocus={() => onPrefetch(song.href)}
       onPointerEnter={() => onPrefetch(song.href)}
-      onClick={() => onClick(song, position)}
+      onPointerDown={markPendingNavigation}
+      onClick={event => {
+        markPendingNavigation(event)
+        onClick(song, position)
+      }}
     >
+      {isPending ? (
+        <span className="page-warm-pill absolute right-4 top-4 px-3 py-1 text-xs font-semibold">
+          Opening...
+        </span>
+      ) : null}
       <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
       <p className="mt-3 text-sm leading-7 text-stone-700">
         {song.difficultyLabel} · {song.keyLabel} · {song.meterLabel}
@@ -89,4 +124,14 @@ function LearnSongCardLink({
       <div className="mt-5 text-sm font-semibold text-stone-900">Open song page →</div>
     </Link>
   )
+}
+
+function isCurrentTabNavigation(
+  event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+) {
+  if (event.button !== 0) {
+    return false
+  }
+
+  return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
 }

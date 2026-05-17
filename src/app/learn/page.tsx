@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import LearnGuideCardGrid from '@/components/learn/LearnGuideCardGrid'
 import { getFeaturedLearnGuideCards, getLearnGuideCards, getLearnGuideUrl } from '@/lib/learn/content'
@@ -58,8 +59,9 @@ export default function LearnIndexPage() {
         <section className="page-warm-hero px-5 py-5 md:px-7 md:py-7">
           <Link
             href="/"
-            className="page-warm-pill-muted inline-flex items-center px-4 py-2 text-sm font-semibold"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(61,47,34,0.16)] bg-[rgba(255,251,245,0.88)] px-3 py-1.5 text-[0.8rem] font-semibold text-stone-700 shadow-[0_10px_22px_rgba(61,47,34,0.08)] transition hover:-translate-y-0.5 hover:bg-white md:gap-2 md:border-stone-900 md:bg-stone-900 md:px-4 md:py-2.5 md:text-sm md:text-stone-50 md:shadow-[0_14px_30px_rgba(61,47,34,0.18)] md:hover:bg-stone-800 md:hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]"
           >
+            <ChevronLeft size={16} aria-hidden="true" />
             Back to Song Library
           </Link>
           <div className="mt-5 page-warm-pill w-fit px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em]">
