@@ -1468,5 +1468,12 @@
     "family": "song",
     "featuredRank": 211,
     "published": true
+  },
+  {
+    "id": "a-la-claire-fontaine",
+    "slug": "a-la-claire-fontaine",
+    "family": "folk",
+    "featuredRank": 212,
+    "published": true
   }
 ]
