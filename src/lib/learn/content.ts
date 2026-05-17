@@ -476,8 +476,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'Track the newest public song pages added to Play By Fingering, with fresh ocarina tabs, recorder notes, tin whistle letter notes, and fingering-chart-ready melody links.',
     heroLabel: 'Library Update',
     intro: [
-      `This page is the public update hub for the newest songs added to the library. Instead of making Google discover each new melody page only through the sitemap or the homepage, this guide groups the latest ${RECENTLY_ADDED_SONG_WINDOW} public additions into one crawlable route with direct links back into the main song pages.`,
-      'That makes the page useful for visitors as well. If you already know the core beginner songs and want to see what changed most recently, this is the fastest way to browse fresh additions without scanning the full library. Every card still opens a full runtime-backed practice page, so fresh releases stay immediately playable instead of feeling like announcement-only content.'
+      `This page collects the latest ${RECENTLY_ADDED_SONG_WINDOW} public song additions in one place, so returning visitors can quickly see what is new without scanning the full library.`,
+      'Every card still opens the same full practice page with fingering, note-view, metronome, and playback support where available, so this works as a practical browsing page instead of a release-note list.'
     ],
     metaTitle: 'Recently Added Ocarina Tabs, Recorder Notes, and Song Pages',
     metaDescription:
@@ -485,35 +485,35 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: RECENT_FEATURED_SONG_SLUGS,
     sections: [
       {
-        title: 'Why This Update Hub Exists',
+        title: 'Why Follow This Page',
         paragraphs: [
-          'A sitemap is necessary, but it is not the same thing as a public internal-link page. New song pages benefit from a route that people can browse, link to, and revisit when the library is growing quickly.',
-          'This guide keeps the newest additions grouped in one place so search engines can recrawl a stable update route while human visitors can spot fresh melody pages without guessing which songs were added recently.'
+          'If you check the site regularly, this is the simplest place to catch new releases first. It keeps the newest additions grouped together instead of scattering them across the full catalog.',
+          'That also gives newer song pages a stable public route with direct internal links, so recent additions stay easier to revisit and easier to discover.'
         ],
         bullets: [
           `The page keeps a rolling window of ${RECENTLY_ADDED_SONG_WINDOW} recently added songs.`,
-          'The newest cards stay near the top instead of being buried inside the full library.',
-          'Each card leads directly into a full playable song page instead of a teaser-only update list.'
+          'The newest releases stay at the top.',
+          'Each card opens a full playable song page, not a teaser.'
         ]
       },
       {
-        title: 'Still Fresh In The Current Release Window',
+        title: 'More Recent Additions',
         paragraphs: [
-          'These songs are no longer the very latest batch, but they are still part of the same current release wave. Keeping them on the page helps the site avoid a one-day-only update pattern and gives newer pages a little more internal-link breathing room.'
+          'These songs are not the newest few at the top anymore, but they are still part of the current release window and worth keeping easy to find.'
         ],
         songSlugs: RECENT_MID_WINDOW_SONG_SLUGS
       },
       {
-        title: 'Earlier Additions In The Same Rolling Window',
+        title: 'Recent Songs To Keep Exploring',
         paragraphs: [
-          'This part of the page carries the songs that have already moved beyond the newest release burst but still deserve a current-period link source. That matters more now that the publishing goal is multiple songs per day.'
+          'This group carries the rest of the recent-release set, so visitors can keep browsing beyond the newest batch without jumping back to the full library.'
         ],
         songSlugs: RECENT_LIBRARY_WINDOW_SONG_SLUGS
       },
       {
-        title: 'About To Rotate Out',
+        title: 'Older Songs In The Current Recent Window',
         paragraphs: [
-          'These are the oldest songs still inside the active recent-song window. They remain here until newer releases push them into the broader library, which keeps this page useful without turning it into a duplicate full catalog.'
+          'These are the oldest songs still inside the active recent window. They stay here until newer releases push them back into the broader library flow.'
         ],
         songSlugs: RECENT_TRAILING_WINDOW_SONG_SLUGS
       }
