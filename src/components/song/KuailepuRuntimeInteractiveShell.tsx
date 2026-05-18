@@ -85,11 +85,56 @@ export default function KuailepuRuntimeInteractiveShell({
   const [isPlaybackFeatureEnabled, setIsPlaybackFeatureEnabled] = useState(false)
   const [playbackStatus, setPlaybackStatus] = useState<PlaybackUiStatus>('idle')
   const [isPlaybackPanelOpen, setIsPlaybackPanelOpen] = useState(false)
+  const [playbackLoadingProgress, setPlaybackLoadingProgress] = useState(0)
   const runtimeFrameRef = useRef<HTMLIFrameElement | null>(null)
   const pendingPlaybackOpenRef = useRef(false)
   const trackedSongViewRef = useRef<string | null>(null)
   const previousSongRef = useRef<string | null>(null)
   const previousInstrumentRef = useRef<string | null>(null)
+  const playbackLoadingIntervalRef = useRef<number | null>(null)
+  const playbackLoadingStartTimeRef = useRef<number | null>(null)
+  const playbackActivationPendingRef = useRef(false)
+  const playbackActivationTimeoutRef = useRef<number | null>(null)
+
+  const clearPlaybackLoadingInterval = useCallback(() => {
+    if (playbackLoadingIntervalRef.current !== null) {
+      window.clearInterval(playbackLoadingIntervalRef.current)
+      playbackLoadingIntervalRef.current = null
+    }
+  }, [])
+
+  const clearPlaybackActivationTimeout = useCallback(() => {
+    if (playbackActivationTimeoutRef.current !== null) {
+      window.clearTimeout(playbackActivationTimeoutRef.current)
+      playbackActivationTimeoutRef.current = null
+    }
+  }, [])
+
+  const startPlaybackActivationGuard = useCallback(() => {
+    playbackActivationPendingRef.current = true
+    clearPlaybackActivationTimeout()
+    playbackActivationTimeoutRef.current = window.setTimeout(() => {
+      playbackActivationPendingRef.current = false
+      playbackActivationTimeoutRef.current = null
+    }, 5000)
+  }, [clearPlaybackActivationTimeout])
+
+  const resolvePlaybackActivationGuard = useCallback(() => {
+    playbackActivationPendingRef.current = false
+    clearPlaybackActivationTimeout()
+  }, [clearPlaybackActivationTimeout])
+
+  const resetPlaybackLoadingProgress = useCallback(() => {
+    clearPlaybackLoadingInterval()
+    playbackLoadingStartTimeRef.current = null
+    setPlaybackLoadingProgress(0)
+  }, [clearPlaybackLoadingInterval])
+
+  const completePlaybackLoadingProgress = useCallback(() => {
+    clearPlaybackLoadingInterval()
+    playbackLoadingStartTimeRef.current = null
+    setPlaybackLoadingProgress(100)
+  }, [clearPlaybackLoadingInterval])
 
   useEffect(() => {
     setCurrentQueryState(queryState)
@@ -279,6 +324,59 @@ export default function KuailepuRuntimeInteractiveShell({
   }, [frameSrc])
 
   useEffect(() => {
+    if (playbackStatus !== 'loading') {
+      if (playbackStatus === 'playing') {
+        completePlaybackLoadingProgress()
+      } else {
+        resetPlaybackLoadingProgress()
+      }
+      return
+    }
+
+    if (playbackLoadingStartTimeRef.current === null) {
+      playbackLoadingStartTimeRef.current = performance.now()
+      setPlaybackLoadingProgress(0)
+    }
+
+    if (playbackLoadingIntervalRef.current !== null) {
+      return
+    }
+
+    const syntheticLoadingDurationMs = 5300
+
+    playbackLoadingIntervalRef.current = window.setInterval(() => {
+      const startedAt = playbackLoadingStartTimeRef.current ?? performance.now()
+      setPlaybackLoadingProgress(current => {
+        const elapsed = Math.max(0, performance.now() - startedAt)
+        const ratio = Math.min(1, elapsed / syntheticLoadingDurationMs)
+        const easedRatio = 1 - Math.pow(1 - ratio, 2.2)
+        const next = Math.min(95, Math.round(easedRatio * 95))
+        return next > current ? next : current
+      })
+    }, 90)
+
+    return () => {
+      clearPlaybackLoadingInterval()
+    }
+  }, [
+    clearPlaybackLoadingInterval,
+    completePlaybackLoadingProgress,
+    playbackStatus,
+    resetPlaybackLoadingProgress
+  ])
+
+  useEffect(() => {
+    if (playbackStatus === 'loading' && isPlaybackPanelOpen) {
+      completePlaybackLoadingProgress()
+    }
+  }, [completePlaybackLoadingProgress, isPlaybackPanelOpen, playbackStatus])
+
+  useEffect(() => () => {
+    clearPlaybackLoadingInterval()
+    clearPlaybackActivationTimeout()
+  }, [clearPlaybackActivationTimeout, clearPlaybackLoadingInterval])
+
+  useEffect(() => {
     if (trackedSongViewRef.current === songId) {
       return
     }
@@ -347,6 +445,9 @@ export default function KuailepuRuntimeInteractiveShell({
       }
 
       if (data.type === 'vtabs-playback-panel-status') {
+        if (data.isOpen) {
+          resolvePlaybackActivationGuard()
+        }
         setIsPlaybackPanelOpen(Boolean(data.isOpen))
         return
       }
@@ -356,8 +457,14 @@ export default function KuailepuRuntimeInteractiveShell({
       }
 
       if (data.status === 'idle' || data.status === 'loading' || data.status === 'playing') {
-        if (pendingPlaybackOpenRef.current && data.status === 'idle') {
+        if (
+          (pendingPlaybackOpenRef.current || playbackActivationPendingRef.current) &&
+          data.status === 'idle'
+        ) {
           return
+        }
+        if (data.status === 'loading' || data.status === 'playing') {
+          resolvePlaybackActivationGuard()
         }
         setPlaybackStatus(data.status)
       }
@@ -367,7 +474,7 @@ export default function KuailepuRuntimeInteractiveShell({
     return () => {
       window.removeEventListener('message', handlePlaybackMessage)
     }
-  }, [songId])
+  }, [resolvePlaybackActivationGuard, songId])
 
   const postPlaybackCommandMessage = useCallback((action: 'open' | 'stop' | 'close') => {
     if (typeof window === 'undefined') {
@@ -437,12 +544,14 @@ export default function KuailepuRuntimeInteractiveShell({
         note_label_mode: noteLabelMode
       })
       if (postPlaybackCommandMessage('stop')) {
+        resolvePlaybackActivationGuard()
         setPlaybackStatus('idle')
       }
       return
     }
 
     pendingPlaybackOpenRef.current = true
+    startPlaybackActivationGuard()
     setPlaybackStatus('loading')
     sendGaEvent('song_playback_open', {
       song_slug: songId,
@@ -464,7 +573,9 @@ export default function KuailepuRuntimeInteractiveShell({
     noteLabelMode,
     playbackStatus,
     postPlaybackCommandMessage,
-    songId
+    resolvePlaybackActivationGuard,
+    songId,
+    startPlaybackActivationGuard
   ])
 
   const handleRuntimeFrameLoad = useCallback(() => {
@@ -748,13 +859,16 @@ export default function KuailepuRuntimeInteractiveShell({
         playbackStatus === 'playing'
           ? 'Stop'
           : playbackStatus === 'loading'
-            ? 'Loading'
+            ? `Loading ${Math.max(0, Math.min(100, Math.round(playbackLoadingProgress)))}%`
             : 'Listen',
       ariaLabel:
         playbackStatus === 'playing'
           ? 'Stop audio playback'
           : playbackStatus === 'loading'
-            ? 'Audio playback is loading'
+            ? `Audio playback is loading, ${Math.max(
+                0,
+                Math.min(100, Math.round(playbackLoadingProgress))
+              )} percent`
             : 'Open audio playback controls',
       icon:
         playbackStatus === 'playing'
