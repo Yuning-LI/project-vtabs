@@ -1,0 +1,42 @@
+{
+  "id": "beautiful-isle-of-somewhere",
+  "slug": "beautiful-isle-of-somewhere",
+  "title": "Beautiful Isle of Somewhere",
+  "description": "Beautiful Isle of Somewhere candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Some where the sun is shin ing some where the song birds",
+    "dwell _ Hush then thy sad re pin ing God lives and all _ is well.",
+    "_ Some where some where beau ti ful isle _ of some _ where",
+    "land of the true where we live a new beau ti ful isle _ of some where."
+  ],
+  "alignedLyrics": [
+    "Some where the sun is shin ing some where the song birds",
+    "dwell _ Hush then thy sad re pin ing God lives and all _ is well",
+    "_ Some where some where beau ti ful isle _ of some _ where",
+    "land of the true where we live a new beau ti ful isle _ of some where"
+  ],
+  "source": {
+    "title": "Beautiful Isle of Somewhere MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 88,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-18",
+    "note": "Refs: Wikipedia, Hymnary, HymnalLibrary. Manual preview passed; title, attribution, opening verse, and runtime rendering accepted for publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "{cn:Bb} 3 - - - 2 - - - 1 - - - | 5d - - - - - - - 1 - - - | 1 - - - - - - - - - - - | {cn:F} 7d - - - - - - - - - - - | 4 - - - 3 - - - 2 - - - | 6d - - - - - - - 7d - - -",
+    "{cn:G} 6d - - - - - - - - - - - | {cn:Bb} 5d - - - - - - - - - - - | 3 - - - 2 - - - 1 - - - | 5d - - - - - - - 1 - - - | {cn:F} 7d - - - - - - - - - - - | 2 - - - - - - - - - - - | {cn:C} 2 - - - 3 - - - 2 - - - | 1 - - - 7d - - - 6d - - - | {cn:F} 5d - - - - - - - - - - -",
+    "5d - - - - - - - - - - - | 2 - - - - - - - - - - - | 5d - - - - - - - - - - - | {cn:Bb} 1 - - - - - - - - - - - | 5d - - - - - - - - - - - | 1 - - - 1 - - - 1 - - - | 1 - - - 7d - - - 1 - - - | {cn:F} 2 - - - - - - - 3 - - - | 4 - - - 0 - - - - - - -",
+    "{cn:Bb} 3 - - - 4 - - - 3 - - - | {cn:F} 2 - - - - - - - 2 - 2 - | {cn:Bb} 5 - - - - - - - 1 - - - | {cn:Eb} 4 - - - - - - - - - - - | {cn:Bb} 3 - - - 2 - - - 1 - - - | 5d - - - 1 - - - 3 - - - | {cn:F} 2 - - - - - - - - - - - | {cn:Bb} 1 - - - - - - - - - - -"
+  ]
+}

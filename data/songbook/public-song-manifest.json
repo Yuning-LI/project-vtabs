@@ -1538,5 +1538,12 @@
     "family": "folk",
     "featuredRank": 221,
     "published": true
+  },
+  {
+    "id": "beautiful-isle-of-somewhere",
+    "slug": "beautiful-isle-of-somewhere",
+    "family": "hymn",
+    "featuredRank": 222,
+    "published": true
   }
 ]
