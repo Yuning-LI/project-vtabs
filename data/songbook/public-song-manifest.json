@@ -1524,5 +1524,12 @@
     "family": "folk",
     "featuredRank": 219,
     "published": true
+  },
+  {
+    "id": "good-christian-men-rejoice",
+    "slug": "good-christian-men-rejoice",
+    "family": "holiday",
+    "featuredRank": 220,
+    "published": true
   }
 ]

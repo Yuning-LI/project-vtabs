@@ -1,0 +1,45 @@
+{
+  "id": "good-christian-men-rejoice",
+  "slug": "good-christian-men-rejoice",
+  "title": "Good Christian Men Rejoice",
+  "description": "Good Christian Men Rejoice candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Good Chris tian men re joice _ _ with heart and soul and",
+    "voice _ _ give ye heed to what we say news, news, Je sus",
+    "Christ is born to day Ox and ass be fore him bow and he is",
+    "in the man ger now, Christ is born to day _ Christ is born to",
+    "day"
+  ],
+  "alignedLyrics": [
+    "Good Chris tian men re joice _ _ with heart and soul and",
+    "voice _ _ give ye heed to what we say news news Je sus",
+    "Christ is born to day Ox and ass be fore him bow and he is",
+    "in the man ger now Christ is born to day _ Christ is born to",
+    "day"
+  ],
+  "source": {
+    "title": "Good Christian Men Rejoice MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 88,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-18",
+    "note": "Refs: HymnWiki, Hymnary. Manual preview passed; title, attribution, opening verse, and runtime rendering accepted for publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 - - - - - - - 4 - - - | {cn:F} 4 - - - - - - - 4 - - - | 6 - - - - - - - 7b - - - | 1g - - - - - - - {cn:Bb} 2g - - - | {cn:F} 1g - - - - - - - 1g - - - | 4 - - - - - - - 4 - - - | 6 - - - - - - - 7b - - -",
+    "1g - - - - - - - {cn:Bb} 2g - - - | {cn:F} 1g - - - - - - - 0 - - - | 1g - - - - - - - {cn:Bb} 2g - - - | {cn:C7} 1g - - - - - - - 7b - - - | {cn:F} 6 - - - - - - - 5 - - - | 4 - - - - - - - - - - - | 4 - - - - - - - - - - - | {cn:D} 4 - - - - - - - - - - - | {cn:Bb} 5 - - - - - - - 5 - - -",
+    "{cn:C7} 6 - - - - - - - 5 - - - | {cn:F} 4 - - - - - - - {cn:C7} 5 - - - | {cn:F} 6 - - - - - - - 0 - - - | 1g - - - - - - - {cn:Bb} 2g - - - | {cn:C7} 1g - - - - - - - 7b - - - | {cn:F} 6 - - - - - - - 5 - - - | {cn:D} 4 - - - - - - - 4 - - - | {cn:Bb} 5 - - - - - - - 5 - - -",
+    "{cn:C7} 6 - - - - - - - 5 - - - | {cn:F} 4 - - - - - - - {cn:C7} 5 - - - | {cn:F} 6 - - - - - - - 0 - - - | {cn:D} 2 - - - - - - - 2 - - - | {cn:A7} 3 - - - - - - - 3 - - - | {cn:D} 4 - - - - - - - - - - - | {cn:C7} 1g - - - - - - - - - - - | {cn:F} 6 - - - - - - - 6 - - - | {cn:Bb} 5 - - - - - - - {cn:C7} 5 - - -",
+    "{cn:F} 4 - - - - - - - - - - -"
+  ]
+}
