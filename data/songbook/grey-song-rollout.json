@@ -882,6 +882,26 @@
       "addedOn": "2026-05-18",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6gs5c1SaM.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, and five-instrument preflight compare passed before push on 2026-05-18."
+    },
+    {
+      "slug": "bridge-over-troubled-water",
+      "title": "Bridge Over Troubled Water",
+      "status": "validated-local",
+      "batch": "31",
+      "group": "song",
+      "addedOn": "2026-05-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/34oNl1bDz.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "five-hundred-miles",
+      "title": "Five Hundred Miles",
+      "status": "validated-local",
+      "batch": "31",
+      "group": "song",
+      "addedOn": "2026-05-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Vpsdc1Qb1.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }
