@@ -862,6 +862,26 @@
       "addedOn": "2026-05-17",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/AXWya1xuS.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. validate:content, validate:songbook, doctor:song, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "big-big-world",
+      "title": "Big Big World",
+      "status": "live",
+      "batch": "30",
+      "group": "song",
+      "addedOn": "2026-05-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lEuZb1Udb.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, and five-instrument preflight compare passed before push on 2026-05-18."
+    },
+    {
+      "slug": "counting-stars",
+      "title": "Counting Stars",
+      "status": "live",
+      "batch": "30",
+      "group": "song",
+      "addedOn": "2026-05-18",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6gs5c1SaM.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, and five-instrument preflight compare passed before push on 2026-05-18."
     }
   ]
 }
