@@ -1531,5 +1531,12 @@
     "family": "holiday",
     "featuredRank": 220,
     "published": true
+  },
+  {
+    "id": "camptown-races",
+    "slug": "camptown-races",
+    "family": "folk",
+    "featuredRank": 221,
+    "published": true
   }
 ]
