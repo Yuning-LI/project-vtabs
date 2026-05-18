@@ -2066,6 +2066,10 @@ function buildRuntimeBridgeScript(
     setOptionText(selectId, 'off', 'Off');
   }
 
+  function normalizeStoredPlaybackToggle(value) {
+    return value === 'on' ? 'on' : 'off';
+  }
+
   function normalizeStoredPlaybackTranspose(value) {
     if (value === null || value === undefined || value === '') {
       return null;
@@ -2099,6 +2103,43 @@ function buildRuntimeBridgeScript(
     }
   }
 
+  function getStoredPlaybackCountIn() {
+    try {
+      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.readFromStorage !== 'function') {
+        return 'off';
+      }
+
+      return normalizeStoredPlaybackToggle(window.Kit.storage.readFromStorage('song_play_count_in'));
+    } catch (error) {
+      return 'off';
+    }
+  }
+
+  function setStoredPlaybackCountIn(value) {
+    try {
+      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.writeToStorage !== 'function') {
+        return;
+      }
+
+      window.Kit.storage.writeToStorage('song_play_count_in', normalizeStoredPlaybackToggle(value));
+    } catch (error) {
+      // Keep playback usable even if storage is unavailable.
+    }
+  }
+
+  function getPublicPlaybackCountInValue() {
+    var control = document.getElementById('play_count_in');
+    if (control && control.value) {
+      return normalizeStoredPlaybackToggle(control.value);
+    }
+
+    return getStoredPlaybackCountIn();
+  }
+
+  function isPublicPlaybackCountInEnabled() {
+    return getPublicPlaybackCountInValue() === 'on';
+  }
+
   function formatSemitoneLabel(value) {
     var numberValue = Number(value);
     if (!Number.isFinite(numberValue) || numberValue === 0) {
@@ -2130,6 +2171,100 @@ function buildRuntimeBridgeScript(
         setStoredPlaybackTranspose(playTranspose.value);
       });
     }
+  }
+
+  function syncPublicPlaybackCountInControl(playModal) {
+    if (!playModal) {
+      return;
+    }
+
+    var row = playModal.querySelector('.modal-content .row');
+    if (!row) {
+      return;
+    }
+
+    var wrapper = document.getElementById('play-count-in-row');
+    if (!wrapper) {
+      wrapper = document.createElement('div');
+      wrapper.id = 'play-count-in-row';
+      wrapper.className = 'input-field col select-div s4 m3';
+      wrapper.innerHTML =
+        '<label class="active" for="play_count_in">Count-in</label>' +
+        '<select id="play_count_in" class="browser-select browser-default">' +
+        '<option value="off">Off</option>' +
+        '<option value="on">3 beats</option>' +
+        '</select>';
+      row.appendChild(wrapper);
+    }
+
+    var control = document.getElementById('play_count_in');
+    if (!control) {
+      return;
+    }
+
+    control.value = getStoredPlaybackCountIn();
+
+    if (control.getAttribute('data-vtabs-play-count-in-hooked') !== '1') {
+      control.setAttribute('data-vtabs-play-count-in-hooked', '1');
+      control.addEventListener('change', function () {
+        setStoredPlaybackCountIn(control.value);
+      });
+    }
+  }
+
+  function reorderPublicPlaybackControls(playModal) {
+    if (!playModal) {
+      return;
+    }
+
+    var row = playModal.querySelector('.modal-content .row');
+    if (!row) {
+      return;
+    }
+
+    [
+      'play_speed',
+      'play_transpose',
+      'play_note',
+      'play_chord',
+      'play_metronome',
+      'play_count_in',
+      'play_loop',
+      'play_drum',
+      'locate_note',
+      'highlight_note',
+      'play_microphone'
+    ].forEach(function (controlId) {
+      var control = document.getElementById(controlId);
+      var field = control && control.closest ? control.closest('.input-field') : null;
+      if (field) {
+        row.appendChild(field);
+      }
+    });
+  }
+
+  function installPublicPlaybackCountInOverride() {
+    if (!hasPublicPlayback || typeof window.MidiPlayer !== 'function') {
+      return;
+    }
+
+    var prototype = window.MidiPlayer && window.MidiPlayer.prototype;
+    if (!prototype || prototype.__vtabsCountInHooked === true || typeof prototype.count !== 'function') {
+      return;
+    }
+
+    var originalCount = prototype.count;
+    prototype.count = function () {
+      if (!isPublicPlaybackCountInEnabled()) {
+        if (this && this.context && typeof this.context.onReady === 'function') {
+          this.context.onReady();
+        }
+        return;
+      }
+
+      return originalCount.apply(this, arguments);
+    };
+    prototype.__vtabsCountInHooked = true;
   }
 
   function forceEnglishPublicPlaybackLocale() {
@@ -2444,6 +2579,7 @@ function buildRuntimeBridgeScript(
     setLabelText('play_drum', 'Drums');
     setLabelText('play_chord', 'Accompaniment');
     setLabelText('play_microphone', 'Microphone');
+    setLabelText('play_count_in', 'Count-in');
     setLabelText('play_transpose', 'Transpose');
     setLabelText('locate_note', 'Follow note');
     setLabelText('highlight_note', 'Highlight note');
@@ -2459,6 +2595,11 @@ function buildRuntimeBridgeScript(
     setOptionText('play_chord', 'on', 'On');
     setOptionText('play_chord', 'off', 'Off');
     setOptionText('play_microphone', '0', 'Off');
+    setOptionText('play_count_in', 'off', 'Off');
+    setOptionText('play_count_in', 'on', '3 beats');
+
+    syncPublicPlaybackCountInControl(playModal);
+    reorderPublicPlaybackControls(playModal);
 
     Array.prototype.slice.call(document.querySelectorAll('#play_transpose option')).forEach(function (option) {
       var value = option.getAttribute('value') || '';
@@ -2507,6 +2648,7 @@ function buildRuntimeBridgeScript(
     installPublicPlaybackStatusObserver();
     installPublicPlaybackPanelObserver();
     installPublicPlaybackStartHooks();
+    installPublicPlaybackCountInOverride();
   }
 
   function closePublicPlaybackPanel() {
@@ -2641,6 +2783,7 @@ function buildRuntimeBridgeScript(
     document.documentElement.setAttribute('data-vtabs-public-playback', '1');
     localizePublicPlayback();
     installPublicPlaybackStartHooks();
+    installPublicPlaybackCountInOverride();
     installPublicPlaybackStatusObserver();
     installPublicPlaybackPanelObserver();
     postPublicPlaybackStatus();
