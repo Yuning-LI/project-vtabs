@@ -1510,5 +1510,12 @@
     "family": "holiday",
     "featuredRank": 217,
     "published": true
+  },
+  {
+    "id": "on-top-of-old-smoky",
+    "slug": "on-top-of-old-smoky",
+    "family": "folk",
+    "featuredRank": 218,
+    "published": true
   }
 ]
