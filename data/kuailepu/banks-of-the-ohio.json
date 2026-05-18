@@ -1,0 +1,54 @@
+{
+  "id": "banks-of-the-ohio",
+  "slug": "banks-of-the-ohio",
+  "title": "Banks of the Ohio",
+  "description": "Banks of the Ohio candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "I asked my love to take a walk _",
+    "to take a walk _ just a lit tle walk _",
+    "down be side _ where the wat ers flow _",
+    "down by the banks _ of the O hi o and on ly say",
+    "that you'll be mine _ in no oth _ ers arms en twine",
+    "down be side _ _ where the wa ters flow _",
+    "_ where the wa ters flow _ down by the banks _ of the O hi o",
+    "_ the O _ hi o I held a down by the banks _ of the O hi o. _"
+  ],
+  "alignedLyrics": [
+    "I asked my love to take a walk _",
+    "to take a walk _ just a lit tle walk _",
+    "down be side _ where the wat ers flow _",
+    "down by the banks _ of the O hi o and on ly say",
+    "that youll be mine _ in no oth _ ers arms en twine",
+    "down be side _ _ where the wa ters flow _",
+    "_ where the wa ters flow _ down by the banks _ of the O hi o",
+    "_ the O _ hi o I held a down by the banks _ of the O hi o _"
+  ],
+  "source": {
+    "title": "Banks of the Ohio MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-18",
+    "note": "Refs: Wikipedia, GMajorMusicTheory. Traditional American murder-ballad identity, opening lyric, and opening melody contour verified against public references; candidate starts at the common main tune and keeps verse-1 style public lyrics."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 - - - 1 - - - 1 - - - 3 - - - | {cn:C} 3 - - - - - - - 0 - - - - - - - | 0 - - - 1 - 1 - - - 2 - - - 2 - | {cn:G7} 2 - - - - - - - 0 - - - - - - -",
+    "0 - - - - - 2 - 2 - 3 - - - 4 - | 4 - - - - - - - 0 - - - - - - - | 0 - - - 4 - 4 - 5 - 5 - - - 3 - | {cn:C} 3 - - - - - - - 0 - - - - - - -",
+    "0 - - - - - - - 3 - - - 5 - 5 - | {cn:C7} 5 - - - - - - - - - - - - - - - | 0 - - - 3 - 3 - 4 - 5 - - - 4 - | {cn:F} 4 - - - - - - - - - - - 0 - - -",
+    "0 - - - 1 - - - 1 - - - 2 - 3 - | {cn:C} 3 - - - - - - - - - - - - - - - | {cn:G7} 0 - - - 2 - 3 - 2 - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - - - - - | 0 - - - 1 - - - 1 - - - 3 - - - | 3 - - - - - - - - - - - - - - -",
+    "0 - - - 1 - - - 1 - - - 2 - 2 - | {cn:G7} 2 - - - - - - - - - - - - - - - | 0 - - - - - - - 2 - - - 3 - - - | 4 - - - - - - - - - - - - - - - | 4 - - - 4 - 5 - - - - - 2 - - - | {cn:C} 3 - - - - - - - - - - - - - - -",
+    "0 - - - - - - - 3 - - - 5 - 5 - | {cn:C7} 5 - - - - - - - - - - - - - - - | 5 - 3 - 3 - 4 - 5 - - - 4 - - - | {cn:F} 4 - - - - - - - - - - - - - - -",
+    "4 - - - - - 2g - 2g - 1g - 6 - 4 - | 4 - - - 5 - - - 5 - - - 5 - 3 - | {cn:C} 3 - - - - - - - - - - - - - - - | {cn:G7} 0 - - - 2 - 3 - 2 - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - - - - -",
+    "1 - - - 6 - - - 5 - 3 - 1 - 1 - | 0 - - - 1 - - - 1 - - - 3 - - - | 0 - - - {cn:F} 4 - - - 4 - - - 5 - 3 - | {cn:C} 3 - - - - - - - - - - - - - - - | {cn:G7} 0 - - - 2 - 3 - 2 - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - - - - - | 1 - - - - - - - - - - - - - - -"
+  ]
+}
