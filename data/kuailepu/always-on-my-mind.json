@@ -1,0 +1,68 @@
+{
+  "id": "always-on-my-mind",
+  "slug": "always-on-my-mind",
+  "title": "Always on My Mind",
+  "description": "Always on My Mind melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "May be I didn't _",
+    "love you _ Quite as often _ as I should have _",
+    "And may be I didn't _ treat you _ Quite _ as good as I",
+    "could have _ If I make you feel of second _ best _",
+    "Girl, _ I'm sorry I was blind _ _ You were always _ on my",
+    "mind You were always _ on my mind _ _ _",
+    "And may be I didn't _ hold you _ All those lonely, _ lonely _",
+    "times I guess _ _ I never told you _",
+    "I'm so happy that you're mine _ Little _ things I should have",
+    "said and done _ I just never _ took the time _ _",
+    "You were always _ on my mind You were always _ on my",
+    "mind _ _ _",
+    "Tell me,",
+    "tell me that your sweet love _ hasn't _ died And give _ _",
+    "me, give me one more chance To keep you _ satis _ fied, I keep you _ satis",
+    "fied",
+    "",
+    "You were always _ on my mind You were always _ on my",
+    "mind _ _ _ _",
+    ""
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/lByak1J06.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song lByak1J06 on 2026-05-19."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 0 3 4 5 - - - - - 4 3 |",
+    "3 - 2 - 2 - - - - - - - - - - - | 0 0 0 0 1 - 2 - 3 - 2 - - - 1 7, | 7, - 6, - 6, - - - - - - - - - - - |",
+    "0 0 0 0 0 3 3 4 5 - - - - - 4 3 | 3 - 2 - 2 - - - - - - - - - - - | 0 0 0 0 1 - 2 - 3 - 2 - - - 1 7, |",
+    "7, - 6, - 6, - - - - - - - - - - - | 0 0 0 0 0 0 6 6 6 - 6 - - - 5 6 | 5 - 1 - - - 3 - 3 - - - - - - - |",
+    "0 0 0 0 2 - 3 - 4 - 3 - - - 2 1 | 1 - 6, - 6, - - - - - - - - - - - | 0 0 0 0 2 - 2 - 3 - 3 - 4 - 5 - |",
+    "5 - - - - - - - - - - - - - - - | 0 0 0 0 2 - 2 - 4 - 4 - 3 - 3 - | 3 2 1 - 1 - - - - - - - - - - - |",
+    "0 0 0 0 0 3 3 4 5 - - - - - 4 3 | 3 - 2 - 2 - - - - - - - - - - - | 0 0 0 0 1 - 2 - 3 - 2 - - - 1 7, |",
+    "6 - - - - - - - - - - - - - - - | 0 0 0 0 0 3 3 4 5 - - - - - 4 3 | 3 - 2 - 2 - - - - - - - - - - - |",
+    "0 0 0 0 1 - 2 - 3 - 2 - - - 1 7 | 6 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 6 6 6 - 6 - - - 5 6 |",
+    "5 - 1 - - - 3 - 3 - - - - - - - | 0 0 0 0 2 - 3 - 4 - 3 - - - 2 1 | 1 - 6, - 6, - - - - - - - - - - - |",
+    "0 0 0 0 2 - 2 - 3 - 3 - 4 - 5 - | 5 - - - - - - - - - - - - - - - | 0 0 0 0 2 - 2 - 4 - 4 - 3 - 3 - |",
+    "3 2 1 - 1 - - - - - - - - - - - |",
+    "5 - - - - - - - - - - - - - - - | 1 - - - - - - - - - - - - - - - |",
+    "4 - 3 - 2 - 1 - 4 - 3 - 3 - 2 1 | 2 - - - - - - - - - - - 0 0 1 - | 5 - - - - - - - - - - - 5 - 6 - |",
+    "1 - - - - - - - - - - - 0 0 2 3 | 4 - 3 - 2 - 1 - 4 - 3 - 3 - 2 1 | 2 - - - - - 5 - 4 - 3 - 4 - 3 - |",
+    "1 - - - - - 0 0 0 0 0 0 0 0 0 0 |",
+    "|",
+    "0 0 0 0 2 - 2 - 3 - 3 - 4 - 5 - | 5 - - - - - - - - - - - - - - - | 0 0 0 0 2 - 2 - 4 - 4 - 3 - 3 - |",
+    "3 2 1 - 1 - - - - - - - - - - - | 1 - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}

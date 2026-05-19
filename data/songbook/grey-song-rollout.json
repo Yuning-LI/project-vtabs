@@ -902,6 +902,26 @@
       "addedOn": "2026-05-18",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Vpsdc1Qb1.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "always-on-my-mind",
+      "title": "Always on My Mind",
+      "status": "validated-local",
+      "batch": "32",
+      "group": "song",
+      "addedOn": "2026-05-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lByak1J06.html",
+      "notes": "Imported from the English-lyrics Kuailepu variant with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "eternal-flame",
+      "title": "Eternal Flame",
+      "status": "validated-local",
+      "batch": "32",
+      "group": "song",
+      "addedOn": "2026-05-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/w4Ncl1xYk.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

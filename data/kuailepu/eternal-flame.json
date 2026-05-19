@@ -1,0 +1,55 @@
+{
+  "id": "eternal-flame",
+  "slug": "eternal-flame",
+  "title": "Eternal Flame",
+  "description": "Eternal Flame melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "Close your eyes, give me your hand, dar ling _ Do you feel my heart beat",
+    "_ ing Do you un der stand Do you feel the same _ am i on ly",
+    "dream _ ing Or",
+    "is this burn ing an e ter nal flame",
+    "_ i be lieve _ it's",
+    "",
+    "is this burn ing _ an e ter nal flame",
+    "_ say my name sun shi nes throu gh the rain a who le life so lone ly and th",
+    "en you come and ease the pain i don't want to lose this feel _ ing",
+    "oh oh close your eyes,",
+    "is this burn ing _ an e ter nal flame _",
+    ""
+  ],
+  "extraLyrics": [
+    "_ _ _ mea nt to be, dar ling _ Iwatch you when you are sleep _ ing you be long with me do you feel the same _ am i on ly dream _ ing or"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/w4Ncl1xYk.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song w4Ncl1xYk on 2026-05-19."
+  },
+  "meta": {
+    "key": "1 = E",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-19",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 64,
+  "notation": [
+    "3 - - - - - 4 - - - - - 5 - - - - - - - - - - - - - - - - - - - - - - - | 5 - - - - - 5 - - - - - 6 - - - - - 5 - - - - - - - - - - - - - - - - - 1 - - - - - 2 - - - - - | 2 - - - - - 0 0 0 0 0 0 3 - - - - - 5 - - - - - 1' - - - - - 1' - - - - - 1' - - - - - 1' - - - - - |",
+    "1' - - - - - 6 - - - - - - - - - - - 0 0 0 0 0 0 6 - - - - - 5 - - - - - 1 - - - - - 2 - - - - - | 3 - - - - - - - - - - - 1' - - - - - 1' - - - - - 7 - - - - - - - - - - - 3' - - - - - 3' - - - - - | 3' - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 6 - - - - - 7 - - - - - 1' - - - - - 6 - - - - - |",
+    "2' - - - - - - - - - - - - - - - - - 5 - - - - - 5 - - - - - - - - - - - 0 0 0 0 0 0 5 - - - - - |",
+    "5 - - - - - - - - - - - 5 - - - - - - - - - - - 5 - - - - - 5 - - - - - - - - - - - - - - - - - | 5 - - - - - - - - - - - 1' - - - - - - - - - - - 7 - - - - - 1' - - - - - - - - - - - 5 - - - - - |",
+    "5 - - - - - 0 0 0 0 0 0 3 - - - - - 4 - - 5 - - 5 - - - - - - - - - - - 0 0 0 0 0 0 5 - - - - -",
+    "|",
+    "4' - - - - - - - - - - - 3' - - - - - - - - - - - 2' - - - - - 1' - - - - - 1' - - - - - - - - - - - | 4' - - - - - - - - - - - 3' - - - - - - - - - - - 2' - - - - - 1' - - - - - - - - - - - 2' - - - - - |",
+    "2' - - - - - - - - - - - 2' - - - - - - - - 2' - - 2' - - - - - - - - - - - 0 0 0 0 0 0 7 - - - - - | 1' - - - - - 1' - - - - - 1' - - - - - 7 - - - - - 1' - - - 7 - - - 5 - - - 5 - - - - - 6 - - - - - | b7 - - - - - - - - - - - 0 0 0 0 0 0 b2' - - - - - 1' - - - - - 5 - - - - - 0 0 0 0 0 0 5 - - 5 - - |",
+    "6 - - - - - b7 - - - - - 6 - - - - - - - - 5 - - 5 - - - 4 - - - 2 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 5 - - - - - 6 - - - - - 7 - - - - - 5 - - - - - 6 - - - - - 7 - - - - - | 2' - - - - - - - - - - - - - - - - - 1' - - - - - 1' - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "2' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - | 1' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 3 - - - - - 4 - - - - - 5 - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "4' - - - - - - - - - - - 3' - - - - - - - - - - - 2' - - - - - 1' - - - - - 1' - - - - - - - - - - - | 4' - - - - - - - - - - - 3' - - - - - - - - - - - 2' - - - - - 1' - - - - - - - - - - - 5' - - - - - | 5' - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}
