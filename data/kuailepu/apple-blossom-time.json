@@ -1,0 +1,48 @@
+{
+  "id": "apple-blossom-time",
+  "slug": "apple-blossom-time",
+  "title": "Apple Blossom Time",
+  "description": "Apple Blossom Time candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "I'll be with you in ap ple blos som time I'll be with you to",
+    "change your name to mine Some day in May, I'll come to say",
+    "Hap py the bride the sun shines on to day what a won der ful",
+    "wed ding there will be what a won der ful day for you and me",
+    "Church bells will chime you will be mine in ap ple blos som time",
+    "_"
+  ],
+  "alignedLyrics": [
+    "Ill be with you in ap ple blos som time Ill be with you to",
+    "change your name to mine Some day in May Ill come to say",
+    "Hap py the bride the sun shines on to day what a won der ful",
+    "wed ding there will be what a won der ful day for you and me",
+    "Church bells will chime you will be mine in ap ple blos som time",
+    "_"
+  ],
+  "source": {
+    "title": "Apple Blossom Time MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Wikipedia, Shazam, DoctorUke. External references confirm title, attribution, opening lyric identity, and common-song version; manual QA passed and fallback BPM 96 is kept until a reliable public tempo marking is confirmed."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "{cn:G} 1 - - - - - - - 2 - - - | 3 - - - 2 - - - 1 - - - | {cn:D} 7d - - - - - 6d - 5d - 6d - | 7d - - - - - - - - - - - | {cn:C} 6d - - - - - - - 7d - - - | 1 - - - 7d - - - 6d - - -",
+    "{cn:G} 5d - - - - - 4d - 3d - 4d - | 5d - - - - - - - - - - - | {cn:D} 5d - - - 2 - - - 1# - - - | 2 - - - - - - - - - - - | {cn:G} 5d - - - 3 - - - 3b - - - | 3 - - - - - - - - - - -",
+    "{cn:A} 2 - - - - - 1# - 2 - - - | 6d - - - - - 7d - 1 - - - | {cn:D} 7d - - - 1 - - - 1# - - - | 2 - - - - - - - - - - - | {cn:G} 1 - - - - - - - 2 - - - | 3 - - - 2 - - - 1 - - -",
+    "{cn:D} 7d - - - - - 6d - 5d - 6d - | 7d - - - - - - - - - - - | {cn:C} 6d - - - - - - - 7d - - - | 1 - - - 7d - - - 6d - - - | {cn:B} 7d - - - - - 6d - 6db - 6d - | 7d - - - - - - - - - - -",
+    "{cn:A7} 6d - - - 3 - - - 3b - - - | 3 - - - - - - - - - - - | 6d - - - 2 - - - 1# - - - | 2 - - - - - - - 6d - - - | {cn:C} 1 - - - - - - - 7d - - - | {cn:D7} 6d - - - - - - - 7d - - - | {cn:G} 1 - - - - - - - - - - -",
+    "1 - - - - - - - - - - -"
+  ]
+}

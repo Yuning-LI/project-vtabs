@@ -1580,5 +1580,12 @@
     "family": "song",
     "featuredRank": 227,
     "published": true
+  },
+  {
+    "id": "apple-blossom-time",
+    "slug": "apple-blossom-time",
+    "family": "song",
+    "featuredRank": 228,
+    "published": true
   }
 ]
