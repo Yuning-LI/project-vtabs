@@ -1,0 +1,48 @@
+{
+  "id": "daddy-wouldnt-buy-me-a-bow-wow",
+  "slug": "daddy-wouldnt-buy-me-a-bow-wow",
+  "title": "Daddy Wouldn't Buy Me A Bow Wow",
+  "description": "Daddy Wouldn't Buy Me A Bow Wow candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Dad dy would n't buy me a bow wow bow wow Dad dy would n't buy me a bow wow bow wow I've",
+    "got a lit tle cat I am ve ry fond of that but I'd rath er have a bow wow wow.",
+    "I love my lit tle cat I do its coat is oh so warm it",
+    "comes each day with me to school and sits up on the form when",
+    "tea cher says why do you being that lit tle pet of yours? I",
+    "tell her that I bring my cat a long with me be cause"
+  ],
+  "alignedLyrics": [
+    "Dad dy would nt buy me a bow wow bow wow Dad dy would nt buy me a bow wow bow wow Ive",
+    "got a lit tle cat I am ve ry fond of that but Id rath er have a bow wow wow",
+    "I love my lit tle cat I do its coat is oh so warm it",
+    "comes each day with me to school and sits up on the form when",
+    "tea cher says why do you being that lit tle pet of yours I",
+    "tell her that I bring my cat a long with me be cause"
+  ],
+  "source": {
+    "title": "Daddy Wouldn't Buy Me A Bow Wow MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-19",
+    "note": "Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 1 - 7d - 1 - 2 - 3 - - - 7 - 6 - | {cn:G} 5 - - - 2 - - - 5 - - - 2 - - - | {cn:C} 1 - 7d - 1 - 2 - 3 - - - 7 - 6 - | {cn:G} 5 - - - 2 - - - 5 - - - 2 - 5 -",
+    "{cn:C} 5 - 3 - 2 - 1 - {cn:F} 6 - - - 6 - 6 - | {cn:D} 6 - 4# - 3 - 2 - {cn:G} 7 - - - 5 - 5 - | {cn:F} 6 - 1g - 7 - 6 - {cn:G} 5 - - - 2g - - - | {cn:C} 1g - - - - - - - - - - - - - - -",
+    "0 - - - - - - - - - - - 5 - - - | {cn:C} 5 - - - 4# - - - 6 - - - 5 - - - | 7 - - - 1g - - - 3 - - - 3 - - - | 3b - - - 3 - - - 7 - - - 6 - - - | {cn:G} 2 - - - - - - - - - - - 3 - - -",
+    "{cn:G7} 4 - - - 3 - - - 2 - - - 3 - - - | {cn:G7} 4 - - - 5 - - - 7 - - - 6 - - - | 6 - - - 5 - - - 2 - - - 3b - - - | {cn:C} 3 - - - - - - - - - - - 3 - - -",
+    "{cn:E} 3 - - - 6b - - - 7 - - - 1g - - - | {cn:A} 7 - - - 6 - - - 6 - - - 3 - - - | {cn:D7} 2 - - - 4# - - - 6 - - - 1g - - - | {cn:G} 7 - - - - - - - - - - - 7 - - -",
+    "{cn:D} 6 - - - 3 - - - 5 - - - 4# - - - | {cn:G} 5 - - - 2 - - - 6 - - - 5 - - - | {cn:D7} 5 - - - 4# - - - 3 - - - 4 - - - | {cn:G7} 5 - - - - - - - - - - - 0 - - -"
+  ]
+}
