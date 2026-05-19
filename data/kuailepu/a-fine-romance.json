@@ -1,0 +1,48 @@
+{
+  "id": "a-fine-romance",
+  "slug": "a-fine-romance",
+  "title": "A Fine Romance",
+  "description": "A Fine Romance candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "A fine ro mance with no kiss es a fine ro mance my",
+    "friend this is we should be like a coup le of hot to ma toes _ but",
+    "you're as cold as yes ter days mashed po ta toes _ a fine",
+    "ro mance you wont nes tle a fine ro mance you wont wres tle I",
+    "might as well play bridge with my old maid aunts I have n't got a",
+    "chance this is a fine ro mance! _"
+  ],
+  "alignedLyrics": [
+    "A fine ro mance with no kiss es a fine ro mance my",
+    "friend this is we should be like a coup le of hot to ma toes _ but",
+    "youre as cold as yes ter days mashed po ta toes _ a fine",
+    "ro mance you wont nes tle a fine ro mance you wont wres tle I",
+    "might as well play bridge with my old maid aunts I have nt got a",
+    "chance this is a fine ro mance _"
+  ],
+  "source": {
+    "title": "A Fine Romance MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 116,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Wikipedia, Musicnotes, OpenJazzBook, TheJungleJazzBand. External references confirm title, attribution, opening lyric identity, opening melody contour, and standard-song identity; manual QA passed and tempo is normalized to q=116."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 - - - - - - - - - - - 5 - - - | {cn:C} 1 - - - - - - - - - - - - - - - | 6 - - - 5 - - - - - - - 6 - - - | {cn:G7} 7d - - - - - - - - - - - - - - - | 7 - - - 6 - - - - - - - 7 - - - | {cn:C} 3 - - - - - - - - - - - - - - - | 2g - - - 1g - - - - - - - 3 - - -",
+    "{cn:G7} 5 - - - - - - - - - - - - - - - | 3g - - - 2g - - - - - - - 5 - - - | {cn:C} 1g - - - 7 - - - 1g - - - 2g - - - | {cn:D7} 1g 7 7b 6 - - - 6b - - - - - - - | {cn:G7} 5 - - - - - - - 5 - - - - - - - | 5 - - - - - - - - - - - 5 - - -",
+    "{cn:C} 6 - - - 6b - - - 6 - - - 7 - - - | 6 6b 5 4# - - - 4# - - - - - - - | {cn:E7} 3 - - - - - - - {cn:A7} 3 - - - - - - - | {cn:D7} 3 - - - - - - - - - - - {cn:G7} 3 - - - | {cn:C} 1 - - - - - - - - - - - - - - -",
+    "6 - - - 5 - - - - - - - 6 - - - | {cn:G7} 7d - - - - - - - - - - - - - - - | 7 - - - 6 - - - - - - - 7 - - - | {cn:C} 3 - - - - - - - - - - - - - - - | 2g - - - 1g - - - - - - - 3 - - - | {cn:G7} 5 - - - - - - - - - - - - - - - | 3g - - - 2g - - - - - - - 5 - - -",
+    "{cn:C} 1g - - - 7 - - - 1g - - - 2g - - - | {cn:C7} 3g 2g 1g 7 - - - 7b - - - - - - - | {cn:F} 6 - - - - - - - - - - - - - - - | 1g 7 7b 6 - - - 6b - - - - - - -",
+    "{cn:C} 5 - - - - - - - - - - - - - - - | {cn:G7} 7 6 6b 5 - - - 2g - - - - - - - | {cn:C} 1g - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - 0 - - -"
+  ]
+}
