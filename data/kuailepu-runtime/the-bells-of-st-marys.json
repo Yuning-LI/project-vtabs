@@ -1,0 +1,467 @@
+{
+  "song_uuid": "synthetic-the-bells-of-st-marys",
+  "song_name": "The Bells of St. Mary's",
+  "alias_name": "",
+  "song_pinyin": "thebellsofstmarys",
+  "song_code": "srgznsrkl",
+  "music_composer": "Emmett Adams",
+  "lyric_composer": "",
+  "keynote": "1=bB",
+  "rhythm": "4/4",
+  "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
+  "tags": "12孔AC陶笛F调指法",
+  "fingerings": "o6-G,o12-bB,o12-G,o12-F,o12-C,r8b-bB,r8b-C,r8b-G,r8b-D,r8g-bB,r8g-C,r8g-G,r8g-D,w6-bB,w6-bA,w6-C",
+  "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
+  "lyric": "[\"The bells of St Ma ry's ah! hear they are call ing the\\nyoung loves, the true loves who come from the sea and\\nso my be lov ed when red leaves are fall ing the\\nlove bells shall ring out ring out for you and me the\\nbells of St. Ma ry's Ah! hear they are call ing the\\nyoung loves the true loves who come from the sea and\\nso my be lov ed when red leaves are fall ing the\\nlove bells shall ring out ring out for you and me.\"]",
+  "notation": "{bpm:96}\n0--1d|{cn:Eb}4d4d-5d|6d6d-1|{cn:Ab}22-3|44-2|\n{cn:Eb}11-6d|{cn:Bb7}7db7db-1|{cn:F7}6d6d-4d|{cn:Bb}5d--1d|\n{cn:Eb}4d4d-5d|6d6d-1|{cn:Ab}22-3|44-1|\n{cn:Eb}4321|4321|{cn:F}4-{cn:Bb7}3-|{cn:Eb}4-{cn:Bb7}01d|\n{cn:Eb}4d4d-5d|6d6d-1|{cn:Ab}22-3|44-2|\n{cn:Eb}11-6d|{cn:Bb7}7db7db-1|{cn:F7}6d6d-4d|{cn:Bb7}5d--1d|\n{cn:Eb}4d4d-5d|6d6d-1|{cn:Ab}22-3|44-1|\n{cn:Eb}4321|4321|{cn:F}4-{cn:Bb7}5-|{cn:Eb}4-0- |||",
+  "category": "0",
+  "song_type": "0",
+  "difficulty": "1",
+  "status": "1",
+  "domain": "0",
+  "hot": "1",
+  "pv": "25094",
+  "author_id": "1",
+  "created_time": "2018-03-28 14:15:30",
+  "updated_time": "2022-01-06 15:01:51",
+  "nickname": "changnian",
+  "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/71833351D2AD4DB4CF7608FAA657F67E/100",
+  "last_login_ip": "112.0.143.192",
+  "last_login_time": "2026-03-29 20:30:05",
+  "lyric_text": "The bells of St Ma ry's ah! hear they are call ing the\nyoung loves, the true loves who come from the sea and\nso my be lov ed when red leaves are fall ing the\nlove bells shall ring out ring out for you and me the\nbells of St. Ma ry's Ah! hear they are call ing the\nyoung loves the true loves who come from the sea and\nso my be lov ed when red leaves are fall ing the\nlove bells shall ring out ring out for you and me.",
+  "user_id": "295870",
+  "no_check_vip": true,
+  "user_favorite": 0,
+  "check_copyright": true,
+  "sheetScaleList": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "cfingering": "off",
+  "show_note_range": "off",
+  "show_measure_num": "off",
+  "measure_layout": "compact",
+  "show_graph": "",
+  "show_lyric": "on",
+  "show_chord_name": "off",
+  "show_finger_num": "off",
+  "switch_key": "off",
+  "text_octave": "0",
+  "score_orientation": "portrait",
+  "meta": {
+    "Y29weXJpZ2h0": "JUE5Y29weXJpZ2h0JTIwaGFwcGkxMjMuY29tJTIwY2hhbmduaWFu",
+    "hasLyric": true,
+    "hasChordName": false,
+    "hasFingerNum": false,
+    "category": 0
+  },
+  "instrumentFingerings": [
+    {
+      "instrument": "none",
+      "instrumentName": "简谱(无图谱)",
+      "fingeringsList": [],
+      "fingeringSetList": [],
+      "graphList": []
+    },
+    {
+      "instrument": "o6",
+      "instrumentName": "六孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "o12",
+      "instrumentName": "十二孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "BC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "AF",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "BC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "AF",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "r8b",
+      "instrumentName": "英式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "r8g",
+      "instrumentName": "德式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "w6",
+      "instrumentName": "爱尔兰哨笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA5",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA5",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    }
+  ],
+  "instrumentIndex": "0",
+  "instrument": "none",
+  "fingering": "",
+  "bpm": 96,
+  "fingering_index": 0,
+  "vtabs_import": {
+    "sourceKind": "musicxml",
+    "graceMode": "source-only",
+    "tempoResolution": {
+      "bpm": 96,
+      "source": "family-fallback",
+      "family": "song",
+      "heuristic": "family:song"
+    },
+    "runtimeFingeringAudit": {
+      "status": "optimized",
+      "rulesVersion": "2026-05-15-public-instrument-selection-v1",
+      "optimizedAt": "2026-05-19T10:09:23.198Z",
+      "instrumentCount": 5,
+      "baseUrl": "http://127.0.0.1:3000"
+    }
+  }
+}

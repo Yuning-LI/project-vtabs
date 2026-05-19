@@ -1,0 +1,54 @@
+{
+  "id": "the-bells-of-st-marys",
+  "slug": "the-bells-of-st-marys",
+  "title": "The Bells of St. Mary's",
+  "description": "The Bells of St. Mary's candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "The bells of St Ma ry's ah! hear they are call ing the",
+    "young loves, the true loves who come from the sea and",
+    "so my be lov ed when red leaves are fall ing the",
+    "love bells shall ring out ring out for you and me the",
+    "bells of St. Ma ry's Ah! hear they are call ing the",
+    "young loves the true loves who come from the sea and",
+    "so my be lov ed when red leaves are fall ing the",
+    "love bells shall ring out ring out for you and me."
+  ],
+  "alignedLyrics": [
+    "The bells of St Ma rys ah hear they are call ing the",
+    "young loves the true loves who come from the sea and",
+    "so my be lov ed when red leaves are fall ing the",
+    "love bells shall ring out ring out for you and me the",
+    "bells of St Ma rys Ah hear they are call ing the",
+    "young loves the true loves who come from the sea and",
+    "so my be lov ed when red leaves are fall ing the",
+    "love bells shall ring out ring out for you and me"
+  ],
+  "source": {
+    "title": "The Bells of St. Mary's MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Wikipedia, SheetMusicSinger, TraditionalMusicPDF. Title, attribution, opening lyric identity, and common version verified. Source still uses sidecar lyrics rather than embedded XML lyric tags, but the opening enters the expected main tune after a short initial rest. Runtime fallback BPM 96 kept because source tempo is missing.Issues: sidecar-lyrics-source | tempo-missing-fallback-96."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "0 - - - - - - - - - - - 1d - - - | {cn:Eb} 4d - - - 4d - - - - - - - 5d - - - | 6d - - - 6d - - - - - - - 1 - - - | {cn:Ab} 2 - - - 2 - - - - - - - 3 - - - | 4 - - - 4 - - - - - - - 2 - - -",
+    "{cn:Eb} 1 - - - 1 - - - - - - - 6d - - - | {cn:Bb7} 7db - - - 7db - - - - - - - 1 - - - | {cn:F7} 6d - - - 6d - - - - - - - 4d - - - | {cn:Bb} 5d - - - - - - - - - - - 1d - - -",
+    "{cn:Eb} 4d - - - 4d - - - - - - - 5d - - - | 6d - - - 6d - - - - - - - 1 - - - | {cn:Ab} 2 - - - 2 - - - - - - - 3 - - - | 4 - - - 4 - - - - - - - 1 - - -",
+    "{cn:Eb} 4 - - - 3 - - - 2 - - - 1 - - - | 4 - - - 3 - - - 2 - - - 1 - - - | {cn:F} 4 - - - - - - - {cn:Bb7} 3 - - - - - - - | {cn:Eb} 4 - - - - - - - {cn:Bb7} 0 - - - 1d - - -",
+    "{cn:Eb} 4d - - - 4d - - - - - - - 5d - - - | 6d - - - 6d - - - - - - - 1 - - - | {cn:Ab} 2 - - - 2 - - - - - - - 3 - - - | 4 - - - 4 - - - - - - - 2 - - -",
+    "{cn:Eb} 1 - - - 1 - - - - - - - 6d - - - | {cn:Bb7} 7db - - - 7db - - - - - - - 1 - - - | {cn:F7} 6d - - - 6d - - - - - - - 4d - - - | {cn:Bb7} 5d - - - - - - - - - - - 1d - - -",
+    "{cn:Eb} 4d - - - 4d - - - - - - - 5d - - - | 6d - - - 6d - - - - - - - 1 - - - | {cn:Ab} 2 - - - 2 - - - - - - - 3 - - - | 4 - - - 4 - - - - - - - 1 - - -",
+    "{cn:Eb} 4 - - - 3 - - - 2 - - - 1 - - - | 4 - - - 3 - - - 2 - - - 1 - - - | {cn:F} 4 - - - - - - - {cn:Bb7} 5 - - - - - - - | {cn:Eb} 4 - - - - - - - 0 - - - - - - -"
+  ]
+}
