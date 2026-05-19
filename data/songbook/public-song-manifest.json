@@ -1615,5 +1615,12 @@
     "family": "song",
     "featuredRank": 232,
     "published": true
+  },
+  {
+    "id": "onward-christian-soldiers",
+    "slug": "onward-christian-soldiers",
+    "family": "song",
+    "featuredRank": 233,
+    "published": true
   }
 ]

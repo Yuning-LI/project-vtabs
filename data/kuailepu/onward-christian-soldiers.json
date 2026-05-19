@@ -1,0 +1,48 @@
+{
+  "id": "onward-christian-soldiers",
+  "slug": "onward-christian-soldiers",
+  "title": "Onward, Christian Soldiers",
+  "description": "Onward, Christian Soldiers candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "On ward Chris tian sol _ diers! March ing as to war,",
+    "With the cross of Je sus go ing on be fore:",
+    "Christ, the roy al Mas _ ter, Leads a gainst the foe",
+    "For ward in to bat _ tle _ See, His ban ners go.",
+    "On ward, Christ ian sol _ _ diers _ March ing as to _ war,",
+    "With the cross of Je sus go ing on be fore."
+  ],
+  "alignedLyrics": [
+    "On ward Chris tian sol _ diers March ing as to war",
+    "With the cross of Je sus go ing on be fore",
+    "Christ the roy al Mas _ ter Leads a gainst the foe",
+    "For ward in to bat _ tle _ See His ban ners go",
+    "On ward Christ ian sol _ _ diers _ March ing as to _ war",
+    "With the cross of Je sus go ing on be fore"
+  ],
+  "source": {
+    "title": "Onward, Christian Soldiers MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 104,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-19",
+    "note": "Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 5 - - - 5 - - - 5 - - - 5 - - - | {cn:C7} 5 - - - - - 6 - 5 - - - - - - - | 2 - - - 2 - - - {cn:G7} 1 - - - {cn:C7} 2 - - - | {cn:F} 3 - - - - - - - - - - - - - - -",
+    "1 - - - 3 - - - 5 - - - 1g - - - | {cn:G7} 1g - - - - - - - {cn:C7} 7 - - - - - - - | {cn:G7} 6 - - - 6 - - - 3 - - - 4# - - - | {cn:C7} 5 - - - - - - - - - - - - - - -",
+    "2 - - - 2 - - - 5 - - - 2 - - - | {cn:F} 3 - - - - - 4 - 3 - - - - - - - | 5 - - - 5 - - - 1g - - - 5 - - - | {cn:Bb} 6 - - - - - - - - - - - - - - -",
+    "6 - - - {cn:F} 5 - - - {cn:Bb} 4 - - - {cn:F} 5 - - - | {cn:Bb} 6 - - - {cn:F} 5 - - - {cn:Bb} 4 - - - {cn:F} 5 - - - | {cn:Bb} 6 - - - {cn:F} 5 - - - {cn:Bb} 4 - - - {cn:F} 3 - - - | {cn:C7} 2 - - - - - - - - - - - - - - -",
+    "{cn:F} 1 - - - 1 - - - 1 - - - 1 - - - | {cn:G7} 1 - - - {cn:C7} 7d - 6d - 7d - - - {cn:G7} 1 - - - | {cn:C7} 2 - - - 2 - - - 2 - - - 1 - 2 - | {cn:F} 3 - - - - - - - - - - - - - - -",
+    "5 - - - 5 - - - 1g - - - {cn:C7} 7 - - - | {cn:F} 1g - - - - - - - 5 - - - - - - - | {cn:Bb} 4 - - - {cn:F} 3 - - - {cn:C7} 2 - - - - - 1 - | {cn:F} 1 - - - - - - - - - - - - - - -"
+  ]
+}
