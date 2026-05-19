@@ -1629,5 +1629,12 @@
     "family": "song",
     "featuredRank": 234,
     "published": true
+  },
+  {
+    "id": "angels-we-have-heard-on-high",
+    "slug": "angels-we-have-heard-on-high",
+    "family": "holiday",
+    "featuredRank": 235,
+    "published": true
   }
 ]

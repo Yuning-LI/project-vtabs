@@ -1,0 +1,45 @@
+{
+  "id": "angels-we-have-heard-on-high",
+  "slug": "angels-we-have-heard-on-high",
+  "title": "Angels We Have Heard on High",
+  "description": "Angels We Have Heard on High candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "An- gels, we have heard on high, Sweet- ly sing- ing o'er the plains.",
+    "And the moun- tains in re- ply, Which in spire your joy ous strains,",
+    "Glo- _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ri- a, In ex- cel- sis",
+    "De- o, Glo _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ri- a,",
+    "In ex- cel- sis De- _ o. _"
+  ],
+  "alignedLyrics": [
+    "An gels we have heard on high Sweet ly sing ing oer the plains",
+    "And the moun tains in re ply Which in spire your joy ous strains",
+    "Glo _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ri a In ex cel sis",
+    "De o Glo _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ri a",
+    "In ex cel sis De _ o _"
+  ],
+  "source": {
+    "title": "Angels We Have Heard on High MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 88,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Wikipedia, Hymnary. Title and common English carol identity verified. Opening lyric matches the public version: 'Angels we have heard on high, sweetly singing o'er the plains.' Source opens at the expected main tune and includes the familiar Gloria refrain. Runtime BPM left at fallback 100 because the source file does not provide a usable tempo mark."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 3 - - - 3 - - - 3 - - - 5 - - - | {cn:C7} 5 - - - - - 4 - {cn:F} 3 - - - - - - - | 3 - - - 2 - - - 3 - - - 5 - - - | {cn:C7} 3 - - - - - 2 - {cn:F} 1 - - - - - - -",
+    "3 - - - 3 - - - 3 - - - 5 - - - | {cn:C7} 5 - - - - - 4 - {cn:F} 3 - - - - - - - | 3 - - - 2 - - - 3 - - - 5 - - - | {cn:C7} 3 - - - - - 2 - {cn:F} 1 - - - - - - -",
+    "5 - - - - - - - {cn:D7} 6 - 5 - 4 - 3 - | {cn:G} 4 - - - - - - - {cn:C7} 5 - 4 - 3 - 2 - | {cn:F} 3 - - - - - - - {cn:Bb} 4 - 3 - 2 - 1 - | {cn:C7} 2 - - - - - 5d - 5d - - - - - - - | {cn:F} 1 - - - 2 - - - 3 - - - 4 - - -",
+    "{cn:F} 3 - - - - - - - {cn:C7} 2 - - - - - - - | {cn:F} 5 - - - - - - - {cn:D7} 6 - 5 - 4 - 3 - | {cn:G} 4 - - - - - - - {cn:C7} 5 - 4 - 3 - 2 - | {cn:F} 3 - - - - - - - {cn:Bb} 4 - 3 - 2 - 1 - | {cn:C7} 2 - - - - - 5d - 5d - - - - - - -",
+    "{cn:F} 1 - - - 2 - - - 3 - - - {cn:Bb} 4 - - - | {cn:F} 3 - - - - - - - {cn:C7} 2 - - - - - - - | {cn:F} 1 - - - - - - - - - - - - - - - | 1 - - - - - - - - - - - - - - -"
+  ]
+}
