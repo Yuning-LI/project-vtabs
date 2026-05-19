@@ -3477,6 +3477,46 @@ function buildRuntimeBridgeScript(
     );
   }
 
+  function isLikelyLyricTextNode(node) {
+    if (!node || typeof node.getAttribute !== 'function') {
+      return false;
+    }
+
+    var ownY = Number(node.getAttribute('y') || 0);
+    var ownFontSize = Number(node.getAttribute('font-size') || 0);
+    if (!Number.isFinite(ownY) || !Number.isFinite(ownFontSize)) {
+      return false;
+    }
+
+    var owner = node.ownerSVGElement;
+    if (!owner) {
+      return false;
+    }
+
+    var peers = Array.prototype.slice
+      .call(owner.querySelectorAll('text'))
+      .filter(function (peer) {
+        if (!peer || peer === node || peer.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
+          return false;
+        }
+
+        var peerText = String(peer.textContent || '').trim();
+        if (!peerText || /^[A-G](?:#|b)?\d$/.test(peerText) || /^[1-7](?:[#bn]|d)?$/.test(peerText)) {
+          return false;
+        }
+
+        var peerY = Number(peer.getAttribute('y') || 0);
+        var peerFontSize = Number(peer.getAttribute('font-size') || 0);
+        if (!Number.isFinite(peerY) || !Number.isFinite(peerFontSize)) {
+          return false;
+        }
+
+        return Math.abs(peerY - ownY) <= 1 && peerFontSize >= 18;
+      });
+
+    return ownFontSize >= 16 && peers.length >= 1;
+  }
+
   function shouldHideVisibleSheetText(text) {
     if (!text || textMode !== 'english') {
       return false;
@@ -3723,7 +3763,10 @@ function buildRuntimeBridgeScript(
           node.removeAttribute('textLength');
           node.removeAttribute('lengthAdjust');
         }
-        if (isVisibleSheetStructureMarkerText(translated || original)) {
+        if (
+          isVisibleSheetStructureMarkerText(translated || original) &&
+          !isLikelyLyricTextNode(node)
+        ) {
           var currentFontSize = Number(node.getAttribute('font-size') || 0);
           if (Number.isFinite(currentFontSize) && currentFontSize > 16) {
             node.setAttribute('font-size', '16');

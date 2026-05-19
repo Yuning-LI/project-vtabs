@@ -1,0 +1,54 @@
+{
+  "id": "missouri-waltz",
+  "slug": "missouri-waltz",
+  "title": "Missouri Waltz",
+  "description": "Missouri Waltz candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Hush a bye my ba by slum ber time is com ing soon",
+    "Rest your head up on my breast while Ma mmy hums a tune _ the",
+    "sand man is call ing where sha dows are fall ing",
+    "the soft bree zes sigh as in days gone by",
+    "Way down in Miss ou ri where I heard the mel o dy",
+    "when I was a lit tle child up on my Ma mmys knee",
+    "theold folks were hum ming the ban jos were strumm ing so",
+    "sweet and low. _"
+  ],
+  "alignedLyrics": [
+    "Hush a bye my ba by slum ber time is com ing soon",
+    "Rest your head up on my breast while Ma mmy hums a tune _ the",
+    "sand man is call ing where sha dows are fall ing",
+    "the soft bree zes sigh as in days gone by",
+    "Way down in Miss ou ri where I heard the mel o dy",
+    "when I was a lit tle child up on my Ma mmys knee",
+    "theold folks were hum ming the ban jos were strumm ing so",
+    "sweet and low _"
+  ],
+  "source": {
+    "title": "Missouri Waltz MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 90,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Wikipedia, MamaLisa, MorganLibrary. Title, opening lyric identity, and common Missouri Waltz version verified. The candidate starts directly at the expected lullaby opening and keeps a source-derived 90 BPM. Lyrics still come from sidecar text rather than embedded XML lyric tags.Issues: sidecar-lyrics-source | source-bpm-kept-90."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 3 - - - - - 3b - 3 - 1 - | {cn:C7} 2 - - - - - 1 - 2 - 3b - | {cn:F} 3 - - - - - 3b - 3 - 2 - | 1 - - - - - - - - - - -",
+    "3 - - - - - 3b - 3 - 1 - | {cn:C7} 2 - - - - - 1# - 2 - 3b - | {cn:F} 3 - - - - - 3b - 3 - 2 - | 1 - - - 7d - - - 7db - - -",
+    "{cn:Bb} 6d - - - 1 - - - - - 2 - | 1 - - - 6d - - - - - 6db - | {cn:F} 5d - - - 1 - - - - - 2 - | 1 - - - 5d - - - - - - -",
+    "{cn:G7} 2 - - - - - - - 1# - 2 - | 6d - - - - - - - 7d - 1 - | {cn:C7} 2 - - - - - - - 1# - 2 - | 5 - - - - - - - - - - -",
+    "{cn:F} 3 - - - - - 2 - 3 - 1 - | {cn:C7} 2 - - - - - 1# - 2 - 3b - | {cn:F} 3 - - - - - 3b - 3 - 2 - | 1 - - - - - - - - - - -",
+    "3 - - - - - 3b - 3 - 1 - | {cn:C7} 2 - - - - - 1 - 2 - 3b - | {cn:F} 3 - - - - - 3b - 3 - 2 - | 1 - - - - - - - - - - -",
+    "{cn:Bb} 6d - - - 1 - - - - - 2 - | 1 - - - 6d - - - - - 6db - | {cn:F} 5d - - - 1 - - - - - 2 - | 1 - - - 5d - - - - - 6db -",
+    "{cn:G7} 6d - - - - - - - - - - - | {cn:C7} 3 - - - - - - - - - - - | {cn:F} 1 - - - - - - - - - - - | 1 - - - - - - - - - - -"
+  ]
+}

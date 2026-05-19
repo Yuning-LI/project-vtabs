@@ -1608,5 +1608,12 @@
     "family": "song",
     "featuredRank": 231,
     "published": true
+  },
+  {
+    "id": "missouri-waltz",
+    "slug": "missouri-waltz",
+    "family": "song",
+    "featuredRank": 232,
+    "published": true
   }
 ]
