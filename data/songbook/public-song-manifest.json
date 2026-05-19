@@ -1587,5 +1587,12 @@
     "family": "song",
     "featuredRank": 228,
     "published": true
+  },
+  {
+    "id": "carolina-in-the-morning",
+    "slug": "carolina-in-the-morning",
+    "family": "song",
+    "featuredRank": 229,
+    "published": true
   }
 ]
