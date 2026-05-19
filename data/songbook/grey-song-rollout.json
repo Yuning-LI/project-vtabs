@@ -922,6 +922,16 @@
       "addedOn": "2026-05-19",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/w4Ncl1xYk.html",
       "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "all-is-found",
+      "title": "All Is Found",
+      "status": "validated-local",
+      "batch": "32",
+      "group": "film",
+      "addedOn": "2026-05-19",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/9wibi1hVs.html",
+      "notes": "Imported with public content layer, SEO profile, aliases, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }
