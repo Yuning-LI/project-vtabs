@@ -1,0 +1,51 @@
+{
+  "id": "whispering-hope",
+  "slug": "whispering-hope",
+  "title": "Whispering Hope",
+  "description": "Whispering Hope candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "_ _ _ _ _ _ _ _ _ _ _ _ _ _",
+    "Soft as the voice of an an gel, breath ing a les son un heard. _",
+    "Hope with a gen tle per sua sion whis pers her com fort ing word. _",
+    "Wait 'till the dark ness is o ver, wait 'till the temp est is done. _",
+    "Hope for the sun shine to mor row, af ter the dark ness is gone. _",
+    "Whis _ per ing hope, _ Oh, how wel _ come Thy voice, _",
+    "Mak _ ing my heart _ in its sor _ row re joice. _"
+  ],
+  "alignedLyrics": [
+    "_ _ _ _ _ _ _ _ _ _ _ _ _ _",
+    "Soft as the voice of an an gel breath ing a les son un heard _",
+    "Hope with a gen tle per sua sion whis pers her com fort ing word _",
+    "Wait till the dark ness is o ver wait till the temp est is done _",
+    "Hope for the sun shine to mor row af ter the dark ness is gone _",
+    "Whis _ per ing hope _ Oh how wel _ come Thy voice _",
+    "Mak _ ing my heart _ in its sor _ row re joice _"
+  ],
+  "source": {
+    "title": "Whispering Hope MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-19",
+    "note": "Refs: Hymnary, Wikipedia, source-xml, manual-local-review. Approved for publication after manual local lyric alignment review. Source XML has no embedded lyric tags; publication uses sidecar lyrics that were manually aligned and checked against the common Whispering Hope opening.Issues: no-embedded-lyrics | sidecar-lyrics-manually-aligned | manual-review-approved-publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:F} 6 - - - - - - - - - - - | 6 - - - 7 - - - 1g - - - | {cn:C} 5 - - - - - - - - - - - | 5 - - - 3g - - - 1g - - - | {cn:G7} 7 - - - - - - - - - - - | 7 - - - 6 - - - 7 - - - | {cn:C} 1g - - - - - - - - - - - | 1g - - - - - - - 0 - - -",
+    "{cn:C} 5 - - - - - 5 - 5 - - - | {cn:F} 1g - - - 7 - - - 6 - - - | {cn:C} 5 - - - - - - - - - - - | 3 - - - - - - - - - - - | {cn:G7} 4 - - - - - 4 - 4 - - - | 6 - - - 5 - - - 4 - - - | {cn:C} 3 - - - - - - - - - - - | 3 - - - - - - - - - - -",
+    "{cn:C} 3 - - - - - 3 - 3 - - - | {cn:C7} 3 - - - 4 - - - 5 - - - | {cn:F} 6 - - - - - - - - - - - | 1g - - - - - - - - - - - | {cn:C} 5 - - - - - 5 - 5 - - - | {cn:G7} 7 - - - 6 - - - 7 - - - | {cn:C} 1g - - - - - - - - - - - | 1g - - - - - - - - - - -",
+    "{cn:C} 5 - - - - - 5 - 5 - - - | 5 - - - 4# - - - {cn:G7} 4 - - - | {cn:C} 3 - - - - - - - - - - - | 1g - - - - - - - - - - - | {cn:G/D} 7 - - - - - 7 - 7 - - - | {cn:D7} 7 - - - 1g - - - 6 - - - | 5 - - - - - - - - - - - | {cn:G} 5 - - - - - - - - - - -",
+    "{cn:C} 1g - - - - - 1g - 1g - - - | {cn:F} 1g - - - 7 - - - 6 - - - | {cn:C} 5 - - - - - - - - - - - | 1g - - - - - - - - - - - | 3 - - - - - 3 - 3 - - - | {cn:G7} 5 - - - 4 - - - 2 - - - | {cn:C} 1 - - - - - - - - - - - | 1 - - - - - - - - - - -",
+    "{cn:G7} 5 - - - - - - - - - - - | 5 - - - 6 - - - 7 - - - | {cn:C} 1g - - - - - - - - - - - | 1g - - - 7 - - - 1g - - - | {cn:G7} 2g - - - - - - - - - - - | 2g - - - 1g - - - 2g - - - | {cn:C} 3g - - - - - - - - - - - | 5 - - - - - - - - - - -",
+    "{cn:F} 6 - - - - - - - - - - - | 6 - - - 7 - - - 1g - - - | {cn:C} 5 - - - - - - - - - - - | 5 - - - 5 - - - 1g - - - | {cn:G7} 7 - - - - - - - - - - - | 7 - - - 6 - - - 7 - - - | {cn:C} 1g - - - - - - - - - - - | 1g - - - - - - - - - - -"
+  ]
+}

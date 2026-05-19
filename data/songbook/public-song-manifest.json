@@ -1594,5 +1594,12 @@
     "family": "song",
     "featuredRank": 229,
     "published": true
+  },
+  {
+    "id": "whispering-hope",
+    "slug": "whispering-hope",
+    "family": "song",
+    "featuredRank": 230,
+    "published": true
   }
 ]
