@@ -1,0 +1,63 @@
+{
+  "id": "o-christmas-tree",
+  "slug": "o-christmas-tree",
+  "title": "O Christmas Tree",
+  "description": "O Christmas Tree candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "O Christ mas tree, O Christ mas tree, Thou",
+    "tree most fair and love ly! O Christ mas tree, O",
+    "Christ mas tree! Thou tree most fair and love ly! The",
+    "sight of thee at Christ mas tide, Spreads hope and glad ness",
+    "far and wide. O Christ mas tree, O christ mas tree, Thou",
+    "tree and fair and love ly! O Christ mas tree, O",
+    "Christ mas tree, Thou hast a won drous mes sage O",
+    "Christ mas tree, O Christ mas tree, Thou hast a won drous",
+    "mes sage: Thou dost pro claim the Sav ior's birth, Good",
+    "will to men and peace on earth, O Christ mas tree, O",
+    "Christ mas tree! Thou hast a won drous mes sage."
+  ],
+  "alignedLyrics": [
+    "O Christ mas tree O Christ mas tree Thou",
+    "tree most fair and love ly O Christ mas tree O",
+    "Christ mas tree Thou tree most fair and love ly The",
+    "sight of thee at Christ mas tide Spreads hope and glad ness",
+    "far and wide O Christ mas tree O christ mas tree Thou",
+    "tree and fair and love ly O Christ mas tree O",
+    "Christ mas tree Thou hast a won drous mes sage O",
+    "Christ mas tree O Christ mas tree Thou hast a won drous",
+    "mes sage Thou dost pro claim the Sav iors birth Good",
+    "will to men and peace on earth O Christ mas tree O",
+    "Christ mas tree Thou hast a won drous mes sage"
+  ],
+  "source": {
+    "title": "O Christmas Tree MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 88,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-20",
+    "note": "Refs: Wikipedia, Hymnary. Title, O Tannenbaum identity, English O Christmas Tree variant, and opening melody contour verified against public references.Issues: English-lyrics-have-multiple-common-variants."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "5d - - - 0 - - - - - - - | {cn:F} 1 - 1 - 1 - - - {cn:C7} 2 - - - | {cn:F} 3 - 3 - 3 - - - - - 3 -",
+    "{cn:G} 2 - 3 - {cn:C7} 4 - - - 7d - - - | {cn:F} 2 - - - 1 - - - 5d - - - | 1 - 1 - 1 - - - {cn:C7} 2 - - -",
+    "{cn:F} 3 - 3 - 3 - - - - - 3 - | {cn:G} 2 - 3 - {cn:C7} 4 - - - 7d - - - | {cn:F} 2 - - - 1 - - - - - 5 -",
+    "5 - 3 - 6 - - - - - 5 - | {cn:G} 5 - 4 - 4 - - - - - 4 - | {cn:C7} 4 - 2 - 5 - - - - - 4 -",
+    "{cn:F} 4 - 3 - 3 - - - 5d - - - | 1 - 1 - 1 - - - {cn:C7} 2 - - - | {cn:F} 3 - 3 - 3 - - - - - 3 -",
+    "{cn:G} 2 - 3 - {cn:C7} 4 - - - 7d - - - | {cn:F} 2 - - - 1 - - - 5d - - - | 1 - 1 - 1 - - - {cn:C7} 2 - - -",
+    "{cn:F} 3 - 3 - 3 - - - - - 3 - | {cn:G} 2 - 3 - {cn:C7} 4 - - - 7d - - - | {cn:F} 2 - - - 1 - - - 5d - - -",
+    "1 - 1 - 1 - - - {cn:C7} 2 - - - | {cn:F} 3 - 3 - 3 - - - - - 3 - | {cn:G} 2 - 3 - {cn:C7} 4 - - - 7d - - -",
+    "{cn:F} 2 - - - 1 - - - - - 5 - | 5 - 3 - 6 - - - - - 5 - | {cn:G} 5 - 4 - 4 - - - - - 4 -",
+    "{cn:C7} 4 - 2 - 5 - - - - - 4 - | {cn:F} 4 - 3 - 3 - - - 5d - - - | 1 - 1 - 1 - - - {cn:C7} 2 - - -",
+    "{cn:F} 3 - 3 - {cn:Fag} 3 - - - - - 3 - | {cn:G} 2 - 3 - {cn:Cb7} 4 - - - 7d - - - | {cn:F} 2 - - - 1 - - - 0 - - -"
+  ]
+}

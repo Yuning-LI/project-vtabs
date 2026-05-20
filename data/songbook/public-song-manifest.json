@@ -1671,5 +1671,12 @@
     "family": "holiday",
     "featuredRank": 240,
     "published": true
+  },
+  {
+    "id": "o-christmas-tree",
+    "slug": "o-christmas-tree",
+    "family": "holiday",
+    "featuredRank": 241,
+    "published": true
   }
 ]

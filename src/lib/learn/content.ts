@@ -2829,6 +2829,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'jingle-bells',
       'silent-night',
       'go-tell-it-on-the-mountain',
+      'o-christmas-tree',
       'still-still-still',
       'we-wish-you-a-merry-christmas',
       'deck-the-halls',
@@ -2864,6 +2865,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         songSlugs: [
           'silent-night',
           'go-tell-it-on-the-mountain',
+          'o-christmas-tree',
           'still-still-still',
           'jingle-bells',
           'we-wish-you-a-merry-christmas',
