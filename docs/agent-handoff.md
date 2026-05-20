@@ -17,6 +17,13 @@ git log --oneline origin/main..HEAD
 
 If the task needs Kuailepu network access, confirm the user is on a China-reachable VPN. If it needs Google / western research, confirm foreign VPN.
 
+## Commit Hook Rule
+
+- Pre-commit must stay fast and deterministic.
+- Do not run full `npm run test:e2e` from the git pre-commit hook.
+- Current pre-commit entry is `npm run precommit:checks`, which only runs lightweight staged-file checks.
+- Full release validation such as `doctor`, `preflight`, `validate:content`, `validate:songbook`, `build`, and any manual `test:e2e` run still belongs to the publish / release flow, not every commit.
+
 ## Stable Rules
 
 - Production runtime JSON: `data/kuailepu-runtime/<slug>.json`.
