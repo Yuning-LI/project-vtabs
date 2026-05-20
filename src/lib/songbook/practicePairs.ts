@@ -203,6 +203,7 @@ function toPracticePairCard(
     keyLabel: presentation.keyLabel,
     meterLabel: presentation.meterLabel,
     hasPublicLyrics,
+    supportedInstrumentIds: getSupportedPublicSongInstruments(runtimePayload).map(item => item.id),
     reason: seed.reason
   }
 }

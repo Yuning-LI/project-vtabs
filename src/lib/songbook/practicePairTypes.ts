@@ -7,6 +7,7 @@ export type PracticePairCard = {
   keyLabel: string
   meterLabel: string
   hasPublicLyrics: boolean
+  supportedInstrumentIds: string[]
   reason: string
 }
 
@@ -24,3 +25,10 @@ export type AutoPracticePairSeed = {
   reason: string
   score: number
 }
+
+export type PracticePairLinkState = {
+  instrumentId: 'o12' | 'o6' | 'r8b' | 'r8g' | 'w6' | null
+  noteLabelMode: string | null
+}
+
+export const SONG_PAGE_LINK_STATE_EVENT = 'vtabs-song-page-link-state-change'

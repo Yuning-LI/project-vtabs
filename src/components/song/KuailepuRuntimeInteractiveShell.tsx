@@ -21,6 +21,7 @@ import SongPageFunctionZone, {
   type SongPageFunctionZoneSelectControl,
   type SongPageFunctionZoneToggleControl
 } from './SongPageFunctionZone'
+import { SONG_PAGE_LINK_STATE_EVENT } from '@/lib/songbook/practicePairTypes'
 
 export type KuailepuRuntimeControlPayload = {
   instrumentFingerings?: Array<{
@@ -389,6 +390,21 @@ export default function KuailepuRuntimeInteractiveShell({
       has_lyric_toggle: hasLyricToggle
     })
   }, [activeInstrument.id, hasLyricToggle, noteLabelMode, songId])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.dispatchEvent(
+      new CustomEvent(SONG_PAGE_LINK_STATE_EVENT, {
+        detail: {
+          instrumentId: activeInstrument.id,
+          noteLabelMode
+        }
+      })
+    )
+  }, [activeInstrument.id, noteLabelMode, query])
 
   useEffect(() => {
     if (previousSongRef.current !== songId) {

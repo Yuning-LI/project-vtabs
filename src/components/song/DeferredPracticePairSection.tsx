@@ -2,8 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import type { PracticePairSuggestions } from '@/lib/songbook/practicePairTypes'
+import { useEffect, useMemo, useState } from 'react'
+import {
+  SONG_PAGE_LINK_STATE_EVENT,
+  type PracticePairLinkState,
+  type PracticePairSuggestions
+} from '@/lib/songbook/practicePairTypes'
+import { buildSongPageHref } from '@/lib/songbook/publicInstruments'
 
 type DeferredPracticePairSectionProps = {
   title: string
@@ -19,6 +24,10 @@ export default function DeferredPracticePairSection({
   backLabel = 'Back to Song Library'
 }: DeferredPracticePairSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
+  const [linkState, setLinkState] = useState<PracticePairLinkState>({
+    instrumentId: null,
+    noteLabelMode: null
+  })
 
   useEffect(() => {
     if (!suggestions) {
@@ -62,6 +71,45 @@ export default function DeferredPracticePairSection({
     }
   }, [suggestions])
 
+  useEffect(() => {
+    function handleLinkStateChange(event: Event) {
+      const customEvent = event as CustomEvent<PracticePairLinkState>
+      if (!customEvent.detail) {
+        return
+      }
+
+      setLinkState(customEvent.detail)
+    }
+
+    window.addEventListener(SONG_PAGE_LINK_STATE_EVENT, handleLinkStateChange as EventListener)
+    return () => {
+      window.removeEventListener(
+        SONG_PAGE_LINK_STATE_EVENT,
+        handleLinkStateChange as EventListener
+      )
+    }
+  }, [])
+
+  const resolvedItems = useMemo(
+    () =>
+      (suggestions?.items ?? []).map(item => {
+        const nextInstrumentId =
+          linkState.instrumentId && item.supportedInstrumentIds.includes(linkState.instrumentId)
+            ? linkState.instrumentId
+            : null
+
+        return {
+          ...item,
+          href: buildSongPageHref({
+            songId: item.slug,
+            instrumentId: nextInstrumentId,
+            noteLabelMode: linkState.noteLabelMode ?? null
+          })
+        }
+      }),
+    [linkState.instrumentId, linkState.noteLabelMode, suggestions]
+  )
+
   if (!suggestions || !isVisible) {
     return null
   }
@@ -86,7 +134,7 @@ export default function DeferredPracticePairSection({
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {suggestions.items.map(item => (
+          {resolvedItems.map(item => (
             <Link
               key={item.slug}
               href={item.href}
