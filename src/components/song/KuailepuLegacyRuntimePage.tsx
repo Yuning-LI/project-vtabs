@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { LearnGuideCard, LearnSongCard } from '@/lib/learn/content'
-import type { PracticePairSuggestions } from '@/lib/songbook/practicePairs'
+import type { PracticePairSuggestions } from '@/lib/songbook/practicePairTypes'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import type {
   PublicSongPageQueryState,

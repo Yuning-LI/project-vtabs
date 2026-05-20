@@ -6,29 +6,10 @@ import {
   type PublicSongInstrumentId,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
+import { loadPracticePairAutoResults } from '@/lib/songbook/practicePairAutoResults'
 import { resolvePublicSongFamily } from '@/lib/songbook/publicManifest'
 import { getSongPresentation } from '@/lib/songbook/presentation'
-
-export type PracticePairCard = {
-  slug: string
-  href: string
-  title: string
-  familyLabel: string
-  difficultyLabel: string
-  keyLabel: string
-  meterLabel: string
-  hasPublicLyrics: boolean
-  reason: string
-}
-
-export type PracticePairSuggestions = {
-  items: PracticePairCard[]
-}
-
-type PracticePairSeed = {
-  slug: string
-  reason: string
-}
+import type { PracticePairCard, PracticePairSeed, PracticePairSuggestions } from '@/lib/songbook/practicePairTypes'
 
 const FAMILY_LABELS = {
   nursery: 'Nursery Rhyme',
@@ -166,8 +147,10 @@ export function getPracticePairSuggestions(
   queryState: PublicSongPageQueryState,
   fallbackSlugs: string[] = []
 ): PracticePairSuggestions | null {
-  const seeds = PRACTICE_PAIR_MAP[currentSlug]
-  const resolvedFromSeeds = (seeds ?? [])
+  const manualSeeds = PRACTICE_PAIR_MAP[currentSlug] ?? []
+  const autoSeeds = loadPracticePairAutoResults()[currentSlug] ?? []
+
+  const resolvedFromSeeds = [...manualSeeds, ...autoSeeds]
     .map(seed => toPracticePairCard(seed, queryState))
     .filter((card): card is PracticePairCard => Boolean(card))
 

@@ -61,6 +61,7 @@
     "audit:learn-gsc": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-learn-gsc-cannibalization.ts",
     "audit:runtime-graphs": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-runtime-graphs.ts",
     "audit:runtime-letter-switch": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-runtime-letter-switch.ts",
+    "generate:practice-pair-auto": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/generate-practice-pair-auto.ts",
     "optimize:runtime-fingerings": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/optimize-runtime-fingerings.ts",
     "compare:runtime-fingerings": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/compare-runtime-fingering-defaults.ts",
     "export:print-pdf": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/export-print-song-pdf.ts",

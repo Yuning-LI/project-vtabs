@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import type { PracticePairSuggestions } from '@/lib/songbook/practicePairs'
+import type { PracticePairSuggestions } from '@/lib/songbook/practicePairTypes'
 
 type DeferredPracticePairSectionProps = {
   title: string
