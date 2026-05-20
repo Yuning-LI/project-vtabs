@@ -1,0 +1,42 @@
+{
+  "id": "go-tell-it-on-the-mountain",
+  "slug": "go-tell-it-on-the-mountain",
+  "title": "Go Tell It on the Mountain",
+  "description": "A lyric-friendly Christmas spiritual page for players who want Go Tell It on the Mountain in letter notes with fingering chart support.",
+  "published": true,
+  "lyrics": [
+    "Go, tell it on the moun tain, O ver the hills and ev _ 'ry _ where",
+    "Go, tell it on the moun tain That Je sus Christ _ is born. While",
+    "shep herds kept their watch ing O'er si lent flocks by night, Be",
+    "hold, through out the heav ens There shone a ho ly light. _"
+  ],
+  "alignedLyrics": [
+    "Go tell it on the moun tain O ver the hills and ev _ ry _ where",
+    "Go tell it on the moun tain That Je sus Christ _ is born While",
+    "shep herds kept their watch ing Oer si lent flocks by night Be",
+    "hold through out the heav ens There shone a ho ly light _"
+  ],
+  "source": {
+    "title": "Go Tell It on the Mountain MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = bA",
+    "tempo": 88,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-20",
+    "note": "Refs: Wikipedia, Hymnary. Title, common Christmas spiritual identity, opening refrain/verse relationship, and opening melody contour verified against public references.Issues: Source-uses-refrain-first-while-many-hymnals-index-verse-first."
+  },
+  "tonicMidi": 68,
+  "notation": [
+    "{cn:Ab} 3 - - - - - - - {cn:Db} 3 - 2 - 1 - 6d - | {cn:Ab} 5d - - - - - - - 1 - - - - - - - | {cn:Eb} 2 - 2 - - - 2 - {cn:Db} 1 - - - 2 - - - | {cn:Ab} 3 - 2 - 3 - 2 - 1 - - - - - - -",
+    "3 - - - - - - - {cn:Db} 3 - 2 - 1 - 6d - | {cn:Ab} 5d - - - - - - - {cn:F} 1 - - - 1 - - - | {cn:Bb} 2 - - - 2 - - - 3 - 1 - {cn:Eb7} 2 - - - | {cn:Ab} 1 - - - - - - - - - - - 1 - - -",
+    "3 - - - 5 - - - 5 - - - - - 6 - | 5 - - - 3 - - - - - - - 1 - - - | {cn:Db} 2 - - - 2 - - - 1 - - - 2 - - - | {cn:Ab} 3 - - - - - - - - - - - 1 - - -",
+    "3 - - - 5 - - - 5 - - - 6 - - - | 5 - - - 3 - - - - - - - 1 - - - | {cn:Bb7} 2 - - - 2 - - - 1 - - - 6d - - - | {cn:Eb} 5d - - - - - - - {cn:Eb7} 4 - - - - - - -"
+  ]
+}

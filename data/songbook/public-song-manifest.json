@@ -1664,5 +1664,12 @@
     "family": "media",
     "featuredRank": 239,
     "published": true
+  },
+  {
+    "id": "go-tell-it-on-the-mountain",
+    "slug": "go-tell-it-on-the-mountain",
+    "family": "holiday",
+    "featuredRank": 240,
+    "published": true
   }
 ]

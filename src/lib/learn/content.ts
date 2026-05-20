@@ -2828,6 +2828,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
     featuredSongSlugs: [
       'jingle-bells',
       'silent-night',
+      'go-tell-it-on-the-mountain',
       'still-still-still',
       'we-wish-you-a-merry-christmas',
       'deck-the-halls',
@@ -2862,6 +2863,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         ],
         songSlugs: [
           'silent-night',
+          'go-tell-it-on-the-mountain',
           'still-still-still',
           'jingle-bells',
           'we-wish-you-a-merry-christmas',
@@ -3540,6 +3542,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'amazing-grace',
       'were-you-there',
       'silent-night',
+      'go-tell-it-on-the-mountain',
       'joy-to-the-world',
       'greensleeves',
       'going-home'
@@ -3551,7 +3554,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'The strongest first hymn-style pages are the ones with a clear vocal contour and enough familiarity that players can hear the next phrase before they play it. That makes the letter-note layer more useful and less intimidating.',
           'Start with the most recognisable melodies first, then add longer or more sustained pages after the first pass feels comfortable.'
         ],
-        songSlugs: ['amazing-grace', 'silent-night', 'joy-to-the-world', 'were-you-there']
+        songSlugs: ['amazing-grace', 'silent-night', 'go-tell-it-on-the-mountain', 'were-you-there']
       },
       {
         title: 'Why These Songs Work Well For Reflective Practice',
@@ -3564,7 +3567,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Use lyrics when singing helps you feel the phrase entry and cadence.',
           'Treat these pages as breath and tone work, not as speed exercises.'
         ],
-        songSlugs: ['amazing-grace', 'were-you-there', 'going-home']
+        songSlugs: ['amazing-grace', 'were-you-there', 'go-tell-it-on-the-mountain']
       },
       {
         title: 'Related Songs To Add After The First Hymns',
