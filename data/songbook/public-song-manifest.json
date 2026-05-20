@@ -1692,5 +1692,19 @@
     "family": "song",
     "featuredRank": 243,
     "published": true
+  },
+  {
+    "id": "the-ash-grove",
+    "slug": "the-ash-grove",
+    "family": "folk",
+    "featuredRank": 244,
+    "published": true
+  },
+  {
+    "id": "the-wild-colonial-boy",
+    "slug": "the-wild-colonial-boy",
+    "family": "folk",
+    "featuredRank": 245,
+    "published": true
   }
 ]

@@ -1,0 +1,42 @@
+{
+  "id": "the-wild-colonial-boy",
+  "slug": "the-wild-colonial-boy",
+  "title": "The Wild Colonial Boy",
+  "description": "The Wild Colonial Boy candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "There _ was a wild Co lo nial Boy, Jack Dug gan was his",
+    "name. He was born and reared in Ire land, in a place called Cas tle",
+    "maine. He was his fa ther's on ly son, and his mo ther's pride and",
+    "joy, And dear ly did his pa rents love, The Wild Co lon ial Boy."
+  ],
+  "alignedLyrics": [
+    "There _ was a wild Co lo nial Boy Jack Dug gan was his",
+    "name He was born and reared in Ire land in a place called Cas tle",
+    "maine He was his fa thers on ly son and his mo thers pride and",
+    "joy And dear ly did his pa rents love The Wild Co lon ial Boy"
+  ],
+  "source": {
+    "title": "The Wild Colonial Boy MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = #D",
+    "tempo": 96,
+    "meter": "6/8"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-20",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Candidate completed local ingest validation and passed human melody/lyric review against a common public version during operator review."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "0 - - - - - - - 5 - 5 - | {cn:Eb} 1 - - - 3 - 5 - - - 5 - | {cn:Bb7} 6 - - - 4 - {cn:F7} 2 - - - 1 - | {cn:Bb7} 7d - 5d - - - 3 - - - 2 -",
+    "{cn:Eb} 1 - - - - - - - - - 3 4 | 5 - - - 1g - {cn:Ab} 1g - - - 7 - | {cn:Ab6} 7 - - - 6 - {cn:F7} 2 - - - 3 - | {cn:Bb7} 4 - - - 5 - 7 - - - 6 -",
+    "{cn:Eb} 5 - - - - - - - - - 3 - | 5 - - - 5 - {cn:Bb7} 6 - - - 7 - | {cn:Eb} 1g - - - 3 - {cn:F7} 4 - - - 5 5 | {cn:Bb7} 6 - - - 6 - 7 - - - 6 -",
+    "{cn:Eb} 5 - - - - - - - - - 5 - | 1 - - - 3 - 5 - - - 5 - | {cn:Ab} 6 - - - 4 - {cn:F7} 2 - - - 1 - | {cn:Bb7} 7d - - - 5d - 3 - - - 2 - | {cn:Eb} 1 - - - - - - - - - 0 -"
+  ]
+}
