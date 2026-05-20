@@ -130,3 +130,4 @@ Playbook:
 - MusicXML ingest operator runbook: `docs/song-ingest-operator-runbook.md`
 - MusicXML ingest: `docs/song-ingest-input-spec.md`
 - MuseScore candidate sourcing: `docs/musescore-candidate-workflow.md`
+- Unified song-pick queue for faster operator selection: `docs/song-import-pick-queue.md` and `data/songbook/song-import-pick-queue.json`

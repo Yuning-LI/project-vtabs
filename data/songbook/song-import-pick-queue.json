@@ -1,0 +1,476 @@
+{
+  "generatedOn": "2026-05-20T12:54:04.393Z",
+  "purpose": "Unified song-pick queue for faster operator selection only. Import workflows remain source-specific and unchanged.",
+  "lanes": {
+    "xml": {
+      "queueCount": 31,
+      "source": "reference/song-publish-candidates/openewld-release-priority.json"
+    },
+    "kuailepuGrey": {
+      "queueCount": 18,
+      "doneCount": 2,
+      "source": "reference/kuailepu-candidates/queues/grey-priority-queue.md"
+    }
+  },
+  "rows": [
+    {
+      "lane": "xml",
+      "priority": 1,
+      "slug": "molly-malone",
+      "title": "Molly Malone",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Molly_Malone/Molly_Malone.mxl",
+      "note": "fast-track; trafficRank=3; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 2,
+      "slug": "for-hes-a-jolly-good-fellow",
+      "title": "For He's A Jolly Good Fellow",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/For_He's_a_Jolly_Good_Fellow/For_He's_a_Jolly_Good_Fellow.mxl",
+      "note": "fast-track; trafficRank=23; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 3,
+      "slug": "the-black-velvet-band",
+      "title": "The Black Velvet Band",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/The_Black_Velvet_Band/The_Black_Velvet_Band.mxl",
+      "note": "fast-track; trafficRank=26; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 4,
+      "slug": "sometimes-i-feel-like-a-motherless-child",
+      "title": "Sometimes I Feel Like a Motherless Child",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Sometimes_I_Feel_Like_a_Motherless_Child/Sometimes_I_Feel_Like_a_Motherless_Child.mxl",
+      "note": "fast-track; trafficRank=28; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 5,
+      "slug": "the-wild-rover",
+      "title": "The Wild Rover",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/The_Wild_Rover/The_Wild_Rover.mxl",
+      "note": "fast-track; trafficRank=30; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 6,
+      "slug": "o-come-all-ye-faithful",
+      "title": "O Come All Ye Faithful",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/Frederick_Oakeley/O_Come,_All_Ye_Faithful/O_Come,_All_Ye_Faithful.mxl",
+      "note": "fast-track; trafficRank=33; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 7,
+      "slug": "joshua-fit-the-battle-of-jericho",
+      "title": "Joshua Fit The Battle Of Jericho",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Joshua_Fit_the_Battle_of_Jericho/Joshua_Fit_the_Battle_of_Jericho.mxl",
+      "note": "fast-track; trafficRank=37; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 8,
+      "slug": "drink-to-me-only-with-thine-eyes",
+      "title": "Drink To Me Only With Thine Eyes",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Drink_to_Me_Only_with_Thine_Eyes/Drink_to_Me_Only_with_Thine_Eyes.mxl",
+      "note": "fast-track; trafficRank=40; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 9,
+      "slug": "the-ash-grove",
+      "title": "The Ash Grove",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/Thomas_Oliphant/The_Ash_Grove/The_Ash_Grove.mxl",
+      "note": "fast-track; trafficRank=42; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 10,
+      "slug": "banks-of-the-ohio",
+      "title": "Banks Of The Ohio",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Banks_of_the_Ohio/Banks_of_the_Ohio.mxl",
+      "note": "fast-track; trafficRank=43; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 11,
+      "slug": "give-my-regards-to-broadway",
+      "title": "Give My Regards To Broadway",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/George_M._Cohan/Give_My_Regards_to_Broadway/Give_My_Regards_to_Broadway.mxl",
+      "note": "fast-track; trafficRank=50; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 12,
+      "slug": "angels-we-have-heard-on-high",
+      "title": "Angels We Have Heard On High",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/James_Chadwick/Angels_We_Have_Heard_on_High/Angels_We_Have_Heard_on_High.mxl",
+      "note": "fast-track; trafficRank=51; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 13,
+      "slug": "the-holly-and-the-ivy",
+      "title": "The Holly and The Ivy",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/The_Holly_and_the_Ivy/The_Holly_and_the_Ivy.mxl",
+      "note": "fast-track; trafficRank=54; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 14,
+      "slug": "shenandoah",
+      "title": "Shenandoah",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Shenandoah/Shenandoah.mxl",
+      "note": "fast-track; trafficRank=55; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 15,
+      "slug": "careless-love",
+      "title": "Careless Love",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Careless_Love/Careless_Love.mxl",
+      "note": "fast-track; trafficRank=57; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 16,
+      "slug": "there-is-a-tavern-in-the-town",
+      "title": "There Is A Tavern In The Town",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/There_Is_a_Tavern_in_the_Town/There_Is_a_Tavern_in_the_Town.mxl",
+      "note": "fast-track; trafficRank=59; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 17,
+      "slug": "mademoiselle-from-armentieres",
+      "title": "Mademoiselle from Armentieres",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Mademoiselle_from_Armentières/Mademoiselle_from_Armentières.mxl",
+      "note": "fast-track; trafficRank=n/a; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 18,
+      "slug": "skye-boat-song",
+      "title": "Skye Boat Song",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/Annie_MacLeod-Sir_Harold_Boulton/The_Skye_Boat_Song/The_Skye_Boat_Song.mxl",
+      "note": "fast-track; trafficRank=n/a; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 19,
+      "slug": "over-there",
+      "title": "Over There",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/George_M._Cohan/Over_There/Over_There.mxl",
+      "note": "careful-track; trafficRank=17; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 20,
+      "slug": "hes-got-the-whole-world-in-his-hands",
+      "title": "He's Got The Whole World In His Hands",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/He's_Got_the_Whole_World_in_His_Hands/He's_Got_the_Whole_World_in_His_Hands.mxl",
+      "note": "careful-track; trafficRank=29; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 21,
+      "slug": "on-top-of-old-smoky",
+      "title": "On Top of Old Smoky",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/On_Top_of_Old_Smoky/On_Top_of_Old_Smoky.mxl",
+      "note": "careful-track; trafficRank=35; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 22,
+      "slug": "just-a-closer-walk-with-thee",
+      "title": "Just a Closer Walk With Thee",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Just_a_Closer_Walk_with_Thee/Just_a_Closer_Walk_with_Thee.mxl",
+      "note": "careful-track; trafficRank=36; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 23,
+      "slug": "the-wild-colonial-boy",
+      "title": "The Wild Colonial Boy",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/The_Wild_Colonial_Boy/The_Wild_Colonial_Boy.mxl",
+      "note": "careful-track; trafficRank=38; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 24,
+      "slug": "when-you-and-i-were-young-maggie",
+      "title": "(When You And I Were Young,) Maggie",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/George_Washington_Johnson_[1]-James_Austin_Butterfield/When_You_and_I_Were_Young,_Maggie/When_You_and_I_Were_Young,_Maggie.mxl",
+      "note": "careful-track; trafficRank=53; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 25,
+      "slug": "i-saw-three-ships",
+      "title": "I Saw Three Ships",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/I_Saw_Three_Ships/I_Saw_Three_Ships.mxl",
+      "note": "careful-track; trafficRank=56; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 26,
+      "slug": "drunken-sailor",
+      "title": "Drunken Sailor",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/What_Shall_We_Do_with_a_Drunken_Sailor?/What_Shall_We_Do_with_a_Drunken_Sailor?.mxl",
+      "note": "careful-track; trafficRank=n/a; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 27,
+      "slug": "quartermasters-store",
+      "title": "Quartermaster's Store",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/The_Quartermaster's_Stores/The_Quartermaster's_Stores.mxl",
+      "note": "careful-track; trafficRank=n/a; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 28,
+      "slug": "the-coventry-carol",
+      "title": "The Coventry Carol",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Coventry_Carol/Coventry_Carol.mxl",
+      "note": "careful-track; trafficRank=n/a; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 29,
+      "slug": "jesu-joy-of-mans-desiring",
+      "title": "Jesu, Joy Of Man's Desiring",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Jesu,_Joy_of_Man's_Desiring/Jesu,_Joy_of_Man's_Desiring.mxl",
+      "note": "defer-track; trafficRank=21; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "xml",
+      "priority": 30,
+      "slug": "down-by-the-riverside",
+      "title": "Down By The Riverside",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/[Traditional]/Down_by_the_Riverside/Down_by_the_Riverside.mxl",
+      "note": "defer-track; trafficRank=27; lyricStatus=lyrics-deferred"
+    },
+    {
+      "lane": "xml",
+      "priority": 31,
+      "slug": "reverie",
+      "title": "Reverie",
+      "status": "queue",
+      "sourcePath": "private/openewld/dataset/Claude_Debussy/Rêverie/Rêverie.mxl",
+      "note": "defer-track; trafficRank=n/a; lyricStatus=lyrics-ok"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 1,
+      "slug": "can-t-help-falling-in-love",
+      "title": "Can't Help Falling in Love",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/1wCdk1qxw.html",
+      "note": "very high evergreen recognition, clear title identity, strong melody-page fit, older standard with lower active-IP heat than newer blockbuster songs"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 2,
+      "slug": "a-thousand-years",
+      "title": "A Thousand Years",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/t4I9l1ZAj.html",
+      "note": "still carries strong wedding / romance / soundtrack search intent and converts well to melody-first instrument pages"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 3,
+      "slug": "faded",
+      "title": "Faded",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/GAMvc1yOC.html",
+      "note": "very high global recognition, clear title, strong instrumental hook, strong recorder / ocarina fit"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 4,
+      "slug": "despacito",
+      "title": "Despacito",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/Ivize1GKi.html",
+      "note": "global mega-hit with obvious search demand; rank held slightly below the top three because of higher current-rights heat and weaker family-safe positioning"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 5,
+      "slug": "love-story",
+      "title": "Love Story",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/AXWya1xuS.html",
+      "note": "huge song-level demand and clear hook; held below the top four because the title is more collision-prone and the rights profile is still very active"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 6,
+      "slug": "counting-stars",
+      "title": "Counting Stars",
+      "status": "done",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/6gs5c1SaM.html",
+      "note": "high global recognition with a clear title and memorable melody hook"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 7,
+      "slug": "fly-me-to-the-moon",
+      "title": "Fly Me to the Moon",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/cIRGd18KX.html",
+      "note": "excellent melody-page fit and evergreen demand; ranked above many newer songs because the title is extremely stable and the tune is unusually reusable for wind beginners"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 8,
+      "slug": "big-big-world",
+      "title": "Big Big World",
+      "status": "done",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/lEuZb1Udb.html",
+      "note": "durable oldies-era recognition, clean title, and strong lyric-led melody fit"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 9,
+      "slug": "bridge-over-troubled-water",
+      "title": "Bridge Over Troubled Water",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/34oNl1bDz.html",
+      "note": "strong classic recognition and lower active-franchise risk, but demand is probably a bit narrower than the P1 titles"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 10,
+      "slug": "all-is-found",
+      "title": "All Is Found",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/9wibi1hVs.html",
+      "note": "Frozen-family demand is real and the title is clean; held out of P1 because Disney IP is more actively protected and franchise-tied"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 11,
+      "slug": "five-hundred-miles",
+      "title": "Five Hundred Miles",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/Vpsdc1Qb1.html",
+      "note": "very good folk-melody fit and recognizable title; demand is solid but not at the level of the very top evergreen pop titles"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 12,
+      "slug": "arrietty-s-song",
+      "title": "Arrietty's Song",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/uSMkj1Fg8.html",
+      "note": "strong Ghibli long-tail value with good melody-page fit; held behind broader general-audience songs"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 13,
+      "slug": "always-on-my-mind",
+      "title": "Always on My Mind",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/gRwZk1LfS.html",
+      "note": "durable oldies recognition and lower current-IP heat, but title collision risk is higher than the songs above"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 14,
+      "slug": "eternal-flame",
+      "title": "Eternal Flame",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/w4Ncl1xYk.html",
+      "note": "recognizable 1980s ballad with clean singable contour; still a worthwhile grey title, just less broad than the higher-ranked evergreen songs"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 15,
+      "slug": "golden-hour",
+      "title": "Golden Hour",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/XCppq10n4.html",
+      "note": "real recent demand signal, but more title ambiguity and higher recency / rights heat than the older evergreen titles"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 16,
+      "slug": "call-of-silence",
+      "title": "Call of Silence",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/3Ucjn1gXC.html",
+      "note": "anime audience demand is real, but more niche than the broader songs above"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 17,
+      "slug": "history-maker",
+      "title": "History Maker",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/kKXBj1uKb.html",
+      "note": "recognizable within anime / skating crossover, but narrower search base"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 18,
+      "slug": "as-the-deer",
+      "title": "As the Deer",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/ODfjc1M1f.html",
+      "note": "good Christian / worship demand, but more niche than the higher-ranked crossover songs"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 19,
+      "slug": "handclap",
+      "title": "HandClap",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/71cRf1wJN.html",
+      "note": "decent recognition, but weaker long-tail melody-search intent than the queue above"
+    },
+    {
+      "lane": "kuailepu-grey",
+      "priority": 20,
+      "slug": "bad-apple",
+      "title": "Bad Apple!!",
+      "status": "queue",
+      "sourcePath": "https://www.kuaiyuepu.com/jianpu/rVZrh1i6m.html",
+      "note": "culturally recognizable in some anime / game circles, but much narrower than the higher-priority titles"
+    }
+  ]
+}
