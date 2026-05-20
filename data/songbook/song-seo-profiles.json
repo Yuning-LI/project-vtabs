@@ -6638,5 +6638,105 @@
         "answer": "Because the melody stays recognizable without the full soundtrack production behind it. That makes it practical for recorder, ocarina, and tin whistle players who want a modern film song in a simpler single-line format."
       }
     ]
+  },
+  "arriettys-song": {
+    "aliases": [
+      "Arrietty Song",
+      "The Secret World of Arrietty theme",
+      "Kari-gurashi no Arrietty song",
+      "I'm 14 years old, I'm pretty"
+    ],
+    "metaTitle": "Arrietty's Song Letter Notes and Fingering Chart",
+    "overview": "This Arrietty's Song page keeps the familiar Studio Ghibli melody in a clear letter-note layout, so ocarina, recorder, and tin whistle players can follow the singable theme without opening piano scores, mixed tabs, or soundtrack clips.",
+    "searchTerms": [
+      "Arrietty's Song letter notes",
+      "Arrietty's Song recorder notes",
+      "Arrietty's Song tin whistle notes",
+      "Arrietty's Song ocarina tabs",
+      "The Secret World of Arrietty notes"
+    ],
+    "background": "Arrietty's Song has durable grey-song value because Studio Ghibli visitors often search for the main vocal theme by title rather than by full soundtrack album context. The melody is gentle, memorable, and clear enough to work well as a single-line page for wind players.",
+    "practice": "The song is useful for soft phrase shaping, steadier breath release, and keeping a lyrical contour connected instead of over-accented. It fits players who want a calm soundtrack page that still feels strongly recognizable by ear.",
+    "metaDescription": "Play Arrietty's Song with letter notes, recorder notes, ocarina tabs, and fingering chart support. A calm Studio Ghibli melody for lyrical practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the main song from The Secret World of Arrietty?",
+        "answer": "Yes. This page follows the familiar Arrietty's Song melody most players mean when they search for the film theme, presented as a melody-first page instead of a fuller soundtrack arrangement."
+      },
+      {
+        "question": "Is Arrietty's Song good for calm soundtrack practice?",
+        "answer": "Yes. The tune is soft, vocal in shape, and easy to recognize by ear, which makes it useful for breath-led phrasing and connected tone work."
+      },
+      {
+        "question": "Why does Arrietty's Song fit ocarina, recorder, and tin whistle well?",
+        "answer": "Because the melody stays expressive without needing dense accompaniment. That makes it practical for players who want a clear Ghibli theme on one simpler single-line page."
+      }
+    ]
+  },
+  "golden-hour": {
+    "aliases": [
+      "JVKE Golden Hour",
+      "Golden Hour song",
+      "It was just two lovers"
+    ],
+    "metaTitle": "Golden Hour Letter Notes and Fingering Chart",
+    "overview": "This Golden Hour page keeps the familiar modern pop melody in a clean letter-note layout, so ocarina, recorder, and tin whistle players can follow the vocal hook without switching between lyric videos, piano covers, and mixed notation screenshots.",
+    "searchTerms": [
+      "Golden Hour letter notes",
+      "Golden Hour recorder notes",
+      "Golden Hour tin whistle notes",
+      "Golden Hour ocarina tabs",
+      "JVKE Golden Hour notes"
+    ],
+    "background": "Golden Hour has real grey-song value because the title is stable, the hook is recognizable across short-video and streaming listeners, and the melody still carries clearly outside the original production. That makes it a practical crossover page for newer visitors who want a recent familiar song rather than a public-domain standard.",
+    "practice": "The song is useful for breath pacing, smooth phrase connection, and keeping a modern vocal contour even across repeated hook notes. It suits players who want a calmer contemporary melody that still feels rewarding on a single-line page.",
+    "metaDescription": "Play Golden Hour with letter notes, recorder notes, ocarina tabs, and fingering chart support. A recognizable modern pop melody for lyrical practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the JVKE song Golden Hour?",
+        "answer": "Yes. This page follows the familiar Golden Hour melody line most players mean when they search for the title, presented as a melody-first page instead of a full vocal or piano arrangement."
+      },
+      {
+        "question": "Does Golden Hour work well for slower pop phrasing practice?",
+        "answer": "Yes. The tune is highly vocal in shape, which makes it useful for connected breath flow, cleaner phrase endings, and more even note release."
+      },
+      {
+        "question": "Why is Golden Hour practical on melody instruments?",
+        "answer": "Because the hook remains recognizable without the original backing production. That lets recorder, ocarina, and tin whistle players practice a current familiar song on one simpler readable page."
+      }
+    ]
+  },
+  "call-of-silence": {
+    "aliases": [
+      "Attack on Titan Call of Silence",
+      "Shingeki no Kyojin Call of Silence",
+      "Call of Silence theme"
+    ],
+    "metaTitle": "Call of Silence Letter Notes and Fingering Chart",
+    "overview": "This Call of Silence page keeps the familiar Attack on Titan melody in a clear letter-note layout, so ocarina, recorder, and tin whistle players can follow the theme without opening orchestral reductions, piano sheets, or soundtrack clips.",
+    "searchTerms": [
+      "Call of Silence letter notes",
+      "Call of Silence recorder notes",
+      "Call of Silence tin whistle notes",
+      "Call of Silence ocarina tabs",
+      "Attack on Titan Call of Silence notes"
+    ],
+    "background": "Call of Silence has useful grey-song value because anime soundtrack listeners often search for the theme directly by title, and the melody itself stays recognizable even in a stripped-down single-line format. It broadens the site with a calmer dramatic soundtrack option that still fits melody-first wind practice.",
+    "practice": "The song is useful for controlled breath pacing, longer phrase support, and keeping a serious dramatic contour steady instead of over-pushing the higher notes. It fits players who want a reflective soundtrack page with stronger emotional pull than a nursery or folk tune.",
+    "metaDescription": "Play Call of Silence with letter notes, recorder notes, ocarina tabs, and fingering chart support. A dramatic anime soundtrack melody for lyrical practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Attack on Titan theme Call of Silence?",
+        "answer": "Yes. This page follows the familiar Call of Silence melody most players mean when they search for the soundtrack title, presented as a melody-first page instead of a fuller score reduction."
+      },
+      {
+        "question": "Is Call of Silence useful for slower dramatic phrasing practice?",
+        "answer": "Yes. The tune is long-lined and expressive, which makes it useful for breath support, steadier dynamics, and shaping a more serious soundtrack contour."
+      },
+      {
+        "question": "Why does Call of Silence work on recorder, ocarina, and tin whistle?",
+        "answer": "Because the main melody remains identifiable without the full soundtrack texture. That gives players a practical way to work on a recognizable anime theme in a simpler single-line format."
+      }
+    ]
   }
 }

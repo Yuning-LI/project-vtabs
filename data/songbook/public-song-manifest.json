@@ -1643,5 +1643,26 @@
     "family": "song",
     "featuredRank": 236,
     "published": true
+  },
+  {
+    "id": "arriettys-song",
+    "slug": "arriettys-song",
+    "family": "media",
+    "featuredRank": 237,
+    "published": true
+  },
+  {
+    "id": "golden-hour",
+    "slug": "golden-hour",
+    "family": "song",
+    "featuredRank": 238,
+    "published": true
+  },
+  {
+    "id": "call-of-silence",
+    "slug": "call-of-silence",
+    "family": "media",
+    "featuredRank": 239,
+    "published": true
   }
 ]
