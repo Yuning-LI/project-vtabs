@@ -1,3 +1,6 @@
+'use client'
+
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { LearnGuideCard, LearnSongCard } from '@/lib/learn/content'
 import type { PracticePairSuggestions } from '@/lib/songbook/practicePairTypes'
@@ -30,11 +33,6 @@ type KuailepuLegacyRuntimePageProps = {
   backLabel?: string
 }
 
-/**
- * This server component keeps the below-the-fold SEO shell out of the song page
- * client bundle. The small client shell above still owns controls, analytics,
- * and the runtime iframe lifecycle.
- */
 export default function KuailepuLegacyRuntimePage({
   songId,
   supportedInstruments,
@@ -55,6 +53,20 @@ export default function KuailepuLegacyRuntimePage({
 }: KuailepuLegacyRuntimePageProps) {
   const seo = resolveInitialPresentation(songId, queryState, presentationByInstrument)
   const title = seo.title
+  const [isRuntimeFrameReady, setIsRuntimeFrameReady] = useState(false)
+
+  const practicePairSection = useMemo(
+    () => (
+      <DeferredPracticePairSection
+        title={title}
+        suggestions={practicePairSuggestions}
+        prefetchEnabled={isRuntimeFrameReady}
+        backHref={backHref}
+        backLabel={backLabel}
+      />
+    ),
+    [backHref, backLabel, isRuntimeFrameReady, practicePairSuggestions, title]
+  )
 
   return (
     <main className="page-warm-shell">
@@ -73,14 +85,10 @@ export default function KuailepuLegacyRuntimePage({
           runtimeApiBasePath={runtimeApiBasePath}
           backHref={backHref}
           backLabel={backLabel}
+          onRuntimeFrameReadyChange={setIsRuntimeFrameReady}
         />
 
-        <DeferredPracticePairSection
-          title={title}
-          suggestions={practicePairSuggestions}
-          backHref={backHref}
-          backLabel={backLabel}
-        />
+        {practicePairSection}
 
         <article className="page-below-fold-defer mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
           <section className="page-warm-panel p-6 md:p-7">
@@ -185,49 +193,40 @@ function resolveInitialPresentation(
   queryState: PublicSongPageQueryState,
   presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
 ) {
-  return (
-    (queryState.instrumentId ? presentationByInstrument[queryState.instrumentId] : null) ??
-    presentationByInstrument['o12'] ??
-    Object.values(presentationByInstrument)[0] ?? {
-      title: songId,
-      aliases: [],
-      metaTitle: null,
-      subtitle: null,
-      familyLabel: 'Melody Page',
-      difficultyLabel: 'Unknown',
-      keyLabel: '',
-      meterLabel: '',
-      tempoLabel: '',
-      overview: '',
-      background: '',
-      practiceNotes: '',
-      includes: [],
-      faqs: [],
-      metaDescription: ''
-    }
-  )
+  const requestedInstrumentId = queryState.instrumentId ?? null
+  if (requestedInstrumentId && presentationByInstrument[requestedInstrumentId]) {
+    return presentationByInstrument[requestedInstrumentId]!
+  }
+
+  if (presentationByInstrument.o12) {
+    return presentationByInstrument.o12
+  }
+
+  return Object.values(presentationByInstrument)[0] ?? {
+    title: songId,
+    aliases: [],
+    metaTitle: null,
+    subtitle: null,
+    metaDescription: '',
+    overview: '',
+    background: '',
+    practiceNotes: '',
+    includes: [],
+    faqs: [],
+    keyLabel: '',
+    meterLabel: '',
+    tempoLabel: '',
+    familyLabel: 'Melody Page',
+    difficultyLabel: 'Unknown'
+  }
 }
 
 function StaticSongCardGrid({ songs }: { songs: LearnSongCard[] }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {songs.map(song => (
-        <Link
-          key={song.slug}
-          href={song.href}
-          className="page-warm-card-link flex h-full flex-col p-5"
-        >
-          <div className="flex flex-wrap gap-2">
-            <span className="page-warm-pill-muted px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em]">
-              {song.familyLabel}
-            </span>
-            {song.hasPublicLyrics ? (
-              <span className="page-warm-pill px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em]">
-                Lyrics Available
-              </span>
-            ) : null}
-          </div>
-          <h3 className="mt-4 text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
+        <Link key={song.slug} href={song.href} className="page-warm-card-link flex h-full flex-col p-5">
+          <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
           <p className="mt-3 text-sm leading-7 text-stone-700">
             {song.difficultyLabel} · {song.keyLabel} · {song.meterLabel}
           </p>
@@ -240,17 +239,13 @@ function StaticSongCardGrid({ songs }: { songs: LearnSongCard[] }) {
 
 function StaticGuideCardGrid({ guides }: { guides: LearnGuideCard[] }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2">
       {guides.map(guide => (
-        <Link
-          key={guide.slug}
-          href={`/learn/${guide.slug}`}
-          className="page-warm-card-link flex h-full flex-col p-5"
-        >
-          <div className="page-warm-pill-muted w-fit px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em]">
-            {guide.kind === 'hub' ? 'Topic Guide' : 'Learning Guide'}
+        <Link key={guide.slug} href={`/learn/${guide.slug}`} className="page-warm-card-link flex h-full flex-col p-5">
+          <div className="page-warm-pill mb-4 w-fit px-3 py-1 text-xs font-bold uppercase tracking-[0.18em]">
+            {guide.kind === 'hub' ? 'Song Hub' : 'Guide'}
           </div>
-          <h3 className="mt-4 text-xl font-bold leading-tight text-stone-900">{guide.title}</h3>
+          <h3 className="text-xl font-bold leading-tight text-stone-900">{guide.title}</h3>
           <p className="mt-3 text-sm leading-7 text-stone-700">{guide.description}</p>
           <div className="mt-5 text-sm font-semibold text-stone-900">Open guide →</div>
         </Link>

@@ -65,6 +65,7 @@ type KuailepuRuntimeInteractiveShellProps = {
   runtimeApiBasePath?: string
   backHref?: string
   backLabel?: string
+  onRuntimeFrameReadyChange?: (ready: boolean) => void
 }
 
 export default function KuailepuRuntimeInteractiveShell({
@@ -80,7 +81,8 @@ export default function KuailepuRuntimeInteractiveShell({
   pageBasePath = '/song',
   runtimeApiBasePath = '/api/kuailepu-runtime',
   backHref = '/',
-  backLabel = 'Back to Song Library'
+  backLabel = 'Back to Song Library',
+  onRuntimeFrameReadyChange
 }: KuailepuRuntimeInteractiveShellProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
   const [isPlaybackFeatureEnabled, setIsPlaybackFeatureEnabled] = useState(false)
@@ -323,6 +325,10 @@ export default function KuailepuRuntimeInteractiveShell({
   useEffect(() => {
     setIsPlaybackPanelOpen(false)
   }, [frameSrc])
+
+  useEffect(() => {
+    onRuntimeFrameReadyChange?.(false)
+  }, [frameSrc, onRuntimeFrameReadyChange])
 
   useEffect(() => {
     if (playbackStatus !== 'loading') {
@@ -595,6 +601,8 @@ export default function KuailepuRuntimeInteractiveShell({
   ])
 
   const handleRuntimeFrameLoad = useCallback(() => {
+    onRuntimeFrameReadyChange?.(true)
+
     if (!pendingPlaybackOpenRef.current || !isPlaybackFeatureEnabled) {
       return
     }
@@ -604,7 +612,7 @@ export default function KuailepuRuntimeInteractiveShell({
         pendingPlaybackOpenRef.current = false
       }
     }, 80)
-  }, [isPlaybackFeatureEnabled, postPlaybackCommandMessage])
+  }, [isPlaybackFeatureEnabled, onRuntimeFrameReadyChange, postPlaybackCommandMessage])
 
   const handleFrameElementChange = useCallback((frame: HTMLIFrameElement | null) => {
     runtimeFrameRef.current = frame

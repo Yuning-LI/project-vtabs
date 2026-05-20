@@ -2,17 +2,22 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import {
   SONG_PAGE_LINK_STATE_EVENT,
   type PracticePairLinkState,
   type PracticePairSuggestions
 } from '@/lib/songbook/practicePairTypes'
 import { buildSongPageHref } from '@/lib/songbook/publicInstruments'
+import {
+  useSongRoutePrefetch,
+  useVisibleSongRoutePrefetch
+} from '@/components/song/useSongRoutePrefetch'
 
 type DeferredPracticePairSectionProps = {
   title: string
   suggestions: PracticePairSuggestions | null
+  prefetchEnabled?: boolean
   backHref?: string
   backLabel?: string
 }
@@ -20,14 +25,19 @@ type DeferredPracticePairSectionProps = {
 export default function DeferredPracticePairSection({
   title,
   suggestions,
+  prefetchEnabled = false,
   backHref = '/',
   backLabel = 'Back to Song Library'
 }: DeferredPracticePairSectionProps) {
+  const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch({
+    maxVisibleRoutePrefetches: 3
+  })
   const [isVisible, setIsVisible] = useState(false)
   const [linkState, setLinkState] = useState<PracticePairLinkState>({
     instrumentId: null,
     noteLabelMode: null
   })
+  const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   useEffect(() => {
     if (!suggestions) {
@@ -135,37 +145,117 @@ export default function DeferredPracticePairSection({
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {resolvedItems.map(item => (
-            <Link
+            <PracticePairLinkCard
               key={item.slug}
-              href={item.href}
-              className="page-warm-card-link group relative overflow-hidden p-0"
-              aria-label={`Open ${item.title}`}
-            >
-              <div className="relative aspect-[4/5] w-full overflow-hidden">
-                <Image
-                  src={`/song/${item.slug}/opengraph-image`}
-                  alt={item.title}
-                  width={1000}
-                  height={1500}
-                  className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
-                  sizes="(min-width: 1280px) 320px, (min-width: 768px) 45vw, 100vw"
-                  loading="lazy"
-                  fetchPriority="low"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(33,24,15,0.82)] via-[rgba(33,24,15,0.24)] to-transparent p-4">
-                  <p className="text-xl font-bold leading-tight text-[#fffaf2]">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-[rgba(255,250,242,0.9)]">
-                    {item.reason}
-                  </p>
-                  <div className="mt-3 text-sm font-semibold text-[#fffaf2]">
-                    Open song page →
-                  </div>
-                </div>
-              </div>
-            </Link>
+              item={item}
+              isPending={pendingSongSlug === item.slug}
+              prefetchEnabled={prefetchEnabled}
+              onPrefetch={prefetchSongRoute}
+              onVisiblePrefetch={prefetchVisibleSongRoute}
+              onPending={setPendingSongSlug}
+            />
           ))}
         </div>
       </div>
     </section>
   )
+}
+
+function PracticePairLinkCard({
+  item,
+  isPending,
+  prefetchEnabled,
+  onPrefetch,
+  onVisiblePrefetch,
+  onPending
+}: {
+  item: (PracticePairSuggestions['items'][number] & { href: string })
+  isPending: boolean
+  prefetchEnabled: boolean
+  onPrefetch: (href: string) => void
+  onVisiblePrefetch: (href: string) => void
+  onPending: (songSlug: string) => void
+}) {
+  const cardRef = useRef<HTMLAnchorElement | null>(null)
+
+  useVisibleSongRoutePrefetch(cardRef, item.href, onVisiblePrefetch, {
+    enabled: prefetchEnabled
+  })
+
+  function markPendingNavigation(
+    event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+  ) {
+    if (!isCurrentTabNavigation(event)) {
+      return
+    }
+
+    if ('pointerType' in event && event.pointerType === 'touch') {
+      return
+    }
+
+    onPending(item.slug)
+  }
+
+  return (
+    <Link
+      ref={cardRef}
+      href={item.href}
+      aria-label={`Open ${item.title}`}
+      aria-busy={isPending}
+      className={
+        isPending
+          ? 'page-warm-card-link group relative overflow-hidden p-0 opacity-90 ring-2 ring-stone-900/15'
+          : 'page-warm-card-link group relative overflow-hidden p-0'
+      }
+      onFocus={() => {
+        if (prefetchEnabled) {
+          onPrefetch(item.href)
+        }
+      }}
+      onPointerEnter={() => {
+        if (prefetchEnabled) {
+          onPrefetch(item.href)
+        }
+      }}
+      onPointerDown={markPendingNavigation}
+      onClick={markPendingNavigation}
+    >
+      <div className="relative aspect-[4/5] w-full overflow-hidden">
+        <Image
+          src={`/song/${item.slug}/opengraph-image`}
+          alt={item.title}
+          width={1000}
+          height={1500}
+          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+          sizes="(min-width: 1280px) 320px, (min-width: 768px) 45vw, 100vw"
+          loading="lazy"
+          fetchPriority="low"
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(33,24,15,0.82)] via-[rgba(33,24,15,0.24)] to-transparent p-4">
+          {isPending ? (
+            <div className="mb-3 inline-flex rounded-full bg-[rgba(255,250,242,0.92)] px-3 py-1 text-xs font-semibold text-stone-900">
+              Opening...
+            </div>
+          ) : null}
+          <p className="text-xl font-bold leading-tight text-[#fffaf2]">{item.title}</p>
+          <p className="mt-2 text-sm leading-6 text-[rgba(255,250,242,0.9)]">
+            {item.reason}
+          </p>
+          <div className="mt-3 text-sm font-semibold text-[#fffaf2]">
+            Open song page →
+          </div>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+function isCurrentTabNavigation(
+  event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
+) {
+  if (event.button !== 0) {
+    return false
+  }
+
+  return !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
 }
