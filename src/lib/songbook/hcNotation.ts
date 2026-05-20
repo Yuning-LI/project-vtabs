@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { createRequire } from 'node:module'
 import { parseHappy123CompactNotation } from './happy123Notation.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
@@ -85,7 +87,23 @@ export type HcConsistencySummary = {
 }
 
 const require = createRequire(import.meta.url)
-const hc = require('../../../public/k-static/cdn/js/dist/hc.min_1cfae5fe62.js') as {
+
+function resolveHcModulePath() {
+  const candidates = [
+    path.resolve(process.cwd(), 'public/k-static/cdn/js/dist/hc.min_1cfae5fe62.js'),
+    path.resolve(process.cwd(), 'vendor/kuailepu-static/cdn/js/dist/hc.min_1cfae5fe62.js'),
+    path.resolve(process.cwd(), 'vendor/kuailepu-static/cdn/js/dist/hc.min_02d898293e.js')
+  ]
+
+  const match = candidates.find(candidate => fs.existsSync(candidate))
+  if (!match) {
+    throw new Error('HC runtime module not found in public/k-static or vendor/kuailepu-static.')
+  }
+
+  return match
+}
+
+const hc = require(resolveHcModulePath()) as {
   parse: (notation: string) => HcParseResult
 }
 

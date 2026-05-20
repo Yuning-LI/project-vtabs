@@ -1,0 +1,51 @@
+{
+  "id": "sometimes-i-feel-like-a-motherless-child",
+  "slug": "sometimes-i-feel-like-a-motherless-child",
+  "title": "Sometimes I Feel Like a Motherless Child",
+  "description": "Sometimes I Feel Like a Motherless Child candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Some times I feel like a moth er less child some times I",
+    "feel like a moth er less child Some times I feel like a",
+    "moth er less child Long way _ from home _ Long way _ from",
+    "home _ Some times I feel like a mourn _ ing dove",
+    "some times I feel like a mourn _ in dove some times I",
+    "feel like a mour _ ning dove long way _ from home _ long",
+    "way _ from home _"
+  ],
+  "alignedLyrics": [
+    "Some times I feel like a moth er less child some times I",
+    "feel like a moth er less child Some times I feel like a",
+    "moth er less child Long way _ from home _ Long way _ from",
+    "home _ Some times I feel like a mourn _ ing dove",
+    "some times I feel like a mourn _ in dove some times I",
+    "feel like a mour _ ning dove long way _ from home _ long",
+    "way _ from home _"
+  ],
+  "source": {
+    "title": "Sometimes I Feel Like a Motherless Child MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-20",
+    "note": "Refs: Wikipedia, LibraryOfCongress. Traditional spiritual identity, opening text, and opening melody verified against public references. Candidate starts at the expected main tune.Issues: Multiple-lyric-variants-across-public-versions."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:A} 3g - - - 3g - - - - - - - 1g - - - | 3g - - - - - - - - - - - 1g - 2g - | {cn:E7} 3g - - - 2g - - - - - - - 1g - - - | {cn:A} 6 - - - - - - - - - - - - - - - | {cn:E7} 3g - - - 2g - - - - - - - 1g - - -",
+    "2g - - - - - - - - - - - 1g - 2g - | 3g - - - 2g - - - - - - - 1g - - - | {cn:A} 6 - - - - - - - - - - - - - - - | 3g - - - 3g - - - - - - - 3g - - - | 3g - - - - - - - - - - - 1g - 2g -",
+    "3g - - - 2g - - - - - - - 1g - - - | {cn:A} 6 - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - - - - - | 6 - - - 3 - - - - - - - 6 - - - | {cn:E} 7 - - - - - - - - - - - - - - - | {cn:A} 1g - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - - - - - | 6 - - - 3 - - - - - - - 6 - - -",
+    "6 - - - - - - - - - - - - - - - | 6 - - - - - - - 0 - - - - - - - | 3g - - - 3g - - - - - - - 1g - - - | 3g - - - - - - - - - - - 1g - 2g - | {cn:D7} 3g - - - 2g - - - - - - - 1g - - - | {cn:A} 6 - - - - - - - - - - - - - - -",
+    "{cn:E7} 3g - - - 3g - - - - - - - 3g - - - | 3g - - - - - - - - - - - 1g - 2g - | 3g - - - 2g - - - - - - - 1g - - - | {cn:A} 6 - - - - - - - - - - - - - - - | 3g - - - 3g - - - - - - - 3g - - -",
+    "3g - - - - - - - - - - - 1g - 2g - | 3g - - - 2g - - - - - - - 1g - - - | 6 - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - - - - - | 6 - - - 3 - - - - - - - 6 - - - | {cn:E} 7 - - - - - - - - - - - - - - - | {cn:A} 1g - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - - - - -",
+    "6 - - - - - - - - - - - 0 - - - | 6 - - - 3 - - - - - - - 6 - - - | 6 - - - - - - - - - - - - - - -"
+  ]
+}

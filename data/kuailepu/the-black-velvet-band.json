@@ -1,0 +1,39 @@
+{
+  "id": "the-black-velvet-band",
+  "slug": "the-black-velvet-band",
+  "title": "The Black Velvet Band",
+  "description": "The Black Velvet Band candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Her eyes, they shone like the dia monds, _ I",
+    "thought her the queen of the land. _ And her hair hung",
+    "o ver her shoul _ der, Tied up with a black vel vet band. _"
+  ],
+  "alignedLyrics": [
+    "Her eyes they shone like the dia monds _ I",
+    "thought her the queen of the land _ And her hair hung",
+    "o ver her shoul _ der Tied up with a black vel vet band _"
+  ],
+  "source": {
+    "title": "The Black Velvet Band MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-20",
+    "note": "Refs: Wikipedia, IrishSongLyrics. Traditional Irish folk identity, Black Velvet Band storyline, and opening lyric block verified against public references. Current candidate matches a common refrain-led version beginning with 'Her eyes they shone like the diamonds'.Issues: Source-starts-at-chorus-refrain-rather-than-Belfast-verse."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 - - - - - - - 5 - - - | {cn:D} 5 - - - - - - - 5 - - - | {cn:G} 3 - - - 4 - - - - - 5 - | {cn:C} 4 - - - 3 - - - - - - - | 3 - - - - - - - 2 - - -",
+    "{cn:G} 1 - - - 2 - - - 3 - - - | {cn:C} 1 - - - 7d - - - 6d - - - | {cn:D} 5d - - - - - - - - - - - | {cn:D7} 5d - - - 5 - - - 4 - - - | {cn:G} 3 - - - - - - - 3 - - -",
+    "{cn:D} 5d - - - 6d - - - 7d - - - | {cn:G} 1 - - - - - - - 2 - - - | 3 - - - - - - - 1 - - - | {cn:D7} 2 - - - 3 - - - 4 - - - | 7d - - - 1 - - - 2 - - - | {cn:G} 1 - - - - - - - - - - - | 1 - - - - - - - 0 - - -"
+  ]
+}

@@ -1678,5 +1678,19 @@
     "family": "holiday",
     "featuredRank": 241,
     "published": true
+  },
+  {
+    "id": "the-black-velvet-band",
+    "slug": "the-black-velvet-band",
+    "family": "folk",
+    "featuredRank": 242,
+    "published": true
+  },
+  {
+    "id": "sometimes-i-feel-like-a-motherless-child",
+    "slug": "sometimes-i-feel-like-a-motherless-child",
+    "family": "song",
+    "featuredRank": 243,
+    "published": true
   }
 ]
