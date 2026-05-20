@@ -11,6 +11,7 @@ import {
   getLearnGuideUrl
 } from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
+import { getPracticePairSuggestions } from '@/lib/songbook/practicePairs'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -163,6 +164,11 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
+  const practicePairSuggestions = getPracticePairSuggestions(
+    song.slug,
+    queryState,
+    relatedSongs.map(item => item.slug)
+  )
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -261,6 +267,7 @@ export default function SongPage({
         runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
         runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
         hasLyricToggle={hasPublicLyricToggle}
+        practicePairSuggestions={practicePairSuggestions}
         relatedSongs={relatedSongs}
         relatedGuides={relatedGuides}
       />

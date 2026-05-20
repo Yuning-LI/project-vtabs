@@ -114,6 +114,7 @@ export default function KuailepuPreviewPage({
       runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
       runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
       hasLyricToggle={hasPublicLyricToggle}
+      practicePairSuggestions={null}
       relatedSongs={[]}
       relatedGuides={[]}
       pageBasePath="/dev/kuailepu-preview"

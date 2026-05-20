@@ -98,6 +98,37 @@
   box-shadow: 0 24px 44px rgba(84, 58, 32, 0.14);
 }
 
+.page-warm-practice-panel {
+  border: 1px solid rgba(143, 108, 69, 0.2);
+  border-radius: 2rem;
+  background:
+    linear-gradient(135deg, rgba(255, 252, 246, 0.96) 0%, rgba(247, 238, 223, 0.88) 100%);
+  box-shadow: 0 24px 50px rgba(84, 58, 32, 0.1);
+  overflow: hidden;
+}
+
+.page-warm-practice-feature {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.72) 0%, rgba(255, 247, 234, 0.34) 58%, rgba(255, 247, 234, 0) 100%);
+}
+
+.page-below-fold-defer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1200px;
+}
+
+.page-warm-practice-aside {
+  background: rgba(255, 255, 255, 0.48);
+  border-left: 1px solid rgba(143, 108, 69, 0.14);
+}
+
+@media (max-width: 1023px) {
+  .page-warm-practice-aside {
+    border-left: 0;
+    border-top: 1px solid rgba(143, 108, 69, 0.14);
+  }
+}
+
 .runtime-loading-card {
   width: min(100%, 24rem);
   border: 1px solid rgba(154, 126, 91, 0.2);

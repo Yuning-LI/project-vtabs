@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { LearnGuideCard, LearnSongCard } from '@/lib/learn/content'
+import type { PracticePairSuggestions } from '@/lib/songbook/practicePairs'
 import type { SongPresentation } from '@/lib/songbook/presentation'
 import type {
   PublicSongPageQueryState,
@@ -8,6 +9,7 @@ import type {
 import KuailepuRuntimeInteractiveShell, {
   type KuailepuRuntimeControlPayload
 } from './KuailepuRuntimeInteractiveShell'
+import DeferredPracticePairSection from './DeferredPracticePairSection'
 
 type KuailepuLegacyRuntimePageProps = {
   songId: string
@@ -19,6 +21,7 @@ type KuailepuLegacyRuntimePageProps = {
   runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
+  practicePairSuggestions: PracticePairSuggestions | null
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
   pageBasePath?: string
@@ -42,6 +45,7 @@ export default function KuailepuLegacyRuntimePage({
   runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
   hasLyricToggle,
+  practicePairSuggestions,
   relatedSongs,
   relatedGuides,
   pageBasePath,
@@ -71,7 +75,14 @@ export default function KuailepuLegacyRuntimePage({
           backLabel={backLabel}
         />
 
-        <article className="mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
+        <DeferredPracticePairSection
+          title={title}
+          suggestions={practicePairSuggestions}
+          backHref={backHref}
+          backLabel={backLabel}
+        />
+
+        <article className="page-below-fold-defer mt-6 grid gap-6 lg:grid-cols-[1.15fr,0.85fr]">
           <section className="page-warm-panel p-6 md:p-7">
             <h2 className="text-2xl font-bold text-stone-900">About {title}</h2>
             <p className="mt-4 text-sm leading-7 text-stone-700">{seo.overview}</p>
@@ -120,7 +131,7 @@ export default function KuailepuLegacyRuntimePage({
         </article>
 
         {relatedSongs.length > 0 ? (
-          <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <section className="page-below-fold-defer page-warm-panel mt-8 p-6 md:p-7">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h2 className="text-2xl font-bold text-stone-900">More Songs to Explore</h2>
@@ -143,7 +154,7 @@ export default function KuailepuLegacyRuntimePage({
         ) : null}
 
         {relatedGuides.length > 0 ? (
-          <section className="page-warm-panel mt-8 p-6 md:p-7">
+          <section className="page-below-fold-defer page-warm-panel mt-8 p-6 md:p-7">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h2 className="text-2xl font-bold text-stone-900">Related Guides</h2>
