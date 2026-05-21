@@ -1,0 +1,36 @@
+{
+  "id": "o-come-all-ye-faithful",
+  "slug": "o-come-all-ye-faithful",
+  "title": "O Come All Ye Faithful",
+  "description": "O Come All Ye Faithful candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "O come all ye faith ful, joy- ful and tri- un- phant. O come ye, o come _ ye to Beth- _ le- hem. Come and be hold Him, born the King of",
+    "An- _ gels, O come let us a- dore Him, O come let us a- dore Him, O come let us a- dore Him, _ Christ _ the Lord."
+  ],
+  "alignedLyrics": [
+    "O come all ye faith ful joy ful and tri un phant O come ye o come _ ye to Beth _ le hem Come and be hold Him born the King of",
+    "An _ gels O come let us a dore Him O come let us a dore Him O come let us a dore Him _ Christ _ the Lord"
+  ],
+  "source": {
+    "title": "O Come All Ye Faithful MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; common public version and lyric alignment confirmed before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "1 - - - 0 - - - - - - - - - - - | {cn:G} 1 - - - - - - - 5d - - - 1 - - - | {cn:D} 2 - - - - - - - 5d - - - - - - - | {cn:G} 3 - - - 2 - - - 3 - - - 4 - - - | 3 - - - - - - - {cn:D} 2 - - - 1 - - - | {cn:A7} 1 - - - - - - - 7d - - - 6d - - - | {cn:D} 7d - - - 1 - - - 2 - - - 3 - - - | 7d - - - - - - - {cn:A7} 6d - - - - - 5d - | {cn:D} 5d - - - - - - - - - - - - - - - | {cn:G} 5 - - - - - - - 4 - - - 3 - - - | {cn:D7} 4 - - - - - - - {cn:G} 3 - - - - - - - | {cn:D} 2 - - - 3 - - - {cn:A} 1 - - - 2 - - -",
+    "{cn:D} 7d - - - - - 6d - 5d - - - 1 - - - | {cn:G} 1 - - - 7d - - - 1 - - - 2 - - - | 1 - - - - - - - 5d - - - 3 - - - | 3 - - - 2 - - - 3 - - - 4 - - - | 3 - - - - - - - {cn:D} 2 - - - 3 - - - | {cn:C} 4 - - - 3 - - - {cn:D7} 2 - - - 1 - - - | 7d - - - - - - - {cn:G} 1 - - - 4 - - - | 3 - - - - - - - {cn:D7} 2 - - - - - 1 - | {cn:G} 1 - - - - - - - - - - - 0 - - - | {cn:G} 1 - - - - - - - - - - - 0 - - -"
+  ]
+}

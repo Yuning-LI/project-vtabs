@@ -1,0 +1,48 @@
+{
+  "id": "the-wild-rover",
+  "slug": "the-wild-rover",
+  "title": "The Wild Rover",
+  "description": "The Wild Rover candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "I've _ been a wild ro ver for man y a year,",
+    "_ And I've spent all my mon ey on whis key and beer,",
+    "_ But now I'm re turn ing with gold in great store,",
+    "_ And I nev er will play the wild ro ver no more. And it's",
+    "no, nay, nev er, _ No, nay, nev er no more _ Will I play",
+    "_ the wild ro ver, _ No, nev er _ no more. _ _"
+  ],
+  "alignedLyrics": [
+    "Ive _ been a wild ro ver for man y a year",
+    "_ And Ive spent all my mon ey on whis key and beer",
+    "_ But now Im re turn ing with gold in great store",
+    "_ And I nev er will play the wild ro ver no more And its",
+    "no nay nev er _ No nay nev er no more _ Will I play",
+    "_ the wild ro ver _ No nev er _ no more _ _"
+  ],
+  "source": {
+    "title": "The Wild Rover MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = E",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; common public version and lyric alignment confirmed before publication."
+  },
+  "tonicMidi": 64,
+  "notation": [
+    "1 - 1 - 0 - - - - - - - | {cn:E} 1 - - - - - 2 - 1 - - - | 6d - - - 5d - - - 3 - - - | 3 - - - 2 - - - 3 - - - | {cn:A} 4 - - - - - - - - - - -",
+    "4 - - - 0 - - - 3 - 4 - | {cn:E} 5 - - - 3 - - - 5 - - - | {cn:B7} 4 - - - 2 - - - 7d - - - | 5d - - - 3 - - - 2 - - - | {cn:E} 1 - - - - - - - - - - -",
+    "1 - - - 0 - - - 1 - - - | 1 - - - 2 - - - 1 - - - | 6d - - - 5d - - - 3 - - - | 3 - - - 2 - - - 3 - - - | {cn:A} 4 - - - - - - - - - - -",
+    "4 - - - 0 - - - 3 - 4 - | {cn:E} 5 - - - 3 - - - 5 - - - | {cn:B7} 4 - - - - - 2 - 7d - - - | 5d - - - 3 - - - 2 - - - | {cn:E} 1 - - - 0 - - - - - - - | 7d - - - 1 - - - 0 - - -",
+    "{cn:B} 2 - - - - - - - - - - - | 2 - - - - - - - - - - - | 7d - - - 5d - - - - - - - | 5d - - - - - - - - - - - | {cn:E} 0 - - - 3 - - - 3 - - - | 3 - - - 2 - - - 3 - - - | {cn:A} 4 - - - - - - - - - - - | 4 - - - 3 - - - 4 - - - | {cn:E} 5 - - - - - - - - - - -",
+    "5 - - - - - 3 - 1 - - - | {cn:A} 7d - - - 6d - - - - - - - | 6d - - - 0 - - - 6d - - - | {cn:E} 5d - - - 3 - - - - - - - | {cn:B7} 3 - - - - - - - 2 - - - | {cn:E} 1 - - - - - - - - - - - | 1 - - - - - - - - - - - | 1 - - - - - - - 0 - - -"
+  ]
+}

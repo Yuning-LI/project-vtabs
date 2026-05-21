@@ -1706,5 +1706,19 @@
     "family": "folk",
     "featuredRank": 245,
     "published": true
+  },
+  {
+    "id": "the-wild-rover",
+    "slug": "the-wild-rover",
+    "family": "folk",
+    "featuredRank": 246,
+    "published": true
+  },
+  {
+    "id": "o-come-all-ye-faithful",
+    "slug": "o-come-all-ye-faithful",
+    "family": "holiday",
+    "featuredRank": 247,
+    "published": true
   }
 ]
