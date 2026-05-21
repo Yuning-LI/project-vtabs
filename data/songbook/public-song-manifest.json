@@ -1720,5 +1720,12 @@
     "family": "holiday",
     "featuredRank": 247,
     "published": true
+  },
+  {
+    "id": "give-my-regards-to-broadway",
+    "slug": "give-my-regards-to-broadway",
+    "family": "song",
+    "featuredRank": 248,
+    "published": true
   }
 ]

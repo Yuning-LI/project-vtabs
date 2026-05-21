@@ -1,0 +1,45 @@
+{
+  "id": "give-my-regards-to-broadway",
+  "slug": "give-my-regards-to-broadway",
+  "title": "Give My Regards To Broadway",
+  "description": "Give My Regards To Broadway candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Give my re gards to Broad way re mem ber me to Her ald",
+    "Square _ tell all the gang at for ty se cond street that I will",
+    "soon be there _ Whis per of how I'm yearn ing to min gle with the",
+    "old time throng _ give my re gards to old Broad way and say that",
+    "I'll be there ere long. _"
+  ],
+  "alignedLyrics": [
+    "Give my re gards to Broad way re mem ber me to Her ald",
+    "Square _ tell all the gang at for ty se cond street that I will",
+    "soon be there _ Whis per of how Im yearn ing to min gle with the",
+    "old time throng _ give my re gards to old Broad way and say that",
+    "Ill be there ere long _"
+  ],
+  "source": {
+    "title": "Give My Regards To Broadway MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 108,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; BPM override confirmed and melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 5 - - - 6 - - - - - - - 7 - - - | 1g - - - - - - - 2g - - - - - - - | {cn:F} 1g - - - - - - - - - - - - - - - | {cn:G7} 7 - - - - - - - - - - - 5 - - - | {cn:D} 6 - - - 6 - - - 6 - - - 6 - - - | {cn:G7} 7 - - - - - - - 7 - - - - - - -",
+    "{cn:C} 5 - - - - - - - - - - - - - - - | {cn:G7} 5 - - - - - - - - - - - 0 - - - | {cn:C} 5 - - - 6 - - - - - - - 7 - - - | {cn:A} 1g - - - - - - - 6 - - - - - - - | {cn:G} 7 - - - - - - - {cn:D7} 1g - - - - - - - | {cn:G} 2g - - - 7 - - - 6 - - - 5 - - - | {cn:A} 1g - - - - - - - 6 - - - - - - -",
+    "{cn:D7} 7 - - - - - - - 1g - - - - - - - | {cn:G7} 2g - - - - - - - - - - - - - - - | 2g - - - - - - - - - - - 0 - - - | {cn:C} 5 - - - 6 - - - - - - - 7 - - - | 1g - - - - - - - 2g - - - - - - - | {cn:F} 1g - - - - - - - - - - - - - - - | {cn:G7} 7 - - - - - - - - - - - 5 - - - | {cn:F} 6 - - - 6 - - - 6 - - - 6 - - -",
+    "{cn:G7} 7 - - - - - - - 7 - - - - - - - | {cn:C} 5 - - - - - - - - - - - - - - - | 5 - - - - - - - - - - - 0 - - - | {cn:A7} 3g - - - 1g# - - - - - - - 6 - - - | 4g - - - - - - - 3g - - - - - - - | {cn:D} 2g - - - - - - - {cn:A7} 1g# - - - - - - - | {cn:D} 2g - - - 1g - - - 2g - - - 3gb - - -",
+    "{cn:C} 3g - - - - - - - 1g - - - - - - - | {cn:D} 1g - - - - - - - {cn:G7} 2g - - - - - - - | {cn:C} 1g - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - 0 - - -"
+  ]
+}
