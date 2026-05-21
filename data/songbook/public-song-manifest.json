@@ -1727,5 +1727,19 @@
     "family": "song",
     "featuredRank": 248,
     "published": true
+  },
+  {
+    "id": "careless-love",
+    "slug": "careless-love",
+    "family": "folk",
+    "featuredRank": 249,
+    "published": true
+  },
+  {
+    "id": "mademoiselle-from-armentieres",
+    "slug": "mademoiselle-from-armentieres",
+    "family": "folk",
+    "featuredRank": 250,
+    "published": true
   }
 ]

@@ -1,0 +1,45 @@
+{
+  "id": "careless-love",
+  "slug": "careless-love",
+  "title": "Careless Love",
+  "description": "Careless Love candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Love, oh love, oh care less love _ _ _ love, oh",
+    "love oh care less love _ _ _ love, oh love, oh care less love, oh",
+    "see what love has done to me. _ _ I cried last night and the night be",
+    "fore _ _ to night I'll cry then cry no more _ _ _ Love, oh",
+    "love, oh care less love _ see what love has done to me. _ _"
+  ],
+  "alignedLyrics": [
+    "Love oh love oh care less love _ _ _ love oh",
+    "love oh care less love _ _ _ love oh love oh care less love oh",
+    "see what love has done to me _ _ I cried last night and the night be",
+    "fore _ _ to night Ill cry then cry no more _ _ _ Love oh",
+    "love oh care less love _ see what love has done to me _ _"
+  ],
+  "source": {
+    "title": "Careless Love MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:F} 3 - - - - - - - - - - - 1 - - - | {cn:C7} 7d - - - 5d - - - 7d - - - 2 - - - | {cn:F} 1 - - - - - - - - - - - - - - - | 0 - - - 5 - - - 4# - - - 4 - - - | {cn:F} 3 - - - - - - - - - - - 4 - - -",
+    "5 - - - 5 - - - 6 - - - 5 - - - | {cn:C7} 2 - - - - - - - - - - - - - - - | 0 - - - 7d - - - 1 - - - 2 - - - | {cn:F} 3 - - - - - - - - - - - 4 - - - | 5 - - - - - - - 6b - - - - - - - | {cn:Bb} 6 - - - - - - - 4 - - - - - - - | 1 - - - - - - - - - - - 2 - - -",
+    "{cn:F} 3 - - - - - - - - - - - 1 - - - | {cn:C7} 7d - - - 5d - - - 7d - - - 2 - - - | {cn:F} 1 - - - - - - - - - - - - - - - | 0 - - - 6 - - - {cn:C7} 5 - - - 4 - - - | {cn:F} 3 - - - - - - - - - - - 1 - - - | {cn:C7} 7d - - - 5d - 5d - 7d - - - 2 - - -",
+    "{cn:F} 1 - - - - - - - - - - - - - - - | 0 - - - 5d - - - {cn:C7} 1 - - - 2 - - - | {cn:F} 3 - - - - - - - - - - - 4 - - - | 5 - - - 5 - - - 6 - - - 5 - - - | {cn:C7} 2 - - - - - - - - - - - - - - - | 0 - - - 5d - - - 1 - - - 2 - - - | {cn:F} 3 - - - - - - - - - - - 4 - - -",
+    "5 - - - - - - - 6b - - - - - - - | {cn:Bb} 6 - - - - - - - 4 - - - - - - - | 1 - - - - - - - - - - - 2 - - - | {cn:F} 3 - - - - - - - - - - - 1 - - - | {cn:C7} 7d - - - 5d - - - 7d - - - 2 - - - | {cn:F} 1 - - - - - - - 7 - - - - - - - | {cn:F} 1g - - - - - - - - - - - 0 - - -"
+  ]
+}
