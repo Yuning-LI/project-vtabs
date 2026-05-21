@@ -1,0 +1,63 @@
+{
+  "id": "just-a-closer-walk-with-thee",
+  "slug": "just-a-closer-walk-with-thee",
+  "title": "Just a Closer Walk With Thee",
+  "description": "Just a Closer Walk With Thee candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "I am weak but Thou art strong Je sus keep me from all wro ng",
+    "I'll be sat is fied as lo ng as I walk let me walk close to Thee",
+    "Just a clo ser walk with Thee. Grant it Je sus is my pl ea",
+    "dai ly walk ing close to thee _ Let it be dear Lord let it be.",
+    "Through this world of toil and snares If I fal ter Lord who cares _",
+    "who with me my bur den shares _ none but Thee dear Lord none but Thee",
+    "Just a clo ser walk with Thee. Grant it Je sus is my pl ea dai ly walk ing close to thee _ Let it be dear Lord let it be.",
+    "When my fe eble life is o'er Time for me will be no more _",
+    "Guide me gent ly safe ly o'er _ to Thy Kig dom shore to Thy shore.",
+    "Just a clo ser walk with Thee. Grant it Je sus is my pl ea",
+    "dai ly walk ing close to thee _ Let it be dear Lord let it be."
+  ],
+  "alignedLyrics": [
+    "I am weak but Thou art strong Je sus keep me from all wro ng",
+    "Ill be sat is fied as lo ng as I walk let me walk close to Thee",
+    "Just a clo ser walk with Thee Grant it Je sus is my pl ea",
+    "dai ly walk ing close to thee _ Let it be dear Lord let it be",
+    "Through this world of toil and snares If I fal ter Lord who cares _",
+    "who with me my bur den shares _ none but Thee dear Lord none but Thee",
+    "Just a clo ser walk with Thee Grant it Je sus is my pl ea dai ly walk ing close to thee _ Let it be dear Lord let it be",
+    "When my fe eble life is oer Time for me will be no more _",
+    "Guide me gent ly safe ly oer _ to Thy Kig dom shore to Thy shore",
+    "Just a clo ser walk with Thee Grant it Je sus is my pl ea",
+    "dai ly walk ing close to thee _ Let it be dear Lord let it be"
+  ],
+  "source": {
+    "title": "Just a Closer Walk With Thee MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:Bb} 4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - {cn:F7} | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - -",
+    "2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - 4 - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -",
+    "4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - -",
+    "2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - - - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -",
+    "{cn:Bb} 4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - {cn:F7} | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - -",
+    "2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - - - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -",
+    "4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - - | 2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - - - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -",
+    "{cn:Bb} 4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - {cn:F7} | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - -",
+    "2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - - - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -",
+    "4 - - - - - 4# - 5 - 2 - 4 - {cn:Bbd7} 3 - | {cn:C7} 3b - - - - - - - - - - - - - - - | 1g - - - - - 7b - 6 - 4 - {cn:Eb/F} 5 - 7b - | {cn:Bb} 5 - 4 - - - - - - - - - - - - -",
+    "2g - - - - - 2g - {cn:Bb7} 2g - 7b - 1g - 2g - | {cn:Eb} 1g - 7b - - - - - - - - - {cn:Ed7} 7b - 5 - | {cn:Bb/F} 4 - - - 4 - - - {cn:F7} 4 - - - 5 - 7b - | {cn:Bb} 7b - - - - - - - - - - - - - - -"
+  ]
+}

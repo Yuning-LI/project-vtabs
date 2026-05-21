@@ -1,0 +1,42 @@
+{
+  "id": "quartermasters-store",
+  "slug": "quartermasters-store",
+  "title": "Quartermaster's Store",
+  "description": "Quartermaster's Store candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "There was cheese cheese waft ing on the breeze in the store, in the store, there was",
+    "ham ham mixed up with the jam in the Quar ter mas ter's store. my eyes are _ dim I",
+    "can not see I have not _ brought my specs with me I have not _ brought my _",
+    "specs with me there was specs with me"
+  ],
+  "alignedLyrics": [
+    "There was cheese cheese waft ing on the breeze in the store in the store there was",
+    "ham ham mixed up with the jam in the Quar ter mas ters store my eyes are _ dim I",
+    "can not see I have not _ brought my specs with me I have not _ brought my _",
+    "specs with me there was specs with me"
+  ],
+  "source": {
+    "title": "Quartermaster's Store MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 - - - - - - - - - - - 5d - 1 - | {cn:G} 3 - - - - - - - 3 - - - - - - - | 3 - 2 - 1 - 6d - 5d - - - 1 - 3 - | {cn:C} 2 - - - - - - - {cn:D7} 0 - - - 1 - 2 - | {cn:Ga7} 3 - - - - - - - {cn:G} 0 - - - 5d - 1 -",
+    "3 - - - - - - - 3 - - - - - - - | 3 - 2 - 1 - 6d - 5d - - - 1 - 3 - | {cn:C} 2 - - - 4 - - - {cn:D7} 3 - - - 2 - - - | {cn:C} 1 - - - - - - - {cn:G} 0 - - - 5d - - - | 1 - - - 3 - 2 - {cn:B7} 1 - - - 7d - - -",
+    "{cn:C} 6d - - - 6d - - - {cn:E7} 6d - - - 6d - - - | {cn:A7} 2 - - - 4 - 3 - {cn:Eb7} 2 - - - 1 - - - | {cn:D7} 7d - - - 2 - - - 5 - - - 5d - - - | {cn:G} 3 - - - - - - - {cn:B7} 1 - - - 7d - - - | {cn:C} 6d - - - - - - - 4 - - - 2 - - -",
+    "{cn:D7} 5 - - - - - - - 7d - - - - - - - | {cn:C} 1 - - - - - - - {cn:G} 0 - - - 5d - 1 - | {cn:A7} 5 - - - - - - - {cn:D7} 5 - - - - - - - | {cn:G} 1 - - - 0 - - - - - - - - - - -"
+  ]
+}

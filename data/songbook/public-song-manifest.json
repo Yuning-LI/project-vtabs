@@ -1755,5 +1755,26 @@
     "family": "hymn",
     "featuredRank": 252,
     "published": true
+  },
+  {
+    "id": "just-a-closer-walk-with-thee",
+    "slug": "just-a-closer-walk-with-thee",
+    "family": "hymn",
+    "featuredRank": 253,
+    "published": true
+  },
+  {
+    "id": "when-you-and-i-were-young-maggie",
+    "slug": "when-you-and-i-were-young-maggie",
+    "family": "folk",
+    "featuredRank": 254,
+    "published": true
+  },
+  {
+    "id": "quartermasters-store",
+    "slug": "quartermasters-store",
+    "family": "folk",
+    "featuredRank": 255,
+    "published": true
   }
 ]

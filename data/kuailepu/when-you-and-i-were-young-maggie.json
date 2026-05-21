@@ -1,0 +1,48 @@
+{
+  "id": "when-you-and-i-were-young-maggie",
+  "slug": "when-you-and-i-were-young-maggie",
+  "title": "When You And I Were Young, Maggie",
+  "description": "When You And I Were Young, Maggie candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "I wan der to day to the hills Mag gie to",
+    "watch the scene be low the creek and the creak ing old",
+    "mill Mag gie as we used to long long a go the",
+    "green grove is gone from the hills Mag gie where first the",
+    "dai _ sies _ sprung _ _ _ _ and the creak ing old mill _ is",
+    "still Mag gie since you and _ I were _ young. _"
+  ],
+  "alignedLyrics": [
+    "I wan der to day to the hills Mag gie to",
+    "watch the scene be low the creek and the creak ing old",
+    "mill Mag gie as we used to long long a go the",
+    "green grove is gone from the hills Mag gie where first the",
+    "dai _ sies _ sprung _ _ _ _ and the creak ing old mill _ is",
+    "still Mag gie since you and _ I were _ young _"
+  ],
+  "source": {
+    "title": "When You And I Were Young, Maggie MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; title normalized to When You And I Were Young, Maggie and melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "0 - - - - - - - - - - - 5 - - - | {cn:F} 5 - - - 0 - - - 3 - - - - - 2 - | {cn:F7} 1 - - - - - - - 2 - - - - - 1 - | {cn:Bb} 1 - - - - - - - - - - - - - - - | 6d - - - 1 - - - 0 - - - 6d - - -",
+    "{cn:F} 5d - - - - - - - 1 - - - - - - - | 3 - - - - - - - 5 - - - - - - - | {cn:C7} 2 - - - - - - - - - - - - - - - | 0 - - - - - - - - - - - 5 - - - | {cn:F} 5 - - - - - - - 3 - - - - - 2 - | {cn:F7} 1 - - - - - - - 2 - - - - - 1 -",
+    "{cn:Bb} 1 - - - - - - - - - - - - - - - | 6d - - - 1 - - - 0 - - - 6d - - - | {cn:F} 5d - - - - - - - 1 - - - - - 3 - | {cn:C7} 5 - - - - - - - 2 - - - - - 3 - | {cn:F} 1 - - - - - - - - - - - - - - - | 0 - - - - - - - - - - - 1 - - -",
+    "{cn:Bb} 6 - - - - - - - 6 - - - - - 6 - | {cn:C7} 4 - - - - - - - 6 - - - - - 7 - | {cn:F} 5 - - - - - - - - - - - - - - - | 3 - - - 5 - - - 0 - - - 3 - - - | {cn:C} 2 - - - - - - - 5 - - - - - - -",
+    "{cn:G7} 5 - - - 4# - - - 7 - - - 6 - - - | {cn:C} 5 - - - 7d - - - 7d - - - 1 - - - | {cn:C7} 7d - - - - - - - 5 - - - - - 5 - | {cn:F} 5 - - - - - - - 3 - - - - - 2 - | {cn:G7} 1 - - - - - - - 2 - - - - - 1 -",
+    "{cn:Bb} 1 - - - - - - - - - - - - - - - | 6d - - - {cn:C7} 1 - - - 0 - - - 6d - - - | {cn:F} 5d - - - 0 - - - 1 - - - - - 3 - | {cn:C7} 5 - - - - - - - 2 - - - - - 3 - | {cn:F} 1 - - - - - - - - - - - - - - - | 1g - - - - - - - - - - - - - - -"
+  ]
+}
