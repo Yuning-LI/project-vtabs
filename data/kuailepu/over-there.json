@@ -1,0 +1,48 @@
+{
+  "id": "over-there",
+  "slug": "over-there",
+  "title": "Over There",
+  "description": "Over There candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "O ver there o ver there send the word send the word o ver",
+    "there that the Yanks are com ing the Yanks are com ing the",
+    "drums rum tum ing ev ry where so pre pare say a pray'r send the",
+    "word send the word to be ware we'll be o ver we're com ing",
+    "o ver and we wont come back till its o ver o ver there o ver",
+    "o ver o ver there."
+  ],
+  "alignedLyrics": [
+    "O ver there o ver there send the word send the word o ver",
+    "there that the Yanks are com ing the Yanks are com ing the",
+    "drums rum tum ing ev ry where so pre pare say a prayr send the",
+    "word send the word to be ware well be o ver were com ing",
+    "o ver and we wont come back till its o ver o ver there o ver",
+    "o ver o ver there"
+  ],
+  "source": {
+    "title": "Over There MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 108,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; BPM 108 confirmed and melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "0 - - - - - - - - - - - 3 - 5d - | {cn:Bb} 1 - - - - - - - - - - - 3 - 5d - | 1 - - - - - - - - - - - 3 - 5d - | 1 - - - 3 - 5d - 1 - - - 3 - 5d -",
+    "1 - - - - - - - - - - - 2 - 3 - | {cn:C} 4 - - - 3 - - - {cn:F7} 2 - - - 5 - 4 - | {cn:Bb} 3 - - - 2 - - - {cn:G} 1 - - - 3 - 1 -",
+    "{cn:F} 7d - - - 2 - - - {cn:C7} 1 - 7d - 1 - 6d - | {cn:F7} 2 - - - - - - - - - - - 3 - 5d - | {cn:Bb} 1 - - - - - - - - - - - 3 - 5d - | 1 - - - - - - - - - - - 3 - 5d -",
+    "1 - - - 3 - 5d - 1 - - - 3 - 5d - | 1 - - - - - - - {cn:F7} 0 - - - 3 - 2 - | {cn:Bb} 1 - - - - - - - 5d - 3 - 2 - 1 -",
+    "{cn:F7} 2 - - - - - - - 5d - - - 6d - 7d - | {cn:Bb} 1 - - - 1 - - - {cn:Eb} 1 - - - 1 - 1 - | {cn:F7} 1 - 7d - 6d - 7d - {cn:Bb} 1 - - - 3 - 5d -",
+    "{cn:F7} 1 - 7d - 6d - 7d - {cn:Bb} 1 - - - - - - -"
+  ]
+}

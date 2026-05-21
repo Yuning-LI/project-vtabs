@@ -1,0 +1,54 @@
+{
+  "id": "hes-got-the-whole-world-in-his-hands",
+  "slug": "hes-got-the-whole-world-in-his-hands",
+  "title": "He's Got The Whole World In His Hands",
+  "description": "He's Got The Whole World In His Hands candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "He's got the whole world _ in His hands, He's got the whole world _",
+    "in His hands, He's got the whole world _ in His hands, He's got the whole world in His",
+    "hands. He's got the wind and the rain _ in His hands He's got the wind and the rain _",
+    "in His hands, He's got the wind and the rain _ in His hands, He's got the whole world in His",
+    "hands. He's got the sin ner man _ in His hands He's got the sin ner man _",
+    "in His hands, He's got the sin ner man _ in His hands, He's got the whole world in His",
+    "hands. He's got you and me _ in His hands, He's got you and me _ in His hands, He's got",
+    "you and me _ in His hands, He's got the whole world in His hands."
+  ],
+  "alignedLyrics": [
+    "Hes got the whole world _ in His hands Hes got the whole world _",
+    "in His hands Hes got the whole world _ in His hands Hes got the whole world in His",
+    "hands Hes got the wind and the rain _ in His hands Hes got the wind and the rain _",
+    "in His hands Hes got the wind and the rain _ in His hands Hes got the whole world in His",
+    "hands Hes got the sin ner man _ in His hands Hes got the sin ner man _",
+    "in His hands Hes got the sin ner man _ in His hands Hes got the whole world in His",
+    "hands Hes got you and me _ in His hands Hes got you and me _ in His hands Hes got",
+    "you and me _ in His hands Hes got the whole world in His hands"
+  ],
+  "source": {
+    "title": "He's Got The Whole World In His Hands MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-21",
+    "note": "Refs: ManualReview, CommonPublicVersionCheck. Manual preview passed; melody, lyric alignment, and public version approved before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "0 - - - - - - - - - 5 - 5 - 5 - | {cn:F} 5 - - - - - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 4 - - - - - - - 2 - 7d - - - - -",
+    "{cn:F} 5 - 6 - - - 5 - - - 5 - 5 - 5 - | 5 - - - - - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 5 - - - 5 - - - 4 - 2 - - - - -",
+    "{cn:F} 1 - - - - - - - 0 - 5 - 5 - 5 - | 5 - - - 5 - 5 - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 4 - - - 4 - 4 - 2 - 7d - - - - -",
+    "{cn:F} 5 - 6 - - - 5 - - - 5 - 5 - 5 - | 5 - - - 5 - 5 - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 5 - - - 5 - - - 4 - 2 - - - - -",
+    "{cn:F} 1 - - - - - - - 0 - 5 - 5 - 5 - | 5 - 5 - - - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 4 - 4 - - - - - 2 - 7d - - - - -",
+    "{cn:F} 5 - 6 - - - 5 - - - 5 - 5 - 5 - | 5 - 5 - - - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 5 - - - 5 - - - 4 - 2 - - - - -",
+    "{cn:F} 1 - - - - - - - 0 - 5 - 5 - - - | 5 - - - 5 - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - 0 - 5 - 5 - - - | {cn:C7} 4 - - - 4 - - - 2 - 7d - - - - - | {cn:F} 5 - 6 - - - 5 - 0 - 5 - 5 - - -",
+    "5 - - - 5 - - - 3 - 1 - - - - - | 5 - 6 - - - 5 - - - 5 - 5 - 5 - | {cn:C7} 5 - - - 5 - - - 4 - 2 - - - - - | {cn:F} 1 - - - - - - - - - 0 - - - - -"
+  ]
+}
