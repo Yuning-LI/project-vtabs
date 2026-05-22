@@ -1,0 +1,81 @@
+{
+  "id": "my-way",
+  "slug": "my-way",
+  "title": "My Way",
+  "description": "My Way melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "And now, the end is near And so I",
+    "face the fin al cur tain My friend, I'll say it",
+    "clear I'll state my case, of which I'm cer tain. I've",
+    "lived a life that's full I've trave led each and ev ery",
+    "high way And more, much more than this I did it",
+    "my way. Re",
+    "my way. Yes, there were",
+    "times I'm sure you knew When I bit off more than I could",
+    "chew",
+    "But through it all, when there was doubt I ate it",
+    "up and spit it out I faced it all and I stood",
+    "tall And did it my way.",
+    "I've",
+    "loved, I've laughed and cried |'ve had my fill my share of",
+    "los ing And now, as tears sub side I find it",
+    "all so a musing. _ To think I did all",
+    "that And may I say not in a shy way No,",
+    "oh no not me oh I did it my",
+    "way. For what is a man what has he got？ If not him",
+    "self, then he has naught.",
+    "To say the things he tru ly",
+    "feels And not the words of one who kneels. The re cord",
+    "shows I took the blows And did it my way",
+    ""
+  ],
+  "extraLyrics": [
+    "Yes, it was my way",
+    "Re grets, I've had a few But then a gain, too few to men tion I did whatI had to do And saw it through with out ex emp tion.",
+    "I planned each chart ed course Each care ful step a long the by way and more, much more than this I did it"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/8uxRk1Ljf.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 8uxRk1Ljf on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 0 0 5, - - | 3 - - - - - - - - - - - 0 0 0 5, - - 3 - - 2 - - | 3 - - - - - - - - - - - 0 0 0 5, - - 3 - - 2 - - |",
+    "3 - - - - - - - - - - - 0 0 0 2 - - 3 - - 2 - - | 2 - - - - - #1 - - - - - - - - - - - 0 0 0 6, - - | 4 - - - - - - - - - - - 0 0 0 6, - - 4 - - 3 - - |",
+    "4 - - - - - - - - - - - 0 0 0 6, - - 4 - - 3 - - | 4 - - - - - - - - - - - 0 0 0 5 - - 2 - - 2 - - | 4 - - - - - 3 - - - - - 0 0 0 0 0 0 #4 - - - - - |",
+    "5 - - - - - - - - - - - 0 0 0 #4 - - 5 - - 6 - - | 5 - - - - - - - - - - - 0 0 0 6 - - 3 - - 5 - - | 4 - - - - - - - - - - - 0 0 0 4 - - 4 - - 3 - - |",
+    "5 - - - - - 4 - - - - - - - - - - - 0 0 0 4 - - | 3 - - - - - - - - - - - 0 0 0 5, - - 4 - - 3 - - | 2 - - - - - - - - - - - 7, - - - 1 - - - 2 - - - |",
+    "2 - - - - - - - - - - - - - - - - - - - - - - - | 1 - - - - - - - - - - - - - - - - - 0 0 0 5, - - |",
+    "2 - - - - - - - - - - - - - - - - - - - - - - - | 1 - - - - - - - - - - - 3 - - - 4 - - - 5 - - - |",
+    "5 - - - - - - - - - - - 0 0 0 6 - - 5 - - #4 - - | 5 - - - - - - - - - - - 0 0 0 #4 - - 5 - - 6 - - | 6 - - - - - - - - - - - 5 - - 5 - - 6 - - 5 - - |",
+    "6 - - - - - - - - - - -",
+    "0 0 0 6 - - 7 - - 1' - - | 1' - - - - - - - - - - - 0 0 0 6 - - 1' - - 6 - - | 7 - - - - - - - - - - - 0 0 0 7 - - 1' - - 2' - - |",
+    "2' - - - - - - - - - - - 0 0 0 3' - - 7 - - 2' - - | 1' - - - - - - - - - - - 0 0 0 6 - - 7 - - 1' - - | 1' - - - - - - - - - - - 0 0 0 6 - - 1' - - 6 - - |",
+    "7 - - - - - - - - - - - 0 0 0 7 - - 1' - - 2' - - | 2' - - - - - - - - - - - - - - - - - - - - - - - | 1' - - - - - - - - - - - - - - - - -",
+    "0 0 0 5, - - |",
+    "3 - - - - - - - - - - - 0 0 0 5, - - 3 - - 2 - - | 3 - - - - - - - - - - - 0 0 0 5, - - 3 - - 2 - - | 3 - - - - - - - - - - - 0 0 0 2 - - 3 - - 2 - - |",
+    "2 - - - - - #1 - - - - - - - - - - - 0 0 0 6, - - | 4 - - - - - - - - - - - 0 0 0 6, - - 4 - - 3 - - | 4 - - - - - - - - - - - 0 0 0 6, - - 4 - - 3 - - |",
+    "4 - - - - - - - - - - - - - - - - - 5 - - 2 - - | 4 - - - - - 3 - - - - - - - - - - - 0 0 0 #4 - - | 5 - - - - - - - - - - - 0 0 0 #4 - - 5 - - 6 - - |",
+    "5 - - - - - - - - - - - 0 0 0 6 - - 3 - - 5 - - | 4 - - - - - - - - - - - 0 0 0 4, - - 4 - - 3 - - | 5 - - - - - 4 - - - - - - - - - - - 0 0 0 4 - - |",
+    "3 - - - - - - - - - - - 0 0 0 5, - - 4 - - 3 - - | 2 - - - - - - - - - - - 7, - - - 1 - - - 2 - - - | 2 - - - - - - - - - - - - - - - - - - - - - - - |",
+    "1 - - - - - - - - - - - 0 0 0 3 - - 3 - 4 - 5 - | 5 - - - - - - - - - - - 0 0 0 6 - - 5 - - #4 - - | 5 - - - - - - - - - - - 0 0 0 #4 - - 5 - - 6 - - |",
+    "6 - - - - - - - - - - - 0 0 0 5 - - 6 - - 5 - - | 6 - - - - - - - - - - -",
+    "0 0 0 6 - - 7 - - 1' - - | 1' - - - - - - - - - - - 0 0 0 6 - - 1' - - 6 - - |",
+    "7 - - - - - - - - - - - 0 0 0 7 - - 1' - - 2' - - | 2' - - - - - - - - - - - 0 0 0 3' - - 7 - - 2' - - | 1' - - - - - - - - - - - 0 0 0 6 - - 7 - - 1' - - |",
+    "1' - - - - - - - - - - - 0 0 0 6 - - 1' - - 6 - - | 7 - - - - - - - - - - - 0 0 0 7 - - 1' - - 2' - - | 2' - - - - - - - - - - - - - - - - - - - - - - - | 1' - - - - - - - - - - - - - - - - - - - - - - -",
+    "|"
+  ]
+}

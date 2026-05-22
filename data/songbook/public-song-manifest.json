@@ -1825,5 +1825,26 @@
     "family": "media",
     "featuredRank": 262,
     "published": true
+  },
+  {
+    "id": "because-you-loved-me",
+    "slug": "because-you-loved-me",
+    "family": "song",
+    "featuredRank": 263,
+    "published": true
+  },
+  {
+    "id": "endless-love",
+    "slug": "endless-love",
+    "family": "song",
+    "featuredRank": 264,
+    "published": true
+  },
+  {
+    "id": "my-way",
+    "slug": "my-way",
+    "family": "song",
+    "featuredRank": 265,
+    "published": true
   }
 ]
