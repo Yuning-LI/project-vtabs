@@ -1797,5 +1797,33 @@
     "family": "holiday",
     "featuredRank": 258,
     "published": true
+  },
+  {
+    "id": "count-on-me",
+    "slug": "count-on-me",
+    "family": "song",
+    "featuredRank": 259,
+    "published": true
+  },
+  {
+    "id": "candle-in-the-wind",
+    "slug": "candle-in-the-wind",
+    "family": "song",
+    "featuredRank": 260,
+    "published": true
+  },
+  {
+    "id": "dragon-roost-island",
+    "slug": "dragon-roost-island",
+    "family": "media",
+    "featuredRank": 261,
+    "published": true
+  },
+  {
+    "id": "history-maker",
+    "slug": "history-maker",
+    "family": "media",
+    "featuredRank": 262,
+    "published": true
   }
 ]

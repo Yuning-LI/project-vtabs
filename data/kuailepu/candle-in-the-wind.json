@@ -1,0 +1,71 @@
+{
+  "id": "candle-in-the-wind",
+  "slug": "candle-in-the-wind",
+  "title": "Candle in the Wind",
+  "description": "Candle in the Wind melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "Good bye england s rose May you e ver",
+    "_ g row in our hearts You were the gra ce _ that pla",
+    "ced it self Where _ li ves were to rn apart _",
+    "You called out to our coun try _ And you whi sper ed",
+    "to tho se in pain _ Now you be long to _ hea",
+    "ven And the stars spe ll out your name _ And",
+    "it see",
+    "ms to me _ you lived _ your life Like a can",
+    "dle in the wind _ Ne ver fa",
+    "ding with the sun set When the rain set in _ And your foot ste",
+    "ps will al ways fall _ _ he re _ A long _ en glands",
+    "g ree nest hills Your can dles",
+    "bur ned out long _ be fore _ Your le",
+    "gend ne ver will _ _ Good bye",
+    "england s rose May you e ver _ g",
+    "row in our hearts _ You were the gra ce that pla ced i",
+    "t self Where _ li ves were to rn apart _ _ _",
+    "_ _ _ _ _ _ _ _ _ _ _ _ _",
+    "_ _ _ _ _ _ _ _ _ _ _ _ _",
+    "_ _ _ _ _ _ _ _ _ _ _ _ _"
+  ],
+  "extraLyrics": [
+    "Good bye englands _ _ rose From a coun try lo st with out _ _ your soul _ Wholl miss the wings of your com pa ss ion More than you ll e ver know _ And it seems to me you lived your life Like a candle in the wind Never fading with the sunset When the rain set in And you footsteps will always fall here Along englands greenest hills Your candles burned out long before Your legend never will"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/d5gWk1VFQ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song d5gWk1VFQ on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = E",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 64,
+  "notation": [
+    "7 7 - - 5 - 7 - 7 - - - 5 6 7 5 |",
+    "5 2' 3' - 3' 4' 3' - 3' 2' 2' 2' 2' - - - 3' - 2' 1' |",
+    "2' 5 5 5 5 - - 7 1' - 7 7 6 5 3 - |",
+    "3 - - - 0 0 0 0 0 0 0 1 5 6 1' 1' | 2' 2' - - 2' - - - 0 0 0 0 5 6 7 5 |",
+    "3 - 3 3' 3' - 4' 3' 3' 2' 2' 2' 3' - 2' 1' |",
+    "2' 5 - - 0 0 7 7 1' - - 7 6 5 5 3 | 3 - - - 0 0 0 0 0 0 0 0",
+    "0 0 7 1' |",
+    "2' 2' 2' 2' 2' - - 5 2' 2' - 2' 2' - 7 1' |",
+    "2' - 2' - 2' 2' 5 - 5 - - - 0 0 3 4 |",
+    "5 - 5 - 5 5 6 - - - 5 - - - 3 3 | 4 - - - 3 - 2 2 2 - - - 0 0 0 0 0 0 6, 6, |",
+    "6 6 6 6 6 7 - 1' 1' 7 7 6 6 6 6 5 |",
+    "6 - 5 - 5 1 3 - 3 - - - 0 0 0 6, |",
+    "3 - 3 - 4 5 - 3 3 2 2 2 2 - - - |",
+    "0 0 0 0 0 0 0 5, 6, 1 - - 1 2 6, - | 6, - 5, - - - - - 0 0 0 0 0 0 0 0 |",
+    "7 7 - - 5 7 - - 7 - - - 5 6 7 5 |",
+    "5 #2' 3' - 3' 4' 3' - 3' 2' 2' 2' 2' - - - 3' - 2' 1' |",
+    "2' 5 5 5 5 - - 7 1' - 7 7 6 5 5 3 |",
+    "3 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | 7 7 - - 5 7 - - 7 7 5 6 7 1' 2' 5 |",
+    "5 - 5 3' 3' - 4' 3' 3' 2' 2' 2' 2' 2' 3' - |",
+    "2 - 2' 5 5 - 6 7 1' - - 7 6 5 2 - - - 3 - | 3 - - -"
+  ]
+}

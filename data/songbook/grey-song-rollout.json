@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-10",
+  "updatedOn": "2026-05-22",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -962,6 +962,46 @@
       "addedOn": "2026-05-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3Ucjn1gXC.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "count-on-me",
+      "title": "Count On Me",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wUKPl1Js5.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "candle-in-the-wind",
+      "title": "Candle in the Wind",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/d5gWk1VFQ.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "dragon-roost-island",
+      "title": "Dragon Roost Island",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "game",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TP2Mf1RUr.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "history-maker",
+      "title": "History Maker",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/kKXBj1uKb.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
     }
   ]
 }

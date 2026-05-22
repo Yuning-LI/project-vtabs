@@ -1,0 +1,72 @@
+{
+  "id": "history-maker",
+  "slug": "history-maker",
+  "title": "History Maker",
+  "description": "History Maker melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "Can you hear my heart- beat.",
+    "Tired of feeling never e- nough. I",
+    "close my eyes and tell myself that",
+    "my dreams will come true. There’ll be",
+    "no more dark- ness. When you be- lieve in",
+    "your- self, you are un- sto- ppa- ble.",
+    "Where your des- ti- ny lies, _ dancing on",
+    "the blades. You set my hear- t on fi-",
+    "re. Don’t stop us now, the mo- ment of",
+    "truth. We were born to make his- to- ry.",
+    "We’ll make it ha -ppen. We’ll turn it around.",
+    "Yes, we were _ born to make his- to- ry.",
+    "Born to make his -to -ry.",
+    "Born, born, born to make",
+    "his- to- ry.",
+    "Don’t stop us now, the",
+    "mo- ment of truth. We were born to make",
+    "his- to- ry. We’ll make it ha- ppen. We’ll",
+    "turn it around. Yes, we were _ born to make",
+    "his- to- ry. We were",
+    "born to make his- to- ry.",
+    "Yes, we were _ born to make his- to- ry."
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/kKXBj1uKb.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song kKXBj1uKb on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = E",
+    "tempo": 67,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 64,
+  "notation": [
+    "0 0 0 0 2 - - - 3 - - - 3 - - - - - - - - - - - 0 0 0 0 3 - - - 5 - - - 5 - - - - - - - - - - - |",
+    "5 - - - - - - - - 2 - - 2 - - - - - - - - - - - 0 0 0 0 2 - - - 3 - - - 3 - - - - - - - - 5, - - |",
+    "0 0 0 0 2 - - - 3 - - - 3 - - - - - - - - - - - 0 0 0 0 3 - - - 5 - - - 5 - - - - - - - - 6 - - |",
+    "2 - - - - - - - - 2 - - 2 - - - - - - - - 3 - - 1 - - - - - - - - - - - 0 0 0 0 3 - - - 4 - - - |",
+    "5 - - - - - - - - 5 - - 5 - - - 4 - - - 3 - - - 2 - - - - - 1 - - - - - 2 - - 3 - - - - - - - - |",
+    "5 - - - - - - - - 5 - - 5 - - - 4 - - - 3 - - - 2 - - 3 - - - - - - - - 2 - - - - - - - - - - - |",
+    "5 - - - - - - - - 5 - - 5 - - - 4 - - - 3 - - - 2 - - - - - - - - 1 - - 0 0 0 0 4 - - - 4 - - - |",
+    "5 - - - - - - - - 5 - - 5 - - - 6 - - - 7 - - - 1' - - - - - 7 - - - - - 1' - - - - - 2' - - - - - |",
+    "1' - - - - - - - - 5 - - 1' - - - 2' - - - 1' - - - 0 0 0 0 0 0 0 0 5 - - - 2' - - - 1' - - - 2' - - - |",
+    "2' - - - - - - - - - - - 2' - - 1' - - - - - - - - 2' - - - 1' - - - 2' - - - 4' - - - 3' - - - 1' - - - |",
+    "0 0 0 0 0 0 0 0 5 - - - 1' - - - 2' - - - 1' - - - 1' - - - - - - - - 5 - - 2' - - - 1' - - - 2' - - - |",
+    "2' - - - - - - - - - - - 2' - - - 2' - - - 1' - - - 2' - - - 1' - - - 2' - - - 4' - - - 3' - - - 1' - - - |",
+    "2' - - - 1' - - - 2' - - - 4' - - - 3' - - - 1' - - - |",
+    "2' - - 1' - - - - - - - - 2' - - - 1' - - - 2' - - - |",
+    "4' - - - 3' - - - 1' - - -",
+    "0 0 0 0 0 0 0 0 0 5 - - 1' - - - 2' - - - 1' - - - 0 0 0 0 0 0 0 0 5 - - - |",
+    "2' - - - 1' - - - 2' - - - 2' - - - - - - - - - - - 2' - - 1' - - - - - - - - 2' - - - 1' - - - 2' - - - |",
+    "4' - - - 3' - - - 1' - - - 0 0 0 0 0 0 0 0 5 - - - 1' - - - 2' - - - 1' - - - 1' - - - - - - - - 5 - - |",
+    "2' - - - 1' - - - 2' - - - 2' - - - - - - - - - - - 2' - - - 2' - - - 1' - - - 2' - - - 1' - - - 2' - - - |",
+    "4' - - - 3' - - - 1' - - - 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2' - - 1' - - - - - - - - |",
+    "2' - - - 1' - - - 2' - - - 4' - - - 3' - - - 1' - - - - - - - - - - - - - - - - - - - - - - - - - - - |",
+    "1' - - - - - - - - - - - 2' - - - 2' - - - 1' - - - 2' - - - 1' - - - 2' - - - 4' - - - 3' - - - 1' - - - | | |"
+  ]
+}
