@@ -1,0 +1,42 @@
+{
+  "id": "the-coventry-carol",
+  "slug": "the-coventry-carol",
+  "title": "The Coventry Carol",
+  "description": "The Coventry Carol candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Lul ly, lul lay thou little tiny Child,",
+    "bye, bye, lul ly, lul lay. _ Lul",
+    "lay, Thou lit tle, ti ny Child,",
+    "bye, bye, lul ly, lul lay. _"
+  ],
+  "alignedLyrics": [
+    "Lul ly lul lay thou little tiny Child",
+    "bye bye lul ly lul lay _ Lul",
+    "lay Thou lit tle ti ny Child",
+    "bye bye lul ly lul lay _"
+  ],
+  "source": {
+    "title": "The Coventry Carol MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = #A",
+    "tempo": 88,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "{cn:G} 6d - - - 6d - - - {cn:D} 6db - - - | {cn:G} 6d - - - - - - - 1 - - - | {cn:F} 7d - - - - - - - {cn:G} 6d - - - | {cn:D} 6db - - - - - - - - - - -",
+    "{cn:G} 6d - - - {cn:F} 7d - - - {cn:G} 1 - - - | {cn:C} 2 - - - - - - - {cn:D7} 7d - - - | {cn:G} 6d - - - - - - - - - - - | 6d - - - - - - - {cn:Bb} 3 - - -",
+    "{cn:F} 2 - - - - - - - {cn:G} 1 - - - | {cn:D} 7d - - - - - - - {cn:G} 1 - - - | {cn:C6} 7d - - - - - - - 6d - - - | {cn:D} 6db - - - - - - - - - - -",
+    "{cn:G} 6d - - - {cn:D7} 6db - - - {cn:G} 6d - - - | {cn:C} 2 - - - - - - - {cn:D} 7d - - - | {cn:G} 1# - - - - - - - - - - - | 1# - - - - - - - - - - -"
+  ]
+}

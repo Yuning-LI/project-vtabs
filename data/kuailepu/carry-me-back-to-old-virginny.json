@@ -1,0 +1,48 @@
+{
+  "id": "carry-me-back-to-old-virginny",
+  "slug": "carry-me-back-to-old-virginny",
+  "title": "Carry Me Back To Old Virginny",
+  "description": "Carry Me Back To Old Virginny candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Car ry me back to old Vir gin ny, there's where the cot ton and the",
+    "corn and 'ta toes grow. There's where the birds war ble sweet in the spring time,",
+    "There's where this old dark ey's heart am long'd to go,",
+    "There's where I la bor'd so _ hard for old Mas sa,",
+    "Day af ter day in the fields of yel low corn. No place on earth do I",
+    "love more sin cere ly Than old Vir gin ny, the _ state where I was born."
+  ],
+  "alignedLyrics": [
+    "Car ry me back to old Vir gin ny theres where the cot ton and the",
+    "corn and ta toes grow Theres where the birds war ble sweet in the spring time",
+    "Theres where this old dark eys heart am longd to go",
+    "Theres where I la bord so _ hard for old Mas sa",
+    "Day af ter day in the fields of yel low corn No place on earth do I",
+    "love more sin cere ly Than old Vir gin ny the _ state where I was born"
+  ],
+  "source": {
+    "title": "Carry Me Back To Old Virginny MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Refs: Wikipedia, Encyclopedia Virginia. Title identity and James A. Bland attribution are correct, and the candidate starts at the expected main tune, but this title carries strong minstrel/Lost Cause baggage and the local lyric text preserves dialect forms. Keep unpublished unless there is an explicit editorial decision for this song.Issues: editorial-sensitivity | minstrel-history | dialect-lyrics."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "{cn:G} 3 - 3 - - - 4 - 3 - - - 2 - - - | {cn:C} 1 - - - - - 6d - {cn:G} 5d - 1 - - - - - | 5d - - - 1 - - 2 3 - 3 - 4 - 3 -",
+    "{cn:A7} 3 - 1 - 7d - 1 - {cn:D7} 2 - - - - - - - | {cn:G} 3 - - - 4 - - 3 3 - - - {cn:G7} 2 - 1 - | {cn:C} 2 - - - 1 - - 6d {cn:G} 5d - 1 - - - - -",
+    "5d - - - 1 - - 2 3 - - - {cn:C} 4 - 3 - | {cn:D7} 3 - 2 - 1 - - 7d {cn:G} 1 - - - - - 0 -",
+    "{cn:D7} 2 - - - 2 - - 3 4 - 5 - 4 - 3 - | {cn:G} 3 - - - 3 - - 4 5 - 3 - - - - -",
+    "5 - - - {cn:D7} 4 - - 3 {cn:G} 3 - - - {cn:B7} 2 - - {cn:E} 1 | {cn:A7} 1 - 1 - 7d - 1 - {cn:D7} 2 - - - - - - - | {cn:G} 3 - - - 4 - - 3 3 - - - {cn:G7} 2 - 1 -",
+    "{cn:C} 2 - - - 1 - - 6d {cn:G} 5d - 1 - - - - - | 5d - - - 1 - - 2 3 - 3 - 4 - - 3 | {cn:D7} 3 - 2 - 1 - - {cn:G} 7d 1 - - - - - 0 -"
+  ]
+}
