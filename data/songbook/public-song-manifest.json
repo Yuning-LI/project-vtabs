@@ -1888,5 +1888,26 @@
     "family": "media",
     "featuredRank": 271,
     "published": true
+  },
+  {
+    "id": "for-the-love-of-a-princess",
+    "slug": "for-the-love-of-a-princess",
+    "family": "media",
+    "featuredRank": 271,
+    "published": true
+  },
+  {
+    "id": "free-loop",
+    "slug": "free-loop",
+    "family": "song",
+    "featuredRank": 272,
+    "published": true
+  },
+  {
+    "id": "frosty-the-snowman",
+    "slug": "frosty-the-snowman",
+    "family": "holiday",
+    "featuredRank": 273,
+    "published": true
   }
 ]

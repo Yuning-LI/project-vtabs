@@ -1092,6 +1092,39 @@
       "addedOn": "2026-05-22",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5nYBc1b0d.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "for-the-love-of-a-princess",
+      "title": "For the Love of a Princess",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "film",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/fleje13v9.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
+    },
+    {
+      "slug": "free-loop",
+      "title": "Free Loop",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Bdm6q1pR6.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
+    },
+    {
+      "slug": "frosty-the-snowman",
+      "title": "Frosty the Snowman",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "holiday",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xFhKc1U8P.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
     }
   ]
 }
