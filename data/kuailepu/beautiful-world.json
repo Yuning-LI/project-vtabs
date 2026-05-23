@@ -1,0 +1,38 @@
+{
+  "id": "beautiful-world",
+  "slug": "beautiful-world",
+  "title": "Beautiful World",
+  "description": "Beautiful World melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 宇多田光.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Qb1Xl1Otk.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Qb1Xl1Otk on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 4 - - - 1' - - - 3 - - - | 4 - - - - - - - - - - - - - - - | 0 0 0 0 4 - - - 1' - - - 3 - - - | 4 - - - - - - - - - - - - - - - |",
+    "2 - - - - - 2 - 2 - 4 - 5 - 4 - | 6 - b7 - 5 - - - 6 - - - 4 - 3 - | 2 - - - - - - - - - - - 0 0 2 - | 1' - - - 6 - 1' - - - 6 - - - - - |",
+    "2 - - - - - 2 - 2 - 4 - 5 - 4 - | 6 - b7 - 5 - - - 6 - - - 4 - 3 - | 2 - - - - - 2 - 1' - 1' - 6 - 1' - | 1' - 1' - 6 - 1' - - - 6 - 5 - - - |",
+    "4' - - - 3' - - - 6 - - 6 - - 1' - | 1' - 6 - - - - - 4 5 - 6 - b7 6 - | 4' - - - 3' - - - 6 - - 6 - - 1' - | 1' - 6 - 6 - 6 - 2' - - 6 - - 6 - |",
+    "1' - - - 6 - b7 - 1' - - - 1' - - - |",
+    "1' - - - 6 - - 5 - - 4 - - - - - | 0 0 0 0 4 - - - 1' - - - 3 - - - | 4 - - - - - - - - - - - - - - - | 4 - - - - - - - - - - - - - - - |",
+    "3 - - - - - 3 - - - - - 3 - - - | 3 - - - 7, - 2 - - - 3 - - - - - | 3 - 3 - 3 - 7 - - - 3 - - - 2 - | 3 - 3 - 3 - 7 - - - 3 - - - - - |",
+    "0 0 0 0 3 - - - 3 - - - #4 - - - | 5 - - - 5 - #4 - - - - - 7, - - - | 3 - - - 3 - #4 - - - 5 - - - 3 - | 3 - - - - - - - - - - - - - - - |",
+    "3 - - - - - 3 - - - - - 3 - - - | 3 - - - 7, - 2 - - - 3 - - - - - | 3 - 3 - 3 - 7 - - - 3 - - - 2 - | 3 - 3 - 3 - 7 - - - 3 - - - - - |",
+    "0 0 0 0 3 - - - 3 - - - #4 - - - | 5 - - - 5 - #4 - - - - - 7, - 7, - | 3 - - - 3 - #4 - - - - - 5 - - - | 2' - - - - - - - 3' - - - - - - - |",
+    "3 - 3 - 3 - 2 3 - 2 3 - - - - - | 3 - 3 - 3 - 2 3 - 2 3 - - - 7 - | 6 - - - 5 - 3 - 3 - - - - - - - | 3 - - - - - - - - - - - - - - - |",
+    "3 - 3 - 3 - 2 3 - 2 3 - - - - - | 3 - 2 - 3 - 2 3 - 2 3 - - - 7 - | 6 - - - - - - - - - - - - - - - | 6 - #1 - 2 - 3 - 4 - 3 - 2 - #1 - | | |"
+  ]
+}

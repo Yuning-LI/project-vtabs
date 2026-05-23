@@ -1893,7 +1893,7 @@
     "id": "for-the-love-of-a-princess",
     "slug": "for-the-love-of-a-princess",
     "family": "media",
-    "featuredRank": 271,
+    "featuredRank": 274,
     "published": true
   },
   {
@@ -1908,6 +1908,34 @@
     "slug": "frosty-the-snowman",
     "family": "holiday",
     "featuredRank": 273,
+    "published": true
+  },
+  {
+    "id": "handclap",
+    "slug": "handclap",
+    "family": "song",
+    "featuredRank": 275,
+    "published": true
+  },
+  {
+    "id": "brave-heart",
+    "slug": "brave-heart",
+    "family": "media",
+    "featuredRank": 276,
+    "published": true
+  },
+  {
+    "id": "beautiful-world",
+    "slug": "beautiful-world",
+    "family": "media",
+    "featuredRank": 277,
+    "published": true
+  },
+  {
+    "id": "beethoven-virus",
+    "slug": "beethoven-virus",
+    "family": "media",
+    "featuredRank": 278,
     "published": true
   }
 ]

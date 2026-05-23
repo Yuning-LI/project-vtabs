@@ -1125,6 +1125,50 @@
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xFhKc1U8P.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
       "publishState": "published"
+    },
+    {
+      "slug": "handclap",
+      "title": "HandClap",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/71cRf1wJN.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
+    },
+    {
+      "slug": "brave-heart",
+      "title": "Brave Heart",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Tq5Ef1LO7.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
+    },
+    {
+      "slug": "beautiful-world",
+      "title": "Beautiful World",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Qb1Xl1Otk.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
+    },
+    {
+      "slug": "beethoven-virus",
+      "title": "Beethoven Virus",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "instrumental",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/YHlff1AHR.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push.",
+      "publishState": "published"
     }
   ]
 }
