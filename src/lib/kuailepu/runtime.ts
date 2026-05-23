@@ -1618,29 +1618,6 @@ html[data-vtabs-public-playback="1"] .lean-overlay {
   margin: 0 !important;
 }
 
-#play-modal .vtabs-public-playback-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 0.75rem !important;
-  margin-bottom: 0.8rem !important;
-}
-
-#play-modal .vtabs-public-playback-title {
-  color: #2f261f !important;
-  font-size: 1rem !important;
-  font-weight: 800 !important;
-  line-height: 1.15 !important;
-}
-
-#play-modal .vtabs-public-playback-subtitle {
-  color: #70553d !important;
-  font-size: 0.82rem !important;
-  font-weight: 600 !important;
-  line-height: 1.3 !important;
-  margin-top: 0.18rem !important;
-}
-
 #play-modal .browser-select {
   height: 2.65rem !important;
   border-radius: 0.9rem !important;
@@ -1683,33 +1660,39 @@ html[data-vtabs-public-playback="1"] #play-modal .modal-footer {
 
 @media (max-width: 767px) {
   #play-modal {
-    width: calc(100vw - 1.5rem) !important;
-    max-height: calc(100vh - 1rem) !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: min(92vw, 460px) !important;
+    max-height: calc(100vh - 1.5rem) !important;
     border-radius: 1.1rem !important;
   }
 
   #play-modal.modal.modal-fixed-footer .modal-content,
   #play-modal .modal-content {
-    padding: 0.9rem !important;
-    max-height: none !important;
-    overflow: visible !important;
+    padding: 0.8rem !important;
+    max-height: calc(100vh - 6.2rem) !important;
+    overflow-y: auto !important;
   }
 
   #play-modal .row {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 0.56rem !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.45rem 0.45rem !important;
   }
 
   #play-modal label {
-    font-size: 0.66rem !important;
-    letter-spacing: 0.05em !important;
+    font-size: 0.62rem !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.05 !important;
   }
 
   #play-modal .browser-select {
-    height: 2.35rem !important;
-    font-size: 0.88rem !important;
-    padding-top: 0.6rem !important;
-    padding-bottom: 0.6rem !important;
+    height: 2.25rem !important;
+    font-size: 0.85rem !important;
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.55rem !important;
   }
 }
 
@@ -2544,26 +2527,6 @@ function buildRuntimeBridgeScript(
     playModal.setAttribute('role', 'dialog');
     playModal.setAttribute('aria-label', 'Playback controls');
 
-    var modalContent = playModal.querySelector('.modal-content');
-    if (modalContent && !modalContent.querySelector('.vtabs-public-playback-header')) {
-      var header = document.createElement('div');
-      header.className = 'vtabs-public-playback-header';
-
-      var heading = document.createElement('div');
-      var title = document.createElement('div');
-      title.className = 'vtabs-public-playback-title';
-      title.textContent = 'Playback controls';
-
-      var subtitle = document.createElement('div');
-      subtitle.className = 'vtabs-public-playback-subtitle';
-      subtitle.textContent = 'Listen to the melody and adjust practice audio.';
-
-      heading.appendChild(title);
-      heading.appendChild(subtitle);
-      header.appendChild(heading);
-      modalContent.insertBefore(header, modalContent.firstChild);
-    }
-
     var playLabel = document.getElementById('play-btn-label');
     if (playLabel && String(playLabel.textContent || '').trim() === '播放') {
       playLabel.textContent = 'Listen';
@@ -2572,12 +2535,12 @@ function buildRuntimeBridgeScript(
       playLabel.textContent = 'Loading soundfonts...';
     }
 
-    setLabelText('play_speed', 'BPM');
+    setLabelText('play_speed', 'Tempo');
     setLabelText('play_loop', 'Loop');
     setLabelText('play_note', 'Melody');
     setLabelText('play_metronome', 'Metronome');
     setLabelText('play_drum', 'Drums');
-    setLabelText('play_chord', 'Accompaniment');
+    setLabelText('play_chord', 'Chords');
     setLabelText('play_microphone', 'Microphone');
     setLabelText('play_count_in', 'Count-in');
     setLabelText('play_transpose', 'Transpose');

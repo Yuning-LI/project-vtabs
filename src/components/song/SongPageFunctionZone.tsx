@@ -303,10 +303,19 @@ export default function SongPageFunctionZone({
                   >
                     <span className="page-function-zone-mobile-more-left">
                       <SlidersHorizontal className="page-function-zone-mobile-more-icon" aria-hidden="true" />
-                      <span>More Tools</span>
+                      <span className="page-function-zone-mobile-more-text">More Tools</span>
                     </span>
-                    <span className="page-function-zone-disclosure-summary-state">
-                      {isMobileExpanded ? 'Close' : 'Open'}
+                    <span
+                      className="page-function-zone-disclosure-summary-state"
+                      aria-hidden="true"
+                    >
+                      <span
+                        className={
+                          isMobileExpanded
+                            ? 'page-function-zone-mobile-more-state-icon page-function-zone-mobile-more-state-icon-up'
+                            : 'page-function-zone-mobile-more-state-icon page-function-zone-mobile-more-state-icon-down'
+                        }
+                      />
                     </span>
                   </button>
                 ) : null}

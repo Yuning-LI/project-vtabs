@@ -505,6 +505,11 @@
   color: #8b735c;
   font-size: 0.74rem;
   letter-spacing: 0.12em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  line-height: 0;
 }
 
 .page-function-zone-mobile-more-button {
@@ -512,6 +517,8 @@
   border: 1px solid rgba(154, 126, 91, 0.18);
   border-radius: 1rem;
   background: rgba(255, 252, 247, 0.76);
+  gap: 0.55rem;
+  padding-inline: 0.8rem;
 }
 
 .page-function-zone-mobile-action-row {
@@ -530,12 +537,37 @@
   display: inline-flex;
   align-items: center;
   gap: 0.38rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .page-function-zone-mobile-more-icon {
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
+}
+
+.page-function-zone-mobile-more-text {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+.page-function-zone-mobile-more-state-icon {
+  width: 0;
+  height: 0;
+  flex: 0 0 auto;
+  border-left: 0.34rem solid transparent;
+  border-right: 0.34rem solid transparent;
+}
+
+.page-function-zone-mobile-more-state-icon-down {
+  border-top: 0.42rem solid currentColor;
+}
+
+.page-function-zone-mobile-more-state-icon-up {
+  border-bottom: 0.42rem solid currentColor;
 }
 
 .page-function-zone-mobile-sheet-layer {
@@ -819,6 +851,30 @@
   .page-function-zone-toggle-row {
     gap: 0.65rem 1.5rem;
     align-items: center;
+  }
+}
+
+@media (max-width: 430px) {
+  .page-function-zone-mobile-more-button {
+    gap: 0.45rem;
+    padding-inline: 0.7rem;
+  }
+
+  .page-function-zone-mobile-more-left {
+    gap: 0.28rem;
+  }
+
+  .page-function-zone-mobile-more-state-icon {
+    border-left-width: 0.28rem;
+    border-right-width: 0.28rem;
+  }
+
+  .page-function-zone-mobile-more-state-icon-down {
+    border-top-width: 0.34rem;
+  }
+
+  .page-function-zone-mobile-more-state-icon-up {
+    border-bottom-width: 0.34rem;
   }
 }
 
