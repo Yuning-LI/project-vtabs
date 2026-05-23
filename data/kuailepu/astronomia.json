@@ -1,0 +1,34 @@
+{
+  "id": "astronomia",
+  "slug": "astronomia",
+  "title": "Astronomia",
+  "description": "Astronomia melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/lQGXj1ks9.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song lQGXj1ks9 on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 150,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "1' 1' 1' 1' 3' 3' 3' 3' | 2' 2' 2' 2' 5' 5' 5' 5' | 6' 6' 6' 6' 6' 6' 6' 6' | 6' 6' 6' 6' 2' 1' 7 5 |",
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "6 - 6 3' 2' - 1' - | 7 - 7 7 2' - 1' 7 | 6 - 6 1'' 7' 1'' 7' 1'' | 6 - 6 1'' 7' 1'' 7' 1'' |",
+    "1' 1' 1' 1' 3' 3' 3' 3' | 2' 2' 2' 2' 5' 5' 5' 5' | 6' 6' 6' 6' 6' 6' 6' 6' | 6' 6' 6' 6' 2' 1' 7 5 | 6 - - - - - - - | | |"
+  ]
+}
