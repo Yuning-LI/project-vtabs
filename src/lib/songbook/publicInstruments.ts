@@ -35,14 +35,14 @@ const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] = [
   {
     id: 'o12',
     label: '12-Hole Ocarina',
-    shortLabel: '12-Hole Ocarina',
+    shortLabel: 'Ocarina (12-Hole)',
     seoLabel: '12-hole ocarina',
     family: 'ocarina'
   },
   {
     id: 'o6',
     label: '6-Hole Ocarina',
-    shortLabel: '6-Hole Ocarina',
+    shortLabel: 'Ocarina (6-Hole)',
     seoLabel: '6-hole ocarina',
     family: 'ocarina'
   },
