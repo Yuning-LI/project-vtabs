@@ -1,0 +1,63 @@
+{
+  "id": "when-you-say-nothing-at-all",
+  "slug": "when-you-say-nothing-at-all",
+  "title": "When You Say Nothing At All",
+  "description": "When You Say Nothing At All melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "It's _ amazing _ how _ you _ can speak right _ to my heart _ Without",
+    "_ saying _ _ a word _ you can light _ up the dark _",
+    "_ Try as I may _ I could never _ explain _ _ _ What I hear _ when",
+    "you don't _ say a thing _ _ The smile on your face lets me know",
+    "that you need me _ There's a truth in your eyes _ saying _ you'll _ never leave _ me _ The touch",
+    "of your _ hand says you'll catch me _ wherever _ i _ fall _ You say it best _ when you say nothing _",
+    "at all _ when you say nothing _ at all _ _ _ _",
+    "The",
+    "smile on your face _ lets me know that you need me",
+    "",
+    "_",
+    "There's a truth in your eyes _ saying _ you'll _ never leave _ me _ The touch of your _ hand says",
+    "you'll catch me _ wherever _ i _ fall _ You say it best _ when you say nothing _ at all _ All day",
+    "long _ I can hear _ people _ talking _ _ aloud _ _",
+    "_"
+  ],
+  "extraLyrics": [
+    "But when you _ hold me near _ you drown out _ the _ crowd _ _",
+    "Try as they may _ they can never _ define _ _",
+    "What's being said _ between _ your _ heart and mine _ _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/vccef1osU.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song vccef1osU on 2026-05-22."
+  },
+  "meta": {
+    "key": "1 = A",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-22",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 69,
+  "notation": [
+    "0 0 3 - 3 - 3 - - - 2 - 2 - 2 - 1 - 1 - | 1 - 6, - 6, - 7, - 7, - 6, - 5, - 5, - | 5, - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 3 - 3 - 3 - - - 2 - 2 - 2 - 1 - 1 - | 1 - - - 0 0 5, 5, 3 - 2 1 1 - - - |",
+    "1 - 2 - - - 3 - 3 - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 6, - 7, - - - 1 - 1 - 1 - 1 - 2 3 2 - - - | 2 - 6, - - - 7, 6, - - - 5, 5, - - - - - - - 0 0 0 0 |",
+    "0 0 3 - 3 - 3 - - - 2 - 2 - 2 - 1 - 1 - | 1 - 1 - 5, - 2 - - - 3 2 | 2 - - - - - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 - |",
+    "5 - - - 5 - 5 - 5 - 5 - 5 - 6 - | 5 - 4 - 3 - 2 - 2 - - - 2 - 1 2 | 3 - 3 - 3 - 3 - 3 - 3 - 4 - 5 - |",
+    "5 - 4 - 3 - 2 - 2 - - - 2 - 5, - | 2 - - - 3 - 1 - 5, - 1 - - - 2 - 2 - 2 - 2 - - - 3 - 2 - | 1 - - - 1 - 1 - 2 - 3 - 3 - 2 - |",
+    "2 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 0 0 0 0 0 0 | 6, - 1 - 1 - 1 - 1 - - - 0 0 0 0 | 0 0 2 - - - 3 - 3 - 3 - 3 - 1 - 2 - 1 - |",
+    "1 - - - - - - - - - - - - - - - |",
+    "0 0 2 - - - 3 - 3 - 3 - 3 - 2 - 1 - 3 - | 3 - - - - - - - - - - - 3 - #4 - | 3 - - -",
+    "- - - - - - - - - - - - | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "| 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 - |",
+    "5 - - - 5 - 5 - 5 - 5 - 5 - 6 - | 5 - 4 - 3 - 2 - 2 - - - 2 - 1 2 | 3 - 3 - 3 - 3 - 3 - 3 - 4 - 5 - |",
+    "5 - 4 - 3 - 2 - 2 - - - - - - - | 2 - - - - - - - - - - - 0 0 5, - | 2 - - - 3 - 1 - 5, - 1 - - - 2 - 2 - 2 - 2 - - - 3 - 2 - | 1 - - - 1 - 1 - 2 - 3 - 3 - 2 - |",
+    "2 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 6, - 1 - 1 - 1 - 1 - - - 0 0 0 0 | 0 0 2 - - - 3 - 3 - 3 - 3 - 1 - 2 - 1 - |",
+    "1 - - - - - - - - - - - - - - - | | |"
+  ]
+}

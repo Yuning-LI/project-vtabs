@@ -1846,5 +1846,26 @@
     "family": "song",
     "featuredRank": 265,
     "published": true
+  },
+  {
+    "id": "when-you-say-nothing-at-all",
+    "slug": "when-you-say-nothing-at-all",
+    "family": "song",
+    "featuredRank": 266,
+    "published": true
+  },
+  {
+    "id": "take-me-to-your-heart",
+    "slug": "take-me-to-your-heart",
+    "family": "song",
+    "featuredRank": 267,
+    "published": true
+  },
+  {
+    "id": "as-the-deer",
+    "slug": "as-the-deer",
+    "family": "hymn",
+    "featuredRank": 268,
+    "published": true
   }
 ]
