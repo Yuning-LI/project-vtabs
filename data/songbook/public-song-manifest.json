@@ -1972,5 +1972,40 @@
     "family": "song",
     "featuredRank": 283,
     "published": true
+  },
+  {
+    "id": "you-are-my-sunshine",
+    "slug": "you-are-my-sunshine",
+    "family": "folk",
+    "featuredRank": 284,
+    "published": true
+  },
+  {
+    "id": "pretty-woman",
+    "slug": "pretty-woman",
+    "family": "song",
+    "featuredRank": 285,
+    "published": true
+  },
+  {
+    "id": "por-una-cabeza",
+    "slug": "por-una-cabeza",
+    "family": "dance",
+    "featuredRank": 286,
+    "published": true
+  },
+  {
+    "id": "let-me-down-slowly",
+    "slug": "let-me-down-slowly",
+    "family": "song",
+    "featuredRank": 287,
+    "published": true
+  },
+  {
+    "id": "because-of-you",
+    "slug": "because-of-you",
+    "family": "song",
+    "featuredRank": 288,
+    "published": true
   }
 ]

@@ -1,0 +1,44 @@
+{
+  "id": "you-are-my-sunshine",
+  "slug": "you-are-my-sunshine",
+  "title": "You Are My Sunshine",
+  "description": "You Are My Sunshine melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Jimmie Davis.",
+  "published": true,
+  "alignedLyrics": [
+    "You are my sun shine",
+    "my on ly sun shine You make me hap py when skies are",
+    "gray You'll ne ver know dear how much I love you",
+    "Please don't take my sun shine a way",
+    "Please don't take my sun shine a way"
+  ],
+  "extraLyrics": [
+    "The o ther night dear as I lay slee ping",
+    "I dreamed I held you in _ my arm",
+    "When I a woke dear I was mis ta ken",
+    "So I hung my head and I cried"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/YHrUe170N.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song YHrUe170N on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-24",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 5, - 1 - 2 - | 3 - - - 3 - - - |",
+    "0 0 3 - #2 - 3 - | 1 - - - 1 - - - | 0 0 1 - 2 - 3 - | 4 - - - 6 - - - | 0 0 6 - 5 - 4 - |",
+    "3 - - - - - 0 0 | 0 0 1 - 2 - 3 - | 4 - - - 6 - - - | 0 0 6 - 5 - 4 - | 3 - - - 1 - - - |",
+    "0 0 0 0 1 - 2 - | 3 - - - - - 4 - | 2 - - - 2 - 3 - | 1 - - - - - 0 0 |",
+    "0 0 0 0 1 - 2 - | 3 - - - - - 4 - | 2 - - - 2 - 3 - | 1 - - - - - 0 0 | | |"
+  ]
+}

@@ -1212,6 +1212,56 @@
       "addedOn": "2026-05-24",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/QuuEl1TsD.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
+    },
+    {
+      "slug": "you-are-my-sunshine",
+      "title": "You Are My Sunshine",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/YHrUe170N.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "pretty-woman",
+      "title": "Pretty Woman",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/BKa6l1n5V.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "por-una-cabeza",
+      "title": "Por Una Cabeza",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "dance",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/CJR6l1XTa.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "let-me-down-slowly",
+      "title": "Let Me Down Slowly",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oLUym1nFj.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "because-of-you",
+      "title": "Because of You",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/PWsQl1jF3.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
     }
   ]
 }
