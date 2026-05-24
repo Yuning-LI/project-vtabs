@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-10",
+  "updatedOn": "2026-05-24",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -962,6 +962,256 @@
       "addedOn": "2026-05-20",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3Ucjn1gXC.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "because-you-loved-me",
+      "title": "Because You Loved Me",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/FQXIl14ID.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "endless-love",
+      "title": "Endless Love",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/enO2l1SMN.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "my-way",
+      "title": "My Way",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/8uxRk1Ljf.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "when-you-say-nothing-at-all",
+      "title": "When You Say Nothing At All",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/vccef1osU.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "take-me-to-your-heart",
+      "title": "Take Me To Your Heart",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/8zKDo1PuC.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "as-the-deer",
+      "title": "As the Deer",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "hymn",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ODfjc1M1f.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "astronomia",
+      "title": "Astronomia",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "instrumental",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lQGXj1ks9.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "bad-apple",
+      "title": "Bad Apple!!",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/rVZrh1i6m.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "candle-in-the-wind",
+      "title": "Candle in the Wind",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/d5gWk1VFQ.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "count-on-me",
+      "title": "Count On Me",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wUKPl1Js5.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "dragon-roost-island",
+      "title": "Dragon Roost Island",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "game",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TP2Mf1RUr.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "eyes-on-me",
+      "title": "Eyes On Me",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "game",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5nYBc1b0d.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "for-the-love-of-a-princess",
+      "title": "For the Love of a Princess",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "film",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/fleje13v9.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "free-loop",
+      "title": "Free Loop",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Bdm6q1pR6.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "frosty-the-snowman",
+      "title": "Frosty the Snowman",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "holiday",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xFhKc1U8P.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "handclap",
+      "title": "HandClap",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "song",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/71cRf1wJN.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "history-maker",
+      "title": "History Maker",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/kKXBj1uKb.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "brave-heart",
+      "title": "Brave Heart",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Tq5Ef1LO7.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "beautiful-world",
+      "title": "Beautiful World",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "anime",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Qb1Xl1Otk.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "beethoven-virus",
+      "title": "Beethoven Virus",
+      "status": "validated-local",
+      "batch": "34",
+      "group": "instrumental",
+      "addedOn": "2026-05-22",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/YHlff1AHR.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; awaiting push."
+    },
+    {
+      "slug": "vientos-suaves",
+      "title": "Vientos Suaves",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "folk",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/l3Xxg1z9D.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
+    },
+    {
+      "slug": "its-only-the-fairy-tale",
+      "title": "It's only the Fairy Tale",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "media",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Xgl4i1q10.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
+    },
+    {
+      "slug": "invincible",
+      "title": "Invincible",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "media",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wYQxk1BsY.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
+    },
+    {
+      "slug": "i-beg-you",
+      "title": "I Beg you",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "song",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/8JNLi1MSB.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
+    },
+    {
+      "slug": "i-missing-you",
+      "title": "I Missing You",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "song",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/QuuEl1TsD.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. doctor:song, validate:content, validate:songbook, build, and five-instrument preflight compare passed locally; pushed to origin/main after publication."
     }
   ]
 }
