@@ -1,0 +1,52 @@
+{
+  "id": "everything-i-need",
+  "slug": "everything-i-need",
+  "title": "Everything I Need",
+  "description": "Everything I Need melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Skylar Grey & Elliot Taylor.",
+  "published": true,
+  "alignedLyrics": [
+    "",
+    "Born on _ the wrong side of the o-cean _ _ _ With all the tides _ a-gai _ -nst you _ You",
+    "ne-ver _ thought _ you'd be much good _ for anyone _ _ But that's so far from the truth _ I know there's pain",
+    "in your _ heart _ And you're covered _ in _ scars _ Wish you could see what I do _ 'Cause baby _ everything _ _ you _ are _ _ Is _ everything",
+    "_ _ _ I _ need You're everything _ _ _ _ to me _ _ _ _ _ _ _ Baby _ every _ _ single _ _ part _ Is who you're _ meant to be _ _ 'Cause you",
+    "_ were meant for me _ _ And _ you're everything _ _ I _ need _ _ _ You can say I'm wrong You can turn your back against _ me",
+    "_ _ But I am _ here to stay _ Like the sea _ She keeps kissing the shore _ -line _ _ No matter _ how many _",
+    "times _ he pushes _ her _ _ away _ 'Cause _ baby _ everything _ you _ are _ _ Is everything _ _ _ I _ _ need You're _ _ everything _ _ to me _ _ _ _ _ _",
+    "_ Baby _ every _ _ single _ _ part _ Is who _ you're meant to be _ _ 'Cause you were meant _ for me _ _ _ _ _ _ And _ _ everything _ _ _ happens _ _ for a",
+    "_ reason _ _ _ It's all _ a _ blessing _ in _ _ disguise _ _ _ _ I used to _ question _ _ who I was _ _ Well now I see The answer _ is in your _ eyes _ 'Cause baby",
+    "_ everything _ _ you _ _ are _ Is _ everything _ _ _ I _ need You're _ everything _ to _ _ me _ _ _ _ _ _ _ Baby _ every _ _ single",
+    "_ _ part _ Is who you're _ meant to be _ _ 'Cause you were meant _ for me _ _ And _ you're everything _ _ _ I need _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/5FRUj1OiL.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 5FRUj1OiL on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 76,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-25",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "|",
+    "0 0 0 0 1 - 1 - 1 - - - 0 0 0 5, | 3 - 3 - 4 - 3 3 2 - 2 - - - 3 - 3 - - - | 0 0 0 5, 1 - 2 1 1 - - 4, 4, 5, 3, - | 3, - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 0 5, 1 2 1 - 1 - - - 0 0 0 5, | 3 - 3 - 4 - 3 3 2 3 - - 3 - - - | 0 0 0 5, 1 2 - - 1 - - - 4, 5, 3, - | 3, - - - 0 0 0 0 0 0 0 0 5, 6, 1 - |",
+    "2 - - 3 2 1 1 - 1 - - - 0 0 6, 1 | 2 - - 3 2 1 3 - 3 - - - 0 0 0 0 | 0 0 1 - 1 - 1 - 1 - 5, - 2 - - - 3 - 2 - | 2 - - - 0 0 0 0 0 0 1 - 2 - - - 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 3 - 3 - |",
+    "3 - - - 0 0 5, 5 5 - 4 - 3 2 2 1 | 1 - - - 0 0 5, 5 5 - 4 - 3 2 2 - | 3 2 1 - 1 2 3 2 2 - 0 0 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 5 - 3 - | 3 - - - 0 0 5, 5 5 - 4 - 3 - 2 - |",
+    "3 2 1 - 0 0 5, 5 5 - 4 - 3 - 2 - | 3 2 1 - 0 6, 1 2 - - - 3 3 - 2 - 1 7, 7, - | 1 7, 6, - 6, - - - - - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 5, 5, 1 2 - - 1 - - - 0 0 5, 5, |",
+    "3 - 3 - 4 - 3 3 2 - 3 - 3 - - - | 0 0 0 5, 1 2 - 1 1 - - - 4, - 3, - | 3, - - - | 0 0 0 0 1 - 2 1 1 - - - 0 0 0 5, | 3 - 3 - 4 - 5 3 2 - 3 - 3 - - - |",
+    "0 0 0 5, 1 2 3 - 3 - 2 1 1 - - 2 | 3 - 3 - 4 3 2 2 2 - 1 - 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 3 - 3 - | 3 - - - 0 0 5, 5 5 - 4 - 3 2 2 1 | 1 - - - 0 0 5, 5 5 - 4 - 3 2 2 - |",
+    "3 2 1 - 1 2 3 2 2 - 0 0 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 5 - 3 - | 3 - - - 0 0 5, 5 5 - 4 - 3 - 2 - | 3 2 1 - 0 0 5, 5 5 - 4 - 3 - 2 - | 3 2 1 - 1 - - 6, 1 2 - - 3 - - - 4 - 3 2 |",
+    "2 - - 3 3 - 4 - 1' - - - 4 - 3 - | 3 - - 4 4 - 3 - 2 - 2 - 2 - 0 0 | 2 - - 3 3 - 4 - 1' - - - 4 - 3 - | 3 - - 4 4 - 4 - - - 5 - 2 - 3 - - - 2 - - - 1 - 3 2 - 0 | 2 - - 3 3 - 4 - 1' - - - 4 - 3 - | 3 - - 4 3 - 3 2 0 0 1 - 1 - 5 - |",
+    "5 - - - - - - - 0 0 5, - 5 - 4 3 | 3 - - 4 4 - 2' - - - 3' - 3' - 1 - 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 3 - 3 - | 3 - - - 0 0 5, 5 5 - 4 - 3 2 2 1 | 1 - - - 0 0 5, 5 5 - 4 - 3 2 2 - |",
+    "3 2 1 - 1 2 3 2 2 - 0 0 3 - 5 - | 6 - - - - - 6 - - - 7 - 6 - 5 5 5 - 3 - | 3 - - - 0 0 5, 5 5 - 4 - 3 - 2 - | 3 2 1 - 0 0 5, 5 5 - 4 - 3 - 2 - | 3 2 1 - 0 6, 1 3 3 - 2 - 1 7, 7, - | 1 7, 6, - 6, - - - - - - - 0 0 0 0 | | |"
+  ]
+}

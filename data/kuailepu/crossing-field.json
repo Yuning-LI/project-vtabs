@@ -1,0 +1,40 @@
+{
+  "id": "crossing-field",
+  "slug": "crossing-field",
+  "title": "Crossing Field",
+  "description": "Crossing Field melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/uNFRh1oW7.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song uNFRh1oW7 on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 80,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-25",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "1 7, - 1 1 2 - - 6, - - - 2, - 7, - | 1 7, - 1 1 2 - - 6, - - - 6, - 1 - | 5 - - 1 1 - - - - - - - - - - - | 0 0 0 0 7, - - - 6, - - - 5, - - - |",
+    "1 7, - 1 1 2 - - 6, - - - 5, - 1 - | 1 7, - 1 1 2 - - 5 - 5 - 1 - 1 - | 2 - - 1 1 - - - - - - - - - - - | 0 0 0 0 7, - - - 1 - - - 2 - - - |",
+    "3 - - - - - 1 - 2 - - 7, 7, - 5, - | 6, - - 1 1 - - - #4, - - 1 1 - - - | 2 1 - 2 2 3 - 4 4 - - - 2 - 1 - |",
+    "2 1 - 2 2 - 5 - 4 - - - 2 - - - | 3 - - 1 1 - 2 - 2 - - -",
+    "1 2 3 - | 5 - - - - - 1 - 7, - - - 6 - - - | 5 - - - - - 3 4 4 - 3 - 2 - 4 - | 3 - - 2 3 - - 2 3 - - 2 3 - - 2 | 3 - 4 3 3 - 6 -",
+    "3 - - - 1 2 3 - | 5 - - - - - 1 - 7, - - - 6 - - - | 5 - - - - - 3 4 4 - 3 - 2 - 5 - | 3 - - 2 3 - - 2 3 - - 2 3 - - 2 | 5 - 4 3 3 - 6 -",
+    "2 - - 1 2 1 5 3 | 3 - - - - - 4 - 3 - 2 - 2 3 - 6, | 6, - - - - - - - 0 0 0 3 3 - 3 - | 3 - 2 - 1 1 5, - 2 - 1 7, 7, - 5, - |",
+    "6, - - - 6, - - - 6, - - - 0 0 0 0 |",
+    "5, 4, 3, - | 5, - - - - - 1 - 7, - - - 6, - - - | 5, - - - - - 3, 1 1 - 7, - 5, - 3, - | 6, - - 5, 6, - - 7, 1 - - 2 3 - - 1 |",
+    "2 - 3 2 2 - 5 - 3 - - - |",
+    "1 2 3 - | 5 - - - - - 1 - 7, - - - 6 - - - | 5 - - - - - 3 4 4 - 3 - 2 - 4 - | 3 - - 2 3 - - 2 3 - - 2 3 - - 2 | 3 - 4 3 3 - 6 -",
+    "3 - - - 1 2 3 - | 5 - - - - - 1 - 7, - - - 6 - - - | 5 - - - - - 3 4 4 - 3 - 2 - 5 - | 3 - - 2 3 - - 2 3 - - 2 3 - - 2 | 5 - 4 3 3 - 6 -",
+    "2 - - 1 2 1 5 3 | 3 - - - - - 4 - 3 - 2 - 2 3 - 6, | 6, - - - - - - - 0 0 0 3 3 - 3 - | 3 - 2 - 1 1 5, - 2 - 1 7, 7, - 5, - |",
+    "6, - - - 6, - - - 6, - - - 0 0 0 0 | | |"
+  ]
+}

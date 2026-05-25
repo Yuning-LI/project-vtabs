@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-24",
+  "updatedOn": "2026-05-25",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1261,6 +1261,56 @@
       "group": "song",
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/PWsQl1jF3.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "crossing-field",
+      "title": "Crossing Field",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uNFRh1oW7.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "everything-i-need",
+      "title": "Everything I Need",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "film",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5FRUj1OiL.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "mystery-of-love",
+      "title": "Mystery of Love",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "film",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/NzIUn1z1n.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "naruto-main-theme",
+      "title": "Naruto Main Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JjFee19qY.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "melodies-of-life",
+      "title": "Melodies Of Life",
+      "status": "live",
+      "batch": "stock-2026-05-23-a",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/0XRDb1vEo.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
     }
   ]

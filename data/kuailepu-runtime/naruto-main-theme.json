@@ -1,0 +1,50 @@
+{
+  "song_uuid": "JjFee19qY",
+  "song_name": "Naruto Main Theme",
+  "alias_name": "《火影忍者》鸣人主题曲",
+  "song_pinyin": "narutomaintheme",
+  "song_code": "nmt",
+  "music_composer": "小针克之助",
+  "lyric_composer": "",
+  "keynote": "",
+  "rhythm": "4/4",
+  "instruments": "none,o12,o3,a6,b6,x8,x10,hx,p8,h9",
+  "tags": "",
+  "fingerings": "o12-F,o3-G,o3-F,o3-C,a6-F,b6-F,b6-C,b6-bB,b6-G,x8-F,x10-F,x10-G,hx-F,p8-F,p8-C,p8-bB,p8-G,h9-F",
+  "tonalities": "o12-AG,o3-AF,a6-G,hx-G,p8-F,p8-G",
+  "image_url": "",
+  "music_url": "",
+  "lyric": "[]",
+  "notation": "{play:A 间奏 B B 间奏 A A A}\n{bpm:120}\nA:\n6--7x6xx5xx|3--0x5xx6xx|2--1x2xx1xx|[1:6d-7d5d]:|[2:6d---]|:\nB:\n6d(3-3x)2xx1xx|6d(3-3x)2xx3xx|6.1gxx7xx6.5xx6xx|[1:3.2xx3xx27d]:|[2:356-]|:\n6--7x6xx5xx|3--0x5xx6xx|2--1x2xx1xx|[1:6d-7d5d]:|[2:6d---]|",
+  "comment": "http://music.163.com/#/song?id=784594",
+  "category": "0",
+  "song_type": "0",
+  "difficulty": "1720",
+  "status": "1",
+  "domain": "0",
+  "hot": "0",
+  "pv": "27074",
+  "author_id": "8",
+  "created_time": "2018-01-25 08:10:49",
+  "updated_time": "2020-09-27 23:52:22",
+  "nickname": "顺其自然",
+  "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/8A6C35BF7AD7B3CC93CF73E42BC07AC2/100",
+  "last_login_ip": "116.3.5.232",
+  "last_login_time": "2026-05-23 19:46:39",
+  "music_list": [],
+  "lyric_text": "",
+  "comment_list": [
+    {
+      "body": [
+        {
+          "type": "copy",
+          "value": "http://music.163.com/#/song?id=784594"
+        }
+      ]
+    }
+  ],
+  "user_id": 0,
+  "fetch_score": true,
+  "no_check_vip": true,
+  "check_copyright": true
+}
