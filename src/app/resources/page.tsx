@@ -58,6 +58,15 @@ const resourceGroups: ResourceGroup[] = [
         description:
           'A nonprofit music library with public-domain sheet music, recordings, and music education materials.',
         bestFor: 'Looking up classical pieces with public-domain score and audio context.'
+      },
+      {
+        title: 'FluteTunes Free Sheet Music',
+        url: 'https://www.flutetunes.com/',
+        publisher: 'FluteTunes',
+        description:
+          'A long-running free sheet music library built around flute-friendly melodies, with many traditional tunes, classical themes, printable parts, and simple practice playback tools.',
+        bestFor:
+          'Finding recognizable melodies quickly when you want a tune-first archive that is easy to browse before adapting music for ocarina, recorder, or whistle practice.'
       }
     ]
   },
