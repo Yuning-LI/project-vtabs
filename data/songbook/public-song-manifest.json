@@ -2042,5 +2042,40 @@
     "family": "media",
     "featuredRank": 293,
     "published": true
+  },
+  {
+    "id": "one-last-kiss",
+    "slug": "one-last-kiss",
+    "family": "media",
+    "featuredRank": 294,
+    "published": true
+  },
+  {
+    "id": "good-riddance",
+    "slug": "good-riddance",
+    "family": "song",
+    "featuredRank": 295,
+    "published": true
+  },
+  {
+    "id": "der-einsame-hirte",
+    "slug": "der-einsame-hirte",
+    "family": "media",
+    "featuredRank": 296,
+    "published": true
+  },
+  {
+    "id": "project-a",
+    "slug": "project-a",
+    "family": "media",
+    "featuredRank": 297,
+    "published": true
+  },
+  {
+    "id": "nightglow",
+    "slug": "nightglow",
+    "family": "media",
+    "featuredRank": 298,
+    "published": true
   }
 ]
