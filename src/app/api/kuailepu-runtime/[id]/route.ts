@@ -18,11 +18,14 @@ type CachedRuntimeHtml = {
   html: string
   etag: string
   cacheable: boolean
+  sizeBytes: number
 }
 
-const MAX_RUNTIME_HTML_CACHE_ENTRIES = 500
+const MAX_RUNTIME_HTML_CACHE_ENTRIES = 16
+const MAX_RUNTIME_HTML_CACHE_BYTES = 12 * 1024 * 1024
 const PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS = 300
 const runtimeHtmlCache = new Map<string, CachedRuntimeHtml>()
+let runtimeHtmlCacheBytes = 0
 
 /**
  * 这个路由返回的不是 JSON，而是一整页“快乐谱兼容 runtime HTML”。
@@ -149,11 +152,18 @@ export async function GET(
     compareMode: runtimeCompareMode
   })
   const etag = buildRuntimeHtmlEtag(html)
-  setCachedRuntimeHtml(cacheKey, {
-    html,
-    etag,
-    cacheable: shouldCdnCacheRuntimeHtml
-  })
+  setCachedRuntimeHtml(
+    cacheKey,
+    {
+      html,
+      etag,
+      cacheable: shouldCdnCacheRuntimeHtml,
+      sizeBytes: Buffer.byteLength(html, 'utf8')
+    },
+    {
+      cacheable: shouldCdnCacheRuntimeHtml
+    }
+  )
 
   return new NextResponse(html, {
     headers: buildRuntimeHtmlHeaders(etag, {
@@ -191,16 +201,35 @@ function getCachedRuntimeHtml(cacheKey: string) {
   return cached
 }
 
-function setCachedRuntimeHtml(cacheKey: string, cached: CachedRuntimeHtml) {
-  if (process.env.NODE_ENV !== 'production') {
+function setCachedRuntimeHtml(
+  cacheKey: string,
+  cached: CachedRuntimeHtml,
+  options: { cacheable: boolean }
+) {
+  if (process.env.NODE_ENV !== 'production' || !options.cacheable) {
     return
   }
 
+  const previous = runtimeHtmlCache.get(cacheKey)
+  if (previous) {
+    runtimeHtmlCacheBytes -= previous.sizeBytes
+    runtimeHtmlCache.delete(cacheKey)
+  }
+
   runtimeHtmlCache.set(cacheKey, cached)
-  while (runtimeHtmlCache.size > MAX_RUNTIME_HTML_CACHE_ENTRIES) {
+  runtimeHtmlCacheBytes += cached.sizeBytes
+
+  while (
+    runtimeHtmlCache.size > MAX_RUNTIME_HTML_CACHE_ENTRIES ||
+    runtimeHtmlCacheBytes > MAX_RUNTIME_HTML_CACHE_BYTES
+  ) {
     const oldestKey = runtimeHtmlCache.keys().next().value
     if (!oldestKey) {
       break
+    }
+    const oldest = runtimeHtmlCache.get(oldestKey)
+    if (oldest) {
+      runtimeHtmlCacheBytes -= oldest.sizeBytes
     }
     runtimeHtmlCache.delete(oldestKey)
   }

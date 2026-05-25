@@ -212,18 +212,18 @@ const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
  */
 export function loadKuailepuSongPayload(songId: string) {
   const packedFilePath = resolvePackedKuailepuRuntimeSongPath(songId)
+  const filePath = resolveKuailepuRuntimeSongPath(songId)
+  if (filePath && fs.existsSync(filePath)) {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
+  }
+
   if (process.env.NODE_ENV === 'production' && packedFilePath && fs.existsSync(packedFilePath)) {
     return JSON.parse(
       gunzipSync(fs.readFileSync(packedFilePath)).toString('utf8')
     ) as KuailepuRuntimePayload
   }
 
-  const filePath = resolveKuailepuRuntimeSongPath(songId)
-  if (!filePath || !fs.existsSync(filePath)) {
-    return null
-  }
-
-  return JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
+  return null
 }
 
 export function resolveKuailepuRuntimeState(
