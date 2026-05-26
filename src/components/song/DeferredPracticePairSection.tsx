@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import {
@@ -204,8 +203,8 @@ function PracticePairLinkCard({
       aria-busy={isPending}
       className={
         isPending
-          ? 'page-warm-card-link group relative overflow-hidden p-0 opacity-90 ring-2 ring-stone-900/15'
-          : 'page-warm-card-link group relative overflow-hidden p-0'
+          ? 'page-warm-card-link group relative flex h-full flex-col p-5 opacity-90 ring-2 ring-stone-900/15'
+          : 'page-warm-card-link group relative flex h-full flex-col p-5'
       }
       onFocus={() => {
         if (prefetchEnabled) {
@@ -220,31 +219,20 @@ function PracticePairLinkCard({
       onPointerDown={markPendingNavigation}
       onClick={markPendingNavigation}
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden">
-        <Image
-          src={`/song/${item.slug}/opengraph-image`}
-          alt={item.title}
-          width={1000}
-          height={1500}
-          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
-          sizes="(min-width: 1280px) 320px, (min-width: 768px) 45vw, 100vw"
-          loading="lazy"
-          fetchPriority="low"
-        />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[rgba(33,24,15,0.82)] via-[rgba(33,24,15,0.24)] to-transparent p-4">
-          {isPending ? (
-            <div className="mb-3 inline-flex rounded-full bg-[rgba(255,250,242,0.92)] px-3 py-1 text-xs font-semibold text-stone-900">
-              Opening...
-            </div>
-          ) : null}
-          <p className="text-xl font-bold leading-tight text-[#fffaf2]">{item.title}</p>
-          <p className="mt-2 text-sm leading-6 text-[rgba(255,250,242,0.9)]">
-            {item.reason}
-          </p>
-          <div className="mt-3 text-sm font-semibold text-[#fffaf2]">
-            Open song page →
-          </div>
-        </div>
+      <div className="page-warm-pill-muted w-fit px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em]">
+        {item.familyLabel}
+      </div>
+      <h3 className="mt-3 text-xl font-bold leading-tight text-stone-900">{item.title}</h3>
+      <p className="mt-2 text-sm leading-6 text-stone-700">{item.reason}</p>
+      <p className="mt-4 text-sm leading-6 text-stone-700">
+        <span className="font-semibold text-stone-900">{item.difficultyLabel}</span>
+        {' · '}
+        {item.keyLabel}
+        {' · '}
+        {item.meterLabel}
+      </p>
+      <div className="mt-5 text-sm font-semibold text-stone-900">
+        {isPending ? 'Opening...' : 'Open song page ->'}
       </div>
     </Link>
   )
