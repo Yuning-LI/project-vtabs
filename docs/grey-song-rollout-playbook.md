@@ -40,6 +40,24 @@ Keep these layers separate:
   - selection-only queue
   - helps choose the next song quickly, but does not define publish state
 
+For a current status snapshot, use:
+
+```bash
+npm run report:kuailepu-stock-status
+```
+
+This report is the safest way to answer:
+
+- which Kuailepu stock items are already public
+- which ones remain unpublished in the stock pool
+- whether the rollout tracker and public manifest agree
+
+Rule of thumb:
+
+- do not trust the raw stock-pool file count alone
+- do not trust the selection queue alone
+- always cross-check against `data/songbook/public-song-manifest.json` before selecting the next publish target
+
 Rule:
 
 - before promoting a grey stock song, always confirm it is not already `published: true` in `data/songbook/public-song-manifest.json`

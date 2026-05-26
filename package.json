@@ -26,6 +26,7 @@
     "validate:kuailepu-runtime": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/validate-kuailepu-runtime.ts",
     "compare:kuailepu-runtime": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/compare-kuailepu-runtime-live.ts",
     "snapshot:kuailepu-catalog": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/snapshot-kuailepu-catalog.ts",
+    "report:kuailepu-stock-status": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/report-kuailepu-stock-status.ts",
     "search:kuailepu-catalog": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/search-kuailepu-catalog.ts",
     "search:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/search-kuailepu-song.ts",
     "import:kuailepu": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/import-kuailepu-song.ts",
