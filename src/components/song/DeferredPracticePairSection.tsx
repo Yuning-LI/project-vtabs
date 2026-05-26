@@ -224,15 +224,9 @@ function PracticePairLinkCard({
       </div>
       <h3 className="mt-3 text-xl font-bold leading-tight text-stone-900">{item.title}</h3>
       <p className="mt-2 text-sm leading-6 text-stone-700">{item.reason}</p>
-      <p className="mt-4 text-sm leading-6 text-stone-700">
-        <span className="font-semibold text-stone-900">{item.difficultyLabel}</span>
-        {' · '}
-        {item.keyLabel}
-        {' · '}
-        {item.meterLabel}
-      </p>
-      <div className="mt-5 text-sm font-semibold text-stone-900">
-        {isPending ? 'Opening...' : 'Open song page ->'}
+      <div className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-stone-900 bg-stone-900 px-4 py-2 text-sm font-semibold text-stone-50 shadow-[0_14px_30px_rgba(61,47,34,0.18)] transition hover:bg-stone-800 hover:shadow-[0_18px_36px_rgba(61,47,34,0.24)]">
+        <span>{isPending ? 'Opening...' : 'Open song page'}</span>
+        <span aria-hidden="true">→</span>
       </div>
     </Link>
   )
