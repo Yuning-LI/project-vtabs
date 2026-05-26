@@ -19,6 +19,15 @@ Unified pick queue:
 
 - `data/songbook/song-import-pick-queue.json`
 
+Grey-song stock pool:
+
+- `reference/kuailepu-candidates/publish-drafts/**`
+
+Live publish state:
+
+- `data/songbook/public-song-manifest.json`
+- `data/songbook/grey-song-rollout.json`
+
 Lane-specific upstream sources:
 
 - XML lane:
@@ -52,6 +61,12 @@ This queue only chooses the song. It does not approve publication by itself.
 
 Do not replace the Kuailepu workflow with this queue.
 This queue only chooses the song. It does not bypass compare, preflight, or SEO work.
+
+Important:
+
+- do not use this queue alone to decide whether a song is already live
+- always cross-check the slug against `data/songbook/public-song-manifest.json` and `data/songbook/grey-song-rollout.json`
+- if a song is already `published: true`, mark it as handled in the tracker instead of re-selecting it
 
 ## Why Keep Separate Lanes
 

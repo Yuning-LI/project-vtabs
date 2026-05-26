@@ -31,6 +31,9 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Compact public song docs: `data/kuailepu/<slug>.json`.
 - Local fallback only: `reference/songs/<slug>.json`.
 - Local-only unpublished Kuailepu candidates: `reference/kuailepu-candidates/**`.
+- Publish-ready Kuailepu grey stock pool: `reference/kuailepu-candidates/publish-drafts/**`.
+- Grey rollout live tracker: `data/songbook/grey-song-rollout.json`.
+- Song-pick queue for faster selection only: `data/songbook/song-import-pick-queue.json`.
 - Runtime archive: `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Public runtime assets: `public/k-static/**`.
 - Public playback soundfonts: `public/static/soundfont/**`.

@@ -26,6 +26,26 @@ Grey-song work is content-layer work. It must not change:
 
 If an approved song fails at search, import, identity check, compare, or preflight, report the exact failure and wait for replacement approval.
 
+## Stock Pool vs Queue
+
+Keep these layers separate:
+
+- `reference/kuailepu-candidates/publish-drafts/**`
+  - publish-ready grey stock pool
+  - contains songs that already passed the Kuailepu compare and readiness gates
+- `data/songbook/grey-song-rollout.json`
+  - live rollout tracker
+  - record songs as `live` after they are pushed
+- `data/songbook/song-import-pick-queue.json`
+  - selection-only queue
+  - helps choose the next song quickly, but does not define publish state
+
+Rule:
+
+- before promoting a grey stock song, always confirm it is not already `published: true` in `data/songbook/public-song-manifest.json`
+- if the song is already live, mark it as already handled in the rollout tracker or queue record instead of treating it as a new publish target
+- this stock-pool workflow does not apply to the XML lane
+
 ## Execution Tiers
 
 Use the lightest tier that still protects parity and release quality.
