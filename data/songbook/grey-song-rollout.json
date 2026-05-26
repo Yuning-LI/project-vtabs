@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-25",
+  "updatedOn": "2026-05-26",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1361,6 +1361,56 @@
       "group": "game",
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/7TKKk1nz9.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "lilium",
+      "title": "Lilium",
+      "status": "live",
+      "batch": "stock-2026-05-23-b",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/r2aee1qxa.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "dearest",
+      "title": "Dearest",
+      "status": "live",
+      "batch": "stock-2026-05-23-b",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/SB7lp1o4Y.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "euterpe",
+      "title": "Euterpe",
+      "status": "live",
+      "batch": "stock-2026-05-23-b",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/pKuvg1Asa.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "playing-love",
+      "title": "Playing Love",
+      "status": "live",
+      "batch": "stock-2026-05-23-b",
+      "group": "film",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Mv5Rr1QKp.html",
+      "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
+    },
+    {
+      "slug": "can-we-kiss-forever",
+      "title": "Can We Kiss Forever",
+      "status": "live",
+      "batch": "stock-2026-05-23-b",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/euPio1vko.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
     }
   ]

@@ -2077,5 +2077,40 @@
     "family": "media",
     "featuredRank": 298,
     "published": true
+  },
+  {
+    "id": "lilium",
+    "slug": "lilium",
+    "family": "media",
+    "featuredRank": 299,
+    "published": true
+  },
+  {
+    "id": "dearest",
+    "slug": "dearest",
+    "family": "media",
+    "featuredRank": 300,
+    "published": true
+  },
+  {
+    "id": "euterpe",
+    "slug": "euterpe",
+    "family": "media",
+    "featuredRank": 301,
+    "published": true
+  },
+  {
+    "id": "playing-love",
+    "slug": "playing-love",
+    "family": "media",
+    "featuredRank": 302,
+    "published": true
+  },
+  {
+    "id": "can-we-kiss-forever",
+    "slug": "can-we-kiss-forever",
+    "family": "song",
+    "featuredRank": 303,
+    "published": true
   }
 ]
