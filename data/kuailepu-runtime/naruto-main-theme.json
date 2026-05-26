@@ -207,81 +207,9 @@
         [
           {
             "instrument": "o12",
-            "fingering": "C5",
-            "fingeringName": "C调指法",
-            "tonalityName": "AC",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "C6",
-            "fingeringName": "C调指法",
-            "tonalityName": "BC",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB5",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "F4",
-            "fingeringName": "F调指法",
-            "tonalityName": "SG",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
-            "tonalityName": "SF",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
             "fingering": "F5",
             "fingeringName": "F调指法",
             "tonalityName": "AG",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "G5",
-            "fingeringName": "G调指法",
-            "tonalityName": "AF",
             "match": 2
           }
         ]
@@ -290,81 +218,9 @@
         [
           {
             "instrument": "o12",
-            "fingering": "C5",
-            "fingeringName": "C调指法",
-            "tonalityName": "AC",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "C6",
-            "fingeringName": "C调指法",
-            "tonalityName": "BC",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB4",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "D5",
-            "fingeringName": "D调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "bB5",
-            "fingeringName": "bB调指法",
-            "tonalityName": "",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "F4",
-            "fingeringName": "F调指法",
-            "tonalityName": "SG",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "G4",
-            "fingeringName": "G调指法",
-            "tonalityName": "SF",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
             "fingering": "F5",
             "fingeringName": "F调指法",
             "tonalityName": "AG",
-            "match": 2
-          }
-        ],
-        [
-          {
-            "instrument": "o12",
-            "fingering": "G5",
-            "fingeringName": "G调指法",
-            "tonalityName": "AF",
             "match": 2
           }
         ]
