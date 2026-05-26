@@ -17,22 +17,11 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
   getSupportedPublicSongInstruments,
-  normalizePublicSongInstrument,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
-import {
-  getPublicRuntimeFingeringOptions,
-  normalizePublicRuntimeFingeringIndex
-} from '@/lib/songbook/publicRuntimeControls'
-import {
-  normalizeExplicitNoteLabelMode,
-  normalizeMeasureLayout,
-  normalizePracticeTool,
-  normalizeSheetScale,
-  normalizeToggleParam
-} from '@/lib/songbook/songPageQueryState'
 
 export const dynamicParams = false
+const DEFAULT_SHARE_IMAGE = '/static/share/default-song-share.png'
 
 export async function generateStaticParams() {
   return songCatalog.map(song => ({ id: song.slug }))
@@ -74,12 +63,21 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       url: canonicalUrl,
       title: shareTitle,
       description,
-      siteName: 'Play By Fingering'
+      siteName: 'Play By Fingering',
+      images: [
+        {
+          url: DEFAULT_SHARE_IMAGE,
+          width: 1200,
+          height: 630,
+          alt: shareTitle
+        }
+      ]
     },
     twitter: {
       card: 'summary_large_image',
       title: shareTitle,
-      description
+      description,
+      images: [DEFAULT_SHARE_IMAGE]
     },
     robots: {
       index: true,
@@ -89,22 +87,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 
 export default function SongPage({
-  params,
-  searchParams
+  params
 }: {
   params: { id: string }
-  searchParams?: {
-    instrument?: string
-    fingering_index?: string
-    note_label_mode?: string
-    show_graph?: string
-    show_lyric?: string
-    show_note_range?: string
-    show_measure_num?: string
-    measure_layout?: string
-    sheet_scale?: string
-    practice_tool?: string
-  }
 }) {
   const song = songCatalogBySlug[params.id]
   if (!song) {
@@ -126,33 +111,13 @@ export default function SongPage({
   if (!runtimePayload) {
     notFound()
   }
-  const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
-  const activeInstrument = normalizePublicSongInstrument(
-    searchParams?.instrument,
-    supportedInstruments
-  )
-  const fingeringOptions = getPublicRuntimeFingeringOptions(runtimePayload, activeInstrument.id)
-  const activeFingeringIndex = normalizePublicRuntimeFingeringIndex(
-    searchParams?.fingering_index,
-    fingeringOptions
-  )
   const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
+  const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
+  const queryState: PublicSongPageQueryState = {}
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
-    activeInstrument
+    supportedInstruments[0]!
   )
-  const queryState: PublicSongPageQueryState = {
-    instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
-    fingeringIndex: activeFingeringIndex,
-    noteLabelMode: normalizeExplicitNoteLabelMode(searchParams?.note_label_mode),
-    showGraph: searchParams?.show_graph ?? null,
-    showLyric: hasPublicLyricToggle ? normalizeToggleParam(searchParams?.show_lyric) : null,
-    showNoteRange: normalizeToggleParam(searchParams?.show_note_range),
-    showMeasureNum: normalizeToggleParam(searchParams?.show_measure_num),
-    measureLayout: normalizeMeasureLayout(searchParams?.measure_layout),
-    sheetScale: normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList),
-    practiceTool: normalizePracticeTool(searchParams?.practice_tool)
-  }
   const basePresentation = getSongPresentation(song, {
     publicLyricsAvailable: hasPublicLyricToggle
   })

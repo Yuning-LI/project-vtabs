@@ -143,6 +143,14 @@ export default function KuailepuRuntimeInteractiveShell({
     setCurrentQueryState(queryState)
   }, [queryState])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    setCurrentQueryState(parseSongPageQueryState(new URL(window.location.href)))
+  }, [songId])
+
   const activeInstrument = useMemo(
     () =>
       supportedInstruments.find(instrument => instrument.id === currentQueryState.instrumentId) ??
