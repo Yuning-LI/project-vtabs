@@ -1462,6 +1462,56 @@
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/yKYYb1hvG.html",
       "notes": "Imported into the public runtime/songdoc layer with SEO profile, manifest entry, and selective learn/hub linking. Stock-pool doctor and Kuailepu live compare checks had already passed before publication; pushed to origin/main after publication."
-  }
-]
+    },
+    {
+      "slug": "hymn-to-the-sea",
+      "title": "Hymn To The Sea",
+      "status": "live",
+      "batch": "stock-2026-05-23-c",
+      "group": "film",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/rMTJr1RKg.html",
+      "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    },
+    {
+      "slug": "may-it-be",
+      "title": "May it be",
+      "status": "live",
+      "batch": "stock-2026-05-23-c",
+      "group": "film",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/gd8Qj1nfQ.html",
+      "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    },
+    {
+      "slug": "in-love-with-you",
+      "title": "In Love With you",
+      "status": "live",
+      "batch": "stock-2026-05-23-c",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/q6Ohk129F.html",
+      "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    },
+    {
+      "slug": "everytime-you-kissed-me",
+      "title": "Everytime you kissed me",
+      "status": "live",
+      "batch": "stock-2026-05-23-c",
+      "group": "anime",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/MEltk1YIi.html",
+      "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    },
+    {
+      "slug": "fover-in-love",
+      "title": "Fover in Love",
+      "status": "live",
+      "batch": "stock-2026-05-23-d",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OV6pp1rAj.html",
+      "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    }
+  ]
 }

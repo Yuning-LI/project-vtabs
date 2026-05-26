@@ -2147,5 +2147,40 @@
     "family": "media",
     "featuredRank": 308,
     "published": true
+  },
+  {
+    "id": "hymn-to-the-sea",
+    "slug": "hymn-to-the-sea",
+    "family": "media",
+    "featuredRank": 309,
+    "published": true
+  },
+  {
+    "id": "may-it-be",
+    "slug": "may-it-be",
+    "family": "media",
+    "featuredRank": 310,
+    "published": true
+  },
+  {
+    "id": "in-love-with-you",
+    "slug": "in-love-with-you",
+    "family": "song",
+    "featuredRank": 311,
+    "published": true
+  },
+  {
+    "id": "everytime-you-kissed-me",
+    "slug": "everytime-you-kissed-me",
+    "family": "media",
+    "featuredRank": 312,
+    "published": true
+  },
+  {
+    "id": "fover-in-love",
+    "slug": "fover-in-love",
+    "family": "song",
+    "featuredRank": 313,
+    "published": true
   }
 ]
