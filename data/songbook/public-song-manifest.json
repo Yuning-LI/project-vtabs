@@ -2112,5 +2112,40 @@
     "family": "song",
     "featuredRank": 303,
     "published": true
+  },
+  {
+    "id": "no-matter-where-you-are",
+    "slug": "no-matter-where-you-are",
+    "family": "media",
+    "featuredRank": 304,
+    "published": true
+  },
+  {
+    "id": "outlaws-of-love",
+    "slug": "outlaws-of-love",
+    "family": "song",
+    "featuredRank": 305,
+    "published": true
+  },
+  {
+    "id": "one-more-time-one-more-chance-a",
+    "slug": "one-more-time-one-more-chance-a",
+    "family": "media",
+    "featuredRank": 306,
+    "published": true
+  },
+  {
+    "id": "one-more-time-one-more-chance-b",
+    "slug": "one-more-time-one-more-chance-b",
+    "family": "media",
+    "featuredRank": 307,
+    "published": true
+  },
+  {
+    "id": "never-an-absolution",
+    "slug": "never-an-absolution",
+    "family": "media",
+    "featuredRank": 308,
+    "published": true
   }
 ]
