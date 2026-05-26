@@ -222,7 +222,7 @@ function PracticePairLinkCard({
     >
       <div className="relative aspect-[4/5] w-full overflow-hidden">
         <Image
-          src={`/song/${item.slug}/opengraph-image`}
+          src="/static/share/default-song-share.png"
           alt={item.title}
           width={1000}
           height={1500}

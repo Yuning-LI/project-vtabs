@@ -1,0 +1,41 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7EC"/>
+      <stop offset="1" stop-color="#F0E0C5"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="180" y1="138" x2="1020" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#FAF2E4" stop-opacity="0.98"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1060" cy="92" r="130" fill="#E1CDAA" fill-opacity="0.42"/>
+  <circle cx="128" cy="566" r="160" fill="#D9BE92" fill-opacity="0.32"/>
+  <rect x="72" y="64" width="1056" height="502" rx="42" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.82"/>
+
+  <rect x="116" y="110" width="250" height="48" rx="24" fill="#FFFFFF" fill-opacity="0.8" stroke="#D4C0A0"/>
+  <text x="136" y="141" fill="#6D563F" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="2">PLAY BY FINGERING</text>
+
+  <text x="116" y="250" fill="#1F1B16" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="700" letter-spacing="-3">Songs for ocarina</text>
+  <text x="116" y="326" fill="#1F1B16" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="700" letter-spacing="-3">recorder, and whistle</text>
+
+  <text x="118" y="404" fill="#3B3027" font-family="Arial, Helvetica, sans-serif" font-size="30">Letter notes, fingering charts, and switchable public instrument views.</text>
+
+  <rect x="116" y="452" width="386" height="58" rx="29" fill="#2F261F"/>
+  <text x="142" y="490" fill="#FFF7EC" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Open the full song page</text>
+  <path d="M456 474 L482 481 L456 488" stroke="#FFF7EC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="714" y="134" width="374" height="300" rx="34" fill="#FFFFFF" fill-opacity="0.9" stroke="#DDCAAF"/>
+  <rect x="748" y="170" width="150" height="22" rx="11" fill="#DCC19A"/>
+  <rect x="748" y="214" width="300" height="18" rx="9" fill="#E8D6BF"/>
+  <rect x="748" y="252" width="264" height="18" rx="9" fill="#E8D6BF"/>
+  <rect x="748" y="290" width="282" height="18" rx="9" fill="#E8D6BF"/>
+  <rect x="748" y="340" width="280" height="14" rx="7" fill="#C8A676"/>
+  <rect x="748" y="364" width="220" height="14" rx="7" fill="#DCC19A"/>
+
+  <text x="756" y="402" fill="#6D563F" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Static share image</text>
+
+  <text x="72" y="620" fill="#6D563F" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="1.8">PLAYBYFINGERING.COM</text>
+</svg>
