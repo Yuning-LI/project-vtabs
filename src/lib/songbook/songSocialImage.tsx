@@ -38,9 +38,12 @@ function getSongSocialImageModel(songId: string): SongSocialImageModel {
 
   const presentation = getSongPresentation(song)
   return {
-    title: presentation.title,
-    eyebrow: `${presentation.familyLabel} · ${presentation.difficultyLabel}`,
-    summary: truncateText(presentation.metaDescription || presentation.overview, 180),
+    title: toAsciiDisplayText(presentation.title),
+    eyebrow: toAsciiDisplayText(`${presentation.familyLabel} | ${presentation.difficultyLabel}`),
+    summary: truncateText(
+      toAsciiDisplayText(presentation.metaDescription || presentation.overview),
+      180
+    ),
     supportTag: 'Ocarina, recorder, and tin whistle'
   }
 }
@@ -48,7 +51,7 @@ function getSongSocialImageModel(songId: string): SongSocialImageModel {
 function getFallbackSongSocialImageModel(songId: string): SongSocialImageModel {
   const song = songCatalogBySlug[songId]
   const fallbackTitle =
-    song?.title?.trim() ||
+    toAsciiDisplayText(song?.title?.trim() || '') ||
     formatSongIdAsTitle(songId) ||
     'Play By Fingering'
 
@@ -330,7 +333,7 @@ function renderSongSocialImage(model: SongSocialImageModel) {
                     fontWeight: 700
                   }}
                 >
-                  Play the full song →
+                  {'Play the full song ->'}
                 </div>
               </div>
             </div>
@@ -383,4 +386,17 @@ function truncateText(value: string, maxLength: number) {
   const next = value.slice(0, maxLength - 1)
   const boundary = next.lastIndexOf(' ')
   return `${(boundary > 80 ? next.slice(0, boundary) : next).trim()}...`
+}
+
+function toAsciiDisplayText(value: string) {
+  if (!value) {
+    return ''
+  }
+
+  return value
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\x00-\x7F]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
