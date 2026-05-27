@@ -174,10 +174,48 @@ export async function GET(
 
 function buildRuntimeHtmlCacheKey(songId: string, searchParams: URLSearchParams) {
   const normalizedParams = new URLSearchParams()
+  const cacheRelevantKeys = new Set([
+    'instrument',
+    'fingering',
+    'fingering_index',
+    'show_graph',
+    'show_lyric',
+    'show_note_range',
+    'show_measure_num',
+    'measure_layout',
+    'sheet_scale',
+    'note_label_mode',
+    'runtime_text_mode',
+    'runtime_asset_profile',
+    'runtime_compare_mode',
+    'public_feature'
+  ])
+  const groupedValues = new Map<string, string[]>()
+
   Array.from(searchParams.keys())
+    .filter(key => cacheRelevantKeys.has(key))
     .sort()
     .forEach(key => {
-      searchParams.getAll(key).forEach(value => {
+      const values = searchParams
+        .getAll(key)
+        .map(value => value.trim())
+        .filter(value => value.length > 0)
+      if (values.length === 0) {
+        return
+      }
+
+      if (key === 'public_feature') {
+        groupedValues.set(key, Array.from(new Set(values)).sort())
+        return
+      }
+
+      groupedValues.set(key, values)
+    })
+
+  Array.from(groupedValues.keys())
+    .sort()
+    .forEach(key => {
+      groupedValues.get(key)?.forEach(value => {
         normalizedParams.append(key, value)
       })
     })
