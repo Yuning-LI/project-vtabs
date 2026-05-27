@@ -11,7 +11,6 @@ import {
   getLearnGuideUrl
 } from '@/lib/learn/content'
 import { siteUrl } from '@/lib/site'
-import { getPracticePairSuggestions } from '@/lib/songbook/practicePairs'
 import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -129,11 +128,6 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
-  const practicePairSuggestions = getPracticePairSuggestions(
-    song.slug,
-    queryState,
-    relatedSongs.map(item => item.slug)
-  )
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -228,14 +222,13 @@ export default function SongPage({
           instrumentFingerings: runtimePayload.instrumentFingerings,
           sheetScaleList: runtimePayload.sheetScaleList
         }}
-        runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
-        runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
-        runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
-        hasLyricToggle={hasPublicLyricToggle}
-        practicePairSuggestions={practicePairSuggestions}
-        relatedSongs={relatedSongs}
-        relatedGuides={relatedGuides}
-      />
+      runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
+      runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
+      runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
+      hasLyricToggle={hasPublicLyricToggle}
+      relatedSongs={relatedSongs}
+      relatedGuides={relatedGuides}
+    />
     </>
   )
 }
