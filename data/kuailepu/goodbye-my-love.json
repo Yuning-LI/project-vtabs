@@ -1,0 +1,50 @@
+{
+  "id": "goodbye-my-love",
+  "slug": "goodbye-my-love",
+  "title": "Goodbye My Love",
+  "description": "Goodbye My Love melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "Good Bye My Love _ 我 的 爱 _ 人 再 _ 见 _ _ Good Bye My",
+    "Love _ 相 见 不 知 哪 _ 一 天 _ _ _ 我 把 一 切 给 了 你 _ 希 望",
+    "你 要 _ 珍 惜 _ 不 要 辜 负 我 的 _ 真 情意 _ _",
+    "Good Bye My",
+    "Love _ 我 的 爱 人 再 _ 见 _ _ Good Bye My Love _ 从 此 和 你 分 _ _",
+    "_ 离 _ _ _ 我 会 永 _ 远 _ 爱 _ 你 在 _ 你 在 _ 心 底 _ 希 望 你 不",
+    "要 把 我 忘 记 _ _",
+    "我 永 远 怀 念 你 _ 温 柔 的 情 _ 怀",
+    "念 热 红 的 心 _ 怀 念 你 甜 蜜 的 吻 _ 怀 念 你 _ 那 醉 人 的 歌",
+    "声 _ 怎 能 忘 记 这 段 情 _ 我 的 爱 再 _ _ 见 _ _ 不 知",
+    "哪 日 再 相 见 _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/2gGaq1jUx.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 2gGaq1jUx on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = bE",
+    "tempo": 100,
+    "meter": "6/8"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-27",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "0 0 0 0 0 5, | 1 - - 2 - 3 | 3 - - 2 1 6, | 6, 1 - - 6, 1 | 2 - - 2 - - | 2 - - 5, 1 2 |",
+    "3 - - 3 2 1 | 6, - 5, 6, 1 6 | 5 - - 5 - - | 5 - - 5 3 5 | 6 - 6 - 5 3 | 5 - - 5 3 5 |",
+    "2 - - 1 2 3 | 1 6, - - 6, - | 2 - 2 - 2 1 | 6, - - 6, - 1 | 2 - - 2 - - | 2 - -",
+    "5, 1 2 |",
+    "3 - - 3 2 1 | 6, - 1 - 6, 1 | 2 - - 2 - - | 2 - - 5, 1 2 | 3 - - 3 2 1 | 6, - 5, 6, 1 6 |",
+    "6 5 - - 5 - | 5 - - 5 3 5 | 6 - 6 - 5 3 | 5 - - 5 3 5 | 2 - - 1 2 3 | 1 6 - - 6, - | 2 - 2 - 2 1 |",
+    "6, 6, - - 5, 6, | 1 - - 1 - - | 1 - -",
+    "5 6 5 | 6 - 5 - 3 - | 3 - - 3 2 1 | 3 - - 3 - 7, |",
+    "7, - - 7, 7, 7, | 1 - - 1 1 2 | 3 - - 3 2 1 | b7, - - 7, 7, 1 | b7, - - 7, - 5, | 6, - 6, - 6, 3 |",
+    "2 - - 2 6, 5, | 6, 6, - - 6, 3 | 2 - - 2 1 2 | 3 - - 3 6 5 | 3 - - 3 - - | 3 - - 2 3 - |",
+    "1 6, - - 5, 6, | 1 - - 1 - - | | |"
+  ]
+}

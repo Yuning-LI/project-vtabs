@@ -2182,5 +2182,40 @@
     "family": "song",
     "featuredRank": 313,
     "published": true
+  },
+  {
+    "id": "goodbye-my-love",
+    "slug": "goodbye-my-love",
+    "family": "song",
+    "featuredRank": 314,
+    "published": true
+  },
+  {
+    "id": "fields-of-deeley",
+    "slug": "fields-of-deeley",
+    "family": "media",
+    "featuredRank": 315,
+    "published": true
+  },
+  {
+    "id": "the-one-you-love",
+    "slug": "the-one-you-love",
+    "family": "song",
+    "featuredRank": 316,
+    "published": true
+  },
+  {
+    "id": "love-mountain",
+    "slug": "love-mountain",
+    "family": "media",
+    "featuredRank": 317,
+    "published": true
+  },
+  {
+    "id": "the-truth-that-you-love",
+    "slug": "the-truth-that-you-love",
+    "family": "song",
+    "featuredRank": 318,
+    "published": true
   }
 ]

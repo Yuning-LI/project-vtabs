@@ -1,0 +1,52 @@
+{
+  "id": "the-truth-that-you-love",
+  "slug": "the-truth-that-you-love",
+  "title": "The Truth That You Love",
+  "description": "The Truth That You Love melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/lDGaq1ZOM.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song lDGaq1ZOM on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-27",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "5 6, 1 5 5 6, 1 5 5 6, 1 5 5 6, - 1 | 1 1 - 1 1 1 - 1 1 2 - 3 3 4 - 6 |",
+    "5' 6 1' 5' 5' 6 1' 5' 5' 6 1' 5' 5' 6 3' 4' | 4' 5' - - 5' - - - 0 0 0 0 0 0 0 0 |",
+    "0 5 5 5 5 2 2 2 0 5 5 5 5 2 3 4 | 4 3 - - 3 - - - - - - - - - - - |",
+    "0 5 5 5 5 2 2 2 0 5 5 5 5 2 3 4 | 4 5 - - 5 - - - - - - - 6, 7, 1 5 | 5 - - - 0 4 3 2 2 - 5, 6, 7, - - - |",
+    "3 - 4 3 3 2 - 1 1 - 6, 7, 7, 1 - - | 0 5 5 5 5 2 2 2 0 5 5 5 5 2 3 4 | 4 3 - - 3 - - - - - - - - - - -",
+    "|",
+    "6 - 3 2 2 3 - 2 2 - - 1 1 - - - | 0 5 5 5 5 2 2 2 0 5 5 5 5 2 3 5 | 5 6 - - 6 - - - - - - - 0 0 0 0",
+    "|",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 5 5 | 0 0 1 1 0 0 5 5 0 0 2 2 0 5, 1 2 | 3 - 3 3 3 2 - 1 3 - 5 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5",
+    "0 0 2 2 0 3 4 3 | 3 - - - - - - - - - - - 0 0 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 0 1 2 | 3 - 3 3 3 1' - 3",
+    "7 - - 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 1 2 1 | 1 - - - - - - - - - - -",
+    "3' 2' 1' 7 | 1' - - - 1' 1' - 5 2' - - - 3' 2' 1' 7 | 1' - - - 1' 1' - - 7 - - - 3' 2' 1' 7 | 1' - - - 1' 1' - 5 2' - - 6' |",
+    "6' 5' - -",
+    "3' - - - - - - - - - - - 3' 2' 1' 7",
+    "|",
+    "6' - - - - - - - - - - -",
+    "0 0 5 5 | 0 0 1 1 0 0 5 5 0 0 2 2 0 5, 1 2 | 3 - 3 3 3 2 - 1 3 - 5 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5",
+    "0 0 2 2 0 3 4 3 | 3 - - - - - - - - - - - 0 0 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 0 1 2 | 3 - 3 3 3 1' - 3",
+    "7 - - 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 1 2 1 | 1 - - - - - - - - - - -",
+    "0 0 5 5 | 0 0 1 1 0 0 5 5 0 0 2 2 0 5, 1 2 | 3 - 3 3 3 2 - 1 3 - 5 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5",
+    "0 0 2 2 0 3 4 3 | 3 - - - - - - - - - - - 0 0 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 0 1 2 | 3 - 3 3 3 1' - 3",
+    "7 - - 5 5 6, 5 5 | 0 0 1 1 0 6, 5 5 0 0 2 2 0 1 2 1 | 1 - - - - - - - - - - -",
+    "0 6, 5 5 | 0 0 1 1 0 0 5 5 0 0 2 2 0 1 2 1 | 1 - - - - - - - - - - - - - - - |",
+    "5 6, 1 5 5 6, 1 5 5 6, 1 5 5 6, - 1 | 1 1 - 1 1 1 - 1 1 - 2 - 3 - 2 - |",
+    "5 6, 1 5 5 6, 1 5 5 6, 1 5 4'' 3'' 2'' - | 1'' - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}
