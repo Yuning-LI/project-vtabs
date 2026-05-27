@@ -1,0 +1,51 @@
+{
+  "id": "the-anniversary-waltz",
+  "slug": "the-anniversary-waltz",
+  "title": "The Anniversary Waltz",
+  "description": "The Anniversary Waltz candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "We just dis cov ered each oth er _ to night when the",
+    "lights were low _ one dance led up to an oth er _ and now I cant",
+    "let you go so Tell me I may al ways dance the an ni ver sa ry",
+    "waltz with you _ tell me this is real ro mance an an ni ver sa ry",
+    "dream come true _ let this be the an them to our fu ture years to",
+    "mil lions of smiles and a few lit tle tears May I al ways lis ten",
+    "to the an ni ver sa ry waltz with you _ you. _"
+  ],
+  "alignedLyrics": [
+    "We just dis cov ered each oth er _ to night when the",
+    "lights were low _ one dance led up to an oth er _ and now I cant",
+    "let you go so Tell me I may al ways dance the an ni ver sa ry",
+    "waltz with you _ tell me this is real ro mance an an ni ver sa ry",
+    "dream come true _ let this be the an them to our fu ture years to",
+    "mil lions of smiles and a few lit tle tears May I al ways lis ten",
+    "to the an ni ver sa ry waltz with you _ you _"
+  ],
+  "source": {
+    "title": "The Anniversary Waltz MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 90,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-22",
+    "note": "Refs: Wikipedia, Musicnotes. Title identity is correct and the opening lyric matches the standard song version beginning \"We just discovered each other tonight when the lights were low.\" The candidate starts at the main tune."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 5 - - - 5 - - - 5 - - - | {cn:G} 7 - - - 7 - - - - - 6 - | {cn:C} 5 - - - 5 - - - - - - - | {cn:D7} 5 - - - - - - - {cn:G7} 0 - 3 - | {cn:C} 5 - - - 5 - - - 5 - - -",
+    "{cn:G} 7 - - - - - - - 6 - - - | {cn:C} 5 - - - - - - - - - - - | 5 - - - - - - - - - - - | {cn:A7} 4 - - - 4 - - - 4 - - - | {cn:D} 6 - - - 6 - - - - - 6 - | {cn:A} 4 - - - 4 - - - - - - - | {cn:D} 4 - - - - - - - 4 - - - | {cn:A} 3 - - - 3 - - - 3 - - -",
+    "{cn:D7} 7 - - - - - - - 6 - - - | {cn:D7} 2 - - - - - - - - - - - | {cn:G7} 5 - - - - - - - - - - - | {cn:C} 1 - - - - - - - {cn:E7} 2 - - - | 3 - - - - - - - 5 - - - | {cn:C} 6 - - - - - - - {cn:E} 7 - - - | {cn:C} 6 - - - - - - - 5 - - - | 6 - 1g - 6 - 5 - 6 - - -",
+    "{cn:Db} 6 - - - - - - - 3 - - - | {cn:G7} 5 - - - - - - - - - - - | 5 - - - - - - - - - - - | 2 - - - - - - - {cn:E} 3 - - - | {cn:D7} 4 - - - - - - - 6 - - - | {cn:G7} 7 - - - - - - - {cn:D7} 1g - - - | {cn:G7} 7 - - - - - - - 5 - - - | {cn:D7} 6 - 1g - 6 - 5 - 6 - - -",
+    "{cn:G7} 6 - - - - - - - 7 - - - | {cn:C} 6 - - - - - - - - - - - | 6 - - - - - - - 5 - - - | {cn:C7} 2g - - - 2g - - - - - 1g - | 2g - - - 2g - - - - - 1g - | {cn:C7} 7b - - - {cn:F} 6 - - - - - 3 - | {cn:A7} 5 - - - - - - - {cn:D7} 4 - - -",
+    "{cn:A} 6 - - - 6 - - - - - 5 - | 6 - - - 6 - - - - - 5 - | {cn:D7} 3 - - - 7 - - - - - 6 - | {cn:G} 3b - - - - - - - - - - - | {cn:C} 1 - - - - - - - {cn:E7} 2 - - - | {cn:C} 3 - - - - - - - {cn:E7} 5 - - - | {cn:C} 6 - - - - - - - {cn:E} 7 - - -",
+    "{cn:A7} 6 - - - - - - - 6 - - - | {cn:D7} 1g - 7 - 6 - 7 - 1g - - - | {cn:G7} 7 - - - - - - - 5 - - - | {cn:C} 1g - - - - - - - - - - - | {cn:D7} 1g - - - - - - - {cn:G7} 0 - - - | {cn:C} 1g - - - - - - - - - - - | 1g - - - - - - - 0 - - -"
+  ]
+}

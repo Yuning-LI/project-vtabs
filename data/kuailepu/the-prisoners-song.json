@@ -1,0 +1,42 @@
+{
+  "id": "the-prisoners-song",
+  "slug": "the-prisoners-song",
+  "title": "The Prisoner's Song",
+  "description": "The Prisoner's Song candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Oh I wish I had some one to love me,",
+    "_ Some _ one to _ call me their own,",
+    "_ Oh I wish I had some one to live with,",
+    "_ For I'm tir ed of liv ing a lone. _"
+  ],
+  "alignedLyrics": [
+    "Oh I wish I had some one to love me",
+    "_ Some _ one to _ call me their own",
+    "_ Oh I wish I had some one to live with",
+    "_ For Im tir ed of liv ing a lone _"
+  ],
+  "source": {
+    "title": "The Prisoner's Song MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-27",
+    "note": "Refs: Wikipedia, Mississippi State University Libraries. Title and opening melody are correct; metadata attribution is normalized to the common published form and the candidate begins at the main tune."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "0 - - - - - - - {cn:D} 5 - - - 5 - - - | 1g - - - - - - - 1 - - - - - 1 - | {cn:D7} 3 - - - - - - - 2 - - - - - 1 - | {cn:G} 4 - - - 4 - - - - - - - - - - -",
+    "4 - - - 0 - - - {cn:G7} 6 - - - 6 - - - | {cn:A7} 5 - - - - - - - 7 - - - - - 6 - | 5 - - - - - - - 2 - - - - - {cn:A7+} 3b - | {cn:D} 3 - - - - - - - - - - - - - - -",
+    "3 - - - - - - - 5 - - - - - 5 - | {cn:D} 1g - - - - - - - 1 - - - - - 1 - | {cn:D7} 3 - - - - - - - 2 - - - - - 1 - | {cn:G} 4 - - - 4 - - - - - - - - - - -",
+    "4 - - - 0 - - - {cn:G7} 6 - - - 6 - - - | {cn:A7} 5 - - - - - - - 7 - - - 6 - - - | 5 - - - - - - - 4 - - - 2 - - - | {cn:D} 1 - - - - - - - - - - - - - - - | 1 - - - - - - - 0 - - - - - - -"
+  ]
+}

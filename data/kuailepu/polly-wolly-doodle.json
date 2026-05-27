@@ -1,0 +1,45 @@
+{
+  "id": "polly-wolly-doodle",
+  "slug": "polly-wolly-doodle",
+  "title": "Polly Wolly Doodle",
+  "description": "Polly Wolly Doodle candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Oh I went down south for to see my Sal sing ing",
+    "Pol ly Wol ly Doo dle all the day my _ Sal ly is a _ spunk y gal sing",
+    "Pol ly Wol ly Dood le all the day Fare thee well fare thee well fare thee",
+    "well my fair y fay for I'm goin' to Lou 'si an a for to",
+    "see my Sus y an na sing ing Pol ly Wol ly Doo dle all the day."
+  ],
+  "alignedLyrics": [
+    "Oh I went down south for to see my Sal sing ing",
+    "Pol ly Wol ly Doo dle all the day my _ Sal ly is a _ spunk y gal sing",
+    "Pol ly Wol ly Dood le all the day Fare thee well fare thee well fare thee",
+    "well my fair y fay for Im goin to Lou si an a for to",
+    "see my Sus y an na sing ing Pol ly Wol ly Doo dle all the day"
+  ],
+  "source": {
+    "title": "Polly Wolly Doodle MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-22",
+    "note": "Refs: Wikipedia, NurseryRhymes.info. Title identity is correct and the opening lyric matches a common public version beginning \"Oh, I went down South for to see my Sal.\" The candidate starts at the main tune."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 - - - - - - - - - - - 7d - 2 - | {cn:C} 3 - - - 3 - - - 1 - - - 1 - 2 - | 3 - - - 3 - - - 1 - - - 1 - 2 -",
+    "3 - 3 - 3 - 3 - 4 - 4 - 3 - 3 - | {cn:G7} 2 - - - - - - - - - - - 7d - 1 - | 2 - - - 2 - - - 7d - - - 7d - 1 - | 2 - - - 2 - - - 7d - - - 2 - - -",
+    "5 - 5 - 5 - 5 - 4 - 4 - 2 - 2 - | {cn:C} 1 - - - - - - - - - - - 1 - 2 - | 3 - - - - - - - - - - - 1 - 2 - | 3 - - - - - - - - - - - 1 - 2 -",
+    "3 - - - 3 - - - 4 - - - 3 - - - | {cn:G7} 2 - - - - - - - - - - - 7d - 1 - | 2 - 2 - 2 - 2 - 7d - 7d - 7d - 1 -",
+    "2 - 2 - 2 - 2 - 7d - 7d - 2 - 2 - | 5 - 5 - 5 - 5 - 4 - 4 - 2 - 2 - | {cn:C} 1 - - - - - - - - - - - 0 - - -"
+  ]
+}

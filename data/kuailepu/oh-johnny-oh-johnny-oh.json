@@ -1,0 +1,54 @@
+{
+  "id": "oh-johnny-oh-johnny-oh",
+  "slug": "oh-johnny-oh-johnny-oh",
+  "title": "Oh, Johnny! Oh, Johnny! Oh!",
+  "description": "Oh, Johnny! Oh, Johnny! Oh! candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Oh, John ny! Oh, John ny! how you can love! _",
+    "Oh! John ny! Oh, John ny! Heav ens a bove! _ You make my",
+    "sad heart jump with joy, _ And when you're",
+    "near I just can't sit still a min ute, I'm so,",
+    "Oh, John ny! Oh, John ny! Please tell me, dear, _ What",
+    "makes me _ love you so? _ You're not",
+    "hand some, it's true, _ But when I look at you, _ I just,",
+    "Oh, John ny! Oh, John ny! Oh! _"
+  ],
+  "alignedLyrics": [
+    "Oh John ny Oh John ny how you can love _",
+    "Oh John ny Oh John ny Heav ens a bove _ You make my",
+    "sad heart jump with joy _ And when youre",
+    "near I just cant sit still a min ute Im so",
+    "Oh John ny Oh John ny Please tell me dear _ What",
+    "makes me _ love you so _ Youre not",
+    "hand some its true _ But when I look at you _ I just",
+    "Oh John ny Oh John ny Oh _"
+  ],
+  "source": {
+    "title": "Oh, Johnny! Oh, Johnny! Oh! MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 96,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-22",
+    "note": "Refs: Wikipedia. Title identity is correct and the opening chorus text matches the standard 1917 song beginning \"Oh, Johnny! Oh, Johnny! How you can love!\" The candidate starts at the recognizable main tune."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "{cn:C} 5 - - - - - - - 4 - - - 3 - - - | 5 - - - - - - - 4 - - - 3 - - - | {cn:G7} 4 - - - 3 - - - 4 - - - 2 - - - | 2 - - - - - - - - - - - 0 - - -",
+    "6 - - - - - - - 5 - - - 4 - - - | 6 - - - - - - - 5 - - - 4# - - - | {cn:C} 5 - - - 4# - - - 5 - - - 3 - - - | 3 - - - 5 - - - {cn:Cd} 6 - - - {cn:G7} 7 - - -",
+    "{cn:C} 1g - - - - - - - 1g - - - - - - - | {cn:Cd} 1g - - - - - - - - - - - 6 - - - | {cn:G7} 4 - - - - - - - - - - - - - - - | 4 - - - 5 - - - 6 - - - 7b - - -",
+    "7 - - - - - - - 7 - - - - - - - | {cn:G7+} 7 - - - - - - - 5 - - - - - - - | {cn:C6} 0 - - - 6 - - - {cn:Cd} 6 - - - 7 - - - | {cn:G7} 6 - - - 5 - - - {cn:Cd} 4# - - - {cn:G7} 4 - - -",
+    "{cn:C} 5 - - - - - - - 4 - - - 3 - - - | 5 - - - - - - - 4 - - - 3 - - - | {cn:G7} 4 - - - 3 - - - 4 - - - 2 - - - | 2 - - - - - - - - - - - 5 - - -",
+    "{cn:F} 6 - - - - - - - 6 - - - - - - - | 6 - - - - - - - {cn:F} 6b - - - {cn:F} 6 - - - | {cn:E7} 7 - - - - - - - - - - - - - - - | 7 - - - - - - - {cn:F/G} 6 - - - {cn:G7} 7 - - -",
+    "{cn:C} 1g - - - 7 - - - 1g - - - 5 - - - | 5 - - - - - - - 7 - - - {cn:C} 1g - - - | {cn:D7} 2g - - - 1g# - - - 2g - - - 6 - - - | 6 - - - - - - - 6 - - - {cn:D7+} 7b - - -",
+    "{cn:G7} 7 - - - - - - - 6 - - - 5 - - - | 7 - - - - - - - 6 - - - 5 - - - | {cn:C} {cn:F7} 1g - - - - - - - - - - - - - - - | {cn:C} 1g - - - - - - - - - - - 0 - - -"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "shady-grove",
+  "slug": "shady-grove",
+  "title": "Shady Grove",
+  "description": "Shady Grove candidate generated from a MusicXML ingest draft for runtime compatibility testing.",
+  "published": false,
+  "lyrics": [
+    "Cheeks as red as the bloom in rose,",
+    "Eyes of the deep est brown You are the dar ling",
+    "of my _ heart, Stay till the sun goes down.",
+    "Sha dy Grove, my lit ttle love Shad y Grove I know,",
+    "Shad y Grove, my lit tle love, Bound for the Shad y Grove."
+  ],
+  "alignedLyrics": [
+    "Cheeks as red as the bloom in rose",
+    "Eyes of the deep est brown You are the dar ling",
+    "of my _ heart Stay till the sun goes down",
+    "Sha dy Grove my lit ttle love Shad y Grove I know",
+    "Shad y Grove my lit tle love Bound for the Shad y Grove"
+  ],
+  "source": {
+    "title": "Shady Grove MusicXML ingest draft",
+    "url": "",
+    "rights": "Candidate generated for local compatibility testing; review source rights before publication.",
+    "note": "Generated from SongIngestDraft, not imported from Kuailepu."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 96,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "verified",
+    "checkedOn": "2026-05-22",
+    "note": "Refs: Wikipedia. Title identity is correct and the candidate begins at a recognized Shady Grove stanza over the expected melody shape. Variant lyrics are normal for this song family."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "{cn:D} 6d - 6d - 6d - 6d 6d | {cn:C} 7d - 6d - 5d - - -",
+    "{cn:D} 6d - 6d 6d 7d - 2 - | 3 - - - - - 3 - | {cn:A} 5 - - 5 3 - 3 -",
+    "{cn:C} 2 - 7d 6d 5d - - - | {cn:D} 6d - 7d 7d {cn:C} 2 - 7d - | {cn:D} 6d - - - - - - -",
+    "{cn:D} 6d - 6d - 6d - - - | {cn:C} 7d - 6d 6d 5d - - - | {cn:D} 6d - 6d - 1 - 2 - | 3 - - - - - - -",
+    "{cn:A} 5 - 5 - 3 - - - | {cn:C} 2 - 7d 6d 5d - - - | {cn:D} 6d - 7d 7d {cn:C} 2 - 7d - | {cn:D} 6d - - - - - - -"
+  ]
+}

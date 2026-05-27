@@ -1,0 +1,521 @@
+{
+  "song_uuid": "synthetic-the-anniversary-waltz",
+  "song_name": "The Anniversary Waltz",
+  "alias_name": "",
+  "song_pinyin": "theanniversarywaltz",
+  "song_code": "srgznsrkl",
+  "music_composer": "Al Dubin, Dave Franklin",
+  "lyric_composer": "",
+  "keynote": "1=C",
+  "rhythm": "3/4",
+  "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9",
+  "tags": "12孔AC陶笛F调指法",
+  "fingerings": "o6-D,o6-C,o6-bB,o12-C,o12-bB,o12-D,o12-G,r8b-C,r8b-D,r8b-bB,r8g-C,r8g-D,r8g-bB,w6-C,w6-D,w6-bB",
+  "tonalities": "o6-AC,o12-AC,o12-AG,o3-AC,o3-AF,a6-C,r8b-Soprano,r8g-Soprano,x8-F,x10-F,hx-G,hx-C,p8-F",
+  "lyric": "[\"We just dis cov ered each oth er _ to night when the\\nlights were low _ one dance led up to an oth er _ and now I cant\\nlet you go so Tell me I may al ways dance the an ni ver sa ry\\nwaltz with you _ tell me this is real ro mance an an ni ver sa ry\\ndream come true _ let this be the an them to our fu ture years to\\nmil lions of smiles and a few lit tle tears May I al ways lis ten\\nto the an ni ver sa ry waltz with you _ you. _\"]",
+  "notation": "{bpm:90}\n{cn:C}555|{cn:G}77.6x|{cn:C}55-|{cn:D7}5-{cn:G7}0x3x|{cn:C}555|\n{cn:G}7-6|{cn:C}5--|5--|{cn:A7}444|{cn:D}66.6x|{cn:A}44-|{cn:D}4-4|{cn:A}333|\n{cn:D7}7-6|{cn:D7}2--|{cn:G7}5--|{cn:C}1-{cn:E7}2|3-5|{cn:C}6-{cn:E}7|{cn:C}6-5|6x1gx6x5x6|\n{cn:Db}6-3|{cn:G7}5--|5--|2-{cn:E}3|{cn:D7}4-6|{cn:G7}7-{cn:D7}1g|{cn:G7}7-5|{cn:D7}6x1gx6x5x6|\n{cn:G7}6-7|{cn:C}6--|6-5|{cn:C7}2g2g.1gx|2g2g.1gx|{cn:C7}7b{cn:F}6.3x|{cn:A7}5-{cn:D7}4|\n{cn:A}66.5x|66.5x|{cn:D7}37.6x|{cn:G}3b--|{cn:C}1-{cn:E7}2|{cn:C}3-{cn:E7}5|{cn:C}6-{cn:E}7|\n{cn:A7}6-6|{cn:D7}1gx7x6x7x1g|{cn:G7}7-5|{cn:C}1g--|{cn:D7}1g-{cn:G7}0|{cn:C}1g--|1g-0 |||",
+  "category": "0",
+  "song_type": "0",
+  "difficulty": "1",
+  "status": "1",
+  "domain": "0",
+  "hot": "1",
+  "pv": "25094",
+  "author_id": "1",
+  "created_time": "2018-03-28 14:15:30",
+  "updated_time": "2022-01-06 15:01:51",
+  "nickname": "changnian",
+  "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/71833351D2AD4DB4CF7608FAA657F67E/100",
+  "last_login_ip": "112.0.143.192",
+  "last_login_time": "2026-03-29 20:30:05",
+  "lyric_text": "We just dis cov ered each oth er _ to night when the\nlights were low _ one dance led up to an oth er _ and now I cant\nlet you go so Tell me I may al ways dance the an ni ver sa ry\nwaltz with you _ tell me this is real ro mance an an ni ver sa ry\ndream come true _ let this be the an them to our fu ture years to\nmil lions of smiles and a few lit tle tears May I al ways lis ten\nto the an ni ver sa ry waltz with you _ you. _",
+  "user_id": "295870",
+  "no_check_vip": true,
+  "user_favorite": 0,
+  "check_copyright": true,
+  "sheetScaleList": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "cfingering": "off",
+  "show_note_range": "off",
+  "show_measure_num": "off",
+  "measure_layout": "compact",
+  "show_graph": "",
+  "show_lyric": "on",
+  "show_chord_name": "off",
+  "show_finger_num": "off",
+  "switch_key": "off",
+  "text_octave": "0",
+  "score_orientation": "portrait",
+  "meta": {
+    "Y29weXJpZ2h0": "JUE5Y29weXJpZ2h0JTIwaGFwcGkxMjMuY29tJTIwY2hhbmduaWFu",
+    "hasLyric": true,
+    "hasChordName": false,
+    "hasFingerNum": false,
+    "category": 0
+  },
+  "instrumentFingerings": [
+    {
+      "instrument": "none",
+      "instrumentName": "简谱(无图谱)",
+      "fingeringsList": [],
+      "fingeringSetList": [],
+      "graphList": []
+    },
+    {
+      "instrument": "o6",
+      "instrumentName": "六孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "o12",
+      "instrumentName": "十二孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "SF",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "AC",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "SF",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "r8b",
+      "instrumentName": "英式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "r8g",
+      "instrumentName": "德式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "w6",
+      "instrumentName": "爱尔兰哨笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    }
+  ],
+  "instrumentIndex": "0",
+  "instrument": "none",
+  "fingering": "",
+  "bpm": 90,
+  "fingering_index": 0,
+  "vtabs_import": {
+    "sourceKind": "musicxml",
+    "graceMode": "source-only",
+    "tempoResolution": {
+      "bpm": 90,
+      "source": "family-fallback",
+      "family": "dance",
+      "heuristic": "title:waltz"
+    },
+    "runtimeFingeringAudit": {
+      "status": "optimized",
+      "rulesVersion": "2026-05-15-public-instrument-selection-v1",
+      "optimizedAt": "2026-05-22T02:36:11.867Z",
+      "instrumentCount": 5,
+      "baseUrl": "http://127.0.0.1:3000"
+    }
+  }
+}
