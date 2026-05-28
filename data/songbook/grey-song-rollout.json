@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-26",
+  "updatedOn": "2026-05-28",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1562,6 +1562,56 @@
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lDGaq1ZOM.html",
       "notes": "Promoted from the ready-to-direct-publish grey stock pool and pushed to origin/main."
+    },
+    {
+      "slug": "shower-of-light-full-of-love",
+      "title": "Shower of Light Full of Love",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/R5xin1cIF.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-28."
+    },
+    {
+      "slug": "love-theme-from-tiga",
+      "title": "Love Theme From Tiga",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/co4fc12Kz.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-28."
+    },
+    {
+      "slug": "main-theme-from-ori-and-the-blind-forest",
+      "title": "Main Theme from Ori and the Blind Forest",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5P92k1T5x.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-28."
+    },
+    {
+      "slug": "bbs-theme",
+      "title": "BB'S Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/aia7k1MzZ.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-28."
+    },
+    {
+      "slug": "assassins-creed-rogue-main-theme",
+      "title": "Assassin's Creed Rogue Main Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/nqMgh1bJc.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-28."
     }
   ]
 }

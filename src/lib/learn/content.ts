@@ -235,6 +235,11 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'the-one-you-love',
   'love-mountain',
   'the-truth-that-you-love',
+  'shower-of-light-full-of-love',
+  'love-theme-from-tiga',
+  'main-theme-from-ori-and-the-blind-forest',
+  'bbs-theme',
+  'assassins-creed-rogue-main-theme',
   'see-you-again',
   'casablanca',
   'careless-whisper',
@@ -411,6 +416,11 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'the-imperial-march',
   'game-of-thrones-theme',
   'see-you-again',
+  'shower-of-light-full-of-love',
+  'love-theme-from-tiga',
+  'main-theme-from-ori-and-the-blind-forest',
+  'bbs-theme',
+  'assassins-creed-rogue-main-theme',
   'song-of-storms',
   'sarias-song',
   'the-avengers',
@@ -2277,6 +2287,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'over-the-rainbow',
       'love-is-blue',
       'where-do-i-begin',
+      'bbs-theme',
       'you-raise-me-up',
       'tears-in-heaven',
       'imagine',
@@ -2330,6 +2341,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'over-the-rainbow',
           'love-is-blue',
           'where-do-i-begin',
+          'bbs-theme',
           'you-raise-me-up',
           'tears-in-heaven',
           'imagine',
@@ -2517,6 +2529,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'the-imperial-march',
       'game-of-thrones-theme',
       'see-you-again',
+      'shower-of-light-full-of-love',
+      'love-theme-from-tiga',
+      'main-theme-from-ori-and-the-blind-forest',
+      'bbs-theme',
+      'assassins-creed-rogue-main-theme',
       'the-avengers'
     ],
     sections: [
@@ -2600,6 +2617,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'the-imperial-march',
           'game-of-thrones-theme',
           'see-you-again',
+          'shower-of-light-full-of-love',
+          'love-theme-from-tiga',
+          'main-theme-from-ori-and-the-blind-forest',
+          'bbs-theme',
+          'assassins-creed-rogue-main-theme',
           'the-avengers'
         ]
       }
@@ -4010,6 +4032,11 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'river-flows-in-you',
       'merry-christmas-mr-lawrence',
       'speak-softly-love',
+      'shower-of-light-full-of-love',
+      'love-theme-from-tiga',
+      'main-theme-from-ori-and-the-blind-forest',
+      'bbs-theme',
+      'assassins-creed-rogue-main-theme',
       'concerning-hobbits',
       'summer',
       'always-with-me',
@@ -4071,7 +4098,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         paragraphs: [
           'Once the calmest pages feel comfortable, add one folk melody and one classical page that still keep a lyrical contour. That broadens the repertoire without leaving the same slower, phrase-first workflow.'
         ],
-        songSlugs: ['scarborough-fair', 'over-the-rainbow', 'moonlight-lover', 'sakura-sakura', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'inuyashas-affection', 'always-with-me', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'princess-mononoke', 'speak-softly-love', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'city-of-stars', 'see-you-again', 'yesterday', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
+        songSlugs: ['scarborough-fair', 'over-the-rainbow', 'moonlight-lover', 'sakura-sakura', 'shower-of-light-full-of-love', 'love-theme-from-tiga', 'main-theme-from-ori-and-the-blind-forest', 'bbs-theme', 'assassins-creed-rogue-main-theme', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'moonlight-sonata', 'moon-represents-my-heart', 'romeo-and-juliet', 'can-you-feel-the-love-tonight', 'carrying-you', 'my-heart-will-go-on', 'inuyashas-affection', 'always-with-me', 'concerning-hobbits', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'princess-mononoke', 'speak-softly-love', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'city-of-stars', 'see-you-again', 'yesterday', 'sealed-with-a-kiss', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence']
       }
     ],
     faq: [

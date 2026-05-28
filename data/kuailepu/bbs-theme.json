@@ -1,0 +1,64 @@
+{
+  "id": "bbs-theme",
+  "slug": "bbs-theme",
+  "title": "BB'S Theme",
+  "description": "BB'S Theme melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "See the sun set _ The day is end ing Let that yawn out _ There's no pre",
+    "ten ding I will hold you And pro tect you _ So, let love warm you 'til the",
+    "mor ning I'll stay, with you By your side Close your tired _ eyes I'll wait, and soon _ I'll see your",
+    "smile In our dream And",
+    "ah _ _ _ _ _ _ _ I, won't wake be fore you go And",
+    "ah _ _ _ _ _ _ _ I, still hear your heart beat Feel the wind rise _ A dawn we're",
+    "bound to Watch that star die _ E ons with out you",
+    "I'll stay, with you In your",
+    "mind Eve ry sin gle day I'll wait, and soon, We're stranded on the beach In our dream",
+    "We part, too soon _ But in our",
+    "lies There's a truth to find The end is new A tomorrow _ we must reach for To be heard",
+    "See the",
+    "sun set _ The day is end ing Let your heart sigh See the sun set See the",
+    "sun set oh",
+    "ah _ _ _ _ _ _ _ I'll stay, with you oh ah",
+    "_ _ _ _ _ _ _ _ I won't stary _ away from thatruth _ And I _ _ _ _ _ _ _ _ _",
+    "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ I stull want _ to love on you ah _ _ _",
+    "_ _ _ _ _ _ _"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/aia7k1MzZ.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song aia7k1MzZ on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-23",
+    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "0 0 0 0 0 0 0 0 0 0 0 0 2 - 1 - | 5 - - - 3 - - - 3 - - 2 2 - - 3 | 4 - - - 1 - - - - - - - 2 - 1 - | 5 - - - 3 - - - 3 - - 3 4 - - 5 |",
+    "b6 - - - 1 - - - - - - - 2 - 1 - | 5 - - - 3 - - - - - - - 2 - - 3 | 4 - - - 1 - - - 1 - - 2 2 - - 1 | 5 - - - 3 - - - - - - - 4 - - 5 |",
+    "b6 - - - 1 - - - - - - - 0 0 6, - | 2 - - - - - 6, - 4 - - - 6, - 4 - | 3 - - - - - 2 1 7, - 1 - 1 - 6, - | 2 - - - - - 6, - 4 - - - 4 6, 6, 4 |",
+    "3 - - - - - 2 1 7, - - - 0 0 0 6, |",
+    "4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 | 7, 6, 7, - - - 1 - 2 - - - - - 6, - |",
+    "4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 | 7, - - - 1 - - - 2 - - - b3 - - - | 0 0 0 0 0 0 0 0 0 0 0 0 2 - 1 - | 5 - - - 3 - - - 3 - - 2 2 - - 3 |",
+    "4 - - - 1 - - - - - - - 2 - 1 - | 5 - - - 3 - - - 3 - - 3 4 - - 5 | b6 - - - 1 - - - - - - -",
+    "0 0 6, - | 2 - - - - - 6, - 4 - - - 6, - 4 - |",
+    "3 - - - - - 2 1 7, - 1 - 1 - 6, - | 2 - - - - - 6, - 3 - - - 6 5 3 5 | 3 - - - - - 7, 5, 6, - - - 0 0 0 0 | |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 6, - | 2 - - - - - 6, - 4 - - - 4 6, 6, 4 |",
+    "3 - - - - - 2 1 7, - 1 - 1 - 6, - | 2 - - - - - 6, - 3 - 3 - 6 5 3 5 | 3 - 1 - - - 7, 5, 6, - - - 0 0 0 0 |",
+    "0 0 0 0 2 - 1 - |",
+    "2 - - - 3 - - - 3 - - 2 2 - - 3 | 4 - - - 1 - - - - - - - 2 - - 1 | 4 - - - 1 - - - - - - - 2 - - 1 | 5 - - - 3 - - - - - - - 2 - 1 - |",
+    "5 - - - 3 - - - - - - - 0 0 0 0 | 0 0 0 0 0 0 6, - |",
+    "4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 | 7, - - - - - 1 - 2 - - - - - 6, - |",
+    "4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 | 7, 6, 7, - 1 - - 7, 6 - - - 0 0 0 0 | 0 0 0 0 0 0 6, - | 4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 |",
+    "7, 6, 7, - - - 6, - 7, 6, 7, - 1 - - 6, | 4 - 3 - 2 - 3 2 3 - 2 - 1 - 2 1 | 7, 6, 7, - 1 - - 7, 6, - - 6, 4 - 3 2 |",
+    "1 - - - 2 - - 3 2 - - - 7, - - 5, | 6, - - - - - - - 0 0 0 0 0 0 0 0 | | |"
+  ]
+}

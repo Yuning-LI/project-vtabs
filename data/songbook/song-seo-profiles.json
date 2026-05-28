@@ -9055,5 +9055,140 @@
         "answer": "Yes. The melody-first layout keeps the tune readable for recorder, ocarina, and tin whistle players who want a classic dance melody."
       }
     ]
+  },
+  "shower-of-light-full-of-love": {
+    "aliases": [
+      "Shower of Light Full of Love melody",
+      "Shower of Light Full of Love notes",
+      "Shower of Light Full of Love theme"
+    ],
+    "metaTitle": "Shower of Light Full of Love Letter Notes and Fingering Chart",
+    "overview": "This page keeps Shower of Light Full of Love in a clean letter-note layout so players can practice the melody without relying on screenshot tabs or full score reductions.",
+    "searchTerms": [
+      "Shower of Light Full of Love letter notes",
+      "Shower of Light Full of Love recorder notes",
+      "Shower of Light Full of Love ocarina tabs"
+    ],
+    "background": "This title behaves like a game or theme-style melody page with enough recognizability to justify stock-pool prep.",
+    "practice": "Useful for calm phrasing, steady breath control, and reading a lyrical instrumental line.",
+    "metaDescription": "Play Shower of Light Full of Love with letter notes, recorder notes, ocarina tabs, and fingering chart support. A lyrical theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "What kind of piece is this?",
+        "answer": "It works as a theme-style melody page that suits melody instruments well."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it passed the full import and compare gate and is ready for later promotion."
+      }
+    ]
+  },
+  "love-theme-from-tiga": {
+    "aliases": [
+      "Love Theme From Tiga melody",
+      "Love Theme From Tiga notes",
+      "Tiga love theme"
+    ],
+    "metaTitle": "Love Theme From Tiga Letter Notes and Fingering Chart",
+    "overview": "This page turns Love Theme From Tiga into a clean letter-note layout for recorder, ocarina, and tin whistle players.",
+    "searchTerms": [
+      "Love Theme From Tiga letter notes",
+      "Love Theme From Tiga recorder notes",
+      "Love Theme From Tiga ocarina tabs"
+    ],
+    "background": "A recognizable theme title with enough search value to justify a melody-first page.",
+    "practice": "Good for phrase memory, breath pacing, and a steady theme line.",
+    "metaDescription": "Play Love Theme From Tiga with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a melody-first page?",
+        "answer": "Yes. It is prepared as a single-line melody page for wind instruments."
+      },
+      {
+        "question": "Why keep theme titles like this?",
+        "answer": "Because they often have strong long-tail search value and still compare cleanly."
+      }
+    ]
+  },
+  "main-theme-from-ori-and-the-blind-forest": {
+    "aliases": [
+      "Ori and the Blind Forest Main Theme",
+      "Ori Main Theme",
+      "Main Theme from Ori and the Blind Forest notes"
+    ],
+    "metaTitle": "Main Theme From Ori and the Blind Forest Letter Notes and Fingering Chart",
+    "overview": "This page keeps the Ori main theme in a cleaner letter-note layout for easy melody practice.",
+    "searchTerms": [
+      "Ori and the Blind Forest main theme letter notes",
+      "Ori main theme recorder notes",
+      "Ori main theme ocarina tabs"
+    ],
+    "background": "A high-recognition game-theme search target that works naturally as a melody-first page.",
+    "practice": "Useful for breath control, connected phrasing, and a calm instrumental contour.",
+    "metaDescription": "Play Main Theme from Ori and the Blind Forest with letter notes, recorder notes, ocarina tabs, and fingering chart support. A game-theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Ori theme people search for?",
+        "answer": "Yes. This page follows the familiar main theme melody associated with Ori and the Blind Forest."
+      },
+      {
+        "question": "Why does this work well on melody instruments?",
+        "answer": "Because the lead line is clear enough to stand on its own."
+      }
+    ]
+  },
+  "bbs-theme": {
+    "aliases": [
+      "BB'S Theme melody",
+      "BB'S Theme notes",
+      "BB'S Theme song"
+    ],
+    "metaTitle": "BB'S Theme Letter Notes and Fingering Chart",
+    "overview": "This page presents BB'S Theme in a clean letter-note layout so players can practice the melody without juggling multiple fan-tab formats.",
+    "searchTerms": [
+      "BB'S Theme letter notes",
+      "BB'S Theme recorder notes",
+      "BB'S Theme ocarina tabs"
+    ],
+    "background": "A strong game-theme title with enough search intent to justify a public notes page.",
+    "practice": "Useful for melody memory, steady air support, and controlled phrasing.",
+    "metaDescription": "Play BB'S Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A game-theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Does this page include lyrics?",
+        "answer": "Yes, this candidate came through with public lyrics support."
+      },
+      {
+        "question": "Why keep BB'S Theme in the stock pool?",
+        "answer": "Because it is a recognizable theme title and already passed live compare on all supported instruments."
+      }
+    ]
+  },
+  "assassins-creed-rogue-main-theme": {
+    "aliases": [
+      "Assassin's Creed Rogue Main Theme notes",
+      "Assassin's Creed Rogue theme",
+      "Rogue main theme melody"
+    ],
+    "metaTitle": "Assassin's Creed Rogue Main Theme Letter Notes and Fingering Chart",
+    "overview": "This page keeps the Rogue main theme in a clean letter-note layout for easy melody reading.",
+    "searchTerms": [
+      "Assassin's Creed Rogue Main Theme letter notes",
+      "Assassin's Creed Rogue recorder notes",
+      "Assassin's Creed Rogue ocarina tabs"
+    ],
+    "background": "A high-intent game theme title that is a natural fit for a melody-first notes page.",
+    "practice": "Useful for calm phrasing, stable breath support, and theme recognition.",
+    "metaDescription": "Play Assassin's Creed Rogue Main Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A game theme for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Rogue main theme?",
+        "answer": "Yes. It is prepared as a melody-first page based on the recognizable theme line."
+      },
+      {
+        "question": "Why does this fit the stock pool?",
+        "answer": "Because it passed import, doctor, and live compare and is now ready for later promotion."
+      }
+    ]
   }
 }
