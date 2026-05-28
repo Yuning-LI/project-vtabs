@@ -1,0 +1,72 @@
+{
+  "id": "the-power-of-love",
+  "slug": "the-power-of-love",
+  "title": "The Power of Love",
+  "description": "The Power of Love melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "The whispers _ _ in the morning _ Of lovers sleeping _ _ tight",
+    "Are roll ing bound like thunder now _ _ As I look in your _ eyes",
+    "_ I hold on to your body _ And feel each move you make",
+    "Your voice is warm and tender _ A love that I could _ _ not forsake _",
+    "'Coz I _ am your _ lady _ And you are my man _ _ _ _ _",
+    "Whenever _ _ you reach _ for me I'll do all that I can _",
+    "Lost is how I'm feeling _ _ ly ing in your arms",
+    "When _ the world outside's too Much to take _ That all ends when I'm",
+    "with you _ Even _ though _ there may be times _",
+    "It seems I'm far away _ Never wonder _ where I am _ 'Coz I am _ always",
+    "by your side _ 'Coz I am _ your lady _ And you are",
+    "my man _ Whenever _ you reach for me _ I'll do all that I can _ We're",
+    "heading _ for something _ Somewhere _ I've never _ been _ Sometimes _ I am _",
+    "frightened _ But I'm ready to learn _ Of the power of love _ The sound",
+    "of your heart _ beating _ Made it clear _ suddenly _ The feeling that",
+    "I can't go on _ Is light years away 'Coz I am your lady And you are my",
+    "man Whenever you reach for me I am going to do all that I can _ _ _",
+    "_ _ _",
+    "We're heading for something _ _ _ _ _ _ Somewhere I've never been _ _",
+    "_ _ _ _ _ Sometimes I am frightened _",
+    "_ _ But I'm ready to learn _ _ Of the power _ of",
+    "love"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/GaYIl1hcB.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song GaYIl1hcB on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4 "
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-23",
+    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 0 3 - 5 - 5 - 3 - 6 - | 6 - 5 - 5 - - - - - - - - - - - | 0 0 0 0 0 0 5 - 5 - 5 - 1' - 7 - | 6 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 6 - 6 - 6 - 7 - 1' - | 1' 5 5 - 5 - - - - - - - - - - - | 0 0 0 0 0 0 3 4 5 - 5 - - - 4 3 | 2 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 3 - 5 - 5 - 3 - 6 - | 6 - 5 - 5 - - - - - - - - - - - | 0 0 0 0 0 0 5 - 5 - 5 - 1' - 7 - | 6 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 6 - 6 - 6 - 7 - 1' - | 1' - 6 - 6 - - - - - 6 - 7 - 1' - | 1' - 5 - 5 - - - - - - - 1' - 2' - | 2' - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 5 - 1' - 1' - 2' - 4' - | 4' - 3' - 3' - - - - - - - - - - - | 0 0 0 0 0 0 5 - 1' - 2' - 3' - 1' - | 1' 7 1' 7 6 - - - - - - - - - - - |",
+    "0 0 0 0 0 0 1' - 1' - 2' - 3' - 4' - | 4' - 6 - 6 - - - - - - - - - - - | 0 0 0 0 0 0 1' 1' 1' - 2' - 3' - 3' - | 2' - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 5 - 5 - 3 - 6 - | 6 - 5 - 5 - - - - - - - - - - - | 0 0 0 0 0 0 0 0 5 - 5 - 1' - 7 - | 6 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 6 6 6 - - - 7 - 1' - | 1' - 5 - 3 - 5 - 5 - - - - - - - | 0 0 0 0 0 0 3 4 5 - - - 5 - 6 - |",
+    "2 - 2 - 2 - - - - - - - - - - - | 0 0 0 0 0 0 3 4 5 - 5 - 3 - 6 - | 6 - 5 - 5 - - - - - - - - - - - |",
+    "0 0 0 0 0 0 5 - 5 - 5 - 1' - 7 - | 6 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 6 - 6 - 6 - 7 - 1' - | 1' 6 6 - 6 - - - - - 6 - 7 - 1' - |",
+    "1' - 5 - 5 - - - - - - - 1' - 2' - | 2' - - - - - - - - - - - - - - - | 0 0 0 0 0 0 5 - 1' - 1' - 2' - 4' - | 4' - 3' - 3' - - - - - - - - - - - |",
+    "0 0 0 0 0 0 5 - 1' - 2' - 3' - 1' - | 1' 7 1' 7 6 - - - - - - - - - - - | 0 0 0 0 0 0 1' - 1' - 2' - 3' - 4' - | 4' - 6 - 6 - - - - - - - - - - - |",
+    "0 0 0 0 0 0 1' - 1' 1' 2' - 3' - 3' - | 2' - - - - - - - - - - - | 0 0 0 0 0 0 5' - 5' - 3' - - - 2' - | 3' - 2' - 3' 2' 1' - 1' - - - - - - - |",
+    "0 0 0 0 5' - 5' - 5' - 3' - 2' - 3' - | 2' 3' 2' 1' 1' - - - - - - - - - - - | 0 0 0 0 0 0 1' - 1' - 2' - 3' - 4' - |",
+    "4' - 4' - 4' - 4' - 4' - 3' - 3' - 2' - | 2' - - - - - 5 5 1' - 1' - - - 1' - | 1' - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 1' - 7 - 7 - 1' - 2' - | 3' - - 2' 3' 2' 1' - 1' - - - - - - - | 0 0 0 0 0 0 1' 1' 1' - 7 - 7 - 6 5 |",
+    "6 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 1' - 7 - 7 - 1' - 2' - | 5' - - - 3' - - 2' 3' 2' 1' - 1' - - - | 0 0 0 0 0 0 1' - 1' - 2' - 3' - 3' - |",
+    "3' - 2' - 2' - - - - - - - - - - - |",
+    "0 0 0 0 0 0 5' - 5' - 3' - - - 2' - | 3' - 2' - 3' 2' 1' - 1' - - - - - - - | 0 0 0 0 5' - 5' - 5' - 3' - 2' - 3' - |",
+    "2' 2' 2' 1' 1' - - - - - - - - - - - | 0 0 0 0 0 0 1' - 1' - 2' - 3' - 4' - |",
+    "4' - 4' - 4' - 4' - 4' - 3' - 3' - 2' - | 2' - - - - - 5 5 1' - 1' - - - 1' - |",
+    "1' - - - - - - - - - - - - - - - | | |"
+  ]
+}

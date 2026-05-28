@@ -2287,5 +2287,40 @@
     "family": "media",
     "featuredRank": 328,
     "published": true
+  },
+  {
+    "id": "the-fields-of-ard-skellig",
+    "slug": "the-fields-of-ard-skellig",
+    "family": "media",
+    "featuredRank": 329,
+    "published": true
+  },
+  {
+    "id": "the-power-of-love",
+    "slug": "the-power-of-love",
+    "family": "song",
+    "featuredRank": 330,
+    "published": true
+  },
+  {
+    "id": "time-to-love",
+    "slug": "time-to-love",
+    "family": "song",
+    "featuredRank": 331,
+    "published": true
+  },
+  {
+    "id": "main-theme-from-final-fantasy",
+    "slug": "main-theme-from-final-fantasy",
+    "family": "media",
+    "featuredRank": 332,
+    "published": true
+  },
+  {
+    "id": "gallys-theme",
+    "slug": "gallys-theme",
+    "family": "media",
+    "featuredRank": 333,
+    "published": true
   }
 ]

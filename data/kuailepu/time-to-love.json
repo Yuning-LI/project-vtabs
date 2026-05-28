@@ -1,0 +1,40 @@
+{
+  "id": "time-to-love",
+  "slug": "time-to-love",
+  "title": "Time To Love",
+  "description": "Time To Love melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/rVYOq1sQW.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song rVYOq1sQW on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-23",
+    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "1 - 5 - | 3 - - - 1 - 5 - 3 - 2 - 1 - 2 - | 2 - 3 - 3 - - - 0 3 2 1 2 1 7, 5 | 3 - - - 1 - 5 - 3 - 2 - 1 - 2 - |",
+    "|",
+    "6, - 3 - 6, - 2 - 6, - 2 - 6, - 1 - | 6, - 3 - 6, - 2 - 6, 3 2 1 2 1 7, 6, | 6, - 3 - 6, - 2 - 6, - 2 - 6, - 1 - |",
+    "6, - 3 - 6, - 2 - 6, 3 2 1 2 1 7, 5 | 3 - - - 1 - 5 - 3 - 2 - 1 - 2 - | 2 - 3 - 3 - - - 0 3 2 1 2 1 7, 5 |",
+    "3 - - - 1 - 5 - 3 - 2 - 1 - 2 - | 0 2 1 7, 1 7, 5, 2 1 7, 1 7, 1 7, 1 5 |",
+    "5 6, 1 5 6, 1 5 6, 1 5 6, 1 5 6, 1 6, | 5 6, 1 5 6, 1 5 6, | 1 7, 6, 3 1 7, 1 6, |",
+    "5 6, 1 5 6, 1 5 6, 1 5 6, 1 5 6, 1 6, | 5 6, 1 5 6, 1 5 6, 2 3 5 1' 7 5 3 2 |",
+    "3 - - - 1 - 5 - 3 - - - 1 - 5 - | 0 3 2 3 2 1 7, 5, 2 1 5, 3 2 1 5, 5 | 3 - - - 1 - 5 - 3 - - - 1 - 5 - |",
+    "2 - 1 - 1 - 7, - 1 - 7, 1 2 1 7, 5 | 3 - - - 1 - 5 - 3 - - - 1 - 5 - | 2 - - - 3 - - - 0 3 2 1 2 1 7, 5 |",
+    "3 - - - 1 - 5 - 3 - 2 - 1 - 2 - | 2 - 1 - 2 - 1 - 2 - 7, 1 2 1 7, 5, |",
+    "6, - 3 - 6, - 2 - 6, - 2 - 6 - 1 - | 6, - 3 - 6, - 2 - 6, 3 2 1 2 1 7, 6, | 6, - 3 - 6, - 2 - 6, - 2 - 6, - 1 - |",
+    "6, - 3 - 6, - 2 - 6, 3 2 1 2 1 7, 5 | 3 - - - 1 - 5 - 2 - - - 1 - 5 - | 2 - 3 - 3 - 1 - 2 - 1 - 7, - 5, - |",
+    "6, - - - 1 - 5 - 2 - - - 1 - 7, - | 1 - 6, - 7, - 1 - 2 - 1 - 7, - 5, - | 6, - - - 1 - 5 - 2 - - - 1 - 5 - |",
+    "2 - 3 - 3 - - - 2 - 1 - 7, - 5, - | 6, - - - 1 - 5 - 2 - - - 1 - 7, - | 1 - 6, - 7, - 1 - 2 - 1 - 7, - 5, - | | |"
+  ]
+}

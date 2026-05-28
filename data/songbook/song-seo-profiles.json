@@ -9190,5 +9190,143 @@
         "answer": "Because it passed import, doctor, and live compare and is now ready for later promotion."
       }
     ]
+  },
+  "the-fields-of-ard-skellig": {
+    "aliases": [
+      "Fields of Ard Skellig",
+      "The Witcher Fields of Ard Skellig",
+      "Fields of Ard Skellig theme"
+    ],
+    "metaTitle": "The Fields of Ard Skellig Letter Notes and Fingering Chart",
+    "overview": "This The Fields of Ard Skellig page keeps the well-known game-theme melody in a clean letter-note layout, so players can practice the line without depending on orchestral scores or low-resolution fan tabs.",
+    "searchTerms": [
+      "The Fields of Ard Skellig letter notes",
+      "Fields of Ard Skellig recorder notes",
+      "Fields of Ard Skellig ocarina tabs",
+      "Witcher Ard Skellig notes"
+    ],
+    "background": "The Fields of Ard Skellig has stronger recognition than a generic instrumental because it belongs to a known game-title search space. The melody also survives well as a single-line page.",
+    "practice": "The tune is useful for breath control, phrase shaping, and keeping a reflective theme melody steady over longer lines.",
+    "metaDescription": "Play The Fields of Ard Skellig with letter notes, recorder notes, ocarina tabs, and fingering chart support. A recognizable game-theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this The Fields of Ard Skellig from The Witcher?",
+        "answer": "Yes. This page follows the familiar melody line associated with The Fields of Ard Skellig in a melody-first format."
+      },
+      {
+        "question": "Why is this a good ocarina or recorder piece?",
+        "answer": "Because the melody is atmospheric, singable, and still recognizable without the full original arrangement."
+      }
+    ]
+  },
+  "the-power-of-love": {
+    "aliases": [
+      "The Power of Love song",
+      "Power of Love melody",
+      "The Power of Love notes"
+    ],
+    "metaTitle": "The Power of Love Letter Notes and Fingering Chart",
+    "overview": "This The Power of Love page keeps the melody in a clean letter-note layout, so players can practice the tune without relying on piano reductions, lyric videos, or scattered fan tabs.",
+    "searchTerms": [
+      "The Power of Love letter notes",
+      "The Power of Love recorder notes",
+      "The Power of Love ocarina tabs",
+      "The Power of Love melody notes"
+    ],
+    "background": "The Power of Love is a broad title with enough melodic recognition to justify an English notes page, especially when the imported candidate also supports visible lyrics.",
+    "practice": "The song is useful for phrase memory, breath pacing, and keeping a familiar pop line even across repeated sections.",
+    "metaDescription": "Play The Power of Love with letter notes, recorder notes, ocarina tabs, fingering chart support, and lyrics where available. A familiar melody for lyrical practice.",
+    "extraFaqs": [
+      {
+        "question": "Does this candidate include lyrics?",
+        "answer": "Yes. This candidate imported with public lyrics support, which strengthens its value as a lyric-guided practice page."
+      },
+      {
+        "question": "Why is The Power of Love worth stock-pool preparation?",
+        "answer": "Because it covers a familiar title space and passed the full Kuailepu parity gate across supported public instruments."
+      }
+    ]
+  },
+  "time-to-love": {
+    "aliases": [
+      "Time To Love song",
+      "Time To Love melody",
+      "Time To Love notes"
+    ],
+    "metaTitle": "Time To Love Letter Notes and Fingering Chart",
+    "overview": "This Time To Love page keeps the tune in a clean letter-note layout, so players can practice the melody without relying on image tabs, piano covers, or fragmented fan sheets.",
+    "searchTerms": [
+      "Time To Love letter notes",
+      "Time To Love recorder notes",
+      "Time To Love ocarina tabs",
+      "Time To Love melody notes"
+    ],
+    "background": "Time To Love fits the kind of lower-competition melody title that can still be worthwhile once it has already passed import, doctor, and full live compare gates.",
+    "practice": "The tune is useful for steady reading, phrase pacing, and maintaining a centered tone on a simple lyrical contour.",
+    "metaDescription": "Play Time To Love with letter notes, recorder notes, ocarina tabs, and fingering chart support. A gentle modern melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Why keep Time To Love as a stock candidate?",
+        "answer": "Because once a melody title has already passed the full validation path, it becomes cheap to hold for later release scheduling."
+      },
+      {
+        "question": "Who is this song best for?",
+        "answer": "It suits players who want a gentle modern melody rather than a highly rhythmic or technically dense piece."
+      }
+    ]
+  },
+  "main-theme-from-final-fantasy": {
+    "aliases": [
+      "Final Fantasy Main Theme",
+      "Main Theme from Final Fantasy notes",
+      "Final Fantasy theme melody"
+    ],
+    "metaTitle": "Main Theme From Final Fantasy Letter Notes and Fingering Chart",
+    "overview": "This page keeps the Final Fantasy main theme in a clean letter-note layout for wind-instrument practice.",
+    "searchTerms": [
+      "Main Theme from Final Fantasy letter notes",
+      "Final Fantasy main theme recorder notes",
+      "Final Fantasy main theme ocarina tabs"
+    ],
+    "background": "A classic game-theme search target that is still strong as a melody-first page.",
+    "practice": "Useful for phrase shaping, stable breath control, and expressive theme reading.",
+    "metaDescription": "Play Main Theme from Final Fantasy with letter notes, recorder notes, ocarina tabs, and fingering chart support. A classic game theme for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a Final Fantasy theme page?",
+        "answer": "Yes. It follows the familiar main theme melody associated with Final Fantasy."
+      },
+      {
+        "question": "Why keep it in stock?",
+        "answer": "Because it has strong recognition and already passed live compare cleanly."
+      }
+    ]
+  },
+  "gallys-theme": {
+    "aliases": [
+      "GALLY's Theme melody",
+      "GALLY's Theme notes",
+      "GALLY theme"
+    ],
+    "metaTitle": "GALLY's Theme Letter Notes and Fingering Chart",
+    "overview": "This page presents GALLY's Theme in a clean letter-note format for easy melody practice.",
+    "searchTerms": [
+      "GALLY's Theme letter notes",
+      "GALLY's Theme recorder notes",
+      "GALLY's Theme ocarina tabs"
+    ],
+    "background": "A recognizable theme title that works well as a melody-first page.",
+    "practice": "Useful for smooth phrase shaping and gentle breath support.",
+    "metaDescription": "Play GALLY's Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "What type of page is this?",
+        "answer": "It is a theme-style melody page prepared for wind instruments."
+      },
+      {
+        "question": "Why keep it ready?",
+        "answer": "Because it passed the full compare gate and is cheap to hold in the stock pool."
+      }
+    ]
   }
 }
