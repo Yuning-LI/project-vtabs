@@ -1,0 +1,34 @@
+{
+  "id": "mark-theme",
+  "slug": "mark-theme",
+  "title": "Mark Theme",
+  "description": "Mark Theme melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/dUUOn1sd3.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song dUUOn1sd3 on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = bA",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-23",
+    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+  },
+  "tonicMidi": 68,
+  "notation": [
+    "0 0 0 0 0 0 7, - - 1 - - | 6, - - - - - - - - 5 - - 5 - - - - - - - - - - - - - - - - - - - - - - - 6 - - - 5 - - - 3 - - - | #4 - - - - - - - - 2 - - 2 - - - - - - - - - - - 2 - - - - - - - - - - - - - - - - - 7, - - 1 - - |",
+    "6, - - - - - - - - 3 - - 3 - - - - - - - - - - - - - - - - - - - - - - - 4 - - - 3 - - - 1 - - - | 7, - - - - - - - - 6, - - 7, - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 7, - - 1 - - |",
+    "6, - - - - - - - - 5 - - 5 - - - - - - - - - - - - - - - - - - - - - - - 6 - - - 5 - - - 3 - - - | #4 - - - - - - - - 2 - - 2 - - - - - - - - - - - 2 - - - - - - - - - - - - - - - - - 2 - - - - - |",
+    "2 - - - - - - - - 1' - - 1' - - - - - - - - - - - - - - - - - 2' - - - - - 1' - - - - - #5 - - - - - | 7 - - - - - - - - 6 - - 6 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |",
+    "6, - - - - - - - - 5 - - 5 - - - - - - - - - - - - - - - - - - - - - - - 6 - - - 5 - - - 3 - - - | #4 - - - - - - - - 2 - - 2 - - - - - - - - - - - 2 - - - - - - - - - - - - - - - - - 7, - - 1 - - |",
+    "6, - - - - - - - - 3 - - 3 - - - - - - - - - - - - - - - - - - - - - - - 4 - - - 3 - - - 1 - - - | 7, - - - - - - - - 6, - - 7, - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |",
+    "6, - - - - - - - - 5 - - 5 - - - - - - - - - - - - - - - - - - - - - - - 6 - - - 5 - - - 3 - - - | #4 - - - - - - - - 2 - - 2 - - - - - - - - - - - 2 - - - - - - - - - - - - - - - - - 3 - - 4 - - |",
+    "2 - - - - - - - - 1' - - 1' - - - - - - - - - - - - - - - - - 2' - - - - - 1' - - - - - #5 - - - - - | 7 - - - - - - - - 6 - - 6 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - | | |"
+  ]
+}

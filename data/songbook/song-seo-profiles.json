@@ -9328,5 +9328,221 @@
         "answer": "Because it passed the full compare gate and is cheap to hold in the stock pool."
       }
     ]
+  },
+  "theme-of-velvet": {
+    "aliases": [
+      "Theme of Velvet melody",
+      "Theme of Velvet notes",
+      "Velvet theme"
+    ],
+    "metaTitle": "Theme of Velvet Letter Notes and Fingering Chart",
+    "overview": "This page keeps Theme of Velvet in a clean letter-note layout for easy melody reading.",
+    "searchTerms": [
+      "Theme of Velvet letter notes",
+      "Theme of Velvet recorder notes",
+      "Theme of Velvet ocarina tabs"
+    ],
+    "background": "A calm theme title that works naturally as a melody-first page.",
+    "practice": "Useful for controlled phrasing and breath pacing on a softer melodic line.",
+    "metaDescription": "Play Theme of Velvet with letter notes, recorder notes, ocarina tabs, and fingering chart support. A calm theme melody for practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a theme-style melody page?",
+        "answer": "Yes. It is prepared as a single-line notes page for wind instruments."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it passed live compare on all supported public instruments."
+      }
+    ]
+  },
+  "main-theme": {
+    "aliases": [
+      "Main Theme melody",
+      "Main Theme notes",
+      "Main Theme song"
+    ],
+    "metaTitle": "Main Theme Letter Notes and Fingering Chart",
+    "overview": "This Main Theme page keeps the generic title in a clean letter-note layout for melody-instrument practice.",
+    "searchTerms": [
+      "Main Theme letter notes",
+      "Main Theme recorder notes",
+      "Main Theme ocarina tabs"
+    ],
+    "background": "A very broad theme title, but still suitable as a usable long-tail melody page once compare-validated.",
+    "practice": "Useful for basic phrasing, steady reading, and controlled line shaping.",
+    "metaDescription": "Play Main Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A general theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Why keep such a generic title?",
+        "answer": "Because even broad theme titles can still gather long-tail theme searches if the melody page is useful."
+      },
+      {
+        "question": "Is this ready for later promotion?",
+        "answer": "Yes. It passed the full import and live compare flow and is parked in the stock pool."
+      }
+    ]
+  },
+  "mark-theme": {
+    "aliases": [
+      "Mark Theme melody",
+      "Mark Theme notes",
+      "Mark theme song"
+    ],
+    "metaTitle": "Mark Theme Letter Notes and Fingering Chart",
+    "overview": "This Mark Theme page presents the melody in a clean letter-note layout for easier practice.",
+    "searchTerms": [
+      "Mark Theme letter notes",
+      "Mark Theme recorder notes",
+      "Mark Theme ocarina tabs"
+    ],
+    "background": "A short theme title that can still work as a long-tail melody page after validation.",
+    "practice": "Useful for phrase clarity, breath control, and simple melodic reading.",
+    "metaDescription": "Play Mark Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a melody-first page?",
+        "answer": "Yes. It is prepared as a single-line notes page for the supported public instruments."
+      },
+      {
+        "question": "Why keep it ready?",
+        "answer": "Because it already passed import, doctor, and live compare checks."
+      }
+    ]
+  },
+  "dawn-winery-theme": {
+    "aliases": [
+      "Dawn Winery Theme melody",
+      "Dawn Winery Theme notes",
+      "Genshin Dawn Winery Theme"
+    ],
+    "metaTitle": "Dawn Winery Theme Letter Notes and Fingering Chart",
+    "overview": "This page keeps Dawn Winery Theme in a clean letter-note layout for calm melody practice.",
+    "searchTerms": [
+      "Dawn Winery Theme letter notes",
+      "Dawn Winery Theme recorder notes",
+      "Dawn Winery Theme ocarina tabs"
+    ],
+    "background": "A recognisable game-theme melody that works naturally as a single-line page.",
+    "practice": "Useful for breath control, slow phrasing, and reading a reflective instrumental line.",
+    "metaDescription": "Play Dawn Winery Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A calm game-theme melody for practice.",
+    "extraFaqs": [
+      {
+        "question": "What type of page is this?",
+        "answer": "It is a theme-style melody page prepared for melody instruments."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it passed import, doctor, and live compare and is ready for later promotion."
+      }
+    ]
+  },
+  "sais-theme": {
+    "aliases": [
+      "Sai's Theme melody",
+      "Sai's Theme notes",
+      "Sai theme"
+    ],
+    "metaTitle": "Sai's Theme Letter Notes and Fingering Chart",
+    "overview": "This page presents Sai's Theme as a clean letter-note melody page for easy reading.",
+    "searchTerms": [
+      "Sai's Theme letter notes",
+      "Sai's Theme recorder notes",
+      "Sai's Theme ocarina tabs"
+    ],
+    "background": "A recognisable theme title with enough search value to justify a melody-first page.",
+    "practice": "Useful for phrase memory, breath pacing, and a steady theme line.",
+    "metaDescription": "Play Sai's Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a melody-first page?",
+        "answer": "Yes. It is prepared as a single-line melody page for wind instruments."
+      },
+      {
+        "question": "Why keep theme titles like this?",
+        "answer": "Because they often have long-tail search value and compare cleanly."
+      }
+    ]
+  },
+  "steafans-theme": {
+    "aliases": [
+      "Steafan's Theme melody",
+      "Steafan's Theme notes",
+      "Steafan theme"
+    ],
+    "metaTitle": "Steafan's Theme Letter Notes and Fingering Chart",
+    "overview": "This page keeps Steafan's Theme in a clean letter-note layout for easy melody practice.",
+    "searchTerms": [
+      "Steafan's Theme letter notes",
+      "Steafan's Theme recorder notes",
+      "Steafan's Theme ocarina tabs"
+    ],
+    "background": "A theme title that can work well as a clean melody page after compare validation.",
+    "practice": "Useful for smooth phrase shaping and steady breath support.",
+    "metaDescription": "Play Steafan's Theme with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "What kind of piece is this?",
+        "answer": "It is a theme-style melody page prepared for melody instruments."
+      },
+      {
+        "question": "Why hold it in stock?",
+        "answer": "Because it already passed the full import and compare flow."
+      }
+    ]
+  },
+  "il-vento-doro": {
+    "aliases": [
+      "Il Vento D'oro melody",
+      "Il Vento D'oro notes",
+      "Golden Wind theme"
+    ],
+    "metaTitle": "Il Vento D'oro Letter Notes and Fingering Chart",
+    "overview": "This page presents Il Vento D'oro as a clean melody-first notes page.",
+    "searchTerms": [
+      "Il Vento D'oro letter notes",
+      "Il Vento D'oro recorder notes",
+      "Il Vento D'oro ocarina tabs"
+    ],
+    "background": "A strong anime/game theme title with durable long-tail search value.",
+    "practice": "Useful for phrasing, controlled breath support, and a confident melodic line.",
+    "metaDescription": "Play Il Vento D'oro with letter notes, recorder notes, ocarina tabs, and fingering chart support. A recognizable theme melody for practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Golden Wind theme?",
+        "answer": "Yes. This page follows the familiar Il Vento D'oro melody line."
+      },
+      {
+        "question": "Why is it marked advanced?",
+        "answer": "Because the melody and articulation profile suit more experienced players better than absolute beginners."
+      }
+    ]
+  },
+  "victory": {
+    "aliases": [
+      "Victory melody",
+      "Victory notes",
+      "Victory theme"
+    ],
+    "metaTitle": "Victory Letter Notes and Fingering Chart",
+    "overview": "This page keeps Victory in a clean letter-note format for easy wind-instrument practice.",
+    "searchTerms": [
+      "Victory letter notes",
+      "Victory recorder notes",
+      "Victory ocarina tabs"
+    ],
+    "background": "A short but useful theme title that can still support search traffic.",
+    "practice": "Useful for clear phrasing, steady breath support, and basic theme reading.",
+    "metaDescription": "Play Victory with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "What is this page for?",
+        "answer": "It is a single-line melody page for the supported public instruments."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it has already passed full compare and is cheap to store until promotion."
+      }
+    ]
   }
 }

@@ -1,0 +1,30 @@
+{
+  "id": "victory",
+  "slug": "victory",
+  "title": "Victory",
+  "description": "Victory melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/jDaNj1bxp.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song jDaNj1bxp on 2026-05-23."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 113,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-23",
+    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "0 0 0 3 1' 7 6 5 | 3 - 5 - 3 - 3 1 | 2 - 5, - 5, - 2 5, | 4 - 3 - 2 - 1 - |",
+    "6, - - 3 1' 7 6 5 | 3 - 5 - 5 - 5 1' | 2' - 5 - 5 - 1' 3' | 2' - 6 - 6 - 5 - |",
+    "6 - - 3 1' 7 6 5 | 3 - 5 - 3 - 3 1 | 2 - 5, - 5, - 2 5, | 4 - 5 - 6 - 7 - |",
+    "6 - - 3 1' 7 1' 2' | 3' - - - 3' 4' 3' 1' | 2' - - 1' 7 - 5 - | 4 - - - 1' - 7 - | 6 - - - - - - - | | |"
+  ]
+}

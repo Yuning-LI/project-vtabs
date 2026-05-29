@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-28",
+  "updatedOn": "2026-05-29",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1662,6 +1662,86 @@
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ClBxg1TMb.html",
       "notes": "Promoted to public manifest and data layer on 2026-05-28."
+    },
+    {
+      "slug": "theme-of-velvet",
+      "title": "Theme of Velvet",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/QLSRm1IiV.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "main-theme",
+      "title": "Main Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/hYIMn1krn.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "mark-theme",
+      "title": "Mark Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-e",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/dUUOn1sd3.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "dawn-winery-theme",
+      "title": "Dawn Winery Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/K0ACp19bN.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "sais-theme",
+      "title": "Sai's Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/fAcFm1Mai.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "steafans-theme",
+      "title": "Steafan's Theme",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/llgsm1hZN.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "il-vento-doro",
+      "title": "Il Vento D'oro",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lwoPi1T70.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "victory",
+      "title": "Victory",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/jDaNj1bxp.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-29."
     }
   ]
 }
