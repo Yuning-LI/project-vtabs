@@ -1,8 +1,6 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs'
-import path from 'node:path'
-import { chromium } from 'playwright-extra'
-import stealthPlugin from 'puppeteer-extra-plugin-stealth'
+import { chromium } from 'playwright'
 import type { Page } from 'playwright'
 import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
@@ -15,8 +13,6 @@ import {
   getPrimaryPage,
   launchKuailepuPersistentContext
 } from './kuailepuAuth.ts'
-
-chromium.use(stealthPlugin())
 
 type CompareState = {
   instrument: string | null
@@ -44,21 +40,10 @@ type CompareResult = {
   liveHash?: string
   localNormalizedHash?: string
   liveNormalizedHash?: string
-  localSemanticHash?: string
-  liveSemanticHash?: string
-  semanticMatch?: boolean
-  semanticDiffs?: Array<{
-    path: string
-    local: unknown
-    live: unknown
-  }>
   normalizedMatch?: boolean
   firstDiffIndex?: number
-  normalizedFirstDiffIndex?: number
   localDiffSnippet?: string
   liveDiffSnippet?: string
-  normalizedLocalDiffSnippet?: string
-  normalizedLiveDiffSnippet?: string
   state?: CompareState
 }
 
@@ -76,26 +61,56 @@ type CompareTarget = {
 
 const baseUrl = process.argv[2] ?? 'http://127.0.0.1:3000'
 const requestedSlugs = process.argv.slice(3)
-const catalogBySlug = new Map(allSongCatalog.map(song => [song.slug, song]))
-const compareSources = resolveCompareSources(requestedSlugs, catalogBySlug)
 
-if (compareSources.length < 1) {
+/**
+ * 发布前 compare 必须基于 `allSongCatalog`，而不是只看已经公开的 `songCatalog`。
+ *
+ * 原因：
+ * - 这个脚本最重要的用途就是给“准备上线的新歌”做 parity gate
+ * - 如果只遍历已公开歌曲，就会漏掉 `published: false` 的待发布候选
+ */
+const candidates = allSongCatalog.filter(song => {
+  if (requestedSlugs.length > 0 && !requestedSlugs.includes(song.slug)) {
+    return false
+  }
+
+  const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+  if (!filePath || !fs.existsSync(filePath)) {
+    return false
+  }
+
+  const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid?: string }
+  return isLiveComparableSongUuid(payload.song_uuid)
+})
+
+if (candidates.length < 1) {
   console.error('No matching raw-backed songs with a live-comparable Kuailepu song_uuid were found.')
   process.exit(1)
 }
 
-const compareTargets: CompareTarget[] = compareSources.flatMap(source => {
-  const supportedInstruments = getSupportedPublicSongInstruments(source.payload)
+const compareTargets: CompareTarget[] = candidates.flatMap(song => {
+  const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+  if (!filePath) {
+    return []
+  }
+
+  const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as {
+    song_uuid: string
+    instrument?: string
+    show_graph?: string
+    instrumentFingerings?: Array<{ instrument?: string | null }>
+  }
+  const supportedInstruments = getSupportedPublicSongInstruments(payload)
 
   return supportedInstruments.map(instrument => ({
-    slug: source.slug,
-    title: source.title,
-    songUuid: source.payload.song_uuid,
+    slug: song.slug,
+    title: song.title,
+    songUuid: payload.song_uuid,
     instrumentId: instrument.id,
-    runtimeDefaultInstrumentId: source.payload.instrument ?? null,
-    runtimeDefaultShowGraph: source.payload.show_graph ?? null,
+    runtimeDefaultInstrumentId: payload.instrument ?? null,
+    runtimeDefaultShowGraph: payload.show_graph ?? null,
     runtimeControlPayload: {
-      instrumentFingerings: source.payload.instrumentFingerings
+      instrumentFingerings: payload.instrumentFingerings
     }
   }))
 })
@@ -158,28 +173,9 @@ try {
         }
         const liveCapture = await captureLiveRuntimeFromPreparedPage(livePage, localCapture.state)
         const normalizedMatch = localCapture.normalizedHash === liveCapture.normalizedHash
-        const semanticMatch = localCapture.semanticHash === liveCapture.semanticHash
-        const semanticDiffs = semanticMatch
-          ? undefined
-          : diffNormalizedRuntimeContexts(
-              localCapture.semanticContext,
-              liveCapture.semanticContext
-            )
         const firstDiffIndex = findFirstDiffIndex(localCapture.rawSvg, liveCapture.rawSvg)
-        const normalizedFirstDiffIndex = findFirstDiffIndex(
-          localCapture.normalizedSvg,
-          liveCapture.normalizedSvg
-        )
         const localDiffSnippet = buildDiffSnippet(localCapture.rawSvg, firstDiffIndex)
         const liveDiffSnippet = buildDiffSnippet(liveCapture.rawSvg, firstDiffIndex)
-        const normalizedLocalDiffSnippet = buildDiffSnippet(
-          localCapture.normalizedSvg,
-          normalizedFirstDiffIndex
-        )
-        const normalizedLiveDiffSnippet = buildDiffSnippet(
-          liveCapture.normalizedSvg,
-          normalizedFirstDiffIndex
-        )
 
         compareResults.push({
           slug: target.slug,
@@ -188,27 +184,16 @@ try {
           instrumentId: target.instrumentId,
           liveUrl,
           localUrl,
-          ok: semanticMatch,
-          reason: semanticMatch ? undefined : 'svg semantic mismatch',
+          ok: normalizedMatch,
+          reason: normalizedMatch ? undefined : 'svg hash mismatch',
           localHash: localCapture.hash,
           liveHash: liveCapture.hash,
           localNormalizedHash: localCapture.normalizedHash,
           liveNormalizedHash: liveCapture.normalizedHash,
-          localSemanticHash: localCapture.semanticHash,
-          liveSemanticHash: liveCapture.semanticHash,
-          semanticMatch,
-          semanticDiffs,
           normalizedMatch,
           firstDiffIndex: normalizedMatch ? undefined : firstDiffIndex,
           localDiffSnippet: normalizedMatch ? undefined : localDiffSnippet ?? undefined,
           liveDiffSnippet: normalizedMatch ? undefined : liveDiffSnippet ?? undefined,
-          normalizedFirstDiffIndex: normalizedMatch ? undefined : normalizedFirstDiffIndex,
-          normalizedLocalDiffSnippet: normalizedMatch
-            ? undefined
-            : normalizedLocalDiffSnippet ?? undefined,
-          normalizedLiveDiffSnippet: normalizedMatch
-            ? undefined
-            : normalizedLiveDiffSnippet ?? undefined,
           state: localCapture.state
         })
       } catch (error) {
@@ -253,7 +238,7 @@ async function captureLocalRuntime(page: Page, url: string) {
   await page.setViewportSize({ width: 1280, height: 1600 })
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 })
   await page.waitForSelector('svg.sheet-svg', { timeout: 30000 })
-  await sleep(randomBetween(1100, 1900))
+  await page.waitForTimeout(1500)
 
   const payload = await page.evaluate(() => {
     const svg = document.querySelector<SVGSVGElement>('svg.sheet-svg')
@@ -267,9 +252,9 @@ async function captureLocalRuntime(page: Page, url: string) {
     const context = pageGlobals.Kit?.context?.getContext?.() ?? null
     const getValue = (selector: string) =>
       document.querySelector<HTMLSelectElement>(selector)?.value ?? null
+
     return {
       svgHtml: svg?.outerHTML ?? '',
-      runtimeContext: context,
       state: {
         instrument:
           context && typeof context === 'object' && 'instrument' in context
@@ -323,114 +308,14 @@ async function captureLocalRuntime(page: Page, url: string) {
     rawSvg: payload.svgHtml,
     hash: sha256(payload.svgHtml),
     normalizedHash: sha256(normalizeSvgForHash(payload.svgHtml)),
-    normalizedSvg: normalizeSvgForHash(payload.svgHtml),
-    semanticContext: normalizeRuntimeContext(payload.runtimeContext),
-    semanticHash: sha256(buildRuntimeContextFingerprint(payload.runtimeContext)),
-    semanticSvg: buildRuntimeContextFingerprint(payload.runtimeContext),
     state: payload.state as CompareState
   }
-}
-
-function resolveCompareSources(
-  requested: string[],
-  catalogBySlug: Map<string, { title: string }>
-) {
-  const sourceSlugs = requested.length > 0 ? requested : allSongCatalog.map(song => song.slug)
-  const sources: Array<{
-    slug: string
-    title: string
-    payload: {
-      song_uuid: string
-      instrument?: string
-      show_graph?: string
-      instrumentFingerings?: Array<{ instrument?: string | null }>
-    }
-  }> = []
-
-  for (const slug of sourceSlugs) {
-    const filePath = resolveKuailepuRuntimeSongPath(slug)
-    if (!filePath || !fs.existsSync(filePath)) {
-      continue
-    }
-
-    const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as {
-      song_uuid?: string
-      song_name?: string
-      title?: string
-      instrument?: string
-      show_graph?: string
-      instrumentFingerings?: Array<{ instrument?: string | null }>
-    }
-
-    const songUuid = payload.song_uuid
-    if (!isLiveComparableSongUuid(songUuid)) {
-      continue
-    }
-
-    sources.push({
-      slug,
-      title: resolveCompareTitle(slug, payload, catalogBySlug),
-      payload: {
-        song_uuid: songUuid,
-        instrument: payload.instrument,
-        show_graph: payload.show_graph,
-        instrumentFingerings: payload.instrumentFingerings
-      }
-    })
-  }
-
-  return sources
-}
-
-function resolveCompareTitle(
-  slug: string,
-  payload: {
-    song_name?: string
-    title?: string
-  },
-  catalogBySlug: Map<string, { title: string }>
-) {
-  const catalogTitle = catalogBySlug.get(slug)?.title
-  if (catalogTitle) {
-    return catalogTitle
-  }
-
-  const candidateSongDocTitle = readCandidateSongDocTitle(slug)
-  if (candidateSongDocTitle) {
-    return candidateSongDocTitle
-  }
-
-  return payload.song_name?.trim() || payload.title?.trim() || slug
-}
-
-function readCandidateSongDocTitle(slug: string) {
-  const candidatePaths = [
-    path.resolve(process.cwd(), 'reference', 'kuailepu-candidates', 'songdocs', `${slug}.json`),
-    path.resolve(process.cwd(), 'reference', 'song-publish-candidates', 'songdocs', `${slug}.json`)
-  ]
-
-  for (const candidatePath of candidatePaths) {
-    if (!fs.existsSync(candidatePath)) {
-      continue
-    }
-
-    try {
-      const parsed = JSON.parse(fs.readFileSync(candidatePath, 'utf8')) as { title?: string }
-      if (typeof parsed.title === 'string' && parsed.title.trim().length > 0) {
-        return parsed.title.trim()
-      }
-    } catch {
-      // Fall through to other title sources.
-    }
-  }
-
-  return null
 }
 
 async function prepareLiveRuntimePage(page: Page, url: string) {
   await page.setViewportSize({ width: 1280, height: 1600 })
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 })
-  await sleep(randomBetween(700, 1400))
+  await page.waitForTimeout(800)
   await dismissKuailepuLoginOverlay(page)
   await page.waitForSelector('svg.sheet-svg', { timeout: 30000 })
 }
@@ -440,34 +325,16 @@ async function captureLiveRuntimeFromPreparedPage(page: Page, state: CompareStat
 
   const svgHtml = await page
     .locator('svg.sheet-svg')
-    .evaluate(node => {
-      const svg = node as SVGSVGElement
-      const pageGlobals = globalThis as typeof globalThis & {
-        Kit?: {
-          context?: {
-            getContext?: () => unknown
-          }
-        }
-      }
+    .evaluate(node => (node as SVGSVGElement).outerHTML)
 
-      return {
-        svgHtml: svg.outerHTML,
-        runtimeContext: pageGlobals.Kit?.context?.getContext?.() ?? null
-      }
-    })
-
-  if (!svgHtml.svgHtml) {
+  if (!svgHtml) {
     throw new Error('live runtime svg missing')
   }
 
   return {
-    rawSvg: svgHtml.svgHtml,
-    hash: sha256(svgHtml.svgHtml),
-    normalizedHash: sha256(normalizeSvgForHash(svgHtml.svgHtml)),
-    normalizedSvg: normalizeSvgForHash(svgHtml.svgHtml),
-    semanticContext: normalizeRuntimeContext(svgHtml.runtimeContext),
-    semanticHash: sha256(buildRuntimeContextFingerprint(svgHtml.runtimeContext)),
-    semanticSvg: buildRuntimeContextFingerprint(svgHtml.runtimeContext)
+    rawSvg: svgHtml,
+    hash: sha256(svgHtml),
+    normalizedHash: sha256(normalizeSvgForHash(svgHtml))
   }
 }
 
@@ -567,188 +434,17 @@ async function applyContextState(page: Page, state: CompareState) {
       state
     )
     .catch(() => undefined)
-  await sleep(randomBetween(900, 1700))
+  await page.waitForTimeout(1200)
 }
 
 function sha256(input: string) {
   return crypto.createHash('sha256').update(input).digest('hex')
 }
 
-function sleep(ms: number) {
-  return new Promise<void>(resolve => setTimeout(resolve, ms))
-}
-
-function randomBetween(min: number, max: number) {
-  return Math.floor(min + Math.random() * (max - min + 1))
-}
-
-function buildRuntimeContextFingerprint(input: unknown) {
-  return JSON.stringify(normalizeRuntimeContext(input))
-}
-
-function diffNormalizedRuntimeContexts(left: unknown, right: unknown, path = '') {
-  const diffs: Array<{
-    path: string
-    local: unknown
-    live: unknown
-  }> = []
-
-  collectDiffs(left, right, path)
-  return diffs
-
-  function collectDiffs(currentLeft: unknown, currentRight: unknown, currentPath: string) {
-    if (diffs.length >= 12) {
-      return
-    }
-
-    if (Object.is(currentLeft, currentRight)) {
-      return
-    }
-
-    if (Array.isArray(currentLeft) && Array.isArray(currentRight)) {
-      const maxLength = Math.max(currentLeft.length, currentRight.length)
-      for (let index = 0; index < maxLength; index += 1) {
-        const nextPath = `${currentPath}[${index}]`
-        if (index >= currentLeft.length) {
-          diffs.push({ path: nextPath, local: undefined, live: currentRight[index] })
-        } else if (index >= currentRight.length) {
-          diffs.push({ path: nextPath, local: currentLeft[index], live: undefined })
-        } else {
-          collectDiffs(currentLeft[index], currentRight[index], nextPath)
-        }
-
-        if (diffs.length >= 12) {
-          return
-        }
-      }
-      return
-    }
-
-    if (isPlainObject(currentLeft) && isPlainObject(currentRight)) {
-      const keys = new Set([...Object.keys(currentLeft), ...Object.keys(currentRight)])
-      for (const key of keys) {
-        const nextPath = currentPath ? `${currentPath}.${key}` : key
-        if (!(key in currentLeft)) {
-          diffs.push({ path: nextPath, local: undefined, live: currentRight[key] })
-        } else if (!(key in currentRight)) {
-          diffs.push({ path: nextPath, local: currentLeft[key], live: undefined })
-        } else {
-          collectDiffs(currentLeft[key], currentRight[key], nextPath)
-        }
-
-        if (diffs.length >= 12) {
-          return
-        }
-      }
-      return
-    }
-
-    diffs.push({ path: currentPath || '(root)', local: currentLeft, live: currentRight })
-  }
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
-}
-
-function normalizeRuntimeContext(input: unknown): unknown {
-  if (input === null || input === undefined) {
-    return null
-  }
-
-  if (Array.isArray(input)) {
-    return input.map(item => normalizeRuntimeContext(item))
-  }
-
-  if (typeof input === 'object') {
-    const record = input as Record<string, unknown>
-    const keys = [
-      'song_uuid',
-      'song_name',
-      'alias_name',
-      'song_pinyin',
-      'song_code',
-      'keynote',
-      'rhythm',
-      'lyric',
-      'lyric_text',
-      'instrument',
-      'fingering',
-      'fingering_index',
-      'show_graph',
-      'show_lyric',
-      'show_measure_num',
-      'measure_layout',
-      'sheet_scale'
-    ]
-
-    const picked = keys.reduce<Record<string, unknown>>((acc, key) => {
-      const value = record[key]
-      if (value === undefined || typeof value === 'function') {
-        return acc
-      }
-
-      if (key === 'fingering_index' || key === 'sheet_scale') {
-        acc[key] = normalizeComparableNumericValue(value)
-        return acc
-      }
-
-      acc[key] = normalizeRuntimeContext(value)
-      return acc
-    }, {})
-
-    return picked
-  }
-
-  if (typeof input === 'number') {
-    return Number.isFinite(input) ? input : null
-  }
-
-  if (typeof input === 'string') {
-    return input.trim()
-  }
-
-  if (typeof input === 'boolean') {
-    return input
-  }
-
-  return String(input)
-}
-
-function normalizeComparableNumericValue(value: unknown) {
-  if (value === null || value === undefined || value === '') {
-    return null
-  }
-
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null
-  }
-
-  const numeric = Number(String(value).trim())
-  return Number.isFinite(numeric) ? numeric : String(value).trim()
-}
-
 function normalizeSvgForHash(input: string) {
-  const normalized = input
+  return input
     .replace(/\s+height="[^"]*"/g, '')
     .replace(/\s+viewBox="[^"]*"/g, '')
-    .replace(/\s+textLength="[^"]*"/g, '')
-    .replace(/\s+lengthAdjust="[^"]*"/g, '')
-    .replace(/\s+x="[^"]*"/g, '')
-    .replace(/\s+x1="[^"]*"/g, '')
-    .replace(/\s+x2="[^"]*"/g, '')
-    .replace(/\s+y="[^"]*"/g, '')
-    .replace(/\s+y1="[^"]*"/g, '')
-    .replace(/\s+y2="[^"]*"/g, '')
-    .replace(/\s+cx="[^"]*"/g, '')
-    .replace(/(?<![A-Za-z_#])(-?\d+(?:\.\d+)?)/g, value => {
-      const numeric = Number(value)
-      if (!Number.isFinite(numeric)) {
-        return value
-      }
-
-      return String(Math.round(numeric / 20) * 20)
-    })
     .replace(/\s+role="img"/g, '')
     .replace(/\s+focusable="false"/g, '')
     .replace(/\s+aria-labelledby="[^"]*"/g, '')
@@ -778,7 +474,11 @@ function normalizeSvgForHash(input: string) {
      *
      * 这里把阈值放宽到 `y < 280`，仍然避开正文首行（当前抽查样本正文首行 >= 318）。
      */
-    .replace(/<text\b[^>]*>[\s\S]*?<\/text>/gi, '')
+    .replace(
+      /<text\b([^>]*?)\by="([0-9.]+)"([^>]*)>[\s\S]*?<\/text>/gi,
+      (match, beforeY, y, afterY) =>
+        Number(y) < 280 ? '' : `<text${beforeY}y="${y}"${afterY}></text>`
+    )
     .replace(
       /<use\b([^>]*?)\by="([0-9.]+)"([^>]*)\/?>/gi,
       (match, beforeY, y, afterY) =>
@@ -803,307 +503,6 @@ function normalizeSvgForHash(input: string) {
     )
     .replace(/>\s+</g, '><')
     .trim()
-
-  return normalizeSvgVerticalOffset(normalized)
-}
-
-function normalizeSvgVerticalOffset(input: string) {
-  const anchor = findFirstAbsoluteVerticalAnchor(input)
-  if (anchor === null || !Number.isFinite(anchor)) {
-    return input
-  }
-
-  return input
-    .replace(/(\b(?:y|y1|y2|cy|dy)=")(-?\d+(?:\.\d+)?)(?=")/gi, (match, prefix, value) => {
-      const numeric = Number(value)
-      if (!Number.isFinite(numeric)) {
-        return match
-      }
-
-      return `${prefix}${formatNormalizedNumber(numeric - anchor)}`
-    })
-    .replace(/(\bpoints=")([^"]*)(")/gi, (match, prefix, value, suffix) => {
-      const shifted = shiftPointsAttribute(value, anchor)
-      return shifted === null ? match : `${prefix}${shifted}${suffix}`
-    })
-    .replace(/(\btransform="[^"]*translate\(\s*[-+]?\d*\.?\d+(?:e[-+]?\d+)?\s*,\s*)(-?\d+(?:\.\d+)?)(\s*[^"]*")/gi, (match, prefix, value, suffix) => {
-      const numeric = Number(value)
-      if (!Number.isFinite(numeric)) {
-        return match
-      }
-
-      return `${prefix}${formatNormalizedNumber(numeric - anchor)}${suffix}`
-    })
-    .replace(/(\bd=")([^"]+)(")/gi, (match, prefix, value, suffix) => {
-      const shifted = shiftPathData(value, anchor)
-      return shifted === null ? match : `${prefix}${shifted}${suffix}`
-    })
-}
-
-function findFirstAbsoluteVerticalAnchor(input: string) {
-  const tagRegex = /<(path|line|circle|rect|use|polyline|polygon)\b[^>]*>/gi
-  let match: RegExpExecArray | null
-
-  while ((match = tagRegex.exec(input))) {
-    const tag = match[0]
-
-    const attrMatch = tag.match(/\b(?:y|y1|y2|cy|dy)="(-?\d+(?:\.\d+)?)"/i)
-    if (attrMatch) {
-      const numeric = Number(attrMatch[1])
-      if (Number.isFinite(numeric)) {
-        return numeric
-      }
-    }
-
-    const pathMatch = tag.match(/\bd="([^"]+)"/i)
-    if (pathMatch) {
-      const anchor = findFirstPathAbsoluteVerticalAnchor(pathMatch[1])
-      if (anchor !== null) {
-        return anchor
-      }
-    }
-  }
-
-  return null
-}
-
-function findFirstPathAbsoluteVerticalAnchor(pathData: string) {
-  const groups = parseSvgPathData(pathData)
-  for (const group of groups) {
-    if (group.command === 'm' || group.command === 'M') {
-      if (group.values.length >= 2) {
-        return group.values[1] ?? null
-      }
-      continue
-    }
-
-    const segmentSize = getSvgPathSegmentSize(group.command)
-    if (segmentSize === 0 || group.values.length < segmentSize) {
-      continue
-    }
-
-    if (group.command === 'h' || group.command === 'H') {
-      continue
-    }
-
-    if (group.command === 'v' || group.command === 'V') {
-      return group.values[0] ?? null
-    }
-
-    if (group.command === 'a' || group.command === 'A') {
-      return group.values[6] ?? null
-    }
-
-    for (let index = 1; index < group.values.length; index += segmentSize) {
-      const yIndex = getSvgPathVerticalValueIndex(group.command, index)
-      if (yIndex !== null && group.values[yIndex] !== undefined) {
-        return group.values[yIndex] ?? null
-      }
-    }
-  }
-
-  return null
-}
-
-function shiftPointsAttribute(points: string, offset: number) {
-  const tokens = points.trim().split(/[\s,]+/).filter(Boolean)
-  if (tokens.length < 2 || tokens.length % 2 !== 0) {
-    return null
-  }
-
-  const output: string[] = []
-  for (let index = 0; index < tokens.length; index += 2) {
-    const x = Number(tokens[index])
-    const y = Number(tokens[index + 1])
-    if (!Number.isFinite(x) || !Number.isFinite(y)) {
-      return null
-    }
-
-    output.push(formatNormalizedNumber(x), formatNormalizedNumber(y - offset))
-  }
-
-  return output.join(' ')
-}
-
-type SvgPathGroup = {
-  command: string
-  values: number[]
-}
-
-function parseSvgPathData(pathData: string) {
-  const groups: SvgPathGroup[] = []
-  const tokenRegex = /([AaCcHhLlMmQqSsTtVvZz])|([-+]?\d*\.?\d+(?:e[-+]?\d+)?)/gi
-  let currentGroup: SvgPathGroup | null = null
-  let match: RegExpExecArray | null
-
-  while ((match = tokenRegex.exec(pathData))) {
-    if (match[1]) {
-      currentGroup = { command: match[1], values: [] }
-      groups.push(currentGroup)
-      continue
-    }
-
-    if (!currentGroup) {
-      continue
-    }
-
-    const numeric = Number(match[2])
-    if (!Number.isFinite(numeric)) {
-      continue
-    }
-
-    currentGroup.values.push(numeric)
-  }
-
-  return groups
-}
-
-function shiftPathData(pathData: string, offset: number) {
-  const groups = parseSvgPathData(pathData)
-  if (groups.length === 0) {
-    return null
-  }
-
-  const output: string[] = []
-
-  for (const group of groups) {
-    const segmentSize = getSvgPathSegmentSize(group.command)
-    if (segmentSize === 0) {
-      output.push(group.command)
-      continue
-    }
-
-    if (group.command === 'M' || group.command === 'm') {
-      const firstPair = group.values.slice(0, 2)
-      if (firstPair.length < 2) {
-        return null
-      }
-
-      const firstY = group.command === 'M' ? firstPair[1]! - offset : firstPair[1]!
-
-      output.push(
-        `${group.command} ${formatNormalizedNumber(firstPair[0]!)} ${formatNormalizedNumber(
-          firstY
-        )}`
-      )
-
-      const trailingPairs = group.values.slice(2)
-      const trailingCommand = group.command === 'M' ? 'L' : 'l'
-      for (let index = 0; index < trailingPairs.length; index += 2) {
-        const x = trailingPairs[index]
-        const y = trailingPairs[index + 1]
-        if (x === undefined || y === undefined) {
-          return null
-        }
-
-        const shiftedY = trailingCommand === 'L' ? y - offset : y
-        output.push(
-          `${trailingCommand} ${formatNormalizedNumber(x)} ${formatNormalizedNumber(shiftedY)}`
-        )
-      }
-
-      continue
-    }
-
-    for (let index = 0; index < group.values.length; index += segmentSize) {
-      const segment = group.values.slice(index, index + segmentSize)
-      if (segment.length < segmentSize) {
-        return null
-      }
-
-      const shiftedSegment = segment.map((value, valueIndex) => {
-        const shouldShiftVertical =
-          isAbsoluteSvgPathCommand(group.command) &&
-          getSvgPathVerticalValueIndex(group.command, valueIndex) !== null
-        const shiftedValue = shouldShiftVertical ? value - offset : value
-        return isSvgPathControlPointY(group.command, valueIndex)
-          ? roundToGrid(shiftedValue, 40)
-          : shiftedValue
-      })
-
-      output.push(`${group.command} ${shiftedSegment.map(formatNormalizedNumber).join(' ')}`)
-    }
-  }
-
-  return output.join(' ')
-}
-
-function getSvgPathSegmentSize(command: string) {
-  switch (command.toLowerCase()) {
-    case 'z':
-      return 0
-    case 'h':
-    case 'v':
-      return 1
-    case 'm':
-    case 'l':
-    case 't':
-      return 2
-    case 's':
-    case 'q':
-      return 4
-    case 'c':
-      return 6
-    case 'a':
-      return 7
-    default:
-      return 0
-  }
-}
-
-function getSvgPathVerticalValueIndex(command: string, valueIndex: number) {
-  switch (command.toLowerCase()) {
-    case 'm':
-    case 'l':
-    case 't':
-      return valueIndex % 2 === 1 ? valueIndex : null
-    case 'q':
-      return valueIndex === 1 || valueIndex === 3 ? valueIndex : null
-    case 's':
-      return valueIndex === 1 || valueIndex === 3 ? valueIndex : null
-    case 'c':
-      return valueIndex === 1 || valueIndex === 3 || valueIndex === 5 ? valueIndex : null
-    case 'a':
-      return valueIndex === 6 ? valueIndex : null
-    case 'v':
-      return valueIndex === 0 ? valueIndex : null
-    default:
-      return null
-  }
-}
-
-function isAbsoluteSvgPathCommand(command: string) {
-  return command === command.toUpperCase()
-}
-
-function formatNormalizedNumber(value: number) {
-  if (!Number.isFinite(value)) {
-    return '0'
-  }
-
-  const rounded = Math.abs(value) < 1e-9 ? 0 : value
-  const text = Number(rounded.toFixed(3)).toString()
-  return text === '-0' ? '0' : text
-}
-
-function roundToGrid(value: number, gridSize: number) {
-  if (!Number.isFinite(value) || gridSize <= 0) {
-    return value
-  }
-
-  return Math.round(value / gridSize) * gridSize
-}
-
-function isSvgPathControlPointY(command: string, valueIndex: number) {
-  switch (command.toLowerCase()) {
-    case 'c':
-      return valueIndex === 1 || valueIndex === 3
-    case 's':
-    case 'q':
-      return valueIndex === 1
-    default:
-      return false
-  }
 }
 
 function findFirstDiffIndex(left: string, right: string) {
@@ -1209,7 +608,7 @@ function getPreferredPublicGraphValue(
   return upward?.value.trim() ?? available[0]!.value.trim()
 }
 
-function isLiveComparableSongUuid(songUuid: string | undefined): songUuid is string {
+function isLiveComparableSongUuid(songUuid: string | undefined) {
   return (
     typeof songUuid === 'string' &&
     songUuid.trim().length > 0 &&

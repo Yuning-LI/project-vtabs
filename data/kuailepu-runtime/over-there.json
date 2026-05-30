@@ -495,7 +495,7 @@
     "runtimeFingeringAudit": {
       "status": "optimized",
       "rulesVersion": "2026-05-15-public-instrument-selection-v1",
-      "optimizedAt": "2026-05-28T02:13:57.347Z",
+      "optimizedAt": "2026-05-21T01:34:20.957Z",
       "instrumentCount": 5,
       "baseUrl": "http://127.0.0.1:3000"
     }

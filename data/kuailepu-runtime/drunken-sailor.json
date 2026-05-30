@@ -500,14 +500,5 @@
   "instrument": "none",
   "fingering": "",
   "fingering_index": 0,
-  "bpm": 100,
-  "vtabs_import": {
-    "runtimeFingeringAudit": {
-      "status": "optimized",
-      "rulesVersion": "2026-05-15-public-instrument-selection-v1",
-      "optimizedAt": "2026-05-28T02:13:09.202Z",
-      "baseUrl": "http://127.0.0.1:3000",
-      "instrumentCount": 5
-    }
-  }
+  "bpm": 100
 }

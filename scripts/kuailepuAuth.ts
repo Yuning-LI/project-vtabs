@@ -1,14 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-// 👇 这里改成 playwright-extra（核心修改 1）
-import { chromium } from 'playwright-extra'
-// 👇 新增隐身插件（核心修改 2）
-import stealthPlugin from 'puppeteer-extra-plugin-stealth'
-import type { BrowserContext, Page } from 'playwright'
+import { chromium, type BrowserContext, type Page } from 'playwright'
 import type { KuailepuSongPayload } from '../src/lib/songbook/kuailepuImport.ts'
-
-// 👇 激活隐身插件（核心修改 3）
-chromium.use(stealthPlugin())
 
 export const KUAILEPU_PROFILE_DIR = path.resolve(
   process.cwd(),
@@ -56,7 +49,7 @@ export async function dismissKuailepuLoginOverlay(page: Page) {
 
   await page.keyboard.press('Escape').catch(() => undefined)
   await page.mouse.click(20, 20).catch(() => undefined)
-  await sleep(randomBetween(250, 500))
+  await page.waitForTimeout(300)
 
   const stillVisible = await page.locator('text=邮箱登录').first().isVisible().catch(() => false)
   if (!stillVisible) {
@@ -137,12 +130,3 @@ export async function looksLoggedIn(page: Page) {
 
   return true
 }
-
-function sleep(ms: number) {
-  return new Promise<void>(resolve => setTimeout(resolve, ms))
-}
-
-function randomBetween(min: number, max: number) {
-  return Math.floor(min + Math.random() * (max - min + 1))
-}
-
