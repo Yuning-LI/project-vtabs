@@ -32,7 +32,7 @@ if (!options) {
 }
 
 const require = createRequire(import.meta.url)
-const hc = require('../public/k-static/cdn/js/dist/hc.min_1cfae5fe62.js') as {
+const hc = require('../public/k-static/cdn/js/dist/hc.min_1fefdac49d.js') as {
   parser: {
     terminals_: Record<number, string>
     symbols_: Record<string, number>

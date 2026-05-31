@@ -195,7 +195,7 @@ const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
   'lib/jquery/1.8.3/jquery.min.js',
   'cdn/js/i18n_d3be79dfbd.js',
   'cdn/js/kit_9b7263d863.js',
-  'cdn/js/dist/hc.min_1cfae5fe62.js',
+  'cdn/js/dist/hc.min_1fefdac49d.js',
   'cdn/js/song_builder_a87186a4c4.js',
   'cdn/js/song_1f2ad3c3ba.js'
 ] as const
@@ -4120,10 +4120,7 @@ function buildRuntimeBridgeScript(
         text.setAttribute('x', String(glyph.x + glyph.width / 2));
         text.setAttribute('y', String(glyph.y + glyph.height - 0.5));
         text.setAttribute('fill', '#7a5331');
-        text.setAttribute(
-          'font-size',
-          label === 'R' ? '15' : label.length >= 4 ? '11' : '13'
-        );
+        text.setAttribute('font-size', label === 'R' ? '15' : label.length >= 4 ? '11' : '13');
         // 字母谱字号策略故意保守：
         // - 优先不压到歌词和指法图
         // - 在不产生重叠的前提下尽量比原数字更易读
@@ -4204,7 +4201,7 @@ function buildRuntimeBridgeScript(
         mark.setAttribute('font-style', 'italic');
         mark.setAttribute('font-weight', '700');
         mark.setAttribute('text-anchor', 'middle');
-        mark.setAttribute('font-family', 'Georgia, Times New Roman, serif');
+        mark.setAttribute('font-family', 'Arial, sans-serif');
         mark.textContent = ',';
         layer.appendChild(mark);
       });

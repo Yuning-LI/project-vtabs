@@ -90,6 +90,8 @@ const require = createRequire(import.meta.url)
 
 function resolveHcModulePath() {
   const candidates = [
+    path.resolve(process.cwd(), 'public/k-static/cdn/js/dist/hc.min_1fefdac49d.js'),
+    path.resolve(process.cwd(), 'vendor/kuailepu-static/cdn/js/dist/hc.min_1fefdac49d.js'),
     path.resolve(process.cwd(), 'public/k-static/cdn/js/dist/hc.min_1cfae5fe62.js'),
     path.resolve(process.cwd(), 'vendor/kuailepu-static/cdn/js/dist/hc.min_1cfae5fe62.js'),
     path.resolve(process.cwd(), 'vendor/kuailepu-static/cdn/js/dist/hc.min_02d898293e.js')
