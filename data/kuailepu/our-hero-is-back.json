@@ -1,0 +1,45 @@
+{
+  "id": "our-hero-is-back",
+  "slug": "our-hero-is-back",
+  "title": "Our Hero Is Back",
+  "description": "Our Hero Is Back melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Scjxi1s1Z.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Scjxi1s1Z on 2026-05-31."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-31",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "3 - 6 - - - 6 7 1' 2' | 3' - 1' - - - 3' - | 2' - - 1' 7 - 5 - | 6 - - - - - 3' - |",
+    "6' - - - 6' 5' 3' 1' | 2' 1' 7 - - - 5 7 | 6 - - - - - - - | 6 - - 1' 7 - 5 - |",
+    "6 - - - 6 7 1' 2' | 3' - 5' - - - 3' 5' | #4' - - 2' 2' - 6 - | 7 - - - 2' - #4' - |",
+    "5' #4' 3' - - - 3' 5' | #4' - - 2' 2' - 6' - | 7' - - - - - - - | 7' - - - - - - - |",
+    "0 0 3 - 6 - - 3 | 6 7 - - - - - - - 7 | 0 0 1' - 7 - - 5 | 2' 3' - - - 3' 5 1' |",
+    "3' - - - 2' - - - | 5' - - - - - 4' 2' | 3' - - - - - - - | 3' - - - - - 3' 5' |",
+    "6' - - - 5' - - - | 1'' - - - 1'' - 2'' - | 3'' - - - - - - - | 3'' - - - - - - - |",
+    "| 6, - - - 6, 7, 1 2 | 3 - 5 - - - - - |",
+    "2 - - - 1 - 7, - | 5, - - - 7, - - - | 1 7, 6, - - - 7, 1 | 7, - 5, - - - 7, - |",
+    "| 3 #4 5 - - - #4 3 | 2 - - - 7, - - - |",
+    "3 #4 5 - - - #4 5 | 6 - - - 7 - - - | 1' 7 6 - - - 7 1' | 7 - 5 - - - 3 - |",
+    "6 - - - - - - - | 6 - - - - - - - | 0 0 6, - - - - - | 6, - - - 2 - - - |",
+    "2 - - - 6, - - - | 6, - - - #4 - - - | 5 - - - - - - - | 5 - - - 6 - - - |",
+    "7 - - - - - - - | #4 - - - - -",
+    "3 - | 6 - - - 6 7 1' 2' | 3' - 1' - - - 3' - |",
+    "2' - - 1' 7 - 5 - | 6 - - - - - 3' - | 6' - - - 6' 5' 3' 1' | 2' 1' 7 - - - 5 7 |",
+    "6 - - - - - - - | 6 - - - - - 3' - | 6' - - - - - 3' - | 6' 7' - - - 7' 3' - |",
+    "1'' 7' 7' - 5' - 2' - | 3' - - - 5' - - - | 6' - - - - - - - | 6' - 1'' - 7' - - 5' |",
+    "6' - - - - - - - | 6' - - - - - - - | 5 - - - - - - - | 5 - - - - - - - | | |"
+  ]
+}

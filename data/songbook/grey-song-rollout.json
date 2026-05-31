@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-31",
+  "updatedOn": "2026-06-01",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1822,6 +1822,56 @@
       "addedOn": "2026-05-31",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/y47Rm1M8l.html",
       "notes": "Promoted to public manifest and data layer on 2026-05-31."
+    },
+    {
+      "slug": "epiphany",
+      "title": "Epiphany",
+      "status": "live",
+      "batch": "stock-2026-05-31-11",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/bYc0j1zWE.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "our-hero-is-back",
+      "title": "Our Hero Is Back",
+      "status": "live",
+      "batch": "stock-2026-05-31-11",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Scjxi1s1Z.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "oceacn-hearts",
+      "title": "Oceacn Hearts",
+      "status": "live",
+      "batch": "stock-2026-05-31-11",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JWVvn1blt.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "everlast",
+      "title": "Everlast",
+      "status": "live",
+      "batch": "stock-2026-05-31-11",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Kc3Ou1CrR.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "rubia",
+      "title": "Rubia",
+      "status": "live",
+      "batch": "stock-2026-05-31-11",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/A1S6l1RRL.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
     }
   ]
 }
