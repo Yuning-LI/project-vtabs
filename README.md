@@ -9,6 +9,7 @@ Read as little as the task allows:
 - Every new session: `AGENTS.md`, then `docs/agent-handoff.md`.
 - Release / current state / dirty tree questions: also read `docs/handoff.md`.
 - Kuailepu import, publishing, runtime, letter mode, or song SEO: read `docs/kuailepu-compatibility-roadmap.md`, `docs/manual-runtime-qa-checklist.md`, `src/lib/kuailepu/runtime.ts`.
+- Any Kuailepu browser operation: read `docs/kuailepu-operation-playbook.md`.
 - Public instrument fit, transposition, or fingering-selection work: also read `docs/public-instrument-selection-rules.md`.
 - Learn / hub / growth work: read `docs/seo-growth-roadmap.md`.
 - Grey-song import work: read `docs/grey-song-rollout-playbook.md`.
@@ -26,6 +27,7 @@ The older rule of reading every major document for every substantial task has be
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
 - Production-packed runtime JSON lives in `data/kuailepu-runtime-packed/<slug>.json.gz` and is preferred in production builds.
 - Compact public song docs live in `data/kuailepu/<slug>.json`.
+- Managed Kuailepu grey import queue lives in `data/songbook/kuailepu-grey-import-queue.json`.
 - `reference/songs/<slug>.json` is local fallback for import/debug only.
 - Runtime archive lives at `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Public runtime static assets live under `public/k-static/**`.
@@ -86,6 +88,12 @@ If an approved target song fails during search, import, compare, or preflight, d
 - Kuailepu import, compare, preflight, login checks, and live-context debugging need a China-reachable network.
 - Google / western-web research usually needs a foreign VPN.
 - Do not assume both are reachable at once; ask the user to switch VPN when needed.
+
+## Playwright Launch Rule
+
+- Any new Playwright startup code in this repo must use `playwright-extra` plus `puppeteer-extra-plugin-stealth`.
+- Use `scripts/kuailepuAuth.ts` as the reference pattern for browser initialization.
+- Do not start browsers with raw `playwright` directly.
 
 ## Runtime Guardrails
 

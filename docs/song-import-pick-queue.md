@@ -6,6 +6,7 @@ It does **not** replace either import workflow:
 
 - local `MusicXML` / `MXL` songs still follow `docs/song-ingest-operator-runbook.md`
 - Kuailepu grey songs still follow `docs/grey-song-rollout-playbook.md`
+- The current managed Kuailepu grey queue lives at `data/songbook/kuailepu-grey-import-queue.json`
 
 The purpose is narrow:
 
@@ -35,6 +36,7 @@ Lane-specific upstream sources:
 - Kuailepu grey lane:
   - `reference/kuailepu-candidates/queues/grey-priority-queue.md`
   - `data/songbook/grey-song-rollout.json`
+  - `data/songbook/kuailepu-grey-import-queue.json`
 
 ## How To Use It
 
@@ -52,11 +54,9 @@ This queue only chooses the song. It does not approve publication by itself.
 
 ### If the task is Kuailepu grey import
 
-1. Open `data/songbook/song-import-pick-queue.json`
-2. Filter rows where:
-   - `lane = "kuailepu-grey"`
-   - `status = "queue"`
-3. Take the smallest `priority`
+1. Open `data/songbook/kuailepu-grey-import-queue.json`
+2. Take the smallest `priority` where `status` is `stock-unpublished` or `queued`
+3. Treat `live` rows as completed records only
 4. Run the normal Kuailepu grey workflow
 
 Do not replace the Kuailepu workflow with this queue.

@@ -1,7 +1,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import vm from 'node:vm'
-import { chromium } from 'playwright'
+import { chromium } from 'playwright-extra'
+import stealthPlugin from 'puppeteer-extra-plugin-stealth'
 import {
   buildKuailepuSongDoc,
   type KuailepuSongPayload
@@ -12,6 +13,8 @@ import {
   launchKuailepuPersistentContext,
   readKuailepuContextFromPage
 } from './kuailepuAuth.ts'
+
+chromium.use(stealthPlugin())
 
 type CliOptions = {
   input: string
@@ -162,11 +165,6 @@ async function resolveInputSource(input: string) {
 }
 
 async function fetchKuailepuContext(sourceUrl: string) {
-  const payloadFromProfile = await fetchKuailepuContextWithSavedLogin(sourceUrl)
-  if (payloadFromProfile) {
-    return payloadFromProfile
-  }
-
   const browser = await chromium.launch({ headless: true })
 
   try {
@@ -184,6 +182,11 @@ async function fetchKuailepuContext(sourceUrl: string) {
     }
   } finally {
     await browser.close()
+  }
+
+  const payloadFromProfile = await fetchKuailepuContextWithSavedLogin(sourceUrl)
+  if (payloadFromProfile) {
+    return payloadFromProfile
   }
 
   return fetchEmbeddedContextFromHtml(sourceUrl)

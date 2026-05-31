@@ -29,6 +29,7 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Production runtime JSON: `data/kuailepu-runtime/<slug>.json`.
 - Production-packed runtime JSON: `data/kuailepu-runtime-packed/<slug>.json.gz`.
 - Compact public song docs: `data/kuailepu/<slug>.json`.
+- Managed Kuailepu grey import queue: `data/songbook/kuailepu-grey-import-queue.json`.
 - Local fallback only: `reference/songs/<slug>.json`.
 - Local-only unpublished Kuailepu candidates: `reference/kuailepu-candidates/**`.
 - Publish-ready Kuailepu grey stock pool: `reference/kuailepu-candidates/publish-drafts/**`.
@@ -42,6 +43,10 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Public visible copy must be English.
 - Do not expose Kuailepu/source-attribution wording on public pages.
 - `/api/kuailepu-runtime/<slug>` is not an SEO page and must remain `noindex`.
+- Any new Playwright startup code must use `playwright-extra` with `puppeteer-extra-plugin-stealth`.
+- Follow `scripts/kuailepuAuth.ts` for the browser initialization pattern.
+- Do not launch browsers with raw `playwright` directly.
+- For any Kuailepu browser action, follow `docs/kuailepu-operation-playbook.md`.
 
 ## Import / Publishing Default
 

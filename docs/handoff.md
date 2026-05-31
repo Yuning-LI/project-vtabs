@@ -14,6 +14,10 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 - `reference/songs/*.json` is local fallback only.
 - `captured SVG` is debug/parity material only.
 - `/api/kuailepu-runtime/<slug>` must remain `noindex, nofollow, noarchive`.
+- Any new Playwright startup code in this workspace must use `playwright-extra` plus `puppeteer-extra-plugin-stealth`.
+- Use `scripts/kuailepuAuth.ts` as the canonical startup reference.
+- Do not launch browsers with raw `playwright` directly.
+- For any Kuailepu browser action, follow `docs/kuailepu-operation-playbook.md`.
 
 ## Latest Verified Changes
 

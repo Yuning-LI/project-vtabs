@@ -2,6 +2,8 @@
 
 Use this when importing high-recognition non-core songs from Kuailepu and preparing them for public grey rollout.
 
+For browser behavior, follow `docs/kuailepu-operation-playbook.md`.
+
 ## Strategy
 
 Grey songs should increase the value of existing public song pages and existing learn / hub pages. Do not create a new hub just because a grey song was added.
@@ -36,6 +38,9 @@ Keep these layers separate:
 - `data/songbook/grey-song-rollout.json`
   - live rollout tracker
   - record songs as `live` after they are pushed
+- `data/songbook/kuailepu-grey-import-queue.json`
+  - managed grey import queue
+  - starts with `stock-unpublished`, then `queued`, then `live` records
 - `data/songbook/song-import-pick-queue.json`
   - selection-only queue
   - helps choose the next song quickly, but does not define publish state
