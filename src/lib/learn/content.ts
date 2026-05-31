@@ -177,6 +177,10 @@ const PATRIOTIC_ANTHEM_SONG_SLUGS = new Set([
   'katyusha'
 ])
 
+const MARCH_AND_PARADE_SONG_SLUGS = new Set([
+  'intermission-march-of-dyna'
+])
+
 const WORLD_FOLK_SONG_SLUGS = new Set([
   'alouette',
   'arirang',
@@ -223,6 +227,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'invincible',
   'i-beg-you',
   'i-missing-you',
+  'one-night',
+  'ico-you-were-there',
   'melodies-of-life',
   'mystery-of-love',
   'hymn-to-the-sea',
@@ -245,6 +251,8 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'main-theme-from-ori-and-the-blind-forest',
   'bbs-theme',
   'assassins-creed-rogue-main-theme',
+  'one-night',
+  'ico-you-were-there',
   'see-you-again',
   'casablanca',
   'careless-whisper',
@@ -2690,6 +2698,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'song-of-storms',
       'sarias-song',
       'eponas-song',
+      'ocarina-of-time-mediey',
       'dragon-roost-island',
       'kakariko-village',
       'ballad-of-the-wind-fish',
@@ -2737,6 +2746,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
         songSlugs: [
           'song-of-storms',
           'sarias-song',
+          'ocarina-of-time-mediey',
           'dragon-roost-island',
           'kakariko-village',
           'breath-of-the-wild-theme'
@@ -4715,6 +4725,14 @@ export function getSuggestedGuideCardsForSong(songSlug: string) {
       'easy-songs-for-adult-beginners',
       'recorder-letter-notes'
     ].filter((slug): slug is string => Boolean(slug))
+  } else if (MARCH_AND_PARADE_SONG_SLUGS.has(songSlug)) {
+    suggestedSlugs = [
+      'march-and-parade-letter-note-songs',
+      'first-performance-letter-note-songs',
+      'easy-songs-for-adult-beginners',
+      '12-hole-ocarina-letter-notes',
+      'recorder-letter-notes'
+    ]
   } else if (WORLD_FOLK_SONG_SLUGS.has(songSlug)) {
     suggestedSlugs = [
       'world-folk-letter-note-songs',

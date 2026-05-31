@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-05-29",
+  "updatedOn": "2026-05-31",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1742,6 +1742,86 @@
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/jDaNj1bxp.html",
       "notes": "Promoted to public manifest and data layer on 2026-05-29."
+    },
+    {
+      "slug": "one-night",
+      "title": "One Night",
+      "status": "live",
+      "batch": "stock-2026-05-29-9",
+      "group": "song",
+      "addedOn": "2026-05-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JsxCn1qmr.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-30."
+    },
+    {
+      "slug": "ico-you-were-there",
+      "title": "ICO -You were There-",
+      "status": "live",
+      "batch": "stock-2026-05-29-9",
+      "group": "game",
+      "addedOn": "2026-05-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/UvDPo1PNP.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-30."
+    },
+    {
+      "slug": "intermission-march-of-dyna",
+      "title": "INTERMISSION-March of DYNA",
+      "status": "live",
+      "batch": "stock-2026-05-29-9",
+      "group": "game",
+      "addedOn": "2026-05-29",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/8YH0g1Nsr.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-30."
+    },
+    {
+      "slug": "omoinotake",
+      "title": "Omoinotake",
+      "status": "live",
+      "batch": "stock-2026-05-31-10",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/u3QNk1ybs.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-31."
+    },
+    {
+      "slug": "one-for-me",
+      "title": "One for Me",
+      "status": "live",
+      "batch": "stock-2026-05-31-10",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/l2mHf1X2z.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-31."
+    },
+    {
+      "slug": "reason",
+      "title": "Reason",
+      "status": "live",
+      "batch": "stock-2026-05-31-10",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JJILf1IKe.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-31."
+    },
+    {
+      "slug": "eye-water",
+      "title": "Eye Water",
+      "status": "live",
+      "batch": "stock-2026-05-31-10",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/rnh3g1h8N.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-31."
+    },
+    {
+      "slug": "ocarina-of-time-mediey",
+      "title": "Ocarina of Time Mediey",
+      "status": "live",
+      "batch": "stock-2026-05-31-10",
+      "group": "song",
+      "addedOn": "2026-05-31",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/y47Rm1M8l.html",
+      "notes": "Promoted to public manifest and data layer on 2026-05-31."
     }
   ]
 }
