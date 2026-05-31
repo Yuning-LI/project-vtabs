@@ -14,7 +14,6 @@ import {
 } from '@/components/song/useSongRoutePrefetch'
 
 type DeferredPracticePairSectionProps = {
-  title: string
   suggestions: PracticePairSuggestions | null
   prefetchEnabled?: boolean
   backHref?: string
@@ -22,7 +21,6 @@ type DeferredPracticePairSectionProps = {
 }
 
 export default function DeferredPracticePairSection({
-  title,
   suggestions,
   prefetchEnabled = false,
   backHref = '/',
@@ -128,9 +126,10 @@ export default function DeferredPracticePairSection({
       <div className="page-warm-practice-feature p-5 md:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="text-2xl font-bold text-stone-900">Play Next</h2>
+            <h2 className="text-2xl font-bold text-stone-900">More Songs to Explore</h2>
             <p className="mt-2 text-sm leading-7 text-stone-700">
-              Finished with {title}? Pick the next melody that looks worth playing.
+              Keep moving through songs with a similar feel or learning pattern instead of bouncing
+              back to the full library after every tune.
             </p>
           </div>
           <Link
