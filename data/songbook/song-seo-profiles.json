@@ -9899,4 +9899,140 @@
       }
     ]
   }
+  ,
+  "eutopia": {
+    "aliases": [
+      "Eutopia melody",
+      "Eutopia notes",
+      "Eutopia theme"
+    ],
+    "metaTitle": "Eutopia Letter Notes and Fingering Chart",
+    "overview": "This page keeps Eutopia in a clean letter-note layout for easy melody practice.",
+    "searchTerms": [
+      "Eutopia letter notes",
+      "Eutopia recorder notes",
+      "Eutopia ocarina tabs"
+    ],
+    "background": "A recognisable theme title with broad media search potential.",
+    "practice": "Useful for calm phrase shaping, breath support, and theme recognition.",
+    "metaDescription": "Play Eutopia with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this a melody-first page?",
+        "answer": "Yes. It is prepared as a single-line melody page for wind instruments."
+      },
+      {
+        "question": "Why keep it in stock?",
+        "answer": "Because it passed import, doctor, and live compare cleanly."
+      }
+    ]
+  },
+  "i-believe": {
+    "aliases": [
+      "I Believe song",
+      "I Believe melody",
+      "I Believe notes"
+    ],
+    "metaTitle": "I Believe Letter Notes and Fingering Chart",
+    "overview": "This page keeps I Believe in a clean letter-note layout for melody-instrument practice.",
+    "searchTerms": [
+      "I Believe letter notes",
+      "I Believe recorder notes",
+      "I Believe ocarina tabs"
+    ],
+    "background": "A broad title that still has enough recognition for a useful notes page.",
+    "practice": "Useful for calm phrasing, breath pacing, and simple melody reading.",
+    "metaDescription": "Play I Believe with letter notes, recorder notes, ocarina tabs, and fingering chart support. A familiar melody page for practice.",
+    "extraFaqs": [
+      {
+        "question": "Does this candidate include lyrics?",
+        "answer": "Yes. This candidate came through with public lyrics support."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it passed the full compare gate and can be promoted later without rework."
+      }
+    ]
+  },
+  "undertale": {
+    "aliases": [
+      "Undertale melody",
+      "Undertale notes",
+      "Undertale theme"
+    ],
+    "metaTitle": "Undertale Letter Notes and Fingering Chart",
+    "overview": "This page keeps Undertale in a clean letter-note layout for wind-instrument practice.",
+    "searchTerms": [
+      "Undertale letter notes",
+      "Undertale recorder notes",
+      "Undertale ocarina tabs"
+    ],
+    "background": "A strong game-theme title that works well as a melody-first notes page.",
+    "practice": "Useful for theme recognition, controlled breathing, and basic phrase reading.",
+    "metaDescription": "Play Undertale with letter notes, recorder notes, ocarina tabs, and fingering chart support. A game-theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this the Undertale theme people search for?",
+        "answer": "Yes. It is prepared as a melody-first page based on the recognizable theme line."
+      },
+      {
+        "question": "Why keep it in the stock pool?",
+        "answer": "Because it already passed import, doctor, and live compare checks."
+      }
+    ]
+  },
+  "if-you": {
+    "aliases": [
+      "IF YOU song",
+      "IF YOU melody",
+      "IF YOU notes"
+    ],
+    "metaTitle": "IF YOU Letter Notes and Fingering Chart",
+    "overview": "This page keeps IF YOU in a clean letter-note layout for melody practice.",
+    "searchTerms": [
+      "IF YOU letter notes",
+      "IF YOU recorder notes",
+      "IF YOU ocarina tabs"
+    ],
+    "background": "A modern title that still works as a clear melody-first notes page.",
+    "practice": "Useful for steady reading, breath support, and a soft melodic line.",
+    "metaDescription": "Play IF YOU with letter notes, recorder notes, ocarina tabs, and fingering chart support. A modern melody page for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "Is this page meant for melody practice?",
+        "answer": "Yes. It is prepared as a single-line notes page for the supported public instruments."
+      },
+      {
+        "question": "Why keep it in stock?",
+        "answer": "Because it already passed the full compare gate and is ready for later promotion."
+      }
+    ]
+  },
+  "valse-di-fantastica": {
+    "aliases": [
+      "Valse di Fantastica melody",
+      "Valse di Fantastica notes",
+      "Valse di Fantastica theme"
+    ],
+    "metaTitle": "Valse di Fantastica Letter Notes and Fingering Chart",
+    "overview": "This page keeps Valse di Fantastica in a clean letter-note layout for melody practice.",
+    "searchTerms": [
+      "Valse di Fantastica letter notes",
+      "Valse di Fantastica recorder notes",
+      "Valse di Fantastica ocarina tabs"
+    ],
+    "background": "A theme-style melody title that works naturally as a recognisable notes page.",
+    "practice": "Useful for phrase shaping, controlled breath support, and a lyrical line.",
+    "metaDescription": "Play Valse di Fantastica with letter notes, recorder notes, ocarina tabs, and fingering chart support. A theme melody for calm practice.",
+    "extraFaqs": [
+      {
+        "question": "What kind of piece is this?",
+        "answer": "It is a theme-style melody page prepared for wind instruments."
+      },
+      {
+        "question": "Why keep it in stock?",
+        "answer": "Because it passed import, doctor, and live compare and is ready for later promotion."
+      }
+    ]
+  }
 }

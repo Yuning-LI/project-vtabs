@@ -1872,6 +1872,56 @@
       "addedOn": "2026-05-31",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/A1S6l1RRL.html",
       "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "eutopia",
+      "title": "Eutopia",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/LG3tj1uI9.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "i-believe",
+      "title": "I Believe",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Kbp9b1je9.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "undertale",
+      "title": "Undertale",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "game",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/XuWMi1hq1.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "if-you",
+      "title": "IF YOU",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "song",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/hyjXb1ahd.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "valse-di-fantastica",
+      "title": "Valse di Fantastica",
+      "status": "live",
+      "batch": "stock-2026-05-23-f",
+      "group": "media",
+      "addedOn": "2026-05-23",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/36kJt1ATi.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-01."
     }
   ]
 }
