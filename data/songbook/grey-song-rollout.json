@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-01",
+  "updatedOn": "2026-06-03",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -1922,6 +1922,106 @@
       "addedOn": "2026-05-23",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/36kJt1ATi.html",
       "notes": "Promoted to public manifest and data layer on 2026-06-01."
+    },
+    {
+      "slug": "sincerely",
+      "title": "Sincerely",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/0ujre1Gsy.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "that-girl",
+      "title": "That Girl",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/UtTYf1ilo.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "ending-piano",
+      "title": "Ending Piano",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/TlxWi1MMj.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "aliez",
+      "title": "aLIEz",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/fYwrg1N1g.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "avec-toi-toujours",
+      "title": "Avec Toi Toujours",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/85U2d1J3D.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "ahead-of-us",
+      "title": "Ahead of Us",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/bWuTr1zRO.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "an-angel",
+      "title": "An Angel",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/aCCve1aqX.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "after-the-wind",
+      "title": "After The Wind",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/FFnMu15Su.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "akuma-no-ko",
+      "title": "Akuma no ko",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OTubp1CBT.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
+    },
+    {
+      "slug": "beautiful-in-white",
+      "title": "Beautiful in White",
+      "status": "live",
+      "batch": "stock-2026-06-02-12",
+      "group": "song",
+      "addedOn": "2026-06-02",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/bsOck1B8S.html",
+      "notes": "Promoted to public manifest and data layer on 2026-06-03."
     }
   ]
 }
