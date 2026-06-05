@@ -1,0 +1,81 @@
+{
+  "id": "vincent",
+  "slug": "vincent",
+  "title": "Vincent",
+  "description": "Vincent melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: McLean.",
+  "published": true,
+  "alignedLyrics": [
+    "Starry, _ starry _ night paint your palette _",
+    "blue and grey look out on a summer's _ day with",
+    "eyes that know the dark ness in my soul. Shadows _ on the hills",
+    "sketch the trees and the daf fo dils catch the breeze and the",
+    "winter _ chills in colors _ on the snowy _ linen _ land.",
+    "now I under _ stand what you tried to",
+    "say to me how you suffered _ for your san i ty",
+    "how you tried to set them free. They would not listen _ they did",
+    "not know how _",
+    "perhaps they'll _ listen _",
+    "now.",
+    "now. For they could not love you but still your love was",
+    "true and when no hope was left in side _ on that.",
+    "starry _ starry _ night You took your life as lovers _ often _ do, But I",
+    "could have told you Vincent _ this world was never meant _ for one as beauti _ ful as",
+    "you.",
+    "lis tening still _",
+    "perhaps _ they will listen now _"
+  ],
+  "extraLyrics": [
+    "Starry _ starry _ night",
+    "flaming _ flowers that brightly _ blaze",
+    "swirling _ clouds in violet _ haze",
+    "re flect in Vincent's _ eyes of China _ blue.",
+    "Colors _ changing _ hue",
+    "morning _ fields _ of am ber grain",
+    "weathered _ faces _ _ lined in pain",
+    "are soothed beneath _ the artist's _ loving _ hand.",
+    "Starry, _ starry _ night portraits _ hung in empty _ halls",
+    "frameless _ heads on nameless _ walls",
+    "with eyes that watch the world and can't forget.",
+    "Like the strangers that you've met",
+    "the ragged men in _ ragged _ clothes",
+    "the silver thorn of _ bloody _ rose.",
+    "lie crushed and broken _ on the virgin _ snow."
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Xv0ck11fU.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Xv0ck11fU on 2026-05-24."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-24",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "0 0 0 0 0 0 0 0 5, - 6, - 1 - 2 - | 3 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 0 0 3 - 2 - 1 - 6, - |",
+    "2 - 3 - 6, - - - - - - - - - - - | 0 0 0 0 0 0 0 0 3 - 2 - 1 - 6, - | 2 - 3 - 6, - - - - - - - 0 0 7, - |",
+    "1 - 7, - 6, - 5, - 6, - 7, - 1 - 2 - | 3 - - - - - - - 5, - 6, - 1 - 2 - | 3 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 3 - 2 - 1 - 6, 6, | 2 - 3 - 6, - - - - - - - - - - - | 0 0 0 0 0 0 0 0 3 - 2 - 1 - 6, 6, |",
+    "2 - 3 - 6, - - - - - - - 0 0 7, - | 1 - 7, - 6, - 5, - 6, - 7, - 1 - 2 - | 3 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 1 - 2 - 3 - 1 - | 2 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 0 0 2 - 3 - 4 - 5 - |",
+    "3 - - - - - 3 - 3 - - - - - - - | 0 0 0 0 3 - 4 - 3 - 2 - 1 - 6, - | 3 - 2 - 2 - - - - - - - - - - - |",
+    "0 0 0 0 2 - 2 - 2 - 3 - 4 - 2 - | 3 - 3 - 3 - 4 - 3 - 2 - 1 - 6, - |",
+    "2 - - - 3 - 6, - 6, - - - - - - - |",
+    "0 0 0 0 0 0 5, - 7, - 1 - 2 - 7, - |",
+    "1 - - - - - - - - - - - - - - - |",
+    "1 - - - 1 - 1 - 2 - - - 3 - - - | 3 - - - 2 - - - - - - - - - - - | 0 0 5, - 2 - 2 - 3 - - - 4 - - - |",
+    "5 - - - - - - - - - - - - - - - | 0 0 0 0 3 - - - 4 - - - 5 - - - | 5 - 6 - 5 - 4 - 4 3 3 - 4 - - - |",
+    "b6 - 5 - 5 - 4 - 5 - - - 0 0 6 - | 5 - 4 - 4 - 3 - 3 - 1 - 2 - 3 - | 3 - - - - - - - 0 0 0 0 3 - 3 - |",
+    "4 - 3 - 3 - 2 - 2 - 3 - 0 0 3 - | 4 - 3 - 3 - 2 - 2 - 1 - 7, - 1 - | 0 0 0 0 3 - 2 - 1 - - - 7, - - - |",
+    "1 - - - - - - - - - - - - - - -",
+    "1 - 6, - - - 3 - 3 - - - - - - - |",
+    "0 0 0 0 0 0 6, - 7, - 1 - 2 - 3 - | 5 - - - - - - - - - - - - - - - | 5 - - - - - - - - - - - - - - - | | |"
+  ]
+}

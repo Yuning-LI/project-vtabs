@@ -1,0 +1,48 @@
+{
+  "id": "i-really-want-to-stay-at-your-house",
+  "slug": "i-really-want-to-stay-at-your-house",
+  "title": "I Really Want to Stay At Your House",
+  "description": "I Really Want to Stay At Your House melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Hallie Coggins & Rosa Walton.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/Q6plo139Q.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song Q6plo139Q on 2026-05-24."
+  },
+  "meta": {
+    "key": "1 = #F",
+    "tempo": 126,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-24",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 66,
+  "notation": [
+    "0 0 0 0 0 0 0 0 0 0 #1' - #1' - #4' - | #4' - #1' - #1' - #6 - #6 - #5 - #6 - #5 - |",
+    "#6 - #5 - #5 - - - - - - - - - - - | 0 0 0 0 - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 0 0 #1' - #1' - #4' - | #4' - #4' - #4' - #4' - #4' - #5' - #5' - - - | 0 0 0 0 - - - - - - - - - - - - | 0 0 0 0 - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 0 0 #1' - #1' - #4' - | #4' - #1' - #1' - #6 - #6 - #5 - #6 - #5 - |",
+    "#6 - - - - - #1' - #6 - - - - - #5 - | #5 - - - - - #6 - #4 - - - - - 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 #4' - #4' - #4' - | #4' - #4' - #4' - #5' - #5' - - - - - - - | 0 0 0 0 - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 #4' - - - | 0 0 0 0 #4' - #5' - #5' - - - - - #4' - | #4' - #5' - #5' - - - #5' - - - #4' - #4' - |",
+    "#1'' - #1'' - #1'' - #1'' - #1'' - - - #4' - #4' - | #4' - #4' - #4' - #5' - #5' - - - #4' - - - |",
+    "#4' - - - - - - - 0 0 #1' - #1' - #1' - | #1'' - #1'' - #1'' - #1'' - #1'' - - - #4' - #4' - |",
+    "#4' - #2' - - - - - #2' - - - 0 0 #1' - | #1'' - #1'' - #1'' - #1'' - #1'' - - - #4' - #4' - |",
+    "#4' - - - #4' - #5' - #5' - - - - - #4' - | #4' - #5' - #5' - - - #5' - - - #4' - #4' - |",
+    "#1'' - #1'' - #1'' - #1'' - #1'' - - - #4' - #2'' - | #2'' - #1'' - - - #1'' - #6' - #5' - #5' - - - |",
+    "#5' - - - - - - - 0 0 #4' - #4' - #5' - | #6' - - - - - #5' - #4' - - - - - - - | #4' - - - - - - - - - - - - - - - |",
+    "0 0 0 0 #4' - - - #4' - #4' - #3' - #4' - | #4' - - - #4' - - - #4' - #4' - #3' - #4' - |",
+    "#4' - - - #4' - - - #4' - #4' - #3' - #4' - | #4' - - - #4' - - - #4' - #4' - #4' - #4' - |",
+    "#5' - #6' - #4' - - - #4' - - - #3' - #4' - | #4' - - - #4' - - - #4' - #4' - #3' - #4' - |",
+    "#4' - - - #4' - - - #4' - #4' - #3' - #4' - | #4' - - - #4' - - - #4' - #4' - #4' - #4' - |",
+    "#5' - #6' - #4' - #4' - #6' - #1'' - #6' - #5' - | #5' - - #4' #4' - #5' - #5' - - - - - #4' - |",
+    "#4' - - - - - #4' #5' #6' - - #5' #5' - #4' - | #5' - - - #4' - #5' - #5' - #4' - - - #6' - |",
+    "#6' - #4' - #4' - #4' - #6' - #1'' - #6' - #5' - | #5' - - #4' #4' - #5' - #5' - - - - - #4' - |",
+    "#4' - #1' - #4' - #1' - #4' - #4' - - - #4' - | #4' - #1' - #4' - #1' - #4' - #4' - - - #4' - |",
+    "#5' - #6' - #4' - - - - - - - - - - - | #1'' - - - - - #6' - #5' - - - - - - - | #5' - - - - - - - - - - - - - - - | | |"
+  ]
+}

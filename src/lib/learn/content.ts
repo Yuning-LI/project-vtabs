@@ -232,6 +232,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'invincible',
   'i-beg-you',
   'i-missing-you',
+  'isara',
   'one-night',
   'ico-you-were-there',
   'ending-piano',
@@ -247,6 +248,7 @@ const CALM_LYRICAL_SONG_SLUGS = new Set([
   'the-one-you-love',
   'love-mountain',
   'the-truth-that-you-love',
+  'vincent',
   'sincerely',
   'that-girl',
   'the-fields-of-ard-skellig',
@@ -438,6 +440,9 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'inuyashas-affection',
   'only-my-railgun',
   'senbonzakura',
+  'immortals',
+  'in-the-end',
+  'i-really-want-to-stay-at-your-house',
   'the-imperial-march',
   'game-of-thrones-theme',
   'see-you-again',
@@ -455,6 +460,7 @@ const FIRST_PERFORMANCE_SONG_SLUGS = new Set([
   'turkish-march',
   'unravel',
   'until-the-end-of-the-world',
+  'voracity',
   'zen-zen-zense',
   'parade-of-the-wooden-soldiers',
   'jingle-bells',
@@ -2576,7 +2582,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'assassins-creed-rogue-main-theme',
       'the-avengers',
       'aliez',
-      'akuma-no-ko'
+      'akuma-no-ko',
+      'immortals',
+      'in-the-end',
+      'i-really-want-to-stay-at-your-house'
     ],
     sections: [
       {
@@ -2636,7 +2645,10 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'a-town-with-an-ocean-view',
           'see-you-again',
           'aliez',
-          'akuma-no-ko'
+          'akuma-no-ko',
+          'immortals',
+          'in-the-end',
+          'i-really-want-to-stay-at-your-house'
         ]
       },
       {
@@ -2676,7 +2688,8 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'main-theme-from-ori-and-the-blind-forest',
           'bbs-theme',
           'assassins-creed-rogue-main-theme',
-          'the-avengers'
+          'the-avengers',
+          'voracity'
         ]
       }
     ],
@@ -3841,7 +3854,9 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
       'that-girl',
       'ahead-of-us',
       'after-the-wind',
-      'beautiful-in-white'
+      'beautiful-in-white',
+      'vincent',
+      'isara'
     ],
     sections: [
       {
@@ -3947,7 +3962,17 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'that-girl',
           'ahead-of-us',
           'after-the-wind',
-          'beautiful-in-white'
+          'beautiful-in-white',
+          'immortals',
+          'upupu',
+          'in-the-end',
+          'unjust-life',
+          'vincent',
+          'i-really-want-to-stay-at-your-house',
+          'voracity',
+          'in-the-refugee-camp-remastered',
+          'vorrina-piri-reis',
+          'isara'
         ]
       },
       {
@@ -3960,7 +3985,7 @@ const baseLearnGuideDefinitions: LearnGuideDefinition[] = [
           'Keep the fingering chart visible until the page feels visually familiar.',
           'Use songs with lyrics when the words help you hear phrase timing more clearly.'
         ],
-        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'golden-hour', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'flower-dance', 'let-it-go', 'lemon-kenshi-yonezu', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'uchiage-hanabi', 'unravel', 'butter-fly', 'until-the-end-of-the-world', 'inuyashas-affection', 'zen-zen-zense', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'arriettys-song', 'concerning-hobbits', 'ponyo-on-the-cliff-by-the-sea', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'stroll', 'my-neighbor-totoro', 'chihiros-waltz', 'city-of-stars', 'see-you-again', 'the-avengers', 'princess-mononoke', 'speak-softly-love', 'sincerely', 'that-girl', 'ahead-of-us', 'an-angel', 'after-the-wind', 'beautiful-in-white']
+        songSlugs: ['happy-birthday-to-you', 'amazing-grace', 'over-the-rainbow', 'moonlight-lover', 'greensleeves', 'moon-river', 'cant-help-falling-in-love', 'a-thousand-years', 'golden-hour', 'childhood-memory', 'edelweiss', 'la-vie-en-rose', 'memory-sky', 'romeo-and-juliet', 'sealed-with-a-kiss', 'moon-represents-my-heart', 'can-you-feel-the-love-tonight', 'yesterday', 'the-sound-of-silence', 'right-here-waiting', 'let-it-be', 'take-me-home-country-roads', 'hotel-california', 'imagine', 'lemon-tree', 'careless-whisper', 'love-is-blue', 'where-do-i-begin', 'mariage-damour', 'kiss-the-rain', 'casablanca', 'sailing', 'you-raise-me-up', 'tears-in-heaven', 'old-memory', 'reminiscence', 'flower-dance', 'let-it-go', 'lemon-kenshi-yonezu', 'blue-bird', 'gurenge', 'cruel-angels-thesis', 'detective-conan-main-theme', 'only-my-railgun', 'senbonzakura', 'uchiage-hanabi', 'unravel', 'butter-fly', 'until-the-end-of-the-world', 'inuyashas-affection', 'zen-zen-zense', 'yesterday-once-more', 'tennessee-waltz', 'the-last-waltz', 'waltz-no-2', 'zeldas-lullaby', 'carrying-you', 'river-flows-in-you', 'always-with-me', 'arriettys-song', 'concerning-hobbits', 'ponyo-on-the-cliff-by-the-sea', 'the-promise-of-the-world', 'a-town-with-an-ocean-view', 'stroll', 'my-neighbor-totoro', 'chihiros-waltz', 'city-of-stars', 'see-you-again', 'the-avengers', 'princess-mononoke', 'speak-softly-love', 'sincerely', 'that-girl', 'ahead-of-us', 'an-angel', 'after-the-wind', 'beautiful-in-white', 'immortals', 'upupu', 'in-the-end', 'unjust-life', 'vincent', 'i-really-want-to-stay-at-your-house', 'voracity', 'in-the-refugee-camp-remastered', 'vorrina-piri-reis', 'isara']
       }
     ],
     faq: [
