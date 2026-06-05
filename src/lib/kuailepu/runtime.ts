@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import {
   extractKuailepuEnglishText,
@@ -11,7 +10,18 @@ import {
   translateKuailepuPersonName
 } from '../songbook/kuailepuEnglish.ts'
 import { simplifyKuailepuNotation } from '../songbook/kuailepuImport.ts'
-import { resolveKuailepuRuntimeArchivePath } from './archiveFiles.ts'
+import {
+  applyRuntimeDefaults as applyPublicRuntimeDefaults,
+  extractPayloadLyricText as extractPublicRuntimeLyricText,
+  resolvePublicRuntimeState,
+  resolveRuntimeInstrumentSelection as resolvePublicRuntimeInstrumentSelection,
+  shouldHideLyricTrackByDefault as shouldHidePublicRuntimeLyricTrackByDefault
+} from '../runtime-core/state/publicRuntimeState.ts'
+import {
+  applyKuailepuRuntimeAssetProfile,
+  buildRuntimeCriticalPreloads
+} from '../runtime-core/server/assets/publicRuntimeAssets.ts'
+import { getArchivedKuailepuRuntimeHtmlTemplate } from '../runtime-core/server/template/runtimeTemplate.ts'
 import {
   resolveKuailepuRuntimeSongPath,
   resolvePackedKuailepuRuntimeSongPath
@@ -124,12 +134,6 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
 type KuailepuRuntimeTextMode = 'source' | 'english'
 type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
 type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
-type KuailepuInstrumentFingeringOption = NonNullable<
-  KuailepuRuntimePayload['instrumentFingerings']
->[number]
-
-let cachedTemplateHtml: string | null = null
-
 /**
  * 公开 song page 现在不再默认把快乐谱模板里的所有历史脚本一股脑注入。
  *
@@ -149,57 +153,6 @@ let cachedTemplateHtml: string | null = null
  * 不建议继续无限扩张这层 profile / stub，把越来越多模板行为都手工接管。
  * 如果未来再继续减载，优先先看收益是否真的明显，再决定是否值得增加维护复杂度。
  */
-const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
-  'lib/jqueryui/1.11.4/jquery-ui.min.js',
-  'lib/materialize/0.97.5/js/materialize.min.js',
-  'lib/soundmanager2/2.97a.20150601/script/soundmanager2-nodebug-jsmin.js',
-  'lib/soundmanager2/2.97a.20150601/script/bar-ui.min.js',
-  'lib/art-template/3.0.1/template.js',
-  'lib/clipboard.js/1.5.12/clipboard.min.js',
-  'cdn/js/i18n/all_2916f8e4dd.js',
-  'cdn/js/lib/web-audio-scheduler_1823326334.js',
-  'cdn/js/metronome_7124fad0b0.js',
-  'cdn/js/microphone_7bba73959e.js',
-  'cdn/js/chip_tag_4b7d8a0043.js',
-  'cdn/js/chip_tag.song_f7c06ec607.js',
-  'cdn/js/media_24bd4df64f.js',
-  'cdn/js/user_favorite.kit_2cf017fc27.js',
-  'cdn/js/midi_context_dea7103763.js',
-  'cdn/js/midi_number_659c66b334.js',
-  'cdn/js/midi_soundfont_fb98b7a74c.js',
-  'cdn/js/midi_player_62c3ad29f7.js',
-  'cdn/js/countdown_852b2933cb.js',
-  'cdn/js/diaohao_aab9dd0b9e.js',
-  'cdn/js/cangqiang_f2fb865e71.js',
-  'cdn/js/cangqiang.song_1ce5916de5.js'
-] as const
-
-const KUAILEPU_RUNTIME_ASSET_PROFILES: Record<
-  KuailepuRuntimeAssetProfileName,
-  {
-    disabledScriptAssets: readonly string[]
-    reservedScriptAssets: readonly string[]
-  }
-> = {
-  'public-song': {
-    disabledScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS,
-    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
-  },
-  'full-template': {
-    disabledScriptAssets: [],
-    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
-  }
-}
-
-const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
-  'lib/jquery/1.8.3/jquery.min.js',
-  'cdn/js/i18n_d3be79dfbd.js',
-  'cdn/js/kit_9b7263d863.js',
-  'cdn/js/dist/hc.min_1fefdac49d.js',
-  'cdn/js/song_builder_a87186a4c4.js',
-  'cdn/js/song_1f2ad3c3ba.js'
-] as const
-
 /**
  * 读取公开 runtime 所需的完整快乐谱 raw JSON。
  *
@@ -230,35 +183,19 @@ export function resolveKuailepuRuntimeState(
   payload: KuailepuRuntimePayload,
   state: KuailepuRuntimeState | null
 ) {
-  const resolved = applyRuntimeDefaults(payload, state)
-
-  return {
-    instrument: resolved.instrument ?? null,
-    fingering: resolved.fingering ?? null,
-    fingering_index: resolved.fingering_index ?? null,
-    show_graph: resolved.show_graph ?? null,
-    show_lyric: resolved.show_lyric ?? null,
-    show_note_range: resolved.show_note_range ?? null,
-    show_measure_num: resolved.show_measure_num ?? null,
-    measure_layout: resolved.measure_layout ?? null,
-    sheet_scale: resolved.sheet_scale ?? null,
-    note_label_mode: state?.note_label_mode ?? null
-  } satisfies KuailepuRuntimeState
+  return resolvePublicRuntimeState(payload, state)
 }
 
 export function hasKuailepuLyricContent(
   payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
-  return extractPayloadLyricText(payload as KuailepuRuntimePayload).trim().length > 0
+  return extractPublicRuntimeLyricText(payload).trim().length > 0
 }
 
 export function hasPublicKuailepuLyricToggle(
   payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
-  return (
-    hasKuailepuLyricContent(payload) &&
-    !shouldHideLyricTrackByDefault(payload as KuailepuRuntimePayload)
-  )
+  return hasKuailepuLyricContent(payload) && !shouldHidePublicRuntimeLyricTrackByDefault(payload)
 }
 
 export function buildKuailepuRuntimeHtml(input: {
@@ -274,7 +211,7 @@ export function buildKuailepuRuntimeHtml(input: {
   compareMode?: boolean | null
 }) {
   const { songId } = input
-  const payload = applyRuntimeDefaults(
+  const payload = applyPublicRuntimeDefaults(
     localizeRuntimePayload(input.payload, {
       mode: input.textMode ?? 'source',
       preferredTitle: input.preferredEnglishTitle ?? null,
@@ -288,7 +225,7 @@ export function buildKuailepuRuntimeHtml(input: {
   const compareMode = Boolean(input.compareMode)
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeForInlineScript(payload)
-  const template = getKuailepuHtmlTemplate()
+  const template = getArchivedKuailepuRuntimeHtmlTemplate()
 
   /**
    * 这一步不是“重写快乐谱页面”，而是在一份保存下来的快乐谱原始 HTML 模板上做最小替换：
@@ -393,470 +330,6 @@ export function buildKuailepuLetterTrackData(input: {
   }
 }
 
-/**
- * 注意：runtime HTML 模板来自一份已归档的快乐谱详情页源码。
- *
- * 当前生产优先读取：
- * - `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
- *
- * 本地仍允许 fallback 到：
- * - `reference/快乐谱代码.txt`
- *
- * 这份归档承载着：
- * - 快乐谱详情页 HTML 模板
- * - 原始脚本入口
- * - 原始资源引用路径
- *
- * 如果它被替换、删减、或者与线上结构严重漂移，runtime 兼容层就会一起失效。
- */
-function getKuailepuHtmlTemplate() {
-  if (cachedTemplateHtml) {
-    return cachedTemplateHtml
-  }
-
-  const sourcePath = resolveKuailepuRuntimeArchivePath()
-  if (!sourcePath) {
-    throw new Error(
-      'Missing deployable Kuailepu runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'
-    )
-  }
-  const sourceText = fs.readFileSync(sourcePath, 'utf8')
-  const fileMap = parseMarkedFiles(sourceText)
-  const html = fileMap.get('qyiBa1mPa.html')
-
-  if (!html) {
-    throw new Error(`Missing qyiBa1mPa.html in ${path.relative(process.cwd(), sourcePath)}`)
-  }
-
-  cachedTemplateHtml = html
-  return html
-}
-
-/**
- * `reference/快乐谱代码.txt` 是一个“多文件拼接存档”。
- *
- * 格式类似：
- * 文件：qyiBa1mPa.html
- * ...html 内容...
- * 文件：kit_9b7263d863.js
- * ...js 内容...
- *
- * 这里把它拆回 `Map<filename, content>`，方便后续抽取 HTML 模板或定位原始源码。
- */
-function parseMarkedFiles(sourceText: string) {
-  const marker = /^文件：(.+)$/gm
-  const files = new Map<string, string>()
-  const matches = Array.from(sourceText.matchAll(marker))
-
-  for (let index = 0; index < matches.length; index += 1) {
-    const current = matches[index]
-    const next = matches[index + 1]
-    const filename = current[1]?.trim()
-    const start = current.index! + current[0].length + 1
-    const end = next?.index ?? sourceText.length
-
-    if (!filename) continue
-    files.set(filename, sourceText.slice(start, end).trim())
-  }
-
-  return files
-}
-
-function applyKuailepuRuntimeAssetProfile(
-  html: string,
-  profileName: KuailepuRuntimeAssetProfileName
-) {
-  const profile = KUAILEPU_RUNTIME_ASSET_PROFILES[profileName]
-  if (!profile || profile.disabledScriptAssets.length === 0) {
-    return html
-  }
-
-  return profile.disabledScriptAssets.reduce((nextHtml, assetPath) => {
-    const publicPath = `/k-static/${assetPath}`
-    return nextHtml.replace(buildExternalScriptTagPattern(publicPath), '')
-  }, injectKuailepuRuntimeCompatibilityScript(html, profileName))
-}
-
-function buildExternalScriptTagPattern(src: string) {
-  return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, 'g')
-}
-
-function injectKuailepuRuntimeCompatibilityScript(
-  html: string,
-  profileName: KuailepuRuntimeAssetProfileName
-) {
-  if (profileName !== 'public-song') {
-    return html
-  }
-
-  return html.replace(
-    /(<script[^>]+src="\/k-static\/cdn\/js\/song_1f2ad3c3ba\.js"[^>]*><\/script>)/i,
-    `${buildPublicRuntimeCompatibilityScript()}$1`
-  )
-}
-
-function buildPublicRuntimeCompatibilityScript() {
-  /**
-   * 这层 stub 不是为了“重写快乐谱所有旧模块”，而只是为了让公开 song page
-   * 在默认停用一批历史脚本后，仍能稳定走完：
-   *
-   * `Kit.context -> Song.draw/compile -> hc.parse -> final SVG`
-   *
-   * 当前这层已经足够支撑 `public-song` 默认 6 个脚本的公开模式。
-   * 后续如果某个新优化要继续往这里堆很多兼容逻辑，先重新评估收益，
-   * 不要把它继续演变成一个越来越难维护的“半套快乐谱 runtime 模拟器”。
-   */
-  return `<script data-kuailepu-runtime-public-compat>
-    (function () {
-      var win = window;
-      var $ = win.jQuery || win.$;
-
-      function escapeHtml(value) {
-        return String(value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      }
-
-      if (!win.initMetronome) {
-        win.initMetronome = function () {};
-      }
-
-      if (!win.Media) {
-        win.Media = {
-          generateHtml: function () {
-            return '';
-          }
-        };
-      }
-
-      if (!win.ChipTag) {
-        win.ChipTag = {};
-      }
-      if (!win.ChipTag.song) {
-        win.ChipTag.song = {
-          strToChipHtml: function () {
-            return '';
-          }
-        };
-      }
-
-      if (!win.MidiContext) {
-        win.MidiContext = {
-          tick: function () {},
-          getAudioContext: function () {
-            return null;
-          }
-        };
-      }
-
-      if (!win.MidiPlayer) {
-        win.MidiPlayer = function () {};
-      }
-      if (!win.MidiPlayer.prototype.setContext) {
-        win.MidiPlayer.prototype.setContext = function () {};
-      }
-      if (!win.MidiPlayer.prototype.refresh) {
-        win.MidiPlayer.prototype.refresh = function () {};
-      }
-
-      if (!win.WebAudioScheduler) {
-        win.WebAudioScheduler = function () {};
-      }
-
-      if (!win.MicroPhone) {
-        win.MicroPhone = {
-          gainNode: null,
-          init: function () {},
-          setGain: function () {},
-          isBrowserSupport: function () {
-            return false;
-          }
-        };
-      } else if (!win.MicroPhone.isBrowserSupport) {
-        win.MicroPhone.isBrowserSupport = function () {
-          return false;
-        };
-      }
-
-      win.Clipboard = function ClipboardStub() {
-        return {
-          on: function () {}
-        };
-      };
-
-      if (!win.template) {
-        win.template = function (id, data) {
-          if (id === 'option-tpl') {
-            var optionValue = data && data.value != null ? escapeHtml(data.value) : '';
-            var optionName = data && data.name != null ? escapeHtml(data.name) : '';
-            var selected = data && data.selected ? ' selected' : '';
-            return '<option value="' + optionValue + '"' + selected + '>' + optionName + '</option>';
-          }
-          return '';
-        };
-      }
-
-      if (!win.Materialize) {
-        win.Materialize = {
-          toast: function () {}
-        };
-      }
-
-      if (!win.soundManager) {
-        win.soundManager = {
-          setup: function () {
-            return this;
-          },
-          createSound: function () {
-            return {
-              play: function () {},
-              pause: function () {},
-              stop: function () {}
-            };
-          },
-          onready: function (callback) {
-            if (typeof callback === 'function') {
-              callback();
-            }
-          },
-          stopAll: function () {},
-          pauseAll: function () {},
-          resumeAll: function () {},
-          destroySound: function () {},
-          getSoundById: function () {
-            return null;
-          },
-          setVolume: function () {}
-        };
-      }
-
-      if ($ && $.fn) {
-        ['openModal', 'closeModal', 'materialbox', 'material_select', 'leanModal'].forEach(
-          function (method) {
-            if (!$.fn[method]) {
-              $.fn[method] = function () {
-                return this;
-              };
-            }
-          }
-        );
-      }
-    })();
-  </script>`
-}
-
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-function buildRuntimeCriticalPreloads(profileName: KuailepuRuntimeAssetProfileName) {
-  if (profileName !== 'public-song') {
-    return ''
-  }
-
-  return PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS.map(
-    assetPath => `<link rel="preload" href="/k-static/${assetPath}" as="script" />`
-  ).join('')
-}
-
-function getPreferredPublicGraphValue(
-  instrumentId: string | null | undefined,
-  graphList:
-    | Array<{
-        name?: string
-        value?: string
-      }>
-    | null
-    | undefined
-) {
-  const available = (graphList ?? []).filter(
-    (item): item is { name?: string; value: string } =>
-      typeof item.value === 'string' && item.value.trim().length > 0
-  )
-  if (available.length === 0) {
-    return null
-  }
-
-  if (instrumentId !== 'r8b' && instrumentId !== 'r8g' && instrumentId !== 'w6') {
-    return available[0]!.value.trim()
-  }
-
-  const upward = available.find(item => {
-    const normalizedName = item.name?.replace(/\s+/g, '') ?? ''
-    return normalizedName.includes('吹口在上') || /mouthpiece\s*up/i.test(item.name ?? '')
-  })
-
-  return upward?.value.trim() ?? available[0]!.value.trim()
-}
-
-function resolveRuntimeInstrumentSelection(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
-) {
-  const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
-    (option): option is KuailepuInstrumentFingeringOption =>
-      Boolean(option.instrument) && option.instrument !== 'none'
-  )
-  const hasExplicitInstrumentOverride =
-    Boolean(state?.instrument) &&
-    state?.instrument !== 'none' &&
-    state?.instrument !== payload.instrument
-  const selectedInstrument =
-    instrumentOptions.find(option => option.instrument === state?.instrument) ??
-    instrumentOptions.find(option => option.instrument === payload.instrument) ??
-    instrumentOptions.find(option => option.instrument === 'o12') ??
-    instrumentOptions.find(option => option.instrument === 'o6') ??
-    instrumentOptions[0]
-  const requestedFingeringIndex = Number(
-    hasExplicitInstrumentOverride
-      ? state?.fingering_index ?? 0
-      : state?.fingering_index ??
-          payload.fingering_index ??
-          0
-  )
-  const maxFingeringIndex = Math.max(
-    0,
-    (selectedInstrument?.fingeringSetList?.length ?? selectedInstrument?.fingeringsList?.length ?? 1) - 1
-  )
-  const selectedFingeringIndex = Number.isFinite(requestedFingeringIndex)
-    ? Math.min(Math.max(requestedFingeringIndex, 0), maxFingeringIndex)
-    : 0
-  const selectedFingeringSet =
-    selectedInstrument?.fingeringSetList?.[selectedFingeringIndex]
-
-  const hasExplicitFingeringOverride =
-    state?.fingering_index !== null &&
-    state?.fingering_index !== undefined &&
-    state?.fingering_index !== ''
-
-  const selectedFingeringCandidates =
-    hasExplicitInstrumentOverride || hasExplicitFingeringOverride
-    ? [
-        state?.fingering,
-        selectedFingeringSet?.map(option => option.fingering).join('+'),
-        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
-        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering,
-        payload.fingering
-      ]
-    : [
-        state?.fingering,
-        payload.fingering,
-        selectedFingeringSet?.map(option => option.fingering).join('+'),
-        selectedInstrument?.fingeringSetList?.[0]?.[0]?.fingering,
-        selectedInstrument?.fingeringSetList?.flat()[0]?.fingering
-      ]
-  const selectedFingering =
-    selectedFingeringCandidates.find(
-      (value): value is string => typeof value === 'string' && value.trim().length > 0
-    ) ?? ''
-
-  return {
-    instrumentOptions,
-    hasExplicitInstrumentOverride,
-    selectedInstrument,
-    selectedFingeringIndex,
-    selectedFingeringSet,
-    selectedFingering
-  }
-}
-
-function applyRuntimeDefaults(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
-) {
-  /**
-   * 这一步非常关键。
-   *
-   * 快乐谱 raw JSON 里经常会出现：
-   * - `instrument: "none"`
-   * - `fingering: ""`
-   * 也就是说，原始快照里并不一定已经保存了“用户最后选择的乐器与指法”。
-   *
-   * 如果我们把这种空值直接丢给 runtime，虽然页面能跑，但默认乐器/指法不稳定，
-   * 最终 SVG 也可能偏离线上用户实际看到的状态。
-   *
-   * 所以这里的策略是：
-   * - 优先使用外层显式传入的 state
-   * - 其次使用 raw JSON 自带的值
-   * - 再次从 `instrumentFingerings` 中挑一个可用默认值
-   * - 当前产品场景优先落到 `o12`，因为这是当前站点对标的主乐器
-   */
-  const next: KuailepuRuntimePayload & KuailepuRuntimeState = {
-    ...payload
-  }
-
-  const {
-    hasExplicitInstrumentOverride,
-    selectedInstrument,
-    selectedFingeringIndex,
-    selectedFingering
-  } = resolveRuntimeInstrumentSelection(payload, state)
-
-  next.instrument = state?.instrument ?? payload.instrument
-  if (!next.instrument || next.instrument === 'none') {
-    next.instrument = selectedInstrument?.instrument ?? 'none'
-  }
-
-  next.fingering = selectedFingering
-  next.fingering_index = selectedFingeringIndex
-  const selectedGraphValue = getPreferredPublicGraphValue(
-    selectedInstrument?.instrument ?? null,
-    selectedInstrument?.graphList
-  )
-  next.show_graph = hasExplicitInstrumentOverride
-    ? state?.show_graph ?? selectedGraphValue ?? normalizeToggle(undefined, payload.show_graph, '1')
-    : normalizeToggle(state?.show_graph, payload.show_graph, '1')
-  /**
-   * 这里新增了一条和产品语言策略直接相关的规则：
-   *
-   * - 如果快乐谱只收录了纯中文歌词，而没有英文歌词
-   * - 当前英文站默认不要把中文歌词轨直接展示给用户
-   *
-   * 原因不是 runtime 渲染不了，而是产品层面的语言选择：
-   * 当前站点面向 western 用户，宁可先展示“纯谱面 + 指法图”，也不要默认挂一条
-   * 对目标用户几乎不可读的中文歌词轨。
-   *
-   * 这条规则只影响“默认值”：
-   * - 外层如果显式传了 `state.show_lyric`，仍然以显式值为准
-   * - 如果未来导入到了真正英文歌词版 raw JSON，这个检测会自然放行歌词轨
-   */
-  next.show_lyric =
-    state?.show_lyric !== undefined && state?.show_lyric !== null && state?.show_lyric !== ''
-      ? state.show_lyric
-      : shouldHideLyricTrackByDefault(payload)
-        ? 'off'
-        : normalizeToggle(undefined, payload.show_lyric, 'on')
-  next.show_note_range = normalizeToggle(state?.show_note_range, payload.show_note_range, 'off')
-  /**
-   * 公开 song page 的小节号默认值不再沿用快乐谱快照里原本保存的开关。
-   *
-   * 原因：
-   * - raw JSON 里的 `show_measure_num` 更像“源站当时保存下来的页面偏好”
-   * - 当前英文公开页面更强调首屏谱面简洁度
-   * - 小节号仍然保留开关，但不再默认打开
-   *
-   * 所以公开页这里统一收口为：
-   * - 显式 query 仍然优先
-   * - 默认值改为 `off`
-   * - 不再被 payload 根层历史偏好牵着走
-   */
-  next.show_measure_num = normalizeToggle(state?.show_measure_num, undefined, 'off')
-  next.measure_layout = state?.measure_layout ?? payload.measure_layout ?? 'compact'
-  next.no_check_href = true
-  next.no_preference_instrument = true
-  next.preference_instrument = next.instrument
-  next.sheet_scale =
-    state?.sheet_scale ??
-    payload.sheet_scale ??
-    (Array.isArray(payload.sheetScaleList) && payload.sheetScaleList.includes(10)
-      ? 10
-      : payload.sheetScaleList?.[payload.sheetScaleList.length - 1] ?? 10)
-
-  return next
-}
-
 function resolveLetterTrackScaleTonic(input: {
   key?: string | null
   payload?: KuailepuRuntimePayload | null
@@ -884,7 +357,7 @@ function resolveRuntimeFingeringScaleTonics(
     return null
   }
 
-  const { selectedFingering } = resolveRuntimeInstrumentSelection(payload, state)
+  const { selectedFingering } = resolvePublicRuntimeInstrumentSelection(payload, state)
   const tonics = selectedFingering
     .split('+')
     .map(candidate => parseFingeringScaleTonic(candidate))
@@ -933,7 +406,9 @@ function buildFingeringAwareLetterLabels(input: {
     return null
   }
 
-  const instrument = resolveRuntimeInstrumentSelection(input.payload!, input.state ?? null).selectedInstrument?.instrument ?? ''
+  const instrument =
+    resolvePublicRuntimeInstrumentSelection(input.payload!, input.state ?? null).selectedInstrument
+      ?.instrument ?? ''
   return buildLetterLabelsFromRawNotationWithFingeringTonics(input.rawNotation, tonics, instrument)
 }
 
@@ -1251,100 +726,6 @@ function normalizeLocalizedPunctuation(value: string) {
     .replace(/([,.;:!?])(?=[A-Za-z0-9(])/g, '$1 ')
     .replace(/\s{2,}/g, ' ')
     .trim()
-}
-
-/**
- * 快乐谱原前端把很多“开关”都保存成字符串：
- * - `on`
- * - `off`
- * - `1`
- * - 空字符串
- *
- * 这里统一做一次“优先值 -> 回退值 -> 最终默认值”的整理，避免空字符串把真正默认值吞掉。
- */
-function normalizeToggle(
-  preferred: string | null | undefined,
-  fallback: string | null | undefined,
-  defaultValue: string
-) {
-  if (preferred !== undefined && preferred !== null && preferred !== '') {
-    return preferred
-  }
-  if (fallback !== undefined && fallback !== null && fallback !== '') {
-    return fallback
-  }
-  return defaultValue
-}
-
-/**
- * 当前英文站的歌词策略：
- *
- * 1. 导入快乐谱时优先寻找英文歌词版本
- * 2. 如果快乐谱只有中文歌词版本，就默认关闭歌词轨
- *
- * 这里只做一个很保守的检测：
- * - 只要歌词里出现中文且完全没有拉丁字母，就视为“纯中文歌词”
- * - 一旦存在英文字符，就先不在这里武断关闭，留给页面继续展示
- *
- * 这样至少能稳定覆盖当前已发现的几首：
- * - twinkle-twinkle-little-star
- * - mary-had-a-little-lamb
- * - happy-birthday-to-you
- * 以及后续导入到的同类曲目。
- */
-function shouldHideLyricTrackByDefault(payload: KuailepuRuntimePayload) {
-  const lyricText = extractPayloadLyricText(payload)
-  if (!lyricText) {
-    return false
-  }
-
-  const hasCjk = /[\u3400-\u9fff]/.test(lyricText)
-  const hasLatin = /[A-Za-z]/.test(lyricText)
-  return hasCjk && !hasLatin
-}
-
-function extractPayloadLyricText(payload: KuailepuRuntimePayload) {
-  const candidates = [payload.lyric_text, payload.lyric]
-
-  for (const candidate of candidates) {
-    if (typeof candidate === 'string' && candidate.trim()) {
-      const normalized = normalizeLyricCandidate(candidate)
-      if (normalized) {
-        return normalized
-      }
-    }
-    if (Array.isArray(candidate)) {
-      const text = candidate.filter(Boolean).join('\n').trim()
-      if (text) {
-        return text
-      }
-    }
-  }
-
-  return ''
-}
-
-function normalizeLyricCandidate(candidate: string) {
-  const trimmed = candidate.trim()
-  if (!trimmed) {
-    return ''
-  }
-
-  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
-    try {
-      const parsed = JSON.parse(trimmed) as unknown
-      if (Array.isArray(parsed)) {
-        return parsed
-          .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
-          .join('\n')
-          .trim()
-      }
-    } catch {
-      // Fall back to the original string when the lyric field is not valid JSON text.
-    }
-  }
-
-  return trimmed
 }
 
 /**
@@ -3440,46 +2821,6 @@ function buildRuntimeBridgeScript(
     );
   }
 
-  function isLikelyLyricTextNode(node) {
-    if (!node || typeof node.getAttribute !== 'function') {
-      return false;
-    }
-
-    var ownY = Number(node.getAttribute('y') || 0);
-    var ownFontSize = Number(node.getAttribute('font-size') || 0);
-    if (!Number.isFinite(ownY) || !Number.isFinite(ownFontSize)) {
-      return false;
-    }
-
-    var owner = node.ownerSVGElement;
-    if (!owner) {
-      return false;
-    }
-
-    var peers = Array.prototype.slice
-      .call(owner.querySelectorAll('text'))
-      .filter(function (peer) {
-        if (!peer || peer === node || peer.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
-          return false;
-        }
-
-        var peerText = String(peer.textContent || '').trim();
-        if (!peerText || /^[A-G](?:#|b)?\d$/.test(peerText) || /^[1-7](?:[#bn]|d)?$/.test(peerText)) {
-          return false;
-        }
-
-        var peerY = Number(peer.getAttribute('y') || 0);
-        var peerFontSize = Number(peer.getAttribute('font-size') || 0);
-        if (!Number.isFinite(peerY) || !Number.isFinite(peerFontSize)) {
-          return false;
-        }
-
-        return Math.abs(peerY - ownY) <= 1 && peerFontSize >= 18;
-      });
-
-    return ownFontSize >= 16 && peers.length >= 1;
-  }
-
   function shouldHideVisibleSheetText(text) {
     if (!text || textMode !== 'english') {
       return false;
@@ -3505,112 +2846,6 @@ function buildRuntimeBridgeScript(
     return /(?:fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
       normalized
     );
-  }
-
-  function getResponsiveTitleTargetFontSize() {
-    var viewportWidth =
-      window.innerWidth ||
-      document.documentElement.clientWidth ||
-      document.body.clientWidth ||
-      0;
-
-    if (viewportWidth <= 0 || viewportWidth > 900) {
-      return null;
-    }
-
-    // 对齐快乐谱在“手机到窄桌面”范围内的标题观感：
-    // - 原站在这段宽度里，主标题不会继续一路缩到很小
-    // - 我们的英文标题更长，因此不直接硬写死，而是先给 36 的目标值，
-    //   再按真实文字宽度回退到刚好能放下的字号
-    return 36;
-  }
-
-  function getResponsiveTitleMaxWidth(svgWidth) {
-    // 原站 title 算法本身是按较短标题优化的，英文长标题直接照搬会缩得过小。
-    // 这里仍保持“居中大标题”的视觉方向，但把最大可用宽度收口在安全范围内，
-    // 避免窄屏下把标题放大后顶到 SVG 边缘。
-    return svgWidth - Math.max(72, svgWidth * 0.12);
-  }
-
-  function tuneResponsiveSheetTitle(svg) {
-    if (!svg || textMode !== 'english') {
-      return;
-    }
-
-    var targetFontSize = getResponsiveTitleTargetFontSize();
-    if (!targetFontSize) {
-      return;
-    }
-
-    var svgWidth = getSvgWidth(svg);
-    var maxWidth = getResponsiveTitleMaxWidth(svgWidth);
-    var centerX = svgWidth / 2;
-    var titleCandidates = Array.prototype.slice
-      .call(svg.querySelectorAll('text'))
-      .filter(function (node) {
-        if (node.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
-          return false;
-        }
-
-        var text = String(node.textContent || '').replace(/\s+/g, ' ').trim();
-        if (!text) {
-          return false;
-        }
-
-        if (
-          /(?:Composer|Lyricist|Arranger|Notation|Play order|fingering|ocarina|recorder|tin whistle|xun|hulusi|xiao|bamboo flute)/i.test(
-            text
-          )
-        ) {
-          return false;
-        }
-
-        var x = Number(node.getAttribute('x'));
-        var y = Number(node.getAttribute('y'));
-        var fontSize = Number(node.getAttribute('font-size') || 0);
-
-        return (
-          Number.isFinite(x) &&
-          Number.isFinite(y) &&
-          Number.isFinite(fontSize) &&
-          Math.abs(x - centerX) <= Math.max(120, svgWidth * 0.22) &&
-          y >= 24 &&
-          y <= 110 &&
-          fontSize >= 14
-        );
-      })
-      .sort(function (left, right) {
-        return Number(left.getAttribute('y') || 0) - Number(right.getAttribute('y') || 0);
-      });
-
-    var primaryTitle = titleCandidates[0];
-    if (!primaryTitle) {
-      return;
-    }
-
-    var currentFontSize = Number(primaryTitle.getAttribute('font-size') || 0);
-    if (!Number.isFinite(currentFontSize) || currentFontSize >= targetFontSize) {
-      return;
-    }
-
-    var titleBox = typeof primaryTitle.getBBox === 'function' ? primaryTitle.getBBox() : null;
-    var currentWidth = titleBox && Number.isFinite(titleBox.width) ? titleBox.width : 0;
-    if (currentWidth <= 0) {
-      return;
-    }
-
-    var fittedFontSize = currentFontSize * (maxWidth / currentWidth);
-    var nextFontSize = Math.min(targetFontSize, fittedFontSize);
-    if (!Number.isFinite(nextFontSize) || nextFontSize <= currentFontSize + 0.5) {
-      return;
-    }
-
-    // 这里刻意只放大 title 的字号，不改 title 的纵向位置。
-    // 之前本地做过“后处理平移头部文本块来收口空白”的实验，但那条路会波及
-    // Play order 等复合头部元素，风险高，所以当前 pushed 策略只保留字号修正。
-    primaryTitle.removeAttribute('textLength');
-    primaryTitle.removeAttribute('lengthAdjust');
-    primaryTitle.setAttribute('font-size', String(Math.round(nextFontSize * 10) / 10));
   }
 
   function shouldHideTopHeaderNumericMetadata(node, normalized) {
@@ -3726,10 +2961,7 @@ function buildRuntimeBridgeScript(
           node.removeAttribute('textLength');
           node.removeAttribute('lengthAdjust');
         }
-        if (
-          isVisibleSheetStructureMarkerText(translated || original) &&
-          !isLikelyLyricTextNode(node)
-        ) {
+        if (isVisibleSheetStructureMarkerText(translated || original)) {
           var currentFontSize = Number(node.getAttribute('font-size') || 0);
           if (Number.isFinite(currentFontSize) && currentFontSize > 16) {
             node.setAttribute('font-size', '16');
@@ -3737,8 +2969,6 @@ function buildRuntimeBridgeScript(
         }
         node.textContent = translated;
       });
-
-    tuneResponsiveSheetTitle(svg);
   }
 
   function clearLetterTrack(svg) {
