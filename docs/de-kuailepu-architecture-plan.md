@@ -288,6 +288,8 @@ As of the current boundary phase:
 - public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on both the main shell path and iframe command bridge
 - server payload loading and localization now go through PublicRuntime payload file/localization adapters instead of direct old helper imports in the main payload flow
 - archived template lookup now goes through a PublicRuntime template file adapter, while the current deployable archive file stays unchanged
+- `runtime-core/runtimeTypes.ts` now only defines `PublicRuntime*` / `PublicLetterTrack*` main types; old `Kuailepu*` type names are centralized in the compatibility shell
+- letter-track notation, payload file lookup, payload localization, and template archive lookup are now explicit adapter boundaries where the remaining archived-runtime dependencies are intentionally contained
 
 This means the current architectural boundary is no longer “everything goes through one giant Kuailepu file”.
 
@@ -370,7 +372,7 @@ Exit criteria:
 
 Current completion estimate:
 
-- about `93%`
+- effectively complete for the current code-structure phase
 
 What is already true:
 
@@ -380,12 +382,24 @@ What is already true:
 - public iframe route path, playback status protocol, payload file lookup, and payload localization now have explicit PublicRuntime boundaries
 - archived template file lookup now has an explicit PublicRuntime boundary
 - old playback command/status message names have been removed from the public runtime bridge
+- `runtime-core` main types no longer export old `Kuailepu*` names
+- remaining old helper imports inside `runtime-core/**` are adapter-boundary imports, not main-flow imports
 
 What still remains:
 
-- keep only high-value compatibility names at the API route, old re-export shells, and archived template/data-source boundaries
-- finish low-risk naming cleanup in internal comments and docs where it improves maintainability
+- keep high-value compatibility names at the API route, old re-export shells, data directories, compare scripts, and archived template/data-source boundaries
+- run targeted manual runtime QA before using this as the base for visual differentiation work
 - make the future visual-differentiation layer plug into these boundaries instead of patching around them
+
+Phase 2 should now be treated as a close-out state, not an open-ended naming cleanup project.
+
+Continuing to remove every remaining `kuailepu` string would either:
+
+- rename stable public/maintenance paths such as `/api/kuailepu-runtime` and `data/kuailepu-runtime`
+- obscure the fact that the archived renderer is still the correctness engine
+- create churn in scripts that are explicitly about import / compare / compatibility
+
+The next useful work is Phase 3 visual differentiation or Phase 5 core replacement, depending on whether the priority is operating the current site sooner or reducing renderer dependency deeper.
 ### Phase 3: Controlled Visual Differentiation
 
 Goal:
