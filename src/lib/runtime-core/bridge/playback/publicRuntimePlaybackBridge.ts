@@ -1,3 +1,8 @@
+import {
+  PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
+} from '../publicRuntimeMessageTypes.ts'
+
 export function buildPublicRuntimePlaybackBridgeScript() {
   return `
   var playbackStatusObserver = null;
@@ -328,7 +333,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     window.parent.postMessage(
       {
-        type: 'vtabs-playback-status',
+        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
         songId: songId,
         status: status
       },
@@ -343,7 +348,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     window.parent.postMessage(
       {
-        type: 'vtabs-playback-status',
+        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
         songId: songId,
         status: status
       },
@@ -372,7 +377,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     window.parent.postMessage(
       {
-        type: 'vtabs-playback-panel-status',
+        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE)},
         songId: songId,
         isOpen: isPublicPlaybackPanelOpen()
       },

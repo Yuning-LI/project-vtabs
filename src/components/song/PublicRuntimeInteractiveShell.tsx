@@ -31,6 +31,18 @@ import SongPageFunctionZone, {
   type SongPageFunctionZoneToggleControl
 } from './SongPageFunctionZone'
 import { SONG_PAGE_LINK_STATE_EVENT } from '@/lib/songbook/practicePairTypes'
+import {
+  LEGACY_PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
+  LEGACY_PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
+  LEGACY_PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
+  LEGACY_PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
+  LEGACY_PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
+  PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
+} from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 
 export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
@@ -502,7 +514,10 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (data.type === 'vtabs-playback-panel-status') {
+      if (
+        data.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE ||
+        data.type === LEGACY_PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE
+      ) {
         if (data.isOpen) {
           resolvePlaybackActivationGuard()
         }
@@ -510,7 +525,10 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (data.type !== 'vtabs-playback-status') {
+      if (
+        data.type !== PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE &&
+        data.type !== LEGACY_PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
+      ) {
         return
       }
 
@@ -549,10 +567,10 @@ export default function PublicRuntimeInteractiveShell({
         {
           type:
             action === 'stop'
-              ? 'vtabs-stop-playback'
+              ? PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
               : action === 'close'
-                ? 'vtabs-close-playback-panel'
-                : 'vtabs-open-playback',
+                ? PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE
+                : PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
           songId
         },
         window.location.origin

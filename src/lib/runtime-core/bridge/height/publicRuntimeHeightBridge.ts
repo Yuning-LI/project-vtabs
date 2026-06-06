@@ -1,3 +1,5 @@
+import { PUBLIC_RUNTIME_SIZE_MESSAGE } from '../publicRuntimeMessageTypes.ts'
+
 export function buildPublicRuntimeHeightBridgeScript() {
   return `
   function postSize() {
@@ -24,7 +26,7 @@ export function buildPublicRuntimeHeightBridgeScript() {
     if (window.parent) {
       window.parent.postMessage(
         {
-          type: 'vtabs-runtime-size',
+          type: ${JSON.stringify(PUBLIC_RUNTIME_SIZE_MESSAGE)},
           songId: songId,
           height: Math.ceil(height)
         },

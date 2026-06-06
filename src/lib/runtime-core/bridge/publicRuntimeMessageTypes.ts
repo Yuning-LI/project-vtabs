@@ -1,0 +1,12 @@
+export const PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE = 'vtabs-runtime-playback-open'
+export const PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE = 'vtabs-runtime-playback-stop'
+export const PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE = 'vtabs-runtime-playback-close-panel'
+export const PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE = 'vtabs-runtime-playback-status'
+export const PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE = 'vtabs-runtime-playback-panel-status'
+export const PUBLIC_RUNTIME_SIZE_MESSAGE = 'vtabs-runtime-size'
+
+export const LEGACY_PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE = 'vtabs-open-playback'
+export const LEGACY_PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE = 'vtabs-stop-playback'
+export const LEGACY_PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE = 'vtabs-close-playback-panel'
+export const LEGACY_PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE = 'vtabs-playback-status'
+export const LEGACY_PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE = 'vtabs-playback-panel-status'
