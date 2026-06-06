@@ -6,22 +6,22 @@ import type {
   PublicRuntimeTextMode
 } from '../../runtimeTypes.ts'
 import {
-  extractKuailepuEnglishText,
-  getKuailepuEnglishTitle,
-  translateKuailepuCommonText,
-  translateKuailepuFingeringName,
-  translateKuailepuGraphName,
-  translateKuailepuInstrumentName,
-  translateKuailepuPersonName
-} from '../../../songbook/kuailepuEnglish.ts'
+  extractPublicRuntimeEnglishText,
+  getPublicRuntimeEnglishTitle,
+  translatePublicRuntimeCommonText,
+  translatePublicRuntimeFingeringName,
+  translatePublicRuntimeGraphName,
+  translatePublicRuntimeInstrumentName,
+  translatePublicRuntimePersonName
+} from './publicRuntimePayloadLocalization.ts'
 import {
-  resolveKuailepuRuntimeSongPath,
-  resolvePackedKuailepuRuntimeSongPath
-} from '../../../kuailepu/sourceFiles.ts'
+  resolvePackedPublicRuntimePayloadPath,
+  resolvePublicRuntimePayloadPath
+} from './publicRuntimePayloadFiles.ts'
 
 export function loadPublicRuntimePayloadArchive(songId: string) {
-  const packedFilePath = resolvePackedKuailepuRuntimeSongPath(songId)
-  const filePath = resolveKuailepuRuntimeSongPath(songId)
+  const packedFilePath = resolvePackedPublicRuntimePayloadPath(songId)
+  const filePath = resolvePublicRuntimePayloadPath(songId)
   if (filePath && fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8')) as PublicRuntimePayload
   }
@@ -58,7 +58,7 @@ export function localizePublicRuntimePayloadArchive(
     return sourceSanitized
   }
 
-  const englishTitle = getKuailepuEnglishTitle(sourceSanitized)
+  const englishTitle = getPublicRuntimeEnglishTitle(sourceSanitized)
   const localized: PublicRuntimePayload = {
     ...sourceSanitized,
     song_name:
@@ -90,20 +90,20 @@ export function localizePublicRuntimePayloadArchive(
     arranger: normalizeRuntimePersonField(sourceSanitized.arranger),
     player: normalizeRuntimePersonField(sourceSanitized.player),
     author: normalizeRuntimePersonField(sourceSanitized.author),
-    nickname: normalizeLocalizedText(translateKuailepuPersonName(sourceSanitized.nickname)) ?? undefined
+    nickname: normalizeLocalizedText(translatePublicRuntimePersonName(sourceSanitized.nickname)) ?? undefined
   }
 
   localized.instrumentFingerings = sourceSanitized.instrumentFingerings?.map(option => ({
     ...option,
     instrumentName:
       normalizeLocalizedText(
-        translateKuailepuInstrumentName(sanitizeInstrumentLabel(option.instrumentName))
+        translatePublicRuntimeInstrumentName(sanitizeInstrumentLabel(option.instrumentName))
       ) ?? option.instrumentName,
     fingeringsList: option.fingeringsList?.map(group =>
       group.map(item => ({
         ...item,
         fingeringName:
-          normalizeLocalizedText(translateKuailepuFingeringName(item.fingeringName)) ??
+          normalizeLocalizedText(translatePublicRuntimeFingeringName(item.fingeringName)) ??
           item.fingeringName
       }))
     ),
@@ -111,7 +111,7 @@ export function localizePublicRuntimePayloadArchive(
       group.map(item => ({
         ...item,
         fingeringName:
-          normalizeLocalizedText(translateKuailepuFingeringName(item.fingeringName)) ??
+          normalizeLocalizedText(translatePublicRuntimeFingeringName(item.fingeringName)) ??
           item.fingeringName
       }))
     ),
@@ -119,7 +119,7 @@ export function localizePublicRuntimePayloadArchive(
       ...item,
       name:
         normalizeLocalizedText(
-          translateKuailepuGraphName(item.name?.replace(/\s+/g, '') ?? item.name)
+          translatePublicRuntimeGraphName(item.name?.replace(/\s+/g, '') ?? item.name)
         ) ?? item.name
     }))
   }))
@@ -147,17 +147,17 @@ function translateNonLatinText(value: string | null | undefined) {
     return value ?? null
   }
 
-  const extractedEnglish = extractKuailepuEnglishText(value)
+  const extractedEnglish = extractPublicRuntimeEnglishText(value)
   if (extractedEnglish && /[A-Za-z]/.test(extractedEnglish)) {
     return extractedEnglish
   }
 
-  const translatedCommonText = translateKuailepuCommonText(value)
+  const translatedCommonText = translatePublicRuntimeCommonText(value)
   if (translatedCommonText) {
     return translatedCommonText
   }
 
-  const translatedPersonName = translateKuailepuPersonName(value)
+  const translatedPersonName = translatePublicRuntimePersonName(value)
   if (translatedPersonName && /[A-Za-z]/.test(translatedPersonName)) {
     return translatedPersonName
   }
@@ -183,7 +183,7 @@ function normalizeLocalizedText(value: string | null | undefined) {
 }
 
 function normalizeRuntimePersonField(value: string | null | undefined) {
-  const text = normalizeLocalizedText(translateKuailepuPersonName(value))
+  const text = normalizeLocalizedText(translatePublicRuntimePersonName(value))
   if (!text) {
     return undefined
   }

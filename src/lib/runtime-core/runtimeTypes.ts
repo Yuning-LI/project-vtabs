@@ -30,6 +30,7 @@ export type PublicLetterTrackData = {
 export type PublicRuntimePayload = Record<string, unknown> & {
   song_name?: string
   alias_name?: string
+  song_uuid?: string
   song_pinyin?: string
   keynote?: string
   rhythm?: string
