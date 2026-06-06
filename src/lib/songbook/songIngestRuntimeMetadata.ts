@@ -1,4 +1,4 @@
-import type { KuailepuRuntimePayload } from '../runtime-core/runtimeTypes.ts'
+import type { PublicRuntimePayload } from '../runtime-core/runtimeTypes.ts'
 
 export const SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION =
   '2026-05-15-public-instrument-selection-v1'
@@ -34,7 +34,7 @@ export type SongIngestRuntimeMetadata = {
   tempoResolution?: SongIngestRuntimeTempoResolution
 }
 
-export function readSongIngestRuntimeMetadata(payload: KuailepuRuntimePayload) {
+export function readSongIngestRuntimeMetadata(payload: PublicRuntimePayload) {
   const raw = payload.vtabs_import
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
     return {}
@@ -44,7 +44,7 @@ export function readSongIngestRuntimeMetadata(payload: KuailepuRuntimePayload) {
 }
 
 export function mergeSongIngestRuntimeMetadata(
-  payload: KuailepuRuntimePayload,
+  payload: PublicRuntimePayload,
   updates: Partial<SongIngestRuntimeMetadata>
 ) {
   const current = readSongIngestRuntimeMetadata(payload)
@@ -71,11 +71,11 @@ export function mergeSongIngestRuntimeMetadata(
   return next
 }
 
-export function hasResolvedRuntimeBpmDirective(payload: KuailepuRuntimePayload) {
+export function hasResolvedRuntimeBpmDirective(payload: PublicRuntimePayload) {
   return /\{bpm\s*:\s*\d+\}/i.test(String(payload.notation ?? ''))
 }
 
-export function readResolvedRuntimeBpm(payload: KuailepuRuntimePayload) {
+export function readResolvedRuntimeBpm(payload: PublicRuntimePayload) {
   const match = String(payload.notation ?? '').match(/\{bpm\s*:\s*(\d+)\}/i)
   if (match) {
     const bpm = Number(match[1])

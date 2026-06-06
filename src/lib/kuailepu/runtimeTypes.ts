@@ -13,12 +13,23 @@ export type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
   PublicRuntimeState,
-  PublicRuntimeTextMode,
-  KuailepuLetterTrackData,
-  KuailepuLetterTrackMode,
-  KuailepuRuntimeAssetProfileName,
-  KuailepuRuntimePayload,
-  KuailepuRuntimePublicFeature,
-  KuailepuRuntimeState,
-  KuailepuRuntimeTextMode
+  PublicRuntimeTextMode
 } from '../runtime-core/runtimeTypes.ts'
+
+import type {
+  PublicLetterTrackData,
+  PublicLetterTrackMode,
+  PublicRuntimeAssetProfileName,
+  PublicRuntimePayload,
+  PublicRuntimePublicFeature,
+  PublicRuntimeState,
+  PublicRuntimeTextMode
+} from '../runtime-core/runtimeTypes.ts'
+
+export type KuailepuRuntimeState = PublicRuntimeState
+export type KuailepuLetterTrackMode = PublicLetterTrackMode
+export type KuailepuLetterTrackData = PublicLetterTrackData
+export type KuailepuRuntimePayload = PublicRuntimePayload
+export type KuailepuRuntimeTextMode = PublicRuntimeTextMode
+export type KuailepuRuntimeAssetProfileName = PublicRuntimeAssetProfileName
+export type KuailepuRuntimePublicFeature = PublicRuntimePublicFeature

@@ -8,7 +8,7 @@ import { chooseBestRangeShift } from './rangeFit.ts'
 import { parseKeynoteToMidi } from './songIngestDraft.ts'
 import type { ParsedToken, SongDoc } from './types.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
-import type { KuailepuRuntimePayload } from '../runtime-core/runtimeTypes.ts'
+import type { PublicRuntimePayload } from '../runtime-core/runtimeTypes.ts'
 import type { PublicSongInstrumentId } from './publicInstruments.ts'
 import {
   mergeSongIngestRuntimeMetadata,
@@ -552,7 +552,7 @@ export function buildGeneratedPublicFingeringsField(
 }
 
 export function buildSyntheticRuntimePayloadForInstrument(
-  payload: KuailepuRuntimePayload,
+  payload: PublicRuntimePayload,
   instrumentId: PublicSongInstrumentId
 ) {
   const songUuid = typeof payload.song_uuid === 'string' ? payload.song_uuid : ''
@@ -621,7 +621,7 @@ export function buildSyntheticRuntimePayloadForInstrument(
     show_graph: '',
     instrumentFingerings,
     fingerings: buildGeneratedPublicFingeringsField(instrumentFingerings)
-  } satisfies KuailepuRuntimePayload
+  } satisfies PublicRuntimePayload
 
   return {
     payload: nextPayload,

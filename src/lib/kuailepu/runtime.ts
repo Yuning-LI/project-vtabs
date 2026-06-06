@@ -24,6 +24,23 @@ export {
   resolvePublicRuntimeContextState
 } from '../runtime-core/publicRuntime.ts'
 
+export type {
+  PublicLetterTrackData,
+  PublicLetterTrackMode,
+  PublicRuntimeAssetProfileName,
+  PublicRuntimePayload,
+  PublicRuntimePublicFeature,
+  PublicRuntimeState,
+  PublicRuntimeTextMode,
+  KuailepuLetterTrackData,
+  KuailepuLetterTrackMode,
+  KuailepuRuntimeAssetProfileName,
+  KuailepuRuntimePayload,
+  KuailepuRuntimePublicFeature,
+  KuailepuRuntimeState,
+  KuailepuRuntimeTextMode
+} from './runtimeTypes.ts'
+
 /**
  * 这里定义的是“站点外壳传给归档 renderer 兼容 runtime 的状态”。
  *

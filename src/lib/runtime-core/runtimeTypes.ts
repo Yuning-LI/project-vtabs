@@ -85,12 +85,3 @@ export type PublicRuntimePayload = Record<string, unknown> & {
 export type PublicRuntimeTextMode = 'source' | 'english'
 export type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
 export type PublicRuntimePublicFeature = 'metronome' | 'playback'
-
-// Compatibility aliases kept only for legacy imports that still point at old Kuailepu names.
-export type KuailepuRuntimeState = PublicRuntimeState
-export type KuailepuLetterTrackMode = PublicLetterTrackMode
-export type KuailepuLetterTrackData = PublicLetterTrackData
-export type KuailepuRuntimePayload = PublicRuntimePayload
-export type KuailepuRuntimeTextMode = PublicRuntimeTextMode
-export type KuailepuRuntimeAssetProfileName = PublicRuntimeAssetProfileName
-export type KuailepuRuntimePublicFeature = PublicRuntimePublicFeature
