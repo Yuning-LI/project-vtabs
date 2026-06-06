@@ -318,7 +318,50 @@ Exit criteria:
 - each moved function has a clear execution layer
 - `npm run build` passes after each cut
 
-### Phase 2: Controlled Visual Differentiation
+Current completion estimate:
+
+- about `96% - 97%`
+
+Remaining close-out items:
+
+1. continue shrinking `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`
+2. split the remaining heavy bridge blocks:
+   - playback bridge block
+   - metronome bridge block
+   - letter-render / visible-sheet transform block
+3. keep runtime behavior unchanged while proving the bridge can be assembled from smaller self-contained script parts
+
+Phase 1 done means:
+
+- app entry, state, payload, server HTML, bridge bootstrap/height, letter-track data, and runtime types all have stable boundaries
+- old `src/lib/kuailepu/runtime.ts` and `src/lib/kuailepu/runtimeTypes.ts` are only compatibility shells
+- the next work is no longer “where does this code belong”, but “which part should be replaced next”
+
+### Phase 2: Code-Level De-Kuailepu Without Core Replacement
+
+Goal:
+
+- reduce direct Kuailepu mental-model leakage from naming, asset grouping, compare workflow, and runtime integration surfaces
+- still keep archived `Song.draw()/hc.parse/render` as the correctness engine
+
+Deliverables:
+
+- finish bridge decomposition:
+  - `bridge/playback/*`
+  - `bridge/metronome/*`
+  - `bridge/svg/*`
+- introduce a clearer public runtime contract owned by `runtime-core`
+- reduce remaining `kuailepu` naming from app-side modules where compatibility naming is no longer needed
+- separate compare/correctness concerns from public visual/output concerns more explicitly
+- prepare a safe place for future visual themes without mixing them into structure refactors
+
+Exit criteria:
+
+- a new engineer can follow public runtime assembly and iframe behavior mostly through `runtime-core/**`
+- `publicRuntimeBridge.ts` is no longer the second giant mixed file
+- app/runtime integration no longer needs to spread direct compatibility naming across the codebase
+- future visual work can be done as an isolated layer on top of these boundaries
+### Phase 3: Controlled Visual Differentiation
 
 Goal:
 
@@ -334,7 +377,7 @@ Exit criteria:
 
 - visual changes are isolated enough that they can be turned on/off without destabilizing runtime
 
-### Phase 3: Public Shell / Asset De-Kuailepu
+### Phase 4: Public Shell / Asset De-Kuailepu
 
 Goal:
 
@@ -350,7 +393,7 @@ Exit criteria:
 
 - a new engineer can understand public song page orchestration without first learning Kuailepu template internals
 
-### Phase 4: Core Replacement Track
+### Phase 5: Core Replacement Track
 
 Goal:
 
@@ -364,6 +407,20 @@ Deliverables:
 Exit criteria:
 
 - at least one instrument path can render without Kuailepu core runtime
+
+## Next-Step Execution Order
+
+Preferred order from the current point:
+
+1. close Phase 1 by further shrinking the remaining bridge heavy blocks
+2. move directly into Phase 2 code-level de-Kuailepu work
+3. only then return to Phase 3 visual differentiation
+
+Why:
+
+- visual work is currently still mostly “post-render theming”
+- code-level boundary cleanup increases control and lowers regression risk
+- once bridge/runtime integration is cleaner, visual differentiation becomes a first-class layer instead of a fragile patch layer
 
 ## Decision Rules
 

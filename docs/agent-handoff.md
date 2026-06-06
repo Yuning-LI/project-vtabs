@@ -116,6 +116,9 @@ Playbook:
 - Prefer `src/lib/runtime-core/publicRuntime.ts` for new app/runtime integration work.
 - Treat `src/lib/kuailepu/runtime.ts` as compatibility shell, not the preferred place for new feature logic.
 - Inline iframe bridge logic currently lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`.
+- Current preferred priority after the latest boundary work: finish bridge decomposition before resuming visual differentiation.
+- Visual experiments that are not yet backed by a stable isolated theme layer should not be left mixed into the code-structure refactor stream.
+- Remaining high-value bridge split targets are playback, metronome, and letter-render / visible-sheet transform logic.
 
 ## Current Known Limitation
 
