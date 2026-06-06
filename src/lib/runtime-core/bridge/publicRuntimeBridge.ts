@@ -81,13 +81,7 @@ export function buildPublicRuntimeBridgeScript(
   var hasPublicPlayback = ${publicFeatures.has('playback') ? 'true' : 'false'};
   var resizeTimer = null;
   var initialSyncTimer = null;
-  var playbackStatusObserver = null;
-  var playbackPanelObserver = null;
   var playbackLetterHighlightObservers = [];
-  var observedPlaybackButton = null;
-  var observedPlaybackPanel = null;
-  var publicPlaybackSessionStarted = false;
-  var publicPlaybackStatusLockUntil = 0;
 
 ${metronomeBridgeScript}
 ${playbackBridgeScript}

@@ -1,5 +1,12 @@
 export function buildPublicRuntimePlaybackBridgeScript() {
   return `
+  var playbackStatusObserver = null;
+  var playbackPanelObserver = null;
+  var observedPlaybackButton = null;
+  var observedPlaybackPanel = null;
+  var publicPlaybackSessionStarted = false;
+  var publicPlaybackStatusLockUntil = 0;
+
   function setLabelText(inputId, text) {
     var label = document.querySelector('label[for="' + inputId + '"]');
     if (label) {
