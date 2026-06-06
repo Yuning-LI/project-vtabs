@@ -84,3 +84,11 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
 export type KuailepuRuntimeTextMode = 'source' | 'english'
 export type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
 export type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
+
+export type PublicRuntimeState = KuailepuRuntimeState
+export type PublicLetterTrackMode = KuailepuLetterTrackMode
+export type PublicLetterTrackData = KuailepuLetterTrackData
+export type PublicRuntimePayload = KuailepuRuntimePayload
+export type PublicRuntimeTextMode = KuailepuRuntimeTextMode
+export type PublicRuntimeAssetProfileName = KuailepuRuntimeAssetProfileName
+export type PublicRuntimePublicFeature = KuailepuRuntimePublicFeature

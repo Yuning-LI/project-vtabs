@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import PinterestWorkbenchControls from '@/components/dev/PinterestWorkbenchControls'
 import PinterestWorkbenchShell from '@/components/dev/PinterestWorkbenchShell'
-import KuailepuRuntimeFrame from '@/components/song/KuailepuRuntimeFrame'
+import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
 import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload,
@@ -176,7 +176,7 @@ export default function PinterestSongPreviewPage({
         }
       >
         <div className="relative bg-[#fcfaf7]">
-            <KuailepuRuntimeFrame
+            <PublicRuntimeFrame
               songId={song.slug}
               title={song.title}
               frameSrc={frameSrc}

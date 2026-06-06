@@ -1,6 +1,6 @@
 import Script from 'next/script'
 import { notFound } from 'next/navigation'
-import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
+import PublicRuntimePage from '@/components/song/PublicRuntimePage'
 import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
@@ -213,7 +213,7 @@ export default function SongPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(relatedGuidesJsonLd) }}
       />
-      <KuailepuLegacyRuntimePage
+      <PublicRuntimePage
         songId={song.slug}
         supportedInstruments={supportedInstruments}
         queryState={queryState}

@@ -5,7 +5,7 @@ import {
   buildPublicRuntimeLetterTrackData,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
-import type { KuailepuRuntimeState } from '@/lib/runtime-core/runtimeTypes'
+import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import {
   loadImportedOrCandidateSongDoc
 } from '@/lib/songbook/importedCatalog'
@@ -99,7 +99,7 @@ export async function GET(
     })
   }
 
-  const state: KuailepuRuntimeState = {
+  const state: PublicRuntimeState = {
     instrument: searchParams.get('instrument'),
     fingering: searchParams.get('fingering'),
     fingering_index: searchParams.get('fingering_index'),

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import KuailepuRuntimeFrame from '@/components/song/KuailepuRuntimeFrame'
+import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
 import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
@@ -202,7 +202,7 @@ export default function InternalPrintSongPage({
           </header>
 
           <div className="px-3 py-3 print:px-0 print:py-0">
-            <KuailepuRuntimeFrame
+            <PublicRuntimeFrame
               songId={song.slug}
               title={presentation.title}
               frameSrc={frameSrc}

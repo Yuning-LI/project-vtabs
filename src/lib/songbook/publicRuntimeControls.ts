@@ -1,4 +1,4 @@
-import type { KuailepuRuntimePayload, KuailepuRuntimeState } from '../runtime-core/runtimeTypes'
+import type { PublicRuntimePayload, PublicRuntimeState } from '../runtime-core/runtimeTypes'
 import {
   extractKuailepuEnglishText,
   translateKuailepuFingeringName,
@@ -78,7 +78,7 @@ export function getPublicRuntimeFingeringControlLabel(instrumentId: PublicSongIn
 }
 
 export function getPublicRuntimeGraphOptions(
-  payload: Pick<KuailepuRuntimePayload, 'instrumentFingerings'>,
+  payload: Pick<PublicRuntimePayload, 'instrumentFingerings'>,
   instrumentId: PublicSongInstrumentId
 ) {
   const instrument = (payload.instrumentFingerings ?? []).find(
@@ -101,7 +101,7 @@ export function getPublicRuntimeGraphOptions(
 }
 
 export function getPublicRuntimeFingeringOptions(
-  payload: Pick<KuailepuRuntimePayload, 'instrumentFingerings'>,
+  payload: Pick<PublicRuntimePayload, 'instrumentFingerings'>,
   instrumentId: PublicSongInstrumentId
 ) {
   const instrument = (payload.instrumentFingerings ?? []).find(
@@ -132,10 +132,10 @@ export function normalizePublicRuntimeFingeringIndex(
 }
 
 export function buildPublicRuntimeControlConfig(
-  payload: Pick<KuailepuRuntimePayload, 'instrumentFingerings' | 'sheetScaleList'>,
+  payload: Pick<PublicRuntimePayload, 'instrumentFingerings' | 'sheetScaleList'>,
   instrumentId: PublicSongInstrumentId,
   state: Pick<
-    KuailepuRuntimeState,
+    PublicRuntimeState,
     | 'fingering_index'
     | 'show_graph'
     | 'show_lyric'

@@ -1,4 +1,7 @@
-import { hasPublicKuailepuLyricToggle, loadKuailepuSongPayload } from '../kuailepu/runtime.ts'
+import {
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload
+} from '../runtime-core/publicRuntime.ts'
 import { songCatalogBySlug } from './catalog.ts'
 import { getSupportedPublicSongInstruments } from './publicInstruments.ts'
 import { getPublicSongManifestEntry, resolvePublicSongFamily } from './publicManifest.ts'
@@ -92,8 +95,8 @@ export function loadPracticePairMetadataBySlug() {
   cachedMetadataBySlug = Object.fromEntries(
     Object.values(songCatalogBySlug)
       .map(song => {
-        const runtimePayload = loadKuailepuSongPayload(song.slug)
-        const hasPublicLyrics = runtimePayload ? hasPublicKuailepuLyricToggle(runtimePayload) : false
+        const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
+        const hasPublicLyrics = runtimePayload ? hasPublicRuntimeLyricToggle(runtimePayload) : false
         const presentation = getSongPresentation(song, { publicLyricsAvailable: hasPublicLyrics })
         const family = resolvePublicSongFamily(song.slug)
         const featuredRank =
