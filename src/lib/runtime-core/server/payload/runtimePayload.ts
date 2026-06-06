@@ -19,7 +19,7 @@ import {
   resolvePackedKuailepuRuntimeSongPath
 } from '../../../kuailepu/sourceFiles.ts'
 
-export function loadArchivedPublicRuntimePayload(songId: string) {
+export function loadPublicRuntimePayloadArchive(songId: string) {
   const packedFilePath = resolvePackedKuailepuRuntimeSongPath(songId)
   const filePath = resolveKuailepuRuntimeSongPath(songId)
   if (filePath && fs.existsSync(filePath)) {
@@ -35,7 +35,7 @@ export function loadArchivedPublicRuntimePayload(songId: string) {
   return null
 }
 
-export function localizePublicRuntimePayload(
+export function localizePublicRuntimePayloadArchive(
   payload: PublicRuntimePayload,
   options: {
     mode: PublicRuntimeTextMode
@@ -127,11 +127,12 @@ export function localizePublicRuntimePayload(
   return localized
 }
 
-export const loadPublicRuntimePayloadArchive = loadArchivedPublicRuntimePayload
-export const localizePublicRuntimePayloadArchive = localizePublicRuntimePayload
+// Compatibility aliases kept only for older imports that still use the previous public helper names.
+export const loadArchivedPublicRuntimePayload = loadPublicRuntimePayloadArchive
+export const localizePublicRuntimePayload = localizePublicRuntimePayloadArchive
 // Compatibility aliases kept only for legacy imports that still point at old Kuailepu/archive helper names.
-export const loadArchivedKuailepuSongPayload = loadArchivedPublicRuntimePayload
-export const localizeArchivedRuntimePayload = localizePublicRuntimePayload
+export const loadArchivedKuailepuSongPayload = loadPublicRuntimePayloadArchive
+export const localizeArchivedRuntimePayload = localizePublicRuntimePayloadArchive
 
 function sanitizeInstrumentLabel(value: string | null | undefined) {
   if (!value) {

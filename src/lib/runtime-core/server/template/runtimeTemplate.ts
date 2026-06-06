@@ -13,7 +13,7 @@ let cachedTemplateHtml: string | null = null
  * - 从多文件拼接存档中抽出详情页 HTML
  * - 给上层 runtime HTML 组装逻辑继续做替换
  */
-export function getArchivedPublicRuntimeHtmlTemplate() {
+export function loadArchivedPublicRuntimeHtmlTemplate() {
   if (cachedTemplateHtml) {
     return cachedTemplateHtml
   }
@@ -37,9 +37,10 @@ export function getArchivedPublicRuntimeHtmlTemplate() {
   return html
 }
 
-export const loadArchivedPublicRuntimeHtmlTemplate = getArchivedPublicRuntimeHtmlTemplate
+// Compatibility alias kept only for older imports that still use the previous getter-style public helper name.
+export const getArchivedPublicRuntimeHtmlTemplate = loadArchivedPublicRuntimeHtmlTemplate
 // Compatibility alias kept only for legacy imports that still point at the old Kuailepu helper name.
-export const getArchivedKuailepuRuntimeHtmlTemplate = getArchivedPublicRuntimeHtmlTemplate
+export const getArchivedKuailepuRuntimeHtmlTemplate = loadArchivedPublicRuntimeHtmlTemplate
 
 function parseMarkedFiles(sourceText: string) {
   const marker = /^文件：(.+)$/gm
