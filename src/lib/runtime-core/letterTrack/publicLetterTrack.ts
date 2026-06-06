@@ -1,4 +1,3 @@
-import { simplifyKuailepuNotation } from '../../songbook/kuailepuImport.ts'
 import type {
   PublicLetterTrackData,
   PublicLetterTrackMode,
@@ -6,6 +5,7 @@ import type {
   PublicRuntimeState
 } from '../runtimeTypes.ts'
 import { resolveRuntimeInstrumentSelection } from '../state/publicRuntimeState.ts'
+import { simplifyPublicRuntimeNotation } from './publicRuntimeNotation.ts'
 
 type ScaleTonic = {
   accidental: number
@@ -176,7 +176,7 @@ function buildLetterLabelsFromRawNotationWithFingeringTonics(
       continue
     }
 
-    const normalizedLines = simplifyKuailepuNotation(item)
+    const normalizedLines = simplifyPublicRuntimeNotation(item)
     const chunkGlyphTokens = extractCompactNotationNoteTokens(normalizedLines, {
       includeRest: true
     })
