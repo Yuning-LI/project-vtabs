@@ -1,7 +1,7 @@
 import type {
   KuailepuRuntimePayload,
   KuailepuRuntimeState
-} from '../../kuailepu/runtimeTypes.ts'
+} from '../runtimeTypes.ts'
 
 type KuailepuInstrumentFingeringOption = NonNullable<
   KuailepuRuntimePayload['instrumentFingerings']

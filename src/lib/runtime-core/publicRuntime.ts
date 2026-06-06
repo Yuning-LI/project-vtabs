@@ -5,7 +5,7 @@ import type {
   KuailepuRuntimePublicFeature,
   KuailepuRuntimeState,
   KuailepuRuntimeTextMode
-} from '../kuailepu/runtimeTypes.ts'
+} from './runtimeTypes.ts'
 import {
   buildPublicKuailepuLetterTrackData
 } from './letterTrack/publicLetterTrack.ts'

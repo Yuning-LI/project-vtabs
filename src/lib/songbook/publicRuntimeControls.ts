@@ -1,4 +1,4 @@
-import type { KuailepuRuntimePayload, KuailepuRuntimeState } from '../kuailepu/runtimeTypes'
+import type { KuailepuRuntimePayload, KuailepuRuntimeState } from '../runtime-core/runtimeTypes'
 import {
   extractKuailepuEnglishText,
   translateKuailepuFingeringName,

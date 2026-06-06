@@ -4,7 +4,7 @@ import type {
   KuailepuLetterTrackMode,
   KuailepuRuntimePayload,
   KuailepuRuntimeState
-} from '../../kuailepu/runtimeTypes.ts'
+} from '../runtimeTypes.ts'
 import { resolveRuntimeInstrumentSelection } from '../state/publicRuntimeState.ts'
 
 type ScaleTonic = {

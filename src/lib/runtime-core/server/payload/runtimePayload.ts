@@ -4,7 +4,7 @@ import { gunzipSync } from 'node:zlib'
 import type {
   KuailepuRuntimePayload,
   KuailepuRuntimeTextMode
-} from '../../../kuailepu/runtimeTypes.ts'
+} from '../../runtimeTypes.ts'
 import {
   extractKuailepuEnglishText,
   getKuailepuEnglishTitle,

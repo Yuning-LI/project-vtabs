@@ -5,7 +5,7 @@ import {
   buildPublicRuntimeLetterTrackData,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
-import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtimeTypes'
+import type { KuailepuRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import {
   loadImportedOrCandidateSongDoc
 } from '@/lib/songbook/importedCatalog'

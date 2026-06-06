@@ -1,4 +1,4 @@
-import type { KuailepuRuntimePayload } from '../kuailepu/runtimeTypes.ts'
+import type { KuailepuRuntimePayload } from '../runtime-core/runtimeTypes.ts'
 
 export const SONG_INGEST_RUNTIME_FINGERING_RULES_VERSION =
   '2026-05-15-public-instrument-selection-v1'

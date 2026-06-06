@@ -2,7 +2,7 @@ import type {
   KuailepuLetterTrackData,
   KuailepuRuntimePublicFeature,
   KuailepuRuntimeTextMode
-} from '../../kuailepu/runtimeTypes.ts'
+} from '../runtimeTypes.ts'
 
 function serializeForInlineScript(value: unknown) {
   return JSON.stringify(value)
@@ -2485,4 +2485,3 @@ export function buildPublicRuntimeBridgeScript(
 </script>
 `
 }
-
