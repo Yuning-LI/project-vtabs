@@ -79,8 +79,6 @@ export function buildPublicRuntimeBridgeScript(
   var textMode = ${JSON.stringify(textMode)};
   var hasPublicMetronome = ${publicFeatures.has('metronome') ? 'true' : 'false'};
   var hasPublicPlayback = ${publicFeatures.has('playback') ? 'true' : 'false'};
-  var resizeTimer = null;
-  var initialSyncTimer = null;
   var playbackLetterHighlightObservers = [];
 
 ${metronomeBridgeScript}
