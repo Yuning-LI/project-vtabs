@@ -1,12 +1,12 @@
 import {
-  resolveKuailepuRuntimeSongPath,
-  resolvePackedKuailepuRuntimeSongPath
+  resolveKuailepuRuntimeSongPath as resolveArchivedRuntimePayloadPath,
+  resolvePackedKuailepuRuntimeSongPath as resolvePackedArchivedRuntimePayloadPath
 } from '../../../kuailepu/sourceFiles.ts'
 
 export function resolvePublicRuntimePayloadPath(songId: string) {
-  return resolveKuailepuRuntimeSongPath(songId)
+  return resolveArchivedRuntimePayloadPath(songId)
 }
 
 export function resolvePackedPublicRuntimePayloadPath(songId: string) {
-  return resolvePackedKuailepuRuntimeSongPath(songId)
+  return resolvePackedArchivedRuntimePayloadPath(songId)
 }

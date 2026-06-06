@@ -1,5 +1,5 @@
-import { simplifyKuailepuNotation } from '../../songbook/kuailepuImport.ts'
+import { simplifyKuailepuNotation as simplifyArchivedRuntimeNotation } from '../../songbook/kuailepuImport.ts'
 
 export function simplifyPublicRuntimeNotation(value: string) {
-  return simplifyKuailepuNotation(value)
+  return simplifyArchivedRuntimeNotation(value)
 }
