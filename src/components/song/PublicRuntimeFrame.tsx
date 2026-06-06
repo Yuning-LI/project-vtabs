@@ -564,7 +564,7 @@ export default function PublicRuntimeFrame({
     <section
       className={
         panelClassName ??
-        'relative overflow-hidden rounded-[26px] border border-[rgba(154,126,91,0.18)] bg-white shadow-[0_18px_42px_rgba(84,58,32,0.10)]'
+        'page-warm-panel relative overflow-hidden'
       }
       style={panelStyle}
     >
@@ -582,14 +582,25 @@ export default function PublicRuntimeFrame({
       {isLoading ? (
         <div
           id={loadingId}
+          data-runtime-loading="true"
           className={
-            overlayClassName ??
-            'absolute inset-0 flex items-center justify-center bg-[linear-gradient(180deg,rgba(255,251,245,0.96)_0%,rgba(246,238,227,0.96)_100%)]'
+            overlayClassName
+              ? `pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center ${overlayClassName}`
+              : 'pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center'
           }
         >
-          <div className="flex flex-col items-center gap-3 text-center text-stone-600">
-            <div className="h-9 w-9 animate-spin rounded-full border-2 border-[rgba(154,126,91,0.22)] border-t-[rgba(154,126,91,0.9)]" />
-            <div className="text-sm font-semibold tracking-[0.12em] uppercase">Loading Sheet</div>
+          <div className="runtime-loading-card" role="status" aria-live="polite">
+            <div className="runtime-loading-notes" aria-hidden="true">
+              <span>🎶</span>
+              <span>♪</span>
+              <span>♫</span>
+            </div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-stone-800">
+              Loading sheet...
+            </p>
+            <p className="mt-2 text-sm leading-6 text-stone-700">
+              The fingering chart is opening.
+            </p>
           </div>
         </div>
       ) : null}

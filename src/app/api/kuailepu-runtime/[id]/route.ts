@@ -38,7 +38,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const { searchParams } = new URL(request.url)
-  const runtimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
+  const publicRuntimeCompareMode = searchParams.get('runtime_compare_mode') === '1'
   const publicFeatures = searchParams
     .getAll('public_feature')
     .filter(
@@ -52,13 +52,13 @@ export async function GET(
    *
    * 如果后续需要排查“完整快乐谱模板”行为，允许临时切回 `full-template`。
    */
-  const runtimeAssetProfile =
+  const publicRuntimeAssetProfile =
     searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
       ? 'full-template'
       : 'public-song'
   const shouldCdnCacheRuntimeHtml = isRuntimeHtmlCdnCacheable({
-    runtimeAssetProfile,
-    runtimeCompareMode
+    runtimeAssetProfile: publicRuntimeAssetProfile,
+    runtimeCompareMode: publicRuntimeCompareMode
   })
   const cacheKey = buildRuntimeHtmlCacheKey(params.id, searchParams)
   const cached = getCachedRuntimeHtml(cacheKey)
@@ -118,8 +118,10 @@ export async function GET(
    * 否则 preview 场景下拿不到 `notation/meta.key`，`letterTrack` 会退化成空值，
    * 最终只能依赖 runtime 里的固定 mpn fallback，切换 `fingering_index` 时字母谱就不会变。
    */
-  const runtimeNotationSong = songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
-  const runtimeTextMode = searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
+  const runtimeNotationSong =
+    songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
+  const publicRuntimeTextMode =
+    searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
   const presentation = song ? getSongPresentation(song) : null
   /**
    * 字母谱不是修改 raw JSON 后再交给快乐谱重渲染，
@@ -144,12 +146,13 @@ export async function GET(
     payload,
     state,
     letterTrack,
-    textMode: runtimeTextMode,
-    assetProfile: runtimeAssetProfile,
+    textMode: publicRuntimeTextMode,
+    assetProfile: publicRuntimeAssetProfile,
     publicFeatures: [...publicFeatures],
-    preferredEnglishTitle: runtimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
+    preferredEnglishTitle:
+      publicRuntimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
     preferredEnglishSubtitle: null,
-    compareMode: runtimeCompareMode
+    compareMode: publicRuntimeCompareMode
   })
   const etag = buildRuntimeHtmlEtag(html)
   setCachedRuntimeHtml(

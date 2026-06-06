@@ -1,4 +1,4 @@
-type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
+type PublicRuntimePublicFeature = 'metronome' | 'playback'
 
 export function serializeForInlineScript(value: unknown) {
   return JSON.stringify(value)
@@ -32,7 +32,7 @@ export function buildRuntimePendingScript(
 `
 }
 
-export function buildRuntimeOverrideStyle(publicFeatures: Set<KuailepuRuntimePublicFeature>) {
+export function buildRuntimeOverrideStyle(publicFeatures: Set<PublicRuntimePublicFeature>) {
   const hiddenSelectors = [
     '#header',
     '#foot',

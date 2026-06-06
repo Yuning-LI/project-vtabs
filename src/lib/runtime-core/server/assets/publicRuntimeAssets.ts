@@ -1,4 +1,4 @@
-type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
+type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
 
 const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'lib/jqueryui/1.11.4/jquery-ui.min.js',
@@ -25,8 +25,8 @@ const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'cdn/js/cangqiang.song_1ce5916de5.js'
 ] as const
 
-const KUAILEPU_RUNTIME_ASSET_PROFILES: Record<
-  KuailepuRuntimeAssetProfileName,
+const PUBLIC_RUNTIME_ASSET_PROFILES: Record<
+  PublicRuntimeAssetProfileName,
   {
     disabledScriptAssets: readonly string[]
     reservedScriptAssets: readonly string[]
@@ -51,11 +51,11 @@ const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
   'cdn/js/song_1f2ad3c3ba.js'
 ] as const
 
-export function applyKuailepuRuntimeAssetProfile(
+export function applyPublicRuntimeAssetProfile(
   html: string,
-  profileName: KuailepuRuntimeAssetProfileName
+  profileName: PublicRuntimeAssetProfileName
 ) {
-  const profile = KUAILEPU_RUNTIME_ASSET_PROFILES[profileName]
+  const profile = PUBLIC_RUNTIME_ASSET_PROFILES[profileName]
   if (!profile || profile.disabledScriptAssets.length === 0) {
     return html
   }
@@ -66,7 +66,7 @@ export function applyKuailepuRuntimeAssetProfile(
   }, injectKuailepuRuntimeCompatibilityScript(html, profileName))
 }
 
-export function buildRuntimeCriticalPreloads(profileName: KuailepuRuntimeAssetProfileName) {
+export function buildRuntimeCriticalPreloads(profileName: PublicRuntimeAssetProfileName) {
   if (profileName !== 'public-song') {
     return ''
   }
@@ -82,7 +82,7 @@ function buildExternalScriptTagPattern(src: string) {
 
 function injectKuailepuRuntimeCompatibilityScript(
   html: string,
-  profileName: KuailepuRuntimeAssetProfileName
+  profileName: PublicRuntimeAssetProfileName
 ) {
   if (profileName !== 'public-song') {
     return html

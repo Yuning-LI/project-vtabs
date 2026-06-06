@@ -1,16 +1,16 @@
-import { applyKuailepuRuntimeAssetProfile, buildRuntimeCriticalPreloads } from '../assets/publicRuntimeAssets.ts'
+import { applyPublicRuntimeAssetProfile, buildRuntimeCriticalPreloads } from '../assets/publicRuntimeAssets.ts'
 import { buildRuntimeOverrideStyle, buildRuntimePendingScript, escapeHtml } from './runtimeHtmlScaffold.ts'
 
-type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
-type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
+type PublicRuntimePublicFeature = 'metronome' | 'playback'
+type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
 
 export function buildPublicRuntimeHtmlDocument(input: {
   template: string
   songId: string
   payloadJson: string
   pageTitle: string
-  assetProfile: KuailepuRuntimeAssetProfileName
-  publicFeatures: Set<KuailepuRuntimePublicFeature>
+  assetProfile: PublicRuntimeAssetProfileName
+  publicFeatures: Set<PublicRuntimePublicFeature>
   compareMode: boolean
   hasPendingLetterMask: boolean
   bridgeScriptHtml: string
@@ -27,7 +27,7 @@ export function buildPublicRuntimeHtmlDocument(input: {
     bridgeScriptHtml
   } = input
 
-  return applyKuailepuRuntimeAssetProfile(
+  return applyPublicRuntimeAssetProfile(
     template
       .replace(
         /<title>[\s\S]*?<\/title>/i,

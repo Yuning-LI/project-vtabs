@@ -7,6 +7,15 @@ export {
   resolvePublicRuntimeContextState as resolveKuailepuRuntimeState
 } from '../runtime-core/publicRuntime.ts'
 
+export {
+  buildPublicRuntimeHtml,
+  buildPublicRuntimeLetterTrackData,
+  hasPublicRuntimeLyricContent,
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload,
+  resolvePublicRuntimeContextState
+} from '../runtime-core/publicRuntime.ts'
+
 /**
  * 这里定义的是“站点外壳传给快乐谱兼容 runtime 的状态”。
  *
