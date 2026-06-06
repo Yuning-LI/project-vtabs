@@ -118,7 +118,7 @@ export function buildPublicRuntimeBridgeScript(
     }
 
     var documentTitle = String(document.title || '')
-      .replace(/\s*-\s*Kuailepu Runtime Preview\s*$/i, '')
+      .replace(/\s*-\s*Public Runtime Preview\s*$/i, '')
       .trim();
     return documentTitle || songId;
   }

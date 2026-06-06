@@ -122,8 +122,8 @@ This is our own app UI around the iframe.
 
 Examples:
 
-- `src/components/song/KuailepuRuntimeFrame.tsx`
-- `src/components/song/KuailepuRuntimeInteractiveShell.tsx`
+- `src/components/song/PublicRuntimeFrame.tsx`
+- `src/components/song/PublicRuntimeInteractiveShell.tsx`
 - page-level route handling and control UI
 
 Characteristics:
@@ -282,6 +282,8 @@ As of the current boundary phase:
 - `src/lib/kuailepu/runtime.ts` has been reduced to a compatibility-facing re-export shell instead of staying the main mixed-responsibility implementation file
 - browser inline bridge code now lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts` while still being emitted as one self-contained inline script
 - letter-track computation now lives in `src/lib/runtime-core/letterTrack/publicLetterTrack.ts`
+- public song page shell components now use `PublicRuntime*` names directly, while old `Kuailepu*` component names only remain as compatibility-facing re-export boundaries where needed
+- song page query parsing has been centralized before shell mount so app-side runtime state no longer depends on re-reading `window.location` after first paint
 
 This means the current architectural boundary is no longer “everything goes through one giant Kuailepu file”.
 
@@ -320,7 +322,7 @@ Exit criteria:
 
 Current completion estimate:
 
-- about `96% - 97%`
+- effectively complete, with only low-value naming polish left inside the old compatibility shell surface
 
 Remaining close-out items:
 
@@ -361,6 +363,22 @@ Exit criteria:
 - `publicRuntimeBridge.ts` is no longer the second giant mixed file
 - app/runtime integration no longer needs to spread direct compatibility naming across the codebase
 - future visual work can be done as an isolated layer on top of these boundaries
+
+Current completion estimate:
+
+- about `60%`
+
+What is already true:
+
+- page shell entry, frame, and interactive wrapper now speak `PublicRuntime` first
+- server-side payload/state/query assembly is already centered on `runtime-core/**`
+- old `Kuailepu*` names are increasingly compatibility aliases instead of primary implementation names
+
+What still remains:
+
+- keep shrinking the inline bridge into clearer playback / metronome / SVG responsibility blocks
+- continue reducing `kuailepu` naming leakage from runtime HTML assembly and compatibility helpers where behavior does not depend on legacy names
+- make the future visual-differentiation layer plug into these boundaries instead of patching around them
 ### Phase 3: Controlled Visual Differentiation
 
 Goal:
@@ -412,8 +430,8 @@ Exit criteria:
 
 Preferred order from the current point:
 
-1. close Phase 1 by further shrinking the remaining bridge heavy blocks
-2. move directly into Phase 2 code-level de-Kuailepu work
+1. continue Phase 2 by shrinking the remaining bridge heavy blocks and runtime HTML naming leakage
+2. keep compatibility names only at the outer shell where they still protect stability
 3. only then return to Phase 3 visual differentiation
 
 Why:

@@ -63,7 +63,7 @@ export function applyPublicRuntimeAssetProfile(
   return profile.disabledScriptAssets.reduce((nextHtml, assetPath) => {
     const publicPath = `/k-static/${assetPath}`
     return nextHtml.replace(buildExternalScriptTagPattern(publicPath), '')
-  }, injectKuailepuRuntimeCompatibilityScript(html, profileName))
+  }, injectPublicRuntimeCompatibilityScript(html, profileName))
 }
 
 export function buildRuntimeCriticalPreloads(profileName: PublicRuntimeAssetProfileName) {
@@ -80,7 +80,7 @@ function buildExternalScriptTagPattern(src: string) {
   return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, 'g')
 }
 
-function injectKuailepuRuntimeCompatibilityScript(
+function injectPublicRuntimeCompatibilityScript(
   html: string,
   profileName: PublicRuntimeAssetProfileName
 ) {
@@ -95,7 +95,7 @@ function injectKuailepuRuntimeCompatibilityScript(
 }
 
 function buildPublicRuntimeCompatibilityScript() {
-  return `<script data-kuailepu-runtime-public-compat>
+  return `<script data-vtabs-runtime-public-compat>
     (function () {
       var win = window;
       var $ = win.jQuery || win.$;

@@ -31,7 +31,7 @@ export function buildPublicRuntimeHtmlDocument(input: {
     template
       .replace(
         /<title>[\s\S]*?<\/title>/i,
-        `<title>${escapeHtml(pageTitle)} - Kuailepu Runtime Preview</title>`
+        `<title>${escapeHtml(pageTitle)} - Public Runtime Preview</title>`
       )
       .replace(
         /<link\s+rel="Shortcut Icon"\s+href="\/static\/img\/favicon\.ico"\s+type="image\/x-icon"\s*\/?>/i,
