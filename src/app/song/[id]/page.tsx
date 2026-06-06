@@ -15,9 +15,9 @@ import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
-  getSupportedPublicSongInstruments,
-  type PublicSongPageQueryState
+  getSupportedPublicSongInstruments
 } from '@/lib/songbook/publicInstruments'
+import { parseSongPageQueryStateFromSearchParams } from '@/lib/songbook/songPageQueryState'
 
 export const dynamicParams = false
 const DEFAULT_SHARE_IMAGE = '/static/share/default-song-share.png'
@@ -86,9 +86,11 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 
 export default function SongPage({
-  params
+  params,
+  searchParams
 }: {
   params: { id: string }
+  searchParams?: Record<string, string | string[] | undefined>
 }) {
   const song = songCatalogBySlug[params.id]
   if (!song) {
@@ -112,7 +114,7 @@ export default function SongPage({
   }
   const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
-  const queryState: PublicSongPageQueryState = {}
+  const queryState = parseSongPageQueryStateFromSearchParams(searchParams)
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
     supportedInstruments[0]!
@@ -222,13 +224,13 @@ export default function SongPage({
           instrumentFingerings: runtimePayload.instrumentFingerings,
           sheetScaleList: runtimePayload.sheetScaleList
         }}
-      runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
-      runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
-      runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
-      hasLyricToggle={hasPublicLyricToggle}
-      relatedSongs={relatedSongs}
-      relatedGuides={relatedGuides}
-    />
+        runtimeDefaultInstrumentId={runtimePayload.instrument ?? null}
+        runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
+        runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
+        hasLyricToggle={hasPublicLyricToggle}
+        relatedSongs={relatedSongs}
+        relatedGuides={relatedGuides}
+      />
     </>
   )
 }

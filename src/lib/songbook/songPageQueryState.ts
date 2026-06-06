@@ -1,5 +1,8 @@
 import type { PublicSongInstrumentId, PublicSongPageQueryState } from './publicInstruments'
 
+type SongPageSearchParamValue = string | string[] | undefined
+type SongPageSearchParams = Record<string, SongPageSearchParamValue> | undefined
+
 /**
  * 公开 song page 与内部打印页现在共用同一套 query-state 归一化。
  *
@@ -44,28 +47,36 @@ export function normalizeMeasureLayout(value: string | null | undefined) {
 }
 
 export function normalizeSheetScale(
-  value: string | null | undefined,
+  value: string | number | null | undefined,
   sheetScaleList?: number[] | undefined
 ) {
   if (!value) {
     return null
   }
 
+  const normalized = String(value)
   const available = new Set((sheetScaleList ?? []).map(item => String(item)))
   if (available.size > 0) {
-    return available.has(value) ? value : null
+    return available.has(normalized) ? normalized : null
   }
 
-  return /^\d+$/.test(value) ? value : null
+  return /^\d+$/.test(normalized) ? normalized : null
 }
 
-export function normalizeFingeringIndex(value: string | number | null | undefined) {
+export function normalizeFingeringIndex(
+  value: string | number | null | undefined,
+  availableValues?: string[] | null
+) {
   if (value === null || value === undefined || value === '') {
     return null
   }
 
   const normalized = String(value)
-  return /^\d+$/.test(normalized) ? normalized : null
+  if (!/^\d+$/.test(normalized)) {
+    return null
+  }
+
+  return availableValues && !availableValues.includes(normalized) ? null : normalized
 }
 
 export function normalizePracticeTool(value: string | null | undefined) {
@@ -89,4 +100,30 @@ export function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
     sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),
     practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool'))
   }
+}
+
+export function parseSongPageQueryStateFromSearchParams(
+  searchParams: SongPageSearchParams
+): PublicSongPageQueryState {
+  return {
+    instrumentId: normalizeInstrumentId(readSearchParamValue(searchParams, 'instrument')) as
+      | PublicSongInstrumentId
+      | null,
+    fingeringIndex: normalizeFingeringIndex(readSearchParamValue(searchParams, 'fingering_index')),
+    noteLabelMode: normalizeExplicitNoteLabelMode(
+      readSearchParamValue(searchParams, 'note_label_mode')
+    ),
+    showGraph: readSearchParamValue(searchParams, 'show_graph'),
+    showLyric: normalizeToggleParam(readSearchParamValue(searchParams, 'show_lyric')),
+    showNoteRange: normalizeToggleParam(readSearchParamValue(searchParams, 'show_note_range')),
+    showMeasureNum: normalizeToggleParam(readSearchParamValue(searchParams, 'show_measure_num')),
+    measureLayout: normalizeMeasureLayout(readSearchParamValue(searchParams, 'measure_layout')),
+    sheetScale: normalizeSheetScale(readSearchParamValue(searchParams, 'sheet_scale')),
+    practiceTool: normalizePracticeTool(readSearchParamValue(searchParams, 'practice_tool'))
+  }
+}
+
+function readSearchParamValue(searchParams: SongPageSearchParams, key: string) {
+  const value = searchParams?.[key]
+  return Array.isArray(value) ? value[0] ?? null : value ?? null
 }

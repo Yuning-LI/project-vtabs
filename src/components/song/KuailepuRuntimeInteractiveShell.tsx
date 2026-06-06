@@ -10,6 +10,15 @@ import {
   type PublicSongInstrument
 } from '@/lib/songbook/publicInstruments'
 import {
+  normalizeExplicitNoteLabelMode,
+  normalizeFingeringIndex,
+  normalizeMeasureLayout,
+  normalizePracticeTool,
+  normalizeSheetScale,
+  normalizeToggleParam,
+  parseSongPageQueryState
+} from '@/lib/songbook/songPageQueryState'
+import {
   buildPublicRuntimeControlConfig,
   getPublicRuntimeFingeringControlLabel,
   getPublicRuntimeFingeringOptions,
@@ -143,14 +152,6 @@ export default function KuailepuRuntimeInteractiveShell({
     setCurrentQueryState(queryState)
   }, [queryState])
 
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return
-    }
-
-    setCurrentQueryState(parseSongPageQueryState(new URL(window.location.href)))
-  }, [songId])
-
   const activeInstrument = useMemo(
     () =>
       supportedInstruments.find(instrument => instrument.id === currentQueryState.instrumentId) ??
@@ -259,6 +260,14 @@ export default function KuailepuRuntimeInteractiveShell({
     hasNonStandardRuntimeDefaultInstrument &&
     activeInstrument.id === runtimeDefaultInstrumentId &&
     controlConfig.activeGraphValue !== runtimeDefaultShowGraph
+  const runtimeInitialFingeringIndex =
+    controlConfig.fingeringOptions[0]?.value ?? null
+  const runtimeDefaultShowLyric = hasLyricToggle ? 'on' : null
+  const runtimeDefaultShowMeasureNum = 'off'
+  const runtimeDefaultMeasureLayout = 'compact'
+  const runtimeDefaultSheetScale = controlConfig.scaleOptions[0]?.value ?? String(
+    runtimeControlPayload.sheetScaleList?.[0] ?? 10
+  )
   const params = useMemo(() => {
     const next = new URLSearchParams()
     next.set('runtime_text_mode', 'english')
@@ -268,7 +277,8 @@ export default function KuailepuRuntimeInteractiveShell({
     if (
       normalizedQueryState.fingeringIndex !== null &&
       normalizedQueryState.fingeringIndex !== undefined &&
-      normalizedQueryState.fingeringIndex !== ''
+      normalizedQueryState.fingeringIndex !== '' &&
+      String(normalizedQueryState.fingeringIndex) !== runtimeInitialFingeringIndex
     ) {
       next.set('fingering_index', String(normalizedQueryState.fingeringIndex))
     }
@@ -280,22 +290,32 @@ export default function KuailepuRuntimeInteractiveShell({
     } else if (shouldPinDefaultGraphDirection && controlConfig.activeGraphValue) {
       next.set('show_graph', controlConfig.activeGraphValue)
     }
-    if (normalizedQueryState.showLyric) {
+    if (
+      normalizedQueryState.showLyric &&
+      normalizedQueryState.showLyric !== runtimeDefaultShowLyric
+    ) {
       next.set('show_lyric', normalizedQueryState.showLyric)
     }
     if (normalizedQueryState.showNoteRange) {
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
-    if (normalizedQueryState.showMeasureNum) {
+    if (
+      normalizedQueryState.showMeasureNum &&
+      normalizedQueryState.showMeasureNum !== runtimeDefaultShowMeasureNum
+    ) {
       next.set('show_measure_num', normalizedQueryState.showMeasureNum)
     }
-    if (normalizedQueryState.measureLayout) {
+    if (
+      normalizedQueryState.measureLayout &&
+      normalizedQueryState.measureLayout !== runtimeDefaultMeasureLayout
+    ) {
       next.set('measure_layout', normalizedQueryState.measureLayout)
     }
     if (
       normalizedQueryState.sheetScale !== null &&
       normalizedQueryState.sheetScale !== undefined &&
-      normalizedQueryState.sheetScale !== ''
+      normalizedQueryState.sheetScale !== '' &&
+      String(normalizedQueryState.sheetScale) !== runtimeDefaultSheetScale
     ) {
       next.set('sheet_scale', String(normalizedQueryState.sheetScale))
     }
@@ -312,6 +332,11 @@ export default function KuailepuRuntimeInteractiveShell({
     isPlaybackFeatureEnabled,
     normalizedQueryState,
     noteLabelMode,
+    runtimeInitialFingeringIndex,
+    runtimeDefaultMeasureLayout,
+    runtimeDefaultSheetScale,
+    runtimeDefaultShowLyric,
+    runtimeDefaultShowMeasureNum,
     shouldPinDefaultGraphDirection,
     shouldPinDefaultInstrument
   ])
@@ -956,69 +981,6 @@ export default function KuailepuRuntimeInteractiveShell({
   )
 }
 
-function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
-  return {
-    instrumentId: normalizeInstrumentId(url.searchParams.get('instrument')),
-    fingeringIndex: normalizeFingeringIndex(url.searchParams.get('fingering_index'), null),
-    noteLabelMode: normalizeExplicitNoteLabelMode(url.searchParams.get('note_label_mode')),
-    showGraph: url.searchParams.get('show_graph'),
-    showLyric: normalizeToggleParam(url.searchParams.get('show_lyric')),
-    showNoteRange: normalizeToggleParam(url.searchParams.get('show_note_range')),
-    showMeasureNum: normalizeToggleParam(url.searchParams.get('show_measure_num')),
-    measureLayout: normalizeMeasureLayout(url.searchParams.get('measure_layout')),
-    sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),
-    practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool'))
-  }
-}
-
-function normalizeInstrumentId(value: string | null) {
-  if (value === 'o12' || value === 'o6' || value === 'r8b' || value === 'r8g' || value === 'w6') {
-    return value
-  }
-
-  return null
-}
-
-function normalizeFingeringIndex(
-  value: string | number | null | undefined,
-  availableValues: string[] | null
-) {
-  if (value === null || value === undefined || value === '') {
-    return null
-  }
-
-  const normalized = String(value)
-  if (!/^\d+$/.test(normalized)) {
-    return null
-  }
-
-  return availableValues && !availableValues.includes(normalized) ? null : normalized
-}
-
-function normalizeExplicitNoteLabelMode(value: string | null | undefined) {
-  if (value === 'number' || value === 'graph') {
-    return value
-  }
-
-  return null
-}
-
-function normalizeToggleParam(value: string | null | undefined) {
-  if (value === 'on' || value === 'off') {
-    return value
-  }
-
-  return null
-}
-
-function normalizeMeasureLayout(value: string | null | undefined) {
-  if (value === 'compact' || value === 'mono') {
-    return value
-  }
-
-  return null
-}
-
 function normalizeExplicitShowGraph(
   value: string | null | undefined,
   graphOptions: string[]
@@ -1036,25 +998,4 @@ function normalizeExplicitShowGraph(
   }
 
   return graphOptions.includes(value) ? value : null
-}
-
-function normalizeSheetScale(
-  value: string | number | null | undefined,
-  sheetScaleList?: number[]
-) {
-  if (value === null || value === undefined || value === '') {
-    return null
-  }
-
-  const normalized = String(value)
-  const available = new Set((sheetScaleList ?? []).map(item => String(item)))
-  if (available.size > 0) {
-    return available.has(normalized) ? normalized : null
-  }
-
-  return /^\d+$/.test(normalized) ? normalized : null
-}
-
-function normalizePracticeTool(value: string | null | undefined) {
-  return value === 'metronome' ? 'metronome' : null
 }

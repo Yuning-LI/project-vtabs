@@ -96,8 +96,11 @@ export default function InternalPrintSongPage({
   const showMeasureNum = normalizeToggleParam(searchParams?.show_measure_num) ?? 'on'
   const measureLayout = normalizeMeasureLayout(searchParams?.measure_layout) ?? 'compact'
   const sheetScale =
-    normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList) ??
-    String(runtimePayload.sheetScaleList?.[0] ?? 10)
+    String(
+      normalizeSheetScale(searchParams?.sheet_scale, runtimePayload.sheetScaleList) ??
+        runtimePayload.sheetScaleList?.[0] ??
+        10
+    )
   const paper = normalizePaper(searchParams?.paper)
 
   const paramsForFrame = new URLSearchParams()
