@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { resolveKuailepuRuntimeArchivePath } from '../../../kuailepu/archiveFiles.ts'
+import { resolvePublicRuntimeArchivePath } from '../../../kuailepu/archiveFiles.ts'
 
 let cachedTemplateHtml: string | null = null
 
@@ -18,7 +18,7 @@ export function getArchivedPublicRuntimeHtmlTemplate() {
     return cachedTemplateHtml
   }
 
-  const sourcePath = resolveKuailepuRuntimeArchivePath()
+  const sourcePath = resolvePublicRuntimeArchivePath()
   if (!sourcePath) {
     throw new Error(
       'Missing deployable Kuailepu runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'

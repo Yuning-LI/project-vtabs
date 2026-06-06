@@ -1,3 +1,10 @@
+/**
+ * 这个文件只保留“兼容壳”职责：
+ * - 继续提供旧的 `Kuailepu*` 导出名，避免外部调用点一次性大迁移
+ * - 同时直接透传新的 `PublicRuntime*` 主实现
+ *
+ * 新功能与主逻辑应优先进入 `src/lib/runtime-core/publicRuntime.ts`。
+ */
 export {
   buildPublicRuntimeHtml as buildKuailepuRuntimeHtml,
   buildPublicRuntimeLetterTrackData as buildKuailepuLetterTrackData,

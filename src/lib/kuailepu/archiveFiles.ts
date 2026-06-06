@@ -9,8 +9,10 @@ const trackedRuntimeArchivePath = path.resolve(
 )
 const localReferenceArchivePath = path.resolve(process.cwd(), 'reference', '快乐谱代码.txt')
 
-export function resolveKuailepuRuntimeArchivePath() {
+export function resolvePublicRuntimeArchivePath() {
   return [trackedRuntimeArchivePath, localReferenceArchivePath].find(candidate =>
     fs.existsSync(candidate)
   ) ?? null
 }
+
+export const resolveKuailepuRuntimeArchivePath = resolvePublicRuntimeArchivePath

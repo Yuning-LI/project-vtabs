@@ -28,10 +28,10 @@ const runtimeHtmlCache = new Map<string, CachedRuntimeHtml>()
 let runtimeHtmlCacheBytes = 0
 
 /**
- * 这个路由返回的不是 JSON，而是一整页“快乐谱兼容 runtime HTML”。
+ * 这个路由返回的不是 JSON，而是一整页“公开歌曲 runtime HTML”。
  *
  * 外层站点页面只负责提供 iframe 容器；
- * 真正的 `Kit / Song / hc.parse / SVG` 渲染都发生在这个 HTML 里。
+ * 真正的 `Kit / Song / hc.parse / SVG` 渲染仍发生在这个 HTML 里。
  */
 export async function GET(
   request: Request,
@@ -83,8 +83,8 @@ export async function GET(
    *
    * 原因：
    * - `data/kuailepu/*.json` 是给站点 catalog / SEO / 列表用的轻量 SongDoc
-   * - runtime 真正需要的是快乐谱详情页完整上下文
-   * - 只有完整 raw JSON 才包含快乐谱原始 `Song.draw()` 会消费的所有字段
+   * - runtime 真正需要的是详情页完整上下文
+   * - 只有完整 raw JSON 才包含当前归档 renderer `Song.draw()` 会消费的所有字段
    *
    * 生产环境优先读取仓库内可提交的 `data/kuailepu-runtime/<slug>.json`；
    * `reference/songs/<slug>.json` 只保留为本地导歌 / 调试 fallback。
@@ -124,11 +124,11 @@ export async function GET(
     searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
   const presentation = song ? getSongPresentation(song) : null
   /**
-   * 字母谱不是修改 raw JSON 后再交给快乐谱重渲染，
-   * 而是先让快乐谱按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
+   * 字母谱不是修改 raw JSON 后再交给归档 renderer 重渲染，
+   * 而是先让归档 renderer 按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
    *
    * 因此这里的 `letterTrack` 更像“后处理渲染指令”：
-   * - `number`：不做任何替换，保留快乐谱原版
+   * - `number`：不做任何替换，保留归档 renderer 原版
    * - `letter`：把简谱那一轨的数字替换成字母音名
    * - `graph`：内部残留调试模式，前台不再暴露
    */
