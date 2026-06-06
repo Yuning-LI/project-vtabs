@@ -257,13 +257,24 @@ async function readTargetPayload(
 
 async function readPayloadFromSession(slug: string, sourceUrl: string, session: Session) {
   const page = session.page
-  const response = await page.goto(sourceUrl, {
-    waitUntil: 'domcontentloaded',
-    timeout: 30000
-  })
+  let response: Awaited<ReturnType<Page['goto']>> | null = null
+  try {
+    response = await page.goto(sourceUrl, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000
+    })
+  } catch (error) {
+    if (isNavigationTimeout(error)) {
+      return { payload: null, stopError: null }
+    }
+    throw error
+  }
 
   const status = response?.status() ?? 0
   const bodyText = await page.locator('body').textContent().catch(() => '')
+  if (isLoginWall(page.url(), bodyText)) {
+    return { payload: null, stopError: null }
+  }
   if (status === 403 || status === 502 || isStopPage(bodyText)) {
     await captureBlockedEvidence(slug, sourceUrl, page, status, bodyText)
     return {
@@ -480,6 +491,20 @@ function isStopPage(bodyText: string) {
   return /验证码|403 Forbidden|502 Bad Gateway|Forbidden|Bad Gateway/i.test(bodyText)
 }
 
+function isLoginWall(url: string, bodyText: string) {
+  return (
+    /\/web\/user\.php\?action=login/i.test(url) ||
+    /邮箱登录|忘记密码|发送验证码/.test(bodyText)
+  )
+}
+
+function isNavigationTimeout(error: unknown) {
+  return (
+    error instanceof Error &&
+    /Timeout .* exceeded|page\.goto: Timeout/i.test(error.message)
+  )
+}
+
 function randomBetween(min: number, max: number) {
   const lower = Math.min(min, max)
   const upper = Math.max(min, max)
@@ -489,8 +514,6 @@ function randomBetween(min: number, max: number) {
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
-
-class KuailepuStopError extends Error {}
 
 async function captureBlockedEvidence(
   slug: string,

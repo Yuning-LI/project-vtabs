@@ -1,7 +1,9 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs'
-import { chromium } from 'playwright'
+import path from 'node:path'
+import { chromium } from 'playwright-extra'
 import type { Page } from 'playwright'
+import stealthPlugin from 'puppeteer-extra-plugin-stealth'
 import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
 import {
@@ -13,6 +15,8 @@ import {
   getPrimaryPage,
   launchKuailepuPersistentContext
 } from './kuailepuAuth.ts'
+
+chromium.use(stealthPlugin())
 
 type CompareState = {
   instrument: string | null
@@ -61,6 +65,13 @@ type CompareTarget = {
 
 const baseUrl = process.argv[2] ?? 'http://127.0.0.1:3000'
 const requestedSlugs = process.argv.slice(3)
+const REPORT_DIR = path.resolve(process.cwd(), 'reference', 'kuailepu-candidates', 'reports')
+const GREY_CANDIDATE_SONGDOC_DIR = path.resolve(
+  process.cwd(),
+  'reference',
+  'kuailepu-candidates',
+  'songdocs'
+)
 
 /**
  * 发布前 compare 必须基于 `allSongCatalog`，而不是只看已经公开的 `songCatalog`。
@@ -69,7 +80,7 @@ const requestedSlugs = process.argv.slice(3)
  * - 这个脚本最重要的用途就是给“准备上线的新歌”做 parity gate
  * - 如果只遍历已公开歌曲，就会漏掉 `published: false` 的待发布候选
  */
-const candidates = allSongCatalog.filter(song => {
+const catalogMatches = allSongCatalog.filter(song => {
   if (requestedSlugs.length > 0 && !requestedSlugs.includes(song.slug)) {
     return false
   }
@@ -82,6 +93,32 @@ const candidates = allSongCatalog.filter(song => {
   const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid?: string }
   return isLiveComparableSongUuid(payload.song_uuid)
 })
+
+const missingRequestedSlugs = requestedSlugs.filter(
+  slug => !catalogMatches.some(song => song.slug === slug)
+)
+const greyCandidateMatches = missingRequestedSlugs
+  .map(loadGreyCandidateSongDoc)
+  .filter(
+    (
+      song
+    ): song is {
+      slug: string
+      title: string
+      id?: string
+    } => Boolean(song?.slug && song?.title)
+  )
+  .filter(song => {
+    const filePath = resolveKuailepuRuntimeSongPath(song.slug)
+    if (!filePath || !fs.existsSync(filePath)) {
+      return false
+    }
+
+    const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as { song_uuid?: string }
+    return isLiveComparableSongUuid(payload.song_uuid)
+  })
+
+const candidates = [...catalogMatches, ...greyCandidateMatches]
 
 if (candidates.length < 1) {
   console.error('No matching raw-backed songs with a live-comparable Kuailepu song_uuid were found.')
@@ -134,6 +171,7 @@ const localContext = await localBrowser.newContext({
 })
 
 try {
+  fs.mkdirSync(REPORT_DIR, { recursive: true })
   const livePage = await getPrimaryPage(context)
   const localPage = await localContext.newPage()
   await localPage.route('**/*', route => {
@@ -168,7 +206,7 @@ try {
       try {
         const localCapture = await captureLocalRuntime(localPage, localUrl)
         if (!livePrepared) {
-          await prepareLiveRuntimePage(livePage, liveUrl)
+          await prepareLiveRuntimePage(livePage, liveUrl, target.slug)
           livePrepared = true
         }
         const liveCapture = await captureLiveRuntimeFromPreparedPage(livePage, localCapture.state)
@@ -208,7 +246,11 @@ try {
           reason: error instanceof Error ? error.message : String(error)
         })
       }
+
+      await sleep(randomBetween(1800, 3200))
     }
+
+    await sleep(randomBetween(2600, 4800))
   }
 
   const failed = compareResults.filter(result => !result.ok)
@@ -312,10 +354,11 @@ async function captureLocalRuntime(page: Page, url: string) {
   }
 }
 
-async function prepareLiveRuntimePage(page: Page, url: string) {
+async function prepareLiveRuntimePage(page: Page, url: string, slug: string) {
   await page.setViewportSize({ width: 1280, height: 1600 })
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 })
-  await page.waitForTimeout(800)
+  const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 })
+  await page.waitForTimeout(randomBetween(1200, 2200))
+  await assertNoStopPage(page, response?.status() ?? null, slug)
   await dismissKuailepuLoginOverlay(page)
   await page.waitForSelector('svg.sheet-svg', { timeout: 30000 })
 }
@@ -434,7 +477,7 @@ async function applyContextState(page: Page, state: CompareState) {
       state
     )
     .catch(() => undefined)
-  await page.waitForTimeout(1200)
+  await page.waitForTimeout(randomBetween(1400, 2600))
 }
 
 function sha256(input: string) {
@@ -614,4 +657,46 @@ function isLiveComparableSongUuid(songUuid: string | undefined) {
     songUuid.trim().length > 0 &&
     !songUuid.startsWith('synthetic-')
   )
+}
+
+function loadGreyCandidateSongDoc(slug: string) {
+  const filePath = path.join(GREY_CANDIDATE_SONGDOC_DIR, `${slug}.json`)
+  if (!fs.existsSync(filePath)) {
+    return null
+  }
+
+  return JSON.parse(fs.readFileSync(filePath, 'utf8')) as {
+    id?: string
+    slug?: string
+    title?: string
+  }
+}
+
+async function assertNoStopPage(page: Page, status: number | null, slug: string) {
+  const bodyText = await page.locator('body').innerText().catch(() => '')
+  if (status === 403 || status === 502 || isStopPage(bodyText)) {
+    const evidencePath = path.join(
+      REPORT_DIR,
+      `${new Date().toISOString().replace(/[:.]/g, '-')}-${slug}-compare-stop.png`
+    )
+    await page.screenshot({ path: evidencePath, fullPage: true }).catch(() => undefined)
+    throw new Error(
+      `Kuailepu stop page detected for ${slug}: ${status ?? 'unknown'} (${path.relative(
+        process.cwd(),
+        evidencePath
+      )})`
+    )
+  }
+}
+
+function isStopPage(bodyText: string) {
+  return /验证码|403 Forbidden|502 Bad Gateway|Forbidden|Bad Gateway/i.test(bodyText)
+}
+
+function randomBetween(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

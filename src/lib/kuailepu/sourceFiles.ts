@@ -10,6 +10,12 @@ const localCandidateRuntimeSongsDir = path.resolve(
   'song-publish-candidates',
   'runtime'
 )
+const localGreyCandidateRuntimeSongsDir = path.resolve(
+  process.cwd(),
+  'reference',
+  'kuailepu-candidates',
+  'runtime'
+)
 
 function resolveFirstExistingPath(candidates: string[]) {
   return candidates.find(candidate => fs.existsSync(candidate)) ?? null
@@ -19,6 +25,7 @@ export function resolveKuailepuRuntimeSongPath(songId: string) {
   return resolveFirstExistingPath([
     path.join(trackedRuntimeSongsDir, `${songId}.json`),
     path.join(localCandidateRuntimeSongsDir, `${songId}.json`),
+    path.join(localGreyCandidateRuntimeSongsDir, `${songId}.json`),
     path.join(localReferenceSongsDir, `${songId}.json`)
   ])
 }
@@ -39,9 +46,12 @@ export function resolveKuailepuRuntimeSongPath(songId: string) {
 export function resolveKuailepuRuntimeWriteTargets(songId: string) {
   const publicRuntimePath = path.join(trackedRuntimeSongsDir, `${songId}.json`)
   const candidateRuntimePath = path.join(localCandidateRuntimeSongsDir, `${songId}.json`)
+  const greyCandidateRuntimePath = path.join(localGreyCandidateRuntimeSongsDir, `${songId}.json`)
   const referenceRuntimePath = path.join(localReferenceSongsDir, `${songId}.json`)
 
-  const targets = [publicRuntimePath, candidateRuntimePath].filter(candidate => fs.existsSync(candidate))
+  const targets = [publicRuntimePath, candidateRuntimePath, greyCandidateRuntimePath].filter(candidate =>
+    fs.existsSync(candidate)
+  )
   if (targets.length > 0) {
     return targets
   }
@@ -52,11 +62,13 @@ export function resolveKuailepuRuntimeWriteTargets(songId: string) {
 export function resolveKuailepuRuntimeMutationSourcePath(songId: string) {
   const publicRuntimePath = path.join(trackedRuntimeSongsDir, `${songId}.json`)
   const candidateRuntimePath = path.join(localCandidateRuntimeSongsDir, `${songId}.json`)
+  const greyCandidateRuntimePath = path.join(localGreyCandidateRuntimeSongsDir, `${songId}.json`)
   const referenceRuntimePath = path.join(localReferenceSongsDir, `${songId}.json`)
 
   return resolveFirstExistingPath([
     publicRuntimePath,
     candidateRuntimePath,
+    greyCandidateRuntimePath,
     referenceRuntimePath
   ])
 }
@@ -70,6 +82,7 @@ export function resolvePackedKuailepuRuntimeSongPath(songId: string) {
 export function listKuailepuRuntimeSongFiles() {
   const runtimeSongsDir = resolveFirstExistingPath([
     trackedRuntimeSongsDir,
+    localGreyCandidateRuntimeSongsDir,
     localReferenceSongsDir
   ])
 
