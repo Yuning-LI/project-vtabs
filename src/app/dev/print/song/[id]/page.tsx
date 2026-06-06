@@ -6,6 +6,7 @@ import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
+import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -128,8 +129,8 @@ export default function InternalPrintSongPage({
     paramsForFrame.set('sheet_scale', sheetScale)
   }
 
-  const frameSrc = `/api/kuailepu-runtime/${song.slug}?${paramsForFrame.toString()}`
-  const loadingId = `kuailepu-runtime-print-${song.slug}-loading`
+  const frameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${song.slug}?${paramsForFrame.toString()}`
+  const loadingId = `public-runtime-print-${song.slug}-loading`
 
   return (
     <main className="vtabs-print-shell min-h-screen bg-[#f3f0ea] px-4 py-6 text-stone-900 print:bg-white print:px-0 print:py-0">

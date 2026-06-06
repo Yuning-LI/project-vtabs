@@ -8,6 +8,7 @@ import {
   loadPublicRuntimeSongPayload,
   resolvePublicRuntimeContextState
 } from '@/lib/runtime-core/publicRuntime'
+import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import {
   buildPublicRuntimeControlConfig
@@ -124,7 +125,7 @@ export default function PinterestSongPreviewPage({
     paramsForFrame.set('show_graph', controlConfig.activeGraphValue)
   }
 
-  const frameSrc = `/api/kuailepu-runtime/${song.slug}?${paramsForFrame.toString()}`
+  const frameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${song.slug}?${paramsForFrame.toString()}`
   const loadingId = `pinterest-preview-${song.slug}-loading`
   const publicSongHref = buildSongPageHref({
     songId: song.slug,

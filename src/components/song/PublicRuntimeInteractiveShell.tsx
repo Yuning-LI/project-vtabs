@@ -43,6 +43,7 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
 
 export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
@@ -100,7 +101,7 @@ export default function PublicRuntimeInteractiveShell({
   runtimeDefaultShowGraph,
   hasLyricToggle,
   pageBasePath = '/song',
-  runtimeApiBasePath = '/api/kuailepu-runtime',
+  runtimeApiBasePath = PUBLIC_RUNTIME_API_BASE_PATH,
   backHref = '/',
   backLabel = 'Back to Song Library',
   onRuntimeFrameReadyChange
