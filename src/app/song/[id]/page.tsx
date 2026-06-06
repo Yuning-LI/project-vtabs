@@ -2,9 +2,9 @@ import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import {
-  hasPublicKuailepuLyricToggle,
-  loadKuailepuSongPayload
-} from '@/lib/kuailepu/runtime'
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload
+} from '@/lib/runtime-core/publicRuntime'
 import {
   getRelatedSongCards,
   getSuggestedGuideCardsForSong,
@@ -29,8 +29,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const { id } = params
   const song = songCatalogBySlug[id]
-  const runtimePayload = song ? loadKuailepuSongPayload(song.slug) : null
-  const publicLyricsAvailable = runtimePayload ? hasPublicKuailepuLyricToggle(runtimePayload) : null
+  const runtimePayload = song ? loadPublicRuntimeSongPayload(song.slug) : null
+  const publicLyricsAvailable = runtimePayload ? hasPublicRuntimeLyricToggle(runtimePayload) : null
   const presentation = song
     ? getSongPresentation(song, { publicLyricsAvailable })
     : null
@@ -106,11 +106,11 @@ export default function SongPage({
    * - 供未来去 iframe 化迁移时复用
    * 但它不再是当前公开详情页的默认产品路线。
    */
-  const runtimePayload = loadKuailepuSongPayload(song.slug)
+  const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
   if (!runtimePayload) {
     notFound()
   }
-  const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
+  const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
   const queryState: PublicSongPageQueryState = {}
   const shellSeo = adaptPresentationForInstrument(

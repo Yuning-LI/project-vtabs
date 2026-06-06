@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
 import {
-  hasPublicKuailepuLyricToggle,
-  loadKuailepuSongPayload
-} from '@/lib/kuailepu/runtime'
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload
+} from '@/lib/runtime-core/publicRuntime'
 import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -61,7 +61,7 @@ export default function KuailepuPreviewPage({
   searchParams?: PreviewSearchParams
 }) {
   const songDoc = loadImportedOrCandidateSongDoc(params.id)
-  const runtimePayload = loadKuailepuSongPayload(params.id)
+  const runtimePayload = loadPublicRuntimeSongPayload(params.id)
 
   if (!songDoc || !runtimePayload) {
     notFound()
@@ -77,7 +77,7 @@ export default function KuailepuPreviewPage({
     searchParams?.fingering_index,
     fingeringOptions
   )
-  const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
+  const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const queryState: PublicSongPageQueryState = {
     instrumentId: searchParams?.instrument === activeInstrument.id ? activeInstrument.id : null,
     fingeringIndex: activeFingeringIndex,

@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import KuailepuRuntimeFrame from '@/components/song/KuailepuRuntimeFrame'
 import {
-  hasPublicKuailepuLyricToggle,
-  loadKuailepuSongPayload
-} from '@/lib/kuailepu/runtime'
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload
+} from '@/lib/runtime-core/publicRuntime'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -70,7 +70,7 @@ export default function InternalPrintSongPage({
     notFound()
   }
 
-  const runtimePayload = loadKuailepuSongPayload(song.slug)
+  const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
   if (!runtimePayload) {
     notFound()
   }
@@ -80,7 +80,7 @@ export default function InternalPrintSongPage({
     searchParams?.instrument,
     supportedInstruments
   )
-  const hasPublicLyricToggle = hasPublicKuailepuLyricToggle(runtimePayload)
+  const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const presentation = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
     activeInstrument

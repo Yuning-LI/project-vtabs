@@ -1,4 +1,4 @@
-import { hasPublicKuailepuLyricToggle, loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
+import { hasPublicRuntimeLyricToggle, loadPublicRuntimeSongPayload } from '@/lib/runtime-core/publicRuntime'
 import { siteUrl } from '@/lib/site'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
@@ -4993,8 +4993,8 @@ function getLearnSongCard(songRef: LearnSongReference) {
     return null
   }
 
-  const runtimePayload = loadKuailepuSongPayload(song.slug)
-  const hasPublicLyrics = runtimePayload ? hasPublicKuailepuLyricToggle(runtimePayload) : false
+      const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
+      const hasPublicLyrics = runtimePayload ? hasPublicRuntimeLyricToggle(runtimePayload) : false
   const presentation = getSongPresentation(song, {
     publicLyricsAvailable: hasPublicLyrics
   })

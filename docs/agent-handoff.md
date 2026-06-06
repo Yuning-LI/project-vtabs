@@ -113,6 +113,9 @@ Playbook:
 - Prefer runtime asset profile changes over deleting bundled old assets.
 - Do not run `npm run build` and `npm run test:e2e` concurrently in the same workspace; both touch `.next` and can create false failures.
 - Kuailepu live compare should minimize repeated detail-page reloads; prefer direct detail URLs and grouped per-song checks over repeated site search.
+- Prefer `src/lib/runtime-core/publicRuntime.ts` for new app/runtime integration work.
+- Treat `src/lib/kuailepu/runtime.ts` as compatibility shell, not the preferred place for new feature logic.
+- Inline iframe bridge logic currently lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`.
 
 ## Current Known Limitation
 

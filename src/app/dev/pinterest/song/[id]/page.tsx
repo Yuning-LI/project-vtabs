@@ -4,10 +4,10 @@ import PinterestWorkbenchControls from '@/components/dev/PinterestWorkbenchContr
 import PinterestWorkbenchShell from '@/components/dev/PinterestWorkbenchShell'
 import KuailepuRuntimeFrame from '@/components/song/KuailepuRuntimeFrame'
 import {
-  resolveKuailepuRuntimeState,
-  hasPublicKuailepuLyricToggle,
-  loadKuailepuSongPayload
-} from '@/lib/kuailepu/runtime'
+  hasPublicRuntimeLyricToggle,
+  loadPublicRuntimeSongPayload,
+  resolvePublicRuntimeContextState
+} from '@/lib/runtime-core/publicRuntime'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import {
   buildPublicRuntimeControlConfig
@@ -67,7 +67,7 @@ export default function PinterestSongPreviewPage({
   }
 
   const preset = getPinterestPinPreset(params.id)
-  const runtimePayload = loadKuailepuSongPayload(song.slug)
+  const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
   if (!runtimePayload) {
     notFound()
   }
@@ -77,7 +77,7 @@ export default function PinterestSongPreviewPage({
     searchParams?.instrument ?? preset?.instrumentId,
     supportedInstruments
   )
-  const hasPublicLyrics = hasPublicKuailepuLyricToggle(runtimePayload)
+  const hasPublicLyrics = hasPublicRuntimeLyricToggle(runtimePayload)
   const noteLabelMode =
     normalizeExplicitNoteLabelMode(searchParams?.note_label_mode) === 'number'
       ? 'number'
@@ -86,7 +86,7 @@ export default function PinterestSongPreviewPage({
     preset?.sheetScale ?? null,
     runtimePayload.sheetScaleList
   )
-  const controlState = resolveKuailepuRuntimeState(runtimePayload, {
+  const controlState = resolvePublicRuntimeContextState(runtimePayload, {
     instrument: activeInstrument.id,
     show_graph: searchParams?.show_graph ?? null,
     show_lyric: hasPublicLyrics

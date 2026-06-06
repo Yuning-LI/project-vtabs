@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto'
 import { NextResponse } from 'next/server'
 import {
-  buildKuailepuLetterTrackData,
-  buildKuailepuRuntimeHtml,
-  loadKuailepuSongPayload
-} from '@/lib/kuailepu/runtime'
+  buildPublicRuntimeHtml,
+  buildPublicRuntimeLetterTrackData,
+  loadPublicRuntimeSongPayload
+} from '@/lib/runtime-core/publicRuntime'
 import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtimeTypes'
 import {
   loadImportedOrCandidateSongDoc
@@ -89,7 +89,7 @@ export async function GET(
    * 生产环境优先读取仓库内可提交的 `data/kuailepu-runtime/<slug>.json`；
    * `reference/songs/<slug>.json` 只保留为本地导歌 / 调试 fallback。
    */
-  const payload = loadKuailepuSongPayload(params.id)
+  const payload = loadPublicRuntimeSongPayload(params.id)
   if (!payload) {
     return new NextResponse('Song not found', {
       status: 404,
@@ -130,7 +130,7 @@ export async function GET(
    * - `letter`：把简谱那一轨的数字替换成字母音名
    * - `graph`：内部残留调试模式，前台不再暴露
    */
-  const letterTrack = buildKuailepuLetterTrackData({
+  const letterTrack = buildPublicRuntimeLetterTrackData({
     notation: runtimeNotationSong?.notation,
     rawNotation: typeof payload.notation === 'string' ? payload.notation : null,
     key: runtimeNotationSong?.meta?.key,
@@ -139,7 +139,7 @@ export async function GET(
     state
   })
 
-  const html = buildKuailepuRuntimeHtml({
+  const html = buildPublicRuntimeHtml({
     songId: params.id,
     payload,
     state,

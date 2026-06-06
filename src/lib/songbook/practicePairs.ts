@@ -1,4 +1,4 @@
-import { hasPublicKuailepuLyricToggle, loadKuailepuSongPayload } from '@/lib/kuailepu/runtime'
+import { hasPublicRuntimeLyricToggle, loadPublicRuntimeSongPayload } from '@/lib/runtime-core/publicRuntime'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import {
   buildSongPageHref,
@@ -181,8 +181,8 @@ function toPracticePairCard(
     return null
   }
 
-  const runtimePayload = loadKuailepuSongPayload(song.slug)
-  const hasPublicLyrics = runtimePayload ? hasPublicKuailepuLyricToggle(runtimePayload) : false
+  const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
+  const hasPublicLyrics = runtimePayload ? hasPublicRuntimeLyricToggle(runtimePayload) : false
   const presentation = getSongPresentation(song, {
     publicLyricsAvailable: hasPublicLyrics
   })
@@ -209,7 +209,7 @@ function toPracticePairCard(
 }
 
 function resolveCompatibleInstrumentId(
-  payload: ReturnType<typeof loadKuailepuSongPayload>,
+  payload: ReturnType<typeof loadPublicRuntimeSongPayload>,
   requestedInstrumentId: PublicSongInstrumentId | null | undefined
 ) {
   if (!payload || !requestedInstrumentId) {

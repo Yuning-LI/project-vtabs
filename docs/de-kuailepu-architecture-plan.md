@@ -71,9 +71,10 @@ Characteristics:
 - can read filesystem data
 - can build strings and HTML safely before response
 
-Current main file:
+Current main files:
 
-- `src/lib/kuailepu/runtime.ts`
+- `src/lib/runtime-core/publicRuntime.ts`
+- `src/lib/kuailepu/runtime.ts` as compatibility re-export shell
 
 Future target:
 
@@ -102,7 +103,7 @@ Characteristics:
 
 Current main file:
 
-- bridge-script body embedded in `src/lib/kuailepu/runtime.ts`
+- `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`
 
 Future target:
 
@@ -249,6 +250,7 @@ The target layout for this phase is:
 
 ```text
 src/lib/runtime-core/
+  publicRuntime.ts
   server/
     payload/
     template/
@@ -258,16 +260,36 @@ src/lib/runtime-core/
     publicRuntimeState.ts
     instrumentSelection.ts
   bridge/
+    publicRuntimeBridge.ts
     script/
     playback/
     metronome/
     height/
     svg/
+  letterTrack/
+    publicLetterTrack.ts
   transforms/
     publicSheetTransforms.ts
   diagnostics/
     runtimeBoundaryNotes.ts
 ```
+
+## Current Progress Snapshot
+
+As of the current boundary phase:
+
+- `src/lib/runtime-core/publicRuntime.ts` is now the preferred app-side entry for public runtime payload loading, state resolution, lyric-toggle checks, runtime HTML assembly, and letter-track preparation
+- `src/lib/kuailepu/runtime.ts` has been reduced to a compatibility-facing re-export shell instead of staying the main mixed-responsibility implementation file
+- browser inline bridge code now lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts` while still being emitted as one self-contained inline script
+- letter-track computation now lives in `src/lib/runtime-core/letterTrack/publicLetterTrack.ts`
+
+This means the current architectural boundary is no longer “everything goes through one giant Kuailepu file”.
+
+It is now:
+
+1. app/server code should prefer `runtime-core/publicRuntime.ts`
+2. compatibility naming remains available through `src/lib/kuailepu/runtime.ts`
+3. archived Kuailepu renderer remains untouched behind those boundaries
 
 Important note:
 
