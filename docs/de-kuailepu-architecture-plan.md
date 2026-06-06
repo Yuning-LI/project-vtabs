@@ -244,6 +244,75 @@ Reason:
 
 - the bridge script is not a normal module runtime
 
+## Historical HC Evidence
+
+The local reference material under `reference/hc-history-investigation/2026-04-02/**`
+is now part of the planning baseline.
+
+Most useful files:
+
+- `combined-summary-for-coding-ai.md`
+- `hc-engine-structure-map.md`
+- `hc-module-evidence-matrix.md`
+- `live-files/hc.min_02d898293e.js`
+- `live-files/hc_*.js`
+- `live-files/hc.kit_*.js`
+
+Important conclusions from that material:
+
+- historical public `hc_*.js + hc.kit_*.js` split builds existed from at least 2023 through 2025
+- current public pages use a monolithic `hc.min_02d898293e.js`
+- old split files and the current monolithic file are locally saved for analysis
+- `hc` is not just an SVG template store; it includes parser, lexer, semantic handling, layout, and SVG rendering
+- `hc.kit` historically leaned toward MIDI, harmony, instrument, fingering, and support utilities
+- current monolithic `hc.min` appears to have absorbed the support responsibilities needed by public pages
+
+Practical planning impact:
+
+- visual differentiation can be done before replacing the engine
+- code-boundary cleanup can make the system easier to operate and extend
+- full independence cannot be achieved by renaming files or changing the outer shell
+- full independence requires our own notation parser, semantic model, layout engine, fingering model, renderer, and playback/data path
+
+## Progress Model
+
+There are two different progress numbers. Do not mix them.
+
+### Current Code-Structure Phase
+
+This is the current second-stage refactor:
+
+- make public app code speak `PublicRuntime`
+- move old names to compatibility shells
+- isolate adapter points around archived runtime dependencies
+- keep `Song.draw()/hc.parse/render` unchanged
+
+Status:
+
+- complete enough to stop treating Phase 2 as open-ended cleanup
+
+Remaining work in this phase should be limited to regressions or clearly useful boundary fixes.
+
+### Full De-Kuailepu Program
+
+This is the user's long-term target:
+
+- public song pages, interaction, playback, fingering, export, and new instruments no longer depend on the archived Kuailepu renderer
+- Kuailepu code becomes historical reference instead of runtime dependency
+
+Current estimate:
+
+- about 40% complete overall
+
+Reason:
+
+- shell, bridge, payload, state, and route boundaries are now substantially ours
+- the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, and export surfaces
+- the correctness engine is still the archived Kuailepu `hc` renderer
+- parser, semantic handling, layout, SVG rendering, playback source generation, and complex fingering expansion are not yet ours
+
+Operationally, the site is much farther along than 40% for launch/SEO use. Architecturally, it is not close to full independence until Phase 5 starts producing real renderer output.
+
 ## Target Module Layout
 
 The target layout for this phase is:
@@ -400,37 +469,86 @@ Continuing to remove every remaining `kuailepu` string would either:
 - create churn in scripts that are explicitly about import / compare / compatibility
 
 The next useful work is Phase 3 visual differentiation or Phase 5 core replacement, depending on whether the priority is operating the current site sooner or reducing renderer dependency deeper.
+
 ### Phase 3: Controlled Visual Differentiation
 
 Goal:
 
-- visual changes happen through our own transform boundary instead of ad hoc runtime patching
+- make the public sheet and export output visibly ours while keeping runtime correctness anchored to the archived renderer
+
+Why this comes next:
+
+- it directly supports SEO operation, Pinterest distribution, and user-facing differentiation
+- Phase 2 already created enough boundaries to keep visual work isolated
+- it is lower risk than replacing the parser / renderer immediately
 
 Deliverables:
 
-- fingering palette system
-- sheet background / typography rules
-- controlled o12 visual replacement path
+- public runtime theme switch that is disabled for compare mode
+- fingering palette system with per-fingering color rules
+- sheet background / paper tone / typography rules
+- controlled SVG transform entry for fingering chart visual shape adjustments
+- Pinterest / print export route compatibility with the same visual theme
+- documented on/off switch for runtime visual transforms
+
+Non-goals:
+
+- changing note parsing
+- changing fingering correctness
+- changing compare baseline
+- replacing the Kuailepu `Song.draw()/hc.parse/render` chain
+
+Execution order:
+
+1. create a `PublicRuntimeVisualTheme` config boundary
+2. make compare mode bypass all visual transforms
+3. add palette and sheet background transforms first
+4. add typography transforms where they do not affect note positioning
+5. add fingering SVG appearance transforms only through a reversible transform layer
+6. validate public page, bare runtime, print, Pinterest, and `note_label_mode=number`
 
 Exit criteria:
 
 - visual changes are isolated enough that they can be turned on/off without destabilizing runtime
+- `note_label_mode=number` compare path remains usable
+- public page, print, and Pinterest export share the same visual identity
+- a future engineer can change visual theme values without touching parser, layout, or data import code
 
-### Phase 4: Public Shell / Asset De-Kuailepu
+Progress estimate:
+
+- not started as a stable phase
+- earlier experiments exist, but they should not be treated as the final visual theme layer
+
+### Phase 4: Public Shell / Asset Ownership
 
 Goal:
 
-- make the public engineering surface look and behave like our own system
+- make the public engineering surface and asset story feel like our own system while still allowing archived runtime recovery
 
 Deliverables:
 
-- our own asset grouping and naming
-- cleaner shell/runtime interface
-- reduced direct leakage of Kuailepu mental model into public app code
+- clearer public runtime asset profiles
+- own-named static grouping for public runtime support assets where path compatibility allows it
+- documented split between public runtime assets, archived recovery assets, and compare-only assets
+- internal scripts updated to prefer PublicRuntime naming where they are not explicitly compare/import scripts
+- public shell and export routes audited for no visible source attribution wording
+
+Non-goals:
+
+- deleting archived assets needed for compare or recovery
+- renaming stable public paths merely for cosmetic reasons
+- hiding that compare/import scripts still deal with Kuailepu-compatible data
 
 Exit criteria:
 
 - a new engineer can understand public song page orchestration without first learning Kuailepu template internals
+- public-facing and export-facing assets are grouped by our product boundary
+- archived runtime assets are clearly marked as compatibility/recovery dependencies
+
+Progress estimate:
+
+- partially complete through Phase 1 and Phase 2
+- remaining work should happen after Phase 3 proves the visual theme boundary
 
 ### Phase 5: Core Replacement Track
 
@@ -438,28 +556,122 @@ Goal:
 
 - gradually remove dependence on Kuailepu core renderer
 
+This is the phase that moves the project from "differentiated runtime wrapper" to "independent renderer".
+
 Deliverables:
 
-- our own melody/fingering data model
-- our own renderer MVP for selected instruments
+- notation ingestion model that can represent Happy123/Kuailepu-style numbered notation and MusicXML-derived melody
+- parser subset for the most common current catalog constructs
+- semantic model for notes, rests, bars, repeats, slurs, lyrics, key, tempo, and fingering directives
+- layout engine MVP for melody rows, lyrics, measure numbers, and fingering anchors
+- renderer MVP for one narrow instrument family first, likely 12-hole ocarina
+- playback source generation independent from archived runtime
+- side-by-side renderer diff tooling against current archived output
+
+Suggested subphases:
+
+1. Parser Audit
+
+   - use `reference/hc-history-investigation/**` plus current catalog JSON to list real syntax constructs
+   - bucket constructs into MVP, common, rare, and unsupported
+   - generate fixtures from existing public songs
+
+2. Data Model
+
+   - define our own intermediate representation for melody, lyrics, measures, repeats, and fingering events
+   - keep it instrument-agnostic enough for guitar / sax / future flashcard-style fingering
+
+3. Renderer MVP
+
+   - render a small stable set of songs without archived runtime
+   - start with simple songs and one instrument
+   - measure visual correctness against archived output, not byte identity
+
+4. Interaction / Playback
+
+   - move playback, metronome alignment, and note highlight onto our own model
+   - keep archived runtime fallback until MVP is stable
+
+5. Catalog Migration
+
+   - classify songs by supported syntax
+   - route supported songs to our renderer
+   - leave unsupported songs on archived runtime until parser coverage catches up
 
 Exit criteria:
 
-- at least one instrument path can render without Kuailepu core runtime
+- at least one instrument path can render and play without archived Kuailepu runtime
+- the renderer can handle a meaningful public subset, not just a toy fixture
+- unsupported songs fail back intentionally, not silently
+- compare tooling distinguishes correctness, visual difference, and known unsupported syntax
+
+Progress estimate:
+
+- research groundwork exists
+- implementation has not meaningfully started
+
+### Phase 6: New Instrument Expansion
+
+Goal:
+
+- add instruments whose fingering/display model does not fit the old small inline chart style
+
+Examples:
+
+- guitar
+- saxophone
+- larger flashcard-style fingering views
+- non-ocarina fingering systems with many keys, positions, or alternate fingerings
+
+Dependency:
+
+- can begin as shell/UI prototypes before Phase 5 is complete
+- should not be forced into the archived ocarina-style graph model
+- should become much cleaner once our own intermediate representation exists
+
+Exit criteria:
+
+- new instrument UI is driven by our own instrument/fingering model
+- public pages can expose the new instrument without pretending it is a Kuailepu-style fingering chart
+- SEO entry points and instrument switching remain understandable
 
 ## Next-Step Execution Order
 
 Preferred order from the current point:
 
-1. continue Phase 2 by shrinking the remaining bridge heavy blocks and runtime HTML naming leakage
-2. keep compatibility names only at the outer shell where they still protect stability
-3. only then return to Phase 3 visual differentiation
+1. run a short targeted runtime QA pass on the Phase 2 boundary state
+2. start Phase 3 with a reversible visual theme layer
+3. make compare mode bypass all visual transforms before changing sheet appearance
+4. bring public page, print, and Pinterest exports onto the same visual theme
+5. only after the visual layer is stable, decide between Phase 4 asset ownership and Phase 5 core replacement
 
 Why:
 
-- visual work is currently still mostly “post-render theming”
-- code-level boundary cleanup increases control and lowers regression risk
-- once bridge/runtime integration is cleaner, visual differentiation becomes a first-class layer instead of a fragile patch layer
+- Phase 2 has already done the high-value structural cleanup
+- Phase 3 directly supports current SEO and Pinterest operation
+- Phase 5 is the real independence track, but it is much larger and should not be mixed with visual launch work
+
+Recommended immediate QA samples before Phase 3:
+
+- `twinkle-twinkle-little-star`
+- `london-bridge`
+- `wedding-march`
+- `turkish-march`
+
+Recommended URLs per sample:
+
+- `/song/<slug>`
+- `/song/<slug>?note_label_mode=number`
+- `/api/kuailepu-runtime/<slug>?note_label_mode=number`
+
+Manual checks:
+
+- sheet appears without loading-card or header flash
+- playback opens, stops, and closes correctly
+- metronome is still usable
+- number mode remains clean
+- iframe height has no large blank bottom area or inner scrollbar
+- compare-related route behavior remains unchanged
 
 ## Decision Rules
 
@@ -549,45 +761,124 @@ Checks:
 - verify `note_label_mode=number`
 - verify no visual-layer change leaked into compare baseline assumptions
 
-## Validation Rule For This Refactor
+## Validation Rules By Phase
 
-Every structural step in this phase should at minimum run:
+Use validation scope according to the risk of the step.
+
+### Phase 2 Structural Boundary Changes
+
+Every structural step should at minimum run:
 
 ```bash
 npm run build
 ```
 
-When a step changes publish-sensitive runtime behavior, also run:
+If the step touches song data, publication, import, compare, or content rules, also run:
 
 ```bash
 npm run validate:content
 npm run validate:songbook
 ```
 
-And where relevant:
+Where relevant to a specific song:
 
 ```bash
 npm run preflight:kuailepu-publish -- <slug...>
 ```
 
+### Phase 3 Visual Differentiation
+
+Visual work must verify both themed public output and unthemed correctness paths.
+
+Minimum automated check:
+
+```bash
+npm run build
+```
+
+Manual samples:
+
+- `twinkle-twinkle-little-star`
+- `london-bridge`
+- `wedding-march`
+- `turkish-march`
+
+Manual URLs:
+
+- `/song/<slug>`
+- `/song/<slug>?note_label_mode=number`
+- `/api/kuailepu-runtime/<slug>?note_label_mode=number`
+- `/dev/print/song/<slug>`
+- `/dev/pinterest/song/<slug>`
+
+Pass criteria:
+
+- visual theme applies only where intended
+- compare / number mode is not visually transformed in a way that breaks correctness checks
+- fingering charts stay semantically correct
+- iframe height remains correct
+- print and Pinterest output match the public visual direction
+
+### Phase 5 Core Replacement
+
+Core replacement work needs stronger validation because it changes correctness, not just appearance.
+
+Minimum checks for any renderer/parser milestone:
+
+```bash
+npm run build
+npm run validate:content
+npm run validate:songbook
+```
+
+Additional expected checks:
+
+- fixture tests for parser syntax buckets
+- side-by-side visual render diff against archived runtime for selected songs
+- manual playback / metronome checks if timing or audio source changes
+- explicit unsupported-syntax fallback checks
+
+## Reporting Rule
+
+After each completed work step, report in plain language:
+
+- what changed
+- which phase it belongs to
+- what was verified
+- whether any user / teammate dirty worktree changes were left untouched
+- approximate progress impact
+
+Example format:
+
+```text
+This step was Phase 3 groundwork. I added the visual theme boundary but did not change actual sheet styling yet. Build passed. The overall full de-Kuailepu program remains about 40%, while Phase 3 moved from 0% to about 10%.
+```
+
+Use two progress tracks:
+
+- `Current phase progress`: how far the active phase has moved.
+- `Full independence progress`: how close the whole project is to no longer needing the archived Kuailepu runtime.
+
 ## Immediate Next Steps
 
 The next safe work order is:
 
-1. keep `buildRuntimeBridgeScript()` self-contained
-2. continue shrinking `runtime.ts` only along true layer boundaries
-3. split public state adaptation next
-4. split server assembly helpers after that
-5. postpone deep visual SVG replacement until these boundaries are stable
+1. run the short targeted runtime QA pass listed above
+2. start Phase 3 by adding a reversible `PublicRuntimeVisualTheme` boundary
+3. ensure compare mode bypasses visual transforms
+4. apply low-risk visual changes first: palette, background, typography
+5. only then revisit fingering SVG shape changes through the transform boundary
+6. after Phase 3 is stable, choose between Phase 4 asset ownership and Phase 5 core replacement
 
 ## Bottom Line
 
-The current goal is not “remove Kuailepu everywhere at once”.
+The current short-term goal is not “remove Kuailepu everywhere at once”.
 
-The current goal is:
+The current short-term goal is:
 
-- keep Kuailepu core runtime as the correctness engine for now
+- keep the archived Kuailepu core runtime as the correctness engine for now
 - make every surrounding layer increasingly ours
+- create obvious visual and product differentiation for public operation
 - avoid refactors that cross execution layers blindly
 
-That is the shortest path to de-Kuailepu without breaking the public runtime.
+The long-term goal is full independence. That requires Phase 5: our own parser, semantic model, layout engine, renderer, fingering model, and playback path.
