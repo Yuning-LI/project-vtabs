@@ -19,7 +19,7 @@ function serializeForInlineScript(value: unknown) {
 }
 
 /**
- * 这层样式的目标不是“美化快乐谱页面”，而是把不需要的原站外壳彻底关掉，只留下谱面本体。
+ * 这层样式的目标不是美化 archived runtime 页面，而是把不需要的原站外壳彻底关掉，只留下谱面本体。
  *
  * 重点隐藏：
  * - 顶部 header
@@ -39,10 +39,10 @@ function serializeForInlineScript(value: unknown) {
 /**
  * 这个桥接脚本解决两个问题：
  *
- * 1. 快乐谱原始页面本身并不知道自己是被放进我们站点 iframe 里的，
+ * 1. archived runtime 页面本身并不知道自己是被放进我们站点 iframe 里的，
  *    所以它不会主动把谱面高度告诉父页面。
  *
- * 2. 快乐谱页面里有很多被我们隐藏掉的节点，直接拿 `document.body.scrollHeight`
+ * 2. archived runtime 页面里有很多被我们隐藏掉的节点，直接拿 `document.body.scrollHeight`
  *    往往会偏大，导致 iframe 底下出现大块空白。
  *
  * 因此这里的策略是：

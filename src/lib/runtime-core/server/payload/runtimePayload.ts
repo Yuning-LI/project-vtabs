@@ -130,9 +130,6 @@ export function localizePublicRuntimePayloadArchive(
 // Compatibility aliases kept only for older imports that still use the previous public helper names.
 export const loadArchivedPublicRuntimePayload = loadPublicRuntimePayloadArchive
 export const localizePublicRuntimePayload = localizePublicRuntimePayloadArchive
-// Compatibility aliases kept only for legacy imports that still point at old Kuailepu/archive helper names.
-export const loadArchivedKuailepuSongPayload = loadPublicRuntimePayloadArchive
-export const localizeArchivedRuntimePayload = localizePublicRuntimePayloadArchive
 
 function sanitizeInstrumentLabel(value: string | null | undefined) {
   if (!value) {

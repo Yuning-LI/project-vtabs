@@ -42,8 +42,6 @@ export function loadArchivedPublicRuntimeHtmlTemplate() {
 
 // Compatibility alias kept only for older imports that still use the previous getter-style public helper name.
 export const getArchivedPublicRuntimeHtmlTemplate = loadArchivedPublicRuntimeHtmlTemplate
-// Compatibility alias kept only for legacy imports that still point at the old Kuailepu helper name.
-export const getArchivedKuailepuRuntimeHtmlTemplate = loadArchivedPublicRuntimeHtmlTemplate
 
 function parseMarkedFiles(sourceText: string) {
   const marker = /^文件：(.+)$/gm

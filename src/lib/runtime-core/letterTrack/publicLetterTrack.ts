@@ -77,9 +77,6 @@ export function buildPublicLetterTrackData(input: {
   }
 }
 
-// Compatibility alias kept only for old imports that still expect the legacy Kuailepu helper name.
-export const buildPublicKuailepuLetterTrackData = buildPublicLetterTrackData
-
 export function normalizeNoteLabelMode(mode: string | null | undefined): PublicLetterTrackMode {
   if (mode === 'number' || mode === 'letter' || mode === 'graph') {
     return mode

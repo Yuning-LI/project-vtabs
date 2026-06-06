@@ -129,9 +129,9 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
           toolbar.appendChild(playAction);
         }
 
-        var legacyBeat = content.querySelector('#metronome-beat');
-        if (legacyBeat && legacyBeat !== beat) {
-          legacyBeat.remove();
+        var archivedBeat = content.querySelector('#metronome-beat');
+        if (archivedBeat && archivedBeat !== beat) {
+          archivedBeat.remove();
         }
 
         var row = content.querySelector('.row');
@@ -139,9 +139,9 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
           row.remove();
         }
 
-        var legacyPlayWrapper = content.querySelector('.center-align');
-        if (legacyPlayWrapper) {
-          legacyPlayWrapper.remove();
+        var archivedPlayWrapper = content.querySelector('.center-align');
+        if (archivedPlayWrapper) {
+          archivedPlayWrapper.remove();
         }
 
         content.insertBefore(toolbar, content.firstChild);
