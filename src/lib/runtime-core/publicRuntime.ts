@@ -22,14 +22,14 @@ import {
   serializeForInlineScript as serializeRuntimeHtmlInlineValue
 } from './server/html/runtimeHtmlScaffold.ts'
 import {
-  loadArchivedPublicRuntimePayload,
-  localizePublicRuntimePayload
+  loadPublicRuntimePayloadArchive,
+  localizePublicRuntimePayloadArchive
 } from './server/payload/runtimePayload.ts'
 import { buildPublicRuntimeBridgeScript } from './bridge/publicRuntimeBridge.ts'
-import { getArchivedPublicRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
+import { loadArchivedPublicRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
 
 export function loadPublicRuntimeSongPayload(songId: string) {
-  return loadArchivedPublicRuntimePayload(songId)
+  return loadPublicRuntimePayloadArchive(songId)
 }
 
 export function resolvePublicRuntimeContextState(
@@ -68,7 +68,7 @@ export function buildPublicRuntimeHtml(input: {
 }) {
   const { songId } = input
   const payload = applyPublicRuntimeDefaults(
-    localizePublicRuntimePayload(input.payload, {
+    localizePublicRuntimePayloadArchive(input.payload, {
       mode: input.textMode ?? 'source',
       preferredTitle: input.preferredEnglishTitle ?? null,
       preferredSubtitle: input.preferredEnglishSubtitle ?? null
@@ -81,7 +81,7 @@ export function buildPublicRuntimeHtml(input: {
   const compareMode = Boolean(input.compareMode)
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeRuntimeHtmlInlineValue(payload)
-  const template = getArchivedPublicRuntimeHtmlTemplate()
+  const template = loadArchivedPublicRuntimeHtmlTemplate()
   const hasPendingLetterMask = !compareMode && Boolean(letterTrack) && letterTrack?.mode !== 'number'
   const bridgeScriptHtml = buildPublicRuntimeBridgeScript(
     songId,
