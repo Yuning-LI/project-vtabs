@@ -356,7 +356,7 @@ export default function PublicRuntimeInteractiveShell({
   const frameSrc = query
     ? `${runtimeApiBasePath}/${songId}?${query}`
     : `${runtimeApiBasePath}/${songId}`
-  const loadingId = `kuailepu-runtime-${songId}-loading`
+  const loadingId = `public-runtime-${songId}-loading`
   const pageHref = useCallback(
     (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
       buildSongPageHref({

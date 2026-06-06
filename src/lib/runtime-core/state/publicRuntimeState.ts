@@ -3,7 +3,7 @@ import type {
   PublicRuntimeState
 } from '../runtimeTypes.ts'
 
-type KuailepuInstrumentFingeringOption = NonNullable<
+type PublicRuntimeInstrumentFingeringOption = NonNullable<
   PublicRuntimePayload['instrumentFingerings']
 >[number]
 
@@ -83,7 +83,7 @@ export function resolveRuntimeInstrumentSelection(
   state: PublicRuntimeState | null
 ) {
   const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
-    (option): option is KuailepuInstrumentFingeringOption =>
+    (option): option is PublicRuntimeInstrumentFingeringOption =>
       Boolean(option.instrument) && option.instrument !== 'none'
   )
   const hasExplicitInstrumentOverride =
