@@ -1,12 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { resolvePublicRuntimeArchivePath } from '../../../kuailepu/archiveFiles.ts'
+import { resolvePublicRuntimeTemplateArchivePath } from './publicRuntimeTemplateFiles.ts'
 
 let cachedTemplateHtml: string | null = null
+const PUBLIC_RUNTIME_DETAIL_TEMPLATE_ENTRY = 'qyiBa1mPa.html'
 
 /**
- * 读取归档下来的快乐谱详情页 HTML 模板。
+ * 读取归档下来的 public runtime 详情页 HTML 模板。
  *
  * 这一步仍然属于“服务端装配层”：
  * - 读取本地归档
@@ -18,7 +19,7 @@ export function loadArchivedPublicRuntimeHtmlTemplate() {
     return cachedTemplateHtml
   }
 
-  const sourcePath = resolvePublicRuntimeArchivePath()
+  const sourcePath = resolvePublicRuntimeTemplateArchivePath()
   if (!sourcePath) {
     throw new Error(
       'Missing deployable public runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'
@@ -27,10 +28,12 @@ export function loadArchivedPublicRuntimeHtmlTemplate() {
 
   const sourceText = fs.readFileSync(sourcePath, 'utf8')
   const fileMap = parseMarkedFiles(sourceText)
-  const html = fileMap.get('qyiBa1mPa.html')
+  const html = fileMap.get(PUBLIC_RUNTIME_DETAIL_TEMPLATE_ENTRY)
 
   if (!html) {
-    throw new Error(`Missing qyiBa1mPa.html in ${path.relative(process.cwd(), sourcePath)}`)
+    throw new Error(
+      `Missing ${PUBLIC_RUNTIME_DETAIL_TEMPLATE_ENTRY} in ${path.relative(process.cwd(), sourcePath)}`
+    )
   }
 
   cachedTemplateHtml = html
