@@ -1,15 +1,15 @@
 import type {
-  KuailepuRuntimePayload,
-  KuailepuRuntimeState
+  PublicRuntimePayload,
+  PublicRuntimeState
 } from '../runtimeTypes.ts'
 
 type KuailepuInstrumentFingeringOption = NonNullable<
-  KuailepuRuntimePayload['instrumentFingerings']
+  PublicRuntimePayload['instrumentFingerings']
 >[number]
 
 export function resolvePublicRuntimeState(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
+  payload: PublicRuntimePayload,
+  state: PublicRuntimeState | null
 ) {
   const resolved = applyRuntimeDefaults(payload, state)
 
@@ -24,14 +24,14 @@ export function resolvePublicRuntimeState(
     measure_layout: resolved.measure_layout ?? null,
     sheet_scale: resolved.sheet_scale ?? null,
     note_label_mode: state?.note_label_mode ?? null
-  } satisfies KuailepuRuntimeState
+  } satisfies PublicRuntimeState
 }
 
 export function applyRuntimeDefaults(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
+  payload: PublicRuntimePayload,
+  state: PublicRuntimeState | null
 ) {
-  const next: KuailepuRuntimePayload & KuailepuRuntimeState = {
+  const next: PublicRuntimePayload & PublicRuntimeState = {
     ...payload
   }
 
@@ -79,8 +79,8 @@ export function applyRuntimeDefaults(
 }
 
 export function resolveRuntimeInstrumentSelection(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
+  payload: PublicRuntimePayload,
+  state: PublicRuntimeState | null
 ) {
   const instrumentOptions = (payload.instrumentFingerings ?? []).filter(
     (option): option is KuailepuInstrumentFingeringOption =>
@@ -195,7 +195,7 @@ function normalizeToggle(
   return '1'
 }
 
-export function shouldHideLyricTrackByDefault(payload: KuailepuRuntimePayload) {
+export function shouldHideLyricTrackByDefault(payload: PublicRuntimePayload) {
   const lyricText = extractPayloadLyricText(payload)
   if (!lyricText) {
     return false
@@ -207,7 +207,7 @@ export function shouldHideLyricTrackByDefault(payload: KuailepuRuntimePayload) {
 }
 
 export function extractPayloadLyricText(
-  payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
+  payload: Pick<PublicRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
   const candidates = [payload.lyric_text, payload.lyric]
 

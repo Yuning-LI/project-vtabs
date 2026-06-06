@@ -1,9 +1,9 @@
 import { simplifyKuailepuNotation } from '../../songbook/kuailepuImport.ts'
 import type {
-  KuailepuLetterTrackData,
-  KuailepuLetterTrackMode,
-  KuailepuRuntimePayload,
-  KuailepuRuntimeState
+  PublicLetterTrackData,
+  PublicLetterTrackMode,
+  PublicRuntimePayload,
+  PublicRuntimeState
 } from '../runtimeTypes.ts'
 import { resolveRuntimeInstrumentSelection } from '../state/publicRuntimeState.ts'
 
@@ -18,9 +18,9 @@ export function buildPublicKuailepuLetterTrackData(input: {
   rawNotation?: string | null
   key?: string | null
   mode?: string | null
-  payload?: KuailepuRuntimePayload | null
-  state?: KuailepuRuntimeState | null
-}): KuailepuLetterTrackData {
+  payload?: PublicRuntimePayload | null
+  state?: PublicRuntimeState | null
+}): PublicLetterTrackData {
   const mode = normalizeNoteLabelMode(input.mode)
   if (mode === 'number' || mode === 'graph') {
     return {
@@ -77,7 +77,7 @@ export function buildPublicKuailepuLetterTrackData(input: {
   }
 }
 
-export function normalizeNoteLabelMode(mode: string | null | undefined): KuailepuLetterTrackMode {
+export function normalizeNoteLabelMode(mode: string | null | undefined): PublicLetterTrackMode {
   if (mode === 'number' || mode === 'letter' || mode === 'graph') {
     return mode
   }
@@ -86,8 +86,8 @@ export function normalizeNoteLabelMode(mode: string | null | undefined): Kuailep
 
 function resolveLetterTrackScaleTonic(input: {
   key?: string | null
-  payload?: KuailepuRuntimePayload | null
-  state?: KuailepuRuntimeState | null
+  payload?: PublicRuntimePayload | null
+  state?: PublicRuntimeState | null
 }) {
   const fingeringTonic = resolveRuntimeFingeringScaleTonics(input.payload ?? null, input.state ?? null)?.[0]
   if (fingeringTonic) {
@@ -98,8 +98,8 @@ function resolveLetterTrackScaleTonic(input: {
 }
 
 function resolveRuntimeFingeringScaleTonics(
-  payload: KuailepuRuntimePayload | null,
-  state: KuailepuRuntimeState | null
+  payload: PublicRuntimePayload | null,
+  state: PublicRuntimeState | null
 ) {
   if (!payload) {
     return null
@@ -134,8 +134,8 @@ function parseFingeringScaleTonic(fingering: string | null | undefined) {
 function buildFingeringAwareLetterLabels(input: {
   notation?: string[] | null
   rawNotation?: string | null
-  payload?: KuailepuRuntimePayload | null
-  state?: KuailepuRuntimeState | null
+  payload?: PublicRuntimePayload | null
+  state?: PublicRuntimeState | null
 }) {
   const tonics = resolveRuntimeFingeringScaleTonics(input.payload ?? null, input.state ?? null)
   if (!tonics || tonics.length < 1 || !input.rawNotation) {

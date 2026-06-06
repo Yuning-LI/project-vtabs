@@ -1,10 +1,10 @@
 import type {
-  KuailepuLetterTrackData,
-  KuailepuRuntimeAssetProfileName,
-  KuailepuRuntimePayload,
-  KuailepuRuntimePublicFeature,
-  KuailepuRuntimeState,
-  KuailepuRuntimeTextMode
+  PublicLetterTrackData,
+  PublicRuntimeAssetProfileName,
+  PublicRuntimePayload,
+  PublicRuntimePublicFeature,
+  PublicRuntimeState,
+  PublicRuntimeTextMode
 } from './runtimeTypes.ts'
 import {
   buildPublicKuailepuLetterTrackData
@@ -33,20 +33,20 @@ export function loadPublicRuntimeSongPayload(songId: string) {
 }
 
 export function resolvePublicRuntimeContextState(
-  payload: KuailepuRuntimePayload,
-  state: KuailepuRuntimeState | null
+  payload: PublicRuntimePayload,
+  state: PublicRuntimeState | null
 ) {
   return resolvePublicRuntimeState(payload, state)
 }
 
 export function hasPublicRuntimeLyricContent(
-  payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
+  payload: Pick<PublicRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
   return extractPublicRuntimeLyricText(payload).trim().length > 0
 }
 
 export function hasPublicRuntimeLyricToggle(
-  payload: Pick<KuailepuRuntimePayload, 'lyric' | 'lyric_text'>
+  payload: Pick<PublicRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
   return (
     hasPublicRuntimeLyricContent(payload) &&
@@ -56,12 +56,12 @@ export function hasPublicRuntimeLyricToggle(
 
 export function buildPublicRuntimeHtml(input: {
   songId: string
-  payload: KuailepuRuntimePayload
-  state?: KuailepuRuntimeState | null
-  letterTrack?: KuailepuLetterTrackData | null
-  textMode?: KuailepuRuntimeTextMode | null
-  assetProfile?: KuailepuRuntimeAssetProfileName | null
-  publicFeatures?: KuailepuRuntimePublicFeature[] | null
+  payload: PublicRuntimePayload
+  state?: PublicRuntimeState | null
+  letterTrack?: PublicLetterTrackData | null
+  textMode?: PublicRuntimeTextMode | null
+  assetProfile?: PublicRuntimeAssetProfileName | null
+  publicFeatures?: PublicRuntimePublicFeature[] | null
   preferredEnglishTitle?: string | null
   preferredEnglishSubtitle?: string | null
   compareMode?: boolean | null
@@ -108,8 +108,8 @@ export function buildPublicRuntimeLetterTrackData(input: {
   rawNotation?: string | null
   key?: string | null
   mode?: string | null
-  payload?: KuailepuRuntimePayload | null
-  state?: KuailepuRuntimeState | null
-}): KuailepuLetterTrackData {
+  payload?: PublicRuntimePayload | null
+  state?: PublicRuntimeState | null
+}): PublicLetterTrackData {
   return buildPublicKuailepuLetterTrackData(input)
 }

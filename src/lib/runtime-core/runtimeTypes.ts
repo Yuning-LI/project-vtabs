@@ -1,4 +1,4 @@
-export type KuailepuRuntimeState = {
+export type PublicRuntimeState = {
   instrument?: string | null
   fingering?: string | null
   fingering_index?: string | number | null
@@ -11,10 +11,10 @@ export type KuailepuRuntimeState = {
   note_label_mode?: string | null
 }
 
-export type KuailepuLetterTrackMode = 'number' | 'letter' | 'graph'
+export type PublicLetterTrackMode = 'number' | 'letter' | 'graph'
 
-export type KuailepuLetterTrackData = {
-  mode: KuailepuLetterTrackMode
+export type PublicLetterTrackData = {
+  mode: PublicLetterTrackMode
   anchorLabels: string[] | null
   glyphLabels: string[] | null
   glyphTokens: string[] | null
@@ -27,7 +27,7 @@ export type KuailepuLetterTrackData = {
     | null
 }
 
-export type KuailepuRuntimePayload = Record<string, unknown> & {
+export type PublicRuntimePayload = Record<string, unknown> & {
   song_name?: string
   alias_name?: string
   song_pinyin?: string
@@ -81,14 +81,14 @@ export type KuailepuRuntimePayload = Record<string, unknown> & {
   }>
 }
 
-export type KuailepuRuntimeTextMode = 'source' | 'english'
-export type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
-export type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
+export type PublicRuntimeTextMode = 'source' | 'english'
+export type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
+export type PublicRuntimePublicFeature = 'metronome' | 'playback'
 
-export type PublicRuntimeState = KuailepuRuntimeState
-export type PublicLetterTrackMode = KuailepuLetterTrackMode
-export type PublicLetterTrackData = KuailepuLetterTrackData
-export type PublicRuntimePayload = KuailepuRuntimePayload
-export type PublicRuntimeTextMode = KuailepuRuntimeTextMode
-export type PublicRuntimeAssetProfileName = KuailepuRuntimeAssetProfileName
-export type PublicRuntimePublicFeature = KuailepuRuntimePublicFeature
+export type KuailepuRuntimeState = PublicRuntimeState
+export type KuailepuLetterTrackMode = PublicLetterTrackMode
+export type KuailepuLetterTrackData = PublicLetterTrackData
+export type KuailepuRuntimePayload = PublicRuntimePayload
+export type KuailepuRuntimeTextMode = PublicRuntimeTextMode
+export type KuailepuRuntimeAssetProfileName = PublicRuntimeAssetProfileName
+export type KuailepuRuntimePublicFeature = PublicRuntimePublicFeature

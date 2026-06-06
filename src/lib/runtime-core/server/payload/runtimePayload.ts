@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import { gunzipSync } from 'node:zlib'
 
 import type {
-  KuailepuRuntimePayload,
-  KuailepuRuntimeTextMode
+  PublicRuntimePayload,
+  PublicRuntimeTextMode
 } from '../../runtimeTypes.ts'
 import {
   extractKuailepuEnglishText,
@@ -23,27 +23,27 @@ export function loadArchivedKuailepuSongPayload(songId: string) {
   const packedFilePath = resolvePackedKuailepuRuntimeSongPath(songId)
   const filePath = resolveKuailepuRuntimeSongPath(songId)
   if (filePath && fs.existsSync(filePath)) {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8')) as KuailepuRuntimePayload
+    return JSON.parse(fs.readFileSync(filePath, 'utf8')) as PublicRuntimePayload
   }
 
   if (process.env.NODE_ENV === 'production' && packedFilePath && fs.existsSync(packedFilePath)) {
     return JSON.parse(
       gunzipSync(fs.readFileSync(packedFilePath)).toString('utf8')
-    ) as KuailepuRuntimePayload
+    ) as PublicRuntimePayload
   }
 
   return null
 }
 
 export function localizeArchivedRuntimePayload(
-  payload: KuailepuRuntimePayload,
+  payload: PublicRuntimePayload,
   options: {
-    mode: KuailepuRuntimeTextMode
+    mode: PublicRuntimeTextMode
     preferredTitle?: string | null
     preferredSubtitle?: string | null
   }
 ) {
-  const sourceSanitized: KuailepuRuntimePayload = {
+  const sourceSanitized: PublicRuntimePayload = {
     ...payload,
     music_composer: sanitizeSourceRuntimePersonField(payload.music_composer),
     lyric_composer: sanitizeSourceRuntimePersonField(payload.lyric_composer),
@@ -59,7 +59,7 @@ export function localizeArchivedRuntimePayload(
   }
 
   const englishTitle = getKuailepuEnglishTitle(sourceSanitized)
-  const localized: KuailepuRuntimePayload = {
+  const localized: PublicRuntimePayload = {
     ...sourceSanitized,
     song_name:
       options.preferredTitle?.trim() ||

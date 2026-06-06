@@ -1,7 +1,7 @@
 import type {
-  KuailepuLetterTrackData,
-  KuailepuRuntimePublicFeature,
-  KuailepuRuntimeTextMode
+  PublicLetterTrackData,
+  PublicRuntimePublicFeature,
+  PublicRuntimeTextMode
 } from '../runtimeTypes.ts'
 import { buildPublicRuntimeHeightBridgeScript } from './height/publicRuntimeHeightBridge.ts'
 import { buildPublicRuntimeMetronomeBridgeScript } from './metronome/publicRuntimeMetronomeBridge.ts'
@@ -52,9 +52,9 @@ function serializeForInlineScript(value: unknown) {
  */
 export function buildPublicRuntimeBridgeScript(
   songId: string,
-  letterTrack: KuailepuLetterTrackData | null,
-  textMode: KuailepuRuntimeTextMode,
-  publicFeatures: Set<KuailepuRuntimePublicFeature>
+  letterTrack: PublicLetterTrackData | null,
+  textMode: PublicRuntimeTextMode,
+  publicFeatures: Set<PublicRuntimePublicFeature>
 ) {
   const heightBridgeScript = buildPublicRuntimeHeightBridgeScript()
   const metronomeBridgeScript = buildPublicRuntimeMetronomeBridgeScript()
