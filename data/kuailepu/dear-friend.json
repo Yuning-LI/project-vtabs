@@ -1,0 +1,49 @@
+{
+  "id": "dear-friend",
+  "slug": "dear-friend",
+  "title": "Dear Friend",
+  "description": "Dear Friend melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "alignedLyrics": [
+    "跟 夏 天 才 _ 告 别 转 眼 满 地 落 叶 远 远",
+    "的 白 云 依 旧 无 言 像 我 心 里 感 觉 还 有 增 无 减",
+    "跟 去 年 说 再 见 转 眼 又 是 冬 天 才 一",
+    "年 看 着 世 界 变 迁 有 种 沧 海 桑 田 无 常 的 感 觉 oh~ _",
+    "friend 我 对 你 的 想 念 此 刻 特 别 强",
+    "烈 _ _ 我 们 如 此 遥 远",
+    "这 么 多 年 oh~ _ friend",
+    "我 对 你 的 想 念 此 刻 特 别 强 烈 _ _",
+    "如 此 遥 远 friend _"
+  ],
+  "extraLyrics": [
+    "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 朋 友 孩 子 的 脸 说 着 生 命 喜 悦 如 果 说 我 们 依 然 相 恋 说 不 定 在 眼 前 是 另 外 情 节"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/3dRPc1WKx.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 3dRPc1WKx on 2026-06-05."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-05",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "5 - - - 4 - - - 3 - - - 2 - - - | 2 - - - - - 3 - 3 - - - 0 0 3 - | 1' - - - 0 0 3 - 7 - - - 0 0 3 - | 6 - - - - - - - - - - - 3 - 5 - |",
+    "6 - - - 0 0 6 - 6 - 7 - 5 - 4 - | 5 - - - 0 0 5 - 5 - 6 - 4 - 3 - | 4 - - - 0 0 2 3 5 - - - - - 4 - | 3 - - - - - - - - - - - 0 0 0 0",
+    "| 0 0 0 0 5 - - - 4 - - - 3 - - - | 2 - - - - - 3 - 3 - - - 0 0 3 - | 1' - - - 0 0 3 - 7 - - - 0 0 3 - | 6 - - - - - - - - - - - 3 - 5 - |",
+    "6 - - - 0 0 6 - 6 - 7 - 5 - 4 - | 5 - - - 0 0 5 - 5 - 6 - 4 - 3 - | 4 - - - 0 0 2 3 5 - - - - - 6 - | 7 - - - - - - - 1' - - - 2' - - - |",
+    "3' - - - - - - - - - - - - - - - | 0 0 4' - 2' - 1' - 2' - - - - - 1' - | 2' - - - - - - - - - - - 0 0 0 0 | 0 0 3' - 1' - 7 - 1' - - - - - 7 - |",
+    "2' 1' - - 1' - - - - - - - 0 0 0 0 | 0 0 2' - 7 - 6 - 7 - - - - - 6 - | 6 - - - - - - - - - - - - - - - |",
+    "0 0 2' - 7 - 6 - 7 - - - 1' - 2' - | 3' - - - - - - - - - - - - - - - |",
+    "0 0 4' - 2' - 1' - 2' - - - - - 1' - | 2' - - - - - - - - - - - 0 0 0 0 | 0 0 3' - 1' - 7 - 1' - - - - - 7 - | 2' 1' - - 1' - - - - - - - 0 0 0 0 |",
+    "0 0 2' - 7 - 6 - 7 - - - - - - - | 3' - - - - - - - - - - - - - - - | 3' - - - - - - - - - - - 0 0 0 0 | | |"
+  ]
+}

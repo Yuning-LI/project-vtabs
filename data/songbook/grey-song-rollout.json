@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-03",
+  "updatedOn": "2026-06-06",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -2121,6 +2121,156 @@
       "group": "song",
       "addedOn": "2026-05-24",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/BU9Rl1S95.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "o-son-do-ar",
+      "title": "O Son Do Ar",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "folk",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Cdj5t1n6e.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "oceanside",
+      "title": "Oceanside",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "media",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/2gCpi1DlB.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "its-me-and-you",
+      "title": "It's Me and You",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "song",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/iOeFl1CCe.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "ill-be-there",
+      "title": "I'll Be There",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "song",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xXNll1xRF.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "over-quartzer",
+      "title": "Over \"Quartzer\"",
+      "status": "live",
+      "batch": "stock-2026-05-24-h",
+      "group": "media",
+      "addedOn": "2026-05-24",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/g4GFg12Ho.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "attention",
+      "title": "Attention",
+      "status": "live",
+      "batch": "stock-2026-06-04-13",
+      "group": "song",
+      "addedOn": "2026-06-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/5Qcsi1Yac.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "letter-song",
+      "title": "Letter Song",
+      "status": "live",
+      "batch": "stock-2026-06-04-13",
+      "group": "song",
+      "addedOn": "2026-06-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/sVobb1Qoa.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "kaer-morhen",
+      "title": "Kaer Morhen",
+      "status": "live",
+      "batch": "stock-2026-06-04-13",
+      "group": "song",
+      "addedOn": "2026-06-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/p981k1PMI.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "caravan",
+      "title": "Caravan",
+      "status": "live",
+      "batch": "stock-2026-06-04-13",
+      "group": "song",
+      "addedOn": "2026-06-04",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Vebok1eiW.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "dear-friend",
+      "title": "Dear Friend",
+      "status": "live",
+      "batch": "stock-2026-06-05-14",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3dRPc1WKx.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "stand-by-me",
+      "title": "Stand By Me",
+      "status": "live",
+      "batch": "stock-2026-06-05-15",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/bfSMc1RuU.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "shape-of-you",
+      "title": "Shape of You",
+      "status": "live",
+      "batch": "stock-2026-06-05-15",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ndOUd1TG3.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "something-just-like-this",
+      "title": "Something Just Like This",
+      "status": "live",
+      "batch": "stock-2026-06-05-15",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/EBjYi1z5s.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "song-from-a-secret-garden",
+      "title": "Song from a Secret Garden",
+      "status": "live",
+      "batch": "stock-2026-06-05-15",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/dLjbb1DvQ.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "misty",
+      "title": "Misty",
+      "status": "live",
+      "batch": "stock-2026-06-05-15",
+      "group": "song",
+      "addedOn": "2026-06-05",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ypttj1mQx.html",
       "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
     }
   ]
