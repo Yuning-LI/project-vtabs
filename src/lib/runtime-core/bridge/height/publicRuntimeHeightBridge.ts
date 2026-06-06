@@ -24,7 +24,7 @@ export function buildPublicRuntimeHeightBridgeScript() {
     if (window.parent) {
       window.parent.postMessage(
         {
-          type: 'kuailepu-runtime-size',
+          type: 'vtabs-runtime-size',
           songId: songId,
           height: Math.ceil(height)
         },

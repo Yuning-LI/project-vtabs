@@ -127,6 +127,8 @@ export function localizePublicRuntimePayload(
   return localized
 }
 
+export const loadPublicRuntimePayloadArchive = loadArchivedPublicRuntimePayload
+export const localizePublicRuntimePayloadArchive = localizePublicRuntimePayload
 export const loadArchivedKuailepuSongPayload = loadArchivedPublicRuntimePayload
 export const localizeArchivedRuntimePayload = localizePublicRuntimePayload
 

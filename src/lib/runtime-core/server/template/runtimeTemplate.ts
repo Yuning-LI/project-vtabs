@@ -21,7 +21,7 @@ export function getArchivedPublicRuntimeHtmlTemplate() {
   const sourcePath = resolvePublicRuntimeArchivePath()
   if (!sourcePath) {
     throw new Error(
-      'Missing deployable Kuailepu runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'
+      'Missing deployable public runtime archive. Expected vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt or local reference fallback.'
     )
   }
 
@@ -37,6 +37,7 @@ export function getArchivedPublicRuntimeHtmlTemplate() {
   return html
 }
 
+export const loadArchivedPublicRuntimeHtmlTemplate = getArchivedPublicRuntimeHtmlTemplate
 export const getArchivedKuailepuRuntimeHtmlTemplate = getArchivedPublicRuntimeHtmlTemplate
 
 function parseMarkedFiles(sourceText: string) {

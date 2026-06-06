@@ -72,7 +72,7 @@ export function buildPublicRuntimeBridgeScript(
   )
 
   return `
-<script data-kuailepu-runtime-bridge>
+<script data-vtabs-runtime-bridge>
 (function () {
   var songId = ${JSON.stringify(songId)};
   var letterTrack = ${safeLetterTrack};
