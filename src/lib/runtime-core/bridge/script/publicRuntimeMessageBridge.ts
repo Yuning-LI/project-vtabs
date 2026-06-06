@@ -1,7 +1,4 @@
 import {
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
@@ -17,22 +14,13 @@ export function buildPublicRuntimeMessageBridgeScript() {
     if (!data || typeof data !== 'object') {
       return;
     }
-    if (
-      data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE)} ||
-      data.type === ${JSON.stringify(LEGACY_PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE)}
-    ) {
+    if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE)}) {
       openPublicPlaybackTools();
     }
-    if (
-      data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE)} ||
-      data.type === ${JSON.stringify(LEGACY_PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE)}
-    ) {
+    if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE)}) {
       stopPublicPlayback();
     }
-    if (
-      data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE)} ||
-      data.type === ${JSON.stringify(LEGACY_PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE)}
-    ) {
+    if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE)}) {
       closePublicPlaybackPanel();
     }
   });
