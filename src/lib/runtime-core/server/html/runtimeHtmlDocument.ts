@@ -1,0 +1,57 @@
+import { applyKuailepuRuntimeAssetProfile, buildRuntimeCriticalPreloads } from '../assets/publicRuntimeAssets.ts'
+import { buildRuntimeOverrideStyle, buildRuntimePendingScript, escapeHtml } from './runtimeHtmlScaffold.ts'
+
+type KuailepuRuntimePublicFeature = 'metronome' | 'playback'
+type KuailepuRuntimeAssetProfileName = 'public-song' | 'full-template'
+
+export function buildPublicRuntimeHtmlDocument(input: {
+  template: string
+  songId: string
+  payloadJson: string
+  pageTitle: string
+  assetProfile: KuailepuRuntimeAssetProfileName
+  publicFeatures: Set<KuailepuRuntimePublicFeature>
+  compareMode: boolean
+  hasPendingLetterMask: boolean
+  bridgeScriptHtml: string
+}) {
+  const {
+    template,
+    songId,
+    payloadJson,
+    pageTitle,
+    assetProfile,
+    publicFeatures,
+    compareMode,
+    hasPendingLetterMask,
+    bridgeScriptHtml
+  } = input
+
+  return applyKuailepuRuntimeAssetProfile(
+    template
+      .replace(
+        /<title>[\s\S]*?<\/title>/i,
+        `<title>${escapeHtml(pageTitle)} - Kuailepu Runtime Preview</title>`
+      )
+      .replace(
+        /<link\s+rel="Shortcut Icon"\s+href="\/static\/img\/favicon\.ico"\s+type="image\/x-icon"\s*\/?>/i,
+        '<link rel="icon" href="/favicon.ico" type="image/x-icon" />'
+      )
+      .replace(
+        /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i,
+        (_match, openTag, closeTag) =>
+          `${openTag}var context = Kit.context.setContext(${payloadJson});${closeTag}`
+      )
+      .replace(/(href|src)="\/static\/(?!\/)/g, '$1="/k-static/')
+      .replace(
+        /<\/head>/i,
+        `${
+          compareMode ? '' : buildRuntimeCriticalPreloads(assetProfile)
+        }${
+          compareMode ? '' : buildRuntimeOverrideStyle(publicFeatures)
+        }${buildRuntimePendingScript(hasPendingLetterMask)}</head>`
+      )
+      .replace(/<\/body>/i, `${compareMode ? '' : bridgeScriptHtml}</body>`),
+    assetProfile
+  )
+}

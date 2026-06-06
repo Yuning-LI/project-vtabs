@@ -8,7 +8,7 @@ import { chooseBestRangeShift } from './rangeFit.ts'
 import { parseKeynoteToMidi } from './songIngestDraft.ts'
 import type { ParsedToken, SongDoc } from './types.ts'
 import type { SongIngestDraft } from './songIngestDraft.ts'
-import type { KuailepuRuntimePayload } from '../kuailepu/runtime.ts'
+import type { KuailepuRuntimePayload } from '../kuailepu/runtimeTypes.ts'
 import type { PublicSongInstrumentId } from './publicInstruments.ts'
 import {
   mergeSongIngestRuntimeMetadata,

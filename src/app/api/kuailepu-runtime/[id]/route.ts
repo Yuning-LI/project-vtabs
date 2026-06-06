@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server'
 import {
   buildKuailepuLetterTrackData,
   buildKuailepuRuntimeHtml,
-  loadKuailepuSongPayload,
-  type KuailepuRuntimeState
+  loadKuailepuSongPayload
 } from '@/lib/kuailepu/runtime'
+import type { KuailepuRuntimeState } from '@/lib/kuailepu/runtimeTypes'
 import {
   loadImportedOrCandidateSongDoc
 } from '@/lib/songbook/importedCatalog'
