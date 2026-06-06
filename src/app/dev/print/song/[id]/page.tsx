@@ -62,7 +62,7 @@ export default function InternalPrintSongPage({
    * 这是“内部打印壳”，不是第二套公开详情页。
    *
    * 当前边界：
-   * - 继续复用 deployable raw JSON + 原始 Kuailepu runtime 主链出谱
+   * - 继续复用 deployable raw JSON + archived runtime 主链出谱
    * - 这里只额外负责纸张版式、导流文案和 PDF 预览
    * - 当前不要把它当成公开用户功能暴露到前台
    */

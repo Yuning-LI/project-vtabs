@@ -97,7 +97,7 @@ export default function SongPage({
     notFound()
   }
   /**
-   * 当前公开曲库已经全部补齐了快乐谱 raw JSON。
+   * 当前公开曲库已经全部补齐了 deployable runtime raw JSON。
    *
    * 这意味着公开详情页主链现在不再需要回退到旧的 SongClient 原生详情页。
    * 如果这里读不到 raw JSON，应该把它当成数据缺失而不是静默切回旧链，

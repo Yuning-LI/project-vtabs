@@ -50,7 +50,7 @@ export async function GET(
    * - 当前不会触发的旧模块脚本默认不注入
    * - 相关静态文件仍保留在本地快照里，方便以后恢复登录 / 播放等能力
    *
-   * 如果后续需要排查“完整快乐谱模板”行为，允许临时切回 `full-template`。
+   * 如果后续需要排查完整 archived template 行为，允许临时切回 `full-template`。
    */
   const publicRuntimeAssetProfile =
     searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
@@ -79,12 +79,12 @@ export async function GET(
   }
 
   /**
-   * 这里先读可部署的 raw JSON，而不是 `data/kuailepu/<slug>.json`。
+   * 这里先读可部署的 runtime raw JSON，而不是 `data/kuailepu/<slug>.json`。
    *
    * 原因：
    * - `data/kuailepu/*.json` 是给站点 catalog / SEO / 列表用的轻量 SongDoc
    * - runtime 真正需要的是详情页完整上下文
-   * - 只有完整 raw JSON 才包含当前归档 renderer `Song.draw()` 会消费的所有字段
+   * - 只有完整 raw JSON 才包含当前 archived renderer `Song.draw()` 会消费的所有字段
    *
    * 生产环境优先读取仓库内可提交的 `data/kuailepu-runtime/<slug>.json`；
    * `reference/songs/<slug>.json` 只保留为本地导歌 / 调试 fallback。

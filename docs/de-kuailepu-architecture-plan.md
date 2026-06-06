@@ -285,7 +285,7 @@ As of the current boundary phase:
 - public song page shell components now use `PublicRuntime*` names directly, while old `Kuailepu*` component names only remain as compatibility-facing re-export boundaries where needed
 - song page query parsing has been centralized before shell mount so app-side runtime state no longer depends on re-reading `window.location` after first paint
 - runtime iframe API path usage is centralized through a PublicRuntime path constant, while the actual `/api/kuailepu-runtime/[id]` route remains stable
-- public playback status messaging now uses the `PUBLIC_RUNTIME_*` protocol on the main shell path; only command-side compatibility messages remain in the iframe bridge
+- public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on both the main shell path and iframe command bridge
 - server payload loading and localization now go through PublicRuntime payload file/localization adapters instead of direct old helper imports in the main payload flow
 - archived template lookup now goes through a PublicRuntime template file adapter, while the current deployable archive file stays unchanged
 
@@ -370,7 +370,7 @@ Exit criteria:
 
 Current completion estimate:
 
-- about `90%`
+- about `93%`
 
 What is already true:
 
@@ -379,12 +379,12 @@ What is already true:
 - old `Kuailepu*` names are increasingly compatibility aliases instead of primary implementation names
 - public iframe route path, playback status protocol, payload file lookup, and payload localization now have explicit PublicRuntime boundaries
 - archived template file lookup now has an explicit PublicRuntime boundary
+- old playback command/status message names have been removed from the public runtime bridge
 
 What still remains:
 
 - keep only high-value compatibility names at the API route, old re-export shells, and archived template/data-source boundaries
 - finish low-risk naming cleanup in internal comments and docs where it improves maintainability
-- decide whether command-side legacy playback messages can be removed after enough runtime confidence
 - make the future visual-differentiation layer plug into these boundaries instead of patching around them
 ### Phase 3: Controlled Visual Differentiation
 
