@@ -3,7 +3,7 @@
 import type { CSSProperties } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-type KuailepuRuntimeFrameProps = {
+type PublicRuntimeFrameProps = {
   songId: string
   title: string
   frameSrc: string
@@ -49,7 +49,7 @@ type RuntimeMaskRect = {
  * Next App Router 的客户端跳转场景下不够稳定，容易出现“谱面已渲染，
  * loading 还停留在页面上”的假死体验。
  */
-export default function KuailepuRuntimeFrame({
+export default function PublicRuntimeFrame({
   songId,
   title,
   frameSrc,
@@ -68,7 +68,7 @@ export default function KuailepuRuntimeFrame({
   runtimeMaskRects,
   onFrameElementChange,
   onFrameLoad
-}: KuailepuRuntimeFrameProps) {
+}: PublicRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
   const previousFrameSrcRef = useRef(frameSrc)
   const previousSongIdRef = useRef(songId)

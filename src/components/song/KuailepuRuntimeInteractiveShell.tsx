@@ -24,7 +24,7 @@ import {
   getPublicRuntimeFingeringOptions,
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
-import KuailepuRuntimeFrame from './KuailepuRuntimeFrame'
+import PublicRuntimeFrame from './PublicRuntimeFrame'
 import SongPageFunctionZone, {
   type SongPageFunctionZoneActionControl,
   type SongPageFunctionZoneSelectControl,
@@ -32,7 +32,7 @@ import SongPageFunctionZone, {
 } from './SongPageFunctionZone'
 import { SONG_PAGE_LINK_STATE_EVENT } from '@/lib/songbook/practicePairTypes'
 
-export type KuailepuRuntimeControlPayload = {
+export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
     instrument: string
     instrumentName?: string
@@ -60,12 +60,12 @@ export type KuailepuRuntimeControlPayload = {
 
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 
-type KuailepuRuntimeInteractiveShellProps = {
+type PublicRuntimeInteractiveShellProps = {
   songId: string
   supportedInstruments: PublicSongInstrument[]
   queryState: PublicSongPageQueryState
   presentationByInstrument: Partial<Record<PublicSongInstrument['id'], SongPresentation>>
-  runtimeControlPayload: KuailepuRuntimeControlPayload
+  runtimeControlPayload: PublicRuntimeControlPayload
   runtimeDefaultInstrumentId: string | null
   runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
@@ -77,7 +77,7 @@ type KuailepuRuntimeInteractiveShellProps = {
   onRuntimeFrameReadyChange?: (ready: boolean) => void
 }
 
-export default function KuailepuRuntimeInteractiveShell({
+export default function PublicRuntimeInteractiveShell({
   songId,
   supportedInstruments,
   queryState,
@@ -92,7 +92,7 @@ export default function KuailepuRuntimeInteractiveShell({
   backHref = '/',
   backLabel = 'Back to Song Library',
   onRuntimeFrameReadyChange
-}: KuailepuRuntimeInteractiveShellProps) {
+}: PublicRuntimeInteractiveShellProps) {
   const [currentQueryState, setCurrentQueryState] = useState(queryState)
   const [isPlaybackFeatureEnabled, setIsPlaybackFeatureEnabled] = useState(false)
   const [playbackStatus, setPlaybackStatus] = useState<PlaybackUiStatus>('idle')
@@ -967,7 +967,7 @@ export default function KuailepuRuntimeInteractiveShell({
       </section>
 
       <div className="mt-1 md:mt-0">
-        <KuailepuRuntimeFrame
+        <PublicRuntimeFrame
           songId={songId}
           title={title}
           frameSrc={frameSrc}

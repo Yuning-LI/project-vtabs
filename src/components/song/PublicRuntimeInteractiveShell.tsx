@@ -1,4 +1,3 @@
 'use client'
 
-export { default, type KuailepuRuntimeControlPayload as PublicRuntimeControlPayload } from './KuailepuRuntimeInteractiveShell'
-
+export { default, type PublicRuntimeControlPayload } from './KuailepuRuntimeInteractiveShell'

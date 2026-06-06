@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import KuailepuLegacyRuntimePage from '@/components/song/KuailepuLegacyRuntimePage'
+import PublicRuntimePage from '@/components/song/PublicRuntimePage'
 import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
@@ -101,7 +101,7 @@ export default function KuailepuPreviewPage({
   )
 
   return (
-    <KuailepuLegacyRuntimePage
+    <PublicRuntimePage
       songId={songDoc.slug}
       supportedInstruments={supportedInstruments}
       queryState={queryState}
