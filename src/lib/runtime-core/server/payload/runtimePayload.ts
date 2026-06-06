@@ -129,6 +129,7 @@ export function localizePublicRuntimePayload(
 
 export const loadPublicRuntimePayloadArchive = loadArchivedPublicRuntimePayload
 export const localizePublicRuntimePayloadArchive = localizePublicRuntimePayload
+// Compatibility aliases kept only for legacy imports that still point at old Kuailepu/archive helper names.
 export const loadArchivedKuailepuSongPayload = loadArchivedPublicRuntimePayload
 export const localizeArchivedRuntimePayload = localizePublicRuntimePayload
 
