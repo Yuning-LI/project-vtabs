@@ -7,7 +7,7 @@ import type {
   PublicRuntimeTextMode
 } from './runtimeTypes.ts'
 import {
-  buildPublicKuailepuLetterTrackData
+  buildPublicLetterTrackData
 } from './letterTrack/publicLetterTrack.ts'
 import {
   applyRuntimeDefaults as applyPublicRuntimeDefaults,
@@ -22,14 +22,14 @@ import {
   serializeForInlineScript as serializeRuntimeHtmlInlineValue
 } from './server/html/runtimeHtmlScaffold.ts'
 import {
-  loadArchivedKuailepuSongPayload,
-  localizeArchivedRuntimePayload
+  loadArchivedPublicRuntimePayload,
+  localizePublicRuntimePayload
 } from './server/payload/runtimePayload.ts'
 import { buildPublicRuntimeBridgeScript } from './bridge/publicRuntimeBridge.ts'
-import { getArchivedKuailepuRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
+import { getArchivedPublicRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
 
 export function loadPublicRuntimeSongPayload(songId: string) {
-  return loadArchivedKuailepuSongPayload(songId)
+  return loadArchivedPublicRuntimePayload(songId)
 }
 
 export function resolvePublicRuntimeContextState(
@@ -68,7 +68,7 @@ export function buildPublicRuntimeHtml(input: {
 }) {
   const { songId } = input
   const payload = applyPublicRuntimeDefaults(
-    localizeArchivedRuntimePayload(input.payload, {
+    localizePublicRuntimePayload(input.payload, {
       mode: input.textMode ?? 'source',
       preferredTitle: input.preferredEnglishTitle ?? null,
       preferredSubtitle: input.preferredEnglishSubtitle ?? null
@@ -81,7 +81,7 @@ export function buildPublicRuntimeHtml(input: {
   const compareMode = Boolean(input.compareMode)
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeRuntimeHtmlInlineValue(payload)
-  const template = getArchivedKuailepuRuntimeHtmlTemplate()
+  const template = getArchivedPublicRuntimeHtmlTemplate()
   const hasPendingLetterMask = !compareMode && Boolean(letterTrack) && letterTrack?.mode !== 'number'
   const bridgeScriptHtml = buildPublicRuntimeBridgeScript(
     songId,
@@ -111,5 +111,5 @@ export function buildPublicRuntimeLetterTrackData(input: {
   payload?: PublicRuntimePayload | null
   state?: PublicRuntimeState | null
 }): PublicLetterTrackData {
-  return buildPublicKuailepuLetterTrackData(input)
+  return buildPublicLetterTrackData(input)
 }

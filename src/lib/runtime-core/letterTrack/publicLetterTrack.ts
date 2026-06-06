@@ -13,7 +13,7 @@ type ScaleTonic = {
   octave: number
 }
 
-export function buildPublicKuailepuLetterTrackData(input: {
+export function buildPublicLetterTrackData(input: {
   notation?: string[] | null
   rawNotation?: string | null
   key?: string | null
@@ -76,6 +76,8 @@ export function buildPublicKuailepuLetterTrackData(input: {
     scale
   }
 }
+
+export const buildPublicKuailepuLetterTrackData = buildPublicLetterTrackData
 
 export function normalizeNoteLabelMode(mode: string | null | undefined): PublicLetterTrackMode {
   if (mode === 'number' || mode === 'letter' || mode === 'graph') {
