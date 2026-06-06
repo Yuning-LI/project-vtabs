@@ -32,11 +32,6 @@ import SongPageFunctionZone, {
 } from './SongPageFunctionZone'
 import { SONG_PAGE_LINK_STATE_EVENT } from '@/lib/songbook/practicePairTypes'
 import {
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
-  LEGACY_PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
@@ -515,10 +510,7 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (
-        data.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE ||
-        data.type === LEGACY_PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE
-      ) {
+      if (data.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE) {
         if (data.isOpen) {
           resolvePlaybackActivationGuard()
         }
@@ -526,10 +518,7 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (
-        data.type !== PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE &&
-        data.type !== LEGACY_PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
-      ) {
+      if (data.type !== PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE) {
         return
       }
 
