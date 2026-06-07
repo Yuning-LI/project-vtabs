@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-06",
+  "updatedOn": "2026-06-07",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -2271,6 +2271,76 @@
       "group": "song",
       "addedOn": "2026-06-05",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ypttj1mQx.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "the-last-of-us",
+      "title": "The Last of Us",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/4DlQk1K9u.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "the-godfather",
+      "title": "The Godfather",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/J7vfl1EQn.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "snow-halation",
+      "title": "Snow Halation",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OG8tf1fUv.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "speechless",
+      "title": "Speechless",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6R6ih1BdA.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "stay-with-me",
+      "title": "Stay With Me",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/QdPjg1I1n.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "take-five",
+      "title": "Take Five",
+      "status": "live",
+      "batch": "stock-2026-06-06-18",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/V4RCg1uQS.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "first-love",
+      "title": "First Love",
+      "status": "live",
+      "batch": "stock-2026-06-06-20",
+      "group": "song",
+      "addedOn": "2026-06-06",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/EFGDu19U6.html",
       "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
     }
   ]
