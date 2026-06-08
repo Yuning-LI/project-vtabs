@@ -1104,7 +1104,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
         var wrapper = createSvgNode('g');
         wrapper.setAttribute('data-vtabs-o12-visual-scale', '1');
-        wrapper.setAttribute('transform', 'translate(60 50) scale(1) translate(-60 -50)');
+        wrapper.setAttribute('transform', 'translate(60 50) scale(0.94) translate(-60 -50)');
 
         Array.prototype.slice.call(symbol.childNodes).forEach(function (node) {
           wrapper.appendChild(node);
