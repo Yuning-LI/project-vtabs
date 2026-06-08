@@ -367,14 +367,14 @@ function renderHappy123DurationToken(token: string, holdCount: number) {
   return `${token}${renderHappy123DurationSuffix(holdCount + 1)}`
 }
 
-function parseHappy123DurationSlotCount(suffix: string) {
+export function parseHappy123DurationSlotCount(suffix: string) {
   const leadingDashCount = suffix.match(/^-+/)?.[0]?.length ?? 0
   const tail = suffix.slice(leadingDashCount)
   const tailSlots = parseHappy123BaseDurationSuffix(tail)
   return leadingDashCount * 4 + tailSlots
 }
 
-function parseHappy123PitchTokenToMidi(token: string, tonicMidi: number) {
+export function parseHappy123PitchTokenToMidi(token: string, tonicMidi: number) {
   const normalizedToken = normalizeHappy123NativePitchToken(token)
   let accidental = 0
   let body = normalizedToken
@@ -395,7 +395,7 @@ function parseHappy123PitchTokenToMidi(token: string, tonicMidi: number) {
   return tonicMidi + baseOffset + accidental + octaveShift * 12
 }
 
-function normalizeHappy123NativePitchToken(token: string) {
+export function normalizeHappy123NativePitchToken(token: string) {
   if (token === '0') {
     return token
   }
