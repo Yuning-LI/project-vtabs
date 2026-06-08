@@ -179,13 +179,56 @@ Latest local run on the 400-song public runtime catalog:
 - `needs-group-support`: 109 songs
 - `needs-lyric-support`: 52 songs
 - `archived-fallback-required`: 2 songs
+- public songs with local MusicXML draft / candidate overlap: 56 songs
+- `native-mvp-candidate` songs with local MusicXML draft overlap: 15 songs
 
 Current implication:
 
-- A tiny renderer MVP can start with the 22 `native-mvp-candidate` songs, but that is not enough to replace the public route broadly.
+- A tiny renderer MVP should start with the 15 songs that are both `native-mvp-candidate` and backed by local MusicXML draft artifacts.
+- The remaining 7 `native-mvp-candidate` songs can still be useful, but they would require runtime-notation parsing first or a fresh XML source.
 - Repeat support is the largest unlock because about half the public catalog uses repeat bars, numbered endings, `{play:...}`, or section labels.
 - Group / parenthesized-note support is the second-largest unlock.
 - Until repeat and group support exist, the public route must keep archived-runtime fallback.
+
+Recommended first native renderer seeds:
+
+- `on-top-of-old-smoky`
+- `the-coventry-carol`
+- `good-christian-men-rejoice`
+- `beautiful-isle-of-somewhere`
+- `quartermasters-store`
+- `camptown-races`
+- `give-my-regards-to-broadway`
+- `drink-to-me-only-with-thine-eyes`
+- `careless-love`
+- `over-there`
+- `for-hes-a-jolly-good-fellow`
+- `polly-wolly-doodle`
+- `sometimes-i-feel-like-a-motherless-child`
+- `waltzing-matilda`
+- `the-bells-of-st-marys`
+
+## Suggested Implementation Sequence
+
+1. Define `SongIR v0`.
+   - Keep it deliberately small: metadata, key/BPM, measures, events, rests, durations, simple lyric slots, and instrument fingering anchors.
+   - Do not encode every Happy123 / archived-runtime feature in v0.
+2. Build `MusicXML draft -> SongIR` first.
+   - This is the cleanest path because the local draft artifacts still preserve more structured intent than compressed runtime notation.
+   - Use runtime-notation parsing only for a small simple subset, not as the primary input path.
+3. Add an explicit native/fallback contract.
+   - `supported` songs can render through the native path.
+   - unsupported songs must intentionally stay on archived runtime.
+   - never silently show a partial or wrong native render.
+4. Build a dev-only native preview route before touching public `/song/<slug>`.
+   - Compare event counts, pitch sequence, rest sequence, bar count, lyric slot count, and fingering anchor count.
+   - Visual equality with archived SVG is not the target.
+5. Expand support in unlock order.
+   - simple lyric alignment
+   - repeat / play order
+   - parenthesized groups / slurs
+   - playback / highlight timing
+   - broader instrument views
 
 ## Boundary With Phase 3
 
