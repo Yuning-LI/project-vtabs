@@ -25,6 +25,7 @@ import {
   normalizeToggleParam
 } from '@/lib/songbook/songPageQueryState'
 import { getPinterestPinPreset } from '@/lib/songbook/pinterestPins'
+import { normalizePublicRuntimeVisualThemeName } from '@/lib/runtime-core/visual/publicRuntimeVisualTheme'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,7 @@ type PinterestWorkbenchSearchParams = {
   show_measure_num?: string
   measure_layout?: string
   sheet_scale?: string
+  runtime_visual_theme?: string
   watermark?: string
 }
 
@@ -110,8 +112,12 @@ export default function PinterestSongPreviewPage({
     sheet_scale: controlState.sheet_scale
   })
   const watermark = normalizeWatermark(searchParams?.watermark)
+  const runtimeVisualTheme = normalizePublicRuntimeVisualThemeName(
+    searchParams?.runtime_visual_theme
+  )
   const paramsForFrame = new URLSearchParams({
     runtime_text_mode: 'english',
+    runtime_visual_theme: runtimeVisualTheme,
     instrument: activeInstrument.id,
     note_label_mode: noteLabelMode,
     show_lyric: controlConfig.activeShowLyric,

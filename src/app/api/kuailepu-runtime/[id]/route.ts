@@ -11,6 +11,7 @@ import {
 } from '@/lib/songbook/importedCatalog'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
+import { normalizePublicRuntimeVisualThemeName } from '@/lib/runtime-core/visual/publicRuntimeVisualTheme'
 
 export const dynamic = 'force-dynamic'
 
@@ -122,6 +123,9 @@ export async function GET(
     songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
   const publicRuntimeTextMode =
     searchParams.get('runtime_text_mode') === 'english' ? 'english' : 'source'
+  const publicRuntimeVisualThemeName = normalizePublicRuntimeVisualThemeName(
+    searchParams.get('runtime_visual_theme')
+  )
   const presentation = song ? getSongPresentation(song) : null
   /**
    * 字母谱不是修改 raw JSON 后再交给归档 renderer 重渲染，
@@ -152,7 +156,8 @@ export async function GET(
     preferredEnglishTitle:
       publicRuntimeTextMode === 'english' ? presentation?.title ?? song?.title ?? null : null,
     preferredEnglishSubtitle: null,
-    compareMode: publicRuntimeCompareMode
+    compareMode: publicRuntimeCompareMode,
+    visualThemeName: publicRuntimeVisualThemeName
   })
   const etag = buildRuntimeHtmlEtag(html)
   setCachedRuntimeHtml(
@@ -189,6 +194,7 @@ function buildRuntimeHtmlCacheKey(songId: string, searchParams: URLSearchParams)
     'sheet_scale',
     'note_label_mode',
     'runtime_text_mode',
+    'runtime_visual_theme',
     'runtime_asset_profile',
     'runtime_compare_mode',
     'public_feature'

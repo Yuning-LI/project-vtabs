@@ -4,7 +4,8 @@ import type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
   PublicRuntimeState,
-  PublicRuntimeTextMode
+  PublicRuntimeTextMode,
+  PublicRuntimeVisualTheme
 } from './runtimeTypes.ts'
 import {
   buildPublicLetterTrackData
@@ -27,6 +28,10 @@ import {
 } from './server/payload/runtimePayload.ts'
 import { buildPublicRuntimeBridgeScript } from './bridge/publicRuntimeBridge.ts'
 import { loadArchivedPublicRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
+import {
+  type PublicRuntimeVisualThemeName,
+  resolvePublicRuntimeVisualTheme
+} from './visual/publicRuntimeVisualTheme.ts'
 
 export function loadPublicRuntimeSongPayload(songId: string) {
   return loadPublicRuntimePayloadArchive(songId)
@@ -65,6 +70,8 @@ export function buildPublicRuntimeHtml(input: {
   preferredEnglishTitle?: string | null
   preferredEnglishSubtitle?: string | null
   compareMode?: boolean | null
+  visualThemeName?: PublicRuntimeVisualThemeName | null
+  visualTheme?: PublicRuntimeVisualTheme | null
 }) {
   const { songId } = input
   const payload = applyPublicRuntimeDefaults(
@@ -79,6 +86,11 @@ export function buildPublicRuntimeHtml(input: {
   const assetProfile = input.assetProfile ?? 'public-song'
   const publicFeatures = new Set(input.publicFeatures ?? [])
   const compareMode = Boolean(input.compareMode)
+  const visualTheme = resolvePublicRuntimeVisualTheme({
+    compareMode,
+    themeName: input.visualThemeName ?? null,
+    theme: input.visualTheme ?? null
+  })
   const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
   const safePayload = serializeRuntimeHtmlInlineValue(payload)
   const template = loadArchivedPublicRuntimeHtmlTemplate()
@@ -87,7 +99,8 @@ export function buildPublicRuntimeHtml(input: {
     songId,
     letterTrack,
     input.textMode ?? 'source',
-    publicFeatures
+    publicFeatures,
+    visualTheme
   )
 
   return buildPublicRuntimeHtmlDocument({

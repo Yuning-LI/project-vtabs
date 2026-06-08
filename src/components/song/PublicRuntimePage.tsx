@@ -85,7 +85,7 @@ export default function PublicRuntimePage({
                 <span aria-hidden="true" className="text-[0.95rem] leading-none md:text-base">
                   ←
                 </span>
-                <span>Back to Song Library</span>
+                <span>Browse Song Library</span>
               </Link>
             </div>
             <div className="mt-6">

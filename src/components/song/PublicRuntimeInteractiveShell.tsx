@@ -196,7 +196,8 @@ export default function PublicRuntimeInteractiveShell({
         currentQueryState.sheetScale,
         runtimeControlPayload.sheetScaleList
       ),
-      practiceTool: normalizePracticeTool(currentQueryState.practiceTool)
+      practiceTool: normalizePracticeTool(currentQueryState.practiceTool),
+      runtimeVisualTheme: currentQueryState.runtimeVisualTheme === 'off' ? 'off' : null
     }),
     [
       activeInstrument.id,
@@ -279,6 +280,7 @@ export default function PublicRuntimeInteractiveShell({
   const params = useMemo(() => {
     const next = new URLSearchParams()
     next.set('runtime_text_mode', 'english')
+    next.set('runtime_visual_theme', normalizedQueryState.runtimeVisualTheme ?? 'classic')
     if (activeInstrument.id !== 'o12' || shouldPinDefaultInstrument) {
       next.set('instrument', activeInstrument.id)
     }

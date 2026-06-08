@@ -87,6 +87,18 @@ export function normalizePracticeTool(value: string | null | undefined) {
   return null
 }
 
+export function normalizeRuntimeVisualTheme(value: string | null | undefined) {
+  if (value === 'off') {
+    return 'off'
+  }
+
+  if (value === 'classic') {
+    return 'classic'
+  }
+
+  return null
+}
+
 export function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
   return {
     instrumentId: normalizeInstrumentId(url.searchParams.get('instrument')) as PublicSongInstrumentId | null,
@@ -98,7 +110,8 @@ export function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
     showMeasureNum: normalizeToggleParam(url.searchParams.get('show_measure_num')),
     measureLayout: normalizeMeasureLayout(url.searchParams.get('measure_layout')),
     sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),
-    practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool'))
+    practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool')),
+    runtimeVisualTheme: normalizeRuntimeVisualTheme(url.searchParams.get('runtime_visual_theme'))
   }
 }
 
@@ -119,7 +132,10 @@ export function parseSongPageQueryStateFromSearchParams(
     showMeasureNum: normalizeToggleParam(readSearchParamValue(searchParams, 'show_measure_num')),
     measureLayout: normalizeMeasureLayout(readSearchParamValue(searchParams, 'measure_layout')),
     sheetScale: normalizeSheetScale(readSearchParamValue(searchParams, 'sheet_scale')),
-    practiceTool: normalizePracticeTool(readSearchParamValue(searchParams, 'practice_tool'))
+    practiceTool: normalizePracticeTool(readSearchParamValue(searchParams, 'practice_tool')),
+    runtimeVisualTheme: normalizeRuntimeVisualTheme(
+      readSearchParamValue(searchParams, 'runtime_visual_theme')
+    )
   }
 }
 

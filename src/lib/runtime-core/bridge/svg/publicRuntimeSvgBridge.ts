@@ -75,6 +75,1128 @@ export function buildPublicRuntimeSvgBridgeScript() {
     svg.insertBefore(titleNode, descNode);
   }
 
+  function getPublicRuntimeVisualTheme() {
+    if (
+      typeof publicRuntimeVisualTheme !== 'object' ||
+      !publicRuntimeVisualTheme ||
+      publicRuntimeVisualTheme.enabled !== true
+    ) {
+      return null;
+    }
+
+    return publicRuntimeVisualTheme;
+  }
+
+  function applyPublicRuntimeVisualTheme(svg) {
+    if (!svg) {
+      return;
+    }
+
+    var theme = getPublicRuntimeVisualTheme();
+    if (!theme) {
+      svg.removeAttribute('data-vtabs-visual-theme');
+      svg.removeAttribute('data-vtabs-sheet-tone');
+      svg.removeAttribute('data-vtabs-fingering-palette');
+      svg.removeAttribute('data-vtabs-typography');
+      svg.removeAttribute('data-vtabs-fingering-shape');
+      return;
+    }
+
+    svg.setAttribute('data-vtabs-visual-theme', 'public-runtime');
+    svg.setAttribute('data-vtabs-sheet-tone', theme.sheetTone || 'none');
+    svg.setAttribute('data-vtabs-fingering-palette', theme.fingeringPalette || 'legacy');
+    svg.setAttribute('data-vtabs-typography', theme.typography || 'legacy');
+    svg.setAttribute('data-vtabs-fingering-shape', theme.fingeringShape || 'legacy');
+
+    if (theme.sheetTone === 'classic-paper') {
+      applyClassicPublicSheetTone(svg);
+    }
+
+    if (theme.typography === 'classic-public') {
+      applyClassicPublicInkAndTypography(svg);
+    }
+
+    if (theme.fingeringPalette === 'classic-public') {
+      ensureClassicPublicFingeringGradients(svg);
+      applyClassicPublicFingeringPalette(svg);
+      applyClassicPublicFingeringDetailStyle(svg);
+      applyClassicPublicRecorder8Shape(svg);
+      applyClassicPublicO12HoleScale(svg);
+      applyClassicPublicO12HolePosition(svg);
+      applyClassicPublicO12ReferenceShape(svg);
+      applyClassicPublicO12VisualScale(svg);
+      applyClassicPublicRecorder8CollisionSpacing(svg);
+      applyClassicPublicWhistle6Shape(svg);
+      applyClassicPublicO6Shape(svg);
+    }
+  }
+
+  function normalizeSvgColor(value) {
+    return String(value || '').trim().toLowerCase();
+  }
+
+  function applyClassicPublicSheetTone(svg) {
+    var background = svg.querySelector('rect[x="0"][y="0"][width="100%"][height="100%"]');
+    if (background) {
+      background.setAttribute('fill', '#fff8ee');
+    }
+
+    ensureClassicPublicPaperTexture(svg);
+    svg.style.backgroundColor = '#fff8ee';
+  }
+
+  function ensureClassicPublicPaperTexture(svg) {
+    var textureId = 'vtabs-classic-paper-texture';
+    if (svg.querySelector('[data-vtabs-paper-texture="overlay"]')) {
+      return;
+    }
+
+    var defs = getOrCreateSvgDefs(svg);
+    if (!defs) {
+      return;
+    }
+
+    if (!svg.querySelector('#' + textureId)) {
+      var pattern = createSvgNode('pattern');
+      pattern.setAttribute('id', textureId);
+      pattern.setAttribute('data-vtabs-paper-texture', 'pattern');
+      pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+      pattern.setAttribute('width', '18');
+      pattern.setAttribute('height', '18');
+
+      var warmFiber = createSvgNode('path');
+      warmFiber.setAttribute('d', 'M0 9H18M9 0V18');
+      warmFiber.setAttribute('stroke', '#b89463');
+      warmFiber.setAttribute('stroke-width', '0.45');
+      warmFiber.setAttribute('stroke-opacity', '0.08');
+      pattern.appendChild(warmFiber);
+
+      var coolFiber = createSvgNode('path');
+      coolFiber.setAttribute('d', 'M-4 18L18 -4M4 22L22 4');
+      coolFiber.setAttribute('stroke', '#6c8a76');
+      coolFiber.setAttribute('stroke-width', '0.35');
+      coolFiber.setAttribute('stroke-opacity', '0.045');
+      pattern.appendChild(coolFiber);
+
+      defs.appendChild(pattern);
+    }
+
+    var overlay = createSvgNode('rect');
+    overlay.setAttribute('data-vtabs-paper-texture', 'overlay');
+    overlay.setAttribute('x', '0');
+    overlay.setAttribute('y', '0');
+    overlay.setAttribute('width', '100%');
+    overlay.setAttribute('height', '100%');
+    overlay.setAttribute('fill', 'url(#' + textureId + ')');
+    overlay.setAttribute('pointer-events', 'none');
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var firstContentNode = Array.prototype.slice.call(svg.childNodes).find(function (node) {
+      return node.nodeType === 1 && String(node.nodeName).toLowerCase() !== 'defs';
+    });
+    svg.insertBefore(overlay, firstContentNode ? firstContentNode.nextSibling : null);
+  }
+
+  function getOrCreateSvgDefs(svg) {
+    var defs = svg.querySelector('defs');
+    if (!defs) {
+      defs = createSvgNode('defs');
+      svg.insertBefore(defs, svg.firstChild || null);
+    }
+
+    return defs;
+  }
+
+  function applyClassicPublicInkAndTypography(svg) {
+    var strokeMap = {
+      '#000': '#1f1812',
+      '#000000': '#1f1812',
+      '#1b1b1b': '#1f1812',
+      '#3e2723': '#3a2718',
+      '#777': '#4f4337',
+      '#777777': '#4f4337',
+      '#999': '#66594b',
+      '#999999': '#66594b',
+      '#eee': '#e3d6c2',
+      '#eeeeee': '#e3d6c2',
+      '#803b05': '#5f341a'
+    };
+    var fillMap = {
+      '#000': '#1f1812',
+      '#000000': '#1f1812',
+      '#1b1b1b': '#1f1812',
+      '#3e2723': '#3a2718',
+      '#777': '#4f4337',
+      '#777777': '#4f4337',
+      '#999': '#66594b',
+      '#999999': '#66594b',
+      '#803b05': '#5f341a'
+    };
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('path[stroke], line[stroke], polyline[stroke], rect[stroke], circle[stroke], ellipse[stroke]'))
+      .forEach(function (node) {
+        var nextStroke = strokeMap[normalizeSvgColor(node.getAttribute('stroke'))];
+        if (!nextStroke) {
+          return;
+        }
+
+        node.setAttribute('stroke', nextStroke);
+      });
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('text[fill], tspan[fill], path[fill], circle[fill], ellipse[fill]'))
+      .forEach(function (node) {
+        var nextFill = fillMap[normalizeSvgColor(node.getAttribute('fill'))];
+        if (!nextFill) {
+          return;
+        }
+
+        node.setAttribute('fill', nextFill);
+      });
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('text'))
+      .forEach(function (node) {
+        if (node.getAttribute('data-vtabs-letter-track')) {
+          return;
+        }
+
+        node.setAttribute(
+          'font-family',
+          'Georgia, "Times New Roman", "Noto Serif CJK SC", "Songti SC", serif'
+        );
+      });
+  }
+
+  function applyClassicPublicFingeringPalette(svg) {
+    var legacyToPublicPalette = {
+      '#dcb4ff': 'url(#vtabs-fingering-gradient-rose)',
+      '#80baea': 'url(#vtabs-fingering-gradient-sky)',
+      '#e2aa58': 'url(#vtabs-fingering-gradient-sage)',
+      '#e2cd78': 'url(#vtabs-fingering-gradient-sage)',
+      '#ea8a80': 'url(#vtabs-fingering-gradient-rose)',
+      '#80ea80': 'url(#vtabs-fingering-gradient-sage)',
+      '#fbbbbb': 'url(#vtabs-fingering-gradient-sky)',
+      '#b3e085': 'url(#vtabs-fingering-gradient-sage)',
+      '#ea80c1': 'url(#vtabs-fingering-gradient-rose)',
+      '#87cefa': 'url(#vtabs-fingering-gradient-sky)',
+      '#b693f0': 'url(#vtabs-fingering-gradient-rose)',
+      '#efc99d': 'url(#vtabs-fingering-gradient-amber)',
+      '#e2b178': 'url(#vtabs-fingering-gradient-amber)',
+      '#78e2af': 'url(#vtabs-fingering-gradient-sage)',
+      '#e278b4': 'url(#vtabs-fingering-gradient-rose)',
+      '#f5d391': 'url(#vtabs-fingering-gradient-amber)'
+    };
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('use[fill]'))
+      .forEach(function (node) {
+        var href = getUseHref(node);
+        var nextFill = legacyToPublicPalette[normalizeSvgColor(node.getAttribute('fill'))];
+        if (!nextFill) {
+          return;
+        }
+
+        if (
+          href.indexOf('Outline') === -1 &&
+          href.indexOf('graph') === -1 &&
+          href.indexOf('Graph') === -1
+        ) {
+          return;
+        }
+
+        node.setAttribute('fill', nextFill);
+      });
+  }
+
+  function ensureClassicPublicFingeringGradients(svg) {
+    var defs = getOrCreateSvgDefs(svg);
+    if (!defs) {
+      return;
+    }
+
+    [
+      {
+        id: 'vtabs-fingering-gradient-sky',
+        edge: '#48b6dc',
+        mid: '#9be2f1',
+        light: '#e8fbff'
+      },
+      {
+        id: 'vtabs-fingering-gradient-sage',
+        edge: '#9fc44d',
+        mid: '#d9ea79',
+        light: '#f6fad1'
+      },
+      {
+        id: 'vtabs-fingering-gradient-rose',
+        edge: '#c978bd',
+        mid: '#ebb2df',
+        light: '#fde5f6'
+      },
+      {
+        id: 'vtabs-fingering-gradient-amber',
+        edge: '#e0a13d',
+        mid: '#f0c866',
+        light: '#fff0bd'
+      }
+    ].forEach(function (item) {
+      if (svg.querySelector('#' + item.id)) {
+        return;
+      }
+
+      var gradient = createSvgNode('radialGradient');
+      gradient.setAttribute('id', item.id);
+      gradient.setAttribute('cx', '44%');
+      gradient.setAttribute('cy', '42%');
+      gradient.setAttribute('r', '78%');
+      gradient.setAttribute('fx', '42%');
+      gradient.setAttribute('fy', '38%');
+
+      [
+        ['0%', item.light],
+        ['45%', item.mid],
+        ['100%', item.edge]
+      ].forEach(function (stopConfig) {
+        var stop = createSvgNode('stop');
+        stop.setAttribute('offset', stopConfig[0]);
+        stop.setAttribute('stop-color', stopConfig[1]);
+        gradient.appendChild(stop);
+      });
+
+      defs.appendChild(gradient);
+    });
+  }
+
+  function applyClassicPublicFingeringDetailStyle(svg) {
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/(?:tdo12Outline|do12Outline|o12Outline|td6|do6|r8|w6|Outline|Graph)/i.test(id)) {
+          return;
+        }
+
+        Array.prototype.slice
+          .call(symbol.querySelectorAll('path[stroke], line[stroke], polyline[stroke]'))
+          .forEach(function (node) {
+            var stroke = normalizeSvgColor(node.getAttribute('stroke'));
+            if (stroke === '#000' || stroke === '#000000' || stroke === '#1b1b1b') {
+              node.setAttribute('stroke', '#2f261d');
+              node.setAttribute('stroke-width', String(Math.max(Number(node.getAttribute('stroke-width') || 0.8), 0.95)));
+              node.setAttribute('stroke-linecap', 'round');
+              node.setAttribute('stroke-linejoin', 'round');
+            }
+          });
+
+        Array.prototype.slice
+          .call(symbol.querySelectorAll('circle'))
+          .forEach(function (circle) {
+            var fill = normalizeSvgColor(circle.getAttribute('fill'));
+            if (fill === '#fff' || fill === '#ffffff' || fill === 'white') {
+              circle.setAttribute('fill', '#ffffff');
+              circle.setAttribute('stroke', '#17110c');
+              circle.setAttribute('stroke-width', '1.15');
+              return;
+            }
+
+            if (fill === '#ccc' || fill === '#cccccc') {
+              circle.setAttribute('fill', '#d2c6b4');
+              circle.setAttribute('stroke', '#17110c');
+              circle.setAttribute('stroke-width', '0.85');
+              return;
+            }
+
+            if (fill === '#000' || fill === '#000000' || fill === '#1b1b1b') {
+              circle.setAttribute('fill', '#000000');
+              circle.setAttribute('stroke', '#120d09');
+              circle.setAttribute('stroke-width', '0.55');
+            }
+          });
+      });
+  }
+
+  function applyClassicPublicO12ReferenceShape(svg) {
+    var originalOutlineD =
+      'M45,98c-6,0,-6,0,-6,-20c-2,-4,-2,-4,-6,-6c-40,-10,-40,-34,25,-50c80,-20,80,-8,10,40c-8,6,-8,6,-12,20l-4,14c-1,2,-1,2,-8,2';
+    var referenceOutlineD =
+      'M43,97c-5,0,-7,-2,-7,-16c-1,-5,-3,-7,-8,-8c-32,-8,-37,-25,3,-41c18,-7,47,-12,73,-8c16,3,17,9,1,21c-12,9,-32,19,-45,36c-4,7,-5,11,-8,15c-2,3,-7,2,-13,1';
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
+          return;
+        }
+
+        var outline = symbol.querySelector('path');
+        if (!outline) {
+          return;
+        }
+
+        var currentD = String(outline.getAttribute('d') || '').trim();
+        if (currentD !== originalOutlineD && outline.getAttribute('data-vtabs-o12-reference-shape') !== '1') {
+          return;
+        }
+
+        outline.setAttribute('d', referenceOutlineD);
+        outline.setAttribute('data-vtabs-o12-reference-shape', '1');
+        outline.setAttribute('stroke', '#1f1812');
+        outline.setAttribute('stroke-width', String(Math.max(Number(outline.getAttribute('stroke-width') || 0.8), 0.9)));
+        outline.setAttribute('stroke-linejoin', 'round');
+        outline.setAttribute('stroke-linecap', 'round');
+      });
+  }
+
+  function applyClassicPublicRecorder8Shape(svg) {
+    var originalBodyD =
+      'M90,196 a40 40 0 0 1 -10 -20 l0,-172 l40,0 l0,172 a40 40 0 0 1 -10,20 z';
+    var publicBodyD =
+      'M92,197L87,177L87,16L84,0L118,0L115,16L115,177L110,197Z';
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/recorder8Outline/i.test(id)) {
+          return;
+        }
+
+        var body = symbol.querySelector('path');
+        if (body) {
+          var currentD = String(body.getAttribute('d') || '').trim();
+          if (currentD === originalBodyD || body.getAttribute('data-vtabs-recorder8-shape') === '1') {
+            body.setAttribute('d', publicBodyD);
+            body.setAttribute('data-vtabs-recorder8-shape', '1');
+            body.setAttribute('stroke', '#17110c');
+            body.setAttribute('stroke-width', '2.15');
+            body.setAttribute('stroke-linecap', 'round');
+            body.setAttribute('stroke-linejoin', 'round');
+          }
+        }
+
+        if (!symbol.querySelector('[data-vtabs-recorder8-mouthpiece-divider="1"]')) {
+          var mouthpieceDivider = createSvgNode('path');
+          mouthpieceDivider.setAttribute('d', 'M87,177 L115,177');
+          mouthpieceDivider.setAttribute('fill', 'none');
+          mouthpieceDivider.setAttribute('stroke', '#17110c');
+          mouthpieceDivider.setAttribute('stroke-width', '1.7');
+          mouthpieceDivider.setAttribute('stroke-linecap', 'butt');
+          mouthpieceDivider.setAttribute('data-vtabs-recorder8-mouthpiece-divider', '1');
+          symbol.insertBefore(mouthpieceDivider, body ? body.nextSibling : symbol.firstChild);
+        }
+
+        Array.prototype.slice.call(symbol.querySelectorAll('path[stroke], ellipse[stroke]')).forEach(function (node) {
+          var nodeD = String(node.getAttribute('d') || '').replace(/\\s+/g, '');
+          if (nodeD === 'M80,96l40,0') {
+            node.setAttribute('d', 'M87,102.5 L115,102.5');
+          }
+          if (nodeD === 'M80,31l40,0') {
+            node.setAttribute('d', 'M87,31 L115,31');
+          }
+
+          node.setAttribute('stroke', '#17110c');
+          node.setAttribute('stroke-linecap', 'round');
+          node.setAttribute('stroke-linejoin', 'round');
+          nodeD = String(node.getAttribute('d') || '').replace(/\\s+/g, '');
+          if (
+            nodeD === 'M87,177L115,177' ||
+            nodeD === 'M87,102.5L115,102.5' ||
+            nodeD === 'M87,31L115,31'
+          ) {
+            node.setAttribute('stroke-linecap', 'butt');
+          }
+
+          var strokeWidth = Number(node.getAttribute('stroke-width') || 1);
+          if (String(node.getAttribute('stroke-dasharray') || '').trim()) {
+            node.setAttribute('stroke-width', String(Math.max(strokeWidth, 1.15)));
+            node.setAttribute('stroke-dasharray', '1.6 1.4');
+            return;
+          }
+
+          node.setAttribute('stroke-width', String(Math.max(strokeWidth, 1.2)));
+        });
+
+        applyClassicPublicRecorder8DetachedBackHole(symbol);
+        applyClassicPublicRecorder8FrontHolePosition(symbol);
+        applyClassicPublicRecorder8HoleScale(symbol);
+
+        Array.prototype.slice.call(symbol.querySelectorAll('circle')).forEach(function (circle) {
+          var fill = normalizeSvgColor(circle.getAttribute('fill'));
+          if (fill === '#fff' || fill === '#ffffff' || fill === 'white') {
+            circle.setAttribute('fill', '#ffffff');
+            circle.setAttribute('stroke', '#17110c');
+            circle.setAttribute('stroke-width', '1.15');
+            return;
+          }
+
+          if (fill === '#000' || fill === '#000000' || fill === '#1b1b1b') {
+            circle.setAttribute('fill', '#000000');
+            circle.setAttribute('stroke', '#120d09');
+            circle.setAttribute('stroke-width', '0.65');
+          }
+        });
+      });
+  }
+
+  function applyClassicPublicRecorder8DetachedBackHole(symbol) {
+    if (!symbol) {
+      return;
+    }
+
+    Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).forEach(function (path) {
+      var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+      if (d === 'M80,176l40,0' || d === 'M80,158l40,0') {
+        path.setAttribute('display', 'none');
+        path.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    if (symbol.getAttribute('data-vtabs-recorder8-back-hole') === '1') {
+      return;
+    }
+
+    symbol.setAttribute('viewBox', '67 0 70 200');
+    symbol.setAttribute('data-vtabs-recorder8-back-hole', '1');
+
+    var backHoleCandidates = Array.prototype.slice
+      .call(symbol.querySelectorAll('circle[cx][cy]'))
+      .filter(function (circle) {
+        var cy = Number(circle.getAttribute('cy'));
+        return isFinite(cy) && Math.abs(cy - 167) <= 3;
+      });
+
+    if (backHoleCandidates.length < 1) {
+      return;
+    }
+
+    var openCandidate = backHoleCandidates.find(function (circle) {
+      return normalizeSvgColor(circle.getAttribute('fill')) === '#ffffff';
+    });
+    var source = openCandidate || backHoleCandidates[0];
+    var hasBackHoleHalfMark = Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).some(function (path) {
+      var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+      var fill = normalizeSvgColor(path.getAttribute('fill'));
+      return d === 'M90167A77000104167' && (fill === '#fff' || fill === '#ffffff' || fill === 'white');
+    });
+    var detachedCenterX = 126.4;
+    var detachedCenterY = getClassicPublicRecorder8DetachedBackHoleY();
+    var detachedRadius = 6.55;
+    var detached;
+
+    if (hasBackHoleHalfMark) {
+      detached = createSvgNode('g');
+      detached.setAttribute('data-vtabs-recorder8-detached-back-hole', '1');
+
+      var base = createSvgNode('circle');
+      base.setAttribute('cx', String(detachedCenterX));
+      base.setAttribute('cy', String(detachedCenterY));
+      base.setAttribute('r', String(detachedRadius));
+      base.setAttribute('fill', '#ffffff');
+
+      var leftHalf = createSvgNode('path');
+      leftHalf.setAttribute(
+        'd',
+        'M' +
+          detachedCenterX +
+          ' ' +
+          (detachedCenterY - detachedRadius) +
+          ' A' +
+          detachedRadius +
+          ' ' +
+          detachedRadius +
+          ' 0 0 1 ' +
+          detachedCenterX +
+          ' ' +
+          (detachedCenterY + detachedRadius) +
+          ' L' +
+          detachedCenterX +
+          ' ' +
+          detachedCenterY +
+          ' Z'
+      );
+      leftHalf.setAttribute('fill', '#000000');
+      leftHalf.setAttribute('stroke-width', '0');
+
+      var outline = createSvgNode('circle');
+      outline.setAttribute('cx', String(detachedCenterX));
+      outline.setAttribute('cy', String(detachedCenterY));
+      outline.setAttribute('r', String(detachedRadius));
+      outline.setAttribute('fill', 'none');
+      outline.setAttribute('stroke', '#17110c');
+      outline.setAttribute('stroke-width', '1.15');
+
+      detached.appendChild(base);
+      detached.appendChild(leftHalf);
+      detached.appendChild(outline);
+    } else {
+      detached = source.cloneNode(true);
+      detached.setAttribute('cx', String(detachedCenterX));
+      detached.setAttribute('cy', String(detachedCenterY));
+      detached.setAttribute('r', String(detachedRadius));
+      detached.setAttribute('data-vtabs-recorder8-detached-back-hole', '1');
+      detached.setAttribute('stroke', '#17110c');
+      detached.setAttribute('stroke-width', normalizeSvgColor(source.getAttribute('fill')) === '#ffffff' ? '1.15' : '0.9');
+    }
+
+    backHoleCandidates.forEach(function (circle) {
+      circle.setAttribute('display', 'none');
+      circle.setAttribute('aria-hidden', 'true');
+    });
+    Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).forEach(function (path) {
+      var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+      if (d === 'M90167A77000104167') {
+        path.setAttribute('display', 'none');
+        path.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    var firstBodyHole = Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy]')).find(function (circle) {
+      var cy = Number(circle.getAttribute('cy'));
+      return isFinite(cy) && cy > 20;
+    });
+    symbol.insertBefore(detached, firstBodyHole || null);
+  }
+
+  function getClassicPublicRecorder8DetachedBackHoleY() {
+    return 165;
+  }
+
+  function applyClassicPublicRecorder8HoleScale(symbol) {
+    if (!symbol || symbol.getAttribute('data-vtabs-recorder8-hole-scale') === '1') {
+      return;
+    }
+
+    var mainHoleRadius = 6.55;
+
+    Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy][r]')).forEach(function (circle) {
+      if (circle.getAttribute('display') === 'none') {
+        return;
+      }
+
+      var cx = Number(circle.getAttribute('cx'));
+      var cy = Number(circle.getAttribute('cy'));
+      var r = Number(circle.getAttribute('r'));
+      if (!isFinite(cx) || !isFinite(cy) || !isFinite(r)) {
+        return;
+      }
+
+      if ((Math.abs(cx - 100) <= 1.5 && [165, 140, 115, 90, 70].indexOf(Math.round(cy)) !== -1) || Math.abs(cx - 126.4) <= 1.5) {
+        circle.setAttribute('r', String(mainHoleRadius));
+        circle.setAttribute('data-vtabs-recorder8-hole-scale', '1');
+        return;
+      }
+
+      if (Math.abs(cy - 45) <= 1 || Math.abs(cy - 18) <= 1) {
+        if (Math.abs(cx - 104) <= 1.5) {
+          circle.setAttribute('cx', '106.2');
+        }
+        if (Math.abs(cx - 92) <= 1.5) {
+          circle.setAttribute('cx', '95.2');
+        }
+        var nextR = r >= 5 ? 5.2 : 3.3;
+        circle.setAttribute('r', String(nextR));
+        circle.setAttribute('data-vtabs-recorder8-hole-scale', '1');
+      }
+    });
+
+    Array.prototype.slice.call(symbol.querySelectorAll('ellipse[cx][cy][rx][ry]')).forEach(function (ellipse) {
+      var cy = Number(ellipse.getAttribute('cy'));
+      if (!isFinite(cy) || (Math.abs(cy - 45) > 1 && Math.abs(cy - 18) > 1)) {
+        return;
+      }
+
+      ellipse.setAttribute('cx', '100.7');
+      ellipse.setAttribute('rx', '12.2');
+      ellipse.setAttribute('ry', '9.3');
+      ellipse.setAttribute('data-vtabs-recorder8-hole-scale', '1');
+    });
+
+    Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).forEach(function (path) {
+      var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+      var verticalHalf = d.match(/^M100(-?\\d+(?:\\.\\d+)?)A7700([01])100(-?\\d+(?:\\.\\d+)?)$/);
+      if (verticalHalf) {
+        var centerY = Math.round((Number(verticalHalf[1]) + Number(verticalHalf[3])) / 2);
+        path.setAttribute(
+          'd',
+          'M100 ' +
+            (centerY - mainHoleRadius) +
+            ' A' +
+            mainHoleRadius +
+            ' ' +
+            mainHoleRadius +
+            ' 0 0 ' +
+            verticalHalf[2] +
+            ' 100 ' +
+            (centerY + mainHoleRadius)
+        );
+        path.setAttribute('data-vtabs-recorder8-hole-scale', '1');
+      }
+    });
+
+    symbol.setAttribute('data-vtabs-recorder8-hole-scale', '1');
+  }
+
+  function applyClassicPublicRecorder8CollisionSpacing(svg) {
+    if (!svg || svg.getAttribute('data-vtabs-recorder8-collision-spacing') === '1') {
+      return;
+    }
+
+    var recorderUses = Array.prototype.slice.call(svg.querySelectorAll('use')).filter(function (node) {
+      return /recorder8Outline/i.test(getUseHref(node));
+    });
+    if (recorderUses.length < 2) {
+      return;
+    }
+
+    var rows = [];
+    recorderUses.forEach(function (node) {
+      var box;
+      try {
+        box = node.getBBox();
+      } catch (error) {
+        return;
+      }
+
+      if (!box || !isFinite(box.x) || !isFinite(box.y) || !isFinite(box.width)) {
+        return;
+      }
+
+      var row = rows.find(function (item) {
+        return Math.abs(item.y - box.y) <= 6;
+      });
+      if (!row) {
+        row = { y: box.y, items: [] };
+        rows.push(row);
+      }
+      row.items.push({ node: node, box: box, offset: 0 });
+    });
+
+    rows.forEach(function (row) {
+      row.items.sort(function (a, b) {
+        return a.box.x - b.box.x;
+      });
+
+      var rightEdge = -Infinity;
+      row.items.forEach(function (item) {
+        var minGap = 3.2;
+        var x = item.box.x + item.offset;
+        var needed = rightEdge + minGap - x;
+        if (needed > 0) {
+          item.offset += Math.min(needed, 8);
+          appendSvgTranslate(item.node, item.offset, 0);
+        }
+        rightEdge = Math.max(rightEdge, item.box.x + item.offset + item.box.width);
+      });
+    });
+
+    svg.setAttribute('data-vtabs-recorder8-collision-spacing', '1');
+  }
+
+  function applyClassicPublicWhistle6Shape(svg) {
+    Array.prototype.slice.call(svg.querySelectorAll('symbol[id]')).forEach(function (symbol) {
+      var id = symbol.getAttribute('id') || '';
+      if (!/whistle6Outline/i.test(id) || symbol.getAttribute('data-vtabs-whistle6-shape') === '1') {
+        return;
+      }
+
+      symbol.setAttribute('viewBox', '82 7 36 180');
+      symbol.setAttribute('data-vtabs-whistle6-shape', '1');
+
+      var body = symbol.querySelector('rect[x="85"][y="10"][width="30"][height="172"]');
+      if (body) {
+        body.setAttribute('x', '87');
+        body.setAttribute('width', '26');
+        body.setAttribute('stroke', '#17110c');
+        body.setAttribute('stroke-width', '1.65');
+        body.setAttribute('stroke-linejoin', 'round');
+        body.setAttribute('data-vtabs-whistle6-body', '1');
+      }
+
+      Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).forEach(function (path) {
+        var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+        if (d === 'M85,10v172m30,0v-172') {
+          path.setAttribute('d', 'M87,10 v172 m26,0 v-172');
+          path.setAttribute('stroke', '#17110c');
+          path.setAttribute('stroke-width', '1.05');
+          path.setAttribute('stroke-linejoin', 'round');
+          return;
+        }
+
+        var halfHole = d.match(/^M100(-?\\d+(?:\\.\\d+)?)a77000(-?\\d+(?:\\.\\d+)?)$/);
+        if (halfHole) {
+          var y = Number(halfHole[1]);
+          if (isFinite(y)) {
+            var halfCenterY = y + 7;
+            var nextHalfCenterY = getClassicPublicWhistle6HoleY(halfCenterY);
+            path.setAttribute('d', 'M100 ' + (nextHalfCenterY - 6.4) + ' a6.4 6.4 0 0 0 0 12.8');
+            path.setAttribute('stroke', '#17110c');
+            path.setAttribute('stroke-width', '1.05');
+            path.setAttribute('stroke-linecap', 'round');
+          }
+          return;
+        }
+
+        if (/^M(?:90|95|100|105|110)168l510l-100z$/i.test(d)) {
+          if (normalizeSvgColor(path.getAttribute('fill')) === 'none') {
+            path.setAttribute('stroke', 'none');
+            path.setAttribute('stroke-width', '0');
+            return;
+          }
+
+          path.setAttribute('stroke', '#17110c');
+          path.setAttribute('stroke-width', '0.85');
+          path.setAttribute('stroke-linejoin', 'round');
+        }
+      });
+
+      Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy][r]')).forEach(function (circle) {
+        var cx = Number(circle.getAttribute('cx'));
+        var cy = Number(circle.getAttribute('cy'));
+        if (!isFinite(cx) || !isFinite(cy) || Math.abs(cx - 100) > 1.5) {
+          return;
+        }
+
+        circle.setAttribute('cy', String(getClassicPublicWhistle6HoleY(cy)));
+        circle.setAttribute('r', '6.4');
+        circle.setAttribute('stroke', normalizeSvgColor(circle.getAttribute('fill')) === '#ffffff' ? '#17110c' : '#120d09');
+        circle.setAttribute('stroke-width', normalizeSvgColor(circle.getAttribute('fill')) === '#ffffff' ? '1.05' : '0.65');
+        circle.setAttribute('data-vtabs-whistle6-hole-scale', '1');
+      });
+    });
+  }
+
+  function getClassicPublicWhistle6HoleY(cy) {
+    var yMap = {
+      37: 35,
+      60: 57,
+      79: 79,
+      106: 109,
+      129: 131,
+      148: 153
+    };
+    var rounded = Math.round(Number(cy));
+    return typeof yMap[rounded] === 'number' ? yMap[rounded] : cy;
+  }
+
+  function applyClassicPublicO6Shape(svg) {
+    var originalOutlineD =
+      'M40,100c-6,0,-6,0,-10,-20c-2,-4,-2,-4,-6,-6c-24,-16,-24,-64,16,-70c40,6,40,54,16,70c-4,2,-4,2,-6,6c-4,20,-4,20,-10,20Z';
+    var publicOutlineD =
+      'M40,96c-8,0,-11,-1,-12,-8c-1,-5,-4,-7,-11,-10C6,72,3,57,3,41C3,20,15,6,32,2c4,-1,12,-1,16,0c17,4,29,18,29,39c0,16,-3,31,-14,37c-7,3,-10,5,-11,10c-1,7,-4,8,-12,8Z';
+
+    Array.prototype.slice.call(svg.querySelectorAll('symbol[id]')).forEach(function (symbol) {
+      var id = symbol.getAttribute('id') || '';
+      if (!/^tdOutline\\d+$/i.test(id) || symbol.getAttribute('data-vtabs-o6-shape') === '1') {
+        return;
+      }
+
+      var outline = symbol.querySelector('path[d]');
+      if (!outline) {
+        return;
+      }
+
+      var currentD = String(outline.getAttribute('d') || '').trim();
+      if (currentD !== originalOutlineD && outline.getAttribute('data-vtabs-o6-shape') !== '1') {
+        return;
+      }
+
+      outline.setAttribute('d', publicOutlineD);
+      outline.setAttribute('data-vtabs-o6-shape', '1');
+      outline.setAttribute('stroke', '#17110c');
+      outline.setAttribute('stroke-width', '1.35');
+      outline.setAttribute('stroke-linejoin', 'round');
+      outline.setAttribute('stroke-linecap', 'round');
+
+      Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy]')).forEach(function (circle) {
+        var cx = Number(circle.getAttribute('cx'));
+        var cy = Number(circle.getAttribute('cy'));
+        if (!isFinite(cx) || !isFinite(cy) || Math.abs(cy - 84) > 2) {
+          return;
+        }
+
+        if (Math.abs(cx - 16) <= 2) {
+          circle.setAttribute('cx', '9');
+          circle.setAttribute('cy', '89');
+          circle.setAttribute('data-vtabs-o6-outer-hole-position', '1');
+        }
+        if (Math.abs(cx - 64) <= 2) {
+          circle.setAttribute('cx', '71');
+          circle.setAttribute('cy', '89');
+          circle.setAttribute('data-vtabs-o6-outer-hole-position', '1');
+        }
+      });
+    });
+  }
+
+  function appendSvgTranslate(node, dx, dy) {
+    if (!node || !isFinite(dx) || !isFinite(dy) || (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01)) {
+      return;
+    }
+
+    var currentX = Number(node.getAttribute('x'));
+    if (isFinite(currentX)) {
+      node.setAttribute('x', String(Math.round((currentX + dx) * 10) / 10));
+      var transformValue = String(node.getAttribute('transform') || '');
+      node.setAttribute(
+        'transform',
+        transformValue.replace(/rotate\\(180,([^,]+),([^\\)]+)\\)/, function (_match, cx, cy) {
+          var nextCx = Number(cx) + dx;
+          return 'rotate(180,' + (isFinite(nextCx) ? Math.round(nextCx * 10) / 10 : cx) + ',' + cy + ')';
+        })
+      );
+      node.setAttribute('data-vtabs-recorder8-collision-offset', String(Math.round(dx * 10) / 10));
+      return;
+    }
+
+    var transform = String(node.getAttribute('transform') || '').trim();
+    var translate = 'translate(' + Math.round(dx * 10) / 10 + ' ' + Math.round(dy * 10) / 10 + ')';
+    node.setAttribute('transform', translate + (transform ? ' ' + transform : ''));
+    node.setAttribute('data-vtabs-recorder8-collision-offset', String(Math.round(dx * 10) / 10));
+  }
+
+  function applyClassicPublicRecorder8FrontHolePosition(symbol) {
+    if (!symbol || symbol.getAttribute('data-vtabs-recorder8-front-hole-position') === '1') {
+      return;
+    }
+
+    var yMap = {
+      147: 165,
+      127: 140,
+      107: 115,
+      85: 90,
+      65: 70
+    };
+
+    Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy]')).forEach(function (circle) {
+      if (circle.getAttribute('display') === 'none') {
+        return;
+      }
+
+      var cx = Number(circle.getAttribute('cx'));
+      var cy = Number(circle.getAttribute('cy'));
+      if (!isFinite(cx) || !isFinite(cy) || Math.abs(cx - 100) > 1.5) {
+        return;
+      }
+
+      var nextY = yMap[Math.round(cy)];
+      if (typeof nextY !== 'number') {
+        return;
+      }
+
+      circle.setAttribute('cy', String(nextY));
+      circle.setAttribute('data-vtabs-recorder8-front-hole-position', '1');
+    });
+
+    Array.prototype.slice.call(symbol.querySelectorAll('path[d]')).forEach(function (path) {
+      if (path.getAttribute('display') === 'none') {
+        return;
+      }
+
+      var d = String(path.getAttribute('d') || '').replace(/\\s+/g, '');
+      var verticalHalf = d.match(/^M100(-?\\d+(?:\\.\\d+)?)A7700([01])100(-?\\d+(?:\\.\\d+)?)$/);
+      if (verticalHalf) {
+        var oldCenterY = Math.round((Number(verticalHalf[1]) + Number(verticalHalf[3])) / 2);
+        var nextVerticalY = yMap[oldCenterY];
+        if (typeof nextVerticalY === 'number') {
+          path.setAttribute(
+            'd',
+            'M100 ' +
+              (nextVerticalY - 7) +
+              ' A7 7 0 0 ' +
+              verticalHalf[2] +
+              ' 100 ' +
+              (nextVerticalY + 7)
+          );
+          path.setAttribute('data-vtabs-recorder8-front-hole-position', '1');
+        }
+        return;
+      }
+
+      var horizontalHalf = d.match(/^M93(-?\\d+(?:\\.\\d+)?)A7700([01])107(-?\\d+(?:\\.\\d+)?)$/);
+      if (!horizontalHalf) {
+        return;
+      }
+
+      var oldHorizontalY = Math.round((Number(horizontalHalf[1]) + Number(horizontalHalf[3])) / 2);
+      var nextHorizontalY = yMap[oldHorizontalY];
+      if (typeof nextHorizontalY !== 'number') {
+        return;
+      }
+
+      path.setAttribute(
+        'd',
+        'M93 ' +
+          nextHorizontalY +
+          ' A7 7 0 0 ' +
+          horizontalHalf[2] +
+          ' 107 ' +
+          nextHorizontalY
+      );
+      path.setAttribute('data-vtabs-recorder8-front-hole-position', '1');
+    });
+
+    symbol.setAttribute('data-vtabs-recorder8-front-hole-position', '1');
+  }
+
+  function applyClassicPublicO12HolePosition(svg) {
+    var rules = [
+      { x: 16, y: 52, dx: -1.2, dy: 0 },
+      { x: 28, y: 48, dx: -1.2, dy: 0 },
+      { x: 40, y: 43, dx: -1.2, dy: 0 },
+      { x: 52, y: 34, dx: -1.2, dy: 0 },
+      { x: 32, y: 60, dx: -1.2, dy: 0 },
+      { x: 72, y: 48, dx: 0.2, dy: 7 },
+      { x: 84, y: 40, dx: 0.2, dy: 7 },
+      { x: 94, y: 32, dx: 0.2, dy: 7 },
+      { x: 104, y: 24, dx: 1.2, dy: 9.2 },
+      { x: 78, y: 30, dx: 0.2, dy: 7 }
+    ];
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
+          return;
+        }
+
+        Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy]')).forEach(function (circle) {
+          if (circle.getAttribute('data-vtabs-o12-hole-position') === '1') {
+            return;
+          }
+
+          var cx = Number(circle.getAttribute('cx'));
+          var cy = Number(circle.getAttribute('cy'));
+          if (!isFinite(cx) || !isFinite(cy)) {
+            return;
+          }
+
+          rules.forEach(function (rule) {
+            var dx = cx - rule.x;
+            var dy = cy - rule.y;
+            if (Math.sqrt(dx * dx + dy * dy) > 2.4) {
+              return;
+            }
+
+            circle.setAttribute('cx', String(Math.round((cx + rule.dx) * 10) / 10));
+            circle.setAttribute('cy', String(Math.round((cy + rule.dy) * 10) / 10));
+            circle.setAttribute('data-vtabs-o12-hole-position', '1');
+          });
+        });
+      });
+  }
+
+  function applyClassicPublicO12VisualScale(svg) {
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
+          return;
+        }
+
+        if (symbol.querySelector('g[data-vtabs-o12-visual-scale="1"]')) {
+          return;
+        }
+
+        var wrapper = createSvgNode('g');
+        wrapper.setAttribute('data-vtabs-o12-visual-scale', '1');
+        wrapper.setAttribute('transform', 'translate(60 50) scale(1.04) translate(-60 -50)');
+
+        Array.prototype.slice.call(symbol.childNodes).forEach(function (node) {
+          wrapper.appendChild(node);
+        });
+        symbol.appendChild(wrapper);
+      });
+  }
+
+  function applyClassicPublicO12HoleScale(svg) {
+    var rules = [
+      { x: 28, y: 85, r: 4.55 },
+      { x: 68, y: 85, r: 4.55 },
+      { x: 32, y: 60, r: 3.45 },
+      { x: 78, y: 30, r: 3.45 }
+    ];
+
+    Array.prototype.slice
+      .call(svg.querySelectorAll('symbol[id]'))
+      .forEach(function (symbol) {
+        var id = symbol.getAttribute('id') || '';
+        if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
+          return;
+        }
+
+        Array.prototype.slice.call(symbol.querySelectorAll('circle[cx][cy][r]')).forEach(function (circle) {
+          var cx = Number(circle.getAttribute('cx'));
+          var cy = Number(circle.getAttribute('cy'));
+          if (!isFinite(cx) || !isFinite(cy)) {
+            return;
+          }
+
+          rules.forEach(function (rule) {
+            var dx = cx - rule.x;
+            var dy = cy - rule.y;
+            if (Math.sqrt(dx * dx + dy * dy) > 3.2) {
+              return;
+            }
+
+            circle.setAttribute('r', String(rule.r));
+            circle.setAttribute('data-vtabs-o12-hole-scale', '1');
+          });
+        });
+      });
+  }
+
+  function isClassicPublicTypographyEnabled() {
+    var theme = getPublicRuntimeVisualTheme();
+    return Boolean(theme && theme.typography === 'classic-public');
+  }
+
+  function getPublicRuntimeLetterFill() {
+    return isClassicPublicTypographyEnabled() ? '#2f2115' : '#7a5331';
+  }
+
+  function getPublicRuntimeLetterStroke() {
+    return isClassicPublicTypographyEnabled() ? '#f9efdf' : '#ffffff';
+  }
+
+  function getPublicRuntimeLetterCoverFill() {
+    return isClassicPublicTypographyEnabled() ? '#fff8ee' : '#ffffff';
+  }
+
+  function getPublicRuntimeLetterCoverTextureFill() {
+    return isClassicPublicTypographyEnabled() ? 'url(#vtabs-classic-paper-texture)' : null;
+  }
+
+  function createPublicRuntimeLetterCoverTexture(cover) {
+    var textureFill = getPublicRuntimeLetterCoverTextureFill();
+    if (!textureFill || !cover) {
+      return null;
+    }
+
+    var texture = createSvgNode('rect');
+    texture.setAttribute('data-vtabs-letter-track', 'cover-texture');
+    ['x', 'y', 'width', 'height', 'rx', 'ry'].forEach(function (name) {
+      var value = cover.getAttribute(name);
+      if (value !== null) {
+        texture.setAttribute(name, value);
+      }
+    });
+    texture.setAttribute('fill', textureFill);
+    texture.setAttribute('pointer-events', 'none');
+    texture.setAttribute('aria-hidden', 'true');
+    return texture;
+  }
+
+  function getPublicRuntimeLetterFontFamily() {
+    return isClassicPublicTypographyEnabled()
+      ? 'Georgia, "Times New Roman", serif'
+      : 'Arial, sans-serif';
+  }
+
   function getLetterTrackAnchors(svg) {
     return Array.prototype.slice
       .call(svg.querySelectorAll('use'))
@@ -964,11 +2086,11 @@ export function buildPublicRuntimeSvgBridgeScript() {
       item.labelNode.setAttribute('stroke', '#fff8d9');
       item.labelNode.setAttribute('stroke-width', '3');
     } else {
-      item.coverNode.setAttribute('fill', '#ffffff');
+      item.coverNode.setAttribute('fill', getPublicRuntimeLetterCoverFill());
       item.coverNode.setAttribute('fill-opacity', '0.98');
       item.coverNode.setAttribute('stroke', 'none');
-      item.labelNode.setAttribute('fill', '#7a5331');
-      item.labelNode.setAttribute('stroke', '#ffffff');
+      item.labelNode.setAttribute('fill', getPublicRuntimeLetterFill());
+      item.labelNode.setAttribute('stroke', getPublicRuntimeLetterStroke());
       item.labelNode.setAttribute('stroke-width', '2.5');
     }
   }
@@ -1154,6 +2276,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     }
 
     annotateSheetSvgAccessibility(svg);
+    applyPublicRuntimeVisualTheme(svg);
     localizeVisibleSheetText(svg);
     clearPublicPlaybackLetterHighlightObservers();
 
@@ -1206,9 +2329,13 @@ export function buildPublicRuntimeSvgBridgeScript() {
           String(Math.max(54, row.notationBottom - row.notationY + 24))
         );
         cover.setAttribute('rx', '8');
-        cover.setAttribute('fill', '#ffffff');
+        cover.setAttribute('fill', getPublicRuntimeLetterCoverFill());
         cover.setAttribute('fill-opacity', '1');
         layer.appendChild(cover);
+        var texture = createPublicRuntimeLetterCoverTexture(cover);
+        if (texture) {
+          layer.appendChild(texture);
+        }
       });
     }
 
@@ -1221,6 +2348,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       var graceNoteGlyphs = getLetterTrackGraceNoteGlyphs(svg);
       var graceGlyphMarkers = graceNoteGlyphs.length > 0 ? runtimeGlyphMarkers : null;
       var letterCovers = [];
+      var letterCoverTextures = [];
       var letterLabels = [];
       var playbackHighlightItems = [];
       var runtimeNoteLabelsById = getRuntimeMpnNoteLabelsById(noteGlyphs);
@@ -1253,21 +2381,25 @@ export function buildPublicRuntimeSvgBridgeScript() {
         cover.setAttribute('width', String(Math.max(18, glyph.width + 6)));
         cover.setAttribute('height', String(Math.max(20, glyph.height + 4)));
         cover.setAttribute('rx', '3');
-        cover.setAttribute('fill', '#ffffff');
+        cover.setAttribute('fill', getPublicRuntimeLetterCoverFill());
         cover.setAttribute('fill-opacity', '0.98');
         letterCovers.push(cover);
+        var coverTexture = createPublicRuntimeLetterCoverTexture(cover);
+        if (coverTexture) {
+          letterCoverTextures.push(coverTexture);
+        }
 
         var text = createSvgNode('text');
         text.setAttribute('data-vtabs-letter-track', 'label');
         text.setAttribute('x', String(glyph.x + glyph.width / 2));
         text.setAttribute('y', String(glyph.y + glyph.height - 0.5));
-        text.setAttribute('fill', '#7a5331');
+        text.setAttribute('fill', getPublicRuntimeLetterFill());
         text.setAttribute('font-size', label === 'R' ? '15' : label.length >= 4 ? '11' : '13');
         text.setAttribute('font-weight', '700');
         text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.setAttribute('font-family', getPublicRuntimeLetterFontFamily());
         text.setAttribute('paint-order', 'stroke fill');
-        text.setAttribute('stroke', '#ffffff');
+        text.setAttribute('stroke', getPublicRuntimeLetterStroke());
         text.setAttribute('stroke-width', '2.5');
         text.setAttribute('stroke-linejoin', 'round');
         text.textContent = label;
@@ -1295,22 +2427,26 @@ export function buildPublicRuntimeSvgBridgeScript() {
         cover.setAttribute('width', String(Math.max(label.length >= 3 ? 20 : 17, glyph.width + 10)));
         cover.setAttribute('height', String(Math.max(25, glyph.height + 16)));
         cover.setAttribute('rx', '2');
-        cover.setAttribute('fill', '#ffffff');
+        cover.setAttribute('fill', getPublicRuntimeLetterCoverFill());
         cover.setAttribute('fill-opacity', '0.98');
         letterCovers.push(cover);
+        var graceCoverTexture = createPublicRuntimeLetterCoverTexture(cover);
+        if (graceCoverTexture) {
+          letterCoverTextures.push(graceCoverTexture);
+        }
 
         var text = createSvgNode('text');
         text.setAttribute('data-vtabs-letter-track', 'label');
         text.setAttribute('data-vtabs-letter-track-kind', 'grace');
         text.setAttribute('x', String(glyph.x + glyph.width / 2));
         text.setAttribute('y', String(glyph.y + glyph.height + 1.5));
-        text.setAttribute('fill', '#7a5331');
+        text.setAttribute('fill', getPublicRuntimeLetterFill());
         text.setAttribute('font-size', label.length >= 3 ? '8' : '9');
         text.setAttribute('font-weight', '700');
         text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.setAttribute('font-family', getPublicRuntimeLetterFontFamily());
         text.setAttribute('paint-order', 'stroke fill');
-        text.setAttribute('stroke', '#ffffff');
+        text.setAttribute('stroke', getPublicRuntimeLetterStroke());
         text.setAttribute('stroke-width', '2');
         text.setAttribute('stroke-linejoin', 'round');
         text.textContent = label;
@@ -1319,6 +2455,9 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
       letterCovers.forEach(function (cover) {
         layer.appendChild(cover);
+      });
+      letterCoverTextures.forEach(function (texture) {
+        layer.appendChild(texture);
       });
       letterLabels.forEach(function (text) {
         layer.appendChild(text);
@@ -1331,12 +2470,12 @@ export function buildPublicRuntimeSvgBridgeScript() {
         mark.setAttribute('data-vtabs-letter-track', 'breath');
         mark.setAttribute('x', String(breath.x + 1));
         mark.setAttribute('y', String(breath.y - 11));
-        mark.setAttribute('fill', '#7a5331');
+        mark.setAttribute('fill', getPublicRuntimeLetterFill());
         mark.setAttribute('font-size', '18');
         mark.setAttribute('font-style', 'italic');
         mark.setAttribute('font-weight', '700');
         mark.setAttribute('text-anchor', 'middle');
-        mark.setAttribute('font-family', 'Arial, sans-serif');
+        mark.setAttribute('font-family', getPublicRuntimeLetterFontFamily());
         mark.textContent = ',';
         layer.appendChild(mark);
       });

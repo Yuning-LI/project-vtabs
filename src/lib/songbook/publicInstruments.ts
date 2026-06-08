@@ -21,6 +21,7 @@ export type PublicSongPageQueryState = {
   measureLayout?: 'compact' | 'mono' | null
   sheetScale?: string | number | null
   practiceTool?: 'metronome' | null
+  runtimeVisualTheme?: 'classic' | 'off' | null
 }
 
 const DEFAULT_PUBLIC_SHOW_MEASURE_NUM = 'off'
@@ -136,6 +137,10 @@ export function buildSongPageHref(
 
   if (input.sheetScale !== null && input.sheetScale !== undefined && input.sheetScale !== '') {
     params.set('sheet_scale', String(input.sheetScale))
+  }
+
+  if (input.runtimeVisualTheme === 'off') {
+    params.set('runtime_visual_theme', 'off')
   }
 
   if (input.practiceTool === 'metronome') {

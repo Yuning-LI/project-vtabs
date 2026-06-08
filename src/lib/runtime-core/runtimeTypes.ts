@@ -85,3 +85,10 @@ export type PublicRuntimePayload = Record<string, unknown> & {
 export type PublicRuntimeTextMode = 'source' | 'english'
 export type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
 export type PublicRuntimePublicFeature = 'metronome' | 'playback'
+export type PublicRuntimeVisualTheme = {
+  enabled: boolean
+  sheetTone: 'none' | 'classic-paper'
+  fingeringPalette: 'legacy' | 'classic-public'
+  typography: 'legacy' | 'classic-public'
+  fingeringShape: 'legacy' | 'soft-o12'
+}

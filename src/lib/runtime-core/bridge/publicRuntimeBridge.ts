@@ -1,7 +1,8 @@
 import type {
   PublicLetterTrackData,
   PublicRuntimePublicFeature,
-  PublicRuntimeTextMode
+  PublicRuntimeTextMode,
+  PublicRuntimeVisualTheme
 } from '../runtimeTypes.ts'
 import { buildPublicRuntimeHeightBridgeScript } from './height/publicRuntimeHeightBridge.ts'
 import { buildPublicRuntimeMetronomeBridgeScript } from './metronome/publicRuntimeMetronomeBridge.ts'
@@ -54,7 +55,8 @@ export function buildPublicRuntimeBridgeScript(
   songId: string,
   letterTrack: PublicLetterTrackData | null,
   textMode: PublicRuntimeTextMode,
-  publicFeatures: Set<PublicRuntimePublicFeature>
+  publicFeatures: Set<PublicRuntimePublicFeature>,
+  visualTheme: PublicRuntimeVisualTheme
 ) {
   const heightBridgeScript = buildPublicRuntimeHeightBridgeScript()
   const metronomeBridgeScript = buildPublicRuntimeMetronomeBridgeScript()
@@ -77,6 +79,7 @@ export function buildPublicRuntimeBridgeScript(
   var songId = ${JSON.stringify(songId)};
   var letterTrack = ${safeLetterTrack};
   var textMode = ${JSON.stringify(textMode)};
+  var publicRuntimeVisualTheme = ${serializeForInlineScript(visualTheme)};
   var hasPublicMetronome = ${publicFeatures.has('metronome') ? 'true' : 'false'};
   var hasPublicPlayback = ${publicFeatures.has('playback') ? 'true' : 'false'};
   var playbackLetterHighlightObservers = [];

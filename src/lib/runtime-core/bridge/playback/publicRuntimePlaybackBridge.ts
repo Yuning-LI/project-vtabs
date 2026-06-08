@@ -197,8 +197,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       'play_loop',
       'play_drum',
       'locate_note',
-      'highlight_note',
-      'play_microphone'
+      'highlight_note'
     ].forEach(function (controlId) {
       var control = document.getElementById(controlId);
       var field = control && control.closest ? control.closest('.input-field') : null;
@@ -268,7 +267,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   function localizeNoSoundHelp() {
     var noSoundButton = document.getElementById('nosound-btn');
     if (noSoundButton) {
-      noSoundButton.textContent = 'No sound or delayed audio?';
+      noSoundButton.setAttribute('aria-hidden', 'true');
+      noSoundButton.style.display = 'none';
     }
 
     var noSoundModal = document.getElementById('nosound-modal');
@@ -523,7 +523,6 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     setLabelText('play_metronome', 'Metronome');
     setLabelText('play_drum', 'Drums');
     setLabelText('play_chord', 'Chords');
-    setLabelText('play_microphone', 'Microphone');
     setLabelText('play_count_in', 'Count-in');
     setLabelText('play_transpose', 'Transpose');
     setLabelText('locate_note', 'Follow note');
@@ -539,9 +538,15 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     setOptionText('play_chord', 'default', 'Auto');
     setOptionText('play_chord', 'on', 'On');
     setOptionText('play_chord', 'off', 'Off');
-    setOptionText('play_microphone', '0', 'Off');
     setOptionText('play_count_in', 'off', 'Off');
     setOptionText('play_count_in', 'on', '3 beats');
+
+    var microphone = document.getElementById('play_microphone');
+    var microphoneField = microphone && microphone.closest ? microphone.closest('.input-field') : null;
+    if (microphoneField) {
+      microphoneField.setAttribute('aria-hidden', 'true');
+      microphoneField.style.display = 'none';
+    }
 
     syncPublicPlaybackCountInControl(playModal);
     reorderPublicPlaybackControls(playModal);

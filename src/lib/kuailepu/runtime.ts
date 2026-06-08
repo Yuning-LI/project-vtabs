@@ -32,13 +32,15 @@ export type {
   PublicRuntimePublicFeature,
   PublicRuntimeState,
   PublicRuntimeTextMode,
+  PublicRuntimeVisualTheme,
   KuailepuLetterTrackData,
   KuailepuLetterTrackMode,
   KuailepuRuntimeAssetProfileName,
   KuailepuRuntimePayload,
   KuailepuRuntimePublicFeature,
   KuailepuRuntimeState,
-  KuailepuRuntimeTextMode
+  KuailepuRuntimeTextMode,
+  KuailepuRuntimeVisualTheme
 } from './runtimeTypes.ts'
 
 /**

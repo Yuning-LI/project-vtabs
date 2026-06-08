@@ -13,7 +13,8 @@ export type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
   PublicRuntimeState,
-  PublicRuntimeTextMode
+  PublicRuntimeTextMode,
+  PublicRuntimeVisualTheme
 } from '../runtime-core/runtimeTypes.ts'
 
 import type {
@@ -23,7 +24,8 @@ import type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
   PublicRuntimeState,
-  PublicRuntimeTextMode
+  PublicRuntimeTextMode,
+  PublicRuntimeVisualTheme
 } from '../runtime-core/runtimeTypes.ts'
 
 export type KuailepuRuntimeState = PublicRuntimeState
@@ -33,3 +35,4 @@ export type KuailepuRuntimePayload = PublicRuntimePayload
 export type KuailepuRuntimeTextMode = PublicRuntimeTextMode
 export type KuailepuRuntimeAssetProfileName = PublicRuntimeAssetProfileName
 export type KuailepuRuntimePublicFeature = PublicRuntimePublicFeature
+export type KuailepuRuntimeVisualTheme = PublicRuntimeVisualTheme

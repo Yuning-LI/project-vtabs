@@ -21,6 +21,7 @@ import {
   normalizeSheetScale,
   normalizeToggleParam
 } from '@/lib/songbook/songPageQueryState'
+import { normalizePublicRuntimeVisualThemeName } from '@/lib/runtime-core/visual/publicRuntimeVisualTheme'
 import { siteUrl } from '@/lib/site'
 
 export const dynamic = 'force-dynamic'
@@ -33,6 +34,7 @@ type PrintPageSearchParams = {
   show_measure_num?: string
   measure_layout?: string
   sheet_scale?: string
+  runtime_visual_theme?: string
   paper?: string
 }
 
@@ -103,10 +105,14 @@ export default function InternalPrintSongPage({
         10
     )
   const paper = normalizePaper(searchParams?.paper)
+  const runtimeVisualTheme = normalizePublicRuntimeVisualThemeName(
+    searchParams?.runtime_visual_theme
+  )
 
   const paramsForFrame = new URLSearchParams()
   // 打印链继续复用 runtime HTML 路由，而不是另写一套 renderer。
   paramsForFrame.set('runtime_text_mode', 'english')
+  paramsForFrame.set('runtime_visual_theme', runtimeVisualTheme)
   if (activeInstrument.id !== 'o12') {
     paramsForFrame.set('instrument', activeInstrument.id)
   }

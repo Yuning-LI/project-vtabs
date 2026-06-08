@@ -80,6 +80,11 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
       return;
     }
 
+    modal.style.display = 'block';
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.removeAttribute('aria-hidden');
+
     if (!modal.getAttribute('data-vtabs-public-docked')) {
       modal.setAttribute('data-vtabs-public-docked', '1');
       sheet.parentNode.insertBefore(modal, sheet);
