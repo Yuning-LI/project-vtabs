@@ -29,7 +29,7 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Production runtime JSON: `data/kuailepu-runtime/<slug>.json`.
 - Production-packed runtime JSON: `data/kuailepu-runtime-packed/<slug>.json.gz`.
 - Compact public song docs: `data/kuailepu/<slug>.json`.
-- Managed Kuailepu grey import queue: `data/songbook/kuailepu-grey-import-queue.json`.
+- Local managed Kuailepu grey import queue: `data/songbook/kuailepu-grey-import-queue.json` and it should stay out of git.
 - Local fallback only: `reference/songs/<slug>.json`.
 - Local-only unpublished Kuailepu candidates: `reference/kuailepu-candidates/**`.
 - Publish-ready Kuailepu grey stock pool: `reference/kuailepu-candidates/publish-drafts/**`.

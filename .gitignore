@@ -25,3 +25,4 @@ reference/
 # packaging the large raw JSON directory into serverless functions.
 data/kuailepu-runtime-packed/
 .cache/
+data/songbook/kuailepu-grey-import-queue.json

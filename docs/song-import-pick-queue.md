@@ -6,7 +6,7 @@ It does **not** replace either import workflow:
 
 - local `MusicXML` / `MXL` songs still follow `docs/song-ingest-operator-runbook.md`
 - Kuailepu grey songs still follow `docs/grey-song-rollout-playbook.md`
-- The current managed Kuailepu grey queue lives at `data/songbook/kuailepu-grey-import-queue.json`
+- The current local managed Kuailepu grey queue lives at `data/songbook/kuailepu-grey-import-queue.json` and should stay out of git
 
 The purpose is narrow:
 
@@ -37,6 +37,8 @@ Lane-specific upstream sources:
   - `reference/kuailepu-candidates/queues/grey-priority-queue.md`
   - `data/songbook/grey-song-rollout.json`
   - `data/songbook/kuailepu-grey-import-queue.json`
+
+The last file above is a local operator queue snapshot only, not a publish-state source of truth and not a file to commit.
 
 ## How To Use It
 

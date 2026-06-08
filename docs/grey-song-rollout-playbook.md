@@ -39,7 +39,8 @@ Keep these layers separate:
   - live rollout tracker
   - record songs as `live` after they are pushed
 - `data/songbook/kuailepu-grey-import-queue.json`
-  - managed grey import queue
+  - local managed grey import queue
+  - do not commit or publish it
   - starts with `stock-unpublished`, then `queued`, then `live` records
 - `data/songbook/song-import-pick-queue.json`
   - selection-only queue

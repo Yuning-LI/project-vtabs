@@ -27,7 +27,7 @@ The older rule of reading every major document for every substantial task has be
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
 - Production-packed runtime JSON lives in `data/kuailepu-runtime-packed/<slug>.json.gz` and is preferred in production builds.
 - Compact public song docs live in `data/kuailepu/<slug>.json`.
-- Managed Kuailepu grey import queue lives in `data/songbook/kuailepu-grey-import-queue.json`.
+- Local managed Kuailepu grey import queue lives in `data/songbook/kuailepu-grey-import-queue.json` and should stay out of git.
 - `reference/songs/<slug>.json` is local fallback for import/debug only.
 - Runtime archive lives at `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Public runtime static assets live under `public/k-static/**`.
