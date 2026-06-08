@@ -1,0 +1,38 @@
+{
+  "id": "oceanside",
+  "slug": "oceanside",
+  "title": "Oceanside",
+  "description": "Oceanside melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/2gCpi1DlB.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song 2gCpi1DlB on 2026-05-24."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-05-24",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 1 - 2 - 1 - 2 - 1 - - - 5 - | 0 0 1 - 2 - 1 - 2 - 1 - 5 - 3 - |",
+    "0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 2 - 1 - 0 0 1 - 2 - 3 - 2 - 1 - |",
+    "0 0 1 - 2 - 1 - 5 - 3 - 2 - 1 - | 0 0 1 - 2 - 1 - 5 - 3 - 2 - 1 - | 0 0 1 - 2 - 1 - 0 0 0 5, 1 2 - - | 2 - 1 - 0 0 0 5, 2 - - - 3 2 - - | 1 - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 3 - 2 3 - - 2 1 - - |",
+    "0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 2 - 1 - 0 0 1 - 2 - - - 3 - - - | 2 - 1 - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 1 - 2 - 1 - 2 - 1 - - - 5 - | 0 0 1 - 2 - 1 - 2 - 1 - - - 5 - | 0 0 0 0 0 0 3 - 2 - - 1 1 - 2 - | 2 - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 1 - 2 - 1 - 2 1 - 1 1 - 5 - | 0 0 1 - 2 - 1 - 6 - 5 - 3 2 - 1 | 0 0 1 - 0 0 0 0 3 - - - 5 - - - | 3 2 - 2 2 - - - 0 0 0 0 2 1 - 1 | 1 - - -",
+    "1 1 - - 2 - 3 - 2 - 1 - | 6, - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 1 - 2 - 1 - 5 - 3 - 2 - 1 - | 0 0 1 - 2 - 1 - 1 - 5 - 3 - 2 - | 0 0 1 - 2 - 1 - 2 - 2 3 3 - 1 - |",
+    "0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 0 0 0 0 2 - | 2 - 1 - 0 0 1 - 2 3 - - 2 - 1 1 | 0 0 0 0 0 0 0 0 0 0 0 0",
+    "0 0 1 - | 2 - 1 1 1 - - 2 2 - 3 - 2 - 1 1 |",
+    "0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 5 - - 3 3 - 2 - | 0 0 1 - 2 - 1 - 0 0 0 5, 1 - 2 - | 2 - 1 - 0 0 0 5, 2 - - - 3 2 - - | 1 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | | |"
+  ]
+}
