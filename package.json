@@ -49,6 +49,7 @@
     "audit:song-ingest-batch": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/audit-song-ingest-batch.ts",
     "compare:song-ingest-overlap": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/compare-song-ingest-overlap.ts",
     "analyze:kuailepu-overlap-syntax": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-kuailepu-overlap-syntax.ts",
+    "analyze:public-runtime-syntax-inventory": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-public-runtime-syntax-inventory.ts",
     "analyze:hc-parser-grammar": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-hc-parser-grammar.ts",
     "analyze:hc-overlap-semantics": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-hc-overlap-semantics.ts",
     "analyze:kuailepu-slur-groups": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-kuailepu-slur-groups.ts",

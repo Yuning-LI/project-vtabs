@@ -145,11 +145,17 @@ npm run validate:content
 npm run validate:songbook
 ```
 
-## Suggested First Implementation Subphase
+## Syntax Inventory Subphase
 
-Create a syntax inventory script before writing renderer code.
+Status: started.
 
-Expected output:
+The current inventory entry is:
+
+```bash
+npm run analyze:public-runtime-syntax-inventory
+```
+
+Default output:
 
 ```text
 tmp/public-runtime-syntax-inventory.json
@@ -165,7 +171,21 @@ The report should group songs into:
 - `needs-lyric-support`
 - `archived-fallback-required`
 
-Only after that inventory should renderer MVP implementation begin.
+Latest local run on the 400-song public runtime catalog:
+
+- `native-mvp-candidate`: 22 songs
+- `native-common-candidate`: 15 songs
+- `needs-repeat-support`: 200 songs
+- `needs-group-support`: 109 songs
+- `needs-lyric-support`: 52 songs
+- `archived-fallback-required`: 2 songs
+
+Current implication:
+
+- A tiny renderer MVP can start with the 22 `native-mvp-candidate` songs, but that is not enough to replace the public route broadly.
+- Repeat support is the largest unlock because about half the public catalog uses repeat bars, numbered endings, `{play:...}`, or section labels.
+- Group / parenthesized-note support is the second-largest unlock.
+- Until repeat and group support exist, the public route must keep archived-runtime fallback.
 
 ## Boundary With Phase 3
 
