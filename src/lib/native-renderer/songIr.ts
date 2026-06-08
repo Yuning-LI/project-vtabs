@@ -62,6 +62,8 @@ export type SongIrDocument = {
   unsupported: string[]
 }
 
+export type SongIrSummary = ReturnType<typeof summarizeSongIr>
+
 export function summarizeSongIr(document: SongIrDocument) {
   return {
     slug: document.metadata.slug,
