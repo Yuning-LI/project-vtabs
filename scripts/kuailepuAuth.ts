@@ -1,7 +1,11 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { chromium, type BrowserContext, type Page } from 'playwright'
+import { chromium } from 'playwright-extra'
+import type { BrowserContext, Page } from 'playwright'
+import stealthPlugin from 'puppeteer-extra-plugin-stealth'
 import type { KuailepuSongPayload } from '../src/lib/songbook/kuailepuImport.ts'
+
+chromium.use(stealthPlugin())
 
 export const KUAILEPU_PROFILE_DIR = path.resolve(
   process.cwd(),

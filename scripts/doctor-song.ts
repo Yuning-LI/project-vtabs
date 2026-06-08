@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { hasPublicKuailepuLyricToggle, loadKuailepuSongPayload } from '../src/lib/kuailepu/runtime.ts'
 import { resolveKuailepuRuntimeSongPath } from '../src/lib/kuailepu/sourceFiles.ts'
 import { allSongCatalog } from '../src/lib/songbook/catalog.ts'
@@ -8,6 +10,12 @@ import { getSongPresentation } from '../src/lib/songbook/presentation.ts'
 import { getSongSeoProfileEntry } from '../src/lib/songbook/seoProfiles.ts'
 
 const input = process.argv[2]
+const greyCandidateSongDocDir = path.resolve(
+  process.cwd(),
+  'reference',
+  'kuailepu-candidates',
+  'songdocs'
+)
 
 if (!input) {
   console.error('Usage: npm run doctor:song -- <slug-or-id>')
@@ -16,7 +24,8 @@ if (!input) {
 
 const song =
   allSongCatalog.find(candidate => candidate.slug === input) ??
-  allSongCatalog.find(candidate => candidate.id === input)
+  allSongCatalog.find(candidate => candidate.id === input) ??
+  loadGreyCandidateSongDoc(input)
 
 if (!song) {
   console.error(`Song not found for input: ${input}`)
@@ -62,3 +71,20 @@ console.log(
     2
   )
 )
+
+function loadGreyCandidateSongDoc(input: string) {
+  const directPath = path.join(greyCandidateSongDocDir, `${input}.json`)
+  if (fs.existsSync(directPath)) {
+    return JSON.parse(fs.readFileSync(directPath, 'utf8'))
+  }
+
+  const files = fs.readdirSync(greyCandidateSongDocDir).filter(file => file.endsWith('.json'))
+  for (const file of files) {
+    const parsed = JSON.parse(fs.readFileSync(path.join(greyCandidateSongDocDir, file), 'utf8'))
+    if (parsed?.id === input || parsed?.slug === input) {
+      return parsed
+    }
+  }
+
+  return null
+}
