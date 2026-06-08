@@ -630,7 +630,8 @@ Progress estimate:
 - research groundwork exists
 - dev-only MVP implementation has started
 - current implemented chain: public runtime syntax inventory -> `SongIR v0` -> MusicXML draft adapter -> native support contract -> `/dev/native-renderer/song/[id]` preview
-- current supported set is deliberately narrow: 15 MusicXML-backed native MVP seed songs only
+- current eligible set is deliberately narrow: 15 MusicXML-backed native MVP seed songs only
+- current strict supported set is 12 songs; 3 eligible seeds still fallback because they contain MIDI `79`, which has no current o12 fingering entry
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:

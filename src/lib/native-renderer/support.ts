@@ -1,4 +1,5 @@
 import type { SongIrDocument } from './songIr.ts'
+import { buildSongIrSemanticQa } from './semanticQa.ts'
 
 export type NativeRendererSupportStatus = 'supported' | 'fallback-required'
 
@@ -70,6 +71,11 @@ export function evaluateNativeRendererSupport(
 
   if (song.stats.measureCount <= 0) {
     reasons.push('empty-measure-sequence')
+  }
+
+  const semanticQa = buildSongIrSemanticQa(song)
+  if (semanticQa.missingO12FingeringCount > 0) {
+    reasons.push(`missing-o12-fingering:${semanticQa.missingO12Fingerings.join(',')}`)
   }
 
   if (song.metadata.slug !== safeSlug) {

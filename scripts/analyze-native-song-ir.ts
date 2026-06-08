@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { buildSongIrFromMusicXmlDraft } from '../src/lib/native-renderer/fromMusicXmlDraft.ts'
+import { buildSongIrSemanticQa } from '../src/lib/native-renderer/semanticQa.ts'
 import { summarizeSongIr } from '../src/lib/native-renderer/songIr.ts'
 import {
   evaluateNativeRendererSupport,
@@ -26,9 +27,11 @@ const summaries = options.slugs.map(slug => {
   const song = buildSongIrFromMusicXmlDraft(draft)
   const summary = summarizeSongIr(song)
   const support = evaluateNativeRendererSupport(slug, song)
+  const semanticQa = buildSongIrSemanticQa(song)
   return {
     ...summary,
     support,
+    semanticQa,
     draft: {
       measureCount: draft.stats.measures,
       noteCount: draft.stats.noteCount,
@@ -49,8 +52,17 @@ const report = {
   draftDir: options.draftDir,
   count: summaries.length,
   unsupportedCount: summaries.filter(summary => summary.unsupported.length > 0).length,
+  supportCount: summaries.filter(summary => summary.support.status === 'supported').length,
   mismatchCount: summaries.filter(summary =>
     Object.values(summary.deltas).some(delta => delta !== 0)
+  ).length,
+  semanticIssueCount: summaries.filter(
+    summary =>
+      summary.semanticQa.missingO12FingeringCount > 0 ||
+      summary.semanticQa.eventCount !== summary.eventCount ||
+      summary.semanticQa.noteCount !== summary.noteCount ||
+      summary.semanticQa.restCount !== summary.restCount ||
+      summary.semanticQa.measureCount !== summary.measureCount
   ).length,
   summaries
 }

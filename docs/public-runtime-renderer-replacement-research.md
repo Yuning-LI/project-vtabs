@@ -168,12 +168,19 @@ Implemented so far:
 
 Current strict support contract:
 
-- only the 15 MusicXML-backed native MVP seed songs are marked supported
+- only the 15 MusicXML-backed native MVP seed songs are eligible for native support
 - SongIR must be version `0`
 - source must be `musicxml-draft`
 - `unsupported` must be empty
 - note and measure sequences must be non-empty
 - slug must match the SongIR metadata slug
+- o12 fingering coverage must be complete for every note
+
+Latest `npm run analyze:native-song-ir` result:
+
+- MVP seed count: 15
+- currently supported: 12
+- fallback due to missing o12 fingering: 3 songs with MIDI `79`
 
 This means the current native renderer is safe for internal development, but not
 ready for public route replacement.
@@ -255,7 +262,7 @@ Recommended first native renderer seeds:
    - `supported` songs can render through the native path.
    - unsupported songs must intentionally stay on archived runtime.
    - never silently show a partial or wrong native render.
-   - Current status: implemented for dev-only routing.
+   - Current status: implemented for dev-only routing; currently 12 of 15 MVP seeds pass the strict o12 support gate.
 4. Build a dev-only native preview route before touching public `/song/<slug>`.
    - Compare event counts, pitch sequence, rest sequence, bar count, lyric slot count, and fingering anchor count.
    - Visual equality with archived SVG is not the target.
@@ -276,7 +283,7 @@ Preferred next steps:
 1. Stabilize the native layout engine boundary.
    - Move from one-off flex rows toward reusable row / measure / event layout primitives.
    - Keep it visually ours; do not chase archived SVG equality.
-2. Add semantic QA output for each supported native song.
+2. Expand semantic QA output for each supported native song.
    - event count
    - pitch sequence checksum
    - rest sequence checksum
