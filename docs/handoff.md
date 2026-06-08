@@ -26,6 +26,14 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 - Full verification for the latest runtime-shell changes:
   - `npm run build` passes
   - `npm run test:e2e` passes (`21 passed`)
+- De-Kuailepu Phase 5 has started as dev-only native renderer work:
+  - `SongIR v0` lives in `src/lib/native-renderer/songIr.ts`
+  - MusicXML draft adapter lives in `src/lib/native-renderer/fromMusicXmlDraft.ts`
+  - support/fallback contract lives in `src/lib/native-renderer/support.ts`
+  - internal preview route is `/dev/native-renderer/song/[id]`
+  - supported MVP seed example: `/dev/native-renderer/song/on-top-of-old-smoky`
+  - fallback diagnostic example: `/dev/native-renderer/song/twinkle-twinkle-little-star`
+  - public `/song` pages are unchanged and still archived-runtime backed
 
 ## Counts
 

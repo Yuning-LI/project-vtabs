@@ -628,7 +628,27 @@ Exit criteria:
 Progress estimate:
 
 - research groundwork exists
-- implementation has not meaningfully started
+- dev-only MVP implementation has started
+- current implemented chain: public runtime syntax inventory -> `SongIR v0` -> MusicXML draft adapter -> native support contract -> `/dev/native-renderer/song/[id]` preview
+- current supported set is deliberately narrow: 15 MusicXML-backed native MVP seed songs only
+- public `/song` is still archived-runtime backed; no public route replacement has happened
+
+Current Phase 5 status:
+
+- Parser Audit: first-pass complete for the current 400-song public runtime catalog
+- Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data
+- Renderer MVP: internal o12 preview exists, but layout is still early and not production-grade
+- Interaction / Playback: not started for native renderer
+- Catalog Migration: only support/fallback decision contract exists; public migration not started
+
+Recommended next Phase 5 order:
+
+1. stabilize reusable native layout primitives
+2. add semantic QA checksums for supported songs
+3. add side-by-side internal review against archived runtime
+4. implement repeat support
+5. implement parenthesized group / slur support
+6. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion
 

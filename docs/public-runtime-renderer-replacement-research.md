@@ -145,9 +145,42 @@ npm run validate:content
 npm run validate:songbook
 ```
 
+## Current Implementation State
+
+Status: dev-only MVP chain started.
+
+Public `/song/<slug>` still uses the archived runtime. The native renderer work is
+currently isolated to internal tooling and `/dev/native-renderer/song/[id]`.
+
+Implemented so far:
+
+- `SongIR v0` type model in `src/lib/native-renderer/songIr.ts`
+- `MusicXML draft -> SongIR` adapter in `src/lib/native-renderer/fromMusicXmlDraft.ts`
+- native SongIR loader in `src/lib/native-renderer/loadSongIr.ts`
+- conservative native support contract in `src/lib/native-renderer/support.ts`
+- native syntax / SongIR validation scripts:
+  - `npm run analyze:public-runtime-syntax-inventory`
+  - `npm run analyze:native-song-ir`
+- dev-only preview route:
+  - `/dev/native-renderer/song/on-top-of-old-smoky`
+  - supported songs render through `NativeMelodySheet`
+  - unsupported or missing SongIR shows an explicit fallback diagnostic page
+
+Current strict support contract:
+
+- only the 15 MusicXML-backed native MVP seed songs are marked supported
+- SongIR must be version `0`
+- source must be `musicxml-draft`
+- `unsupported` must be empty
+- note and measure sequences must be non-empty
+- slug must match the SongIR metadata slug
+
+This means the current native renderer is safe for internal development, but not
+ready for public route replacement.
+
 ## Syntax Inventory Subphase
 
-Status: started.
+Status: implemented as first-pass catalog audit.
 
 The current inventory entry is:
 
@@ -213,22 +246,50 @@ Recommended first native renderer seeds:
 1. Define `SongIR v0`.
    - Keep it deliberately small: metadata, key/BPM, measures, events, rests, durations, simple lyric slots, and instrument fingering anchors.
    - Do not encode every Happy123 / archived-runtime feature in v0.
+   - Current status: implemented.
 2. Build `MusicXML draft -> SongIR` first.
    - This is the cleanest path because the local draft artifacts still preserve more structured intent than compressed runtime notation.
    - Use runtime-notation parsing only for a small simple subset, not as the primary input path.
+   - Current status: implemented for the 15 MVP seed drafts.
 3. Add an explicit native/fallback contract.
    - `supported` songs can render through the native path.
    - unsupported songs must intentionally stay on archived runtime.
    - never silently show a partial or wrong native render.
+   - Current status: implemented for dev-only routing.
 4. Build a dev-only native preview route before touching public `/song/<slug>`.
    - Compare event counts, pitch sequence, rest sequence, bar count, lyric slot count, and fingering anchor count.
    - Visual equality with archived SVG is not the target.
+   - Current status: implemented with basic o12 fingering diagrams.
 5. Expand support in unlock order.
+   - reusable layout engine primitives
    - simple lyric alignment
    - repeat / play order
    - parenthesized groups / slurs
    - playback / highlight timing
    - broader instrument views
+   - Current status: next work.
+
+## Next Work
+
+Preferred next steps:
+
+1. Stabilize the native layout engine boundary.
+   - Move from one-off flex rows toward reusable row / measure / event layout primitives.
+   - Keep it visually ours; do not chase archived SVG equality.
+2. Add semantic QA output for each supported native song.
+   - event count
+   - pitch sequence checksum
+   - rest sequence checksum
+   - measure count
+   - lyric slot count
+   - fingering anchor count
+3. Add side-by-side internal review tooling.
+   - show archived runtime iframe and native sheet together for the same song
+   - compare semantic stats, not SVG bytes
+4. Expand parser / model support by unlock value.
+   - repeat support unlocks the largest public subset
+   - parenthesized group / slur support is second
+   - playback / highlight timing should come after the layout model is less volatile
 
 ## Boundary With Phase 3
 
@@ -237,5 +298,7 @@ Phase 3 visual work should continue using `PublicRuntimeVisualTheme`.
 Do not block Phase 3 on Phase 5 unless a visual change needs data that the archived
 runtime cannot expose safely.
 
-The first Phase 5 output should be knowledge and classification, not a public route
-replacement.
+The first Phase 5 output has now moved beyond knowledge and classification into a
+dev-only native renderer chain. The public route should still remain archived-runtime
+backed until the native chain has semantic QA, side-by-side review, and a larger
+syntax surface.
