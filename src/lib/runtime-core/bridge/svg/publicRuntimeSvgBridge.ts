@@ -125,6 +125,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       applyClassicPublicO12HolePosition(svg);
       applyClassicPublicO12ReferenceShape(svg);
       applyClassicPublicO12VisualScale(svg);
+      applyClassicPublicO12DenseRowSpacing(svg);
       applyClassicPublicRecorder8CollisionSpacing(svg);
       applyClassicPublicWhistle6Shape(svg);
       applyClassicPublicO6Shape(svg);
@@ -1148,6 +1149,100 @@ export function buildPublicRuntimeSvgBridgeScript() {
           });
         });
       });
+  }
+
+  function applyClassicPublicO12DenseRowSpacing(svg) {
+    var rows = groupClassicPublicO12UseRows(svg);
+    rows.forEach(function (row) {
+      var items = row.items;
+      if (items.length < 2) {
+        return;
+      }
+
+      var minGap = Infinity;
+      for (var index = 1; index < items.length; index += 1) {
+        var previous = items[index - 1];
+        var current = items[index];
+        minGap = Math.min(minGap, current.x - (previous.x + previous.width));
+      }
+
+      if (!isFinite(minGap) || minGap >= -1.5) {
+        return;
+      }
+
+      var targetScale = minGap < -10 ? 0.76 : minGap < -7 ? 0.8 : 0.84;
+      items.forEach(function (item) {
+        scaleClassicPublicO12Use(item.node, targetScale);
+      });
+    });
+  }
+
+  function groupClassicPublicO12UseRows(svg) {
+    var rows = [];
+    Array.prototype.slice
+      .call(svg.querySelectorAll('use'))
+      .forEach(function (node) {
+        if (node.getAttribute('data-vtabs-o12-dense-row-spacing') === '1') {
+          return;
+        }
+
+        var href = getUseHref(node);
+        if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(href)) {
+          return;
+        }
+
+        var x = Number(node.getAttribute('x') || 0);
+        var y = Number(node.getAttribute('y') || 0);
+        var width = Number(node.getAttribute('width') || 60) || 60;
+        var height = Number(node.getAttribute('height') || 50) || 50;
+        if (!isFinite(x) || !isFinite(y) || !isFinite(width) || !isFinite(height)) {
+          return;
+        }
+
+        var row = rows.find(function (candidate) {
+          return Math.abs(candidate.y - y) < 12;
+        });
+        if (!row) {
+          row = { y: y, items: [] };
+          rows.push(row);
+        }
+
+        row.items.push({
+          node: node,
+          x: x,
+          y: y,
+          width: width,
+          height: height
+        });
+      });
+
+    rows.forEach(function (row) {
+      row.items.sort(function (left, right) {
+        return left.x - right.x;
+      });
+    });
+    return rows;
+  }
+
+  function scaleClassicPublicO12Use(node, scale) {
+    var width = Number(node.getAttribute('width') || 60) || 60;
+    var height = Number(node.getAttribute('height') || 50) || 50;
+    var x = Number(node.getAttribute('x') || 0);
+    var y = Number(node.getAttribute('y') || 0);
+    if (!isFinite(x) || !isFinite(y) || !isFinite(width) || !isFinite(height)) {
+      return;
+    }
+
+    var nextWidth = Math.round(width * scale * 10) / 10;
+    var nextHeight = Math.round(height * scale * 10) / 10;
+    var nextX = Math.round((x + (width - nextWidth) / 2) * 10) / 10;
+    var nextY = Math.round((y + (height - nextHeight) / 2) * 10) / 10;
+
+    node.setAttribute('x', String(nextX));
+    node.setAttribute('y', String(nextY));
+    node.setAttribute('width', String(nextWidth));
+    node.setAttribute('height', String(nextHeight));
+    node.setAttribute('data-vtabs-o12-dense-row-spacing', '1');
   }
 
   function isClassicPublicTypographyEnabled() {
