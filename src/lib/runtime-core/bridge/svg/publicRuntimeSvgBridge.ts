@@ -1048,11 +1048,11 @@ export function buildPublicRuntimeSvgBridgeScript() {
       { x: 40, y: 43, dx: -1.2, dy: 0 },
       { x: 52, y: 34, dx: -1.2, dy: 0 },
       { x: 32, y: 60, dx: -1.2, dy: 0 },
-      { x: 72, y: 48, dx: 0.2, dy: 7 },
+      { x: 72, y: 48, dx: 1.8, dy: 8.2 },
       { x: 84, y: 40, dx: 0.2, dy: 7 },
       { x: 94, y: 32, dx: 0.2, dy: 7 },
       { x: 104, y: 24, dx: 1.2, dy: 9.2 },
-      { x: 78, y: 30, dx: 0.2, dy: 7 }
+      { x: 78, y: 30, dx: -1.4, dy: 8.2 }
     ];
 
     Array.prototype.slice
