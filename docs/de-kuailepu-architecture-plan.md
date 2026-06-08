@@ -302,16 +302,16 @@ This is the user's long-term target:
 
 Current estimate:
 
-- about 40% complete overall
+- about 35% to 45% complete overall
 
 Reason:
 
 - shell, bridge, payload, state, and route boundaries are now substantially ours
-- the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, and export surfaces
+- the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, visual theme, and export surfaces
 - the correctness engine is still the archived Kuailepu `hc` renderer
 - parser, semantic handling, layout, SVG rendering, playback source generation, and complex fingering expansion are not yet ours
 
-Operationally, the site is much farther along than 40% for launch/SEO use. Architecturally, it is not close to full independence until Phase 5 starts producing real renderer output.
+Operationally, the site is much farther along than 40% for launch/SEO use. The visual-differentiation track is about 85% to 90% complete for public-page operation. Architecturally, the project is not close to full independence until Phase 5 starts producing real renderer output.
 
 ## Target Module Layout
 
@@ -337,8 +337,8 @@ src/lib/runtime-core/
     svg/
   letterTrack/
     publicLetterTrack.ts
-  transforms/
-    publicSheetTransforms.ts
+  visual/
+    publicRuntimeVisualTheme.ts
   diagnostics/
     runtimeBoundaryNotes.ts
 ```
@@ -516,8 +516,24 @@ Exit criteria:
 
 Progress estimate:
 
-- not started as a stable phase
-- earlier experiments exist, but they should not be treated as the final visual theme layer
+- public page visual layer is effectively complete for the first operating pass
+- `PublicRuntimeVisualTheme` now exists as the switch point for sheet tone, fingering palette, typography, and fingering-shape changes
+- compare mode resolves the visual theme to disabled before bridge injection
+- the SVG bridge has a stable `applyPublicRuntimeVisualTheme(...)` entry after each archived runtime render
+- the visual layer now changes sheet tone, text ink, letter-note cover styling, fingering palette, playback-panel styling, and instrument SVG appearance
+- current covered public instruments:
+  - `o12`: 12-hole ocarina has differentiated outline, hole sizing/placement, color gradients, and paper/ink treatment
+  - `o6`: 6-hole ocarina has a rounder/wider body, adjusted mouthpiece, separated outer holes, and differentiated outline treatment
+  - `r8b` / `r8g`: recorder has detached back hole, smaller main holes, adjusted front-hole spacing, trapezoid ends, and tuned double-hole treatment
+  - `w6`: tin whistle has a conservative differentiated body, hole spacing, hole sizing, and clearer outline while preserving the semantic top marker
+- public visual theme can be disabled with `runtime_visual_theme=off`
+
+Remaining visual close-out:
+
+1. run a focused manual QA pass across the public page samples below
+2. check `runtime_visual_theme=off` still restores the unthemed runtime path for debugging
+3. sample Pinterest and print routes, then only do small export-specific adjustments if needed
+4. avoid further open-ended SVG tuning unless a real page/export defect is found
 
 ### Phase 4: Public Shell / Asset Ownership
 
@@ -555,6 +571,10 @@ Progress estimate:
 Goal:
 
 - gradually remove dependence on Kuailepu core renderer
+
+Research entry:
+
+- `docs/public-runtime-renderer-replacement-research.md`
 
 This is the phase that moves the project from "differentiated runtime wrapper" to "independent renderer".
 
@@ -639,29 +659,31 @@ Exit criteria:
 
 Preferred order from the current point:
 
-1. run a short targeted runtime QA pass on the Phase 2 boundary state
-2. start Phase 3 with a reversible visual theme layer
-3. make compare mode bypass all visual transforms before changing sheet appearance
-4. bring public page, print, and Pinterest exports onto the same visual theme
-5. only after the visual layer is stable, decide between Phase 4 asset ownership and Phase 5 core replacement
+1. run a targeted runtime QA pass on the current Phase 3 visual layer
+2. fix only concrete public-page regressions found by QA
+3. make a stage commit / push once build, content validation, and targeted manual runtime checks pass
+4. update Pinterest / print output only if the current public visual theme creates export-specific defects
+5. begin Phase 5 preparation with parser / renderer replacement fixtures instead of continuing visual polishing indefinitely
 
 Why:
 
 - Phase 2 has already done the high-value structural cleanup
-- Phase 3 directly supports current SEO and Pinterest operation
-- Phase 5 is the real independence track, but it is much larger and should not be mixed with visual launch work
+- Phase 3 now directly supports current SEO and Pinterest operation
+- Phase 5 is the real independence track, but it is much larger and should be started from fixtures and a narrow MVP, not mixed with visual launch work
 
-Recommended immediate QA samples before Phase 3:
+Recommended immediate QA samples before stage commit:
 
 - `twinkle-twinkle-little-star`
 - `london-bridge`
 - `wedding-march`
 - `turkish-march`
+- `we-wish-you-a-merry-christmas`
 
 Recommended URLs per sample:
 
 - `/song/<slug>`
 - `/song/<slug>?note_label_mode=number`
+- `/song/<slug>?runtime_visual_theme=off`
 - `/api/kuailepu-runtime/<slug>?note_label_mode=number`
 
 Manual checks:
@@ -864,10 +886,10 @@ Use two progress tracks:
 The next safe work order is:
 
 1. run the short targeted runtime QA pass listed above
-2. start Phase 3 by adding a reversible `PublicRuntimeVisualTheme` boundary
-3. ensure compare mode bypasses visual transforms
-4. apply low-risk visual changes first: palette, background, typography
-5. only then revisit fingering SVG shape changes through the transform boundary
+2. keep Phase 3 visual changes behind `PublicRuntimeVisualTheme`
+3. apply low-risk visual changes first: palette, background, typography
+4. only then revisit fingering SVG shape changes through the transform boundary
+5. verify public page, number mode, bare runtime, print, and Pinterest after each visible change
 6. after Phase 3 is stable, choose between Phase 4 asset ownership and Phase 5 core replacement
 
 ## Bottom Line
