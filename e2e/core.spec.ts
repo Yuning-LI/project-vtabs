@@ -14,6 +14,35 @@ async function expectRuntimeSheet(page: Parameters<typeof test>[0]['page'], slug
   await expect(runtime.locator('svg.sheet-svg')).toBeVisible({ timeout: 20000 })
 }
 
+function runtimeFrame(page: Parameters<typeof test>[0]['page'], slug: string) {
+  return page.locator(`iframe[src*="/api/kuailepu-runtime/${slug}"]`)
+}
+
+async function expectRuntimeFrameSrc(
+  page: Parameters<typeof test>[0]['page'],
+  slug: string,
+  expectedParams: Record<string, string>,
+  options?: { visualTheme?: 'classic' | 'off' | 'absent' }
+) {
+  const frame = runtimeFrame(page, slug)
+  await expect(frame).toBeVisible()
+  const frameSrc = await frame.getAttribute('src')
+  expect(frameSrc).not.toBeNull()
+
+  const url = new URL(frameSrc!, 'http://localhost')
+  expect(url.pathname).toBe(`/api/kuailepu-runtime/${slug}`)
+  for (const [key, value] of Object.entries(expectedParams)) {
+    expect(url.searchParams.get(key)).toBe(value)
+  }
+
+  const visualTheme = options?.visualTheme ?? 'classic'
+  if (visualTheme === 'absent') {
+    expect(url.searchParams.has('runtime_visual_theme')).toBe(false)
+  } else {
+    expect(url.searchParams.get('runtime_visual_theme')).toBe(visualTheme)
+  }
+}
+
 async function openMoreTools(page: Parameters<typeof test>[0]['page']) {
   await expect(page.getByLabel('Function Zone')).toHaveAttribute(
     'data-function-zone-ready',
@@ -40,6 +69,12 @@ async function openMobileMoreTools(page: Parameters<typeof test>[0]['page']) {
     await moreTools.click()
   }
   await expect(page.locator('.page-function-zone-mobile-sheet-layer')).toBeVisible()
+}
+
+async function openMoreDetails(page: Parameters<typeof test>[0]['page']) {
+  const details = page.getByText('More details')
+  await details.scrollIntoViewIfNeeded()
+  await details.click()
 }
 
 test.describe('runtime-backed song pages', () => {
@@ -96,6 +131,7 @@ test.describe('runtime-backed song pages', () => {
     await expect(page).toHaveTitle(/Fur Elise Letter Notes and Fingering Chart/)
     await expect(page.getByRole('heading', { level: 1, name: 'Für Elise' })).toBeVisible()
     await expect(page.getByText('also commonly searched as To Alice')).toBeVisible()
+    await openMoreDetails(page)
     await expect(
       page.getByRole('heading', {
         name: 'Is Für Elise also known as To Alice, Bagatelle No. 25 in A minor, and 致爱丽丝?'
@@ -147,20 +183,19 @@ test.describe('runtime-backed song pages', () => {
       'true'
     )
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
+    await openMoreDetails(page)
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
     await expect(page.getByText('Kuailepu source')).toHaveCount(0)
     await expect(page.getByText('reference source')).toHaveCount(0)
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english'
+    })
 
     await expectRuntimeSheet(page, 'ode-to-joy')
     await expect(
       page
-        .frameLocator('iframe[title="Ode to Joy Kuailepu runtime"]')
+        .frameLocator('iframe[src*="/api/kuailepu-runtime/ode-to-joy"]')
         .locator('svg.sheet-svg')
     ).toHaveAttribute('role', 'img')
     expect(requestedAssets.has('/k-static/cdn/js/dist/hc.min_1cfae5fe62.js')).toBe(true)
@@ -190,13 +225,15 @@ test.describe('runtime-backed song pages', () => {
       has: page.getByRole('heading', { name: 'About Ode to Joy' })
     })
     await expect(aboutSection.locator('p').first()).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
+    await openMoreDetails(page)
+    await expect(
+      page.getByRole('heading', { name: 'Should I use letter notes or numbered notes for Ode to Joy?' })
+    ).toBeVisible()
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english',
+      instrument: 'r8b'
+    })
 
     await expectRuntimeSheet(page, 'ode-to-joy')
   })
@@ -208,11 +245,10 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
 
-    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/oh-susanna"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/oh-susanna?runtime_text_mode=english&instrument=o12'
-    )
+    await expectRuntimeFrameSrc(page, 'oh-susanna', {
+      runtime_text_mode: 'english',
+      instrument: 'o12'
+    })
 
     await expectRuntimeSheet(page, 'oh-susanna')
   })
@@ -224,11 +260,10 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('o12')
 
-    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/edelweiss"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/edelweiss?runtime_text_mode=english&instrument=o12'
-    )
+    await expectRuntimeFrameSrc(page, 'edelweiss', {
+      runtime_text_mode: 'english',
+      instrument: 'o12'
+    })
 
     await expectRuntimeSheet(page, 'edelweiss')
   })
@@ -396,11 +431,11 @@ test.describe('runtime-backed song pages', () => {
     await openMoreTools(page)
     await expect(page.getByRole('combobox', { name: 'Diagram Direction' })).toHaveValue('1u')
 
-    const frame = page.locator('iframe[src*="/api/kuailepu-runtime/oh-susanna"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/oh-susanna?runtime_text_mode=english&instrument=r8g&show_graph=1u'
-    )
+    await expectRuntimeFrameSrc(page, 'oh-susanna', {
+      runtime_text_mode: 'english',
+      instrument: 'r8g',
+      show_graph: '1u'
+    })
 
     await expectRuntimeSheet(page, 'oh-susanna')
   })
@@ -415,13 +450,15 @@ test.describe('runtime-backed song pages', () => {
       has: page.getByRole('heading', { name: 'About Ode to Joy' })
     })
     await expect(aboutSection.locator('p').first()).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Can I play Ode to Joy on this page?' })).toBeVisible()
+    await openMoreDetails(page)
+    await expect(
+      page.getByRole('heading', { name: 'Should I use letter notes or numbered notes for Ode to Joy?' })
+    ).toBeVisible()
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=w6'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english',
+      instrument: 'w6'
+    })
 
     await expectRuntimeSheet(page, 'ode-to-joy')
 
@@ -436,11 +473,15 @@ test.describe('runtime-backed song pages', () => {
       { waitUntil: 'domcontentloaded' }
     )
 
-    const frame = page.locator('iframe[title="Row, Row, Row Your Boat Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/row-row-row-your-boat?runtime_text_mode=english&instrument=r8b&show_graph=1d&show_lyric=off&show_measure_num=on&measure_layout=mono&sheet_scale=12'
-    )
+    await expectRuntimeFrameSrc(page, 'row-row-row-your-boat', {
+      runtime_text_mode: 'english',
+      instrument: 'r8b',
+      show_graph: '1d',
+      show_lyric: 'off',
+      show_measure_num: 'on',
+      measure_layout: 'mono',
+      sheet_scale: '12'
+    })
 
     await openMoreTools(page)
     await expect(page.getByRole('button', { name: 'Fingering Chart: On' })).toHaveAttribute(
@@ -561,11 +602,10 @@ test.describe('runtime-backed song pages', () => {
       'true'
     )
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&public_feature=metronome'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english',
+      public_feature: 'metronome'
+    })
 
     await expectRuntimeSheet(page, 'ode-to-joy')
     expect(requestedAssets.has('/k-static/lib/materialize/0.97.5/js/materialize.min.js')).toBe(
@@ -618,7 +658,7 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByText('Use the browser print dialog or the export script.')).toBeVisible()
     await expect(page.getByText('Back to Song Library')).toHaveCount(0)
 
-    const frame = page.locator('iframe[title="Twinkle, Twinkle, Little Star Kuailepu runtime"]')
+    const frame = runtimeFrame(page, 'twinkle-twinkle-little-star')
     const frameSrc = await frame.getAttribute('src')
     expect(frameSrc).toContain('/api/kuailepu-runtime/twinkle-twinkle-little-star?')
     expect(frameSrc).toContain('runtime_text_mode=english')
@@ -638,7 +678,7 @@ test.describe('runtime-backed song pages', () => {
 
     await expect(page.getByRole('button', { name: /Lyrics:/ })).toHaveCount(0)
 
-    const frame = page.locator('iframe[title="Oh! Susanna Kuailepu runtime"]')
+    const frame = runtimeFrame(page, 'oh-susanna')
     const frameSrc = await frame.getAttribute('src')
     expect(frameSrc).toContain('/api/kuailepu-runtime/oh-susanna?')
     expect(frameSrc).toContain('runtime_text_mode=english')
@@ -658,11 +698,9 @@ test.describe('runtime-backed song pages', () => {
     await openMoreTools(page)
     await expect(page.getByRole('button', { name: /Lyrics:/ })).toHaveCount(0)
 
-    const frame = page.locator('iframe[title="Spring Song Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/spring-song?runtime_text_mode=english'
-    )
+    await expectRuntimeFrameSrc(page, 'spring-song', {
+      runtime_text_mode: 'english'
+    })
 
     await expectRuntimeSheet(page, 'spring-song')
   })
@@ -672,11 +710,10 @@ test.describe('runtime-backed song pages', () => {
   }) => {
     await page.goto('/song/ode-to-joy?note_label_mode=number', { waitUntil: 'domcontentloaded' })
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&note_label_mode=number'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english',
+      note_label_mode: 'number'
+    })
 
     await openMoreTools(page)
     await expect(page.getByRole('combobox', { name: 'Note Labels' })).toHaveValue('number')
@@ -690,11 +727,11 @@ test.describe('runtime-backed song pages', () => {
       waitUntil: 'domcontentloaded'
     })
 
-    const frame = page.locator('iframe[title="Ode to Joy Kuailepu runtime"]')
-    await expect(frame).toHaveAttribute(
-      'src',
-      '/api/kuailepu-runtime/ode-to-joy?runtime_text_mode=english&instrument=r8b&note_label_mode=number'
-    )
+    await expectRuntimeFrameSrc(page, 'ode-to-joy', {
+      runtime_text_mode: 'english',
+      instrument: 'r8b',
+      note_label_mode: 'number'
+    })
 
     await expect(page.getByRole('combobox', { name: 'Instrument' })).toHaveValue('r8b')
     await openMoreTools(page)
