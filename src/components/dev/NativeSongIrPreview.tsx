@@ -1,11 +1,13 @@
 import NativeMelodySheet from '@/components/native-renderer/NativeMelodySheet'
 import type { SongIrDocument } from '@/lib/native-renderer/songIr'
+import type { NativeRendererSupportDecision } from '@/lib/native-renderer/support'
 
 type NativeSongIrPreviewProps = {
   song: SongIrDocument
+  support: NativeRendererSupportDecision
 }
 
-export default function NativeSongIrPreview({ song }: NativeSongIrPreviewProps) {
+export default function NativeSongIrPreview({ song, support }: NativeSongIrPreviewProps) {
   return (
     <div className="min-h-screen bg-[#eee0c5] px-4 py-6 text-[#2d2118]">
       <main className="mx-auto flex max-w-6xl flex-col gap-5">
@@ -19,6 +21,11 @@ export default function NativeSongIrPreview({ song }: NativeSongIrPreviewProps) 
             preview and is not wired to the public song page.
           </p>
           <div className="mt-5 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#604a36]">
+            <Badge
+              tone={support.status === 'supported' ? 'supported' : 'fallback'}
+            >
+              {support.status === 'supported' ? 'Native MVP supported' : 'Fallback required'}
+            </Badge>
             <Badge>{song.metadata.keynote}</Badge>
             <Badge>{song.metadata.meter ?? 'Unknown meter'}</Badge>
             <Badge>{song.stats.measureCount} measures</Badge>
@@ -31,6 +38,11 @@ export default function NativeSongIrPreview({ song }: NativeSongIrPreviewProps) 
               Unsupported syntax: {song.unsupported.join(', ')}
             </div>
           ) : null}
+          {support.reasons.length > 0 ? (
+            <div className="mt-4 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+              Fallback reasons: {support.reasons.join(', ')}
+            </div>
+          ) : null}
         </section>
 
         <NativeMelodySheet song={song} />
@@ -39,9 +51,22 @@ export default function NativeSongIrPreview({ song }: NativeSongIrPreviewProps) 
   )
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
+function Badge({
+  children,
+  tone = 'default'
+}: {
+  children: React.ReactNode
+  tone?: 'default' | 'supported' | 'fallback'
+}) {
+  const toneClass =
+    tone === 'supported'
+      ? 'border-[#a7c85c] bg-[#ecf7c6] text-[#405318]'
+      : tone === 'fallback'
+        ? 'border-amber-300 bg-amber-50 text-amber-900'
+        : 'border-[rgba(120,86,48,0.2)] bg-white/70'
+
   return (
-    <span className="rounded-full border border-[rgba(120,86,48,0.2)] bg-white/70 px-3 py-1.5">
+    <span className={`rounded-full border px-3 py-1.5 ${toneClass}`}>
       {children}
     </span>
   )

@@ -2,6 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { buildSongIrFromMusicXmlDraft } from '../src/lib/native-renderer/fromMusicXmlDraft.ts'
 import { summarizeSongIr } from '../src/lib/native-renderer/songIr.ts'
+import {
+  evaluateNativeRendererSupport,
+  getNativeRendererMvpSeedSlugs
+} from '../src/lib/native-renderer/support.ts'
 import type { SongIngestDraft } from '../src/lib/songbook/songIngestDraft.ts'
 
 type CliOptions = {
@@ -12,24 +16,6 @@ type CliOptions = {
 
 const DEFAULT_DRAFT_DIR = 'reference/song-publish-candidates/drafts'
 const DEFAULT_OUT_JSON = 'tmp/native-song-ir-summary.json'
-const DEFAULT_SEEDS = [
-  'on-top-of-old-smoky',
-  'the-coventry-carol',
-  'good-christian-men-rejoice',
-  'beautiful-isle-of-somewhere',
-  'quartermasters-store',
-  'camptown-races',
-  'give-my-regards-to-broadway',
-  'drink-to-me-only-with-thine-eyes',
-  'careless-love',
-  'over-there',
-  'for-hes-a-jolly-good-fellow',
-  'polly-wolly-doodle',
-  'sometimes-i-feel-like-a-motherless-child',
-  'waltzing-matilda',
-  'the-bells-of-st-marys'
-]
-
 const options = parseArgs(process.argv.slice(2))
 const summaries = options.slugs.map(slug => {
   const draftPath = path.resolve(process.cwd(), options.draftDir, `${slug}.json`)
@@ -37,9 +23,12 @@ const summaries = options.slugs.map(slug => {
     throw new Error(`Draft not found: ${path.relative(process.cwd(), draftPath)}`)
   }
   const draft = JSON.parse(fs.readFileSync(draftPath, 'utf8')) as SongIngestDraft
-  const summary = summarizeSongIr(buildSongIrFromMusicXmlDraft(draft))
+  const song = buildSongIrFromMusicXmlDraft(draft)
+  const summary = summarizeSongIr(song)
+  const support = evaluateNativeRendererSupport(slug, song)
   return {
     ...summary,
+    support,
     draft: {
       measureCount: draft.stats.measures,
       noteCount: draft.stats.noteCount,
@@ -91,7 +80,7 @@ function parseArgs(args: string[]): CliOptions {
   })
 
   return {
-    slugs: slugs.length > 0 ? slugs : DEFAULT_SEEDS,
+    slugs: slugs.length > 0 ? slugs : getNativeRendererMvpSeedSlugs(),
     draftDir,
     outJson
   }
