@@ -4,6 +4,7 @@ import { extractKuailepuNotationMetadata, parseKuailepuLyricBlocks } from '../sr
 
 type CliOptions = {
   runtimeDir: string
+  draftDir: string
   outJson: string
   outMd: string
 }
@@ -42,6 +43,11 @@ type RuntimeSyntaxEntry = {
   rhythm: string | null
   bucket: ComplexityBucket
   reasons: string[]
+  sources: {
+    hasMusicXmlDraft: boolean
+    hasCandidateRuntime: boolean
+    hasCandidateSongDoc: boolean
+  }
   features: {
     lineCount: number
     noteCount: number
@@ -83,13 +89,23 @@ type RuntimeSyntaxEntry = {
 type InventoryReport = {
   generatedOn: string
   runtimeDir: string
+  draftDir: string
   totalSongs: number
   bucketCounts: Record<ComplexityBucket, number>
+  sourceCounts: {
+    musicXmlDraftSongs: number
+    candidateRuntimeSongs: number
+    candidateSongDocSongs: number
+    nativeMvpWithMusicXmlDraft: number
+    nativeMvpWithoutMusicXmlDraft: number
+  }
   featureTotals: RuntimeSyntaxEntry['features']
+  recommendedNativeMvpSeeds: string[]
   entries: RuntimeSyntaxEntry[]
 }
 
 const DEFAULT_RUNTIME_DIR = 'data/kuailepu-runtime'
+const DEFAULT_DRAFT_DIR = 'reference/song-publish-candidates/drafts'
 const DEFAULT_OUT_JSON = 'tmp/public-runtime-syntax-inventory.json'
 const DEFAULT_OUT_MD = 'tmp/public-runtime-syntax-inventory.md'
 
@@ -103,7 +119,7 @@ const BUCKETS: ComplexityBucket[] = [
 ]
 
 const usage =
-  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-public-runtime-syntax-inventory.ts [--runtime-dir=${DEFAULT_RUNTIME_DIR}] [--out-json=${DEFAULT_OUT_JSON}] [--out-md=${DEFAULT_OUT_MD}]`
+  `Usage: node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-public-runtime-syntax-inventory.ts [--runtime-dir=${DEFAULT_RUNTIME_DIR}] [--draft-dir=${DEFAULT_DRAFT_DIR}] [--out-json=${DEFAULT_OUT_JSON}] [--out-md=${DEFAULT_OUT_MD}]`
 
 const options = parseArgs(process.argv.slice(2))
 if (!options) {
@@ -116,19 +132,23 @@ if (!fs.existsSync(runtimeDir)) {
   console.error(`Runtime directory not found: ${options.runtimeDir}`)
   process.exit(1)
 }
+const sourceIndex = buildSourceIndex(options)
 
 const entries = fs
   .readdirSync(runtimeDir)
   .filter(file => file.endsWith('.json'))
   .sort((left, right) => left.localeCompare(right))
-  .map(file => analyzeRuntimeFile(path.join(runtimeDir, file)))
+  .map(file => analyzeRuntimeFile(path.join(runtimeDir, file), sourceIndex))
 
 const report: InventoryReport = {
   generatedOn: new Date().toISOString(),
   runtimeDir: path.relative(process.cwd(), runtimeDir),
+  draftDir: options.draftDir,
   totalSongs: entries.length,
   bucketCounts: countBuckets(entries),
+  sourceCounts: countSources(entries),
   featureTotals: sumFeatures(entries),
+  recommendedNativeMvpSeeds: getRecommendedNativeMvpSeeds(entries),
   entries
 }
 
@@ -141,6 +161,8 @@ console.log(
       generatedOn: report.generatedOn,
       totalSongs: report.totalSongs,
       bucketCounts: report.bucketCounts,
+      sourceCounts: report.sourceCounts,
+      recommendedNativeMvpSeeds: report.recommendedNativeMvpSeeds,
       outJson: options.outJson,
       outMd: options.outMd
     },
@@ -159,12 +181,13 @@ function parseArgs(args: string[]): CliOptions | null {
 
   return {
     runtimeDir: values.get('runtime-dir') || DEFAULT_RUNTIME_DIR,
+    draftDir: values.get('draft-dir') || DEFAULT_DRAFT_DIR,
     outJson: values.get('out-json') || DEFAULT_OUT_JSON,
     outMd: values.get('out-md') || DEFAULT_OUT_MD
   }
 }
 
-function analyzeRuntimeFile(filePath: string): RuntimeSyntaxEntry {
+function analyzeRuntimeFile(filePath: string, sourceIndex: SourceIndex): RuntimeSyntaxEntry {
   const slug = path.basename(filePath, '.json')
   const payload = JSON.parse(fs.readFileSync(filePath, 'utf8')) as RuntimePayload
   const notation = String(payload.notation ?? '')
@@ -240,12 +263,44 @@ function analyzeRuntimeFile(filePath: string): RuntimeSyntaxEntry {
     rhythm: payload.rhythm ? String(payload.rhythm) : null,
     bucket: classification.bucket,
     reasons: classification.reasons,
+    sources: {
+      hasMusicXmlDraft: sourceIndex.musicXmlDraftSlugs.has(slug),
+      hasCandidateRuntime: sourceIndex.candidateRuntimeSlugs.has(slug),
+      hasCandidateSongDoc: sourceIndex.candidateSongDocSlugs.has(slug)
+    },
     features,
     samples: {
       notation: sampleText(notation),
       lyric: lyricBlocks[0] ? sampleText(lyricBlocks[0]) : lyricText ? sampleText(lyricText) : null
     }
   }
+}
+
+type SourceIndex = {
+  musicXmlDraftSlugs: Set<string>
+  candidateRuntimeSlugs: Set<string>
+  candidateSongDocSlugs: Set<string>
+}
+
+function buildSourceIndex(options: CliOptions): SourceIndex {
+  return {
+    musicXmlDraftSlugs: readJsonSlugSet(options.draftDir),
+    candidateRuntimeSlugs: readJsonSlugSet('reference/song-publish-candidates/runtime'),
+    candidateSongDocSlugs: readJsonSlugSet('reference/song-publish-candidates/songdocs')
+  }
+}
+
+function readJsonSlugSet(dir: string) {
+  const dirPath = path.resolve(process.cwd(), dir)
+  if (!fs.existsSync(dirPath)) {
+    return new Set<string>()
+  }
+  return new Set(
+    fs
+      .readdirSync(dirPath)
+      .filter(file => file.endsWith('.json'))
+      .map(file => file.replace(/\.json$/, ''))
+  )
 }
 
 function classifyEntry(features: RuntimeSyntaxEntry['features']): {
@@ -332,6 +387,32 @@ function countBuckets(entries: RuntimeSyntaxEntry[]) {
   return counts
 }
 
+function countSources(entries: RuntimeSyntaxEntry[]): InventoryReport['sourceCounts'] {
+  return {
+    musicXmlDraftSongs: entries.filter(entry => entry.sources.hasMusicXmlDraft).length,
+    candidateRuntimeSongs: entries.filter(entry => entry.sources.hasCandidateRuntime).length,
+    candidateSongDocSongs: entries.filter(entry => entry.sources.hasCandidateSongDoc).length,
+    nativeMvpWithMusicXmlDraft: entries.filter(
+      entry => entry.bucket === 'native-mvp-candidate' && entry.sources.hasMusicXmlDraft
+    ).length,
+    nativeMvpWithoutMusicXmlDraft: entries.filter(
+      entry => entry.bucket === 'native-mvp-candidate' && !entry.sources.hasMusicXmlDraft
+    ).length
+  }
+}
+
+function getRecommendedNativeMvpSeeds(entries: RuntimeSyntaxEntry[]) {
+  return entries
+    .filter(entry => entry.bucket === 'native-mvp-candidate' && entry.sources.hasMusicXmlDraft)
+    .sort((left, right) => {
+      if (left.features.noteCount !== right.features.noteCount) {
+        return left.features.noteCount - right.features.noteCount
+      }
+      return left.slug.localeCompare(right.slug)
+    })
+    .map(entry => entry.slug)
+}
+
 function sumFeatures(entries: RuntimeSyntaxEntry[]) {
   const totals = createEmptyFeatureTotals()
   for (const entry of entries) {
@@ -406,6 +487,14 @@ function writeMarkdown(out: string, report: InventoryReport) {
 
 function buildMarkdown(report: InventoryReport) {
   const bucketSummary = BUCKETS.map(bucket => `- ${bucket}: ${report.bucketCounts[bucket]}`).join('\n')
+  const sourceSummary = [
+    `- MusicXML draft overlap: ${report.sourceCounts.musicXmlDraftSongs}`,
+    `- candidate runtime overlap: ${report.sourceCounts.candidateRuntimeSongs}`,
+    `- candidate SongDoc overlap: ${report.sourceCounts.candidateSongDocSongs}`,
+    `- native MVP with MusicXML draft: ${report.sourceCounts.nativeMvpWithMusicXmlDraft}`,
+    `- native MVP without MusicXML draft: ${report.sourceCounts.nativeMvpWithoutMusicXmlDraft}`
+  ].join('\n')
+  const seedList = report.recommendedNativeMvpSeeds.map(slug => `- \`${slug}\``).join('\n')
   const featureSummary = Object.entries(report.featureTotals)
     .filter(([, total]) => total > 0)
     .sort((left, right) => right[1] - left[1])
@@ -418,6 +507,7 @@ function buildMarkdown(report: InventoryReport) {
 
 - Generated on: ${report.generatedOn}
 - Runtime dir: \`${report.runtimeDir}\`
+- Draft dir: \`${report.draftDir}\`
 - Total songs: ${report.totalSongs}
 
 This report is a read-only Phase 5 input. It does not change public rendering.
@@ -425,6 +515,16 @@ This report is a read-only Phase 5 input. It does not change public rendering.
 ## Bucket Summary
 
 ${bucketSummary}
+
+## Source Coverage
+
+${sourceSummary}
+
+## Recommended Native MVP Seeds
+
+These songs are both syntax-simple and have local MusicXML draft artifacts, so they are the safest first targets for SongIR -> native renderer.
+
+${seedList || '- none'}
 
 ## Feature Totals
 
@@ -449,7 +549,8 @@ function buildBucketSection(bucket: ComplexityBucket, entries: RuntimeSyntaxEntr
     .slice(0, 24)
     .map(entry => {
       const reasons = entry.reasons.join('; ')
-      return `- \`${entry.slug}\` (${entry.features.noteCount} notes, ${entry.features.barCount} bars): ${reasons}`
+      const sourceSuffix = entry.sources.hasMusicXmlDraft ? '; has MusicXML draft' : ''
+      return `- \`${entry.slug}\` (${entry.features.noteCount} notes, ${entry.features.barCount} bars): ${reasons}${sourceSuffix}`
     })
     .join('\n')
   const more =
