@@ -98,5 +98,6 @@ function formatMidiLabel(midi: number) {
   if (typeof value === 'string') {
     return value
   }
-  return `${value.letter}${value.octave}`
+  // Public runtime letter labels use fingering-scale display octaves: C fingering starts at C5.
+  return `${value.letter}${value.octave + 1}`
 }
