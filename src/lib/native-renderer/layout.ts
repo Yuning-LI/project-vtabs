@@ -5,9 +5,16 @@ const MIN_EVENT_CELL_WIDTH_REM = 3.05
 const MAX_EVENT_CELL_WIDTH_REM = 5.1
 const EVENT_SLOT_WIDTH_REM = 0.75
 const CHORD_EVENT_OFFSET_REM = 3.2
+const MONO_EVENT_CELL_WIDTH_REM = 3.25
+const DEFAULT_NATIVE_SHEET_SCALE = 10
+const MIN_NATIVE_SHEET_SCALE = 6
+const MAX_NATIVE_SHEET_SCALE = 16
+
+export type NativeMelodyMeasureLayoutMode = 'compact' | 'mono'
 
 export type NativeMelodyLayoutOptions = {
   measureRowSize?: number
+  measureLayout?: NativeMelodyMeasureLayoutMode
 }
 
 export type NativeMelodyEventLayout = {
@@ -41,6 +48,7 @@ export function buildNativeMelodyLayout(
   options: NativeMelodyLayoutOptions = {}
 ): NativeMelodySheetLayout {
   const rowSize = normalizeMeasureRowSize(options.measureRowSize)
+  const measureLayout = normalizeMeasureLayout(options.measureLayout)
 
   return {
     rows: groupMeasures(song.measures, rowSize).map((measures, rowIndex) => ({
@@ -50,7 +58,7 @@ export function buildNativeMelodyLayout(
         events: measure.events.map((event, eventIndex) => ({
           event,
           eventIndex,
-          widthRem: getNativeEventCellWidthRem(event)
+          widthRem: getNativeEventCellWidthRem(event, measureLayout)
         })),
         chords: measure.chords.map(chord => ({
           chord,
@@ -61,7 +69,14 @@ export function buildNativeMelodyLayout(
   }
 }
 
-export function getNativeEventCellWidthRem(event: SongIrEvent) {
+export function getNativeEventCellWidthRem(
+  event: SongIrEvent,
+  measureLayout: NativeMelodyMeasureLayoutMode = 'compact'
+) {
+  if (measureLayout === 'mono') {
+    return MONO_EVENT_CELL_WIDTH_REM
+  }
+
   return Math.max(
     MIN_EVENT_CELL_WIDTH_REM,
     Math.min(MAX_EVENT_CELL_WIDTH_REM, event.slotCount * EVENT_SLOT_WIDTH_REM)
@@ -72,11 +87,34 @@ export function getNativeChordLeftRem(chord: SongIrChord) {
   return Math.max(0, chord.eventIndex) * CHORD_EVENT_OFFSET_REM
 }
 
+export function normalizeNativeSheetScale(value: string | number | null | undefined) {
+  if (value === null || value === undefined || value === '') {
+    return DEFAULT_NATIVE_SHEET_SCALE
+  }
+
+  const parsed = typeof value === 'number' ? value : Number(value)
+  if (!Number.isFinite(parsed)) {
+    return DEFAULT_NATIVE_SHEET_SCALE
+  }
+
+  return Math.max(MIN_NATIVE_SHEET_SCALE, Math.min(MAX_NATIVE_SHEET_SCALE, parsed))
+}
+
+export function getNativeSheetScaleFactor(value: string | number | null | undefined) {
+  return normalizeNativeSheetScale(value) / DEFAULT_NATIVE_SHEET_SCALE
+}
+
 function normalizeMeasureRowSize(measureRowSize: number | undefined) {
   if (!measureRowSize || !Number.isFinite(measureRowSize)) {
     return DEFAULT_MEASURE_ROW_SIZE
   }
   return Math.max(1, Math.floor(measureRowSize))
+}
+
+function normalizeMeasureLayout(
+  measureLayout: NativeMelodyMeasureLayoutMode | undefined
+): NativeMelodyMeasureLayoutMode {
+  return measureLayout === 'mono' ? 'mono' : 'compact'
 }
 
 function groupMeasures<T>(items: T[], size: number) {

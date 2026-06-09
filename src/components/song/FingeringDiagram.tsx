@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { DICT } from '@/components/InstrumentDicts/ocarina12'
 import {
   PUBLIC_O12_FINGERING_VISUAL_SPEC,
@@ -12,6 +13,7 @@ type FingeringDiagramProps = {
   strokeColor?: string
   openFill?: string
   closedFill?: string
+  style?: CSSProperties
 }
 
 export default function FingeringDiagram({
@@ -21,7 +23,8 @@ export default function FingeringDiagram({
   bodyFill,
   strokeColor = '#1f1812',
   openFill = '#ffffff',
-  closedFill = '#000000'
+  closedFill = '#000000',
+  style
 }: FingeringDiagramProps) {
   const state = DICT[midi]
 
@@ -42,6 +45,7 @@ export default function FingeringDiagram({
     <svg
       viewBox={visualSpec.viewBox}
       className={`h-16 w-20 overflow-visible ${className}`.trim()}
+      style={style}
       aria-hidden="true"
     >
       <defs>

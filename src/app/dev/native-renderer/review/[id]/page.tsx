@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import NativeRendererSideBySideReview from '@/components/dev/NativeRendererSideBySideReview'
 import { loadNativeSongIrFromDraft } from '@/lib/native-renderer/loadSongIr'
 import { evaluateNativeRendererSupport } from '@/lib/native-renderer/support'
+import { normalizeMeasureLayout, normalizeSheetScale } from '@/lib/songbook/songPageQueryState'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,9 +17,31 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
   }
 }
 
-export default function NativeRendererReviewPage({ params }: { params: { id: string } }) {
+export default function NativeRendererReviewPage({
+  params,
+  searchParams
+}: {
+  params: { id: string }
+  searchParams?: { measure_layout?: string | string[]; sheet_scale?: string | string[] }
+}) {
   const song = loadNativeSongIrFromDraft(params.id)
   const support = evaluateNativeRendererSupport(params.id, song)
+  const requestedMeasureLayout = Array.isArray(searchParams?.measure_layout)
+    ? searchParams?.measure_layout[0]
+    : searchParams?.measure_layout
+  const measureLayout = normalizeMeasureLayout(requestedMeasureLayout) ?? 'compact'
+  const requestedSheetScale = Array.isArray(searchParams?.sheet_scale)
+    ? searchParams?.sheet_scale[0]
+    : searchParams?.sheet_scale
+  const sheetScale = normalizeSheetScale(requestedSheetScale) ?? 10
 
-  return <NativeRendererSideBySideReview slug={params.id} song={song} support={support} />
+  return (
+    <NativeRendererSideBySideReview
+      slug={params.id}
+      song={song}
+      support={support}
+      measureLayout={measureLayout}
+      sheetScale={sheetScale}
+    />
+  )
 }
