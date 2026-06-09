@@ -10,7 +10,7 @@ import type {
   NativeMelodyMeasureLayoutMode
 } from '@/lib/native-renderer/layout'
 import { getNativeSheetScaleFactor } from '@/lib/native-renderer/layout'
-import type { SongIrDocument } from '@/lib/native-renderer/songIr'
+import type { SongIrDocument, SongIrMeasure, SongIrMeasureMarker } from '@/lib/native-renderer/songIr'
 
 type NativeMelodySheetProps = {
   song: SongIrDocument
@@ -83,8 +83,12 @@ function NativeDebugView({
             {row.measures.map(measureLayout => (
               <div
                 key={measureLayout.measure.index}
-                className="relative flex min-h-[138px] items-end gap-1 border-r border-[#9b8062] pr-3"
+                className={getDebugMeasureClassName(measureLayout.measure)}
+                data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
+                data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
+                data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}
               >
+                <NativeMeasureMarkers measure={measureLayout.measure} variant="debug" />
                 <div className="absolute -top-4 left-0 text-[10px] font-bold text-[#b09675]">
                   {measureLayout.measure.index + 1}
                 </div>
@@ -148,9 +152,17 @@ function NativeSheetView({
             {row.measures.map(measureLayout => (
               <div
                 key={`sheet-measure-${measureLayout.measure.index}`}
-                className="relative flex items-end gap-0 border-r border-[#34261b] pr-1 last:border-r-0"
+                className={getSheetMeasureClassName(measureLayout.measure)}
+                data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
+                data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
+                data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}
                 style={{ minHeight: `${118 * sheetScaleFactor}px` }}
               >
+                <NativeMeasureMarkers
+                  measure={measureLayout.measure}
+                  sheetScaleFactor={sheetScaleFactor}
+                  variant="sheet"
+                />
                 {showMeasureNum === 'on' ? (
                   <div
                     className="absolute left-0 top-0 font-black leading-none text-[#8c6f50]"
@@ -188,6 +200,104 @@ function NativeSheetView({
         ))}
       </div>
     </section>
+  )
+}
+
+function NativeMeasureMarkers({
+  measure,
+  sheetScaleFactor = 1,
+  variant
+}: {
+  measure: SongIrMeasure
+  sheetScaleFactor?: number
+  variant: 'debug' | 'sheet'
+}) {
+  const endingLabel = getEndingStartLabel(measure)
+  const repeatStart = hasMeasureMarker(measure, 'repeat-start')
+  const repeatEnd = hasMeasureMarker(measure, 'repeat-end')
+  const lineColor = variant === 'sheet' ? '#2a1d12' : '#7f6548'
+  const dotSize = Math.max(3, 3.5 * sheetScaleFactor)
+  const repeatTop = variant === 'sheet' ? 36 * sheetScaleFactor : 48
+  const repeatHeight = variant === 'sheet' ? 58 * sheetScaleFactor : 70
+
+  return (
+    <>
+      {endingLabel ? (
+        <div
+          className="absolute left-0 right-1 top-0 border-l border-t font-black leading-none text-[#5f472f]"
+          data-native-ending-bracket="true"
+          style={{
+            borderColor: lineColor,
+            fontSize: `${Math.max(9, 9 * sheetScaleFactor)}px`,
+            height: `${Math.max(12, 13 * sheetScaleFactor)}px`,
+            paddingLeft: `${Math.max(3, 3 * sheetScaleFactor)}px`,
+            transform: 'translateY(-2px)'
+          }}
+        >
+          {endingLabel}.
+        </div>
+      ) : null}
+      {repeatStart ? (
+        <NativeRepeatSign
+          dotSize={dotSize}
+          lineColor={lineColor}
+          position="start"
+          top={repeatTop}
+          height={repeatHeight}
+        />
+      ) : null}
+      {repeatEnd ? (
+        <NativeRepeatSign
+          dotSize={dotSize}
+          lineColor={lineColor}
+          position="end"
+          top={repeatTop}
+          height={repeatHeight}
+        />
+      ) : null}
+    </>
+  )
+}
+
+function NativeRepeatSign({
+  dotSize,
+  lineColor,
+  position,
+  top,
+  height
+}: {
+  dotSize: number
+  lineColor: string
+  position: 'start' | 'end'
+  top: number
+  height: number
+}) {
+  const sideClass = position === 'start' ? 'left-0' : 'right-0'
+  const dotSideClass = position === 'start' ? 'left-[7px]' : 'right-[7px]'
+
+  return (
+    <div
+      className={`pointer-events-none absolute ${sideClass}`}
+      data-native-repeat-sign={position}
+      style={{ top: `${top}px`, height: `${height}px`, color: lineColor }}
+    >
+      <span
+        className="absolute bottom-0 top-0 w-[2px] bg-current"
+        style={{ [position === 'start' ? 'left' : 'right']: 0 }}
+      />
+      <span
+        className="absolute bottom-0 top-0 w-px bg-current opacity-80"
+        style={{ [position === 'start' ? 'left' : 'right']: 4 }}
+      />
+      <span
+        className={`absolute ${dotSideClass} top-[36%] rounded-full bg-current`}
+        style={{ height: `${dotSize}px`, width: `${dotSize}px` }}
+      />
+      <span
+        className={`absolute ${dotSideClass} top-[56%] rounded-full bg-current`}
+        style={{ height: `${dotSize}px`, width: `${dotSize}px` }}
+      />
+    </div>
   )
 }
 
@@ -363,4 +473,43 @@ function countGroupEdges(
       ? group.position === 'start' || group.position === 'single'
       : group.position === 'end' || group.position === 'single'
   ).length
+}
+
+function getDebugMeasureClassName(measure: SongIrMeasure) {
+  return [
+    'relative flex min-h-[138px] items-end gap-1 border-r border-[#9b8062] pr-3',
+    hasMeasureMarker(measure, 'repeat-start') ? 'border-l-4 border-l-[#7f6548] pl-3' : '',
+    hasMeasureMarker(measure, 'repeat-end') ? 'border-r-4 border-r-[#7f6548]' : ''
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
+
+function getSheetMeasureClassName(measure: SongIrMeasure) {
+  return [
+    'relative flex items-end gap-0 border-r border-[#34261b] pr-1 last:border-r-0',
+    hasMeasureMarker(measure, 'repeat-start') ? 'border-l-4 border-l-[#2a1d12] pl-1' : '',
+    hasMeasureMarker(measure, 'repeat-end') ? 'border-r-4 border-r-[#2a1d12]' : ''
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
+
+function hasMeasureMarker(measure: SongIrMeasure, kind: SongIrMeasureMarker['kind']) {
+  return measure.markers?.some(marker => marker.kind === kind) ?? false
+}
+
+function getEndingStartLabel(measure: SongIrMeasure) {
+  const marker = measure.markers?.find(isEndingStartMarker)
+  if (!marker) {
+    return null
+  }
+
+  return marker.number ? String(marker.number) : ''
+}
+
+function isEndingStartMarker(
+  marker: SongIrMeasureMarker
+): marker is Extract<SongIrMeasureMarker, { kind: 'ending-start' }> {
+  return marker.kind === 'ending-start'
 }

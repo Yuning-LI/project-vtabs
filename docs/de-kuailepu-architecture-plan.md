@@ -302,16 +302,17 @@ This is the user's long-term target:
 
 Current estimate:
 
-- about 35% to 45% complete overall
+- about 50% to 55% complete overall
 
 Reason:
 
 - shell, bridge, payload, state, and route boundaries are now substantially ours
 - the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, visual theme, and export surfaces
-- the correctness engine is still the archived Kuailepu `hc` renderer
-- parser, semantic handling, layout, SVG rendering, playback source generation, and complex fingering expansion are not yet ours
+- the correctness engine for public pages is still the archived Kuailepu `hc` renderer
+- native `SongIR` parsing and rendering has started in internal-only routes, but it is not yet production-grade
+- playback source generation, repeat playback semantics, dense layout, complex fingering expansion, and public migration are not yet ours
 
-Operationally, the site is much farther along than 40% for launch/SEO use. The visual-differentiation track is about 85% to 90% complete for public-page operation. Architecturally, the project is not close to full independence until Phase 5 starts producing real renderer output.
+Operationally, the site is much farther along than the full-independence percentage for launch/SEO use. The visual-differentiation track is about 90% complete for public-page operation. Architecturally, full independence now depends mainly on Phase 5 turning the internal native renderer into a production-capable correctness path.
 
 ## Target Module Layout
 
@@ -633,6 +634,8 @@ Progress estimate:
 - MusicXML draft mode remains deliberately narrow: 15 MusicXML-backed native MVP seed songs only
 - current MusicXML strict supported set is 12 songs; 3 eligible seeds still fallback because they contain MIDI `79`, which has no current o12 fingering entry
 - runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs, identifies 279 songs with parenthesized groups, models repeat markers in 131 songs, and models first/second endings in 83 songs
+- native sheet rendering now displays rest `R`, hold dashes, parenthesized group boundaries, repeat bars, and first/second ending brackets in internal preview
+- `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
@@ -640,17 +643,17 @@ Current Phase 5 status:
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
 - Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks and measure-level repeat / ending markers
 - Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, and safe layout markers
-- Renderer MVP: internal o12 preview and side-by-side runtime review exist, but layout is still early and not production-grade
+- Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn, but dense layout is still early and not production-grade
 - Interaction / Playback: not started for native renderer
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
 
 Recommended next Phase 5 order:
 
-1. render repeat bars and first/second endings in the native sheet
+1. stabilize reusable native layout primitives for denser runtime songs
 2. implement `{play:...}` play-order expansion after repeat visual semantics are stable
-3. stabilize reusable native layout primitives for denser runtime songs
-4. move toward native playback/metronome alignment from SongIR
-5. audit and add missing o12 fingering coverage where musically valid
+3. move toward native playback/metronome alignment from SongIR
+4. audit and add missing o12 fingering coverage where musically valid
+5. add fixture-level regression checks for rest, hold, groups, repeat bars, endings, and forced-preview fallback boundaries
 6. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion
@@ -682,36 +685,39 @@ Exit criteria:
 
 Preferred order from the current point:
 
-1. run a targeted runtime QA pass on the current Phase 3 visual layer
-2. fix only concrete public-page regressions found by QA
-3. make a stage commit / push once build, content validation, and targeted manual runtime checks pass
-4. update Pinterest / print output only if the current public visual theme creates export-specific defects
-5. begin Phase 5 preparation with parser / renderer replacement fixtures instead of continuing visual polishing indefinitely
+1. keep public `/song` on the archived runtime while Phase 5 stays internal-only
+2. continue Phase 5 by making native layout handle denser runtime songs without overlap or fragile spacing
+3. add focused fixture / DOM checks around native renderer semantics before expanding support
+4. implement play-order expansion only after repeat / ending visual markers are stable
+5. start native playback / metronome alignment from `SongIR` after visual semantics are inspectable
+6. consider a private or query-flagged public native experiment only after layout, support contract, and fallback behavior are proven
 
 Why:
 
 - Phase 2 has already done the high-value structural cleanup
-- Phase 3 now directly supports current SEO and Pinterest operation
-- Phase 5 is the real independence track, but it is much larger and should be started from fixtures and a narrow MVP, not mixed with visual launch work
+- Phase 3 already supports current SEO and Pinterest operation well enough to stop polishing visuals indefinitely
+- Phase 5 is now the main independence track
+- repeat / ending rendering must stay internally testable without falsely marking those songs as production-supported
 
-Recommended immediate QA samples before stage commit:
+Recommended current native review samples:
 
-- `twinkle-twinkle-little-star`
-- `london-bridge`
-- `wedding-march`
-- `turkish-march`
-- `we-wish-you-a-merry-christmas`
+- `on-top-of-old-smoky`
+- `london-bridge?source=runtime`
+- `deck-the-halls?source=runtime&force_native_preview=1`
+- `its-a-small-world?source=runtime&force_native_preview=1`
+- `love-is-blue?source=runtime&force_native_preview=1`
 
-Recommended URLs per sample:
+Recommended public runtime regression samples before any public-facing release:
 
-- `/song/<slug>`
-- `/song/<slug>?note_label_mode=number`
-- `/song/<slug>?runtime_visual_theme=off`
-- `/api/kuailepu-runtime/<slug>?note_label_mode=number`
+- `/song/twinkle-twinkle-little-star`
+- `/song/london-bridge?note_label_mode=number`
+- `/song/we-wish-you-a-merry-christmas?instrument=r8b&fingering_index=4`
+- `/api/kuailepu-runtime/twinkle-twinkle-little-star?note_label_mode=number`
 
 Manual checks:
 
-- sheet appears without loading-card or header flash
+- native forced preview visibly shows modeled syntax but normal unsupported review still falls back
+- public archived runtime sheet appears without loading-card or header flash
 - playback opens, stops, and closes correctly
 - metronome is still usable
 - number mode remains clean

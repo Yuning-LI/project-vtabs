@@ -33,10 +33,17 @@ export type SongIrChord = {
 
 export type SongIrMeasureMarker =
   | {
-      kind: 'repeat-start' | 'repeat-end'
+      kind: 'repeat-start'
     }
   | {
-      kind: 'ending-start' | 'ending-end'
+      kind: 'repeat-end'
+    }
+  | {
+      kind: 'ending-start'
+      number: number | null
+    }
+  | {
+      kind: 'ending-end'
       number: number | null
     }
 

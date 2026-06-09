@@ -14,6 +14,7 @@ type NativeRendererSideBySideReviewProps = {
   showGraph?: 'on' | 'off'
   showLyric?: 'on' | 'off'
   showMeasureNum?: 'on' | 'off'
+  forceNativePreview?: boolean
   sheetScale?: string | number
 }
 
@@ -26,6 +27,7 @@ export default function NativeRendererSideBySideReview({
   showGraph = 'on',
   showLyric = 'on',
   showMeasureNum = 'off',
+  forceNativePreview = false,
   sheetScale = 10
 }: NativeRendererSideBySideReviewProps) {
   const title = song?.metadata.title ?? slug
@@ -47,6 +49,7 @@ export default function NativeRendererSideBySideReview({
             <Badge tone={support.status === 'supported' ? 'supported' : 'fallback'}>
               {support.status === 'supported' ? 'Native supported' : 'Fallback required'}
             </Badge>
+            {forceNativePreview ? <Badge tone="fallback">Forced native preview</Badge> : null}
             {song ? <Badge tone="default">{song.stats.noteCount} notes</Badge> : null}
             {song ? <Badge tone="default">{song.stats.measureCount} measures</Badge> : null}
           </div>
@@ -72,7 +75,7 @@ export default function NativeRendererSideBySideReview({
           </ReviewPanel>
 
           <ReviewPanel title="Native Renderer">
-            {song && support.status === 'supported' ? (
+            {song && (support.status === 'supported' || forceNativePreview) ? (
               <NativeMelodySheet
                 song={song}
                 measureLayout={measureLayout}

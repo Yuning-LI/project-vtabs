@@ -35,6 +35,7 @@ export default function NativeRendererReviewPage({
     show_graph?: string | string[]
     show_lyric?: string | string[]
     show_measure_num?: string | string[]
+    force_native_preview?: string | string[]
     source?: string | string[]
   }
 }) {
@@ -66,9 +67,13 @@ export default function NativeRendererReviewPage({
   const requestedShowMeasureNum = Array.isArray(searchParams?.show_measure_num)
     ? searchParams?.show_measure_num[0]
     : searchParams?.show_measure_num
+  const requestedForceNativePreview = Array.isArray(searchParams?.force_native_preview)
+    ? searchParams?.force_native_preview[0]
+    : searchParams?.force_native_preview
   const showGraph = normalizeToggleParam(requestedShowGraph) ?? 'on'
   const showLyric = normalizeToggleParam(requestedShowLyric) ?? 'on'
   const showMeasureNum = normalizeToggleParam(requestedShowMeasureNum) ?? 'off'
+  const forceNativePreview = requestedForceNativePreview === '1'
 
   return (
     <NativeRendererSideBySideReview
@@ -80,6 +85,7 @@ export default function NativeRendererReviewPage({
       showGraph={showGraph}
       showLyric={showLyric}
       showMeasureNum={showMeasureNum}
+      forceNativePreview={forceNativePreview}
       sheetScale={sheetScale}
     />
   )
