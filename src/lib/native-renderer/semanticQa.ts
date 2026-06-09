@@ -1,9 +1,10 @@
-import { DICT } from '../../components/InstrumentDicts/ocarina12.ts'
+import { getNativeRendererInstrumentAdapter } from './instruments.ts'
 import type { SongIrDocument } from './songIr.ts'
 
 export type SongIrSemanticQa = ReturnType<typeof buildSongIrSemanticQa>
 
 export function buildSongIrSemanticQa(song: SongIrDocument) {
+  const o12Adapter = getNativeRendererInstrumentAdapter('o12')
   const events = song.measures.flatMap(measure => measure.events)
   const pitchSequence = events.map(event => (event.kind === 'note' ? event.midi : null))
   const restSlots = events.map(event => (event.kind === 'rest' ? event.slotCount : 0))
@@ -13,7 +14,7 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
   const lyricSlots = events.map(event => (event.kind === 'note' ? event.lyric ?? '' : ''))
   const missingO12Fingerings = events
     .filter(event => event.kind === 'note')
-    .filter(event => !DICT[event.midi])
+    .filter(event => !o12Adapter.hasFingering(event.midi))
     .map(event => event.midi)
 
   return {

@@ -1,16 +1,26 @@
-import { MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12'
 import FingeringDiagram from '@/components/song/FingeringDiagram'
+import {
+  getNativeRendererInstrumentAdapter,
+  type NativeRendererInstrumentAdapter,
+  type NativeRendererInstrumentId
+} from '@/lib/native-renderer/instruments'
 import { buildNativeMelodyLayout } from '@/lib/native-renderer/layout'
 import type { NativeMelodyEventLayout } from '@/lib/native-renderer/layout'
 import type { SongIrDocument } from '@/lib/native-renderer/songIr'
 
 type NativeMelodySheetProps = {
   song: SongIrDocument
+  instrumentId?: NativeRendererInstrumentId
   measureRowSize?: number
 }
 
-export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMelodySheetProps) {
+export default function NativeMelodySheet({
+  song,
+  instrumentId = 'o12',
+  measureRowSize = 4
+}: NativeMelodySheetProps) {
   const layout = buildNativeMelodyLayout(song, { measureRowSize })
+  const instrument = getNativeRendererInstrumentAdapter(instrumentId)
 
   return (
     <section className="rounded-[30px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] p-6 shadow-[0_18px_44px_rgba(70,45,24,0.1)]">
@@ -48,6 +58,7 @@ export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMe
                   <EventCell
                     key={`${measureLayout.measure.index}-${eventLayout.eventIndex}`}
                     eventLayout={eventLayout}
+                    instrument={instrument}
                   />
                 ))}
               </div>
@@ -59,9 +70,15 @@ export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMe
   )
 }
 
-function EventCell({ eventLayout }: { eventLayout: NativeMelodyEventLayout }) {
+function EventCell({
+  eventLayout,
+  instrument
+}: {
+  eventLayout: NativeMelodyEventLayout
+  instrument: NativeRendererInstrumentAdapter
+}) {
   const { event, widthRem } = eventLayout
-  const label = event.kind === 'note' ? formatMidiLabel(event.midi) : '-'
+  const label = event.kind === 'note' ? instrument.formatMidiLabel(event.midi) : '-'
 
   return (
     <div className="flex flex-col items-center justify-end" style={{ width: `${widthRem}rem` }}>
@@ -87,16 +104,4 @@ function EventCell({ eventLayout }: { eventLayout: NativeMelodyEventLayout }) {
       <div className="mt-0.5 text-[9px] font-bold text-[#b09675]">{event.slotCount}</div>
     </div>
   )
-}
-
-function formatMidiLabel(midi: number) {
-  const value = MIDI_TO_NAME[midi]
-  if (!value) {
-    return String(midi)
-  }
-  if (typeof value === 'string') {
-    return value
-  }
-  // Public runtime letter labels use fingering-scale display octaves: C fingering starts at C5.
-  return `${value.letter}${value.octave + 1}`
 }
