@@ -17,6 +17,8 @@ type NativeMelodySheetProps = {
   instrumentId?: NativeRendererInstrumentId
   measureLayout?: NativeMelodyMeasureLayoutMode
   measureRowSize?: number
+  showGraph?: 'on' | 'off'
+  showLyric?: 'on' | 'off'
   sheetScale?: string | number
   variant?: 'debug' | 'sheet'
 }
@@ -26,6 +28,8 @@ export default function NativeMelodySheet({
   instrumentId = 'o12',
   measureLayout = 'compact',
   measureRowSize = 4,
+  showGraph = 'on',
+  showLyric = 'on',
   sheetScale = 10,
   variant = 'debug'
 }: NativeMelodySheetProps) {
@@ -38,6 +42,8 @@ export default function NativeMelodySheet({
       <NativeSheetView
         layout={layout}
         instrument={instrument}
+        showGraph={showGraph}
+        showLyric={showLyric}
         sheetScaleFactor={sheetScaleFactor}
         title={song.metadata.title}
       />
@@ -107,11 +113,15 @@ function NativeDebugView({
 function NativeSheetView({
   layout,
   instrument,
+  showGraph,
+  showLyric,
   sheetScaleFactor,
   title
 }: {
   layout: ReturnType<typeof buildNativeMelodyLayout>
   instrument: NativeRendererInstrumentAdapter
+  showGraph: 'on' | 'off'
+  showLyric: 'on' | 'off'
   sheetScaleFactor: number
   title: string
 }) {
@@ -153,6 +163,8 @@ function NativeSheetView({
                     key={`sheet-event-${measureLayout.measure.index}-${eventLayout.eventIndex}`}
                     eventLayout={eventLayout}
                     instrument={instrument}
+                    showGraph={showGraph}
+                    showLyric={showLyric}
                     sheetScaleFactor={sheetScaleFactor}
                   />
                 ))}
@@ -204,10 +216,14 @@ function EventCell({
 function SheetEventCell({
   eventLayout,
   instrument,
+  showGraph,
+  showLyric,
   sheetScaleFactor
 }: {
   eventLayout: NativeMelodyEventLayout
   instrument: NativeRendererInstrumentAdapter
+  showGraph: 'on' | 'off'
+  showLyric: 'on' | 'off'
   sheetScaleFactor: number
 }) {
   const { event, widthRem } = eventLayout
@@ -220,37 +236,41 @@ function SheetEventCell({
 
   return (
     <div className="flex flex-col items-center justify-end" style={{ width: `${cellWidthRem}rem` }}>
-      <div
-        className="mb-0.5 flex items-end justify-center"
-        style={{ height: `${55 * sheetScaleFactor}px` }}
-      >
-        {event.kind === 'note' ? (
-          <FingeringDiagram
-            midi={event.midi}
-            className=""
-            style={{ height: `${diagramHeight}px`, width: `${diagramWidth}px` }}
-          />
-        ) : (
-          <div style={{ height: `${diagramHeight}px`, width: `${diagramWidth}px` }} />
-        )}
-      </div>
+      {showGraph === 'on' ? (
+        <div
+          className="mb-0.5 flex items-end justify-center"
+          style={{ height: `${55 * sheetScaleFactor}px` }}
+        >
+          {event.kind === 'note' ? (
+            <FingeringDiagram
+              midi={event.midi}
+              className=""
+              style={{ height: `${diagramHeight}px`, width: `${diagramWidth}px` }}
+            />
+          ) : (
+            <div style={{ height: `${diagramHeight}px`, width: `${diagramWidth}px` }} />
+          )}
+        </div>
+      ) : null}
       <div
         className="flex items-center justify-center font-black leading-none tracking-[0.01em] text-[#1d130c]"
         style={{ fontSize: `${17 * sheetScaleFactor}px`, height: `${noteHeight}px` }}
       >
         {label}
       </div>
-      <div
-        className="mt-0.5 truncate text-center font-semibold text-[#38281b]"
-        style={{
-          fontSize: `${10 * sheetScaleFactor}px`,
-          height: `${lyricHeight}px`,
-          lineHeight: `${lyricHeight}px`,
-          maxWidth: `${3.7 * sheetScaleFactor}rem`
-        }}
-      >
-        {event.kind === 'note' ? event.lyric ?? '\u00A0' : '\u00A0'}
-      </div>
+      {showLyric === 'on' ? (
+        <div
+          className="mt-0.5 truncate text-center font-semibold text-[#38281b]"
+          style={{
+            fontSize: `${10 * sheetScaleFactor}px`,
+            height: `${lyricHeight}px`,
+            lineHeight: `${lyricHeight}px`,
+            maxWidth: `${3.7 * sheetScaleFactor}rem`
+          }}
+        >
+          {event.kind === 'note' ? event.lyric ?? '\u00A0' : '\u00A0'}
+        </div>
+      ) : null}
     </div>
   )
 }

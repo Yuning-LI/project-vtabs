@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import NativeRendererSideBySideReview from '@/components/dev/NativeRendererSideBySideReview'
 import { loadNativeSongIrFromDraft } from '@/lib/native-renderer/loadSongIr'
 import { evaluateNativeRendererSupport } from '@/lib/native-renderer/support'
-import { normalizeMeasureLayout, normalizeSheetScale } from '@/lib/songbook/songPageQueryState'
+import {
+  normalizeMeasureLayout,
+  normalizeSheetScale,
+  normalizeToggleParam
+} from '@/lib/songbook/songPageQueryState'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,7 +26,12 @@ export default function NativeRendererReviewPage({
   searchParams
 }: {
   params: { id: string }
-  searchParams?: { measure_layout?: string | string[]; sheet_scale?: string | string[] }
+  searchParams?: {
+    measure_layout?: string | string[]
+    sheet_scale?: string | string[]
+    show_graph?: string | string[]
+    show_lyric?: string | string[]
+  }
 }) {
   const song = loadNativeSongIrFromDraft(params.id)
   const support = evaluateNativeRendererSupport(params.id, song)
@@ -34,6 +43,14 @@ export default function NativeRendererReviewPage({
     ? searchParams?.sheet_scale[0]
     : searchParams?.sheet_scale
   const sheetScale = normalizeSheetScale(requestedSheetScale) ?? 10
+  const requestedShowGraph = Array.isArray(searchParams?.show_graph)
+    ? searchParams?.show_graph[0]
+    : searchParams?.show_graph
+  const requestedShowLyric = Array.isArray(searchParams?.show_lyric)
+    ? searchParams?.show_lyric[0]
+    : searchParams?.show_lyric
+  const showGraph = normalizeToggleParam(requestedShowGraph) ?? 'on'
+  const showLyric = normalizeToggleParam(requestedShowLyric) ?? 'on'
 
   return (
     <NativeRendererSideBySideReview
@@ -41,6 +58,8 @@ export default function NativeRendererReviewPage({
       song={song}
       support={support}
       measureLayout={measureLayout}
+      showGraph={showGraph}
+      showLyric={showLyric}
       sheetScale={sheetScale}
     />
   )
