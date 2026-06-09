@@ -4,6 +4,12 @@ export type SongIrVersion = 0
 
 export type SongIrSourceKind = 'musicxml-draft' | 'runtime-notation'
 
+export type SongIrEventGroupMark = {
+  id: string
+  kind: 'parenthesized'
+  position: 'start' | 'middle' | 'end' | 'single'
+}
+
 export type SongIrEvent =
   | {
       kind: 'note'
@@ -11,11 +17,13 @@ export type SongIrEvent =
       token: string
       slotCount: number
       lyric: string | null
+      groups?: SongIrEventGroupMark[]
     }
   | {
       kind: 'rest'
       token: string
       slotCount: number
+      groups?: SongIrEventGroupMark[]
     }
 
 export type SongIrChord = {
@@ -58,6 +66,7 @@ export type SongIrDocument = {
     lyricSlotCount: number
     chordCount: number
     totalSlotCount: number
+    parenthesizedGroupCount: number
   }
   unsupported: string[]
 }
@@ -76,6 +85,7 @@ export function summarizeSongIr(document: SongIrDocument) {
     lyricSlotCount: document.stats.lyricSlotCount,
     chordCount: document.stats.chordCount,
     totalSlotCount: document.stats.totalSlotCount,
+    parenthesizedGroupCount: document.stats.parenthesizedGroupCount,
     unsupported: document.unsupported
   }
 }

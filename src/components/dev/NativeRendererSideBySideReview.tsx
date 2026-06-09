@@ -9,6 +9,7 @@ type NativeRendererSideBySideReviewProps = {
   slug: string
   song: SongIrDocument | null
   support: NativeRendererSupportDecision
+  source: 'draft' | 'runtime'
   measureLayout?: NativeMelodyMeasureLayoutMode
   showGraph?: 'on' | 'off'
   showLyric?: 'on' | 'off'
@@ -20,6 +21,7 @@ export default function NativeRendererSideBySideReview({
   slug,
   song,
   support,
+  source,
   measureLayout = 'compact',
   showGraph = 'on',
   showLyric = 'on',
@@ -41,6 +43,7 @@ export default function NativeRendererSideBySideReview({
           <h1 className="mt-2 text-3xl font-black tracking-tight">{title}</h1>
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-[0.12em]">
             <Badge tone="default">Archived runtime vs native</Badge>
+            <Badge tone="default">{source === 'runtime' ? 'Runtime notation source' : 'MusicXML draft source'}</Badge>
             <Badge tone={support.status === 'supported' ? 'supported' : 'fallback'}>
               {support.status === 'supported' ? 'Native supported' : 'Fallback required'}
             </Badge>

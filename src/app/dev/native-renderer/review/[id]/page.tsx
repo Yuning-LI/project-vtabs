@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import NativeRendererSideBySideReview from '@/components/dev/NativeRendererSideBySideReview'
-import { loadNativeSongIrFromDraft } from '@/lib/native-renderer/loadSongIr'
+import {
+  loadNativeSongIrFromDraft,
+  loadNativeSongIrFromRuntimePayload
+} from '@/lib/native-renderer/loadSongIr'
 import { evaluateNativeRendererSupport } from '@/lib/native-renderer/support'
 import {
   normalizeMeasureLayout,
@@ -32,10 +35,20 @@ export default function NativeRendererReviewPage({
     show_graph?: string | string[]
     show_lyric?: string | string[]
     show_measure_num?: string | string[]
+    source?: string | string[]
   }
 }) {
-  const song = loadNativeSongIrFromDraft(params.id)
-  const support = evaluateNativeRendererSupport(params.id, song)
+  const requestedSource = Array.isArray(searchParams?.source)
+    ? searchParams?.source[0]
+    : searchParams?.source
+  const source = requestedSource === 'runtime' ? 'runtime' : 'draft'
+  const song =
+    source === 'runtime'
+      ? loadNativeSongIrFromRuntimePayload(params.id)
+      : loadNativeSongIrFromDraft(params.id)
+  const support = evaluateNativeRendererSupport(params.id, song, {
+    mode: source === 'runtime' ? 'runtime-probe' : 'draft-mvp'
+  })
   const requestedMeasureLayout = Array.isArray(searchParams?.measure_layout)
     ? searchParams?.measure_layout[0]
     : searchParams?.measure_layout
@@ -62,6 +75,7 @@ export default function NativeRendererReviewPage({
       slug={params.id}
       song={song}
       support={support}
+      source={source}
       measureLayout={measureLayout}
       showGraph={showGraph}
       showLyric={showLyric}

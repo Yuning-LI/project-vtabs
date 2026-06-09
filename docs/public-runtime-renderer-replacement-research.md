@@ -150,27 +150,34 @@ npm run validate:songbook
 Status: dev-only MVP chain started.
 
 Public `/song/<slug>` still uses the archived runtime. The native renderer work is
-currently isolated to internal tooling and `/dev/native-renderer/song/[id]`.
+currently isolated to internal tooling and `/dev/native-renderer/song/[id]` /
+`/dev/native-renderer/review/[id]`.
 
 Implemented so far:
 
 - `SongIR v0` type model in `src/lib/native-renderer/songIr.ts`
 - `MusicXML draft -> SongIR` adapter in `src/lib/native-renderer/fromMusicXmlDraft.ts`
+- runtime payload notation -> SongIR adapter in `src/lib/native-renderer/fromRuntimeNotation.ts`
 - native SongIR loader in `src/lib/native-renderer/loadSongIr.ts`
 - conservative native support contract in `src/lib/native-renderer/support.ts`
 - native syntax / SongIR validation scripts:
   - `npm run analyze:public-runtime-syntax-inventory`
   - `npm run analyze:native-song-ir`
+  - `npm run analyze:native-runtime-song-ir`
 - dev-only preview route:
   - `/dev/native-renderer/song/on-top-of-old-smoky`
   - supported songs render through `NativeMelodySheet`
   - unsupported or missing SongIR shows an explicit fallback diagnostic page
+- dev-only side-by-side route:
+  - `/dev/native-renderer/review/<slug>`
+  - add `?source=runtime` to compare archived runtime against native rendering from deployable runtime JSON
 
 Current strict support contract:
 
-- only the 15 MusicXML-backed native MVP seed songs are eligible for native support
+- MusicXML draft mode only admits the 15 MusicXML-backed native MVP seed songs
+- runtime probe mode admits deployable runtime JSON for internal analysis only
 - SongIR must be version `0`
-- source must be `musicxml-draft`
+- source must match the selected mode: `musicxml-draft` or `runtime-notation`
 - `unsupported` must be empty
 - note and measure sequences must be non-empty
 - slug must match the SongIR metadata slug
@@ -181,6 +188,15 @@ Latest `npm run analyze:native-song-ir` result:
 - MVP seed count: 15
 - currently supported: 12
 - fallback due to missing o12 fingering: 3 songs with MIDI `79`
+
+Latest `npm run analyze:native-runtime-song-ir -- --limit=400` result:
+
+- runtime catalog count: 400
+- currently supported in internal runtime-probe mode: 97
+- unsupported syntax count: 288
+- semantic issue count: 209, mostly missing current o12 fingering coverage for out-of-range notes
+- songs with recognized parenthesized groups: 279
+- highest-value next syntax gaps: repeat bars / first-second endings, section labels such as `A:` / `B:`, tuplets, and non-note directives
 
 This means the current native renderer is safe for internal development, but not
 ready for public route replacement.

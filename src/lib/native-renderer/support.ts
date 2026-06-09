@@ -9,6 +9,8 @@ export type NativeRendererSupportDecision = {
   reasons: string[]
 }
 
+export type NativeRendererSupportMode = 'draft-mvp' | 'runtime-probe'
+
 export const NATIVE_RENDERER_MVP_SEEDS = [
   'on-top-of-old-smoky',
   'the-coventry-carol',
@@ -35,12 +37,16 @@ export function getNativeRendererMvpSeedSlugs() {
 
 export function evaluateNativeRendererSupport(
   slug: string,
-  song: SongIrDocument | null
+  song: SongIrDocument | null,
+  options: {
+    mode?: NativeRendererSupportMode
+  } = {}
 ): NativeRendererSupportDecision {
   const safeSlug = slug.trim()
   const reasons: string[] = []
+  const mode = options.mode ?? 'draft-mvp'
 
-  if (!NATIVE_RENDERER_MVP_SEED_SET.has(safeSlug)) {
+  if (mode === 'draft-mvp' && !NATIVE_RENDERER_MVP_SEED_SET.has(safeSlug)) {
     reasons.push('not-in-native-mvp-seed-set')
   }
 
@@ -57,7 +63,11 @@ export function evaluateNativeRendererSupport(
     reasons.push(`unsupported-song-ir-version:${song.version}`)
   }
 
-  if (song.source.kind !== 'musicxml-draft') {
+  if (mode === 'draft-mvp' && song.source.kind !== 'musicxml-draft') {
+    reasons.push(`unsupported-source:${song.source.kind}`)
+  }
+
+  if (mode === 'runtime-probe' && song.source.kind !== 'runtime-notation') {
     reasons.push(`unsupported-source:${song.source.kind}`)
   }
 
