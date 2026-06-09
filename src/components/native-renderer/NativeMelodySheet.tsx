@@ -199,7 +199,7 @@ function EventCell({
   instrument: NativeRendererInstrumentAdapter
 }) {
   const { event, widthRem } = eventLayout
-  const label = event.kind === 'note' ? instrument.formatMidiLabel(event.midi) : '-'
+  const notation = buildNativeEventNotation(event, instrument)
 
   return (
     <div className="flex flex-col items-center justify-end" style={{ width: `${widthRem}rem` }}>
@@ -217,7 +217,7 @@ function EventCell({
             : 'flex h-10 min-w-8 items-center justify-center text-sm font-black text-[#aa9174]'
         }
       >
-        {label}
+        <NativeEventNotationInline notation={notation} />
       </div>
       <div className="mt-1 h-4 text-[10px] font-semibold text-[#9b8062]">
         {event.kind === 'note' ? event.lyric ?? '\u00A0' : '\u00A0'}
@@ -241,7 +241,7 @@ function SheetEventCell({
   sheetScaleFactor: number
 }) {
   const { event, widthRem } = eventLayout
-  const label = event.kind === 'note' ? instrument.formatMidiLabel(event.midi) : '-'
+  const notation = buildNativeEventNotation(event, instrument)
   const cellWidthRem = Math.max(2.55, widthRem * 0.84) * sheetScaleFactor
   const diagramHeight = 49 * sheetScaleFactor
   const diagramWidth = 60 * sheetScaleFactor
@@ -270,7 +270,7 @@ function SheetEventCell({
         className="flex items-center justify-center font-black leading-none tracking-[0.01em] text-[#1d130c]"
         style={{ fontSize: `${17 * sheetScaleFactor}px`, height: `${noteHeight}px` }}
       >
-        {label}
+        <NativeEventNotationInline notation={notation} dashScale={sheetScaleFactor} />
       </div>
       {showLyric === 'on' ? (
         <div
@@ -287,4 +287,49 @@ function SheetEventCell({
       ) : null}
     </div>
   )
+}
+
+function NativeEventNotationInline({
+  notation,
+  dashScale = 1
+}: {
+  notation: NativeEventNotation
+  dashScale?: number
+}) {
+  return (
+    <span className="inline-flex items-center justify-center gap-[0.16em] whitespace-nowrap">
+      <span>{notation.label}</span>
+      {Array.from({ length: notation.holdDashCount }).map((_, index) => (
+        <span
+          key={`${notation.label}-hold-${index}`}
+          aria-label="hold"
+          className="inline-block rounded-full bg-current align-middle"
+          style={{
+            height: `${Math.max(1.5, 2 * dashScale)}px`,
+            width: `${Math.max(9, 11 * dashScale)}px`,
+            transform: `translateY(${Math.max(1, 1.4 * dashScale)}px)`
+          }}
+        />
+      ))}
+    </span>
+  )
+}
+
+type NativeEventNotation = {
+  label: string
+  holdDashCount: number
+}
+
+function buildNativeEventNotation(
+  event: NativeMelodyEventLayout['event'],
+  instrument: NativeRendererInstrumentAdapter
+): NativeEventNotation {
+  return {
+    label: event.kind === 'note' ? instrument.formatMidiLabel(event.midi) : 'R',
+    holdDashCount: countHoldDashes(event.token)
+  }
+}
+
+function countHoldDashes(token: string) {
+  return token.match(/-+$/)?.[0]?.length ?? 0
 }
