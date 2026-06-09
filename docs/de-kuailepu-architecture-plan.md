@@ -632,25 +632,25 @@ Progress estimate:
 - current implemented chain: public runtime syntax inventory -> `SongIR v0` -> MusicXML draft adapter + runtime notation adapter -> native support contract -> `/dev/native-renderer/song/[id]` preview + `/dev/native-renderer/review/[id]` side-by-side review
 - MusicXML draft mode remains deliberately narrow: 15 MusicXML-backed native MVP seed songs only
 - current MusicXML strict supported set is 12 songs; 3 eligible seeds still fallback because they contain MIDI `79`, which has no current o12 fingering entry
-- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs and identifies 279 songs with parenthesized groups
+- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs, identifies 279 songs with parenthesized groups, models repeat markers in 131 songs, and models first/second endings in 83 songs
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
 
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
-- Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks
-- Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, section labels, and safe layout markers
+- Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks and measure-level repeat / ending markers
+- Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, and safe layout markers
 - Renderer MVP: internal o12 preview and side-by-side runtime review exist, but layout is still early and not production-grade
 - Interaction / Playback: not started for native renderer
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
 
 Recommended next Phase 5 order:
 
-1. improve runtime notation parser coverage for repeat bars and first/second endings
-2. implement `{play:...}` play-order expansion after repeat semantics are represented
-3. render recognized parenthesized groups visually in the native sheet
-4. stabilize reusable native layout primitives for denser runtime songs
-5. move toward native playback/metronome alignment from SongIR
+1. render repeat bars and first/second endings in the native sheet
+2. implement `{play:...}` play-order expansion after repeat visual semantics are stable
+3. stabilize reusable native layout primitives for denser runtime songs
+4. move toward native playback/metronome alignment from SongIR
+5. audit and add missing o12 fingering coverage where musically valid
 6. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion

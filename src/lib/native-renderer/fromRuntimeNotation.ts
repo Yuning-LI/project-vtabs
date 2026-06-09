@@ -8,6 +8,7 @@ import type {
   SongIrDocument,
   SongIrEvent,
   SongIrEventGroupMark,
+  SongIrMeasureMarker,
   SongIrMeasure
 } from './songIr.ts'
 
@@ -38,10 +39,13 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
   let lyricCursor = 0
   let totalEventIndex = 0
   let parenthesizedGroupCount = 0
+  let repeatMarkerCount = 0
+  let endingMarkerCount = 0
 
   const measures: SongIrMeasure[] = []
   const pendingChords: string[] = []
   const activeGroups: Array<{ id: string; eventIndexes: Array<{ measureIndex: number; eventIndex: number }> }> = []
+  const pendingMeasureMarkers: SongIrMeasureMarker[] = []
   let currentMeasure = createMeasure(0)
 
   for (const token of scan.tokens) {
@@ -63,15 +67,38 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
     }
 
     if (token.kind === 'repeat-ending') {
+      if (token.value.startsWith('[')) {
+        pendingMeasureMarkers.push({
+          kind: 'ending-start',
+          number: readRepeatEndingNumber(token.value)
+        })
+      } else {
+        currentMeasure.markers = [
+          ...(currentMeasure.markers ?? []),
+          {
+            kind: 'ending-end',
+            number: null
+          }
+        ]
+      }
+      endingMarkerCount += 1
       continue
     }
 
     if (token.kind === 'bar') {
+      const beforeMarkers = getRepeatMarkersBeforeBar(token.value)
+      if (beforeMarkers.length > 0) {
+        currentMeasure.markers = [...(currentMeasure.markers ?? []), ...beforeMarkers]
+        repeatMarkerCount += beforeMarkers.length
+      }
       if (REPEAT_BAR_PATTERN.test(token.value)) {
         unsupported.push(`repeat-bar:${token.value}`)
       }
       measures.push(currentMeasure)
-      currentMeasure = createMeasure(measures.length)
+      const afterMarkers = getRepeatMarkersAfterBar(token.value)
+      pendingMeasureMarkers.push(...afterMarkers)
+      repeatMarkerCount += afterMarkers.length
+      currentMeasure = createMeasure(measures.length, pendingMeasureMarkers.splice(0))
       continue
     }
 
@@ -180,7 +207,9 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
       lyricSlotCount: lyricTokens.length,
       chordCount,
       totalSlotCount,
-      parenthesizedGroupCount
+      parenthesizedGroupCount,
+      repeatMarkerCount,
+      endingMarkerCount
     },
     unsupported: Array.from(new Set([...unsupported, ...scan.unsupported]))
   }
@@ -366,12 +395,34 @@ function readRuntimeEventToken(notation: string, startIndex: number) {
   }
 }
 
-function createMeasure(index: number): SongIrMeasure {
+function createMeasure(index: number, markers: SongIrMeasureMarker[] = []): SongIrMeasure {
   return {
     index,
     events: [],
-    chords: []
+    chords: [],
+    ...(markers.length > 0 ? { markers } : {})
   }
+}
+
+function readRepeatEndingNumber(value: string) {
+  const match = value.match(/^\[(\d+)/)
+  return match ? Number(match[1]) : null
+}
+
+function getRepeatMarkersBeforeBar(value: string): SongIrMeasureMarker[] {
+  if (value === ':|' || value === ':|:') {
+    return [{ kind: 'repeat-end' }]
+  }
+
+  return []
+}
+
+function getRepeatMarkersAfterBar(value: string): SongIrMeasureMarker[] {
+  if (value === '|:' || value === ':|:') {
+    return [{ kind: 'repeat-start' }]
+  }
+
+  return []
 }
 
 function applyGroupMarks(

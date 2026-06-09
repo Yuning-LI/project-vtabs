@@ -31,10 +31,20 @@ export type SongIrChord = {
   eventIndex: number
 }
 
+export type SongIrMeasureMarker =
+  | {
+      kind: 'repeat-start' | 'repeat-end'
+    }
+  | {
+      kind: 'ending-start' | 'ending-end'
+      number: number | null
+    }
+
 export type SongIrMeasure = {
   index: number
   events: SongIrEvent[]
   chords: SongIrChord[]
+  markers?: SongIrMeasureMarker[]
 }
 
 export type SongIrDocument = {
@@ -67,6 +77,8 @@ export type SongIrDocument = {
     chordCount: number
     totalSlotCount: number
     parenthesizedGroupCount: number
+    repeatMarkerCount: number
+    endingMarkerCount: number
   }
   unsupported: string[]
 }
@@ -86,6 +98,8 @@ export function summarizeSongIr(document: SongIrDocument) {
     chordCount: document.stats.chordCount,
     totalSlotCount: document.stats.totalSlotCount,
     parenthesizedGroupCount: document.stats.parenthesizedGroupCount,
+    repeatMarkerCount: document.stats.repeatMarkerCount,
+    endingMarkerCount: document.stats.endingMarkerCount,
     unsupported: document.unsupported
   }
 }

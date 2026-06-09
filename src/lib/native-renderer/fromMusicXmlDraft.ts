@@ -98,7 +98,9 @@ export function buildSongIrFromMusicXmlDraft(draft: SongIngestDraft): SongIrDocu
       lyricSlotCount: lyricTokens.filter(token => token !== '_').length,
       chordCount,
       totalSlotCount,
-      parenthesizedGroupCount: 0
+      parenthesizedGroupCount: 0,
+      repeatMarkerCount: 0,
+      endingMarkerCount: 0
     },
     unsupported: Array.from(new Set(unsupported))
   }

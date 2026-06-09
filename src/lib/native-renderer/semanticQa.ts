@@ -11,6 +11,13 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
   const measureSlots = song.measures.map(measure =>
     measure.events.reduce((sum, event) => sum + event.slotCount, 0)
   )
+  const measureMarkers = song.measures.flatMap(measure =>
+    (measure.markers ?? []).map(marker =>
+      marker.kind === 'ending-start' || marker.kind === 'ending-end'
+        ? `${measure.index}:${marker.kind}:${marker.number ?? ''}`
+        : `${measure.index}:${marker.kind}`
+    )
+  )
   const lyricSlots = events.map(event => (event.kind === 'note' ? event.lyric ?? '' : ''))
   const missingO12Fingerings = events
     .filter(event => event.kind === 'note')
@@ -25,6 +32,8 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
     totalSlotCount: measureSlots.reduce((sum, slotCount) => sum + slotCount, 0),
     lyricSlotCount: lyricSlots.filter(Boolean).length,
     chordCount: song.measures.reduce((sum, measure) => sum + measure.chords.length, 0),
+    repeatMarkerCount: song.stats.repeatMarkerCount,
+    endingMarkerCount: song.stats.endingMarkerCount,
     missingO12FingeringCount: missingO12Fingerings.length,
     missingO12Fingerings: Array.from(new Set(missingO12Fingerings)).sort((left, right) => left - right),
     fingerprints: {
@@ -38,7 +47,8 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
             measure.chords.map(chord => `${measure.index}:${chord.eventIndex}:${chord.name}`)
           )
           .join('|')
-      )
+      ),
+      measureMarkers: stableHash(measureMarkers.join('|'))
     }
   }
 }

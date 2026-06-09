@@ -196,8 +196,11 @@ Latest `npm run analyze:native-runtime-song-ir -- --limit=400` result:
 - unsupported syntax count: 281
 - semantic issue count: 209, mostly missing current o12 fingering coverage for out-of-range notes
 - songs with recognized parenthesized groups: 279
+- songs with modeled repeat markers: 131
+- songs with modeled first/second ending markers: 83
 - section labels such as `A:` / `B:` and safe markers such as `{mark:A}` / `{hot}` are now classified as non-melody layout markers
-- highest-value next syntax gaps: repeat bars / first-second endings, `{play:...}` play-order expansion, tuplets, and fingering / tonality directives
+- repeat bars and first/second ending markers are now represented in SongIR, but still intentionally keep affected songs in fallback until native visual rendering and play-order expansion are implemented
+- highest-value next syntax gaps: native visual rendering for repeats / endings, `{play:...}` play-order expansion, tuplets, and fingering / tonality directives
 
 This means the current native renderer is safe for internal development, but not
 ready for public route replacement.
