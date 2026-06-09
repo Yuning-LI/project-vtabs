@@ -302,7 +302,7 @@ This is the user's long-term target:
 
 Current estimate:
 
-- about 50% to 55% complete overall
+- about 40% to 45% complete overall under the full function-equivalent definition
 
 Reason:
 
@@ -310,9 +310,11 @@ Reason:
 - the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, visual theme, and export surfaces
 - the correctness engine for public pages is still the archived Kuailepu `hc` renderer
 - native `SongIR` parsing and rendering has started in internal-only routes, but it is not yet production-grade
-- playback source generation, repeat playback semantics, dense layout, complex fingering expansion, and public migration are not yet ours
+- playback source generation, repeat playback semantics, full fingering switching, metronome alignment, export rendering, and public migration are not yet ours
 
-Operationally, the site is much farther along than the full-independence percentage for launch/SEO use. The visual-differentiation track is about 90% complete for public-page operation. Architecturally, full independence now depends mainly on Phase 5 turning the internal native renderer into a production-capable correctness path.
+Operationally, the site is much farther along than the full-independence percentage for launch/SEO use. The visual-differentiation track is about 90% complete for public-page operation. Architecturally, full independence now depends on Phase 5 turning the internal native model into a production-capable rendering, interaction, playback, fingering, and export path.
+
+The previous 50%+ estimate was useful when the active scope was mostly code-boundary cleanup plus visual differentiation. Under the stricter `100% = current public features without archived Kuailepu runtime` definition, progress must be counted lower because playback, metronome, export, and public route migration remain mostly unstarted.
 
 ## Target Module Layout
 
@@ -586,7 +588,11 @@ Deliverables:
 - semantic model for notes, rests, bars, repeats, slurs, lyrics, key, tempo, and fingering directives
 - layout engine MVP for melody rows, lyrics, measure numbers, and fingering anchors
 - renderer MVP for one narrow instrument family first, likely 12-hole ocarina
+- public controls backed by native state: instrument, fingering, note mode, graph, lyric, measure number, layout, and zoom
 - playback source generation independent from archived runtime
+- native metronome / highlight alignment from the same timing model as playback
+- print and Pinterest export backed by the native renderer
+- public route migration with an intentional archived-runtime fallback period
 - side-by-side renderer diff tooling against current archived output
 
 Suggested subphases:
@@ -610,10 +616,16 @@ Suggested subphases:
 
 4. Interaction / Playback
 
-   - move playback, metronome alignment, and note highlight onto our own model
+   - move playback, metronome alignment, note highlight, zoom, layout, graph, lyric, note-mode, and fingering controls onto our own model
    - keep archived runtime fallback until MVP is stable
 
-5. Catalog Migration
+5. Export Migration
+
+   - drive Pinterest and print output from native renderer output
+   - keep export visual quality close to the current public visual direction
+   - avoid using archived runtime screenshots as the long-term export source
+
+6. Catalog Migration
 
    - classify songs by supported syntax
    - route supported songs to our renderer
@@ -623,6 +635,8 @@ Exit criteria:
 
 - at least one instrument path can render and play without archived Kuailepu runtime
 - the renderer can handle a meaningful public subset, not just a toy fixture
+- public controls for instrument, fingering, note mode, graph, lyric, measure number, layout, zoom, playback, and metronome work through native data
+- export routes can use native output for supported songs
 - unsupported songs fail back intentionally, not silently
 - compare tooling distinguishes correctness, visual difference, and known unsupported syntax
 
@@ -639,6 +653,7 @@ Progress estimate:
 - native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
 - native layout now compresses over-wide single measures to the target row width and scales event-level visuals with the compressed cell width
 - `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
+- `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, fallback-boundary, and dense-layout compression fixtures
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
@@ -647,17 +662,31 @@ Current Phase 5 status:
 - Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks and measure-level repeat / ending markers
 - Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, and safe layout markers
 - Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn; row-level layout and over-wide measure compression exist, but production-grade engraving is still incomplete
-- Interaction / Playback: not started for native renderer
+- Fingering / Instrument Controls: native renderer currently supports only a narrow o12 adapter; full public fingering-index switching and multi-instrument parity are not migrated
+- Interaction / Playback: not started for native renderer beyond current archived-runtime bridge on public pages
+- Export Migration: not started for native renderer; print / Pinterest still need native output integration later
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
+
+Subtrack progress under the full Phase 5 scope:
+
+- Parser / SongIR: about 35% to 45%
+- Static native sheet rendering: about 55% to 65% for the narrow o12 internal MVP
+- Public controls / fingering switching: about 10% to 15%
+- Native playback / metronome / highlight: about 0% to 5%
+- Native export path: about 0% to 5%
+- Public route migration: about 0% to 5%
+
+Overall Phase 5, counted as the full replacement track, is about 25% to 30% complete.
 
 Recommended next Phase 5 order:
 
 1. add fixture-level regression checks for rest, hold, groups, repeat bars, endings, forced-preview fallback boundaries, and dense-layout compression
 2. implement `{play:...}` play-order expansion after repeat visual semantics are stable
-3. move toward native playback/metronome alignment from SongIR
-4. audit and add missing o12 fingering coverage where musically valid
-5. refine dense engraving quality after semantic coverage expands
-6. only then consider a private or query-flagged public native route experiment
+3. audit native fingering/instrument-control parity against the current public detail-page controls
+4. move toward native playback/metronome alignment from SongIR
+5. audit and add missing o12 fingering coverage where musically valid
+6. migrate export previews only after native sheet output is stable enough for supported songs
+7. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion
 
@@ -917,12 +946,13 @@ Use two progress tracks:
 
 The next safe work order is:
 
-1. run the short targeted runtime QA pass listed above
-2. keep Phase 3 visual changes behind `PublicRuntimeVisualTheme`
-3. apply low-risk visual changes first: palette, background, typography
-4. only then revisit fingering SVG shape changes through the transform boundary
-5. verify public page, number mode, bare runtime, print, and Pinterest after each visible change
-6. after Phase 3 is stable, choose between Phase 4 asset ownership and Phase 5 core replacement
+1. keep public `/song` on the archived runtime while native remains internal-only
+2. run `npm run check:native-renderer-regressions` before and after native parser / layout / renderer changes
+3. implement `{play:...}` play-order expansion in `SongIR` after repeat and ending structure remains stable
+4. audit current public detail-page controls and map each control to the native data / renderer responsibility
+5. start native playback / metronome alignment from `SongIR`
+6. only after native rendering and interaction are stable, migrate print / Pinterest output for supported songs
+7. only after those checks pass, consider a private or query-flagged public native route experiment
 
 ## Bottom Line
 
@@ -930,12 +960,12 @@ The current short-term goal is not “remove Kuailepu everywhere at once”.
 
 The current short-term goal is:
 
-- keep the archived Kuailepu core runtime as the correctness engine for now
-- make every surrounding layer increasingly ours
-- create obvious visual and product differentiation for public operation
+- keep the archived Kuailepu core runtime as the public correctness engine for now
+- keep making the native `SongIR` path cover more semantics, layout, controls, playback, and export behavior
+- preserve current public feature parity while each dependency is replaced intentionally
 - avoid refactors that cross execution layers blindly
 
-The long-term goal is full independence. That requires Phase 5: our own parser, semantic model, layout engine, renderer, fingering model, and playback path.
+The long-term goal is full independence. That requires Phase 5: our own parser, semantic model, layout engine, renderer, fingering model, playback path, control mapping, and export path.
 
 ## Full Independence Definition
 

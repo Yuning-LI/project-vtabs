@@ -53,6 +53,7 @@
     "analyze:native-song-ir": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-native-song-ir.ts",
     "analyze:native-runtime-song-ir": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-native-runtime-song-ir.ts",
     "analyze:native-runtime-layout": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-native-runtime-layout.ts",
+    "check:native-renderer-regressions": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/check-native-renderer-regressions.ts",
     "analyze:hc-parser-grammar": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-hc-parser-grammar.ts",
     "analyze:hc-overlap-semantics": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-hc-overlap-semantics.ts",
     "analyze:kuailepu-slur-groups": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/analyze-kuailepu-slur-groups.ts",
