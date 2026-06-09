@@ -59,7 +59,7 @@ export default function NativeRendererSideBySideReview({
 
           <ReviewPanel title="Native Renderer">
             {song && support.status === 'supported' ? (
-              <NativeMelodySheet song={song} />
+              <NativeMelodySheet song={song} variant="sheet" />
             ) : (
               <div className="rounded-[30px] border border-amber-300 bg-amber-50 p-6 text-sm font-semibold leading-6 text-amber-900">
                 Native renderer intentionally refused this song.
