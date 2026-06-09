@@ -636,6 +636,8 @@ Progress estimate:
 - runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs, identifies 279 songs with parenthesized groups, models repeat markers in 131 songs, and models first/second endings in 83 songs
 - native sheet rendering now displays rest `R`, hold dashes, parenthesized group boundaries, repeat bars, and first/second ending brackets in internal preview
 - `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
+- native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
+- `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan shows some songs have a single over-wide measure, so the next layout problem is measure-internal compression / splitting, not only row grouping
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
@@ -643,7 +645,7 @@ Current Phase 5 status:
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
 - Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks and measure-level repeat / ending markers
 - Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, and safe layout markers
-- Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn, but dense layout is still early and not production-grade
+- Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn; row-level layout now has width estimates, but measure-internal density is still early and not production-grade
 - Interaction / Playback: not started for native renderer
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
 

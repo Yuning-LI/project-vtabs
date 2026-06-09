@@ -79,11 +79,13 @@ function NativeDebugView({
           <div
             key={`row-${row.rowIndex}`}
             className="flex flex-wrap items-start gap-x-4 gap-y-5 border-b border-dashed border-[#ead8b8] pb-5 last:border-b-0 last:pb-0"
+            data-native-row-width-rem={row.widthRem.toFixed(2)}
           >
             {row.measures.map(measureLayout => (
               <div
                 key={measureLayout.measure.index}
                 className={getDebugMeasureClassName(measureLayout.measure)}
+                data-native-measure-width-rem={measureLayout.widthRem.toFixed(2)}
                 data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
                 data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
                 data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}
@@ -148,11 +150,16 @@ function NativeSheetView({
 
       <div className="flex flex-col" style={{ gap: `${rowGapRem}rem` }}>
         {layout.rows.map(row => (
-          <div key={`sheet-row-${row.rowIndex}`} className="flex flex-wrap items-end gap-y-5">
+          <div
+            key={`sheet-row-${row.rowIndex}`}
+            className="flex items-end gap-y-5"
+            data-native-row-width-rem={row.widthRem.toFixed(2)}
+          >
             {row.measures.map(measureLayout => (
               <div
                 key={`sheet-measure-${measureLayout.measure.index}`}
                 className={getSheetMeasureClassName(measureLayout.measure)}
+                data-native-measure-width-rem={measureLayout.widthRem.toFixed(2)}
                 data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
                 data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
                 data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}

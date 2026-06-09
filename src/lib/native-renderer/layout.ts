@@ -1,11 +1,16 @@
 import type { SongIrChord, SongIrDocument, SongIrEvent, SongIrMeasure } from './songIr'
 
 const DEFAULT_MEASURE_ROW_SIZE = 4
+const DEFAULT_TARGET_ROW_WIDTH_REM = 52
+const MIN_TARGET_ROW_WIDTH_REM = 28
 const MIN_EVENT_CELL_WIDTH_REM = 3.05
 const MAX_EVENT_CELL_WIDTH_REM = 5.1
 const EVENT_SLOT_WIDTH_REM = 0.75
 const CHORD_EVENT_OFFSET_REM = 3.2
 const MONO_EVENT_CELL_WIDTH_REM = 3.25
+const MEASURE_BASE_WIDTH_REM = 1.15
+const REPEAT_MARKER_WIDTH_REM = 0.55
+const ENDING_MARKER_WIDTH_REM = 0.8
 const DEFAULT_NATIVE_SHEET_SCALE = 10
 const MIN_NATIVE_SHEET_SCALE = 6
 const MAX_NATIVE_SHEET_SCALE = 16
@@ -15,6 +20,7 @@ export type NativeMelodyMeasureLayoutMode = 'compact' | 'mono'
 export type NativeMelodyLayoutOptions = {
   measureRowSize?: number
   measureLayout?: NativeMelodyMeasureLayoutMode
+  targetRowWidthRem?: number
 }
 
 export type NativeMelodyEventLayout = {
@@ -32,11 +38,13 @@ export type NativeMelodyMeasureLayout = {
   measure: SongIrMeasure
   events: NativeMelodyEventLayout[]
   chords: NativeMelodyChordLayout[]
+  widthRem: number
 }
 
 export type NativeMelodyRowLayout = {
   rowIndex: number
   measures: NativeMelodyMeasureLayout[]
+  widthRem: number
 }
 
 export type NativeMelodySheetLayout = {
@@ -49,22 +57,33 @@ export function buildNativeMelodyLayout(
 ): NativeMelodySheetLayout {
   const rowSize = normalizeMeasureRowSize(options.measureRowSize)
   const measureLayout = normalizeMeasureLayout(options.measureLayout)
+  const targetRowWidthRem = normalizeTargetRowWidthRem(options.targetRowWidthRem)
+  const measureLayouts = song.measures.map(measure => {
+    const events = measure.events.map((event, eventIndex) => ({
+      event,
+      eventIndex,
+      widthRem: getNativeEventCellWidthRem(event, measureLayout)
+    }))
+
+    return {
+      measure,
+      events,
+      chords: measure.chords.map(chord => ({
+        chord,
+        leftRem: getNativeChordLeftRem(chord)
+      })),
+      widthRem: getNativeMeasureWidthRem(measure, events)
+    }
+  })
 
   return {
-    rows: groupMeasures(song.measures, rowSize).map((measures, rowIndex) => ({
+    rows: groupMeasuresIntoRows(measureLayouts, {
+      maxMeasureCount: rowSize,
+      targetRowWidthRem
+    }).map((measures, rowIndex) => ({
       rowIndex,
-      measures: measures.map(measure => ({
-        measure,
-        events: measure.events.map((event, eventIndex) => ({
-          event,
-          eventIndex,
-          widthRem: getNativeEventCellWidthRem(event, measureLayout)
-        })),
-        chords: measure.chords.map(chord => ({
-          chord,
-          leftRem: getNativeChordLeftRem(chord)
-        }))
-      }))
+      measures,
+      widthRem: getNativeRowWidthRem(measures)
     }))
   }
 }
@@ -85,6 +104,15 @@ export function getNativeEventCellWidthRem(
 
 export function getNativeChordLeftRem(chord: SongIrChord) {
   return Math.max(0, chord.eventIndex) * CHORD_EVENT_OFFSET_REM
+}
+
+export function getNativeMeasureWidthRem(
+  measure: SongIrMeasure,
+  events: NativeMelodyEventLayout[]
+) {
+  const eventWidthRem = events.reduce((sum, event) => sum + event.widthRem, 0)
+  const markerWidthRem = getNativeMeasureMarkerWidthRem(measure)
+  return eventWidthRem + markerWidthRem + MEASURE_BASE_WIDTH_REM
 }
 
 export function normalizeNativeSheetScale(value: string | number | null | undefined) {
@@ -111,16 +139,69 @@ function normalizeMeasureRowSize(measureRowSize: number | undefined) {
   return Math.max(1, Math.floor(measureRowSize))
 }
 
+function normalizeTargetRowWidthRem(value: number | undefined) {
+  if (!value || !Number.isFinite(value)) {
+    return DEFAULT_TARGET_ROW_WIDTH_REM
+  }
+
+  return Math.max(MIN_TARGET_ROW_WIDTH_REM, value)
+}
+
 function normalizeMeasureLayout(
   measureLayout: NativeMelodyMeasureLayoutMode | undefined
 ): NativeMelodyMeasureLayoutMode {
   return measureLayout === 'mono' ? 'mono' : 'compact'
 }
 
-function groupMeasures<T>(items: T[], size: number) {
-  const groups: T[][] = []
-  for (let index = 0; index < items.length; index += size) {
-    groups.push(items.slice(index, index + size))
+function groupMeasuresIntoRows(
+  measures: NativeMelodyMeasureLayout[],
+  options: {
+    maxMeasureCount: number
+    targetRowWidthRem: number
   }
-  return groups
+) {
+  const rows: NativeMelodyMeasureLayout[][] = []
+  let currentRow: NativeMelodyMeasureLayout[] = []
+  let currentWidthRem = 0
+
+  for (const measure of measures) {
+    const nextWidthRem = currentWidthRem + measure.widthRem
+    const exceedsTargetWidth =
+      currentRow.length > 0 && nextWidthRem > options.targetRowWidthRem
+    const exceedsMeasureCount = currentRow.length >= options.maxMeasureCount
+
+    if (exceedsTargetWidth || exceedsMeasureCount) {
+      rows.push(currentRow)
+      currentRow = []
+      currentWidthRem = 0
+    }
+
+    currentRow.push(measure)
+    currentWidthRem += measure.widthRem
+  }
+
+  if (currentRow.length > 0) {
+    rows.push(currentRow)
+  }
+
+  return rows
+}
+
+function getNativeRowWidthRem(measures: NativeMelodyMeasureLayout[]) {
+  return measures.reduce((sum, measure) => sum + measure.widthRem, 0)
+}
+
+function getNativeMeasureMarkerWidthRem(measure: SongIrMeasure) {
+  const markers = measure.markers ?? []
+  return markers.reduce((sum, marker) => {
+    if (marker.kind === 'repeat-start' || marker.kind === 'repeat-end') {
+      return sum + REPEAT_MARKER_WIDTH_REM
+    }
+
+    if (marker.kind === 'ending-start' || marker.kind === 'ending-end') {
+      return sum + ENDING_MARKER_WIDTH_REM
+    }
+
+    return sum
+  }, 0)
 }
