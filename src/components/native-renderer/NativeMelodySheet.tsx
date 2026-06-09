@@ -297,7 +297,16 @@ function NativeEventNotationInline({
   dashScale?: number
 }) {
   return (
-    <span className="inline-flex items-center justify-center gap-[0.16em] whitespace-nowrap">
+    <span
+      className="inline-flex items-center justify-center gap-[0.16em] whitespace-nowrap"
+      data-native-event-notation="true"
+      data-native-group-open={notation.openParenCount}
+      data-native-group-close={notation.closeParenCount}
+      data-native-hold-count={notation.holdDashCount}
+    >
+      {notation.openParenCount > 0 ? (
+        <span className="tracking-[-0.08em]">{'('.repeat(notation.openParenCount)}</span>
+      ) : null}
       <span>{notation.label}</span>
       {Array.from({ length: notation.holdDashCount }).map((_, index) => (
         <span
@@ -311,6 +320,9 @@ function NativeEventNotationInline({
           }}
         />
       ))}
+      {notation.closeParenCount > 0 ? (
+        <span className="tracking-[-0.08em]">{')'.repeat(notation.closeParenCount)}</span>
+      ) : null}
     </span>
   )
 }
@@ -318,6 +330,8 @@ function NativeEventNotationInline({
 type NativeEventNotation = {
   label: string
   holdDashCount: number
+  openParenCount: number
+  closeParenCount: number
 }
 
 function buildNativeEventNotation(
@@ -326,10 +340,27 @@ function buildNativeEventNotation(
 ): NativeEventNotation {
   return {
     label: event.kind === 'note' ? instrument.formatMidiLabel(event.midi) : 'R',
-    holdDashCount: countHoldDashes(event.token)
+    holdDashCount: countHoldDashes(event.token),
+    openParenCount: countGroupEdges(event.groups, 'open'),
+    closeParenCount: countGroupEdges(event.groups, 'close')
   }
 }
 
 function countHoldDashes(token: string) {
   return token.match(/-+$/)?.[0]?.length ?? 0
+}
+
+function countGroupEdges(
+  groups: NativeMelodyEventLayout['event']['groups'] | undefined,
+  edge: 'open' | 'close'
+) {
+  if (!groups) {
+    return 0
+  }
+
+  return groups.filter(group =>
+    edge === 'open'
+      ? group.position === 'start' || group.position === 'single'
+      : group.position === 'end' || group.position === 'single'
+  ).length
 }
