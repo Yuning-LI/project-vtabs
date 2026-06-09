@@ -1,6 +1,8 @@
 import { MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12'
 import FingeringDiagram from '@/components/song/FingeringDiagram'
-import type { SongIrDocument, SongIrEvent } from '@/lib/native-renderer/songIr'
+import { buildNativeMelodyLayout } from '@/lib/native-renderer/layout'
+import type { NativeMelodyEventLayout } from '@/lib/native-renderer/layout'
+import type { SongIrDocument } from '@/lib/native-renderer/songIr'
 
 type NativeMelodySheetProps = {
   song: SongIrDocument
@@ -8,6 +10,8 @@ type NativeMelodySheetProps = {
 }
 
 export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMelodySheetProps) {
+  const layout = buildNativeMelodyLayout(song, { measureRowSize })
+
   return (
     <section className="rounded-[30px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] p-6 shadow-[0_18px_44px_rgba(70,45,24,0.1)]">
       <div className="mb-6 text-center">
@@ -18,30 +22,33 @@ export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMe
       </div>
 
       <div className="flex flex-col gap-8">
-        {groupMeasures(song.measures, measureRowSize).map((row, rowIndex) => (
+        {layout.rows.map(row => (
           <div
-            key={`row-${rowIndex}`}
+            key={`row-${row.rowIndex}`}
             className="flex flex-wrap items-start gap-x-4 gap-y-5 border-b border-dashed border-[#ead8b8] pb-5 last:border-b-0 last:pb-0"
           >
-            {row.map(measure => (
+            {row.measures.map(measureLayout => (
               <div
-                key={measure.index}
+                key={measureLayout.measure.index}
                 className="relative flex min-h-[138px] items-end gap-1 border-r border-[#9b8062] pr-3"
               >
                 <div className="absolute -top-4 left-0 text-[10px] font-bold text-[#b09675]">
-                  {measure.index + 1}
+                  {measureLayout.measure.index + 1}
                 </div>
-                {measure.chords.map(chord => (
+                {measureLayout.chords.map(chordLayout => (
                   <div
-                    key={`${measure.index}-${chord.name}-${chord.eventIndex}`}
+                    key={`${measureLayout.measure.index}-${chordLayout.chord.name}-${chordLayout.chord.eventIndex}`}
                     className="absolute top-1 rounded-full bg-[#ead8b8] px-2 py-0.5 text-[10px] font-black text-[#5c422c]"
-                    style={{ left: `${Math.max(0, chord.eventIndex) * 3.2}rem` }}
+                    style={{ left: `${chordLayout.leftRem}rem` }}
                   >
-                    {chord.name}
+                    {chordLayout.chord.name}
                   </div>
                 ))}
-                {measure.events.map((event, index) => (
-                  <EventCell key={`${measure.index}-${index}`} event={event} />
+                {measureLayout.events.map(eventLayout => (
+                  <EventCell
+                    key={`${measureLayout.measure.index}-${eventLayout.eventIndex}`}
+                    eventLayout={eventLayout}
+                  />
                 ))}
               </div>
             ))}
@@ -52,12 +59,12 @@ export default function NativeMelodySheet({ song, measureRowSize = 4 }: NativeMe
   )
 }
 
-function EventCell({ event }: { event: SongIrEvent }) {
-  const width = Math.max(3.05, Math.min(5.1, event.slotCount * 0.75))
+function EventCell({ eventLayout }: { eventLayout: NativeMelodyEventLayout }) {
+  const { event, widthRem } = eventLayout
   const label = event.kind === 'note' ? formatMidiLabel(event.midi) : '-'
 
   return (
-    <div className="flex flex-col items-center justify-end" style={{ width: `${width}rem` }}>
+    <div className="flex flex-col items-center justify-end" style={{ width: `${widthRem}rem` }}>
       <div className="mb-1 flex h-[56px] items-end justify-center">
         {event.kind === 'note' ? (
           <FingeringDiagram midi={event.midi} className="h-[50px] w-[62px]" />
@@ -80,14 +87,6 @@ function EventCell({ event }: { event: SongIrEvent }) {
       <div className="mt-0.5 text-[9px] font-bold text-[#b09675]">{event.slotCount}</div>
     </div>
   )
-}
-
-function groupMeasures<T>(items: T[], size: number) {
-  const groups: T[][] = []
-  for (let index = 0; index < items.length; index += size) {
-    groups.push(items.slice(index, index + size))
-  }
-  return groups
 }
 
 function formatMidiLabel(midi: number) {
