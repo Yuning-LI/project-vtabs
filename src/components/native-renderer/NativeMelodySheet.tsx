@@ -60,14 +60,7 @@ function EventCell({ event }: { event: SongIrEvent }) {
     <div className="flex flex-col items-center justify-end" style={{ width: `${width}rem` }}>
       <div className="mb-1 flex h-[56px] items-end justify-center">
         {event.kind === 'note' ? (
-          <FingeringDiagram
-            midi={event.midi}
-            className="h-[50px] w-[62px]"
-            bodyFill="#d9ee74"
-            strokeColor="#2f261f"
-            openFill="#fffdf4"
-            closedFill="#1f1812"
-          />
+          <FingeringDiagram midi={event.midi} className="h-[50px] w-[62px]" />
         ) : (
           <div className="h-[50px] w-[62px]" />
         )}

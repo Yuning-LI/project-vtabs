@@ -18,7 +18,7 @@ export default function NativeRendererSideBySideReview({
   const title = song?.metadata.title ?? slug
   const archivedFrameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${encodeURIComponent(
     slug
-  )}?note_label_mode=letter&runtime_visual_theme=off`
+  )}?note_label_mode=letter&runtime_visual_theme=classic`
 
   return (
     <div className="min-h-screen bg-[#ece0cb] px-4 py-6 text-[#2d2118]">
