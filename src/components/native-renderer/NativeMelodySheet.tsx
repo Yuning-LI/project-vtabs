@@ -19,6 +19,7 @@ type NativeMelodySheetProps = {
   measureRowSize?: number
   showGraph?: 'on' | 'off'
   showLyric?: 'on' | 'off'
+  showMeasureNum?: 'on' | 'off'
   sheetScale?: string | number
   variant?: 'debug' | 'sheet'
 }
@@ -30,6 +31,7 @@ export default function NativeMelodySheet({
   measureRowSize = 4,
   showGraph = 'on',
   showLyric = 'on',
+  showMeasureNum = 'off',
   sheetScale = 10,
   variant = 'debug'
 }: NativeMelodySheetProps) {
@@ -44,6 +46,7 @@ export default function NativeMelodySheet({
         instrument={instrument}
         showGraph={showGraph}
         showLyric={showLyric}
+        showMeasureNum={showMeasureNum}
         sheetScaleFactor={sheetScaleFactor}
         title={song.metadata.title}
       />
@@ -115,6 +118,7 @@ function NativeSheetView({
   instrument,
   showGraph,
   showLyric,
+  showMeasureNum,
   sheetScaleFactor,
   title
 }: {
@@ -122,6 +126,7 @@ function NativeSheetView({
   instrument: NativeRendererInstrumentAdapter
   showGraph: 'on' | 'off'
   showLyric: 'on' | 'off'
+  showMeasureNum: 'on' | 'off'
   sheetScaleFactor: number
   title: string
 }) {
@@ -146,6 +151,15 @@ function NativeSheetView({
                 className="relative flex items-end gap-0 border-r border-[#34261b] pr-1 last:border-r-0"
                 style={{ minHeight: `${118 * sheetScaleFactor}px` }}
               >
+                {showMeasureNum === 'on' ? (
+                  <div
+                    className="absolute left-0 top-0 font-black leading-none text-[#8c6f50]"
+                    data-native-measure-number="true"
+                    style={{ fontSize: `${9 * sheetScaleFactor}px` }}
+                  >
+                    {measureLayout.measure.index + 1}
+                  </div>
+                ) : null}
                 {measureLayout.chords.map(chordLayout => (
                   <div
                     key={`sheet-chord-${measureLayout.measure.index}-${chordLayout.chord.name}-${chordLayout.chord.eventIndex}`}

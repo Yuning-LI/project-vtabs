@@ -12,6 +12,7 @@ type NativeRendererSideBySideReviewProps = {
   measureLayout?: NativeMelodyMeasureLayoutMode
   showGraph?: 'on' | 'off'
   showLyric?: 'on' | 'off'
+  showMeasureNum?: 'on' | 'off'
   sheetScale?: string | number
 }
 
@@ -22,12 +23,13 @@ export default function NativeRendererSideBySideReview({
   measureLayout = 'compact',
   showGraph = 'on',
   showLyric = 'on',
+  showMeasureNum = 'off',
   sheetScale = 10
 }: NativeRendererSideBySideReviewProps) {
   const title = song?.metadata.title ?? slug
   const archivedFrameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${encodeURIComponent(
     slug
-  )}?note_label_mode=letter&runtime_visual_theme=classic&measure_layout=${measureLayout}&sheet_scale=${sheetScale}&show_graph=${showGraph}&show_lyric=${showLyric}`
+  )}?note_label_mode=letter&runtime_visual_theme=classic&measure_layout=${measureLayout}&sheet_scale=${sheetScale}&show_graph=${showGraph}&show_lyric=${showLyric}&show_measure_num=${showMeasureNum}`
 
   return (
     <div className="min-h-screen bg-[#ece0cb] px-4 py-6 text-[#2d2118]">
@@ -73,6 +75,7 @@ export default function NativeRendererSideBySideReview({
                 measureLayout={measureLayout}
                 showGraph={showGraph}
                 showLyric={showLyric}
+                showMeasureNum={showMeasureNum}
                 sheetScale={sheetScale}
                 variant="sheet"
               />

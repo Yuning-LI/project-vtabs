@@ -31,6 +31,7 @@ export default function NativeRendererReviewPage({
     sheet_scale?: string | string[]
     show_graph?: string | string[]
     show_lyric?: string | string[]
+    show_measure_num?: string | string[]
   }
 }) {
   const song = loadNativeSongIrFromDraft(params.id)
@@ -49,8 +50,12 @@ export default function NativeRendererReviewPage({
   const requestedShowLyric = Array.isArray(searchParams?.show_lyric)
     ? searchParams?.show_lyric[0]
     : searchParams?.show_lyric
+  const requestedShowMeasureNum = Array.isArray(searchParams?.show_measure_num)
+    ? searchParams?.show_measure_num[0]
+    : searchParams?.show_measure_num
   const showGraph = normalizeToggleParam(requestedShowGraph) ?? 'on'
   const showLyric = normalizeToggleParam(requestedShowLyric) ?? 'on'
+  const showMeasureNum = normalizeToggleParam(requestedShowMeasureNum) ?? 'off'
 
   return (
     <NativeRendererSideBySideReview
@@ -60,6 +65,7 @@ export default function NativeRendererReviewPage({
       measureLayout={measureLayout}
       showGraph={showGraph}
       showLyric={showLyric}
+      showMeasureNum={showMeasureNum}
       sheetScale={sheetScale}
     />
   )
