@@ -192,11 +192,12 @@ Latest `npm run analyze:native-song-ir` result:
 Latest `npm run analyze:native-runtime-song-ir -- --limit=400` result:
 
 - runtime catalog count: 400
-- currently supported in internal runtime-probe mode: 97
-- unsupported syntax count: 288
+- currently supported in internal runtime-probe mode: 104
+- unsupported syntax count: 281
 - semantic issue count: 209, mostly missing current o12 fingering coverage for out-of-range notes
 - songs with recognized parenthesized groups: 279
-- highest-value next syntax gaps: repeat bars / first-second endings, section labels such as `A:` / `B:`, tuplets, and non-note directives
+- section labels such as `A:` / `B:` and safe markers such as `{mark:A}` / `{hot}` are now classified as non-melody layout markers
+- highest-value next syntax gaps: repeat bars / first-second endings, `{play:...}` play-order expansion, tuplets, and fingering / tonality directives
 
 This means the current native renderer is safe for internal development, but not
 ready for public route replacement.

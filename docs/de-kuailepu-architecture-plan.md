@@ -632,14 +632,14 @@ Progress estimate:
 - current implemented chain: public runtime syntax inventory -> `SongIR v0` -> MusicXML draft adapter + runtime notation adapter -> native support contract -> `/dev/native-renderer/song/[id]` preview + `/dev/native-renderer/review/[id]` side-by-side review
 - MusicXML draft mode remains deliberately narrow: 15 MusicXML-backed native MVP seed songs only
 - current MusicXML strict supported set is 12 songs; 3 eligible seeds still fallback because they contain MIDI `79`, which has no current o12 fingering entry
-- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 97 songs and identifies 279 songs with parenthesized groups
+- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs and identifies 279 songs with parenthesized groups
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
 
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
 - Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks
-- Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, and safe layout markers
+- Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, section labels, and safe layout markers
 - Renderer MVP: internal o12 preview and side-by-side runtime review exist, but layout is still early and not production-grade
 - Interaction / Playback: not started for native renderer
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
@@ -647,7 +647,7 @@ Current Phase 5 status:
 Recommended next Phase 5 order:
 
 1. improve runtime notation parser coverage for repeat bars and first/second endings
-2. classify and parse section labels / play-order directives without treating labels as melody tokens
+2. implement `{play:...}` play-order expansion after repeat semantics are represented
 3. render recognized parenthesized groups visually in the native sheet
 4. stabilize reusable native layout primitives for denser runtime songs
 5. move toward native playback/metronome alignment from SongIR

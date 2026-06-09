@@ -19,6 +19,7 @@ type RuntimeNotationToken =
   | { kind: 'group-open'; value: '(' }
   | { kind: 'group-close'; value: ')' }
   | { kind: 'layout'; value: string }
+  | { kind: 'repeat-ending'; value: string }
   | { kind: 'unknown'; value: string }
 
 const EVENT_HEAD_PATTERN = /^(?:[#bn]?[1-7][',"gd#bn]*|0)$/i
@@ -58,6 +59,10 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
     }
 
     if (token.kind === 'layout') {
+      continue
+    }
+
+    if (token.kind === 'repeat-ending') {
       continue
     }
 
@@ -206,10 +211,23 @@ export function scanRuntimeNotation(notation: string) {
       continue
     }
 
+    const sectionLabel = notation.slice(index).match(/^[A-Z]\d*:/)
+    if (sectionLabel) {
+      tokens.push({ kind: 'layout', value: sectionLabel[0] })
+      index += sectionLabel[0].length
+      continue
+    }
+
     if (char === '[') {
-      const match = notation.slice(index).match(/^\[\d:|\[\d|^\[|\]/)
-      tokens.push({ kind: 'unknown', value: match?.[0] ?? char })
+      const match = notation.slice(index).match(/^\[\d+:?/)
+      tokens.push({ kind: 'repeat-ending', value: match?.[0] ?? char })
       index += match?.[0].length ?? 1
+      continue
+    }
+
+    if (char === ']') {
+      tokens.push({ kind: 'repeat-ending', value: char })
+      index += 1
       continue
     }
 
@@ -395,7 +413,11 @@ function detectRuntimeNotationUnsupported(notation: string, tokens: RuntimeNotat
   tokens.forEach(token => {
     if (token.kind === 'directive') {
       const directive = token.value.slice(1, -1).trim()
-      if (/^(?:cn|bpm)\s*:/i.test(directive)) {
+      if (isRuntimeNotationSafeDirective(directive)) {
+        return
+      }
+      if (/^play\s*[:：]/i.test(directive)) {
+        unsupported.push('play-order-directive')
         return
       }
       unsupported.push(`non-mvp-directive:${directive}`)
@@ -411,6 +433,10 @@ function detectRuntimeNotationUnsupported(notation: string, tokens: RuntimeNotat
   }
 
   return unsupported
+}
+
+function isRuntimeNotationSafeDirective(directive: string) {
+  return /^(?:cn|bpm)\s*:/i.test(directive) || /^mark\s*:/i.test(directive) || /^hot$/i.test(directive)
 }
 
 function readRuntimeTitle(payload: PublicRuntimePayload, slug: string) {
