@@ -86,6 +86,9 @@ function NativeDebugView({
                 key={measureLayout.measure.index}
                 className={getDebugMeasureClassName(measureLayout.measure)}
                 data-native-measure-width-rem={measureLayout.widthRem.toFixed(2)}
+                data-native-measure-raw-width-rem={measureLayout.rawWidthRem.toFixed(2)}
+                data-native-measure-compression-ratio={measureLayout.compressionRatio.toFixed(3)}
+                data-native-measure-compressed={measureLayout.compressionRatio < 0.999}
                 data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
                 data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
                 data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}
@@ -160,6 +163,9 @@ function NativeSheetView({
                 key={`sheet-measure-${measureLayout.measure.index}`}
                 className={getSheetMeasureClassName(measureLayout.measure)}
                 data-native-measure-width-rem={measureLayout.widthRem.toFixed(2)}
+                data-native-measure-raw-width-rem={measureLayout.rawWidthRem.toFixed(2)}
+                data-native-measure-compression-ratio={measureLayout.compressionRatio.toFixed(3)}
+                data-native-measure-compressed={measureLayout.compressionRatio < 0.999}
                 data-native-repeat-start={hasMeasureMarker(measureLayout.measure, 'repeat-start')}
                 data-native-repeat-end={hasMeasureMarker(measureLayout.measure, 'repeat-end')}
                 data-native-ending-start={getEndingStartLabel(measureLayout.measure) ?? undefined}
@@ -317,14 +323,24 @@ function EventCell({
 }) {
   const { event, widthRem } = eventLayout
   const notation = buildNativeEventNotation(event, instrument)
+  const visualScale = eventLayout.visualScale
 
   return (
-    <div className="flex flex-col items-center justify-end" style={{ width: `${widthRem}rem` }}>
+    <div
+      className="flex flex-col items-center justify-end"
+      data-native-event-width-rem={widthRem.toFixed(2)}
+      data-native-event-visual-scale={visualScale.toFixed(3)}
+      style={{ width: `${widthRem}rem` }}
+    >
       <div className="mb-1 flex h-[56px] items-end justify-center">
         {event.kind === 'note' ? (
-          <FingeringDiagram midi={event.midi} className="h-[50px] w-[62px]" />
+          <FingeringDiagram
+            midi={event.midi}
+            className=""
+            style={{ height: `${50 * visualScale}px`, width: `${62 * visualScale}px` }}
+          />
         ) : (
-          <div className="h-[50px] w-[62px]" />
+          <div style={{ height: `${50 * visualScale}px`, width: `${62 * visualScale}px` }} />
         )}
       </div>
       <div
@@ -359,14 +375,20 @@ function SheetEventCell({
 }) {
   const { event, widthRem } = eventLayout
   const notation = buildNativeEventNotation(event, instrument)
-  const cellWidthRem = Math.max(2.55, widthRem * 0.84) * sheetScaleFactor
-  const diagramHeight = 49 * sheetScaleFactor
-  const diagramWidth = 60 * sheetScaleFactor
+  const visualScale = eventLayout.visualScale
+  const cellWidthRem = Math.max(1.85, widthRem * 0.84) * sheetScaleFactor
+  const diagramHeight = 49 * sheetScaleFactor * visualScale
+  const diagramWidth = 60 * sheetScaleFactor * visualScale
   const noteHeight = 28 * sheetScaleFactor
   const lyricHeight = 16 * sheetScaleFactor
 
   return (
-    <div className="flex flex-col items-center justify-end" style={{ width: `${cellWidthRem}rem` }}>
+    <div
+      className="flex flex-col items-center justify-end"
+      data-native-event-width-rem={widthRem.toFixed(2)}
+      data-native-event-visual-scale={visualScale.toFixed(3)}
+      style={{ width: `${cellWidthRem}rem` }}
+    >
       {showGraph === 'on' ? (
         <div
           className="mb-0.5 flex items-end justify-center"
@@ -385,9 +407,15 @@ function SheetEventCell({
       ) : null}
       <div
         className="flex items-center justify-center font-black leading-none tracking-[0.01em] text-[#1d130c]"
-        style={{ fontSize: `${17 * sheetScaleFactor}px`, height: `${noteHeight}px` }}
+        style={{
+          fontSize: `${17 * sheetScaleFactor * Math.max(0.82, visualScale)}px`,
+          height: `${noteHeight}px`
+        }}
       >
-        <NativeEventNotationInline notation={notation} dashScale={sheetScaleFactor} />
+        <NativeEventNotationInline
+          notation={notation}
+          dashScale={sheetScaleFactor * Math.max(0.82, visualScale)}
+        />
       </div>
       {showLyric === 'on' ? (
         <div

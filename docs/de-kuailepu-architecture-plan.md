@@ -637,7 +637,8 @@ Progress estimate:
 - native sheet rendering now displays rest `R`, hold dashes, parenthesized group boundaries, repeat bars, and first/second ending brackets in internal preview
 - `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
 - native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
-- `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan shows some songs have a single over-wide measure, so the next layout problem is measure-internal compression / splitting, not only row grouping
+- native layout now compresses over-wide single measures to the target row width and scales event-level visuals with the compressed cell width
+- `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
@@ -645,17 +646,17 @@ Current Phase 5 status:
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
 - Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks and measure-level repeat / ending markers
 - Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, and safe layout markers
-- Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn; row-level layout now has width estimates, but measure-internal density is still early and not production-grade
+- Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn; row-level layout and over-wide measure compression exist, but production-grade engraving is still incomplete
 - Interaction / Playback: not started for native renderer
 - Catalog Migration: only support/fallback decision contract exists; public migration not started
 
 Recommended next Phase 5 order:
 
-1. stabilize reusable native layout primitives for denser runtime songs
+1. add fixture-level regression checks for rest, hold, groups, repeat bars, endings, forced-preview fallback boundaries, and dense-layout compression
 2. implement `{play:...}` play-order expansion after repeat visual semantics are stable
 3. move toward native playback/metronome alignment from SongIR
 4. audit and add missing o12 fingering coverage where musically valid
-5. add fixture-level regression checks for rest, hold, groups, repeat bars, endings, and forced-preview fallback boundaries
+5. refine dense engraving quality after semantic coverage expands
 6. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion
@@ -935,3 +936,20 @@ The current short-term goal is:
 - avoid refactors that cross execution layers blindly
 
 The long-term goal is full independence. That requires Phase 5: our own parser, semantic model, layout engine, renderer, fingering model, and playback path.
+
+## Full Independence Definition
+
+`100% de-Kuailepu` means functionally equivalent public operation without the archived Kuailepu runtime.
+
+This includes:
+
+- public song rendering from our own parser / `SongIR` / native renderer
+- instrument and fingering selection driven by our own fingering model
+- letter and number note labels from our own rendering path
+- lyrics, rests, holds, groups, repeats, endings, and measure layout handled natively
+- playback, note highlighting, and metronome alignment from our own timing model
+- zoom / layout / graph / lyric / measure-number controls still working from the public shell
+- Pinterest, print, and future export surfaces driven by our own renderer
+- archived Kuailepu code removed from the live public correctness path
+
+The target is not fewer features than the current public site. It is the same visible product capability, with the implementation migrated off the archived runtime. Until playback, fingering switching, and export paths are moved onto native data, the project is not 100% independent even if the static sheet can be drawn.

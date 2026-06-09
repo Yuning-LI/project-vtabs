@@ -38,6 +38,12 @@ const summaries = slugs.map(slug => {
   const measureWidths = layout.rows.flatMap(row =>
     row.measures.map(measure => Number(measure.widthRem.toFixed(2)))
   )
+  const compressedMeasures = layout.rows
+    .flatMap(row => row.measures)
+    .filter(measure => measure.compressionRatio < 0.999)
+  const compressionRatios = compressedMeasures.map(measure =>
+    Number(measure.compressionRatio.toFixed(3))
+  )
 
   return {
     slug,
@@ -47,6 +53,8 @@ const summaries = slugs.map(slug => {
     eventCount: song.stats.eventCount,
     maxRowWidthRem: rowWidths.length > 0 ? Math.max(...rowWidths) : 0,
     maxMeasureWidthRem: measureWidths.length > 0 ? Math.max(...measureWidths) : 0,
+    compressedMeasureCount: compressedMeasures.length,
+    minCompressionRatio: compressionRatios.length > 0 ? Math.min(...compressionRatios) : 1,
     rowWidths,
     unsupported: song.unsupported
   }
@@ -95,7 +103,9 @@ console.log(
         measureCount: summary.measureCount,
         eventCount: summary.eventCount,
         maxRowWidthRem: summary.maxRowWidthRem,
-        maxMeasureWidthRem: summary.maxMeasureWidthRem
+        maxMeasureWidthRem: summary.maxMeasureWidthRem,
+        compressedMeasureCount: summary.compressedMeasureCount,
+        minCompressionRatio: summary.minCompressionRatio
       })),
       topMaxMeasureWidth: report.topMaxMeasureWidth.slice(0, 10).map(summary => ({
         slug: summary.slug,
@@ -103,7 +113,9 @@ console.log(
         measureCount: summary.measureCount,
         eventCount: summary.eventCount,
         maxRowWidthRem: summary.maxRowWidthRem,
-        maxMeasureWidthRem: summary.maxMeasureWidthRem
+        maxMeasureWidthRem: summary.maxMeasureWidthRem,
+        compressedMeasureCount: summary.compressedMeasureCount,
+        minCompressionRatio: summary.minCompressionRatio
       }))
     },
     null,

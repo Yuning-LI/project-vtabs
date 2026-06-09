@@ -4,9 +4,9 @@ const DEFAULT_MEASURE_ROW_SIZE = 4
 const DEFAULT_TARGET_ROW_WIDTH_REM = 52
 const MIN_TARGET_ROW_WIDTH_REM = 28
 const MIN_EVENT_CELL_WIDTH_REM = 3.05
+const MIN_COMPRESSED_EVENT_CELL_WIDTH_REM = 2.15
 const MAX_EVENT_CELL_WIDTH_REM = 5.1
 const EVENT_SLOT_WIDTH_REM = 0.75
-const CHORD_EVENT_OFFSET_REM = 3.2
 const MONO_EVENT_CELL_WIDTH_REM = 3.25
 const MEASURE_BASE_WIDTH_REM = 1.15
 const REPEAT_MARKER_WIDTH_REM = 0.55
@@ -27,6 +27,8 @@ export type NativeMelodyEventLayout = {
   event: SongIrEvent
   eventIndex: number
   widthRem: number
+  rawWidthRem: number
+  visualScale: number
 }
 
 export type NativeMelodyChordLayout = {
@@ -39,6 +41,8 @@ export type NativeMelodyMeasureLayout = {
   events: NativeMelodyEventLayout[]
   chords: NativeMelodyChordLayout[]
   widthRem: number
+  rawWidthRem: number
+  compressionRatio: number
 }
 
 export type NativeMelodyRowLayout = {
@@ -58,23 +62,12 @@ export function buildNativeMelodyLayout(
   const rowSize = normalizeMeasureRowSize(options.measureRowSize)
   const measureLayout = normalizeMeasureLayout(options.measureLayout)
   const targetRowWidthRem = normalizeTargetRowWidthRem(options.targetRowWidthRem)
-  const measureLayouts = song.measures.map(measure => {
-    const events = measure.events.map((event, eventIndex) => ({
-      event,
-      eventIndex,
-      widthRem: getNativeEventCellWidthRem(event, measureLayout)
-    }))
-
-    return {
-      measure,
-      events,
-      chords: measure.chords.map(chord => ({
-        chord,
-        leftRem: getNativeChordLeftRem(chord)
-      })),
-      widthRem: getNativeMeasureWidthRem(measure, events)
-    }
-  })
+  const measureLayouts = song.measures.map(measure =>
+    buildNativeMeasureLayout(measure, {
+      measureLayout,
+      targetMeasureWidthRem: targetRowWidthRem
+    })
+  )
 
   return {
     rows: groupMeasuresIntoRows(measureLayouts, {
@@ -103,7 +96,7 @@ export function getNativeEventCellWidthRem(
 }
 
 export function getNativeChordLeftRem(chord: SongIrChord) {
-  return Math.max(0, chord.eventIndex) * CHORD_EVENT_OFFSET_REM
+  return Math.max(0, chord.eventIndex) * MONO_EVENT_CELL_WIDTH_REM
 }
 
 export function getNativeMeasureWidthRem(
@@ -113,6 +106,85 @@ export function getNativeMeasureWidthRem(
   const eventWidthRem = events.reduce((sum, event) => sum + event.widthRem, 0)
   const markerWidthRem = getNativeMeasureMarkerWidthRem(measure)
   return eventWidthRem + markerWidthRem + MEASURE_BASE_WIDTH_REM
+}
+
+function buildNativeMeasureLayout(
+  measure: SongIrMeasure,
+  options: {
+    measureLayout: NativeMelodyMeasureLayoutMode
+    targetMeasureWidthRem: number
+  }
+): NativeMelodyMeasureLayout {
+  const rawEventWidths = measure.events.map(event =>
+    getNativeEventCellWidthRem(event, options.measureLayout)
+  )
+  const markerWidthRem = getNativeMeasureMarkerWidthRem(measure)
+  const fixedWidthRem = markerWidthRem + MEASURE_BASE_WIDTH_REM
+  const rawEventWidthRem = rawEventWidths.reduce((sum, widthRem) => sum + widthRem, 0)
+  const rawWidthRem = rawEventWidthRem + fixedWidthRem
+  const eventWidths = compressEventWidths(rawEventWidths, {
+    fixedWidthRem,
+    targetMeasureWidthRem: options.targetMeasureWidthRem
+  })
+  const events = measure.events.map((event, eventIndex) => {
+    const rawWidthRem = rawEventWidths[eventIndex] ?? MIN_EVENT_CELL_WIDTH_REM
+    const widthRem = eventWidths[eventIndex] ?? rawWidthRem
+    const visualScale = Math.max(0.62, Math.min(1, widthRem / rawWidthRem))
+
+    return {
+      event,
+      eventIndex,
+      widthRem,
+      rawWidthRem,
+      visualScale
+    }
+  })
+  const widthRem = eventWidths.reduce((sum, value) => sum + value, 0) + fixedWidthRem
+
+  return {
+    measure,
+    events,
+    chords: measure.chords.map(chord => ({
+      chord,
+      leftRem: getNativeChordLeftRemFromEvents(chord, events)
+    })),
+    widthRem,
+    rawWidthRem,
+    compressionRatio: rawWidthRem > 0 ? widthRem / rawWidthRem : 1
+  }
+}
+
+function compressEventWidths(
+  rawEventWidths: number[],
+  options: {
+    fixedWidthRem: number
+    targetMeasureWidthRem: number
+  }
+) {
+  const rawEventWidthRem = rawEventWidths.reduce((sum, value) => sum + value, 0)
+  const rawMeasureWidthRem = rawEventWidthRem + options.fixedWidthRem
+  if (rawMeasureWidthRem <= options.targetMeasureWidthRem || rawEventWidths.length === 0) {
+    return rawEventWidths
+  }
+
+  const availableEventWidthRem = Math.max(
+    rawEventWidths.length * MIN_COMPRESSED_EVENT_CELL_WIDTH_REM,
+    options.targetMeasureWidthRem - options.fixedWidthRem
+  )
+  const compressionRatio = availableEventWidthRem / rawEventWidthRem
+
+  return rawEventWidths.map(widthRem =>
+    Math.max(MIN_COMPRESSED_EVENT_CELL_WIDTH_REM, widthRem * compressionRatio)
+  )
+}
+
+function getNativeChordLeftRemFromEvents(
+  chord: SongIrChord,
+  events: NativeMelodyEventLayout[]
+) {
+  return events
+    .slice(0, Math.max(0, chord.eventIndex))
+    .reduce((sum, event) => sum + event.widthRem, 0)
 }
 
 export function normalizeNativeSheetScale(value: string | number | null | undefined) {
