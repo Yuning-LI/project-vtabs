@@ -2,6 +2,10 @@
 
 import type { CSSProperties } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  createIframePublicRuntimeHostController,
+  type PublicRuntimeHostController
+} from './PublicRuntimeHostController'
 
 type PublicRuntimeFrameProps = {
   songId: string
@@ -20,7 +24,7 @@ type PublicRuntimeFrameProps = {
   fitCropBottom?: number
   runtimeTextHideRules?: RuntimeTextHideRule[]
   runtimeMaskRects?: RuntimeMaskRect[]
-  onFrameElementChange?: (frame: HTMLIFrameElement | null) => void
+  onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
   onFrameLoad?: () => void
 }
 
@@ -66,7 +70,7 @@ export default function PublicRuntimeFrame({
   fitCropBottom = 0,
   runtimeTextHideRules,
   runtimeMaskRects,
-  onFrameElementChange,
+  onHostControllerChange,
   onFrameLoad
 }: PublicRuntimeFrameProps) {
   const frameRef = useRef<HTMLIFrameElement | null>(null)
@@ -78,9 +82,9 @@ export default function PublicRuntimeFrame({
   const assignFrameRef = useCallback(
     (node: HTMLIFrameElement | null) => {
       frameRef.current = node
-      onFrameElementChange?.(node)
+      onHostControllerChange?.(createIframePublicRuntimeHostController(node))
     },
-    [onFrameElementChange]
+    [onHostControllerChange]
   )
 
   useEffect(() => {
@@ -542,7 +546,7 @@ export default function PublicRuntimeFrame({
     initialHeight,
     loadingId,
     onFrameLoad,
-    onFrameElementChange,
+    onHostControllerChange,
     runtimeMaskRects,
     runtimeTextHideRules
   ])

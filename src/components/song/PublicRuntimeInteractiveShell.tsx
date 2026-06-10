@@ -25,6 +25,7 @@ import {
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
 import PublicRuntimeFrame from './PublicRuntimeFrame'
+import type { PublicRuntimeHostController } from './PublicRuntimeHostController'
 import SongPageFunctionZone, {
   type SongPageFunctionZoneActionControl,
   type SongPageFunctionZoneSelectControl,
@@ -106,7 +107,7 @@ export default function PublicRuntimeInteractiveShell({
   const [playbackStatus, setPlaybackStatus] = useState<PlaybackUiStatus>('idle')
   const [isPlaybackPanelOpen, setIsPlaybackPanelOpen] = useState(false)
   const [playbackLoadingProgress, setPlaybackLoadingProgress] = useState(0)
-  const runtimeFrameRef = useRef<HTMLIFrameElement | null>(null)
+  const runtimeHostControllerRef = useRef<PublicRuntimeHostController | null>(null)
   const pendingPlaybackOpenRef = useRef(false)
   const trackedSongViewRef = useRef<string | null>(null)
   const previousSongRef = useRef<string | null>(null)
@@ -550,12 +551,12 @@ export default function PublicRuntimeInteractiveShell({
         return false
       }
 
-      const frameWindow = runtimeFrameRef.current?.contentWindow
-      if (!frameWindow) {
+      const runtimeHost = runtimeHostControllerRef.current
+      if (!runtimeHost) {
         return false
       }
 
-      frameWindow.postMessage(
+      return runtimeHost.postMessage(
         {
           type:
             action === 'stop'
@@ -564,10 +565,8 @@ export default function PublicRuntimeInteractiveShell({
                 ? PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE
                 : PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
           songId
-        },
-        window.location.origin
+        }
       )
-      return true
     },
     [songId]
   )
@@ -590,7 +589,7 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (runtimeFrameRef.current === target) {
+      if (runtimeHostControllerRef.current?.hostElement === target) {
         return
       }
 
@@ -663,9 +662,12 @@ export default function PublicRuntimeInteractiveShell({
     }, 80)
   }, [isPlaybackFeatureEnabled, onRuntimeFrameReadyChange, postPlaybackCommandMessage])
 
-  const handleFrameElementChange = useCallback((frame: HTMLIFrameElement | null) => {
-    runtimeFrameRef.current = frame
-  }, [])
+  const handleRuntimeHostControllerChange = useCallback(
+    (controller: PublicRuntimeHostController | null) => {
+      runtimeHostControllerRef.current = controller
+    },
+    []
+  )
 
   const instrumentSelect =
     supportedInstruments.length > 1
@@ -989,7 +991,7 @@ export default function PublicRuntimeInteractiveShell({
           frameSrc={frameSrc}
           loadingId={loadingId}
           initialHeight={320}
-          onFrameElementChange={handleFrameElementChange}
+          onHostControllerChange={handleRuntimeHostControllerChange}
           onFrameLoad={handleRuntimeFrameLoad}
         />
       </div>
