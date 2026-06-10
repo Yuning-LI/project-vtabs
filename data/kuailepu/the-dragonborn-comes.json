@@ -1,0 +1,32 @@
+{
+  "id": "the-dragonborn-comes",
+  "slug": "the-dragonborn-comes",
+  "title": "The Dragonborn Comes",
+  "description": "The Dragonborn Comes melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/PMH8i17yW.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song PMH8i17yW on 2026-06-06."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 100,
+    "meter": "6/8"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-06",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "0 0 3 - | 6 - 6 - 7 - 1' - 1' - 1' 1' | 7 - 6 5 - - 6 - - - 3 - | 6 - 6 - 7 - 1' - 1' - 1' 1' | 7 6 - 5 5 - 6 - - - 3' 3' |",
+    "3' - 6 - 7 - 1' 2' - - 1' 1' | 7 - 1' 7 7 - 6 - - - 3 - | 6 - - - 7 - 1' - - - 1' 1' | 7 6 - 5 5 - 6 - - -",
+    "3 2 | 6 - 6 - 7 - 1' - 1' - 1' - | 7 - 6 - 5 - 6 - - - 3 - | 6 - - - 7 - 1' - - - 1' 1' | 7 6 - 5 5 - 6 - - - 3' 3' |",
+    "3' - 6 - 7 - 1' 2' - - 1' - | 7 1' - 7 7 - 6 - - - 3 - | 6 - - - 7 - 1' - - - 1' 1' | 7 6 - 5 5 - 6 - - - 0 0 |",
+    "3' - 3' 2' 1' - 7 - 6 - 5 - | 6 7 6 5 3 - 6 7 6 5 3 - | 6 7 6 5 6 - 7 - 1' - 2' - |",
+    "3' - - - - - 3' - - - 0 0 | 6 - 1' - 7 - 6 - - - 3 - | 6 - 6 - 7 - 1' - 2' - 3' - | 2' 1' - - 7 - 6 - - - - - | | |"
+  ]
+}

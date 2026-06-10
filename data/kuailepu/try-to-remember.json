@@ -1,0 +1,62 @@
+{
+  "id": "try-to-remember",
+  "slug": "try-to-remember",
+  "title": "Try to Remember",
+  "description": "Try to Remember melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "Try to re mem ber the kind of Sep tem ber When life was slow and",
+    "oh, so mel low _ Try to re mem ber the kind of Sep",
+    "tem ber When grass was green and grain was yel low _",
+    "Try to re mem ber the kind of Sep tem ber When you were a",
+    "ten ber and cal low fel low _ Try to re mem ber and",
+    "if you re mem ber Then",
+    "fol low _ Fol low Fol low",
+    "Fol low Fol low Fol low Fol low Fol low Fol low",
+    "",
+    "Fol low _ Fol low Fol low",
+    "Fol low Fol low Fol low Fol low Fol low Fol low Fol low _",
+    ""
+  ],
+  "extraLyrics": [
+    "Try to re mem ber when life was so ten der",
+    "That no one wept ex cept the wil low _",
+    "Try to re mem ber",
+    "When life was so ten der that dreams were kept be side your pil low _",
+    "Try to re mem ber when life was so ten der that love was an em der a bout to bil low _ try to re mem ber and if you re mem ber then",
+    "Deep in De cem ber It's nice to re mem ber",
+    "Al though you know the snow will fol low _",
+    "Deep in De cem ber It's nice to re mem ber with out a hurt the heart is hol low _ deep in de cem ber it nice to re mem ber the fire of sep tem ber that made us mel low _ deep in de cem ber our hearts should re mem ber and"
+  ],
+  "source": {
+    "title": "Kuailepu detail-page snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/pef5l1NGC.html",
+    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
+    "note": "Raw context captured from Kuailepu song pef5l1NGC on 2026-06-06."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "3/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-06",
+    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "3 - - 3 3 - | 3 - 2 - 1 - | 4, - - 4, 4, - | 4, - 5, - 6, - | 5, - - - 3, - | 1 - - - 5, - |",
+    "6, - - - 4, - | 2 6, 6, - - - | 3, - - 3 3 - | 3 - 2 - 1 - | 4, - - 4, 4, - |",
+    "4, - 5, - 6, - | 5, - - - 3, - | 1 - - - 5, - | 6, - - - 4, - | 2 6, 6, - - - |",
+    "5 - - 5 5 - | 5 - 4 - 3 - | 4 - - 4 4 - | 4 - 3 - 2 - | 3 - - 3 3 - |",
+    "3 - 2 - 1 - | 2 - - - 6, - | 7, 5, 5, - - - | 3 - - 3 3 - | 3 - 2 - 1 - |",
+    "4, - - 4, 4, - | 4, - 5, - 6, - |",
+    "3 1 1 - - - | 0 0 3 1 3 1 |",
+    "3 1 3 1 3 1 | 3 1 3 1 3 1",
+    "|",
+    "3 1 1 - - - | 0 0 3 1 3 1 |",
+    "3 1 3 1 3 1 | 3 1 3 1 3 1 | 3 - 1 - - - | 1 - 0 0 0 0",
+    "| | |"
+  ]
+}
