@@ -20,8 +20,8 @@ export type SongIrPlaybackSequenceAudit = {
     | 'simple-expanded'
     | 'numbered-ending-expanded'
     | 'blocked-by-complex-ending'
-    | 'blocked-by-unmatched-repeat-start'
   repeatSegmentCount: number
+  ignoredUnmatchedRepeatStartCount: number
   baseMeasureSequence: number[]
   measureSequence: number[]
   sequenceMeasureCount: number
@@ -56,10 +56,6 @@ export function auditSongIrPlaybackSequence(
     blockers.push('ending-markers-not-expanded')
   }
 
-  if (repeatExpansion.status === 'blocked-by-unmatched-repeat-start') {
-    blockers.push('unmatched-repeat-start')
-  }
-
   return {
     complexity: resolvePlaybackSequenceComplexity({
       hasExplicitPlayOrder: playOrderExpansion.hasExplicitPlayOrder,
@@ -73,6 +69,7 @@ export function auditSongIrPlaybackSequence(
     unresolvedPlayOrderStepCount,
     repeatExpansionStatus: repeatExpansion.status,
     repeatSegmentCount: repeatExpansion.repeatedSegmentCount,
+    ignoredUnmatchedRepeatStartCount: repeatExpansion.ignoredUnmatchedRepeatStartCount,
     baseMeasureSequence: playOrderExpansion.expandedMeasureIndexes,
     measureSequence: repeatExpansion.measureSequence,
     sequenceMeasureCount: repeatExpansion.measureSequence.length,
@@ -93,7 +90,8 @@ function expandRepeatMeasureSequence(
     return {
       status: 'not-needed' as const,
       measureSequence: options.baseMeasureSequence,
-      repeatedSegmentCount: 0
+      repeatedSegmentCount: 0,
+      ignoredUnmatchedRepeatStartCount: 0
     }
   }
 
@@ -101,7 +99,8 @@ function expandRepeatMeasureSequence(
     return {
       status: 'blocked-by-complex-ending' as const,
       measureSequence: options.baseMeasureSequence,
-      repeatedSegmentCount: 0
+      repeatedSegmentCount: 0,
+      ignoredUnmatchedRepeatStartCount: 0
     }
   }
 
@@ -110,6 +109,7 @@ function expandRepeatMeasureSequence(
   let repeatStartOutputIndex = 0
   let hasOpenRepeatStart = false
   let repeatedSegmentCount = 0
+  let ignoredUnmatchedRepeatStartCount = 0
   let currentEnding:
     | {
         number: number | null
@@ -162,7 +162,8 @@ function expandRepeatMeasureSequence(
           return {
             status: 'blocked-by-complex-ending' as const,
             measureSequence: options.baseMeasureSequence,
-            repeatedSegmentCount
+            repeatedSegmentCount,
+            ignoredUnmatchedRepeatStartCount
           }
         }
 
@@ -179,15 +180,16 @@ function expandRepeatMeasureSequence(
         }
         repeatedSegmentCount += 1
         expandedNumberedEndingCount += 1
+      } else if (repeatStartOutputIndex < repeatEndOutputIndex) {
+        output.push(...output.slice(repeatStartOutputIndex, repeatEndOutputIndex))
+        repeatedSegmentCount += 1
       } else if (options.hasEndingMarkers) {
         return {
           status: 'blocked-by-complex-ending' as const,
           measureSequence: options.baseMeasureSequence,
-          repeatedSegmentCount
+          repeatedSegmentCount,
+          ignoredUnmatchedRepeatStartCount
         }
-      } else if (repeatStartOutputIndex < repeatEndOutputIndex) {
-        output.push(...output.slice(repeatStartOutputIndex, repeatEndOutputIndex))
-        repeatedSegmentCount += 1
       }
       repeatStartOutputIndex = output.length
       hasOpenRepeatStart = false
@@ -199,11 +201,7 @@ function expandRepeatMeasureSequence(
   }
 
   if (hasOpenRepeatStart) {
-    return {
-      status: 'blocked-by-unmatched-repeat-start' as const,
-      measureSequence: options.baseMeasureSequence,
-      repeatedSegmentCount
-    }
+    ignoredUnmatchedRepeatStartCount += 1
   }
 
   return {
@@ -212,7 +210,8 @@ function expandRepeatMeasureSequence(
         ? ('numbered-ending-expanded' as const)
         : ('simple-expanded' as const),
     measureSequence: output,
-    repeatedSegmentCount
+    repeatedSegmentCount,
+    ignoredUnmatchedRepeatStartCount
   }
 }
 

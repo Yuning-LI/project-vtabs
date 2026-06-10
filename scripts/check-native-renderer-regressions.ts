@@ -31,6 +31,7 @@ type Fixture = {
     typeof auditSongIrPlaybackSequence
   >['repeatExpansionStatus']
   minPlaybackSequenceMeasures?: number
+  minIgnoredUnmatchedRepeatStarts?: number
 }
 
 const MAX_EXPECTED_ROW_WIDTH_REM = 52.01
@@ -60,7 +61,10 @@ const FIXTURES: Fixture[] = [
     minGroupedEvents: 15,
     minRepeatMarkers: 3,
     minEndingMarkers: 4,
-    expectedPlaybackComplexity: 'repeat-or-ending'
+    expectedPlaybackComplexity: 'repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'numbered-ending-expanded',
+    minPlaybackSequenceMeasures: 67
   },
   {
     slug: 'may-it-be',
@@ -106,6 +110,18 @@ const FIXTURES: Fixture[] = [
     expectedUnresolvedPlaySteps: 0,
     expectedPlaybackComplexity: 'explicit-play-order',
     expectedPlaybackCanUseSequence: true
+  },
+  {
+    slug: 'take-me-home-country-roads',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minSections: 4,
+    minPlayOrderSteps: 8,
+    minRepeatMarkers: 1,
+    expectedPlaybackComplexity: 'play-order-with-repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'simple-expanded',
+    minIgnoredUnmatchedRepeatStarts: 1
   },
   {
     slug: 'detective-conan-main-theme',
@@ -188,6 +204,8 @@ function checkFixture(fixture: Fixture) {
     playbackCanUseSequence: playbackSequenceAudit.canUseMeasureSequenceForPlayback,
     playbackSequenceMeasures: playbackSequenceAudit.sequenceMeasureCount,
     repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
+    ignoredUnmatchedRepeatStarts:
+      playbackSequenceAudit.ignoredUnmatchedRepeatStartCount,
     playbackBlockers: playbackSequenceAudit.blockers,
     rowCount: layout.rows.length,
     maxRowWidthRem: Number(maxRowWidthRem.toFixed(2)),
@@ -248,6 +266,12 @@ function checkFixture(fixture: Fixture) {
     fixture.minPlaybackSequenceMeasures,
     fixture.slug,
     'playback sequence measures'
+  )
+  assertAtLeast(
+    metrics.ignoredUnmatchedRepeatStarts,
+    fixture.minIgnoredUnmatchedRepeatStarts,
+    fixture.slug,
+    'ignored unmatched repeat starts'
   )
   assertAtLeast(
     metrics.compressedMeasureCount,

@@ -63,6 +63,8 @@ const summaries = slugs.map(slug => {
       blockers: playbackSequenceAudit.blockers,
       repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
       repeatSegmentCount: playbackSequenceAudit.repeatSegmentCount,
+      ignoredUnmatchedRepeatStartCount:
+        playbackSequenceAudit.ignoredUnmatchedRepeatStartCount,
       sequenceMeasureCount: playbackSequenceAudit.sequenceMeasureCount,
       uniqueMeasureCount: playbackSequenceAudit.uniqueMeasureCount
     }
@@ -95,6 +97,9 @@ summaries.forEach(summary => {
     repeatExpansionStatusCounts.get(summary.playbackSequenceAudit.repeatExpansionStatus) ?? 0
   repeatExpansionStatusCounts.set(summary.playbackSequenceAudit.repeatExpansionStatus, count + 1)
 })
+const ignoredUnmatchedRepeatStartSongCount = summaries.filter(
+  summary => summary.playbackSequenceAudit.ignoredUnmatchedRepeatStartCount > 0
+).length
 
 const report = {
   generatedOn: new Date().toISOString(),
@@ -132,6 +137,7 @@ const report = {
   repeatExpansionStatusCounts: Object.fromEntries(
     [...repeatExpansionStatusCounts.entries()].sort(sortCountEntries)
   ),
+  ignoredUnmatchedRepeatStartSongCount,
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
     fallback: Object.fromEntries([...fallbackReasonCounts.entries()].sort(sortCountEntries))
@@ -162,6 +168,7 @@ console.log(
       playbackSequenceCandidateCount: report.playbackSequenceCandidateCount,
       playbackComplexityCounts: report.playbackComplexityCounts,
       repeatExpansionStatusCounts: report.repeatExpansionStatusCounts,
+      ignoredUnmatchedRepeatStartSongCount: report.ignoredUnmatchedRepeatStartSongCount,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),
       supportedSamples: summaries
