@@ -18,6 +18,12 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
         : `${measure.index}:${marker.kind}`
     )
   )
+  const sections = song.structure.sections.map(
+    section => `${section.label}:${section.measureIndex}:${section.source}`
+  )
+  const playOrder = song.structure.playOrder.map(
+    step => `${step.index}:${step.label}:${step.raw}`
+  )
   const lyricSlots = events.map(event => (event.kind === 'note' ? event.lyric ?? '' : ''))
   const missingO12Fingerings = events
     .filter(event => event.kind === 'note')
@@ -34,6 +40,8 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
     chordCount: song.measures.reduce((sum, measure) => sum + measure.chords.length, 0),
     repeatMarkerCount: song.stats.repeatMarkerCount,
     endingMarkerCount: song.stats.endingMarkerCount,
+    sectionCount: song.stats.sectionCount,
+    playOrderStepCount: song.stats.playOrderStepCount,
     missingO12FingeringCount: missingO12Fingerings.length,
     missingO12Fingerings: Array.from(new Set(missingO12Fingerings)).sort((left, right) => left - right),
     fingerprints: {
@@ -48,7 +56,9 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
           )
           .join('|')
       ),
-      measureMarkers: stableHash(measureMarkers.join('|'))
+      measureMarkers: stableHash(measureMarkers.join('|')),
+      sections: stableHash(sections.join('|')),
+      playOrder: stableHash(playOrder.join('|'))
     }
   }
 }

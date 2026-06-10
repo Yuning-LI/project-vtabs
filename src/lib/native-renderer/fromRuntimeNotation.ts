@@ -9,7 +9,9 @@ import type {
   SongIrEvent,
   SongIrEventGroupMark,
   SongIrMeasureMarker,
-  SongIrMeasure
+  SongIrMeasure,
+  SongIrPlayOrderStep,
+  SongIrSection
 } from './songIr.ts'
 
 type RuntimeNotationToken =
@@ -43,6 +45,8 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
   let endingMarkerCount = 0
 
   const measures: SongIrMeasure[] = []
+  const sections: SongIrSection[] = []
+  const playOrder: SongIrPlayOrderStep[] = []
   const pendingChords: string[] = []
   const activeGroups: Array<{ id: string; eventIndexes: Array<{ measureIndex: number; eventIndex: number }> }> = []
   const pendingMeasureMarkers: SongIrMeasureMarker[] = []
@@ -58,11 +62,26 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
       const directive = token.value.slice(1, -1).trim()
       if (/^cn:/i.test(directive)) {
         pendingChords.push(directive.slice(3).trim())
+        continue
+      }
+      const playOrderSteps = parsePlayOrderDirective(directive)
+      if (playOrderSteps.length > 0) {
+        playOrder.push(...playOrderSteps)
+        continue
+      }
+      const markSection = parseMarkDirective(directive, currentMeasure.index)
+      if (markSection) {
+        addSection(sections, markSection)
       }
       continue
     }
 
     if (token.kind === 'layout') {
+      addSection(sections, {
+        label: normalizeSectionLabel(token.value),
+        measureIndex: currentMeasure.index,
+        source: 'section-label'
+      })
       continue
     }
 
@@ -199,6 +218,10 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
       alignedLines: lyrics,
       displayLines: lyrics
     },
+    structure: {
+      sections,
+      playOrder
+    },
     stats: {
       measureCount: measures.length,
       noteCount,
@@ -209,10 +232,60 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
       totalSlotCount,
       parenthesizedGroupCount,
       repeatMarkerCount,
-      endingMarkerCount
+      endingMarkerCount,
+      sectionCount: sections.length,
+      playOrderStepCount: playOrder.length
     },
     unsupported: Array.from(new Set([...unsupported, ...scan.unsupported]))
   }
+}
+
+function parsePlayOrderDirective(directive: string): SongIrPlayOrderStep[] {
+  const match = directive.match(/^play\s*[:：]\s*(.+)$/i)
+  if (!match) {
+    return []
+  }
+
+  return match[1]!
+    .split(/\s+/)
+    .map(raw => raw.trim())
+    .filter(Boolean)
+    .map((raw, index) => ({
+      label: normalizeSectionLabel(raw),
+      raw,
+      index
+    }))
+}
+
+function parseMarkDirective(directive: string, measureIndex: number): SongIrSection | null {
+  const match = directive.match(/^mark\s*[:：]\s*(.+)$/i)
+  if (!match) {
+    return null
+  }
+
+  return {
+    label: normalizeSectionLabel(match[1]!),
+    measureIndex,
+    source: 'mark-directive'
+  }
+}
+
+function normalizeSectionLabel(value: string) {
+  return value.trim().replace(/:$/, '')
+}
+
+function addSection(sections: SongIrSection[], section: SongIrSection) {
+  if (!section.label) {
+    return
+  }
+
+  const existing = sections.find(item => item.label === section.label)
+  if (existing) {
+    existing.measureIndex = Math.min(existing.measureIndex, section.measureIndex)
+    return
+  }
+
+  sections.push(section)
 }
 
 export function scanRuntimeNotation(notation: string) {
@@ -240,7 +313,7 @@ export function scanRuntimeNotation(notation: string) {
       continue
     }
 
-    const sectionLabel = notation.slice(index).match(/^[A-Z]\d*:/)
+    const sectionLabel = notation.slice(index).match(/^(?:[A-Z][A-Z0-9]*|[\u4e00-\u9fff][\u4e00-\u9fffA-Z0-9]*):/i)
     if (sectionLabel) {
       tokens.push({ kind: 'layout', value: sectionLabel[0] })
       index += sectionLabel[0].length

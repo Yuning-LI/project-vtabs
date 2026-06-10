@@ -90,6 +90,10 @@ export function buildSongIrFromMusicXmlDraft(draft: SongIngestDraft): SongIrDocu
       alignedLines: draft.lyrics.alignedLines,
       displayLines: draft.lyrics.displayLines
     },
+    structure: {
+      sections: [],
+      playOrder: []
+    },
     stats: {
       measureCount: measures.length,
       noteCount,
@@ -100,7 +104,9 @@ export function buildSongIrFromMusicXmlDraft(draft: SongIngestDraft): SongIrDocu
       totalSlotCount,
       parenthesizedGroupCount: 0,
       repeatMarkerCount: 0,
-      endingMarkerCount: 0
+      endingMarkerCount: 0,
+      sectionCount: 0,
+      playOrderStepCount: 0
     },
     unsupported: Array.from(new Set(unsupported))
   }

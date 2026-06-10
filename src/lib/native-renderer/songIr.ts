@@ -54,6 +54,18 @@ export type SongIrMeasure = {
   markers?: SongIrMeasureMarker[]
 }
 
+export type SongIrSection = {
+  label: string
+  measureIndex: number
+  source: 'section-label' | 'mark-directive'
+}
+
+export type SongIrPlayOrderStep = {
+  label: string
+  raw: string
+  index: number
+}
+
 export type SongIrDocument = {
   version: SongIrVersion
   source: {
@@ -75,6 +87,10 @@ export type SongIrDocument = {
     alignedLines: string[]
     displayLines: string[]
   }
+  structure: {
+    sections: SongIrSection[]
+    playOrder: SongIrPlayOrderStep[]
+  }
   stats: {
     measureCount: number
     noteCount: number
@@ -86,6 +102,8 @@ export type SongIrDocument = {
     parenthesizedGroupCount: number
     repeatMarkerCount: number
     endingMarkerCount: number
+    sectionCount: number
+    playOrderStepCount: number
   }
   unsupported: string[]
 }
@@ -107,6 +125,8 @@ export function summarizeSongIr(document: SongIrDocument) {
     parenthesizedGroupCount: document.stats.parenthesizedGroupCount,
     repeatMarkerCount: document.stats.repeatMarkerCount,
     endingMarkerCount: document.stats.endingMarkerCount,
+    sectionCount: document.stats.sectionCount,
+    playOrderStepCount: document.stats.playOrderStepCount,
     unsupported: document.unsupported
   }
 }

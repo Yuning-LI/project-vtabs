@@ -78,6 +78,8 @@ const report = {
   parenthesizedGroupSongCount: summaries.filter(summary => summary.parenthesizedGroupCount > 0).length,
   repeatMarkerSongCount: summaries.filter(summary => summary.repeatMarkerCount > 0).length,
   endingMarkerSongCount: summaries.filter(summary => summary.endingMarkerCount > 0).length,
+  sectionSongCount: summaries.filter(summary => summary.sectionCount > 0).length,
+  playOrderSongCount: summaries.filter(summary => summary.playOrderStepCount > 0).length,
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
     fallback: Object.fromEntries([...fallbackReasonCounts.entries()].sort(sortCountEntries))
@@ -101,6 +103,8 @@ console.log(
       parenthesizedGroupSongCount: report.parenthesizedGroupSongCount,
       repeatMarkerSongCount: report.repeatMarkerSongCount,
       endingMarkerSongCount: report.endingMarkerSongCount,
+      sectionSongCount: report.sectionSongCount,
+      playOrderSongCount: report.playOrderSongCount,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),
       supportedSamples: summaries

@@ -18,6 +18,8 @@ type Fixture = {
   minRepeatMarkers?: number
   minEndingMarkers?: number
   minCompressedMeasures?: number
+  minSections?: number
+  minPlayOrderSteps?: number
 }
 
 const MAX_EXPECTED_ROW_WIDTH_REM = 52.01
@@ -45,6 +47,13 @@ const FIXTURES: Fixture[] = [
     minGroupedEvents: 15,
     minRepeatMarkers: 3,
     minEndingMarkers: 4
+  },
+  {
+    slug: 'upupu',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minSections: 2,
+    minPlayOrderSteps: 6
   },
   {
     slug: 'faded',
@@ -101,6 +110,8 @@ function checkFixture(fixture: Fixture) {
     groupedEvents: events.filter(event => event.groups && event.groups.length > 0).length,
     repeatMarkers: markers.filter(marker => marker.kind.startsWith('repeat')).length,
     endingMarkers: markers.filter(marker => marker.kind.startsWith('ending')).length,
+    sections: song.structure.sections.length,
+    playOrderSteps: song.structure.playOrder.length,
     rowCount: layout.rows.length,
     maxRowWidthRem: Number(maxRowWidthRem.toFixed(2)),
     compressedMeasureCount,
@@ -114,6 +125,13 @@ function checkFixture(fixture: Fixture) {
   assertAtLeast(metrics.groupedEvents, fixture.minGroupedEvents, fixture.slug, 'grouped events')
   assertAtLeast(metrics.repeatMarkers, fixture.minRepeatMarkers, fixture.slug, 'repeat markers')
   assertAtLeast(metrics.endingMarkers, fixture.minEndingMarkers, fixture.slug, 'ending markers')
+  assertAtLeast(metrics.sections, fixture.minSections, fixture.slug, 'sections')
+  assertAtLeast(
+    metrics.playOrderSteps,
+    fixture.minPlayOrderSteps,
+    fixture.slug,
+    'play order steps'
+  )
   assertAtLeast(
     metrics.compressedMeasureCount,
     fixture.minCompressedMeasures,
