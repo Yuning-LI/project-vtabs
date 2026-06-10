@@ -1,6 +1,6 @@
 import NativeMelodySheet from '@/components/native-renderer/NativeMelodySheet'
 import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
-import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
+import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import type { NativeMelodyMeasureLayoutMode } from '@/lib/native-renderer/layout'
 import type { SongIrDocument } from '@/lib/native-renderer/songIr'
 import type { NativeRendererSupportDecision } from '@/lib/native-renderer/support'
@@ -31,9 +31,17 @@ export default function NativeRendererSideBySideReview({
   sheetScale = 10
 }: NativeRendererSideBySideReviewProps) {
   const title = song?.metadata.title ?? slug
-  const archivedFrameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${encodeURIComponent(
-    slug
-  )}?note_label_mode=letter&runtime_visual_theme=classic&measure_layout=${measureLayout}&sheet_scale=${sheetScale}&show_graph=${showGraph}&show_lyric=${showLyric}&show_measure_num=${showMeasureNum}`
+  const archivedFrameSrc = buildPublicRuntimeUrl(slug, {
+    params: new URLSearchParams({
+      note_label_mode: 'letter',
+      runtime_visual_theme: 'classic',
+      measure_layout: measureLayout,
+      sheet_scale: String(sheetScale),
+      show_graph: showGraph,
+      show_lyric: showLyric,
+      show_measure_num: showMeasureNum
+    })
+  })
 
   return (
     <div className="min-h-screen bg-[#ece0cb] px-4 py-6 text-[#2d2118]">

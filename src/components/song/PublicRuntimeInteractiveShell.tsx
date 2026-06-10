@@ -42,7 +42,10 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
-import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
+import {
+  buildPublicRuntimeUrl,
+  PUBLIC_RUNTIME_API_BASE_PATH
+} from '@/lib/runtime-core/publicRuntimePaths'
 
 export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
@@ -354,10 +357,11 @@ export default function PublicRuntimeInteractiveShell({
     shouldPinDefaultGraphDirection,
     shouldPinDefaultInstrument
   ])
-  const query = params.toString()
-  const frameSrc = query
-    ? `${runtimeApiBasePath}/${songId}?${query}`
-    : `${runtimeApiBasePath}/${songId}`
+  const runtimeQueryString = params.toString()
+  const frameSrc = buildPublicRuntimeUrl(songId, {
+    basePath: runtimeApiBasePath,
+    params
+  })
   const loadingId = `public-runtime-${songId}-loading`
   const pageHref = useCallback(
     (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
@@ -460,7 +464,7 @@ export default function PublicRuntimeInteractiveShell({
         }
       })
     )
-  }, [activeInstrument.id, noteLabelMode, query])
+  }, [activeInstrument.id, noteLabelMode, runtimeQueryString])
 
   useEffect(() => {
     if (previousSongRef.current !== songId) {
@@ -580,7 +584,7 @@ export default function PublicRuntimeInteractiveShell({
         return
       }
 
-      if (runtimeHostControllerRef.current?.hostElement === target) {
+      if (runtimeHostControllerRef.current?.containsEventTarget(target)) {
         return
       }
 

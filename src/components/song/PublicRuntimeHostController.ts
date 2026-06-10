@@ -1,5 +1,6 @@
 export type PublicRuntimeHostController = {
   hostElement: HTMLElement
+  containsEventTarget: (target: EventTarget | null) => boolean
   postMessage: (message: unknown) => boolean
 }
 
@@ -19,6 +20,9 @@ export function createIframePublicRuntimeHostController(
 
   return {
     hostElement: frame,
+    containsEventTarget(target) {
+      return target === frame
+    },
     postMessage(message) {
       if (typeof window === 'undefined') {
         return false

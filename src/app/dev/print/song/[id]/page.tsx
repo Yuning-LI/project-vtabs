@@ -6,7 +6,7 @@ import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
-import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
+import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -135,7 +135,7 @@ export default function InternalPrintSongPage({
     paramsForFrame.set('sheet_scale', sheetScale)
   }
 
-  const frameSrc = `${PUBLIC_RUNTIME_API_BASE_PATH}/${song.slug}?${paramsForFrame.toString()}`
+  const frameSrc = buildPublicRuntimeUrl(song.slug, { params: paramsForFrame })
   const loadingId = `public-runtime-print-${song.slug}-loading`
 
   return (
