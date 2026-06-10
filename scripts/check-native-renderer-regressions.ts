@@ -27,6 +27,9 @@ type Fixture = {
   expectedUnresolvedPlaySteps?: number
   expectedPlaybackComplexity?: SongIrPlaybackSequenceComplexity
   expectedPlaybackCanUseSequence?: boolean
+  expectedRepeatExpansionStatus?: ReturnType<
+    typeof auditSongIrPlaybackSequence
+  >['repeatExpansionStatus']
   minPlaybackSequenceMeasures?: number
 }
 
@@ -60,6 +63,18 @@ const FIXTURES: Fixture[] = [
     expectedPlaybackComplexity: 'repeat-or-ending'
   },
   {
+    slug: 'may-it-be',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 2,
+    minEndingMarkers: 4,
+    minPlayOrderSteps: 7,
+    expectedPlaybackComplexity: 'play-order-with-repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'numbered-ending-expanded',
+    minPlaybackSequenceMeasures: 51
+  },
+  {
     slug: 'upupu',
     source: 'runtime',
     expectedSupport: 'fallback-required',
@@ -78,6 +93,7 @@ const FIXTURES: Fixture[] = [
     minPlayOrderSteps: 2,
     expectedPlaybackComplexity: 'play-order-with-repeat-or-ending',
     expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'simple-expanded',
     minPlaybackSequenceMeasures: 21
   },
   {
@@ -100,7 +116,8 @@ const FIXTURES: Fixture[] = [
     minExpandedPlayMeasures: 52,
     expectedUnresolvedPlaySteps: 1,
     expectedPlaybackComplexity: 'unresolved-play-order',
-    expectedPlaybackCanUseSequence: false
+    expectedPlaybackCanUseSequence: false,
+    expectedRepeatExpansionStatus: 'numbered-ending-expanded'
   },
   {
     slug: 'faded',
@@ -217,6 +234,13 @@ function checkFixture(fixture: Fixture) {
       metrics.playbackCanUseSequence,
       fixture.expectedPlaybackCanUseSequence,
       `${fixture.slug} playback sequence readiness changed`
+    )
+  }
+  if (fixture.expectedRepeatExpansionStatus !== undefined) {
+    assertEqual(
+      metrics.repeatExpansionStatus,
+      fixture.expectedRepeatExpansionStatus,
+      `${fixture.slug} repeat expansion status changed`
     )
   }
   assertAtLeast(

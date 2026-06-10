@@ -87,10 +87,13 @@ export function buildSongIrFromRuntimePayload(slug: string, payload: PublicRunti
 
     if (token.kind === 'repeat-ending') {
       if (token.value.startsWith('[')) {
-        pendingMeasureMarkers.push({
-          kind: 'ending-start',
-          number: readRepeatEndingNumber(token.value)
-        })
+        currentMeasure.markers = [
+          ...(currentMeasure.markers ?? []),
+          {
+            kind: 'ending-start',
+            number: readRepeatEndingNumber(token.value)
+          }
+        ]
       } else {
         currentMeasure.markers = [
           ...(currentMeasure.markers ?? []),

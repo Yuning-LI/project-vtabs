@@ -18,7 +18,8 @@ export type SongIrPlaybackSequenceAudit = {
   repeatExpansionStatus:
     | 'not-needed'
     | 'simple-expanded'
-    | 'blocked-by-ending'
+    | 'numbered-ending-expanded'
+    | 'blocked-by-complex-ending'
     | 'blocked-by-unmatched-repeat-start'
   repeatSegmentCount: number
   baseMeasureSequence: number[]
@@ -36,7 +37,7 @@ export function auditSongIrPlaybackSequence(
   const hasEndingMarkers = song.stats.endingMarkerCount > 0
   const hasRepeatOrEnding = hasRepeatMarkers || hasEndingMarkers
   const unresolvedPlayOrderStepCount = playOrderExpansion.unresolvedSteps.length
-  const repeatExpansion = expandSimpleRepeatMeasureSequence(song, {
+  const repeatExpansion = expandRepeatMeasureSequence(song, {
     baseMeasureSequence: playOrderExpansion.expandedMeasureIndexes,
     hasRepeatMarkers,
     hasEndingMarkers
@@ -47,11 +48,11 @@ export function auditSongIrPlaybackSequence(
     blockers.push('unresolved-play-order')
   }
 
-  if (repeatExpansion.status === 'blocked-by-ending') {
+  if (repeatExpansion.status === 'blocked-by-complex-ending') {
     blockers.push('repeat-markers-not-expanded')
   }
 
-  if (hasEndingMarkers) {
+  if (hasEndingMarkers && repeatExpansion.status !== 'numbered-ending-expanded') {
     blockers.push('ending-markers-not-expanded')
   }
 
@@ -80,7 +81,7 @@ export function auditSongIrPlaybackSequence(
   }
 }
 
-function expandSimpleRepeatMeasureSequence(
+function expandRepeatMeasureSequence(
   song: SongIrDocument,
   options: {
     baseMeasureSequence: number[]
@@ -96,37 +97,104 @@ function expandSimpleRepeatMeasureSequence(
     }
   }
 
-  if (options.hasEndingMarkers) {
+  if (options.hasEndingMarkers && hasComplexEndingNumber(song)) {
     return {
-      status: 'blocked-by-ending' as const,
+      status: 'blocked-by-complex-ending' as const,
       measureSequence: options.baseMeasureSequence,
       repeatedSegmentCount: 0
     }
   }
 
   const output: number[] = []
+  const skippedSequencePositions = new Set<number>()
   let repeatStartOutputIndex = 0
   let hasOpenRepeatStart = false
   let repeatedSegmentCount = 0
+  let currentEnding:
+    | {
+        number: number | null
+        startOutputIndex: number
+        startSequencePosition: number
+      }
+    | null = null
+  let expandedNumberedEndingCount = 0
 
-  for (const measureIndex of options.baseMeasureSequence) {
+  for (
+    let sequencePosition = 0;
+    sequencePosition < options.baseMeasureSequence.length;
+    sequencePosition += 1
+  ) {
+    if (skippedSequencePositions.has(sequencePosition)) {
+      continue
+    }
+
+    const measureIndex = options.baseMeasureSequence[sequencePosition]!
     const markers = song.measures[measureIndex]?.markers ?? []
+    const endingStartNumber = readEndingStartNumber(markers)
 
     if (markers.some(marker => marker.kind === 'repeat-start')) {
       repeatStartOutputIndex = output.length
       hasOpenRepeatStart = true
     }
 
+    if (endingStartNumber !== undefined) {
+      currentEnding = {
+        number: endingStartNumber,
+        startOutputIndex: output.length,
+        startSequencePosition: sequencePosition
+      }
+    }
+
     output.push(measureIndex)
 
     if (markers.some(marker => marker.kind === 'repeat-end')) {
       const repeatEndOutputIndex = output.length
-      if (repeatStartOutputIndex < repeatEndOutputIndex) {
+      const closedEnding = markers.some(marker => marker.kind === 'ending-end')
+        ? currentEnding
+        : null
+
+      if (closedEnding?.number === 1) {
+        const secondEnding = findEndingRangeInSequence(song, options.baseMeasureSequence, {
+          startSequencePosition: sequencePosition + 1,
+          endingNumber: 2
+        })
+        if (!secondEnding) {
+          return {
+            status: 'blocked-by-complex-ending' as const,
+            measureSequence: options.baseMeasureSequence,
+            repeatedSegmentCount
+          }
+        }
+
+        output.push(
+          ...output.slice(repeatStartOutputIndex, closedEnding.startOutputIndex),
+          ...secondEnding.measureIndexes
+        )
+        for (
+          let skippedPosition = secondEnding.startSequencePosition;
+          skippedPosition <= secondEnding.endSequencePosition;
+          skippedPosition += 1
+        ) {
+          skippedSequencePositions.add(skippedPosition)
+        }
+        repeatedSegmentCount += 1
+        expandedNumberedEndingCount += 1
+      } else if (options.hasEndingMarkers) {
+        return {
+          status: 'blocked-by-complex-ending' as const,
+          measureSequence: options.baseMeasureSequence,
+          repeatedSegmentCount
+        }
+      } else if (repeatStartOutputIndex < repeatEndOutputIndex) {
         output.push(...output.slice(repeatStartOutputIndex, repeatEndOutputIndex))
         repeatedSegmentCount += 1
       }
       repeatStartOutputIndex = output.length
       hasOpenRepeatStart = false
+    }
+
+    if (markers.some(marker => marker.kind === 'ending-end')) {
+      currentEnding = null
     }
   }
 
@@ -139,10 +207,69 @@ function expandSimpleRepeatMeasureSequence(
   }
 
   return {
-    status: 'simple-expanded' as const,
+    status:
+      expandedNumberedEndingCount > 0
+        ? ('numbered-ending-expanded' as const)
+        : ('simple-expanded' as const),
     measureSequence: output,
     repeatedSegmentCount
   }
+}
+
+function hasComplexEndingNumber(song: SongIrDocument) {
+  return song.measures.some(measure =>
+    (measure.markers ?? []).some(
+      marker => marker.kind === 'ending-start' && marker.number !== null && marker.number > 2
+    )
+  )
+}
+
+function readEndingStartNumber(markers: NonNullable<SongIrDocument['measures'][number]['markers']>) {
+  return markers.find(marker => marker.kind === 'ending-start')?.number
+}
+
+function findEndingRangeInSequence(
+  song: SongIrDocument,
+  baseMeasureSequence: number[],
+  options: {
+    startSequencePosition: number
+    endingNumber: number
+  }
+) {
+  let startSequencePosition: number | null = null
+  const measureIndexes: number[] = []
+
+  for (
+    let sequencePosition = options.startSequencePosition;
+    sequencePosition < baseMeasureSequence.length;
+    sequencePosition += 1
+  ) {
+    const measureIndex = baseMeasureSequence[sequencePosition]!
+    const markers = song.measures[measureIndex]?.markers ?? []
+    const endingStartNumber = readEndingStartNumber(markers)
+
+    if (startSequencePosition === null) {
+      if (endingStartNumber !== options.endingNumber) {
+        if (endingStartNumber !== undefined || markers.some(marker => marker.kind === 'repeat-start')) {
+          return null
+        }
+        continue
+      }
+      startSequencePosition = sequencePosition
+    }
+
+    measureIndexes.push(measureIndex)
+
+    if (markers.some(marker => marker.kind === 'ending-end')) {
+      return {
+        startSequencePosition,
+        endSequencePosition: sequencePosition,
+        measureIndexes
+      }
+    }
+  }
+
+  return null
 }
 
 function resolvePlaybackSequenceComplexity(options: {

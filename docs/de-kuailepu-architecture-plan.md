@@ -652,7 +652,7 @@ Progress estimate:
 - `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
 - native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
 - native layout now compresses over-wide single measures to the target row width and scales event-level visuals with the compressed cell width
-- native playback-sequence audit now classifies songs before any native playback migration; latest 400-song scan has 210 linear songs, 51 explicit-play-order songs, 102 repeat / ending songs, 28 play-order plus repeat / ending songs, and 9 unresolved-play-order songs; repeat-only sections without numbered endings can now be expanded conservatively, bringing the repeat/play-order-level usable playback sequence count to 309 songs; remaining repeat expansion blockers are 80 numbered-ending songs and 3 unmatched-repeat-start songs
+- native playback-sequence audit now classifies songs before any native playback migration; latest 400-song scan has 210 linear songs, 51 explicit-play-order songs, 102 repeat / ending songs, 28 play-order plus repeat / ending songs, and 9 unresolved-play-order songs; repeat-only sections and clear first/second endings can now be expanded conservatively, bringing the repeat/play-order-level usable playback sequence count to 358 songs; remaining repeat expansion blockers are 27 complex-ending songs and 5 unmatched-repeat-start songs
 - `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
 - `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, play-order structure, play-order expansion, fallback-boundary, and dense-layout compression fixtures
 - public `/song` is still archived-runtime backed; no public route replacement has happened
@@ -681,7 +681,7 @@ Overall Phase 5, counted as the full replacement track, is about 25% to 30% comp
 
 Recommended next Phase 5 order:
 
-1. implement numbered-ending playback expansion for songs that still have `ending-markers-not-expanded`, then separately inspect the 3 `blocked-by-unmatched-repeat-start` songs
+1. inspect the 27 remaining `blocked-by-complex-ending` songs and the 5 `blocked-by-unmatched-repeat-start` songs before widening repeat expansion further
 2. audit native fingering/instrument-control parity against the current public detail-page controls
 3. move toward native playback/metronome alignment from SongIR
 4. audit and add missing o12 fingering coverage where musically valid
