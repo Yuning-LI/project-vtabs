@@ -652,8 +652,8 @@ Progress estimate:
 - `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
 - native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
 - native layout now compresses over-wide single measures to the target row width and scales event-level visuals with the compressed cell width
-- native playback-sequence audit now classifies songs before any native playback migration; latest 400-song scan has 210 linear songs, 51 explicit-play-order songs, 102 repeat / ending songs, 28 play-order plus repeat / ending songs, and 9 unresolved-play-order songs; repeat-only sections, clear first/second endings, and harmless unmatched repeat-start markers can now be handled conservatively, bringing the repeat/play-order-level usable playback sequence count to 370 songs; remaining repeat expansion blockers are 18 complex-ending songs
-- those 18 complex-ending blockers are now diagnosed by subtype instead of one opaque bucket: 8 have ending numbers above 2, 6 have missing second-ending end markers, 4 have a first ending with no second ending, and 1 has a null ending number; this keeps the playback support boundary stable while making later repeat migration more targeted
+- native playback-sequence audit now classifies songs before any native playback migration; latest 400-song scan has 210 linear songs, 51 explicit-play-order songs, 102 repeat / ending songs, 28 play-order plus repeat / ending songs, and 9 unresolved-play-order songs; repeat-only sections, clear first/second endings, single first-ending-without-second-ending cases, and harmless unmatched repeat-start markers can now be handled conservatively, bringing the repeat/play-order-level usable playback sequence count to 373 songs; remaining repeat expansion blockers are 15 complex-ending songs
+- those 15 complex-ending blockers are now diagnosed by subtype instead of one opaque bucket: 8 have ending numbers above 2, 6 have missing second-ending end markers, and 1 has a null ending number plus a first-ending-without-second-ending structure; this keeps the playback support boundary stable while making later repeat migration more targeted
 - `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
 - `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, play-order structure, play-order expansion, fallback-boundary, and dense-layout compression fixtures
 - public `/song` is still archived-runtime backed; no public route replacement has happened
@@ -671,18 +671,18 @@ Current Phase 5 status:
 
 Subtrack progress under the full Phase 5 scope:
 
-- Parser / SongIR: about 45% to 55%
+- Parser / SongIR: about 46% to 56%
 - Static native sheet rendering: about 55% to 65% for the narrow o12 internal MVP
 - Public controls / fingering switching: about 10% to 15%
-- Native playback / metronome / highlight: about 3% to 8%
+- Native playback / metronome / highlight: about 5% to 10%
 - Native export path: about 0% to 5%
 - Public route migration: about 0% to 5%
 
-Overall Phase 5, counted as the full replacement track, is about 27% to 32% complete.
+Overall Phase 5, counted as the full replacement track, is about 28% to 33% complete.
 
 Recommended next Phase 5 order:
 
-1. handle only the highest-value complex-ending subtypes where the structure is unambiguous, especially `single-ending-with-no-second` and `missing-second-ending-end`
+1. handle only the highest-value complex-ending subtypes where the structure is unambiguous, especially `missing-second-ending-end`
 2. audit native fingering/instrument-control parity against the current public detail-page controls
 3. move toward native playback/metronome alignment from `SongIR` using `auditSongIrPlaybackSequence(song).measureSequence` as the source sequence
 4. audit and add missing o12 fingering coverage where musically valid

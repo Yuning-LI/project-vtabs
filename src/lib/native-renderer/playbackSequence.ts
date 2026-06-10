@@ -188,6 +188,20 @@ function expandRepeatMeasureSequence(
           endingNumber: 2
         })
         if (!secondEnding) {
+          if (canExpandSingleEndingWithoutSecond(structuralEndingBlockerReasons)) {
+            output.push(
+              ...output.slice(repeatStartOutputIndex, closedEnding.startOutputIndex)
+            )
+            repeatedSegmentCount += 1
+            expandedNumberedEndingCount += 1
+            repeatStartOutputIndex = output.length
+            hasOpenRepeatStart = false
+            if (markers.some(marker => marker.kind === 'ending-end')) {
+              currentEnding = null
+            }
+            continue
+          }
+
           return {
             status: 'blocked-by-complex-ending' as const,
             blockerReasons: pickRepeatExpansionBlockerReasons(
@@ -263,6 +277,22 @@ function pickRepeatExpansionBlockerReasons(
       reason !== 'complex-ending-chain'
   )
   return actionable.length > 0 ? actionable : fallback
+}
+
+function canExpandSingleEndingWithoutSecond(
+  reasons: SongIrRepeatExpansionBlockerReason[]
+) {
+  return (
+    reasons.includes('single-ending-with-no-second') &&
+    !reasons.some(reason =>
+      [
+        'ending-number-over-2',
+        'missing-second-ending-end',
+        'null-ending-number',
+        'repeat-end-without-repeat-start'
+      ].includes(reason)
+    )
+  )
 }
 
 function classifyComplexEndingBlockers(

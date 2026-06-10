@@ -150,6 +150,28 @@ const FIXTURES: Fixture[] = [
     expectedRepeatExpansionBlockerReasons: ['ending-number-over-2']
   },
   {
+    slug: 'love-is-blue',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 1,
+    minEndingMarkers: 2,
+    expectedPlaybackComplexity: 'repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'numbered-ending-expanded',
+    minPlaybackSequenceMeasures: 35
+  },
+  {
+    slug: 'russian-national-anthem',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 2,
+    minEndingMarkers: 4,
+    expectedPlaybackComplexity: 'repeat-or-ending',
+    expectedPlaybackCanUseSequence: false,
+    expectedRepeatExpansionStatus: 'blocked-by-complex-ending',
+    expectedRepeatExpansionBlockerReasons: ['null-ending-number']
+  },
+  {
     slug: 'faded',
     source: 'runtime',
     expectedSupport: 'fallback-required',
