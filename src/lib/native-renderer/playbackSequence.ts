@@ -185,7 +185,9 @@ function expandRepeatMeasureSequence(
       if (closedEnding?.number === 1) {
         const secondEnding = findEndingRangeInSequence(song, options.baseMeasureSequence, {
           startSequencePosition: sequencePosition + 1,
-          endingNumber: 2
+          endingNumber: 2,
+          allowInferredEnd:
+            canInferMissingSecondEndingEnd(structuralEndingBlockerReasons)
         })
         if (!secondEnding) {
           if (canExpandSingleEndingWithoutSecond(structuralEndingBlockerReasons)) {
@@ -295,6 +297,22 @@ function canExpandSingleEndingWithoutSecond(
   )
 }
 
+function canInferMissingSecondEndingEnd(
+  reasons: SongIrRepeatExpansionBlockerReason[]
+) {
+  return (
+    reasons.includes('missing-second-ending-end') &&
+    !reasons.some(reason =>
+      [
+        'ending-number-over-2',
+        'null-ending-number',
+        'repeat-end-without-repeat-start',
+        'single-ending-with-no-second'
+      ].includes(reason)
+    )
+  )
+}
+
 function classifyComplexEndingBlockers(
   song: SongIrDocument
 ): SongIrRepeatExpansionBlockerReason[] {
@@ -381,6 +399,7 @@ function findEndingRangeInSequence(
   options: {
     startSequencePosition: number
     endingNumber: number
+    allowInferredEnd?: boolean
   }
 ) {
   let startSequencePosition: number | null = null
@@ -412,6 +431,24 @@ function findEndingRangeInSequence(
         startSequencePosition,
         endSequencePosition: sequencePosition,
         measureIndexes
+      }
+    }
+
+    if (options.allowInferredEnd) {
+      const nextSequencePosition = sequencePosition + 1
+      const nextMeasureIndex = baseMeasureSequence[nextSequencePosition]
+      const nextMarkers =
+        nextMeasureIndex === undefined ? [] : song.measures[nextMeasureIndex]?.markers ?? []
+      if (
+        nextMeasureIndex === undefined ||
+        nextMarkers.some(marker => marker.kind === 'repeat-start') ||
+        nextMarkers.some(marker => marker.kind === 'ending-start')
+      ) {
+        return {
+          startSequencePosition,
+          endSequencePosition: sequencePosition,
+          measureIndexes
+        }
       }
     }
   }

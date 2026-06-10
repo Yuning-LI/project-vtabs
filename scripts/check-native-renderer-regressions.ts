@@ -172,6 +172,29 @@ const FIXTURES: Fixture[] = [
     expectedRepeatExpansionBlockerReasons: ['null-ending-number']
   },
   {
+    slug: 'schubert-serenade',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 1,
+    minEndingMarkers: 3,
+    expectedPlaybackComplexity: 'repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    expectedRepeatExpansionStatus: 'numbered-ending-expanded',
+    minPlaybackSequenceMeasures: 63
+  },
+  {
+    slug: 'the-pathway',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 3,
+    minEndingMarkers: 7,
+    minPlayOrderSteps: 5,
+    expectedPlaybackComplexity: 'play-order-with-repeat-or-ending',
+    expectedPlaybackCanUseSequence: false,
+    expectedRepeatExpansionStatus: 'blocked-by-complex-ending',
+    expectedRepeatExpansionBlockerReasons: ['missing-second-ending-end']
+  },
+  {
     slug: 'faded',
     source: 'runtime',
     expectedSupport: 'fallback-required',
