@@ -25,7 +25,10 @@ import {
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
 import PublicRuntimeFrame from './PublicRuntimeFrame'
-import type { PublicRuntimeHostController } from './PublicRuntimeHostController'
+import {
+  subscribeToPublicRuntimeHostMessages,
+  type PublicRuntimeHostController
+} from './PublicRuntimeHostController'
 import SongPageFunctionZone, {
   type SongPageFunctionZoneActionControl,
   type SongPageFunctionZoneSelectControl,
@@ -502,48 +505,36 @@ export default function PublicRuntimeInteractiveShell({
     )
   }
 
-  useEffect(() => {
-    function handlePlaybackMessage(event: MessageEvent) {
-      if (typeof window === 'undefined' || event.origin !== window.location.origin) {
-        return
-      }
-
-      const data = event.data
-      if (!data || typeof data !== 'object' || data.songId !== songId) {
-        return
-      }
-
-      if (data.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE) {
-        if (data.isOpen) {
-          resolvePlaybackActivationGuard()
-        }
-        setIsPlaybackPanelOpen(Boolean(data.isOpen))
-        return
-      }
-
-      if (data.type !== PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE) {
-        return
-      }
-
-      if (data.status === 'idle' || data.status === 'loading' || data.status === 'playing') {
-        if (
-          (pendingPlaybackOpenRef.current || playbackActivationPendingRef.current) &&
-          data.status === 'idle'
-        ) {
+  useEffect(
+    () =>
+      subscribeToPublicRuntimeHostMessages(songId, data => {
+        if (data.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE) {
+          if (data.isOpen) {
+            resolvePlaybackActivationGuard()
+          }
+          setIsPlaybackPanelOpen(Boolean(data.isOpen))
           return
         }
-        if (data.status === 'loading' || data.status === 'playing') {
-          resolvePlaybackActivationGuard()
-        }
-        setPlaybackStatus(data.status)
-      }
-    }
 
-    window.addEventListener('message', handlePlaybackMessage)
-    return () => {
-      window.removeEventListener('message', handlePlaybackMessage)
-    }
-  }, [resolvePlaybackActivationGuard, songId])
+        if (data.type !== PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE) {
+          return
+        }
+
+        if (data.status === 'idle' || data.status === 'loading' || data.status === 'playing') {
+          if (
+            (pendingPlaybackOpenRef.current || playbackActivationPendingRef.current) &&
+            data.status === 'idle'
+          ) {
+            return
+          }
+          if (data.status === 'loading' || data.status === 'playing') {
+            resolvePlaybackActivationGuard()
+          }
+          setPlaybackStatus(data.status)
+        }
+      }),
+    [resolvePlaybackActivationGuard, songId]
+  )
 
   const postPlaybackCommandMessage = useCallback(
     (action: 'open' | 'stop' | 'close') => {
