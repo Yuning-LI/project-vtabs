@@ -13,9 +13,9 @@ Must be deployable:
 - `data/kuailepu/<slug>.json`
   - compact public SongDoc for catalog / SEO / lists
 - `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
-  - archived runtime HTML/template source
+  - authorized runtime HTML/template archive
 - `vendor/kuailepu-static/**`
-  - committed source static snapshot
+  - committed authorized runtime static snapshot
 - `public/k-static/**`
   - deployable static assets served by the app
 - `public/static/soundfont/**`

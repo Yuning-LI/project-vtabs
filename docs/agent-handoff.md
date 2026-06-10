@@ -4,7 +4,7 @@ Shortest useful context for a new AI / developer session.
 
 ## One Sentence
 
-Public song pages are runtime-backed Kuailepu raw JSON pages with an English SEO shell, default `letter` view, optional `number` view, public instrument views for ocarina/recorder/tin whistle, and shell-level metronome/playback tools.
+Public song pages are authorized-runtime-backed notation pages with an English SEO shell, default `letter` view, optional `number` view, public instrument views for ocarina/recorder/tin whistle, and shell-level metronome/playback tools.
 
 ## First Checks
 
@@ -41,7 +41,7 @@ If the task needs Kuailepu network access, confirm the user is on a China-reacha
 - Public note modes: `letter`, `number`; do not restore `both`.
 - Public instruments: `o12`, `o6`, `r8b`, `r8g`, `w6`.
 - Public visible copy must be English.
-- Do not expose Kuailepu/source-attribution wording on public pages.
+- Do not expose internal runtime provenance wording on public pages.
 - `/api/kuailepu-runtime/<slug>` is not an SEO page and must remain `noindex`.
 - Any new Playwright startup code must use `playwright-extra` with `puppeteer-extra-plugin-stealth`.
 - Follow `scripts/kuailepuAuth.ts` for the browser initialization pattern.
@@ -109,14 +109,14 @@ Playbook:
 - Do not move public song pages back to old native rendering.
 - Compare / publish gates use `note_label_mode=number`.
 - Keep letter transformation in `src/lib/kuailepu/runtime.ts`.
-- Keep playback / metronome integration as shell-to-runtime bridges instead of forking the archived renderer.
+- Keep playback / metronome integration as shell-to-runtime bridges during the integration phase.
 - Prefer runtime asset profile changes over deleting bundled old assets.
 - Do not run `npm run build` and `npm run test:e2e` concurrently in the same workspace; both touch `.next` and can create false failures.
 - Kuailepu live compare should minimize repeated detail-page reloads; prefer direct detail URLs and grouped per-song checks over repeated site search.
 - Prefer `src/lib/runtime-core/publicRuntime.ts` for new app/runtime integration work.
 - Treat `src/lib/kuailepu/runtime.ts` as compatibility shell, not the preferred place for new feature logic.
 - Inline iframe bridge logic currently lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`.
-- Current preferred priority after the latest boundary work: finish bridge decomposition before resuming visual differentiation.
+- Current preferred priority after the latest boundary work: integrate the authorized runtime into the Next.js + React architecture without iframe nesting, while preserving current behavior.
 - Visual experiments that are not yet backed by a stable isolated theme layer should not be left mixed into the code-structure refactor stream.
 - Remaining high-value bridge split targets are playback, metronome, and letter-render / visible-sheet transform logic.
 

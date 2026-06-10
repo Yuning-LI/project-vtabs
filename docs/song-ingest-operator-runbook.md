@@ -42,7 +42,7 @@ Routine import work starts from an already-prepared XML or MXL file on disk.
 
 ## Core Product Truth To Keep In Mind
 
-- Public song pages are driven by Kuailepu-compatible runtime JSON plus the original runtime path.
+- Public song pages are driven by authorized-runtime-compatible JSON plus the integrated runtime path.
 - Candidate-only ingest artifacts belong under `reference/song-publish-candidates/**` until publish approval.
 - Public layer files belong under:
   - `data/kuailepu-runtime/<slug>.json`

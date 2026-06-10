@@ -1,10 +1,10 @@
-# Metronome Recovery Audit
+# Metronome Integration Audit
 
-Summary of the 2026-04-03 audit for whether the original Kuailepu metronome can be recovered.
+Summary of the 2026-04-03 audit for whether the integrated runtime metronome can be enabled.
 
 ## Conclusion
 
-The metronome recovery path is still present in the repository. It is disabled by the public `public-song` asset profile and by public shell hiding, not missing from the archived runtime.
+The metronome integration path is still present in the repository. It is disabled by the public `public-song` asset profile and by public shell hiding, not missing from the integrated runtime.
 
 ## Verified
 

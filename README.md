@@ -23,7 +23,8 @@ The older rule of reading every major document for every substantial task has be
 
 ## Product Truth
 
-- Public `/song/<slug>` pages use deployable raw JSON plus the original Kuailepu runtime path.
+- The project is based on a fully authorized commercial-exclusive frontend codebase and is being upgraded into a Next.js + React architecture.
+- Public `/song/<slug>` pages currently use deployable raw JSON plus the authorized runtime integration path.
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
 - Production-packed runtime JSON lives in `data/kuailepu-runtime-packed/<slug>.json.gz` and is preferred in production builds.
 - Compact public song docs live in `data/kuailepu/<slug>.json`.
@@ -41,7 +42,7 @@ The older rule of reading every major document for every substantial task has be
 ## Public Copy Rules
 
 - Visible public site copy must stay English.
-- Do not expose source wording such as `Kuailepu source`, `reference source`, or `we referenced Kuailepu`.
+- Do not expose internal runtime provenance wording on public pages.
 - Homepage song cards should show the song title only.
 - SEO titles should prioritize real search terms: instrument, tabs, notes, letter notes, fingering chart, song aliases.
 - Do not mechanically append `| Play By Fingering` to homepage, learn, or song metadata.
@@ -101,7 +102,7 @@ If an approved target song fails during search, import, compare, or preflight, d
 - Publish/parity checks must use `note_label_mode=number`.
 - Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
 - Keep playback and metronome behavior as shell/runtime bridges; do not fork the core `Song.draw()/hc.parse` rendering chain.
-- When reducing old Kuailepu assets, change runtime asset profiles instead of deleting files from `vendor/kuailepu-static` or `public/k-static`.
+- When reducing runtime assets, change runtime asset profiles instead of deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
 ## Validation Commands
 

@@ -1,10 +1,10 @@
-# Kuailepu Compatibility Roadmap
+# Authorized Runtime Compatibility Roadmap
 
 This is the runtime strategy document. It should answer what must stay stable, not preserve old implementation history.
 
 ## Current Route
 
-- Public `/song/<slug>` pages use Kuailepu raw JSON plus the original runtime rendering chain.
+- Public `/song/<slug>` pages use deployable runtime JSON plus the authorized runtime rendering chain.
 - Production source is `data/kuailepu-runtime/<slug>.json`.
 - Runtime template archive is `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`.
 - Static runtime assets are served from `/k-static/...`, currently backed by `public/k-static`.
@@ -20,7 +20,7 @@ Runtime chain:
 - Default public mode: `letter`.
 - Public backup / parity mode: `number`.
 - Do not restore `both`.
-- Letter mode reuses the original numbered-note track positions and replaces note labels only.
+- Letter mode preserves the numbered-note track positions and replaces note labels only.
 - Keep letter-mode behavior isolated in `src/lib/kuailepu/runtime.ts`.
 
 Letter-mode intent:
@@ -47,7 +47,7 @@ Current public runtime profile:
 - `public-song`: default public page, minimal validated script set
 - `full-template`: debugging / compare / recovery mode and current public feature mode for playback / metronome
 
-When reducing old Kuailepu assets:
+When reducing runtime assets:
 
 - change profile behavior in `src/lib/kuailepu/runtime.ts`
 - keep bundled assets and recovery path
@@ -62,7 +62,7 @@ Do not:
 
 - restore old native `SongClient` as public fallback
 - silently fall back when raw JSON is missing
-- expose Kuailepu/source wording on public pages
+- expose internal runtime provenance wording on public pages
 - expose pure Chinese lyric tracks through query params or public controls
 - change fingering-chart correctness logic for SEO or Pinterest work
 

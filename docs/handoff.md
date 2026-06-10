@@ -4,7 +4,7 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 
 ## Current Product State
 
-- Public `/song/<slug>` pages use `data/kuailepu-runtime/<slug>.json -> /api/kuailepu-runtime/<slug> -> original runtime -> SVG`.
+- Public `/song/<slug>` pages use `data/kuailepu-runtime/<slug>.json -> /api/kuailepu-runtime/<slug> -> authorized runtime -> SVG`.
 - Production builds prefer `data/kuailepu-runtime-packed/<slug>.json.gz` before raw JSON.
 - The public shell is English SEO content plus a playable notation page.
 - Default note mode is `letter`; `number` remains the parity / backup mode.
@@ -21,7 +21,7 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 
 ## Latest Verified Changes
 
-- Public playback keeps the original Kuailepu countdown overlay. The shell no longer hides `.count-down-area` when `public_feature=playback` is enabled.
+- Public playback keeps the authorized runtime countdown overlay. The shell no longer hides `.count-down-area` when `public_feature=playback` is enabled.
 - Mobile `More Tools` now closes reliably after opening. The drawer close path is centralized and guarded against touch-event reopen races.
 - Full verification for the latest runtime-shell changes:
   - `npm run build` passes
@@ -33,7 +33,7 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
   - internal preview route is `/dev/native-renderer/song/[id]`
   - supported MVP seed example: `/dev/native-renderer/song/on-top-of-old-smoky`
   - fallback diagnostic example: `/dev/native-renderer/song/twinkle-twinkle-little-star`
-  - public `/song` pages are unchanged and still archived-runtime backed
+  - public `/song` pages are unchanged and still authorized-runtime backed
 
 ## Counts
 
@@ -47,7 +47,7 @@ npm run validate:content
 
 - Default public pages still use `public-song` asset profile.
 - Any request with `public_feature=metronome` or `public_feature=playback` currently upgrades to `full-template`.
-- Keep runtime bridge changes isolated to `src/lib/kuailepu/runtime.ts`; do not fork archived `song_*.js` behavior unless unavoidable.
+- Keep runtime bridge changes isolated to `src/lib/kuailepu/runtime.ts`; do not fork integrated `song_*.js` behavior unless unavoidable.
 
 ## Current MusicXML Ingest Boundary
 

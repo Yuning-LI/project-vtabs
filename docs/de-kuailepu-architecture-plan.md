@@ -1,6 +1,6 @@
-# De-Kuailepu Architecture Plan
+# Authorized Runtime Architecture Upgrade Plan
 
-This document is the top-level design for the current de-Kuailepu refactor.
+This document is the top-level design for upgrading the fully authorized frontend runtime into the current Next.js + React architecture.
 
 Its purpose is not to replace `docs/kuailepu-compatibility-roadmap.md`.
 
@@ -11,20 +11,20 @@ That roadmap answers:
 
 This document answers a different question:
 
-- how to restructure the current codebase so it gradually stops looking and behaving like a Kuailepu compatibility patch pile
+- how to integrate the authorized runtime into our own app architecture
 - without breaking the existing public song runtime path
 
 ## Scope
 
 Current target:
 
-- keep public `/song/<slug>` pages on the Kuailepu raw JSON + existing runtime route
+- keep public `/song/<slug>` pages on the deployable runtime JSON + existing runtime route
 - do not rewrite `Song.draw()/compile()/hc.parse/render`
-- first separate our own boundaries around that runtime
+- first remove iframe nesting and bring the authorized runtime under the Next.js + React architecture with stable debugging and control boundaries
 
 Non-goals for this phase:
 
-- replacing Kuailepu core parser / renderer
+- replacing the core parser / renderer
 - changing compare baseline away from `note_label_mode=number`
 - introducing a brand-new public song rendering route
 
@@ -61,7 +61,7 @@ This is code that runs in Node / Next.js server context.
 Examples:
 
 - reading `data/kuailepu-runtime/<slug>.json`
-- loading archived template HTML
+- loading authorized runtime template HTML
 - selecting runtime asset profiles
 - injecting CSS / JS / bridge scripts into the runtime HTML shell
 
@@ -86,12 +86,12 @@ This is the most fragile layer.
 
 It is not a normal imported module tree.
 
-It is JavaScript source emitted into the Kuailepu runtime HTML and then executed inside the iframe document.
+It is JavaScript emitted into the authorized runtime HTML and then executed inside the runtime document.
 
 Examples:
 
 - code produced by `buildRuntimeBridgeScript(...)`
-- SVG manipulation after Kuailepu runtime draws the sheet
+- SVG manipulation after the integrated runtime draws the sheet
 - iframe-side height reporting
 - iframe-side playback panel observation
 
@@ -274,47 +274,59 @@ Practical planning impact:
 - full independence cannot be achieved by renaming files or changing the outer shell
 - full independence requires our own notation parser, semantic model, layout engine, fingering model, renderer, and playback/data path
 
-## Progress Model
+## Phase Model
 
-There are two different progress numbers. Do not mix them.
+The roadmap now uses two product phases. Do not mix them.
 
-### Current Code-Structure Phase
+### Phase 1: Authorized Runtime Integration
 
-This is the current second-stage refactor:
+Core goal:
 
-- make public app code speak `PublicRuntime`
-- move old names to compatibility shells
-- isolate adapter points around archived runtime dependencies
-- keep `Song.draw()/hc.parse/render` unchanged
+- remove iframe nesting
+- fully integrate the authorized frontend runtime into the Next.js + React architecture
+- make runtime code debuggable, controllable, and stable inside our app
+- preserve current public feature parity before broad decomposition
 
-Status:
+Non-goals for Phase 1:
 
-- complete enough to stop treating Phase 2 as open-ended cleanup
+- large-scale parser / renderer rewrite
+- aggressive module-by-module replacement
+- changing the current correctness baseline
+- reducing visible product features
 
-Remaining work in this phase should be limited to regressions or clearly useful boundary fixes.
+Exit criteria:
 
-### Full De-Kuailepu Program
+- public `/song/<slug>` no longer depends on an iframe wrapper
+- the authorized runtime is mounted and controlled by our React / Next app boundary
+- current controls, playback, metronome, letter / number mode, layout, zoom, instrument switching, print, and Pinterest paths remain stable
+- runtime errors can be debugged through our app structure instead of only through iframe behavior
+- current deployable runtime JSON and visual theme behavior remain compatible
 
-This is the user's long-term target:
+### Phase 2: Modular Refactor And Native Replacement
 
-- public song pages, interaction, playback, fingering, export, and new instruments no longer depend on the archived Kuailepu renderer
-- Kuailepu code becomes historical reference instead of runtime dependency
+Core goal:
+
+- after Phase 1 integration is stable, progressively decouple the integrated runtime
+- modularize parser, state, layout, fingering, playback, and export responsibilities
+- replace modules with our own TypeScript / React / native-renderer implementations where it improves control and extensibility
+- support future instruments through our own instrument and fingering registries
 
 Current estimate:
 
-- about 40% to 45% complete overall under the full function-equivalent definition
+- Phase 1 is not complete because public song output is still iframe-backed
+- Phase 2 native replacement has substantial groundwork through `SongIR`, native renderer preview, and playback-sequence audit, but it remains internal-only
 
 Reason:
 
 - shell, bridge, payload, state, and route boundaries are now substantially ours
 - the public site can be operated with our own SEO shell, controls, letter mode, playback bridge, visual theme, and export surfaces
-- the correctness engine for public pages is still the archived Kuailepu `hc` renderer
+- the correctness engine for public pages is still the authorized runtime `hc` renderer
 - native `SongIR` parsing and rendering has started in internal-only routes, but it is not yet production-grade
 - playback source generation, repeat playback semantics, full fingering switching, metronome alignment, export rendering, and public migration are not yet ours
 
-Operationally, the site is much farther along than the full-independence percentage for launch/SEO use. The visual-differentiation track is about 90% complete for public-page operation. Architecturally, full independence now depends on Phase 5 turning the internal native model into a production-capable rendering, interaction, playback, fingering, and export path.
+Operationally, the site is much farther along than the native-replacement percentage for launch/SEO use. The visual-differentiation track is about 90% complete for public-page operation. Architecturally, full self-owned module control depends on Phase 2 turning the internal native model into a production-capable rendering, interaction, playback, fingering, and export path.
 
-The previous 50%+ estimate was useful when the active scope was mostly code-boundary cleanup plus visual differentiation. Under the stricter `100% = current public features without archived Kuailepu runtime` definition, progress must be counted lower because playback, metronome, export, and public route migration remain mostly unstarted.
+The previous 50%+ estimate was useful when the active scope was mostly code-boundary cleanup plus visual differentiation. Under the stricter `100% = current public features backed by our own modular/native chain` definition, progress must be counted lower because playback, metronome, export, and public route migration remain mostly unstarted.
 
 ## Target Module Layout
 
@@ -369,7 +381,7 @@ It is now:
 
 1. app/server code should prefer `runtime-core/publicRuntime.ts`
 2. compatibility naming remains available through `src/lib/kuailepu/runtime.ts`
-3. archived Kuailepu renderer remains untouched behind those boundaries
+3. the authorized renderer remains contained behind those boundaries until Phase 1 integration is complete
 
 Important note:
 
@@ -499,7 +511,7 @@ Non-goals:
 - changing note parsing
 - changing fingering correctness
 - changing compare baseline
-- replacing the Kuailepu `Song.draw()/hc.parse/render` chain
+- replacing the integrated `Song.draw()/hc.parse/render` chain
 
 Execution order:
 
@@ -522,7 +534,7 @@ Progress estimate:
 - public page visual layer is effectively complete for the first operating pass
 - `PublicRuntimeVisualTheme` now exists as the switch point for sheet tone, fingering palette, typography, and fingering-shape changes
 - compare mode resolves the visual theme to disabled before bridge injection
-- the SVG bridge has a stable `applyPublicRuntimeVisualTheme(...)` entry after each archived runtime render
+- the SVG bridge has a stable `applyPublicRuntimeVisualTheme(...)` entry after each integrated runtime render
 - the visual layer now changes sheet tone, text ink, letter-note cover styling, fingering palette, playback-panel styling, and instrument SVG appearance
 - current covered public instruments:
   - `o12`: 12-hole ocarina has differentiated outline, hole sizing/placement, color gradients, and paper/ink treatment
@@ -542,19 +554,19 @@ Remaining visual close-out:
 
 Goal:
 
-- make the public engineering surface and asset story feel like our own system while still allowing archived runtime recovery
+- make the public engineering surface and asset story feel like our own system while still allowing authorized-runtime recovery
 
 Deliverables:
 
 - clearer public runtime asset profiles
 - own-named static grouping for public runtime support assets where path compatibility allows it
-- documented split between public runtime assets, archived recovery assets, and compare-only assets
+- documented split between public runtime assets, recovery assets, and compare-only assets
 - internal scripts updated to prefer PublicRuntime naming where they are not explicitly compare/import scripts
 - public shell and export routes audited for no visible source attribution wording
 
 Non-goals:
 
-- deleting archived assets needed for compare or recovery
+- deleting runtime assets needed for compare or recovery
 - renaming stable public paths merely for cosmetic reasons
 - hiding that compare/import scripts still deal with Kuailepu-compatible data
 
@@ -562,7 +574,7 @@ Exit criteria:
 
 - a new engineer can understand public song page orchestration without first learning Kuailepu template internals
 - public-facing and export-facing assets are grouped by our product boundary
-- archived runtime assets are clearly marked as compatibility/recovery dependencies
+- runtime assets are clearly marked as integration/recovery dependencies
 
 Progress estimate:
 
@@ -573,13 +585,13 @@ Progress estimate:
 
 Goal:
 
-- gradually remove dependence on Kuailepu core renderer
+- gradually modularize and replace selected integrated runtime responsibilities after Phase 1 is stable
 
 Research entry:
 
 - `docs/public-runtime-renderer-replacement-research.md`
 
-This is the phase that moves the project from "differentiated runtime wrapper" to "independent renderer".
+This is the phase that moves the project from "integrated authorized runtime" to a modular native rendering stack.
 
 Deliverables:
 
@@ -589,11 +601,11 @@ Deliverables:
 - layout engine MVP for melody rows, lyrics, measure numbers, and fingering anchors
 - renderer MVP for one narrow instrument family first, likely 12-hole ocarina
 - public controls backed by native state: instrument, fingering, note mode, graph, lyric, measure number, layout, and zoom
-- playback source generation independent from archived runtime
+- playback source generation independent from the integrated runtime renderer
 - native metronome / highlight alignment from the same timing model as playback
 - print and Pinterest export backed by the native renderer
-- public route migration with an intentional archived-runtime fallback period
-- side-by-side renderer diff tooling against current archived output
+- public route migration with an intentional integrated-runtime fallback period
+- side-by-side renderer diff tooling against current integrated output
 
 Suggested subphases:
 
@@ -610,30 +622,30 @@ Suggested subphases:
 
 3. Renderer MVP
 
-   - render a small stable set of songs without archived runtime
+   - render a small stable set of songs through the native renderer
    - start with simple songs and one instrument
-   - measure visual correctness against archived output, not byte identity
+   - measure visual correctness against current integrated output, not byte identity
 
 4. Interaction / Playback
 
    - move playback, metronome alignment, note highlight, zoom, layout, graph, lyric, note-mode, and fingering controls onto our own model
-   - keep archived runtime fallback until MVP is stable
+   - keep integrated-runtime fallback until MVP is stable
 
 5. Export Migration
 
    - drive Pinterest and print output from native renderer output
    - keep export visual quality close to the current public visual direction
-   - avoid using archived runtime screenshots as the long-term export source
+   - avoid using integrated-runtime screenshots as the long-term export source
 
 6. Catalog Migration
 
    - classify songs by supported syntax
    - route supported songs to our renderer
-   - leave unsupported songs on archived runtime until parser coverage catches up
+   - leave unsupported songs on the integrated runtime until parser coverage catches up
 
 Exit criteria:
 
-- at least one instrument path can render and play without archived Kuailepu runtime
+- at least one instrument path can render and play through the native chain
 - the renderer can handle a meaningful public subset, not just a toy fixture
 - public controls for instrument, fingering, note mode, graph, lyric, measure number, layout, zoom, playback, and metronome work through native data
 - export routes can use native output for supported songs
@@ -656,7 +668,7 @@ Progress estimate:
 - those 10 complex-ending blockers are now diagnosed by subtype instead of one opaque bucket: 8 have ending numbers above 2, 1 still has a missing second-ending end across a `{play:...}` section boundary, and 1 has a null ending number plus a first-ending-without-second-ending structure; this keeps the playback support boundary stable while making later repeat migration more targeted
 - `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
 - `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, play-order structure, play-order expansion, fallback-boundary, and dense-layout compression fixtures
-- public `/song` is still archived-runtime backed; no public route replacement has happened
+- public `/song` is still integrated-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
 
@@ -718,7 +730,7 @@ Exit criteria:
 
 Preferred order from the current point:
 
-1. keep public `/song` on the archived runtime while Phase 5 stays internal-only
+1. keep public `/song` on the integrated runtime while native work stays internal-only
 2. continue Phase 5 by making native layout handle denser runtime songs without overlap or fragile spacing
 3. add focused fixture / DOM checks around native renderer semantics before expanding support
 4. implement play-order expansion only after repeat / ending visual markers are stable
@@ -750,7 +762,7 @@ Recommended public runtime regression samples before any public-facing release:
 Manual checks:
 
 - native forced preview visibly shows modeled syntax but normal unsupported review still falls back
-- public archived runtime sheet appears without loading-card or header flash
+- public integrated runtime sheet appears without loading-card or header flash
 - playback opens, stops, and closes correctly
 - metronome is still usable
 - number mode remains clean
@@ -918,7 +930,7 @@ npm run validate:songbook
 Additional expected checks:
 
 - fixture tests for parser syntax buckets
-- side-by-side visual render diff against archived runtime for selected songs
+- side-by-side visual render diff against integrated runtime for selected songs
 - manual playback / metronome checks if timing or audio source changes
 - explicit unsupported-syntax fallback checks
 
@@ -941,13 +953,13 @@ This step was Phase 3 groundwork. I added the visual theme boundary but did not 
 Use two progress tracks:
 
 - `Current phase progress`: how far the active phase has moved.
-- `Full independence progress`: how close the whole project is to no longer needing the archived Kuailepu runtime.
+- `Native replacement progress`: how close the whole project is to running current public features through our modular/native chain.
 
 ## Immediate Next Steps
 
 The next safe work order is:
 
-1. keep public `/song` on the archived runtime while native remains internal-only
+1. keep public `/song` on the integrated runtime while native remains internal-only
 2. run `npm run check:native-renderer-regressions` before and after native parser / layout / renderer changes
 3. implement repeat / ending playback expansion for the audited complex sequence buckets
 4. audit current public detail-page controls and map each control to the native data / renderer responsibility
@@ -957,20 +969,21 @@ The next safe work order is:
 
 ## Bottom Line
 
-The current short-term goal is not “remove Kuailepu everywhere at once”.
+The current short-term goal is not a broad rewrite.
 
 The current short-term goal is:
 
-- keep the archived Kuailepu core runtime as the public correctness engine for now
-- keep making the native `SongIR` path cover more semantics, layout, controls, playback, and export behavior
-- preserve current public feature parity while each dependency is replaced intentionally
+- complete Phase 1 by removing iframe nesting and integrating the authorized runtime into the Next.js + React app boundary
+- keep the integrated runtime as the public correctness engine until Phase 1 is stable
+- keep making the native `SongIR` path cover more semantics, layout, controls, playback, and export behavior for Phase 2
+- preserve current public feature parity while each module is replaced intentionally
 - avoid refactors that cross execution layers blindly
 
-The long-term goal is full independence. That requires Phase 5: our own parser, semantic model, layout engine, renderer, fingering model, playback path, control mapping, and export path.
+The long-term goal is modular technical control. That requires Phase 2: our own parser, semantic model, layout engine, renderer, fingering model, playback path, control mapping, and export path where those modules provide better maintainability or extensibility.
 
-## Full Independence Definition
+## Target Completion Definition
 
-`100% de-Kuailepu` means functionally equivalent public operation without the archived Kuailepu runtime.
+`100% architecture upgrade` means functionally equivalent public operation with the authorized runtime integrated into our app architecture first, then progressively migrated onto our modular/native chain.
 
 This includes:
 
@@ -981,6 +994,6 @@ This includes:
 - playback, note highlighting, and metronome alignment from our own timing model
 - zoom / layout / graph / lyric / measure-number controls still working from the public shell
 - Pinterest, print, and future export surfaces driven by our own renderer
-- archived Kuailepu code removed from the live public correctness path
+- integrated runtime modules replaced where Phase 2 has proven native equivalents
 
-The target is not fewer features than the current public site. It is the same visible product capability, with the implementation migrated off the archived runtime. Until playback, fingering switching, and export paths are moved onto native data, the project is not 100% independent even if the static sheet can be drawn.
+The target is not fewer features than the current public site. It is the same visible product capability, first with iframe-free authorized-runtime integration, then with native modules taking over parser, rendering, playback, fingering switching, and export paths as they become stable.

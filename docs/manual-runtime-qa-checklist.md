@@ -19,7 +19,7 @@ For runtime or shell changes, also run:
 npm run build
 ```
 
-Preflight compare must use `number` mode through the publish script. If Kuailepu login is invalid, stop and ask the user to run `npm run login:kuailepu`.
+Preflight compare must use `number` mode through the publish script. If the runtime compare login is invalid, stop and ask the user to run `npm run login:kuailepu`.
 
 ## URLs To Open
 
@@ -37,7 +37,7 @@ Check:
 
 - no obvious flash of numbered notes before letter mode settles
 - title, body, FAQ, controls are English
-- no Kuailepu/source-attribution wording
+- no internal runtime provenance wording
 - fingering chart and notation enter view without excessive shell height
 - no grey overlay, modal residue, inner iframe scrollbar, or large bottom blank area
 - pure Chinese lyrics stay hidden and do not expose a public lyrics toggle
@@ -81,7 +81,7 @@ When controls are touched:
 - Metronome does not cover the fingering chart.
 - Playback opens from the shell `Listen` button and can return to `Stop`.
 - Playback panel opens in the upper-right area on desktop and stays readable on mobile.
-- Playback start shows the native Kuailepu `3 / 2 / 1` countdown overlay before audio begins.
+- Playback start shows the integrated runtime `3 / 2 / 1` countdown overlay before audio begins.
 - Clicking blank area inside the iframe closes the playback panel without breaking the page.
 - Clicking blank area outside the iframe also closes the playback panel without stopping playback.
 - In `letter` mode, playback note highlight remains visible on the overlay instead of disappearing behind the white label cover.

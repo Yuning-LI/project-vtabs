@@ -1,6 +1,6 @@
-# Public Runtime Renderer Replacement Research
+# Public Runtime Native Renderer Research
 
-This document is the Phase 5 research entry for replacing the archived renderer.
+This document is the research entry for the later modular/native renderer phase.
 
 It does not start the renderer rewrite.
 
@@ -15,8 +15,8 @@ Public song pages still use:
 runtime JSON -> Kit.context.setContext(...) -> Song.draw()/compile() -> hc.parse/render -> SVG
 ```
 
-The current visual theme layer changes the rendered SVG after the archived runtime
-has produced it. That is correct for Phase 3, but it is not renderer independence.
+The current visual theme layer changes the rendered SVG after the integrated runtime
+has produced it. That is correct for the current operating path, but it is not native renderer ownership.
 
 Full renderer replacement needs our own:
 
@@ -59,7 +59,7 @@ Answer:
 - which notation constructs are used by current public songs
 - how often they appear
 - which songs are simple enough for renderer MVP
-- which songs require fallback to archived runtime
+- which songs require integrated-runtime fallback
 
 Track at least:
 
@@ -77,7 +77,7 @@ Track at least:
 
 ### 2. Renderer MVP Scope
 
-The first independent renderer should not try to match every archived runtime feature.
+The first native renderer should not try to match every integrated-runtime feature.
 
 Suggested MVP:
 
@@ -87,7 +87,7 @@ Suggested MVP:
 - inline fingering charts
 - lyric alignment only for simple public-lyrics songs
 - no full repeat expansion at first
-- archived runtime fallback for unsupported syntax
+- integrated-runtime fallback for unsupported syntax
 
 ### 3. Layout Correctness Target
 
@@ -117,7 +117,7 @@ The route decision should eventually become:
 if native renderer supports this song:
   render native runtime
 else:
-  render archived runtime fallback
+  render integrated-runtime fallback
 ```
 
 ## Useful Existing Commands
@@ -149,7 +149,7 @@ npm run validate:songbook
 
 Status: dev-only MVP chain started.
 
-Public `/song/<slug>` still uses the archived runtime. The native renderer work is
+Public `/song/<slug>` still uses the integrated runtime. The native renderer work is
 currently isolated to internal tooling and `/dev/native-renderer/song/[id]` /
 `/dev/native-renderer/review/[id]`.
 
@@ -170,7 +170,7 @@ Implemented so far:
   - unsupported or missing SongIR shows an explicit fallback diagnostic page
 - dev-only side-by-side route:
   - `/dev/native-renderer/review/<slug>`
-  - add `?source=runtime` to compare archived runtime against native rendering from deployable runtime JSON
+  - add `?source=runtime` to compare integrated runtime against native rendering from deployable runtime JSON
 
 Current strict support contract:
 
@@ -229,7 +229,7 @@ The report should group songs into:
 - `needs-repeat-support`
 - `needs-group-support`
 - `needs-lyric-support`
-- `archived-fallback-required`
+- `integrated-runtime-fallback-required`
 
 Latest local run on the 400-song public runtime catalog:
 
@@ -238,7 +238,7 @@ Latest local run on the 400-song public runtime catalog:
 - `needs-repeat-support`: 200 songs
 - `needs-group-support`: 109 songs
 - `needs-lyric-support`: 52 songs
-- `archived-fallback-required`: 2 songs
+- `integrated-runtime-fallback-required`: 2 songs
 - public songs with local MusicXML draft / candidate overlap: 56 songs
 - `native-mvp-candidate` songs with local MusicXML draft overlap: 15 songs
 
@@ -248,7 +248,7 @@ Current implication:
 - The remaining 7 `native-mvp-candidate` songs can still be useful, but they would require runtime-notation parsing first or a fresh XML source.
 - Repeat support is the largest unlock because about half the public catalog uses repeat bars, numbered endings, `{play:...}`, or section labels.
 - Group / parenthesized-note support is the second-largest unlock.
-- Until repeat and group support exist, the public route must keep archived-runtime fallback.
+- Until repeat and group support exist, the public route must keep integrated-runtime fallback.
 
 Recommended first native renderer seeds:
 
@@ -272,7 +272,7 @@ Recommended first native renderer seeds:
 
 1. Define `SongIR v0`.
    - Keep it deliberately small: metadata, key/BPM, measures, events, rests, durations, simple lyric slots, and instrument fingering anchors.
-   - Do not encode every Happy123 / archived-runtime feature in v0.
+   - Do not encode every Happy123 / integrated-runtime feature in v0.
    - Current status: implemented.
 2. Build `MusicXML draft -> SongIR` first.
    - This is the cleanest path because the local draft artifacts still preserve more structured intent than compressed runtime notation.
@@ -280,12 +280,12 @@ Recommended first native renderer seeds:
    - Current status: implemented for the 15 MVP seed drafts.
 3. Add an explicit native/fallback contract.
    - `supported` songs can render through the native path.
-   - unsupported songs must intentionally stay on archived runtime.
+   - unsupported songs must intentionally stay on the integrated runtime.
    - never silently show a partial or wrong native render.
    - Current status: implemented for dev-only routing; currently 12 of 15 MVP seeds pass the strict o12 support gate.
 4. Build a dev-only native preview route before touching public `/song/<slug>`.
    - Compare event counts, pitch sequence, rest sequence, bar count, lyric slot count, and fingering anchor count.
-   - Visual equality with archived SVG is not the target.
+   - Visual equality with integrated runtime SVG is not the target.
    - Current status: implemented with basic o12 fingering diagrams.
 5. Expand support in unlock order.
    - reusable layout engine primitives
@@ -302,7 +302,7 @@ Preferred next steps:
 
 1. Stabilize the native layout engine boundary.
    - Move from one-off flex rows toward reusable row / measure / event layout primitives.
-   - Keep it visually ours; do not chase archived SVG equality.
+   - Keep it visually ours; do not chase integrated-runtime SVG equality.
 2. Expand semantic QA output for each supported native song.
    - event count
    - pitch sequence checksum
@@ -311,7 +311,7 @@ Preferred next steps:
    - lyric slot count
    - fingering anchor count
 3. Add side-by-side internal review tooling.
-   - show archived runtime iframe and native sheet together for the same song
+   - show integrated runtime output and native sheet together for the same song
    - compare semantic stats, not SVG bytes
 4. Expand parser / model support by unlock value.
    - repeat support unlocks the largest public subset
@@ -322,10 +322,10 @@ Preferred next steps:
 
 Phase 3 visual work should continue using `PublicRuntimeVisualTheme`.
 
-Do not block Phase 3 on Phase 5 unless a visual change needs data that the archived
+Do not block visual work on native renderer replacement unless a visual change needs data that the integrated
 runtime cannot expose safely.
 
 The first Phase 5 output has now moved beyond knowledge and classification into a
-dev-only native renderer chain. The public route should still remain archived-runtime
+dev-only native renderer chain. The public route should still remain integrated-runtime
 backed until the native chain has semantic QA, side-by-side review, and a larger
 syntax surface.

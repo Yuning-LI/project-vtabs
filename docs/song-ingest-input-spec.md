@@ -240,5 +240,5 @@ Not yet covered:
 - skip mandatory external melody/version verification
 - skip runtime validation for public songs
 - restore old native song page as public route
-- expose Chinese/source wording publicly
+- expose Chinese/internal runtime provenance wording publicly
 - publish unauthorized copyrighted material

@@ -64,7 +64,7 @@ export default function InternalPrintSongPage({
    * 这是“内部打印壳”，不是第二套公开详情页。
    *
    * 当前边界：
-   * - 继续复用 deployable raw JSON + archived runtime 主链出谱
+   * - 继续使用 deployable raw JSON + integrated runtime 主链出谱
    * - 这里只额外负责纸张版式、导流文案和 PDF 预览
    * - 当前不要把它当成公开用户功能暴露到前台
    */
@@ -110,7 +110,7 @@ export default function InternalPrintSongPage({
   )
 
   const paramsForFrame = new URLSearchParams()
-  // 打印链继续复用 runtime HTML 路由，而不是另写一套 renderer。
+  // 打印链继续使用 runtime HTML 路由，而不是另写一套 renderer。
   paramsForFrame.set('runtime_text_mode', 'english')
   paramsForFrame.set('runtime_visual_theme', runtimeVisualTheme)
   if (activeInstrument.id !== 'o12') {

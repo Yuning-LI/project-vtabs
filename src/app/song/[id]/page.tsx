@@ -105,7 +105,7 @@ export default function SongPage({
    *
    * 站点原生 Jianpu / SongClient 仍然保留：
    * - 供 dev 预览页使用
-   * - 供未来去 iframe 化迁移时复用
+   * - 供未来去 iframe 化迁移时参考
    * 但它不再是当前公开详情页的默认产品路线。
    */
   const runtimePayload = loadPublicRuntimeSongPayload(song.slug)

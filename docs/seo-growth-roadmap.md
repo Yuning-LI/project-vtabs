@@ -37,7 +37,7 @@ Default not allowed without explicit product decision:
 ## SEO Copy Rules
 
 - Public visible copy stays English.
-- Do not expose Kuailepu/source wording.
+- Do not expose internal runtime provenance wording.
 - Prioritize real search terms over brand suffixes.
 - Cover instrument terms naturally: ocarina tabs, recorder notes, tin whistle notes, letter notes, fingering chart.
 - Add aliases before publishing when a song has common alternate titles or translated names.

@@ -501,7 +501,7 @@ function SongRow({ song }: { song: ImportDashboardSongRow }) {
           ) : null}
           {song.sourceUrl ? (
             <a href={song.sourceUrl} target="_blank" rel="noreferrer" className="text-stone-700 underline underline-offset-4">
-              Kuailepu source
+              Runtime detail
             </a>
           ) : null}
         </div>
@@ -612,7 +612,7 @@ function GreySongRow({ song }: { song: ImportDashboardGreySongRow }) {
         <div className="flex flex-col gap-2">
           {song.sourceUrl ? (
             <a href={song.sourceUrl} target="_blank" rel="noreferrer" className="font-semibold text-stone-900 underline underline-offset-4">
-              Kuailepu source
+              Runtime detail
             </a>
           ) : null}
           {song.hasRuntimeRaw ? (

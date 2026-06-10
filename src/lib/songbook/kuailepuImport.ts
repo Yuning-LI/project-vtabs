@@ -164,7 +164,7 @@ export function parseKuailepuLyricBlocks(rawLyric: string | undefined): string[]
 /**
  * 依据快乐谱前端的 parseLyric 规则，提取“歌词槽位”。
  *
- * 当前我们不试图 100% 复刻它的所有文本表现层，
+ * 当前我们不试图覆盖 100% 的文本表现层，
  * 只保留对齐所需的核心规则：
  * - 空格 / 换行结束当前 token
  * - `;；@＠_/` 记成空歌词槽位
@@ -601,7 +601,7 @@ type ParsedKuailepuToken =
  * - `.` 附点
  * - `(3:` 这类最常见 tuplet 比例
  *
- * 这里故意不尝试 100% 复刻快乐谱全部记谱系统，
+ * 这里故意不尝试覆盖 100% 的完整记谱系统，
  * 但要尽量把“会直接影响小节观感”的节拍长度保住。
  */
 function parseKuailepuNotationLine(line: string): ParsedKuailepuToken[] {
@@ -1053,7 +1053,7 @@ export function buildKuailepuSongDoc(
       title: 'Kuailepu detail-page snapshot',
       url: sourceUrl,
       rights:
-        'Imported from a third-party detail page as notation reference only. Publish only after independent rights review.',
+        'Imported from an authorized runtime detail page as notation review material. Publish only after rights review.',
       note: `Raw context captured from Kuailepu song ${payload.song_uuid ?? 'unknown'} on ${importedOn}.`
     },
     meta: {
