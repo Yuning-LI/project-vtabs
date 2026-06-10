@@ -370,6 +370,8 @@ As of the current boundary phase:
 - song page query parsing has been centralized before shell mount so app-side runtime state no longer depends on re-reading `window.location` after first paint
 - runtime iframe API path usage is centralized through a PublicRuntime path constant, while the actual `/api/kuailepu-runtime/[id]` route remains stable
 - public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on both the main shell path and iframe command bridge
+- public runtime host control is now mediated by `PublicRuntimeHostController`, so the shell sends playback commands, receives runtime messages, and checks host pointer targets through a replaceable host boundary instead of direct iframe DOM access
+- public runtime URL construction is centralized in `buildPublicRuntimeUrl(...)`, while the stable `/api/kuailepu-runtime/[id]` route remains unchanged
 - server payload loading and localization now go through PublicRuntime payload file/localization adapters instead of direct old helper imports in the main payload flow
 - authorized template lookup now goes through a PublicRuntime template file adapter, while the current deployable template package file stays unchanged
 - `runtime-core/runtimeTypes.ts` now only defines `PublicRuntime*` / `PublicLetterTrack*` main types; old `Kuailepu*` type names are centralized in the compatibility shell
@@ -390,44 +392,51 @@ Important note:
 
 ## Phase Plan
 
-### Phase 1: Boundary Separation Without Core Change
+### Phase 1: Authorized Runtime Integration Without Core Rewrite
 
 Goal:
 
-- make `runtime.ts` more like an assembler
-- separate the obviously independent responsibilities
+- remove iframe nesting as the public runtime host model
+- bring the authorized runtime under the Next.js + React architecture
+- keep the full current feature set stable before deeper modular replacement
 
 Deliverables:
 
-- split pure server assembly helpers
-- split public state adapter
-- isolate transform definitions and bridge-side responsibilities more clearly
+- keep public runtime behavior unchanged while moving integration seams into explicit host / server / bridge boundaries
+- split pure server assembly helpers and public state adapters
+- isolate bridge-side responsibilities that must stay browser-runtime compatible
+- introduce a replaceable runtime host controller so the React shell stops depending on raw iframe DOM APIs
+- centralize runtime URL construction and host messaging protocol
 - keep public song runtime behavior unchanged
 
 Exit criteria:
 
-- `runtime.ts` is smaller and easier to reason about
-- each moved function has a clear execution layer
+- public `/song` still has instrument, fingering, note mode, zoom, layout, playback, metronome, lyrics, visual theme, and export behavior intact
+- the current iframe host can be replaced by a non-iframe host behind a controlled component/interface boundary
+- each moved function has a clear execution layer and no server-only helper is imported into inline browser runtime code
 - `npm run build` passes after each cut
 
 Current completion estimate:
 
-- effectively complete, with only low-value naming polish left inside the old compatibility shell surface
+- integration-boundary work is largely complete, but actual iframe removal has not started
 
 Remaining close-out items:
 
-1. continue shrinking `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`
-2. split the remaining heavy bridge blocks:
+1. keep `PublicRuntimeFrame` as the only iframe-specific public host while preparing a non-iframe host implementation
+2. continue shrinking `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`
+3. split the remaining heavy bridge blocks:
    - playback bridge block
    - metronome bridge block
    - letter-render / visible-sheet transform block
-3. keep runtime behavior unchanged while proving the bridge can be assembled from smaller self-contained script parts
+4. keep runtime behavior unchanged while proving the bridge can be assembled from smaller self-contained script parts
+5. prototype an internal non-iframe runtime host only after the current iframe host boundary has enough automated and manual coverage
 
 Phase 1 done means:
 
-- app entry, state, payload, server HTML, bridge bootstrap/height, letter-track data, and runtime types all have stable boundaries
+- public `/song` no longer needs iframe nesting for the authorized runtime path
+- app entry, state, payload, server HTML, bridge bootstrap/height, letter-track data, runtime host control, and runtime types all have stable boundaries
 - old `src/lib/kuailepu/runtime.ts` and `src/lib/kuailepu/runtimeTypes.ts` are only compatibility shells
-- the next work is no longer “where does this code belong”, but “which part should be replaced next”
+- the next work is no longer “how do we safely mount the authorized runtime”, but “which integrated runtime module should be decoupled or replaced next”
 
 ### Phase 2: Code-Level De-Kuailepu Without Core Replacement
 
