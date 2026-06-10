@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { buildSongIrFromRuntimePayload } from '../src/lib/native-renderer/fromRuntimeNotation.ts'
+import { auditSongIrPlaybackSequence } from '../src/lib/native-renderer/playbackSequence.ts'
 import { expandSongIrPlayOrder } from '../src/lib/native-renderer/playOrder.ts'
 import { buildSongIrSemanticQa } from '../src/lib/native-renderer/semanticQa.ts'
 import { summarizeSongIr } from '../src/lib/native-renderer/songIr.ts'
@@ -40,6 +41,7 @@ const summaries = slugs.map(slug => {
   const support = evaluateNativeRendererSupport(slug, song, { mode: 'runtime-probe' })
   const semanticQa = buildSongIrSemanticQa(song)
   const playOrderExpansion = expandSongIrPlayOrder(song)
+  const playbackSequenceAudit = auditSongIrPlaybackSequence(song)
   return {
     ...summary,
     support,
@@ -53,6 +55,14 @@ const summaries = slugs.map(slug => {
       unresolvedLabels: playOrderExpansion.unresolvedSteps.map(step => step.label),
       expandedMeasureCount: playOrderExpansion.expandedMeasureCount,
       uniqueExpandedMeasureCount: playOrderExpansion.uniqueExpandedMeasureCount
+    },
+    playbackSequenceAudit: {
+      complexity: playbackSequenceAudit.complexity,
+      canUseMeasureSequenceForPlayback:
+        playbackSequenceAudit.canUseMeasureSequenceForPlayback,
+      blockers: playbackSequenceAudit.blockers,
+      sequenceMeasureCount: playbackSequenceAudit.sequenceMeasureCount,
+      uniqueMeasureCount: playbackSequenceAudit.uniqueMeasureCount
     }
   }
 })
@@ -71,6 +81,11 @@ summaries.forEach(summary => {
     const count = fallbackReasonCounts.get(reason) ?? 0
     fallbackReasonCounts.set(reason, count + 1)
   })
+})
+const playbackComplexityCounts = new Map<string, number>()
+summaries.forEach(summary => {
+  const count = playbackComplexityCounts.get(summary.playbackSequenceAudit.complexity) ?? 0
+  playbackComplexityCounts.set(summary.playbackSequenceAudit.complexity, count + 1)
 })
 
 const report = {
@@ -100,6 +115,12 @@ const report = {
   playOrderUnresolvedSongCount: summaries.filter(
     summary => summary.playOrderExpansion.unresolvedStepCount > 0
   ).length,
+  playbackSequenceCandidateCount: summaries.filter(
+    summary => summary.playbackSequenceAudit.canUseMeasureSequenceForPlayback
+  ).length,
+  playbackComplexityCounts: Object.fromEntries(
+    [...playbackComplexityCounts.entries()].sort(sortCountEntries)
+  ),
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
     fallback: Object.fromEntries([...fallbackReasonCounts.entries()].sort(sortCountEntries))
@@ -127,6 +148,8 @@ console.log(
       playOrderSongCount: report.playOrderSongCount,
       playOrderFullyResolvedSongCount: report.playOrderFullyResolvedSongCount,
       playOrderUnresolvedSongCount: report.playOrderUnresolvedSongCount,
+      playbackSequenceCandidateCount: report.playbackSequenceCandidateCount,
+      playbackComplexityCounts: report.playbackComplexityCounts,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),
       supportedSamples: summaries

@@ -3,6 +3,8 @@ import {
   loadNativeSongIrFromDraft,
   loadNativeSongIrFromRuntimePayload
 } from '../src/lib/native-renderer/loadSongIr.ts'
+import type { SongIrPlaybackSequenceComplexity } from '../src/lib/native-renderer/playbackSequence.ts'
+import { auditSongIrPlaybackSequence } from '../src/lib/native-renderer/playbackSequence.ts'
 import { expandSongIrPlayOrder } from '../src/lib/native-renderer/playOrder.ts'
 import type { SongIrDocument } from '../src/lib/native-renderer/songIr.ts'
 import { evaluateNativeRendererSupport } from '../src/lib/native-renderer/support.ts'
@@ -23,6 +25,7 @@ type Fixture = {
   minPlayOrderSteps?: number
   minExpandedPlayMeasures?: number
   expectedUnresolvedPlaySteps?: number
+  expectedPlaybackComplexity?: SongIrPlaybackSequenceComplexity
 }
 
 const MAX_EXPECTED_ROW_WIDTH_REM = 52.01
@@ -33,13 +36,15 @@ const FIXTURES: Fixture[] = [
     source: 'draft',
     expectedSupport: 'supported',
     minRestEvents: 3,
-    minHoldEvents: 12
+    minHoldEvents: 12,
+    expectedPlaybackComplexity: 'linear'
   },
   {
     slug: 'london-bridge',
     source: 'runtime',
     expectedSupport: 'supported',
-    minGroupedEvents: 4
+    minGroupedEvents: 4,
+    expectedPlaybackComplexity: 'linear'
   },
   {
     slug: 'its-a-small-world',
@@ -49,7 +54,8 @@ const FIXTURES: Fixture[] = [
     minHoldEvents: 5,
     minGroupedEvents: 15,
     minRepeatMarkers: 3,
-    minEndingMarkers: 4
+    minEndingMarkers: 4,
+    expectedPlaybackComplexity: 'repeat-or-ending'
   },
   {
     slug: 'upupu',
@@ -58,7 +64,8 @@ const FIXTURES: Fixture[] = [
     minSections: 2,
     minPlayOrderSteps: 6,
     minExpandedPlayMeasures: 34,
-    expectedUnresolvedPlaySteps: 0
+    expectedUnresolvedPlaySteps: 0,
+    expectedPlaybackComplexity: 'explicit-play-order'
   },
   {
     slug: 'careless-whisper',
@@ -67,7 +74,8 @@ const FIXTURES: Fixture[] = [
     minSections: 4,
     minPlayOrderSteps: 8,
     minExpandedPlayMeasures: 57,
-    expectedUnresolvedPlaySteps: 0
+    expectedUnresolvedPlaySteps: 0,
+    expectedPlaybackComplexity: 'explicit-play-order'
   },
   {
     slug: 'detective-conan-main-theme',
@@ -76,19 +84,22 @@ const FIXTURES: Fixture[] = [
     minSections: 4,
     minPlayOrderSteps: 6,
     minExpandedPlayMeasures: 52,
-    expectedUnresolvedPlaySteps: 1
+    expectedUnresolvedPlaySteps: 1,
+    expectedPlaybackComplexity: 'unresolved-play-order'
   },
   {
     slug: 'faded',
     source: 'runtime',
     expectedSupport: 'fallback-required',
-    minCompressedMeasures: 1
+    minCompressedMeasures: 1,
+    expectedPlaybackComplexity: 'linear'
   },
   {
     slug: 'river-flows-in-you',
     source: 'runtime',
     expectedSupport: 'fallback-required',
-    minCompressedMeasures: 7
+    minCompressedMeasures: 7,
+    expectedPlaybackComplexity: 'linear'
   }
 ]
 
@@ -122,6 +133,7 @@ function checkFixture(fixture: Fixture) {
   const markers = song.measures.flatMap(measure => measure.markers ?? [])
   const layout = buildNativeMelodyLayout(song, { measureLayout: 'compact' })
   const playOrderExpansion = expandSongIrPlayOrder(song)
+  const playbackSequenceAudit = auditSongIrPlaybackSequence(song)
   const layoutMeasures = layout.rows.flatMap(row => row.measures)
   const maxRowWidthRem = Math.max(...layout.rows.map(row => row.widthRem))
   const compressedMeasureCount = layoutMeasures.filter(
@@ -140,6 +152,8 @@ function checkFixture(fixture: Fixture) {
       playOrderExpansion.steps.length - playOrderExpansion.unresolvedSteps.length,
     unresolvedPlayOrderSteps: playOrderExpansion.unresolvedSteps.length,
     expandedPlayMeasures: playOrderExpansion.expandedMeasureCount,
+    playbackComplexity: playbackSequenceAudit.complexity,
+    playbackBlockers: playbackSequenceAudit.blockers,
     rowCount: layout.rows.length,
     maxRowWidthRem: Number(maxRowWidthRem.toFixed(2)),
     compressedMeasureCount,
@@ -171,6 +185,13 @@ function checkFixture(fixture: Fixture) {
       metrics.unresolvedPlayOrderSteps,
       fixture.expectedUnresolvedPlaySteps,
       `${fixture.slug} unresolved play-order step count changed`
+    )
+  }
+  if (fixture.expectedPlaybackComplexity !== undefined) {
+    assertEqual(
+      metrics.playbackComplexity,
+      fixture.expectedPlaybackComplexity,
+      `${fixture.slug} playback sequence complexity changed`
     )
   }
   assertAtLeast(
