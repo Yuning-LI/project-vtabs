@@ -371,9 +371,9 @@ As of the current boundary phase:
 - runtime iframe API path usage is centralized through a PublicRuntime path constant, while the actual `/api/kuailepu-runtime/[id]` route remains stable
 - public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on both the main shell path and iframe command bridge
 - server payload loading and localization now go through PublicRuntime payload file/localization adapters instead of direct old helper imports in the main payload flow
-- archived template lookup now goes through a PublicRuntime template file adapter, while the current deployable archive file stays unchanged
+- authorized template lookup now goes through a PublicRuntime template file adapter, while the current deployable template package file stays unchanged
 - `runtime-core/runtimeTypes.ts` now only defines `PublicRuntime*` / `PublicLetterTrack*` main types; old `Kuailepu*` type names are centralized in the compatibility shell
-- letter-track notation, payload file lookup, payload localization, and template archive lookup are now explicit adapter boundaries where the remaining archived-runtime dependencies are intentionally contained
+- letter-track notation, payload file lookup, payload localization, and template lookup are now explicit adapter boundaries where the remaining authorized-runtime dependencies are intentionally contained
 
 This means the current architectural boundary is no longer “everything goes through one giant Kuailepu file”.
 
@@ -434,7 +434,7 @@ Phase 1 done means:
 Goal:
 
 - reduce direct Kuailepu mental-model leakage from naming, asset grouping, compare workflow, and runtime integration surfaces
-- still keep archived `Song.draw()/hc.parse/render` as the correctness engine
+- still keep authorized-runtime `Song.draw()/hc.parse/render` as the correctness engine
 
 Deliverables:
 
@@ -464,14 +464,14 @@ What is already true:
 - server-side payload/state/query assembly is already centered on `runtime-core/**`
 - old `Kuailepu*` names are increasingly compatibility aliases instead of primary implementation names
 - public iframe route path, playback status protocol, payload file lookup, and payload localization now have explicit PublicRuntime boundaries
-- archived template file lookup now has an explicit PublicRuntime boundary
+- authorized template file lookup now has an explicit PublicRuntime boundary
 - old playback command/status message names have been removed from the public runtime bridge
 - `runtime-core` main types no longer export old `Kuailepu*` names
 - remaining old helper imports inside `runtime-core/**` are adapter-boundary imports, not main-flow imports
 
 What still remains:
 
-- keep high-value compatibility names at the API route, old re-export shells, data directories, compare scripts, and archived template/data-source boundaries
+- keep high-value compatibility names at the API route, old re-export shells, data directories, compare scripts, and authorized template/data-source boundaries
 - run targeted manual runtime QA before using this as the base for visual differentiation work
 - make the future visual-differentiation layer plug into these boundaries instead of patching around them
 
@@ -480,7 +480,7 @@ Phase 2 should now be treated as a close-out state, not an open-ended naming cle
 Continuing to remove every remaining `kuailepu` string would either:
 
 - rename stable public/maintenance paths such as `/api/kuailepu-runtime` and `data/kuailepu-runtime`
-- obscure the fact that the archived renderer is still the correctness engine
+- obscure the fact that the authorized runtime is still the correctness engine
 - create churn in scripts that are explicitly about import / compare / compatibility
 
 The next useful work is Phase 3 visual differentiation or Phase 5 core replacement, depending on whether the priority is operating the current site sooner or reducing renderer dependency deeper.
@@ -489,7 +489,7 @@ The next useful work is Phase 3 visual differentiation or Phase 5 core replaceme
 
 Goal:
 
-- make the public sheet and export output visibly ours while keeping runtime correctness anchored to the archived renderer
+- make the public sheet and export output visibly ours while keeping runtime correctness anchored to the authorized runtime
 
 Why this comes next:
 
@@ -562,7 +562,7 @@ Deliverables:
 - own-named static grouping for public runtime support assets where path compatibility allows it
 - documented split between public runtime assets, recovery assets, and compare-only assets
 - internal scripts updated to prefer PublicRuntime naming where they are not explicitly compare/import scripts
-- public shell and export routes audited for no visible source attribution wording
+- public shell and export routes audited for no visible internal runtime provenance wording
 
 Non-goals:
 
@@ -717,7 +717,7 @@ Examples:
 Dependency:
 
 - can begin as shell/UI prototypes before Phase 5 is complete
-- should not be forced into the archived ocarina-style graph model
+- should not be forced into the current ocarina-style graph model
 - should become much cleaner once our own intermediate representation exists
 
 Exit criteria:

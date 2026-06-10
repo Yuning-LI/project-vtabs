@@ -54,7 +54,7 @@ For `MusicXML` ingest, keep one boundary in mind:
 
 ## Product Truth
 
-- Public `/song/<slug>` pages are driven by deployable raw JSON plus the original Kuailepu runtime path.
+- Public `/song/<slug>` pages are driven by deployable raw JSON plus the authorized runtime integration path.
 - Production raw JSON lives in `data/kuailepu-runtime/<slug>.json`.
 - Compact public SongDocs live in `data/kuailepu/<slug>.json`.
 - `reference/songs/<slug>.json` is local fallback for import/debug only.
@@ -67,7 +67,7 @@ For `MusicXML` ingest, keep one boundary in mind:
 ## User-Facing Rules
 
 - Visible public site copy must stay English.
-- Do not show wording like `Kuailepu source`, `reference source`, `we referenced Kuailepu`, or similar source-attribution text on public pages.
+- Do not show internal runtime provenance or integration-detail wording on public pages.
 - Homepage song cards should show the song title only.
 
 ## Import / Publishing Rule
@@ -113,10 +113,10 @@ If a user-approved target fails during search, import, compare, or preflight, do
 
 ## Runtime Guardrails
 
-- Keep Kuailepu core rendering behavior intact.
+- Keep authorized runtime core rendering behavior intact.
 - Keep letter-mode transformation isolated to `src/lib/kuailepu/runtime.ts`.
 - Any publish/parity check must use `note_label_mode=number`.
-- When trimming Kuailepu JS/CSS for public song pages, prefer runtime asset profile changes over deleting files from `vendor/kuailepu-static` or `public/k-static`.
+- When trimming authorized runtime JS/CSS for public song pages, prefer runtime asset profile changes over deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
 ## Git Commit Rule
 

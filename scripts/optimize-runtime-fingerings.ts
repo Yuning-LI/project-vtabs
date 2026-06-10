@@ -720,7 +720,7 @@ function classifyGraphQualityForInstrument(
   if (PUBLIC_WIND_INSTRUMENTS_WITH_EXTREME_OUTLINE_GUARD.has(instrument)) {
     /**
      * 公开风类乐器统一更严格：
-     * - 如果同一个极端按孔（全按 / 全开）被复用于超过 2 个不同音高，
+     * - 如果同一个极端按孔（全按 / 全开）对应到超过 2 个不同音高，
      *   这基本就是在靠轻重吹硬撑音域，不适合作为公开候选。
      *
      * 这条规则不只适用于陶笛。对竖笛 / 哨笛也一样：

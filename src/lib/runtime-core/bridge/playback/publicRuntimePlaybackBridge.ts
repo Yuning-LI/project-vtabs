@@ -253,7 +253,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         window.I18n.setLocale('en');
       }
     } catch (error) {
-      // Keep playback usable even if the archived i18n helper changes.
+      // Keep playback usable even if the integrated i18n helper changes.
     }
   }
 

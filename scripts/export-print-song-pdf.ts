@@ -18,8 +18,8 @@ type ExportArgs = {
 
 async function main() {
   /**
-   * 这里导出的 PDF 来自内部打印页，而内部打印页本身仍然复用
-   * `/api/kuailepu-runtime/<slug>` 的原始 runtime 渲染链。
+   * 这里导出的 PDF 来自内部打印页，而内部打印页本身使用
+   * `/api/kuailepu-runtime/<slug>` 的授权 runtime 渲染链。
    *
    * 也就是说：
    * - 这不是截图拼接

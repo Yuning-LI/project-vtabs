@@ -9,7 +9,7 @@ import { resolveKuailepuRuntimeArchivePath } from './archiveFiles'
  *
  * 所以这里做了一个“同源静态资源代理”：
  * - 浏览器只请求我们自己的 `/k-static/...` 或 `/static/...`
- * - 服务端优先读取仓库内已提交资源与 runtime 归档
+ * - 服务端优先读取仓库内已提交资源与 runtime 模板包
  * - 最后才在显式允许时回源快乐谱原站静态资源
  *
  * 这样浏览器看到的是“同源资源”，快乐谱原始脚本链就能完整跑起来。

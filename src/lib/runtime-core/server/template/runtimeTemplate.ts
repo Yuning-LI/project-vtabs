@@ -7,10 +7,10 @@ let cachedTemplateHtml: string | null = null
 const PUBLIC_RUNTIME_DETAIL_TEMPLATE_ENTRY = 'qyiBa1mPa.html'
 
 /**
- * 读取归档下来的 public runtime 详情页 HTML 模板。
+ * 读取已授权集成的 public runtime 详情页 HTML 模板。
  *
  * 这一步仍然属于“服务端装配层”：
- * - 读取本地归档
+ * - 读取本地可部署模板包
  * - 从多文件拼接存档中抽出详情页 HTML
  * - 给上层 runtime HTML 组装逻辑继续做替换
  */

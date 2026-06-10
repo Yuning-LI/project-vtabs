@@ -103,7 +103,7 @@ Use:
 - visible row stability
 - acceptable visual alignment
 
-The new renderer should be visually ours, not a clone of archived output.
+The new renderer should be visually ours, not a clone of the current integrated runtime output.
 
 ### 4. Fallback Contract
 

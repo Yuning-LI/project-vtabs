@@ -51,7 +51,7 @@ export async function GET(
    * - 当前不会触发的旧模块脚本默认不注入
    * - 相关静态文件仍保留在本地快照里，方便以后恢复登录 / 播放等能力
    *
-   * 如果后续需要排查完整 archived template 行为，允许临时切回 `full-template`。
+   * 如果后续需要排查完整授权 runtime 模板行为，允许临时切回 `full-template`。
    */
   const publicRuntimeAssetProfile =
     searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
@@ -85,7 +85,7 @@ export async function GET(
    * 原因：
    * - `data/kuailepu/*.json` 是给站点 catalog / SEO / 列表用的轻量 SongDoc
    * - runtime 真正需要的是详情页完整上下文
-   * - 只有完整 raw JSON 才包含当前 archived renderer `Song.draw()` 会消费的所有字段
+   * - 只有完整 raw JSON 才包含当前授权 runtime `Song.draw()` 会消费的所有字段
    *
    * 生产环境优先读取仓库内可提交的 `data/kuailepu-runtime/<slug>.json`；
    * `reference/songs/<slug>.json` 只保留为本地导歌 / 调试 fallback。
@@ -128,11 +128,11 @@ export async function GET(
   )
   const presentation = song ? getSongPresentation(song) : null
   /**
-   * 字母谱不是修改 raw JSON 后再交给归档 renderer 重渲染，
-   * 而是先让归档 renderer 按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
+   * 字母谱不是修改 raw JSON 后再交给授权 runtime 重渲染，
+   * 而是先让授权 runtime 按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
    *
    * 因此这里的 `letterTrack` 更像“后处理渲染指令”：
-   * - `number`：不做任何替换，保留归档 renderer 原版
+   * - `number`：不做任何替换，保留授权 runtime 的数字谱输出
    * - `letter`：把简谱那一轨的数字替换成字母音名
    * - `graph`：内部残留调试模式，前台不再暴露
    */

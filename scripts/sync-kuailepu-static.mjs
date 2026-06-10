@@ -10,8 +10,8 @@ const archivePath = path.join(
 )
 const vendorStaticRoot = path.join(repoRoot, 'vendor', 'kuailepu-static')
 const outputRoot = path.join(repoRoot, 'public', 'k-static')
-// runtime 模板还保留旧 i18n hash；这里优先复用线上实测仍可访问的压缩包，
-// 这样既不需要改模板，也不会退回到归档里的膨胀版脚本。
+// runtime 模板还保留旧 i18n hash；这里优先使用线上实测仍可访问的压缩包，
+// 这样既不需要改模板，也不会退回到模板包里的膨胀版脚本。
 const vendorAliasMap = new Map([
   ['cdn/js/i18n/all_09a443f1a6.js', 'cdn/js/i18n/all_2916f8e4dd.js']
 ])

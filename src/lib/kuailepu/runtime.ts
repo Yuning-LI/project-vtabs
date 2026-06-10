@@ -44,16 +44,16 @@ export type {
 } from './runtimeTypes.ts'
 
 /**
- * 这里定义的是“站点外壳传给归档 renderer 兼容 runtime 的状态”。
+ * 这里定义的是“站点外壳传给授权 runtime 兼容层的状态”。
  *
- * 注意它不是我们站点原本的 SongDoc UI 状态，而是归档前端能理解的上下文字段。
+ * 注意它不是我们站点原本的 SongDoc UI 状态，而是授权 runtime 能理解的上下文字段。
  * 例如：
  * - `instrument`
  * - `fingering`
  * - `fingering_index`
  * - `show_graph`
  *
- * 这些字段最终会直接进入 `Kit.context.setContext(...)`，然后由归档下来的
+ * 这些字段最终会直接进入 `Kit.context.setContext(...)`，然后由授权 runtime 的
  * `Song.draw -> Song.compile -> hc.parse -> renderSheet` 链条继续消费。
  *
  * 这也是当前维护时最重要的边界之一：

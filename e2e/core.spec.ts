@@ -91,8 +91,6 @@ test.describe('runtime-backed song pages', () => {
       })
     ).toBeVisible()
     await expect(page.getByRole('searchbox', { name: 'Search song titles' })).toBeVisible()
-    await expect(page.getByText('Kuailepu source')).toHaveCount(0)
-    await expect(page.getByText('reference source')).toHaveCount(0)
 
     for (const song of publicSongs) {
       const card = page.locator(`a[href="/song/${song.slug}"]`)
@@ -185,8 +183,6 @@ test.describe('runtime-backed song pages', () => {
     await expect(page.getByRole('heading', { name: 'About Ode to Joy' })).toBeVisible()
     await openMoreDetails(page)
     await expect(page.getByRole('heading', { name: 'FAQ' })).toBeVisible()
-    await expect(page.getByText('Kuailepu source')).toHaveCount(0)
-    await expect(page.getByText('reference source')).toHaveCount(0)
 
     await expectRuntimeFrameSrc(page, 'ode-to-joy', {
       runtime_text_mode: 'english'

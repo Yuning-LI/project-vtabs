@@ -289,7 +289,7 @@ export default function PublicRuntimeFrame({
           })
         })
       } catch {
-        // Ignore runtime DOM quirks from the archived sheet renderer.
+        // Ignore runtime DOM quirks from the integrated sheet renderer.
       }
     }
 
@@ -332,7 +332,7 @@ export default function PublicRuntimeFrame({
 
         svg.appendChild(maskLayer)
       } catch {
-        // Ignore runtime DOM quirks from the archived sheet renderer.
+        // Ignore runtime DOM quirks from the integrated sheet renderer.
       }
     }
 
