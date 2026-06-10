@@ -62,6 +62,8 @@ const summaries = slugs.map(slug => {
         playbackSequenceAudit.canUseMeasureSequenceForPlayback,
       blockers: playbackSequenceAudit.blockers,
       repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
+      repeatExpansionBlockerReasons:
+        playbackSequenceAudit.repeatExpansionBlockerReasons,
       repeatSegmentCount: playbackSequenceAudit.repeatSegmentCount,
       ignoredUnmatchedRepeatStartCount:
         playbackSequenceAudit.ignoredUnmatchedRepeatStartCount,
@@ -96,6 +98,13 @@ summaries.forEach(summary => {
   const count =
     repeatExpansionStatusCounts.get(summary.playbackSequenceAudit.repeatExpansionStatus) ?? 0
   repeatExpansionStatusCounts.set(summary.playbackSequenceAudit.repeatExpansionStatus, count + 1)
+})
+const repeatExpansionBlockerReasonCounts = new Map<string, number>()
+summaries.forEach(summary => {
+  summary.playbackSequenceAudit.repeatExpansionBlockerReasons.forEach(reason => {
+    const count = repeatExpansionBlockerReasonCounts.get(reason) ?? 0
+    repeatExpansionBlockerReasonCounts.set(reason, count + 1)
+  })
 })
 const ignoredUnmatchedRepeatStartSongCount = summaries.filter(
   summary => summary.playbackSequenceAudit.ignoredUnmatchedRepeatStartCount > 0
@@ -137,6 +146,9 @@ const report = {
   repeatExpansionStatusCounts: Object.fromEntries(
     [...repeatExpansionStatusCounts.entries()].sort(sortCountEntries)
   ),
+  repeatExpansionBlockerReasonCounts: Object.fromEntries(
+    [...repeatExpansionBlockerReasonCounts.entries()].sort(sortCountEntries)
+  ),
   ignoredUnmatchedRepeatStartSongCount,
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
@@ -168,6 +180,7 @@ console.log(
       playbackSequenceCandidateCount: report.playbackSequenceCandidateCount,
       playbackComplexityCounts: report.playbackComplexityCounts,
       repeatExpansionStatusCounts: report.repeatExpansionStatusCounts,
+      repeatExpansionBlockerReasonCounts: report.repeatExpansionBlockerReasonCounts,
       ignoredUnmatchedRepeatStartSongCount: report.ignoredUnmatchedRepeatStartSongCount,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),

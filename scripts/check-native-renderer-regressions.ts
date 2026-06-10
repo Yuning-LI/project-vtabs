@@ -30,6 +30,9 @@ type Fixture = {
   expectedRepeatExpansionStatus?: ReturnType<
     typeof auditSongIrPlaybackSequence
   >['repeatExpansionStatus']
+  expectedRepeatExpansionBlockerReasons?: Array<
+    ReturnType<typeof auditSongIrPlaybackSequence>['repeatExpansionBlockerReasons'][number]
+  >
   minPlaybackSequenceMeasures?: number
   minIgnoredUnmatchedRepeatStarts?: number
 }
@@ -136,6 +139,17 @@ const FIXTURES: Fixture[] = [
     expectedRepeatExpansionStatus: 'numbered-ending-expanded'
   },
   {
+    slug: 'big-big-world',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 4,
+    minEndingMarkers: 6,
+    expectedPlaybackComplexity: 'repeat-or-ending',
+    expectedPlaybackCanUseSequence: false,
+    expectedRepeatExpansionStatus: 'blocked-by-complex-ending',
+    expectedRepeatExpansionBlockerReasons: ['ending-number-over-2']
+  },
+  {
     slug: 'faded',
     source: 'runtime',
     expectedSupport: 'fallback-required',
@@ -204,6 +218,8 @@ function checkFixture(fixture: Fixture) {
     playbackCanUseSequence: playbackSequenceAudit.canUseMeasureSequenceForPlayback,
     playbackSequenceMeasures: playbackSequenceAudit.sequenceMeasureCount,
     repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
+    repeatExpansionBlockerReasons:
+      playbackSequenceAudit.repeatExpansionBlockerReasons,
     ignoredUnmatchedRepeatStarts:
       playbackSequenceAudit.ignoredUnmatchedRepeatStartCount,
     playbackBlockers: playbackSequenceAudit.blockers,
@@ -259,6 +275,13 @@ function checkFixture(fixture: Fixture) {
       metrics.repeatExpansionStatus,
       fixture.expectedRepeatExpansionStatus,
       `${fixture.slug} repeat expansion status changed`
+    )
+  }
+  if (fixture.expectedRepeatExpansionBlockerReasons !== undefined) {
+    assertIncludesAll(
+      metrics.repeatExpansionBlockerReasons,
+      fixture.expectedRepeatExpansionBlockerReasons,
+      `${fixture.slug} repeat expansion blocker reasons changed`
     )
   }
   assertAtLeast(
@@ -327,5 +350,12 @@ function assertAtLeast(
 function assertEqual<T>(actual: T, expected: T, message: string) {
   if (actual !== expected) {
     throw new Error(`${message}: expected ${String(expected)}, got ${String(actual)}`)
+  }
+}
+
+function assertIncludesAll<T>(actual: T[], expected: T[], message: string) {
+  const missing = expected.filter(item => !actual.includes(item))
+  if (missing.length > 0) {
+    throw new Error(`${message}: missing ${missing.map(String).join(', ')}`)
   }
 }
