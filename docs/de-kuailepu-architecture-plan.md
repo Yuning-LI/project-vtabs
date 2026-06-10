@@ -647,19 +647,19 @@ Progress estimate:
 - current implemented chain: public runtime syntax inventory -> `SongIR v0` -> MusicXML draft adapter + runtime notation adapter -> native support contract -> `/dev/native-renderer/song/[id]` preview + `/dev/native-renderer/review/[id]` side-by-side review
 - MusicXML draft mode remains deliberately narrow: 15 MusicXML-backed native MVP seed songs only
 - current MusicXML strict supported set is 12 songs; 3 eligible seeds still fallback because they contain MIDI `79`, which has no current o12 fingering entry
-- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs, identifies 279 songs with parenthesized groups, models repeat markers in 131 songs, models first/second endings in 83 songs, identifies sections in 139 songs, and models `{play:...}` play-order steps in 88 songs
+- runtime probe mode can now parse deployable runtime JSON internally; latest 400-song analysis supports 104 songs, identifies 279 songs with parenthesized groups, models repeat markers in 131 songs, models first/second endings in 83 songs, identifies sections in 139 songs, models `{play:...}` play-order steps in 88 songs, and can expand modeled play order into explicit measure ranges; 79 of those play-order songs resolve all section labels, while 9 still expose unresolved labels for later handling
 - native sheet rendering now displays rest `R`, hold dashes, parenthesized group boundaries, repeat bars, and first/second ending brackets in internal preview
 - `/dev/native-renderer/review/[id]?source=runtime&force_native_preview=1` can render unsupported runtime songs for internal visual inspection without changing the formal support/fallback contract
 - native layout now estimates measure and row widths before rendering, so internal rows can break by semantic measure width instead of relying on CSS wrapping
 - native layout now compresses over-wide single measures to the target row width and scales event-level visuals with the compressed cell width
 - `npm run analyze:native-runtime-layout -- --limit=400` reports the densest current runtime songs; the latest scan now caps max row / measure width at 52rem and reports compressed measure counts / compression ratios
-- `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, play-order structure, fallback-boundary, and dense-layout compression fixtures
+- `npm run check:native-renderer-regressions` locks the current native milestones for rest, hold, group, repeat, ending, play-order structure, play-order expansion, fallback-boundary, and dense-layout compression fixtures
 - public `/song` is still archived-runtime backed; no public route replacement has happened
 
 Current Phase 5 status:
 
 - Parser Audit: first-pass complete for the current 400-song public runtime catalog
-- Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks, measure-level repeat / ending markers, sections, and play-order steps
+- Data Model: `SongIR v0` exists for simple melody / rest / measure / lyric / chord data, with optional parenthesized group marks, measure-level repeat / ending markers, sections, play-order steps, and derived play-order expansion ranges
 - Parser Adapter: MusicXML draft adapter exists; runtime notation adapter now handles notes, rests, holds, chords, bars, simple parenthesized groups, repeat / ending structure markers, section labels, `{play:...}` structure, and safe layout markers
 - Renderer MVP: internal o12 preview and side-by-side runtime review exist; simple melody, rest, hold, group, repeat, and ending notation can be drawn; row-level layout and over-wide measure compression exist, but production-grade engraving is still incomplete
 - Fingering / Instrument Controls: native renderer currently supports only a narrow o12 adapter; full public fingering-index switching and multi-instrument parity are not migrated
@@ -669,7 +669,7 @@ Current Phase 5 status:
 
 Subtrack progress under the full Phase 5 scope:
 
-- Parser / SongIR: about 40% to 50%
+- Parser / SongIR: about 43% to 53%
 - Static native sheet rendering: about 55% to 65% for the narrow o12 internal MVP
 - Public controls / fingering switching: about 10% to 15%
 - Native playback / metronome / highlight: about 0% to 5%
@@ -680,13 +680,12 @@ Overall Phase 5, counted as the full replacement track, is about 25% to 30% comp
 
 Recommended next Phase 5 order:
 
-1. implement `{play:...}` play-order expansion from the modeled SongIR section / play-order data
-2. add fixture-level regression checks for expanded play sequence length and repeat / ending behavior
-3. audit native fingering/instrument-control parity against the current public detail-page controls
-4. move toward native playback/metronome alignment from SongIR
-5. audit and add missing o12 fingering coverage where musically valid
-6. migrate export previews only after native sheet output is stable enough for supported songs
-7. only then consider a private or query-flagged public native route experiment
+1. audit repeat / ending semantics against expanded play order so playback and highlight do not double-count or skip sections
+2. audit native fingering/instrument-control parity against the current public detail-page controls
+3. move toward native playback/metronome alignment from SongIR
+4. audit and add missing o12 fingering coverage where musically valid
+5. migrate export previews only after native sheet output is stable enough for supported songs
+6. only then consider a private or query-flagged public native route experiment
 
 ### Phase 6: New Instrument Expansion
 
@@ -948,7 +947,7 @@ The next safe work order is:
 
 1. keep public `/song` on the archived runtime while native remains internal-only
 2. run `npm run check:native-renderer-regressions` before and after native parser / layout / renderer changes
-3. implement `{play:...}` play-order expansion from the now-modeled section / play-order structure
+3. audit repeat / ending semantics against the now-expanded play-order measure ranges
 4. audit current public detail-page controls and map each control to the native data / renderer responsibility
 5. start native playback / metronome alignment from `SongIR`
 6. only after native rendering and interaction are stable, migrate print / Pinterest output for supported songs

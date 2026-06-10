@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { buildSongIrFromRuntimePayload } from '../src/lib/native-renderer/fromRuntimeNotation.ts'
+import { expandSongIrPlayOrder } from '../src/lib/native-renderer/playOrder.ts'
 import { buildSongIrSemanticQa } from '../src/lib/native-renderer/semanticQa.ts'
 import { summarizeSongIr } from '../src/lib/native-renderer/songIr.ts'
 import { evaluateNativeRendererSupport } from '../src/lib/native-renderer/support.ts'
@@ -38,10 +39,21 @@ const summaries = slugs.map(slug => {
   const summary = summarizeSongIr(song)
   const support = evaluateNativeRendererSupport(slug, song, { mode: 'runtime-probe' })
   const semanticQa = buildSongIrSemanticQa(song)
+  const playOrderExpansion = expandSongIrPlayOrder(song)
   return {
     ...summary,
     support,
-    semanticQa
+    semanticQa,
+    playOrderExpansion: {
+      hasExplicitPlayOrder: playOrderExpansion.hasExplicitPlayOrder,
+      sectionRangeCount: playOrderExpansion.sectionRanges.length,
+      resolvedStepCount:
+        playOrderExpansion.steps.length - playOrderExpansion.unresolvedSteps.length,
+      unresolvedStepCount: playOrderExpansion.unresolvedSteps.length,
+      unresolvedLabels: playOrderExpansion.unresolvedSteps.map(step => step.label),
+      expandedMeasureCount: playOrderExpansion.expandedMeasureCount,
+      uniqueExpandedMeasureCount: playOrderExpansion.uniqueExpandedMeasureCount
+    }
   }
 })
 
@@ -80,6 +92,14 @@ const report = {
   endingMarkerSongCount: summaries.filter(summary => summary.endingMarkerCount > 0).length,
   sectionSongCount: summaries.filter(summary => summary.sectionCount > 0).length,
   playOrderSongCount: summaries.filter(summary => summary.playOrderStepCount > 0).length,
+  playOrderFullyResolvedSongCount: summaries.filter(
+    summary =>
+      summary.playOrderStepCount > 0 &&
+      summary.playOrderExpansion.unresolvedStepCount === 0
+  ).length,
+  playOrderUnresolvedSongCount: summaries.filter(
+    summary => summary.playOrderExpansion.unresolvedStepCount > 0
+  ).length,
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
     fallback: Object.fromEntries([...fallbackReasonCounts.entries()].sort(sortCountEntries))
@@ -105,6 +125,8 @@ console.log(
       endingMarkerSongCount: report.endingMarkerSongCount,
       sectionSongCount: report.sectionSongCount,
       playOrderSongCount: report.playOrderSongCount,
+      playOrderFullyResolvedSongCount: report.playOrderFullyResolvedSongCount,
+      playOrderUnresolvedSongCount: report.playOrderUnresolvedSongCount,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),
       supportedSamples: summaries

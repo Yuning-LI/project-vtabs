@@ -1,4 +1,5 @@
 import { getNativeRendererInstrumentAdapter } from './instruments.ts'
+import { expandSongIrPlayOrder } from './playOrder.ts'
 import type { SongIrDocument } from './songIr.ts'
 
 export type SongIrSemanticQa = ReturnType<typeof buildSongIrSemanticQa>
@@ -24,6 +25,12 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
   const playOrder = song.structure.playOrder.map(
     step => `${step.index}:${step.label}:${step.raw}`
   )
+  const playOrderExpansion = expandSongIrPlayOrder(song)
+  const expandedPlaySteps = playOrderExpansion.steps.map(step =>
+    step.status === 'resolved'
+      ? `${step.stepIndex}:${step.label}:${step.section.measureStartIndex}-${step.section.measureEndIndex}`
+      : `${step.stepIndex}:${step.label}:unresolved:${step.reason}`
+  )
   const lyricSlots = events.map(event => (event.kind === 'note' ? event.lyric ?? '' : ''))
   const missingO12Fingerings = events
     .filter(event => event.kind === 'note')
@@ -42,6 +49,9 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
     endingMarkerCount: song.stats.endingMarkerCount,
     sectionCount: song.stats.sectionCount,
     playOrderStepCount: song.stats.playOrderStepCount,
+    playOrderExpandedMeasureCount: playOrderExpansion.expandedMeasureCount,
+    unresolvedPlayOrderStepCount: playOrderExpansion.unresolvedSteps.length,
+    unresolvedPlayOrderLabels: playOrderExpansion.unresolvedSteps.map(step => step.label),
     missingO12FingeringCount: missingO12Fingerings.length,
     missingO12Fingerings: Array.from(new Set(missingO12Fingerings)).sort((left, right) => left - right),
     fingerprints: {
@@ -58,7 +68,8 @@ export function buildSongIrSemanticQa(song: SongIrDocument) {
       ),
       measureMarkers: stableHash(measureMarkers.join('|')),
       sections: stableHash(sections.join('|')),
-      playOrder: stableHash(playOrder.join('|'))
+      playOrder: stableHash(playOrder.join('|')),
+      expandedPlayOrder: stableHash(expandedPlaySteps.join('|'))
     }
   }
 }

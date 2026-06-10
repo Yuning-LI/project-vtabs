@@ -3,6 +3,7 @@ import {
   loadNativeSongIrFromDraft,
   loadNativeSongIrFromRuntimePayload
 } from '../src/lib/native-renderer/loadSongIr.ts'
+import { expandSongIrPlayOrder } from '../src/lib/native-renderer/playOrder.ts'
 import type { SongIrDocument } from '../src/lib/native-renderer/songIr.ts'
 import { evaluateNativeRendererSupport } from '../src/lib/native-renderer/support.ts'
 
@@ -20,6 +21,8 @@ type Fixture = {
   minCompressedMeasures?: number
   minSections?: number
   minPlayOrderSteps?: number
+  minExpandedPlayMeasures?: number
+  expectedUnresolvedPlaySteps?: number
 }
 
 const MAX_EXPECTED_ROW_WIDTH_REM = 52.01
@@ -53,7 +56,27 @@ const FIXTURES: Fixture[] = [
     source: 'runtime',
     expectedSupport: 'fallback-required',
     minSections: 2,
-    minPlayOrderSteps: 6
+    minPlayOrderSteps: 6,
+    minExpandedPlayMeasures: 34,
+    expectedUnresolvedPlaySteps: 0
+  },
+  {
+    slug: 'careless-whisper',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minSections: 4,
+    minPlayOrderSteps: 8,
+    minExpandedPlayMeasures: 57,
+    expectedUnresolvedPlaySteps: 0
+  },
+  {
+    slug: 'detective-conan-main-theme',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minSections: 4,
+    minPlayOrderSteps: 6,
+    minExpandedPlayMeasures: 52,
+    expectedUnresolvedPlaySteps: 1
   },
   {
     slug: 'faded',
@@ -98,6 +121,7 @@ function checkFixture(fixture: Fixture) {
   const events = song.measures.flatMap(measure => measure.events)
   const markers = song.measures.flatMap(measure => measure.markers ?? [])
   const layout = buildNativeMelodyLayout(song, { measureLayout: 'compact' })
+  const playOrderExpansion = expandSongIrPlayOrder(song)
   const layoutMeasures = layout.rows.flatMap(row => row.measures)
   const maxRowWidthRem = Math.max(...layout.rows.map(row => row.widthRem))
   const compressedMeasureCount = layoutMeasures.filter(
@@ -112,6 +136,10 @@ function checkFixture(fixture: Fixture) {
     endingMarkers: markers.filter(marker => marker.kind.startsWith('ending')).length,
     sections: song.structure.sections.length,
     playOrderSteps: song.structure.playOrder.length,
+    resolvedPlayOrderSteps:
+      playOrderExpansion.steps.length - playOrderExpansion.unresolvedSteps.length,
+    unresolvedPlayOrderSteps: playOrderExpansion.unresolvedSteps.length,
+    expandedPlayMeasures: playOrderExpansion.expandedMeasureCount,
     rowCount: layout.rows.length,
     maxRowWidthRem: Number(maxRowWidthRem.toFixed(2)),
     compressedMeasureCount,
@@ -132,6 +160,19 @@ function checkFixture(fixture: Fixture) {
     fixture.slug,
     'play order steps'
   )
+  assertAtLeast(
+    metrics.expandedPlayMeasures,
+    fixture.minExpandedPlayMeasures,
+    fixture.slug,
+    'expanded play measures'
+  )
+  if (fixture.expectedUnresolvedPlaySteps !== undefined) {
+    assertEqual(
+      metrics.unresolvedPlayOrderSteps,
+      fixture.expectedUnresolvedPlaySteps,
+      `${fixture.slug} unresolved play-order step count changed`
+    )
+  }
   assertAtLeast(
     metrics.compressedMeasureCount,
     fixture.minCompressedMeasures,
