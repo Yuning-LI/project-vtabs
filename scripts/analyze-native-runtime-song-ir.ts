@@ -61,6 +61,8 @@ const summaries = slugs.map(slug => {
       canUseMeasureSequenceForPlayback:
         playbackSequenceAudit.canUseMeasureSequenceForPlayback,
       blockers: playbackSequenceAudit.blockers,
+      repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
+      repeatSegmentCount: playbackSequenceAudit.repeatSegmentCount,
       sequenceMeasureCount: playbackSequenceAudit.sequenceMeasureCount,
       uniqueMeasureCount: playbackSequenceAudit.uniqueMeasureCount
     }
@@ -86,6 +88,12 @@ const playbackComplexityCounts = new Map<string, number>()
 summaries.forEach(summary => {
   const count = playbackComplexityCounts.get(summary.playbackSequenceAudit.complexity) ?? 0
   playbackComplexityCounts.set(summary.playbackSequenceAudit.complexity, count + 1)
+})
+const repeatExpansionStatusCounts = new Map<string, number>()
+summaries.forEach(summary => {
+  const count =
+    repeatExpansionStatusCounts.get(summary.playbackSequenceAudit.repeatExpansionStatus) ?? 0
+  repeatExpansionStatusCounts.set(summary.playbackSequenceAudit.repeatExpansionStatus, count + 1)
 })
 
 const report = {
@@ -121,6 +129,9 @@ const report = {
   playbackComplexityCounts: Object.fromEntries(
     [...playbackComplexityCounts.entries()].sort(sortCountEntries)
   ),
+  repeatExpansionStatusCounts: Object.fromEntries(
+    [...repeatExpansionStatusCounts.entries()].sort(sortCountEntries)
+  ),
   reasonCounts: {
     unsupported: Object.fromEntries([...unsupportedReasonCounts.entries()].sort(sortCountEntries)),
     fallback: Object.fromEntries([...fallbackReasonCounts.entries()].sort(sortCountEntries))
@@ -150,6 +161,7 @@ console.log(
       playOrderUnresolvedSongCount: report.playOrderUnresolvedSongCount,
       playbackSequenceCandidateCount: report.playbackSequenceCandidateCount,
       playbackComplexityCounts: report.playbackComplexityCounts,
+      repeatExpansionStatusCounts: report.repeatExpansionStatusCounts,
       topUnsupportedReasons: Object.entries(report.reasonCounts.unsupported).slice(0, 30),
       topFallbackReasons: Object.entries(report.reasonCounts.fallback).slice(0, 30),
       supportedSamples: summaries

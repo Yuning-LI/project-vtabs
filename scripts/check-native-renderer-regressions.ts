@@ -26,6 +26,8 @@ type Fixture = {
   minExpandedPlayMeasures?: number
   expectedUnresolvedPlaySteps?: number
   expectedPlaybackComplexity?: SongIrPlaybackSequenceComplexity
+  expectedPlaybackCanUseSequence?: boolean
+  minPlaybackSequenceMeasures?: number
 }
 
 const MAX_EXPECTED_ROW_WIDTH_REM = 52.01
@@ -65,7 +67,18 @@ const FIXTURES: Fixture[] = [
     minPlayOrderSteps: 6,
     minExpandedPlayMeasures: 34,
     expectedUnresolvedPlaySteps: 0,
-    expectedPlaybackComplexity: 'explicit-play-order'
+    expectedPlaybackComplexity: 'explicit-play-order',
+    expectedPlaybackCanUseSequence: true
+  },
+  {
+    slug: 'mark-theme',
+    source: 'runtime',
+    expectedSupport: 'fallback-required',
+    minRepeatMarkers: 2,
+    minPlayOrderSteps: 2,
+    expectedPlaybackComplexity: 'play-order-with-repeat-or-ending',
+    expectedPlaybackCanUseSequence: true,
+    minPlaybackSequenceMeasures: 21
   },
   {
     slug: 'careless-whisper',
@@ -75,7 +88,8 @@ const FIXTURES: Fixture[] = [
     minPlayOrderSteps: 8,
     minExpandedPlayMeasures: 57,
     expectedUnresolvedPlaySteps: 0,
-    expectedPlaybackComplexity: 'explicit-play-order'
+    expectedPlaybackComplexity: 'explicit-play-order',
+    expectedPlaybackCanUseSequence: true
   },
   {
     slug: 'detective-conan-main-theme',
@@ -85,7 +99,8 @@ const FIXTURES: Fixture[] = [
     minPlayOrderSteps: 6,
     minExpandedPlayMeasures: 52,
     expectedUnresolvedPlaySteps: 1,
-    expectedPlaybackComplexity: 'unresolved-play-order'
+    expectedPlaybackComplexity: 'unresolved-play-order',
+    expectedPlaybackCanUseSequence: false
   },
   {
     slug: 'faded',
@@ -153,6 +168,9 @@ function checkFixture(fixture: Fixture) {
     unresolvedPlayOrderSteps: playOrderExpansion.unresolvedSteps.length,
     expandedPlayMeasures: playOrderExpansion.expandedMeasureCount,
     playbackComplexity: playbackSequenceAudit.complexity,
+    playbackCanUseSequence: playbackSequenceAudit.canUseMeasureSequenceForPlayback,
+    playbackSequenceMeasures: playbackSequenceAudit.sequenceMeasureCount,
+    repeatExpansionStatus: playbackSequenceAudit.repeatExpansionStatus,
     playbackBlockers: playbackSequenceAudit.blockers,
     rowCount: layout.rows.length,
     maxRowWidthRem: Number(maxRowWidthRem.toFixed(2)),
@@ -194,6 +212,19 @@ function checkFixture(fixture: Fixture) {
       `${fixture.slug} playback sequence complexity changed`
     )
   }
+  if (fixture.expectedPlaybackCanUseSequence !== undefined) {
+    assertEqual(
+      metrics.playbackCanUseSequence,
+      fixture.expectedPlaybackCanUseSequence,
+      `${fixture.slug} playback sequence readiness changed`
+    )
+  }
+  assertAtLeast(
+    metrics.playbackSequenceMeasures,
+    fixture.minPlaybackSequenceMeasures,
+    fixture.slug,
+    'playback sequence measures'
+  )
   assertAtLeast(
     metrics.compressedMeasureCount,
     fixture.minCompressedMeasures,
