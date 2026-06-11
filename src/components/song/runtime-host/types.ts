@@ -46,3 +46,10 @@ export type IframeRuntimeHostProps = {
   onFrameLoad?: () => void
   onLoadingChange?: (isLoading: boolean) => void
 }
+
+export type ContainerRuntimeHostProps = {
+  songId: string
+  title: string
+  className?: string
+  onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
+}
