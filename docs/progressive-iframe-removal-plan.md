@@ -15,6 +15,7 @@ Already completed:
 - Phase 1 host contract hardening is complete: iframe-specific lifecycle and DOM access now live in `src/components/song/runtime-host/IframeRuntimeHost.tsx`, while `PublicRuntimeFrame` is only the shell wrapper.
 - Phase 2 has started: full-document generation and structured runtime package output now live under `src/lib/runtime-core/server/assembly/**`.
 - Phase 3 dev-only container host skeleton is complete: `/dev/runtime-host/<slug>` shows the iframe baseline next to a React-owned inert container.
+- Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -24,11 +25,13 @@ Current important files:
 - `src/components/song/PublicRuntimeFrame.tsx`
 - `src/components/song/runtime-host/IframeRuntimeHost.tsx`
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
+- `src/components/song/runtime-host/RuntimeStyleInjector.tsx`
 - `src/components/song/runtime-host/types.ts`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
 - `src/lib/runtime-core/publicRuntimePaths.ts`
 - `src/lib/runtime-core/publicRuntime.ts`
 - `src/lib/runtime-core/server/assembly/**`
+- `src/lib/runtime-core/client/styleScope.ts`
 - `src/lib/runtime-core/bridge/**`
 - `src/app/api/kuailepu-runtime/[id]/route.ts`
 - `src/app/dev/runtime-host/[id]/page.tsx`
@@ -300,6 +303,8 @@ Modify:
 - Mitigation: label the page clearly as skeleton-only and do not count it as runtime parity.
 
 ## Phase 4: CSS Scope Isolation
+
+Status: complete for the dev-only container skeleton.
 
 ### Goal
 

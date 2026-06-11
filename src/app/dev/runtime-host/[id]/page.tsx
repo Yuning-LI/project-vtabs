@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import ContainerRuntimeHost from '@/components/song/runtime-host/ContainerRuntimeHost'
 import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
-import { loadPublicRuntimeSongPayload } from '@/lib/runtime-core/publicRuntime'
+import {
+  buildPublicRuntimePackageData,
+  loadPublicRuntimeSongPayload
+} from '@/lib/runtime-core/publicRuntime'
 import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 
@@ -31,6 +34,21 @@ export default function RuntimeHostReviewPage({ params }: { params: { id: string
   if (!runtimePayload) {
     notFound()
   }
+  const runtimePackage = buildPublicRuntimePackageData({
+    songId: song.slug,
+    payload: runtimePayload,
+    state: {
+      note_label_mode: 'letter',
+      measure_layout: 'compact',
+      sheet_scale: '10'
+    },
+    textMode: 'english',
+    assetProfile: 'public-song',
+    publicFeatures: [],
+    preferredEnglishTitle: song.title,
+    preferredEnglishSubtitle: null,
+    visualThemeName: 'classic'
+  })
 
   const frameSrc = buildPublicRuntimeUrl(song.slug, {
     params: new URLSearchParams({
@@ -71,7 +89,11 @@ export default function RuntimeHostReviewPage({ params }: { params: { id: string
           </ReviewPanel>
 
           <ReviewPanel title="Container Skeleton">
-            <ContainerRuntimeHost songId={song.slug} title={song.title} />
+            <ContainerRuntimeHost
+              songId={song.slug}
+              title={song.title}
+              styleAssets={runtimePackage.styles}
+            />
           </ReviewPanel>
         </div>
       </div>

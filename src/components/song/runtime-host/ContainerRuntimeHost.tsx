@@ -5,6 +5,7 @@ import type {
   ContainerRuntimeHostProps,
   PublicRuntimeHostController
 } from './types'
+import RuntimeStyleInjector from './RuntimeStyleInjector'
 
 /**
  * Dev-only native DOM host skeleton.
@@ -15,6 +16,7 @@ import type {
 export default function ContainerRuntimeHost({
   songId,
   title,
+  styleAssets = [],
   className,
   onHostControllerChange
 }: ContainerRuntimeHostProps) {
@@ -47,10 +49,12 @@ export default function ContainerRuntimeHost({
         'min-h-[520px] rounded-[24px] border border-dashed border-[rgba(120,86,48,0.34)] bg-[#fffaf1]'
       }
       data-public-runtime-container-host="skeleton"
+      data-public-runtime-root
       data-song-id={songId}
       role="region"
       aria-label={`${title} container runtime skeleton`}
     >
+      <RuntimeStyleInjector assets={styleAssets} />
       <div className="flex min-h-[520px] flex-col items-center justify-center px-6 py-10 text-center">
         <div className="rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-amber-900">
           Container Host Skeleton
@@ -65,6 +69,7 @@ export default function ContainerRuntimeHost({
         <dl className="mt-6 grid gap-3 text-left text-sm md:grid-cols-3">
           <RuntimeHostFact label="Host mode" value="container skeleton" />
           <RuntimeHostFact label="Runtime JS" value="disabled" />
+          <RuntimeHostFact label="Runtime CSS" value={styleAssets.length > 0 ? 'scoped' : 'disabled'} />
           <RuntimeHostFact label="Song" value={songId} />
         </dl>
       </div>

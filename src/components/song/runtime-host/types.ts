@@ -50,6 +50,9 @@ export type IframeRuntimeHostProps = {
 export type ContainerRuntimeHostProps = {
   songId: string
   title: string
+  styleAssets?: Array<{
+    src: string
+  }>
   className?: string
   onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
 }
