@@ -117,32 +117,116 @@ ${rootSelector} [data-public-runtime-dom-mount] #sheet {
   transform-origin: top left;
 }
 
-${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] {
-  position: relative !important;
-  inset: auto !important;
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] {
+  position: absolute !important;
+  top: 16px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
   display: block !important;
-  width: 100% !important;
-  max-height: none !important;
+  width: min(92%, 680px) !important;
+  max-width: 680px !important;
+  max-height: min(72vh, 450px) !important;
   height: auto !important;
-  margin: 18px 0 0 !important;
+  margin: 0 !important;
   opacity: 1 !important;
-  transform: none !important;
-  z-index: 1 !important;
+  overflow: hidden !important;
+  transform: translateX(-50%) !important;
+  z-index: 40 !important;
+  border-radius: 18px !important;
+  background: #fff8ed !important;
+  box-shadow: 0 18px 42px rgba(70, 45, 24, 0.18) !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] .modal-content {
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content {
   position: relative !important;
   inset: auto !important;
   height: auto !important;
+  max-height: calc(min(72vh, 450px) - 64px) !important;
+  padding: 22px 24px 18px !important;
+  overflow: auto !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content .row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px 14px !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content .input-field {
+  float: none !important;
+  width: 100% !important;
+  min-height: 68px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content label {
+  display: block !important;
+  position: static !important;
   max-height: none !important;
-  overflow: visible !important;
+  margin-bottom: 6px !important;
+  color: #6f5a42 !important;
+  font-size: 0.72rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  transform: none !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] .modal-footer {
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content select.browser-default {
+  display: block !important;
+  height: 42px !important;
+  margin: 0 !important;
+  border: 1px solid rgba(120, 86, 48, 0.2) !important;
+  border-radius: 9px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #2d2118 !important;
+  font-size: 0.96rem !important;
+  font-weight: 750 !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-footer {
   position: relative !important;
   inset: auto !important;
-  min-height: 56px;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 58px !important;
   height: auto !important;
+  padding: 10px 22px !important;
+  border-top: 1px solid rgba(120, 86, 48, 0.12) !important;
+  background: rgba(255, 248, 237, 0.96) !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-footer .btn-flat,
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-footer a {
+  height: 38px !important;
+  line-height: 38px !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  text-transform: none !important;
+}
+
+@media (max-width: 900px) {
+  ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content .row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] {
+    width: calc(100% - 20px) !important;
+  }
+
+  ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] .modal-content .row {
+    grid-template-columns: 1fr !important;
+  }
 }
 `
 }

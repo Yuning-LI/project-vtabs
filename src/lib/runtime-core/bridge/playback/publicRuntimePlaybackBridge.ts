@@ -379,31 +379,32 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     playModal.setAttribute('data-public-runtime-container-panel', 'open');
     playModal.style.display = 'block';
     playModal.style.opacity = '1';
-    playModal.style.transform = 'none';
-    playModal.style.top = 'auto';
-    playModal.style.left = 'auto';
-    playModal.style.right = 'auto';
-    playModal.style.bottom = 'auto';
-    playModal.style.width = '100%';
-    playModal.style.maxHeight = 'none';
-    playModal.style.height = 'auto';
+    playModal.style.removeProperty('position');
+    playModal.style.removeProperty('top');
+    playModal.style.removeProperty('left');
+    playModal.style.removeProperty('right');
+    playModal.style.removeProperty('bottom');
+    playModal.style.removeProperty('width');
+    playModal.style.removeProperty('max-height');
+    playModal.style.removeProperty('height');
+    playModal.style.removeProperty('transform');
 
     var modalContent = playModal.querySelector('.modal-content');
     if (modalContent && modalContent.style) {
-      modalContent.style.position = 'relative';
-      modalContent.style.top = 'auto';
-      modalContent.style.bottom = 'auto';
-      modalContent.style.height = 'auto';
-      modalContent.style.maxHeight = 'none';
-      modalContent.style.overflow = 'visible';
+      modalContent.style.removeProperty('position');
+      modalContent.style.removeProperty('top');
+      modalContent.style.removeProperty('bottom');
+      modalContent.style.removeProperty('height');
+      modalContent.style.removeProperty('max-height');
+      modalContent.style.removeProperty('overflow');
     }
 
     var modalFooter = playModal.querySelector('.modal-footer');
     if (modalFooter && modalFooter.style) {
-      modalFooter.style.position = 'relative';
-      modalFooter.style.top = 'auto';
-      modalFooter.style.bottom = 'auto';
-      modalFooter.style.height = 'auto';
+      modalFooter.style.removeProperty('position');
+      modalFooter.style.removeProperty('top');
+      modalFooter.style.removeProperty('bottom');
+      modalFooter.style.removeProperty('height');
     }
   }
 
