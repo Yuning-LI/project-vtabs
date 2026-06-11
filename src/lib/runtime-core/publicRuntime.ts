@@ -17,11 +17,12 @@ import {
   shouldHideLyricTrackByDefault as shouldHidePublicRuntimeLyricTrackByDefault
 } from './state/publicRuntimeState.ts'
 import {
-  buildPublicRuntimeHtmlDocument
-} from './server/html/runtimeHtmlDocument.ts'
-import {
   serializeForInlineScript as serializeRuntimeHtmlInlineValue
 } from './server/html/runtimeHtmlScaffold.ts'
+import {
+  buildPublicRuntimePackage,
+  type PublicRuntimePackage
+} from './server/assembly/publicRuntimePackage.ts'
 import {
   loadPublicRuntimePayloadArchive,
   localizePublicRuntimePayloadArchive
@@ -73,6 +74,23 @@ export function buildPublicRuntimeHtml(input: {
   visualThemeName?: PublicRuntimeVisualThemeName | null
   visualTheme?: PublicRuntimeVisualTheme | null
 }) {
+  return buildPublicRuntimePackageData(input).html
+}
+
+export function buildPublicRuntimePackageData(input: {
+  songId: string
+  payload: PublicRuntimePayload
+  state?: PublicRuntimeState | null
+  letterTrack?: PublicLetterTrackData | null
+  textMode?: PublicRuntimeTextMode | null
+  assetProfile?: PublicRuntimeAssetProfileName | null
+  publicFeatures?: PublicRuntimePublicFeature[] | null
+  preferredEnglishTitle?: string | null
+  preferredEnglishSubtitle?: string | null
+  compareMode?: boolean | null
+  visualThemeName?: PublicRuntimeVisualThemeName | null
+  visualTheme?: PublicRuntimeVisualTheme | null
+}): PublicRuntimePackage {
   const { songId } = input
   const payload = applyPublicRuntimeDefaults(
     localizePublicRuntimePayloadArchive(input.payload, {
@@ -103,7 +121,7 @@ export function buildPublicRuntimeHtml(input: {
     visualTheme
   )
 
-  return buildPublicRuntimeHtmlDocument({
+  return buildPublicRuntimePackage({
     template,
     songId,
     payloadJson: safePayload,

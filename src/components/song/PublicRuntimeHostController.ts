@@ -1,43 +1,14 @@
-export type PublicRuntimeHostController = {
-  hostElement: HTMLElement
-  containsEventTarget: (target: EventTarget | null) => boolean
-  postMessage: (message: unknown) => boolean
-}
+import type {
+  PublicRuntimeHostController,
+  PublicRuntimeHostMessage,
+  PublicRuntimeHostMessageHandler
+} from './runtime-host/types'
 
-export type PublicRuntimeHostMessage = Record<string, unknown> & {
-  songId: string
-  type?: unknown
-}
-
-export type PublicRuntimeHostMessageHandler = (message: PublicRuntimeHostMessage) => void
-
-export function createIframePublicRuntimeHostController(
-  frame: HTMLIFrameElement | null
-): PublicRuntimeHostController | null {
-  if (!frame) {
-    return null
-  }
-
-  return {
-    hostElement: frame,
-    containsEventTarget(target) {
-      return target === frame
-    },
-    postMessage(message) {
-      if (typeof window === 'undefined') {
-        return false
-      }
-
-      const frameWindow = frame.contentWindow
-      if (!frameWindow) {
-        return false
-      }
-
-      frameWindow.postMessage(message, window.location.origin)
-      return true
-    }
-  }
-}
+export type {
+  PublicRuntimeHostController,
+  PublicRuntimeHostMessage,
+  PublicRuntimeHostMessageHandler
+} from './runtime-host/types'
 
 export function subscribeToPublicRuntimeHostMessages(
   songId: string,
