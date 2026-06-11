@@ -73,8 +73,8 @@ export default function ContainerRuntimeHost({
           {title}
         </h2>
         <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-stone-600">
-          This panel is a React-owned DOM container. Runtime scripts are loaded only for order
-          reproduction in this phase, so no sheet should render here yet.
+          This panel is a React-owned DOM container. Runtime scripts and the original startup flow
+          now render into the container-local sheet area.
         </p>
         <dl className="mt-6 grid gap-3 text-left text-sm md:grid-cols-3">
           <RuntimeHostFact label="Host mode" value="container skeleton" />

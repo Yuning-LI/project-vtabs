@@ -56,5 +56,59 @@ export default function RuntimeStyleInjector({
     }
   }, [assets, rootSelector])
 
-  return scopedCss ? <style data-public-runtime-scoped-css>{scopedCss}</style> : null
+  return (
+    <>
+      <style data-public-runtime-container-constraints suppressHydrationWarning>
+        {buildRuntimeContainerConstraintCss(rootSelector)}
+      </style>
+      {scopedCss ? (
+        <style data-public-runtime-scoped-css suppressHydrationWarning>
+          {scopedCss}
+        </style>
+      ) : null}
+    </>
+  )
+}
+
+function buildRuntimeContainerConstraintCss(rootSelector: string) {
+  return `
+${rootSelector} {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+${rootSelector} [data-public-runtime-dom-root] {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+  background: #fffaf1;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] #header,
+${rootSelector} [data-public-runtime-dom-mount="true"] .head-bar {
+  display: none !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] #preload {
+  display: none !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] .flex-body {
+  display: block;
+  width: 100%;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] #sheet {
+  display: block;
+  width: 100%;
+  transform-origin: top left;
+}
+`
 }
