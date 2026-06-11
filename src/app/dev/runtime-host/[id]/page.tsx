@@ -76,7 +76,7 @@ export default function RuntimeHostReviewPage({
     state: runtimeState,
     letterTrack,
     textMode: 'english',
-    assetProfile: 'public-song',
+    assetProfile: 'full-template',
     publicFeatures,
     preferredEnglishTitle: song.title,
     preferredEnglishSubtitle: null,

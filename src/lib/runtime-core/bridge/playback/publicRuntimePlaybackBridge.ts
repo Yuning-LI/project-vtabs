@@ -315,6 +315,11 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     return 'idle';
   }
 
+  function isPublicPlaybackLoading() {
+    var playButton = document.getElementById('play-btn');
+    return Boolean(playButton && playButton.classList && playButton.classList.contains('icon-spinner'));
+  }
+
   function postPublicPlaybackStatus() {
     if (!window.parent) {
       return;
@@ -416,6 +421,34 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     playModal.removeAttribute('data-public-runtime-container-panel');
   }
 
+  function setPublicPlaybackActionVisible(element, isVisible) {
+    if (!element || !element.style) {
+      return;
+    }
+
+    element.style.display = isVisible ? '' : 'none';
+  }
+
+  function normalizePublicPlaybackPanelButtonState(playModal) {
+    if (!playModal) {
+      return;
+    }
+
+    var playButton = document.getElementById('play-btn');
+    var isPlaying = Boolean(playButton && playButton.classList && playButton.classList.contains('icon-stop2'));
+    var isLoading = Boolean(playButton && playButton.classList && playButton.classList.contains('icon-spinner'));
+    var midiPlayer = window.Song && window.Song.midiPlayer;
+    var engine = midiPlayer && midiPlayer.engine;
+    var context = midiPlayer && midiPlayer.context;
+    var hasPlayProgress = Boolean(engine && engine.playTime);
+    var hasPlayLine = Boolean(context && context.playLine);
+
+    setPublicPlaybackActionVisible(playModal.querySelector('.op-replay.start-play-1'), !isPlaying && !isLoading && !hasPlayProgress);
+    setPublicPlaybackActionVisible(playModal.querySelector('.op-replay.start-play-2'), isPlaying || hasPlayProgress);
+    setPublicPlaybackActionVisible(playModal.querySelector('.op-resume.start-play-2'), isPlaying || hasPlayProgress);
+    setPublicPlaybackActionVisible(playModal.querySelector('.op-play.start-play-3'), !isPlaying && !isLoading && hasPlayLine);
+  }
+
   function postPublicPlaybackPanelStatus() {
     if (!window.parent) {
       return;
@@ -450,6 +483,10 @@ export function buildPublicRuntimePlaybackBridgeScript() {
             postPublicPlaybackStatusValue('loading');
           }, 20);
           window.setTimeout(function () {
+            normalizePublicPlaybackPanelButtonState(document.getElementById('play-modal'));
+            postPublicPlaybackStatus();
+          }, 120);
+          window.setTimeout(function () {
             if (!publicPlaybackSessionStarted) {
               postPublicPlaybackStatus();
             }
@@ -480,6 +517,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     observedPlaybackButton = playButton;
     playbackStatusObserver = new MutationObserver(function () {
+      normalizePublicPlaybackPanelButtonState(document.getElementById('play-modal'));
       postPublicPlaybackStatus();
     });
     playbackStatusObserver.observe(playButton, {
@@ -620,6 +658,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (fromNote) {
       fromNote.textContent = 'Play from note';
     }
+    normalizePublicPlaybackPanelButtonState(playModal);
     localizeNoSoundHelp();
 
     var footer = playModal.querySelector('.modal-footer');
@@ -702,6 +741,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         if (!isPublicPlaybackPanelOpen()) {
           openPublicPlaybackPanelFallback(playModal);
         }
+        normalizePublicPlaybackPanelButtonState(playModal);
       }, 30);
       window.setTimeout(localizePublicPlayback, 80);
       [40, 120].forEach(function (delay) {
@@ -722,15 +762,21 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       view: window
     }));
 
-    [120, 500, 1200, 2200].forEach(function (delay) {
+    [120, 500, 1200, 2200, 4500, 8000].forEach(function (delay) {
       window.setTimeout(function () {
         if (playbackPanelOpenRequestId !== publicPlaybackPanelRequestId) {
           return;
         }
         localizePublicPlayback();
+        if (isPublicPlaybackLoading()) {
+          postPublicPlaybackStatus();
+          postPublicPlaybackPanelStatus();
+          return;
+        }
         if (!isPublicPlaybackPanelOpen()) {
           openPublicPlaybackPanelFallback(playModal);
         }
+        normalizePublicPlaybackPanelButtonState(playModal);
         if (!publicPlaybackSessionStarted) {
           postPublicPlaybackStatus();
         }
