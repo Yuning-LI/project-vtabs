@@ -11,6 +11,7 @@ import type { RuntimeScriptEntry } from '../../runtimeScriptTypes.ts'
 
 export type PublicRuntimePackage = {
   html: string
+  bodyHtml: string
   styles: PublicRuntimeAsset[]
   scripts: PublicRuntimeAsset[]
   inlineScripts: PublicRuntimeInlineScript[]
@@ -24,10 +25,15 @@ export function buildPublicRuntimePackage(input: PublicRuntimeDocumentInput): Pu
 
   return {
     html,
+    bodyHtml: extractPublicRuntimeBodyHtml(html),
     styles: manifest.styles,
     scripts: manifest.scripts,
     inlineScripts: manifest.inlineScripts,
     scriptEntries: manifest.scriptEntries,
     contextJson: input.payloadJson
   }
+}
+
+function extractPublicRuntimeBodyHtml(html: string) {
+  return html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? ''
 }

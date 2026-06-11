@@ -15,11 +15,17 @@ type RuntimeEventListenerRecord = {
   capture: boolean
 }
 
+type RuntimeTimerCapture = {
+  getTrackedTimerCount: () => number
+  dispose: () => void
+}
+
 export type PublicRuntimeGlobalRegistry = {
   runtimeWindow: Window
   globals: Record<string, unknown>
   captureRuntimeGlobals: () => Record<string, unknown>
   getTrackedEventListenerCount: () => number
+  getTrackedTimerCount: () => number
   restoreShellGlobals: () => void
   dispose: () => void
 }
@@ -35,6 +41,7 @@ export function createPublicRuntimeGlobalRegistry({
 }: CreatePublicRuntimeGlobalRegistryOptions = {}): PublicRuntimeGlobalRegistry {
   const snapshot = captureShellGlobalSnapshot(runtimeWindow, globalNames)
   const eventCapture = installRuntimeEventListenerCapture(runtimeWindow)
+  const timerCapture = installRuntimeTimerCapture(runtimeWindow)
   const globals: Record<string, unknown> = {}
   let disposed = false
 
@@ -64,6 +71,7 @@ export function createPublicRuntimeGlobalRegistry({
     }
     captureRuntimeGlobals()
     eventCapture.dispose()
+    timerCapture.dispose()
     restoreShellGlobals()
     disposed = true
   }
@@ -73,6 +81,7 @@ export function createPublicRuntimeGlobalRegistry({
     globals,
     captureRuntimeGlobals,
     getTrackedEventListenerCount: eventCapture.getTrackedEventListenerCount,
+    getTrackedTimerCount: timerCapture.getTrackedTimerCount,
     restoreShellGlobals,
     dispose
   }
@@ -216,4 +225,64 @@ function removeTrackedEventListener(
 
 function getCaptureOption(options: boolean | AddEventListenerOptions | undefined) {
   return typeof options === 'boolean' ? options : Boolean(options?.capture)
+}
+
+function installRuntimeTimerCapture(runtimeWindow: Window): RuntimeTimerCapture {
+  const trackedTimeouts = new Set<number>()
+  const trackedIntervals = new Set<number>()
+  let disposed = false
+  const originalSetTimeout = runtimeWindow.setTimeout.bind(runtimeWindow)
+  const originalClearTimeout = runtimeWindow.clearTimeout.bind(runtimeWindow)
+  const originalSetInterval = runtimeWindow.setInterval.bind(runtimeWindow)
+  const originalClearInterval = runtimeWindow.clearInterval.bind(runtimeWindow)
+
+  runtimeWindow.setTimeout = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
+    const id = originalSetTimeout(handler, timeout, ...args)
+    if (!disposed) {
+      trackedTimeouts.add(id)
+    }
+    return id
+  }) as typeof window.setTimeout
+
+  runtimeWindow.clearTimeout = ((id?: number) => {
+    if (typeof id === 'number') {
+      trackedTimeouts.delete(id)
+    }
+    return originalClearTimeout(id)
+  }) as typeof window.clearTimeout
+
+  runtimeWindow.setInterval = ((handler: TimerHandler, timeout?: number, ...args: unknown[]) => {
+    const id = originalSetInterval(handler, timeout, ...args)
+    if (!disposed) {
+      trackedIntervals.add(id)
+    }
+    return id
+  }) as typeof window.setInterval
+
+  runtimeWindow.clearInterval = ((id?: number) => {
+    if (typeof id === 'number') {
+      trackedIntervals.delete(id)
+    }
+    return originalClearInterval(id)
+  }) as typeof window.clearInterval
+
+  return {
+    getTrackedTimerCount: () => trackedTimeouts.size + trackedIntervals.size,
+    dispose() {
+      if (disposed) {
+        return
+      }
+      disposed = true
+
+      trackedTimeouts.forEach(id => originalClearTimeout(id))
+      trackedIntervals.forEach(id => originalClearInterval(id))
+      trackedTimeouts.clear()
+      trackedIntervals.clear()
+
+      runtimeWindow.setTimeout = originalSetTimeout as typeof window.setTimeout
+      runtimeWindow.clearTimeout = originalClearTimeout as typeof window.clearTimeout
+      runtimeWindow.setInterval = originalSetInterval as typeof window.setInterval
+      runtimeWindow.clearInterval = originalClearInterval as typeof window.clearInterval
+    }
+  }
 }

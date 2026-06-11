@@ -93,6 +93,7 @@ export default function RuntimeHostReviewPage({ params }: { params: { id: string
             <ContainerRuntimeHost
               songId={song.slug}
               title={song.title}
+              bodyHtml={runtimePackage.bodyHtml}
               styleAssets={runtimePackage.styles}
               scriptEntries={runtimePackage.scriptEntries}
               enableScriptLoader

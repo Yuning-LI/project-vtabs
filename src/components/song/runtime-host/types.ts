@@ -51,6 +51,7 @@ export type IframeRuntimeHostProps = {
 export type ContainerRuntimeHostProps = {
   songId: string
   title: string
+  bodyHtml?: string
   styleAssets?: Array<{
     src: string
   }>

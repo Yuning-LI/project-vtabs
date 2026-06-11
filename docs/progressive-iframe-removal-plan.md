@@ -486,6 +486,8 @@ Modify:
 
 ## Phase 7: Container Runtime Bootstrap
 
+Status: complete for the dev-only `twinkle-twinkle-little-star` route.
+
 ### Goal
 
 Make the authorized runtime render one simple song inside the React-owned container on a dev route.
@@ -498,6 +500,9 @@ Make the authorized runtime render one simple song inside the React-owned contai
 - Inject song context.
 - Trigger the same draw/bootstrap path currently used in iframe.
 - Render into container-local `#sheet`.
+- Reuse the iframe body fragment as the first container DOM template so the existing jQuery callbacks can find the same controls, templates, modals, and `#sheet` node.
+- Keep the runtime DOM under a dedicated runtime-owned mount node, separate from React-owned diagnostics.
+- Track runtime timers in the global registry and clear them on dispose.
 
 ### Files
 
@@ -506,7 +511,10 @@ Modify:
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
 - `src/lib/runtime-core/client/scriptLoader.ts`
 - `src/lib/runtime-core/client/globalRegistry.ts`
-- `src/lib/runtime-core/bridge/**` only for transport adaptation
+- `src/components/song/runtime-host/RuntimeScriptLoader.tsx`
+- `src/components/song/runtime-host/types.ts`
+- `src/app/dev/runtime-host/[id]/page.tsx`
+- `src/lib/runtime-core/server/assembly/publicRuntimePackage.ts`
 
 Potentially add:
 

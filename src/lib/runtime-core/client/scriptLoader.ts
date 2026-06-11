@@ -227,7 +227,7 @@ function emitGlobalRegistryEvent(
     Math.max(total - 1, 0),
     total,
     phase,
-    `${Object.keys(registry.globals).sort().join(', ') || 'none'}; listeners=${registry.getTrackedEventListenerCount()}`
+    `${Object.keys(registry.globals).sort().join(', ') || 'none'}; listeners=${registry.getTrackedEventListenerCount()}; timers=${registry.getTrackedTimerCount()}`
   )
 }
 

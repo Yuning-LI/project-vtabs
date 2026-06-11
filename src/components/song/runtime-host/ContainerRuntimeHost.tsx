@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type {
   ContainerRuntimeHostProps,
   PublicRuntimeHostController
@@ -17,6 +17,7 @@ import RuntimeStyleInjector from './RuntimeStyleInjector'
 export default function ContainerRuntimeHost({
   songId,
   title,
+  bodyHtml = '',
   styleAssets = [],
   scriptEntries = [],
   enableScriptLoader = false,
@@ -24,6 +25,7 @@ export default function ContainerRuntimeHost({
   onHostControllerChange
 }: ContainerRuntimeHostProps) {
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const [runtimeDomRoot, setRuntimeDomRoot] = useState<HTMLDivElement | null>(null)
   const controllerRef = useRef<PublicRuntimeHostController | null>(null)
   const assignRootRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -58,9 +60,14 @@ export default function ContainerRuntimeHost({
       aria-label={`${title} container runtime skeleton`}
     >
       <RuntimeStyleInjector assets={styleAssets} />
-      <div className="flex min-h-[520px] flex-col items-center justify-center px-6 py-10 text-center">
+      <div
+        ref={setRuntimeDomRoot}
+        data-public-runtime-dom-root
+        className="min-h-[520px]"
+      />
+      <div className="flex min-h-[320px] flex-col items-center justify-center px-6 py-10 text-center">
         <div className="rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-amber-900">
-          Container Host Skeleton
+          Container Runtime Host
         </div>
         <h2 className="mt-4 text-2xl font-black tracking-tight text-stone-900">
           {title}
@@ -80,6 +87,8 @@ export default function ContainerRuntimeHost({
         </dl>
         <RuntimeScriptLoader
           entries={scriptEntries}
+          runtimeRoot={runtimeDomRoot}
+          bodyHtml={bodyHtml}
           enabled={enableScriptLoader}
           label={`runtime-host:${songId}`}
         />

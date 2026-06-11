@@ -2,6 +2,10 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 import {
+  bootstrapPublicRuntimeContainer,
+  type PublicRuntimeContainerBootstrapController
+} from '@/lib/runtime-core/client/containerBootstrap'
+import {
   loadRuntimeScriptsInOrder,
   type RuntimeScriptEntry,
   type RuntimeScriptLoadEvent
@@ -9,12 +13,16 @@ import {
 
 type RuntimeScriptLoaderProps = {
   entries: RuntimeScriptEntry[]
+  runtimeRoot: HTMLElement | null
+  bodyHtml?: string
   enabled?: boolean
   label?: string
 }
 
 export default function RuntimeScriptLoader({
   entries,
+  runtimeRoot,
+  bodyHtml = '',
   enabled = false,
   label = 'runtime-host'
 }: RuntimeScriptLoaderProps) {
@@ -32,21 +40,31 @@ export default function RuntimeScriptLoader({
     const session = sessionRef.current + 1
     sessionRef.current = session
 
-    if (!mount || !enabled) {
+    if (!mount || !runtimeRoot || !enabled) {
       setStatus(enabled ? 'idle' : 'disabled')
       setLoadedCount(0)
       setCapturedGlobalNames([])
       return
     }
 
-    mount.replaceChildren()
     setStatus('loading')
     setLoadedCount(0)
     setCapturedGlobalNames([])
+    let bootstrapController: PublicRuntimeContainerBootstrapController | null = null
+    if (bodyHtml) {
+      bootstrapController = bootstrapPublicRuntimeContainer({
+        root: runtimeRoot,
+        bodyHtml
+      })
+    }
+    const scriptMount = bootstrapController?.mountElement ?? mount
+    if (!bootstrapController) {
+      scriptMount.replaceChildren()
+    }
 
     const controller = loadRuntimeScriptsInOrder({
       entries,
-      mount,
+      mount: scriptMount,
       log(event) {
         if (sessionRef.current !== session) {
           return
@@ -64,6 +82,7 @@ export default function RuntimeScriptLoader({
     controller.done
       .then(() => {
         if (sessionRef.current === session) {
+          bootstrapController?.ensureStarted()
           setStatus('loaded')
         }
       })
@@ -77,9 +96,10 @@ export default function RuntimeScriptLoader({
     return () => {
       controller.cancel()
       mount.replaceChildren()
+      bootstrapController?.dispose()
       setCapturedGlobalNames([])
     }
-  }, [enabled, entries, label])
+  }, [bodyHtml, enabled, entries, label, runtimeRoot])
 
   return (
     <div
@@ -96,7 +116,12 @@ export default function RuntimeScriptLoader({
           Captured globals: {capturedGlobalNames.length > 0 ? capturedGlobalNames.join(', ') : 'none yet'}
         </div>
       ) : null}
-      <div ref={mountRef} data-public-runtime-script-mount hidden />
+      <div
+        ref={mountRef}
+        aria-hidden="true"
+        data-public-runtime-script-mount
+        style={{ display: 'none' }}
+      />
     </div>
   )
 }
