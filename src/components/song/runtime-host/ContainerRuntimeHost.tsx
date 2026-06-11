@@ -97,7 +97,10 @@ function createContainerRuntimeHostController(
       return target instanceof Node && root.contains(target)
     },
     destroy() {
-      root.replaceChildren()
+      /**
+       * This skeleton host is fully React-owned. Do not mutate its children from
+       * the controller; React may still need to unmount or reconcile them.
+       */
     },
     postMessage() {
       return false
