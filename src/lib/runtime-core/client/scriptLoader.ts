@@ -1,5 +1,9 @@
 'use client'
 
+import {
+  createPublicRuntimeGlobalRegistry,
+  type PublicRuntimeGlobalRegistry
+} from './globalRegistry'
 import type {
   RuntimeExternalScriptEntry,
   RuntimeInlineScriptEntry,
@@ -16,13 +20,22 @@ export type RuntimeScriptLoadEvent = {
   index: number
   total: number
   entry: RuntimeScriptEntry
-  phase: 'start' | 'loaded' | 'executed' | 'skipped' | 'cancelled' | 'error'
+  phase:
+    | 'start'
+    | 'loaded'
+    | 'executed'
+    | 'skipped'
+    | 'cancelled'
+    | 'globals-captured'
+    | 'globals-restored'
+    | 'error'
   message?: string
 }
 
 export type RuntimeScriptLoadController = {
   cancel: () => void
   done: Promise<void>
+  registry: PublicRuntimeGlobalRegistry
 }
 
 export type LoadRuntimeScriptsOptions = {
@@ -40,10 +53,11 @@ export function loadRuntimeScriptsInOrder({
 }: LoadRuntimeScriptsOptions): RuntimeScriptLoadController {
   let cancelled = false
   const ownedScripts = new Set<HTMLScriptElement>()
+  const registry = createPublicRuntimeGlobalRegistry({ runtimeWindow: window })
   const total = entries.length
 
   const done = (async () => {
-  for (const [index, entry] of entries.entries()) {
+    for (const [index, entry] of entries.entries()) {
       if (cancelled || !mount.isConnected) {
         emit(log, entry, index, total, 'cancelled')
         break
@@ -60,17 +74,26 @@ export function loadRuntimeScriptsInOrder({
         throw error
       }
     }
+
+    registry.captureRuntimeGlobals()
+    emitGlobalRegistryEvent(log, entries, total, 'globals-captured', registry)
   })()
 
   return {
     cancel() {
+      if (cancelled) {
+        return
+      }
       cancelled = true
+      registry.dispose()
+      emitGlobalRegistryEvent(log, entries, total, 'globals-restored', registry)
       ownedScripts.forEach(script => {
         script.remove()
       })
       ownedScripts.clear()
     },
-    done
+    done,
+    registry
   }
 }
 
@@ -184,6 +207,28 @@ function emit(
   message?: string
 ) {
   log?.({ index, total, entry, phase, message })
+}
+
+function emitGlobalRegistryEvent(
+  log: ((event: RuntimeScriptLoadEvent) => void) | undefined,
+  entries: RuntimeScriptEntry[],
+  total: number,
+  phase: 'globals-captured' | 'globals-restored',
+  registry: PublicRuntimeGlobalRegistry
+) {
+  const lastEntry = entries[entries.length - 1]
+  if (!lastEntry) {
+    return
+  }
+
+  emit(
+    log,
+    lastEntry,
+    Math.max(total - 1, 0),
+    total,
+    phase,
+    `${Object.keys(registry.globals).sort().join(', ') || 'none'}; listeners=${registry.getTrackedEventListenerCount()}`
+  )
 }
 
 function getErrorMessage(error: unknown) {

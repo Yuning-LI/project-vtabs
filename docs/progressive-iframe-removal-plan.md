@@ -415,6 +415,8 @@ Modify:
 
 ## Phase 6: Global Scope Capture And Conflict Shield
 
+Status: complete for the dev-only container route.
+
 ### Goal
 
 Run legacy globals without corrupting the Next.js page or React shell.
@@ -445,6 +447,11 @@ type PublicRuntimeGlobalRegistry = {
 }
 ```
 
+The first implementation captures and restores selected host-window globals around
+the dev-only ordered script loader. It also tracks event listeners registered while
+runtime scripts are loading, removes those listeners on dispose, and restores the
+original `EventTarget` methods.
+
 ### Files
 
 Add:
@@ -454,6 +461,7 @@ Add:
 
 Modify:
 
+- `src/components/song/runtime-host/RuntimeScriptLoader.tsx`
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
 - `src/lib/runtime-core/client/scriptLoader.ts`
 
@@ -469,6 +477,7 @@ Modify:
 - Existing site jQuery usage, if any, is not broken.
 - Runtime globals are discoverable through the registry.
 - Unmount can clean event listeners and DOM nodes added by the container host where possible.
+- Public `/song/<slug>` still uses the iframe host and does not install the dev global registry.
 
 ### Risks And Mitigation
 
