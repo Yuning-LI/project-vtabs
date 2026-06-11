@@ -1,4 +1,7 @@
-import { PUBLIC_RUNTIME_SIZE_MESSAGE } from '../publicRuntimeMessageTypes.ts'
+import {
+  PUBLIC_RUNTIME_READY_MESSAGE,
+  PUBLIC_RUNTIME_SIZE_MESSAGE
+} from '../publicRuntimeMessageTypes.ts'
 
 export function buildPublicRuntimeHeightBridgeScript() {
   return `
@@ -33,6 +36,20 @@ export function buildPublicRuntimeHeightBridgeScript() {
         '*'
       );
     }
+  }
+
+  function postRuntimeReady() {
+    if (!window.parent) {
+      return;
+    }
+
+    window.parent.postMessage(
+      {
+        type: ${JSON.stringify(PUBLIC_RUNTIME_READY_MESSAGE)},
+        songId: songId
+      },
+      '*'
+    );
   }
 `
 }

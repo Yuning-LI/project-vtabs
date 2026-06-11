@@ -17,6 +17,7 @@ type RuntimeScriptLoaderProps = {
   bodyHtml?: string
   enabled?: boolean
   label?: string
+  onRuntimeReady?: () => void
 }
 
 export default function RuntimeScriptLoader({
@@ -24,7 +25,8 @@ export default function RuntimeScriptLoader({
   runtimeRoot,
   bodyHtml = '',
   enabled = false,
-  label = 'runtime-host'
+  label = 'runtime-host',
+  onRuntimeReady
 }: RuntimeScriptLoaderProps) {
   const mountRef = useRef<HTMLDivElement | null>(null)
   const sessionRef = useRef(0)
@@ -83,6 +85,7 @@ export default function RuntimeScriptLoader({
       .then(() => {
         if (sessionRef.current === session) {
           bootstrapController?.ensureStarted()
+          onRuntimeReady?.()
           setStatus('loaded')
         }
       })
@@ -99,7 +102,7 @@ export default function RuntimeScriptLoader({
       bootstrapController?.dispose()
       setCapturedGlobalNames([])
     }
-  }, [bodyHtml, enabled, entries, label, runtimeRoot])
+  }, [bodyHtml, enabled, entries, label, onRuntimeReady, runtimeRoot])
 
   return (
     <div

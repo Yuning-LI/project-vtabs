@@ -37,6 +37,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     installPublicPlaybackBridge();
     renderLetterTrack();
     postSize();
+    postRuntimeReady();
   }
 
   function scheduleRuntimeInitialSync() {

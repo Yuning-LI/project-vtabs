@@ -545,6 +545,8 @@ For `twinkle-twinkle-little-star` on a dev-only container route:
 
 ## Phase 8: Bridge Transport Parity
 
+Status: foundation complete; full shell-control parity remains in progress.
+
 ### Goal
 
 Make existing shell features work through both iframe host and container host.
@@ -571,6 +573,13 @@ For container host:
 - transport can be direct callback / custom event.
 - The shell still sees the same normalized host message.
 
+Implemented foundation:
+
+- `publicRuntimeMessageTypes.ts` now defines command/event unions and type guards.
+- Container host `postMessage(...)` now forwards normalized shell commands into the runtime window message channel and a container custom event.
+- Both iframe bridge and container bridge can emit `vtabs-runtime-ready`.
+- Runtime bridge accepts a normalized redraw command.
+
 ### Files
 
 Modify:
@@ -583,6 +592,7 @@ Modify:
 Potentially add:
 
 - `src/components/song/runtime-host/publicRuntimeHostMessages.ts`
+- `src/components/song/runtime-host/containerRuntimeTransport.ts`
 
 ### Forbidden
 

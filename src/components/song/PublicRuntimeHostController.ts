@@ -3,6 +3,9 @@ import type {
   PublicRuntimeHostMessage,
   PublicRuntimeHostMessageHandler
 } from './runtime-host/types'
+import {
+  isPublicRuntimeHostMessage as isKnownPublicRuntimeHostMessage
+} from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 
 export type {
   PublicRuntimeHostController,
@@ -41,10 +44,5 @@ function isPublicRuntimeHostMessage(
   value: unknown,
   songId: string
 ): value is PublicRuntimeHostMessage {
-  return Boolean(
-    value &&
-      typeof value === 'object' &&
-      'songId' in value &&
-      (value as { songId?: unknown }).songId === songId
-  )
+  return isKnownPublicRuntimeHostMessage(value) && value.songId === songId
 }

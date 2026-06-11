@@ -1,16 +1,14 @@
 import type { CSSProperties } from 'react'
+import type { PublicRuntimeHostMessage } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
+
+export type { PublicRuntimeHostMessage } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 
 export type PublicRuntimeHostController = {
   hostElement: HTMLElement
   containsEventTarget: (target: EventTarget | null) => boolean
   postMessage: (message: unknown) => boolean
   destroy: () => void
-}
-
-export type PublicRuntimeHostMessage = Record<string, unknown> & {
-  songId: string
-  type?: unknown
 }
 
 export type PublicRuntimeHostMessageHandler = (message: PublicRuntimeHostMessage) => void
@@ -59,4 +57,5 @@ export type ContainerRuntimeHostProps = {
   enableScriptLoader?: boolean
   className?: string
   onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
+  onRuntimeReady?: () => void
 }

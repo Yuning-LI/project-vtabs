@@ -7,6 +7,8 @@ import type {
 } from './types'
 import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
+import { dispatchContainerRuntimeCommand } from './containerRuntimeTransport'
+import { PUBLIC_RUNTIME_READY_MESSAGE } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 
 /**
  * Dev-only native DOM host skeleton.
@@ -22,7 +24,8 @@ export default function ContainerRuntimeHost({
   scriptEntries = [],
   enableScriptLoader = false,
   className,
-  onHostControllerChange
+  onHostControllerChange,
+  onRuntimeReady
 }: ContainerRuntimeHostProps) {
   const rootRef = useRef<HTMLDivElement | null>(null)
   const [runtimeDomRoot, setRuntimeDomRoot] = useState<HTMLDivElement | null>(null)
@@ -45,6 +48,20 @@ export default function ContainerRuntimeHost({
       onHostControllerChange?.(null)
     }
   }, [onHostControllerChange])
+
+  const dispatchRuntimeReady = useCallback(() => {
+    window.dispatchEvent(
+      new MessageEvent('message', {
+        data: {
+          type: PUBLIC_RUNTIME_READY_MESSAGE,
+          songId
+        },
+        origin: window.location.origin,
+        source: window
+      })
+    )
+    onRuntimeReady?.()
+  }, [onRuntimeReady, songId])
 
   return (
     <div
@@ -91,6 +108,7 @@ export default function ContainerRuntimeHost({
           bodyHtml={bodyHtml}
           enabled={enableScriptLoader}
           label={`runtime-host:${songId}`}
+          onRuntimeReady={dispatchRuntimeReady}
         />
       </div>
     </div>
@@ -122,8 +140,8 @@ function createContainerRuntimeHostController(
        * the controller; React may still need to unmount or reconcile them.
        */
     },
-    postMessage() {
-      return false
+    postMessage(message) {
+      return dispatchContainerRuntimeCommand(message)
     }
   }
 }

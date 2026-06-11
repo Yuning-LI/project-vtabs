@@ -1,7 +1,8 @@
 import {
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
-  PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
+  PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
+  PUBLIC_RUNTIME_REDRAW_MESSAGE
 } from '../publicRuntimeMessageTypes.ts'
 
 export function buildPublicRuntimeMessageBridgeScript() {
@@ -22,6 +23,9 @@ export function buildPublicRuntimeMessageBridgeScript() {
     }
     if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE)}) {
       closePublicPlaybackPanel();
+    }
+    if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_REDRAW_MESSAGE)}) {
+      requestRuntimeRedraw();
     }
   });
 `
