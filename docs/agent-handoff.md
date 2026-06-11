@@ -136,6 +136,7 @@ Playbook:
 - Current state / handoff details: `docs/handoff.md`
 - Runtime strategy: `docs/kuailepu-compatibility-roadmap.md`
 - Current de-Kuailepu refactor boundary plan: `docs/de-kuailepu-architecture-plan.md`
+- Progressive iframe removal plan: `docs/progressive-iframe-removal-plan.md`
 - Runtime QA: `docs/manual-runtime-qa-checklist.md`
 - Instrument rollout: `docs/instrument-rollout-plan.md`
 - Public instrument fit / transposition / fingering rules: `docs/public-instrument-selection-rules.md`
