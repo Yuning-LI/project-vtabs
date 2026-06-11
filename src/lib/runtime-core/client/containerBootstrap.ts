@@ -20,6 +20,7 @@ export function bootstrapPublicRuntimeContainer({
   mountElement.dataset.publicRuntimeDomMount = 'true'
   mountElement.innerHTML = bodyHtml
   root.appendChild(mountElement)
+  const bodyAppendCapture = installBodyAppendCapture(mountElement)
 
   return {
     mountElement,
@@ -28,6 +29,7 @@ export function bootstrapPublicRuntimeContainer({
       return triggerRuntimeContextLoadIfNeeded(mountElement)
     },
     dispose() {
+      bodyAppendCapture.dispose()
       mountElement.remove()
     }
   }
@@ -53,4 +55,46 @@ function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
 
   runtimeWindow.Kit.context.triggerLoad()
   return true
+}
+
+function installBodyAppendCapture(mountElement: HTMLElement) {
+  const runtimeExtraMount = document.createElement('div')
+  runtimeExtraMount.dataset.publicRuntimeBodyAppendMount = 'true'
+  runtimeExtraMount.hidden = true
+  mountElement.appendChild(runtimeExtraMount)
+
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (!(node instanceof HTMLElement)) {
+          return
+        }
+        if (node.closest('[data-public-runtime-root]')) {
+          return
+        }
+        if (isRuntimeBodyAppendNode(node)) {
+          runtimeExtraMount.appendChild(node)
+        }
+      })
+    })
+  })
+
+  observer.observe(document.body, {
+    childList: true
+  })
+
+  return {
+    dispose() {
+      observer.disconnect()
+      runtimeExtraMount.remove()
+    }
+  }
+}
+
+function isRuntimeBodyAppendNode(node: HTMLElement) {
+  return (
+    node.classList.contains('print-hint') ||
+    node.classList.contains('lean-overlay') ||
+    node.id.startsWith('materialize-lean-overlay-')
+  )
 }

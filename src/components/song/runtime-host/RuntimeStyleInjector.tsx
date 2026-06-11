@@ -91,27 +91,33 @@ ${rootSelector} [data-public-runtime-dom-mount="true"] {
   min-height: 520px;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] #header,
-${rootSelector} [data-public-runtime-dom-mount="true"] .head-bar {
+${rootSelector} [data-public-runtime-dom-mount] #header,
+${rootSelector} [data-public-runtime-dom-mount] .head-bar,
+${rootSelector} [data-public-runtime-dom-mount] .nav-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .button-collapse {
   display: none !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] #preload {
+${rootSelector} [data-public-runtime-dom-mount] [data-public-runtime-body-append-mount] {
   display: none !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] .flex-body {
+${rootSelector} [data-public-runtime-dom-mount] #preload {
+  display: none !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount] .flex-body {
   display: block;
   width: 100%;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] #sheet {
+${rootSelector} [data-public-runtime-dom-mount] #sheet {
   display: block;
   width: 100%;
   transform-origin: top left;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] {
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] {
   position: relative !important;
   inset: auto !important;
   display: block !important;
@@ -124,7 +130,7 @@ ${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtim
   z-index: 1 !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] .modal-content {
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] .modal-content {
   position: relative !important;
   inset: auto !important;
   height: auto !important;
@@ -132,7 +138,7 @@ ${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtim
   overflow: visible !important;
 }
 
-${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] .modal-footer {
+${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel="open"] .modal-footer {
   position: relative !important;
   inset: auto !important;
   min-height: 56px;

@@ -30,24 +30,27 @@ export default function ContainerRuntimeHost({
   const rootRef = useRef<HTMLDivElement | null>(null)
   const [runtimeDomRoot, setRuntimeDomRoot] = useState<HTMLDivElement | null>(null)
   const controllerRef = useRef<PublicRuntimeHostController | null>(null)
-  const assignRootRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      rootRef.current = node
+  const onHostControllerChangeRef = useRef(onHostControllerChange)
 
-      controllerRef.current?.destroy()
-      controllerRef.current = node ? createContainerRuntimeHostController(node) : null
-      onHostControllerChange?.(controllerRef.current)
-    },
-    [onHostControllerChange]
-  )
+  useEffect(() => {
+    onHostControllerChangeRef.current = onHostControllerChange
+  }, [onHostControllerChange])
+
+  const assignRootRef = useCallback((node: HTMLDivElement | null) => {
+    rootRef.current = node
+
+    controllerRef.current?.destroy()
+    controllerRef.current = node ? createContainerRuntimeHostController(node) : null
+    onHostControllerChangeRef.current?.(controllerRef.current)
+  }, [])
 
   useEffect(() => {
     return () => {
       controllerRef.current?.destroy()
       controllerRef.current = null
-      onHostControllerChange?.(null)
+      onHostControllerChangeRef.current?.(null)
     }
-  }, [onHostControllerChange])
+  }, [])
 
   const dispatchRuntimeReady = useCallback(() => {
     window.dispatchEvent(

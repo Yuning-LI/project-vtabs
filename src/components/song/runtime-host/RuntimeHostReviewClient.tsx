@@ -42,6 +42,7 @@ import SongPageFunctionZone, {
   type SongPageFunctionZoneToggleControl
 } from '../SongPageFunctionZone'
 import ContainerRuntimeHost from './ContainerRuntimeHost'
+import { dispatchContainerRuntimeCommand } from './containerRuntimeTransport'
 
 type RuntimeHostReviewClientProps = {
   songId: string
@@ -174,8 +175,12 @@ export default function RuntimeHostReviewClient({
   const multicastCommand = useCallback(
     (type: string) => {
       const message = { type, songId }
-      const results = (Object.values(hostControllersRef.current) as PublicRuntimeHostController[])
+      const controllers = hostControllersRef.current
+      const results = (Object.values(controllers) as PublicRuntimeHostController[])
         .map(controller => controller.postMessage(message))
+      if (!controllers.container) {
+        results.push(dispatchContainerRuntimeCommand(message))
+      }
       return results.some(Boolean)
     },
     [songId]
