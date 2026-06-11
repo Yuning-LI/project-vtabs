@@ -12,6 +12,8 @@ Already completed:
 - Runtime URL construction is centralized through `buildPublicRuntimeUrl(...)`.
 - The React shell no longer sends playback commands by directly reaching into iframe DOM. It uses `PublicRuntimeHostController`.
 - Runtime-to-shell message intake is centralized through the host-message subscription boundary.
+- Phase 1 host contract hardening is complete: iframe-specific lifecycle and DOM access now live in `src/components/song/runtime-host/IframeRuntimeHost.tsx`, while `PublicRuntimeFrame` is only the shell wrapper.
+- Phase 2 has started: full-document generation and structured runtime package output now live under `src/lib/runtime-core/server/assembly/**`.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -19,9 +21,12 @@ Current important files:
 
 - `src/components/song/PublicRuntimeHostController.ts`
 - `src/components/song/PublicRuntimeFrame.tsx`
+- `src/components/song/runtime-host/IframeRuntimeHost.tsx`
+- `src/components/song/runtime-host/types.ts`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
 - `src/lib/runtime-core/publicRuntimePaths.ts`
 - `src/lib/runtime-core/publicRuntime.ts`
+- `src/lib/runtime-core/server/assembly/**`
 - `src/lib/runtime-core/bridge/**`
 - `src/app/api/kuailepu-runtime/[id]/route.ts`
 
@@ -117,6 +122,8 @@ Potential additions:
 
 ## Phase 1: Host Contract Hardening
 
+Status: complete.
+
 ### Goal
 
 Make the React shell depend only on a runtime-host interface, not iframe details.
@@ -178,6 +185,8 @@ Potentially add:
 
 ## Phase 2: Runtime HTML Assembly Split For Container Use
 
+Status: started.
+
 ### Goal
 
 Make the server assembly layer able to produce both:
@@ -231,7 +240,7 @@ type PublicRuntimePackage = {
   html: string
   styles: PublicRuntimeAsset[]
   scripts: PublicRuntimeAsset[]
-  inlineScripts: string[]
+  inlineScripts: PublicRuntimeInlineScript[]
   contextJson: string
 }
 ```
@@ -978,11 +987,11 @@ If a phase causes public blank sheets, broken playback, or broken instrument swi
 
 ## Recommended Next Engineering Step
 
-Next step should be Phase 1 close-out plus Phase 2 start:
+Next step should continue Phase 2 without executing runtime scripts in a container yet:
 
-1. Move iframe-specific implementation into an explicitly named `IframeRuntimeHost`.
-2. Keep `PublicRuntimeFrame` or a new `PublicRuntimeHostSwitch` as the shell-facing component.
-3. Split server assembly into full-document output and future container package output.
+1. Add focused tests or script checks for `buildPublicRuntimePackageData(...)` resource ordering.
+2. Split payload serialization, context injection, and document wrapper helpers more explicitly if it can be done without changing output.
+3. Keep `/api/kuailepu-runtime/[id]` on the full-document path.
 4. Do not execute runtime scripts in a container until assembly output and asset order are locked.
 
 This keeps the work incremental and prevents a risky direct jump from iframe to full native container execution.
