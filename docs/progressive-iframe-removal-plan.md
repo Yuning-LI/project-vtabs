@@ -365,6 +365,8 @@ Modify:
 
 ## Phase 5: Script Loader And Execution Order Reproduction
 
+Status: complete for the dev-only container route.
+
 ### Goal
 
 Create a client-side loader that can load the authorized runtime scripts in the exact same order as the iframe document.
@@ -375,6 +377,8 @@ Create a client-side loader that can load the authorized runtime scripts in the 
 - Add a deterministic client loader for external and inline scripts.
 - Ensure each script completes before the next starts when order matters.
 - Keep this loader dev-only.
+- Preserve the mixed external / inline order from the original document, rather than loading grouped external scripts first.
+- Preserve non-executable template scripts such as `type="text/html"` as DOM script nodes without executing their contents.
 
 ### Files
 
@@ -382,11 +386,14 @@ Add:
 
 - `src/lib/runtime-core/client/scriptLoader.ts`
 - `src/components/song/runtime-host/RuntimeScriptLoader.tsx`
+- `src/lib/runtime-core/runtimeScriptTypes.ts`
 
 Modify:
 
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
 - `src/lib/runtime-core/server/assembly/publicRuntimeAssetManifest.ts`
+- `src/lib/runtime-core/server/assembly/publicRuntimePackage.ts`
+- `src/app/dev/runtime-host/[id]/page.tsx`
 
 ### Forbidden
 
@@ -398,7 +405,8 @@ Modify:
 
 - Loader logs ordered script load events in dev.
 - Repeated mount/unmount does not duplicate script tags unless intentionally allowed.
-- Loader can be disabled instantly.
+- Loader can be disabled instantly through `enableScriptLoader`.
+- Public `/song/<slug>` still uses the iframe host and does not mount `RuntimeScriptLoader`.
 
 ### Risks And Mitigation
 

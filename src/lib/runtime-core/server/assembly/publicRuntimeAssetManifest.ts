@@ -1,3 +1,5 @@
+import type { RuntimeScriptEntry } from '../../runtimeScriptTypes.ts'
+
 export type PublicRuntimeAssetKind = 'style' | 'script'
 
 export type PublicRuntimeAsset = {
@@ -15,13 +17,15 @@ export type PublicRuntimeAssetManifest = {
   styles: PublicRuntimeAsset[]
   scripts: PublicRuntimeAsset[]
   inlineScripts: PublicRuntimeInlineScript[]
+  scriptEntries: RuntimeScriptEntry[]
 }
 
 export function extractPublicRuntimeAssetManifest(html: string): PublicRuntimeAssetManifest {
   return {
     styles: extractExternalStyles(html),
     scripts: extractExternalScripts(html),
-    inlineScripts: extractInlineScripts(html)
+    inlineScripts: extractInlineScripts(html),
+    scriptEntries: extractScriptEntries(html)
   }
 }
 
@@ -71,4 +75,73 @@ function extractInlineScripts(html: string): PublicRuntimeInlineScript[] {
   }
 
   return scripts
+}
+
+function extractScriptEntries(html: string): RuntimeScriptEntry[] {
+  const scriptPattern = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi
+  const srcPattern = /\bsrc="([^"]+)"/i
+  const entries: RuntimeScriptEntry[] = []
+  let order = 0
+
+  for (const match of html.matchAll(scriptPattern)) {
+    const tagHtml = match[0]
+    const attributes = match[1] ?? ''
+    const srcMatch = attributes.match(srcPattern)
+    const parsedAttributes = parseTagAttributes(attributes)
+    const executable = isExecutableScriptType(parsedAttributes.type)
+
+    if (srcMatch?.[1]) {
+      entries.push({
+        kind: 'script',
+        mode: 'external',
+        order,
+        src: srcMatch[1],
+        tagHtml,
+        attributes: parsedAttributes,
+        executable
+      })
+    } else {
+      entries.push({
+        mode: 'inline',
+        order,
+        tagHtml,
+        content: match[2] ?? '',
+        attributes: parsedAttributes,
+        executable
+      })
+    }
+    order += 1
+  }
+
+  return entries
+}
+
+function parseTagAttributes(rawAttributes: string): Record<string, string> {
+  const attributes: Record<string, string> = {}
+  const attributePattern = /([^\s=/"'>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g
+
+  for (const match of rawAttributes.matchAll(attributePattern)) {
+    const name = match[1]?.toLowerCase()
+    if (!name) {
+      continue
+    }
+    attributes[name] = match[2] ?? match[3] ?? match[4] ?? ''
+  }
+
+  return attributes
+}
+
+function isExecutableScriptType(type: string | undefined) {
+  if (!type) {
+    return true
+  }
+
+  const normalized = type.trim().toLowerCase()
+  return (
+    normalized === 'text/javascript' ||
+    normalized === 'application/javascript' ||
+    normalized === 'application/ecmascript' ||
+    normalized === 'text/ecmascript' ||
+    normalized === 'module'
+  )
 }

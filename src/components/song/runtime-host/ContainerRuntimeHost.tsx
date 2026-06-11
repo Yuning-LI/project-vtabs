@@ -5,6 +5,7 @@ import type {
   ContainerRuntimeHostProps,
   PublicRuntimeHostController
 } from './types'
+import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
 
 /**
@@ -17,6 +18,8 @@ export default function ContainerRuntimeHost({
   songId,
   title,
   styleAssets = [],
+  scriptEntries = [],
+  enableScriptLoader = false,
   className,
   onHostControllerChange
 }: ContainerRuntimeHostProps) {
@@ -63,15 +66,23 @@ export default function ContainerRuntimeHost({
           {title}
         </h2>
         <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-stone-600">
-          This panel is a React-owned DOM container. Runtime scripts are intentionally not loaded in
-          this phase, so no sheet should render here yet.
+          This panel is a React-owned DOM container. Runtime scripts are loaded only for order
+          reproduction in this phase, so no sheet should render here yet.
         </p>
         <dl className="mt-6 grid gap-3 text-left text-sm md:grid-cols-3">
           <RuntimeHostFact label="Host mode" value="container skeleton" />
-          <RuntimeHostFact label="Runtime JS" value="disabled" />
+          <RuntimeHostFact
+            label="Runtime JS"
+            value={enableScriptLoader ? `${scriptEntries.length} ordered entries` : 'disabled'}
+          />
           <RuntimeHostFact label="Runtime CSS" value={styleAssets.length > 0 ? 'scoped' : 'disabled'} />
           <RuntimeHostFact label="Song" value={songId} />
         </dl>
+        <RuntimeScriptLoader
+          entries={scriptEntries}
+          enabled={enableScriptLoader}
+          label={`runtime-host:${songId}`}
+        />
       </div>
     </div>
   )

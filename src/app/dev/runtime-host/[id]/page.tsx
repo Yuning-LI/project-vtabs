@@ -16,7 +16,7 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
 
   return {
     title: `${song?.title ?? params.id} Runtime Host Review`,
-    description: 'Internal iframe-to-container runtime host skeleton review.',
+    description: 'Internal iframe-to-container runtime host loader review.',
     robots: {
       index: false,
       follow: false
@@ -69,8 +69,9 @@ export default function RuntimeHostReviewPage({ params }: { params: { id: string
           </div>
           <h1 className="mt-2 text-3xl font-black tracking-tight">{song.title}</h1>
           <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#6b543c]">
-            Left side is the current iframe baseline. Right side is the Phase 3 React container
-            skeleton. The skeleton must not execute runtime JavaScript in this phase.
+            Left side is the current iframe baseline. Right side is the React container host with
+            scoped CSS and dev-only ordered script loading. The container must not render the sheet
+            until the bootstrap phase.
           </p>
         </section>
 
@@ -93,6 +94,8 @@ export default function RuntimeHostReviewPage({ params }: { params: { id: string
               songId={song.slug}
               title={song.title}
               styleAssets={runtimePackage.styles}
+              scriptEntries={runtimePackage.scriptEntries}
+              enableScriptLoader
             />
           </ReviewPanel>
         </div>

@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
 
 export type PublicRuntimeHostController = {
   hostElement: HTMLElement
@@ -53,6 +54,8 @@ export type ContainerRuntimeHostProps = {
   styleAssets?: Array<{
     src: string
   }>
+  scriptEntries?: RuntimeScriptEntry[]
+  enableScriptLoader?: boolean
   className?: string
   onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
 }
