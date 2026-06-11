@@ -30,12 +30,17 @@ export default function RuntimeScriptLoader({
 }: RuntimeScriptLoaderProps) {
   const mountRef = useRef<HTMLDivElement | null>(null)
   const sessionRef = useRef(0)
+  const onRuntimeReadyRef = useRef(onRuntimeReady)
   const componentId = useId()
   const [status, setStatus] = useState<'disabled' | 'idle' | 'loading' | 'loaded' | 'error'>(
     enabled ? 'idle' : 'disabled'
   )
   const [loadedCount, setLoadedCount] = useState(0)
   const [capturedGlobalNames, setCapturedGlobalNames] = useState<string[]>([])
+
+  useEffect(() => {
+    onRuntimeReadyRef.current = onRuntimeReady
+  }, [onRuntimeReady])
 
   useEffect(() => {
     const mount = mountRef.current
@@ -53,56 +58,68 @@ export default function RuntimeScriptLoader({
     setLoadedCount(0)
     setCapturedGlobalNames([])
     let bootstrapController: PublicRuntimeContainerBootstrapController | null = null
-    if (bodyHtml) {
-      bootstrapController = bootstrapPublicRuntimeContainer({
-        root: runtimeRoot,
-        bodyHtml
-      })
-    }
-    const scriptMount = bootstrapController?.mountElement ?? mount
-    if (!bootstrapController) {
-      scriptMount.replaceChildren()
-    }
+    let controller: ReturnType<typeof loadRuntimeScriptsInOrder> | null = null
 
-    const controller = loadRuntimeScriptsInOrder({
-      entries,
-      mount: scriptMount,
-      log(event) {
-        if (sessionRef.current !== session) {
-          return
-        }
-        logRuntimeScriptEvent(label, event)
-        if (event.phase === 'loaded' || event.phase === 'executed') {
-          setLoadedCount(current => Math.max(current, event.index + 1))
-        }
-        if (event.phase === 'globals-captured') {
-          setCapturedGlobalNames(Object.keys(controller.registry.globals).sort())
-        }
+    const startTimer = window.setTimeout(() => {
+      if (sessionRef.current !== session) {
+        return
       }
-    })
 
-    controller.done
-      .then(() => {
-        if (sessionRef.current === session) {
-          bootstrapController?.ensureStarted()
-          onRuntimeReady?.()
-          setStatus('loaded')
+      runtimeRoot.replaceChildren()
+      if (bodyHtml) {
+        bootstrapController = bootstrapPublicRuntimeContainer({
+          root: runtimeRoot,
+          bodyHtml
+        })
+      }
+      const scriptMount = bootstrapController?.mountElement ?? mount
+      if (!bootstrapController) {
+        scriptMount.replaceChildren()
+      }
+
+      controller = loadRuntimeScriptsInOrder({
+        entries,
+        mount: scriptMount,
+        isCancelled() {
+          return sessionRef.current !== session
+        },
+        log(event) {
+          if (sessionRef.current !== session) {
+            return
+          }
+          logRuntimeScriptEvent(label, event)
+          if (event.phase === 'loaded' || event.phase === 'executed') {
+            setLoadedCount(current => Math.max(current, event.index + 1))
+          }
+          if (event.phase === 'globals-captured' && controller) {
+            setCapturedGlobalNames(Object.keys(controller.registry.globals).sort())
+          }
         }
       })
-      .catch(error => {
-        if (sessionRef.current === session) {
-          console.error(`[${label}] runtime script loader failed`, error)
-          setStatus('error')
-        }
-      })
+
+      controller.done
+        .then(() => {
+          if (sessionRef.current === session) {
+            bootstrapController?.ensureStarted()
+            onRuntimeReadyRef.current?.()
+            setStatus('loaded')
+          }
+        })
+        .catch(error => {
+          if (sessionRef.current === session) {
+            console.error(`[${label}] runtime script loader failed`, error)
+            setStatus('error')
+          }
+        })
+    }, 0)
 
     return () => {
-      controller.cancel()
-      mount.replaceChildren()
+      window.clearTimeout(startTimer)
+      controller?.cancel()
       bootstrapController?.dispose()
       setCapturedGlobalNames([])
     }
-  }, [bodyHtml, enabled, entries, label, onRuntimeReady, runtimeRoot])
+  }, [bodyHtml, enabled, entries, label, runtimeRoot])
 
   return (
     <div

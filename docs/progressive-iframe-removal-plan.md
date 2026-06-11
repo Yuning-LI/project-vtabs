@@ -545,7 +545,7 @@ For `twinkle-twinkle-little-star` on a dev-only container route:
 
 ## Phase 8: Bridge Transport Parity
 
-Status: foundation complete; full shell-control parity remains in progress.
+Status: dev comparison shell-control parity complete for the initial interaction set; manual deep QA remains.
 
 ### Goal
 
@@ -579,6 +579,9 @@ Implemented foundation:
 - Container host `postMessage(...)` now forwards normalized shell commands into the runtime window message channel and a container custom event.
 - Both iframe bridge and container bridge can emit `vtabs-runtime-ready`.
 - Runtime bridge accepts a normalized redraw command.
+- `/dev/runtime-host/[id]` now mounts the shared function-zone controls above the iframe/container comparison.
+- Dev controls drive both hosts through normalized host controllers for Listen/Stop, redraw, and URL-state remount controls such as instrument, fingering, layout, zoom, metronome, and visual theme.
+- `RuntimeScriptLoader` keeps its runtime bootstrap stable across React development remounts by using a stable ready callback ref and session cancellation guard.
 
 ### Files
 
@@ -593,6 +596,7 @@ Potentially add:
 
 - `src/components/song/runtime-host/publicRuntimeHostMessages.ts`
 - `src/components/song/runtime-host/containerRuntimeTransport.ts`
+- `src/components/song/runtime-host/RuntimeHostReviewClient.tsx`
 
 ### Forbidden
 

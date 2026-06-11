@@ -42,6 +42,7 @@ export type LoadRuntimeScriptsOptions = {
   entries: RuntimeScriptEntry[]
   mount: HTMLElement
   nonce?: string
+  isCancelled?: () => boolean
   log?: (event: RuntimeScriptLoadEvent) => void
 }
 
@@ -49,6 +50,7 @@ export function loadRuntimeScriptsInOrder({
   entries,
   mount,
   nonce,
+  isCancelled,
   log
 }: LoadRuntimeScriptsOptions): RuntimeScriptLoadController {
   let cancelled = false
@@ -58,14 +60,23 @@ export function loadRuntimeScriptsInOrder({
 
   const done = (async () => {
     for (const [index, entry] of entries.entries()) {
-      if (cancelled || !mount.isConnected) {
+      if (cancelled || isCancelled?.() || !mount.isConnected) {
         emit(log, entry, index, total, 'cancelled')
         break
       }
 
       try {
         if (entry.mode === 'external') {
-          await loadExternalScript({ entry, index, total, mount, nonce, ownedScripts, log })
+          await loadExternalScript({
+            entry,
+            index,
+            total,
+            mount,
+            nonce,
+            ownedScripts,
+            isCancelled: () => cancelled || Boolean(isCancelled?.()),
+            log
+          })
         } else {
           executeInlineScript({ entry, index, total, mount, nonce, ownedScripts, log })
         }
@@ -75,8 +86,10 @@ export function loadRuntimeScriptsInOrder({
       }
     }
 
-    registry.captureRuntimeGlobals()
-    emitGlobalRegistryEvent(log, entries, total, 'globals-captured', registry)
+    if (!cancelled && !isCancelled?.()) {
+      registry.captureRuntimeGlobals()
+      emitGlobalRegistryEvent(log, entries, total, 'globals-captured', registry)
+    }
   })()
 
   return {
@@ -104,6 +117,7 @@ async function loadExternalScript({
   mount,
   nonce,
   ownedScripts,
+  isCancelled,
   log
 }: {
   entry: RuntimeExternalScriptEntry
@@ -112,6 +126,7 @@ async function loadExternalScript({
   mount: HTMLElement
   nonce?: string
   ownedScripts: Set<HTMLScriptElement>
+  isCancelled: () => boolean
   log?: (event: RuntimeScriptLoadEvent) => void
 }) {
   emit(log, entry, index, total, 'start', entry.src)
@@ -138,6 +153,11 @@ async function loadExternalScript({
     script.addEventListener(
       'load',
       () => {
+        if (isCancelled()) {
+          emit(log, entry, index, total, 'cancelled', entry.src)
+          resolve()
+          return
+        }
         emit(log, entry, index, total, 'loaded', entry.src)
         resolve()
       },
