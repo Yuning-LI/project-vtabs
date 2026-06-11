@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import RuntimeHostReviewClient from '@/components/song/runtime-host/RuntimeHostReviewClient'
 import {
+  buildPublicRuntimeLetterTrackData,
   buildPublicRuntimePackageData,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
@@ -9,6 +10,7 @@ import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import type { PublicRuntimePublicFeature, PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import { getSupportedPublicSongInstruments } from '@/lib/songbook/publicInstruments'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
+import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 import { parseSongPageQueryStateFromSearchParams } from '@/lib/songbook/songPageQueryState'
 
 export const dynamic = 'force-dynamic'
@@ -59,10 +61,20 @@ export default function RuntimeHostReviewPage({
     ...(queryState.practiceTool === 'metronome' ? (['metronome'] as const) : [])
   ]
   const visualThemeName = queryState.runtimeVisualTheme === 'off' ? 'off' : 'classic'
+  const runtimeNotationSong = songCatalogBySlug[params.id] ?? loadImportedOrCandidateSongDoc(params.id)
+  const letterTrack = buildPublicRuntimeLetterTrackData({
+    notation: runtimeNotationSong?.notation,
+    rawNotation: typeof runtimePayload.notation === 'string' ? runtimePayload.notation : null,
+    key: runtimeNotationSong?.meta?.key,
+    mode: runtimeState.note_label_mode,
+    payload: runtimePayload,
+    state: runtimeState
+  })
   const runtimePackage = buildPublicRuntimePackageData({
     songId: song.slug,
     payload: runtimePayload,
     state: runtimeState,
+    letterTrack,
     textMode: 'english',
     assetProfile: 'public-song',
     publicFeatures,

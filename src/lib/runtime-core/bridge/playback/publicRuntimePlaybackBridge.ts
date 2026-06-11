@@ -11,6 +11,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var observedPlaybackPanel = null;
   var publicPlaybackSessionStarted = false;
   var publicPlaybackStatusLockUntil = 0;
+  var publicPlaybackPanelRequestId = 0;
 
   function setLabelText(inputId, text) {
     var label = document.querySelector('label[for="' + inputId + '"]');
@@ -370,6 +371,50 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     );
   }
 
+  function openPublicPlaybackPanelFallback(playModal) {
+    if (!playModal) {
+      return;
+    }
+
+    playModal.setAttribute('data-public-runtime-container-panel', 'open');
+    playModal.style.display = 'block';
+    playModal.style.opacity = '1';
+    playModal.style.transform = 'none';
+    playModal.style.top = 'auto';
+    playModal.style.left = 'auto';
+    playModal.style.right = 'auto';
+    playModal.style.bottom = 'auto';
+    playModal.style.width = '100%';
+    playModal.style.maxHeight = 'none';
+    playModal.style.height = 'auto';
+
+    var modalContent = playModal.querySelector('.modal-content');
+    if (modalContent && modalContent.style) {
+      modalContent.style.position = 'relative';
+      modalContent.style.top = 'auto';
+      modalContent.style.bottom = 'auto';
+      modalContent.style.height = 'auto';
+      modalContent.style.maxHeight = 'none';
+      modalContent.style.overflow = 'visible';
+    }
+
+    var modalFooter = playModal.querySelector('.modal-footer');
+    if (modalFooter && modalFooter.style) {
+      modalFooter.style.position = 'relative';
+      modalFooter.style.top = 'auto';
+      modalFooter.style.bottom = 'auto';
+      modalFooter.style.height = 'auto';
+    }
+  }
+
+  function closePublicPlaybackPanelFallback(playModal) {
+    if (!playModal) {
+      return;
+    }
+
+    playModal.removeAttribute('data-public-runtime-container-panel');
+  }
+
   function postPublicPlaybackPanelStatus() {
     if (!window.parent) {
       return;
@@ -606,6 +651,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
+    publicPlaybackPanelRequestId += 1;
     var playModal = document.getElementById('play-modal');
     if (!playModal) {
       postPublicPlaybackPanelStatus();
@@ -622,6 +668,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     playModal.style.display = 'none';
+    closePublicPlaybackPanelFallback(playModal);
     postPublicPlaybackPanelStatus();
   }
 
@@ -630,6 +677,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
+    var playbackPanelOpenRequestId = publicPlaybackPanelRequestId + 1;
+    publicPlaybackPanelRequestId = playbackPanelOpenRequestId;
     localizePublicPlayback();
 
     var playButton = document.getElementById('play-btn');
@@ -645,6 +694,14 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       } else {
         playModal.style.display = 'block';
       }
+      window.setTimeout(function () {
+        if (playbackPanelOpenRequestId !== publicPlaybackPanelRequestId) {
+          return;
+        }
+        if (!isPublicPlaybackPanelOpen()) {
+          openPublicPlaybackPanelFallback(playModal);
+        }
+      }, 30);
       window.setTimeout(localizePublicPlayback, 80);
       [40, 120].forEach(function (delay) {
         window.setTimeout(postPublicPlaybackPanelStatus, delay);
@@ -666,7 +723,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     [120, 500, 1200, 2200].forEach(function (delay) {
       window.setTimeout(function () {
+        if (playbackPanelOpenRequestId !== publicPlaybackPanelRequestId) {
+          return;
+        }
         localizePublicPlayback();
+        if (!isPublicPlaybackPanelOpen()) {
+          openPublicPlaybackPanelFallback(playModal);
+        }
         if (!publicPlaybackSessionStarted) {
           postPublicPlaybackStatus();
         }
@@ -688,6 +751,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     publicPlaybackSessionStarted = false;
     publicPlaybackStatusLockUntil = 0;
+    publicPlaybackPanelRequestId += 1;
 
     if (!playButton.classList.contains('icon-stop2')) {
       if (cancelPublicPlaybackCountdown()) {
@@ -698,6 +762,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       var pendingModal = document.getElementById('play-modal');
       if (pendingModal) {
         pendingModal.style.display = 'none';
+        closePublicPlaybackPanelFallback(pendingModal);
         postPublicPlaybackPanelStatus();
       }
       return;
@@ -716,6 +781,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     } else if (playModal) {
       playModal.style.display = 'none';
     }
+    closePublicPlaybackPanelFallback(playModal);
 
     [40, 160, 500].forEach(function (delay) {
       window.setTimeout(function () {

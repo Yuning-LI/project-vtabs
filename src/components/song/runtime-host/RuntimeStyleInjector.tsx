@@ -110,5 +110,33 @@ ${rootSelector} [data-public-runtime-dom-mount="true"] #sheet {
   width: 100%;
   transform-origin: top left;
 }
+
+${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] {
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  width: 100% !important;
+  max-height: none !important;
+  height: auto !important;
+  margin: 18px 0 0 !important;
+  opacity: 1 !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] .modal-content {
+  position: relative !important;
+  inset: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+${rootSelector} [data-public-runtime-dom-mount="true"] .modal[data-public-runtime-container-panel="open"] .modal-footer {
+  position: relative !important;
+  inset: auto !important;
+  min-height: 56px;
+  height: auto !important;
+}
 `
 }
