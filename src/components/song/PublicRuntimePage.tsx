@@ -6,7 +6,12 @@ import type {
   PublicSongPageQueryState,
   PublicSongInstrument
 } from '@/lib/songbook/publicInstruments'
+import type {
+  PublicRuntimeHostMode,
+  PublicRuntimeHostModeSource
+} from '@/lib/runtime-core/publicRuntimeHostMode'
 import PublicRuntimeInteractiveShell, {
+  type PublicRuntimeContainerPackagePayload,
   type PublicRuntimeControlPayload
 } from './PublicRuntimeInteractiveShell'
 
@@ -20,6 +25,10 @@ type PublicRuntimePageProps = {
   runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
+  runtimeHostMode?: PublicRuntimeHostMode
+  runtimeHostModeSource?: PublicRuntimeHostModeSource
+  runtimeHostQueryFlag?: boolean
+  containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
   pageBasePath?: string
@@ -38,6 +47,10 @@ export default function PublicRuntimePage({
   runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
   hasLyricToggle,
+  runtimeHostMode,
+  runtimeHostModeSource,
+  runtimeHostQueryFlag,
+  containerRuntimePackage,
   relatedSongs,
   relatedGuides,
   pageBasePath,
@@ -65,6 +78,10 @@ export default function PublicRuntimePage({
           runtimeDefaultFingeringIndex={runtimeDefaultFingeringIndex}
           runtimeDefaultShowGraph={runtimeDefaultShowGraph}
           hasLyricToggle={hasLyricToggle}
+          runtimeHostMode={runtimeHostMode}
+          runtimeHostModeSource={runtimeHostModeSource}
+          runtimeHostQueryFlag={runtimeHostQueryFlag}
+          containerRuntimePackage={containerRuntimePackage}
           pageBasePath={pageBasePath}
           runtimeApiBasePath={runtimeApiBasePath}
           backHref={backHref}

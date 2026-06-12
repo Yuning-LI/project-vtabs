@@ -65,6 +65,7 @@ export default function PublicRuntimeFrame({
         'page-warm-panel relative overflow-hidden'
       }
       style={panelStyle}
+      data-public-runtime-host-mode="iframe"
     >
       <IframeRuntimeHost
         songId={songId}

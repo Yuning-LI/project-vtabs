@@ -25,6 +25,8 @@ import {
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
 import PublicRuntimeFrame from './PublicRuntimeFrame'
+import ContainerRuntimeHost from './runtime-host/ContainerRuntimeHost'
+import PublicRuntimeHostSwitch from './runtime-host/PublicRuntimeHostSwitch'
 import {
   subscribeToPublicRuntimeHostMessages,
   type PublicRuntimeHostController
@@ -46,6 +48,12 @@ import {
   buildPublicRuntimeUrl,
   PUBLIC_RUNTIME_API_BASE_PATH
 } from '@/lib/runtime-core/publicRuntimePaths'
+import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
+import {
+  normalizePublicRuntimeHostMode,
+  type PublicRuntimeHostMode,
+  type PublicRuntimeHostModeSource
+} from '@/lib/runtime-core/publicRuntimeHostMode'
 
 export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
@@ -73,6 +81,14 @@ export type PublicRuntimeControlPayload = {
   sheetScaleList?: number[]
 }
 
+export type PublicRuntimeContainerPackagePayload = {
+  bodyHtml: string
+  styles: Array<{
+    src: string
+  }>
+  scriptEntries: RuntimeScriptEntry[]
+}
+
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 
 type PublicRuntimeInteractiveShellProps = {
@@ -85,6 +101,10 @@ type PublicRuntimeInteractiveShellProps = {
   runtimeDefaultFingeringIndex: string | number | null
   runtimeDefaultShowGraph: string | null
   hasLyricToggle: boolean
+  runtimeHostMode?: PublicRuntimeHostMode
+  runtimeHostModeSource?: PublicRuntimeHostModeSource
+  runtimeHostQueryFlag?: boolean
+  containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
   pageBasePath?: string
   runtimeApiBasePath?: string
   backHref?: string
@@ -102,6 +122,10 @@ export default function PublicRuntimeInteractiveShell({
   runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
   hasLyricToggle,
+  runtimeHostMode = 'iframe',
+  runtimeHostModeSource = 'default',
+  runtimeHostQueryFlag = false,
+  containerRuntimePackage = null,
   pageBasePath = '/song',
   runtimeApiBasePath = PUBLIC_RUNTIME_API_BASE_PATH,
   backHref = '/',
@@ -204,7 +228,8 @@ export default function PublicRuntimeInteractiveShell({
         runtimeControlPayload.sheetScaleList
       ),
       practiceTool: normalizePracticeTool(currentQueryState.practiceTool),
-      runtimeVisualTheme: currentQueryState.runtimeVisualTheme === 'off' ? 'off' : null
+      runtimeVisualTheme: currentQueryState.runtimeVisualTheme === 'off' ? 'off' : null,
+      runtimeHost: normalizePublicRuntimeHostMode(currentQueryState.runtimeHost)
     }),
     [
       activeInstrument.id,
@@ -215,6 +240,10 @@ export default function PublicRuntimeInteractiveShell({
       runtimeControlPayload.sheetScaleList
     ]
   )
+  const canUseContainerHost = runtimeHostMode === 'container' && Boolean(containerRuntimePackage)
+  const activeRuntimeHostMode: PublicRuntimeHostMode = canUseContainerHost ? 'container' : 'iframe'
+  const shouldEnablePlaybackRuntimeFeature =
+    activeRuntimeHostMode === 'container' || isPlaybackFeatureEnabled
   const noteLabelMode =
     normalizedQueryState.noteLabelMode === 'number' ||
     normalizedQueryState.noteLabelMode === 'graph'
@@ -339,14 +368,13 @@ export default function PublicRuntimeInteractiveShell({
     if (normalizedQueryState.practiceTool === 'metronome') {
       next.append('public_feature', 'metronome')
     }
-    if (isPlaybackFeatureEnabled) {
+    if (shouldEnablePlaybackRuntimeFeature) {
       next.append('public_feature', 'playback')
     }
     return next
   }, [
     activeInstrument.id,
     controlConfig.activeGraphValue,
-    isPlaybackFeatureEnabled,
     normalizedQueryState,
     noteLabelMode,
     runtimeInitialFingeringIndex,
@@ -354,6 +382,7 @@ export default function PublicRuntimeInteractiveShell({
     runtimeDefaultSheetScale,
     runtimeDefaultShowLyric,
     runtimeDefaultShowMeasureNum,
+    shouldEnablePlaybackRuntimeFeature,
     shouldPinDefaultGraphDirection,
     shouldPinDefaultInstrument
   ])
@@ -362,6 +391,7 @@ export default function PublicRuntimeInteractiveShell({
     basePath: runtimeApiBasePath,
     params
   })
+  const runtimeHostSessionKey = `${activeRuntimeHostMode}:${frameSrc}`
   const loadingId = `public-runtime-${songId}-loading`
   const pageHref = useCallback(
     (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
@@ -375,11 +405,11 @@ export default function PublicRuntimeInteractiveShell({
 
   useEffect(() => {
     setIsPlaybackPanelOpen(false)
-  }, [frameSrc])
+  }, [runtimeHostSessionKey])
 
   useEffect(() => {
     onRuntimeFrameReadyChange?.(false)
-  }, [frameSrc, onRuntimeFrameReadyChange])
+  }, [onRuntimeFrameReadyChange, runtimeHostSessionKey])
 
   useEffect(() => {
     if (playbackStatus !== 'loading') {
@@ -496,6 +526,11 @@ export default function PublicRuntimeInteractiveShell({
 
     const nextUrl = new URL(href, window.location.origin)
     if (nextUrl.pathname !== `${pageBasePath}/${songId}`) {
+      window.location.replace(nextUrl.toString())
+      return
+    }
+
+    if (activeRuntimeHostMode === 'container') {
       window.location.replace(nextUrl.toString())
       return
     }
@@ -626,7 +661,9 @@ export default function PublicRuntimeInteractiveShell({
 
     if (!isPlaybackFeatureEnabled) {
       setIsPlaybackFeatureEnabled(true)
-      return
+      if (activeRuntimeHostMode !== 'container') {
+        return
+      }
     }
 
     if (postPlaybackCommandMessage('open')) {
@@ -634,6 +671,7 @@ export default function PublicRuntimeInteractiveShell({
     }
   }, [
     activeInstrument.id,
+    activeRuntimeHostMode,
     isPlaybackFeatureEnabled,
     noteLabelMode,
     playbackStatus,
@@ -646,7 +684,10 @@ export default function PublicRuntimeInteractiveShell({
   const handleRuntimeFrameLoad = useCallback(() => {
     onRuntimeFrameReadyChange?.(true)
 
-    if (!pendingPlaybackOpenRef.current || !isPlaybackFeatureEnabled) {
+    if (
+      !pendingPlaybackOpenRef.current ||
+      (activeRuntimeHostMode !== 'container' && !isPlaybackFeatureEnabled)
+    ) {
       return
     }
 
@@ -655,7 +696,12 @@ export default function PublicRuntimeInteractiveShell({
         pendingPlaybackOpenRef.current = false
       }
     }, 80)
-  }, [isPlaybackFeatureEnabled, onRuntimeFrameReadyChange, postPlaybackCommandMessage])
+  }, [
+    activeRuntimeHostMode,
+    isPlaybackFeatureEnabled,
+    onRuntimeFrameReadyChange,
+    postPlaybackCommandMessage
+  ])
 
   const handleRuntimeHostControllerChange = useCallback(
     (controller: PublicRuntimeHostController | null) => {
@@ -976,19 +1022,45 @@ export default function PublicRuntimeInteractiveShell({
             actions={actions}
             onNavigate={navigateWithinSongPage}
           />
+          <PublicRuntimeHostSwitch
+            songId={songId}
+            activeMode={activeRuntimeHostMode}
+            queryState={normalizedQueryState}
+            pageBasePath={pageBasePath}
+            source={runtimeHostModeSource}
+            isVisible={runtimeHostQueryFlag || activeRuntimeHostMode === 'container'}
+          />
         </div>
       </section>
 
-      <div className="mt-1 md:mt-0">
-        <PublicRuntimeFrame
-          songId={songId}
-          title={title}
-          frameSrc={frameSrc}
-          loadingId={loadingId}
-          initialHeight={320}
-          onHostControllerChange={handleRuntimeHostControllerChange}
-          onFrameLoad={handleRuntimeFrameLoad}
-        />
+      <div className="mt-1 md:mt-0" data-public-runtime-host-mode={activeRuntimeHostMode}>
+        {canUseContainerHost && containerRuntimePackage ? (
+          <ContainerRuntimeHost
+            key={runtimeHostSessionKey}
+            songId={songId}
+            title={title}
+            bodyHtml={containerRuntimePackage.bodyHtml}
+            styleAssets={containerRuntimePackage.styles}
+            scriptEntries={containerRuntimePackage.scriptEntries}
+            enableScriptLoader
+            className="page-warm-panel relative overflow-hidden"
+            loadingId={loadingId}
+            initialHeight={320}
+            showScriptDiagnostics={false}
+            onHostControllerChange={handleRuntimeHostControllerChange}
+            onRuntimeReady={handleRuntimeFrameLoad}
+          />
+        ) : (
+          <PublicRuntimeFrame
+            songId={songId}
+            title={title}
+            frameSrc={frameSrc}
+            loadingId={loadingId}
+            initialHeight={320}
+            onHostControllerChange={handleRuntimeHostControllerChange}
+            onFrameLoad={handleRuntimeFrameLoad}
+          />
+        )}
       </div>
     </>
   )

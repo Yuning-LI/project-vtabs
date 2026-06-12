@@ -23,7 +23,7 @@ Already completed:
 - Phase 3 dev-only container host skeleton is complete: `/dev/runtime-host/<slug>` shows the iframe baseline next to a React-owned inert container.
 - Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
 - Phase 8 bridge transport parity is complete on the dev comparison route: playback, playback panel state, metronome, visual theme, instrument/fingering remounts, and readiness diagnostics now work through the normalized host controller boundary.
-- Phase 9 is the next active boundary: layout, resize, and lifecycle parity for the container host before any public host switch.
+- Phase 11 query-flagged public host selection is complete: public `/song` still defaults to iframe, while `runtime_host=container` can opt into the container host for parity review.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -861,6 +861,8 @@ Phase 10 validation record:
 
 ## Phase 11: Query-Flagged Public Container Host
 
+Status: complete for query-flagged public song pages.
+
 ### Goal
 
 Expose the container host on public `/song/<slug>` only behind an explicit opt-in query flag.
@@ -871,47 +873,60 @@ Add host mode selection:
 
 - default: `iframe`
 - opt-in: `container`
+- force fallback: `iframe`
 
 Possible query:
 
 ```text
 ?runtime_host=container
+?runtime_host=iframe
 ```
 
 Possible environment override:
 
 ```text
 NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe
+NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container
 ```
 
 ### Execution Checklist
 
 Step 1: Public opt-in host mode
 
-- Change Scope: add an explicit host mode selector for public song pages while keeping iframe as the default.
+- Change Scope: add `src/lib/runtime-core/publicRuntimeHostMode.ts`, parse `runtime_host`, preserve it in public song query-state links, and resolve query before environment before iframe default.
 - Validation: `/song/twinkle-twinkle-little-star` uses iframe; `/song/twinkle-twinkle-little-star?runtime_host=container` uses the container host; removing the query returns to iframe.
-- Risk: an opt-in query can leak into public navigation. Mitigate by documenting whether controls preserve or drop the query and by keeping the canonical URL unchanged.
+- Risk: an opt-in query can leak into public navigation. Mitigate by preserving the query only while the flagged session is active, keeping canonical URL unchanged, and exposing `runtime_host=iframe` as the immediate rollback query.
 
 Step 2: Fallback controls
 
-- Change Scope: keep query and environment fallback paths that force iframe.
+- Change Scope: add `PublicRuntimeHostSwitch` and pass the resolved host mode through `PublicRuntimePage` into `PublicRuntimeInteractiveShell`; keep the switch visible only for flagged or container sessions.
 - Validation: force iframe after a container render and confirm controls, playback, metronome, and note modes still work.
-- Risk: fallback may be unavailable during an incident if it is not exercised. Mitigate by checking it in every public opt-in validation pass.
+- Risk: fallback may be unavailable during an incident if it is not exercised. Mitigate by checking `runtime_host=iframe` in every public opt-in validation pass.
 
 Step 3: Indexing guard
 
-- Change Scope: ensure experimental host query pages do not create a separate SEO surface.
-- Validation: confirm canonical behavior and any noindex handling required for host-debug URLs.
+- Change Scope: update `/song/[id]` metadata so any `runtime_host` query keeps the canonical song URL and emits noindex/nofollow.
+- Validation: inspect the rendered metadata for `runtime_host=container` and `runtime_host=iframe`.
 - Risk: search engines can retain experimental URLs. Mitigate with unchanged canonical URLs and conservative metadata for host-debug queries.
+
+Step 4: Container package handoff
+
+- Change Scope: when the resolved host is container, build the same public runtime package shape used by the internal review host and pass only body HTML, scoped styles, and script entries into the client shell.
+- Validation: container mode renders a sheet, clears loading, supports metronome and playback, and keeps one active runtime DOM root after control changes.
+- Risk: client-only query replacement cannot rebuild a server-created package. Mitigate by using full route navigation for public controls while the container host is active.
 
 ### Files
 
-Modify:
+Modified:
 
+- `src/app/song/[id]/page.tsx`
+- `src/components/song/PublicRuntimePage.tsx`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
 - `src/components/song/PublicRuntimeFrame.tsx`
+- `src/lib/songbook/publicInstruments.ts`
+- `src/lib/songbook/songPageQueryState.ts`
 
-Add:
+Added:
 
 - `src/components/song/runtime-host/PublicRuntimeHostSwitch.tsx`
 - `src/lib/runtime-core/publicRuntimeHostMode.ts`
@@ -926,13 +941,29 @@ Add:
 
 - `/song/twinkle-twinkle-little-star` uses iframe.
 - `/song/twinkle-twinkle-little-star?runtime_host=container` uses container.
-- Removing the query returns to iframe.
-- All feature controls preserve or intentionally drop the host query according to documented behavior.
+- `/song/twinkle-twinkle-little-star?runtime_host=iframe` forces iframe.
+- Removing the query returns to iframe unless `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` is set for an experimental environment.
+- All feature controls preserve the explicit host query; container-mode control changes use full route navigation so the server-built package matches the new query state.
+- Host-query pages emit noindex/nofollow and keep the canonical song URL.
+
+Phase 11 validation record:
+
+- `npm run typecheck` passed.
+- Browser validation covered default iframe, `runtime_host=container`, `runtime_host=iframe`, noindex metadata, query preservation through controls, and metronome/playback smoke checks on the public song shell.
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` was checked on a local experimental dev server; the default host switched to container and `runtime_host=iframe` still forced iframe.
+- A production `next start` smoke check confirmed `runtime_host=container` still selects the container host and emits noindex metadata after `npm run build`.
+- `npm run build` passed.
+- `git diff --check` passed.
+- Public `/song` default remains iframe-backed; the container host is available only through the query flag or explicit environment default.
 
 ### Risks And Mitigation
 
 - Risk: search engines index experimental host query.
-- Mitigation: keep canonical URL unchanged; optionally add `noindex` for host-debug query if needed.
+- Mitigation: keep canonical URL unchanged and add `noindex` for any `runtime_host` query.
+- Risk: a container-mode control change can reuse an old server package.
+- Mitigation: public controls perform full route navigation while the active host is container.
+- Risk: public host switching exposes a styling or lifecycle mismatch.
+- Mitigation: force `runtime_host=iframe` or remove the query, then fix only the host-selection or integration layer.
 
 ## Phase 12: Export Route Compatibility
 

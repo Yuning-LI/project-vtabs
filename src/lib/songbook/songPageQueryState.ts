@@ -1,4 +1,5 @@
 import type { PublicSongInstrumentId, PublicSongPageQueryState } from './publicInstruments'
+import { normalizePublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
 
 type SongPageSearchParamValue = string | string[] | undefined
 type SongPageSearchParams = Record<string, SongPageSearchParamValue> | undefined
@@ -111,7 +112,8 @@ export function parseSongPageQueryState(url: URL): PublicSongPageQueryState {
     measureLayout: normalizeMeasureLayout(url.searchParams.get('measure_layout')),
     sheetScale: normalizeSheetScale(url.searchParams.get('sheet_scale')),
     practiceTool: normalizePracticeTool(url.searchParams.get('practice_tool')),
-    runtimeVisualTheme: normalizeRuntimeVisualTheme(url.searchParams.get('runtime_visual_theme'))
+    runtimeVisualTheme: normalizeRuntimeVisualTheme(url.searchParams.get('runtime_visual_theme')),
+    runtimeHost: normalizePublicRuntimeHostMode(url.searchParams.get('runtime_host'))
   }
 }
 
@@ -135,7 +137,8 @@ export function parseSongPageQueryStateFromSearchParams(
     practiceTool: normalizePracticeTool(readSearchParamValue(searchParams, 'practice_tool')),
     runtimeVisualTheme: normalizeRuntimeVisualTheme(
       readSearchParamValue(searchParams, 'runtime_visual_theme')
-    )
+    ),
+    runtimeHost: normalizePublicRuntimeHostMode(readSearchParamValue(searchParams, 'runtime_host'))
   }
 }
 

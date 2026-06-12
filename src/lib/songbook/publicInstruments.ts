@@ -1,4 +1,5 @@
 import type { SongPresentation } from './presentation'
+import type { PublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
 
 export type PublicSongInstrumentId = 'o12' | 'o6' | 'r8b' | 'r8g' | 'w6'
 
@@ -22,6 +23,7 @@ export type PublicSongPageQueryState = {
   sheetScale?: string | number | null
   practiceTool?: 'metronome' | null
   runtimeVisualTheme?: 'classic' | 'off' | null
+  runtimeHost?: PublicRuntimeHostMode | null
 }
 
 const DEFAULT_PUBLIC_SHOW_MEASURE_NUM = 'off'
@@ -145,6 +147,10 @@ export function buildSongPageHref(
 
   if (input.practiceTool === 'metronome') {
     params.set('practice_tool', 'metronome')
+  }
+
+  if (input.runtimeHost) {
+    params.set('runtime_host', input.runtimeHost)
   }
 
   const query = params.toString()

@@ -31,7 +31,6 @@ http://127.0.0.1:3000/song/<slug>?note_label_mode=number
 http://127.0.0.1:3000/api/kuailepu-runtime/<slug>?note_label_mode=number
 ```
 
-
 For iframe/container parity review:
 
 ```text
@@ -40,6 +39,18 @@ http://127.0.0.1:3000/dev/runtime-host/review/<slug>?note_label_mode=number
 http://127.0.0.1:3000/dev/runtime-host/review/<slug>?measure_layout=mono
 http://127.0.0.1:3000/dev/runtime-host/review/<slug>?sheet_scale=12
 http://127.0.0.1:3000/dev/runtime-host/review/<slug>?practice_tool=metronome
+```
+
+For public query-flagged host review:
+
+```text
+http://127.0.0.1:3000/song/<slug>
+http://127.0.0.1:3000/song/<slug>?runtime_host=container
+http://127.0.0.1:3000/song/<slug>?runtime_host=iframe
+http://127.0.0.1:3000/song/<slug>?runtime_host=container&note_label_mode=number
+http://127.0.0.1:3000/song/<slug>?runtime_host=container&measure_layout=mono
+http://127.0.0.1:3000/song/<slug>?runtime_host=container&sheet_scale=12
+http://127.0.0.1:3000/song/<slug>?runtime_host=container&practice_tool=metronome
 ```
 
 ## Internal Runtime Host Review
@@ -59,6 +70,22 @@ Check:
 - `Listen`, playback panel close, `Stop`, and `Redraw` continue to use the normalized host controller boundary
 - route changes between sample songs leave one `#sheet` per host and no stale playback or metronome panel
 - public `/song/<slug>` still uses the iframe host by default
+
+## Public Query-Flagged Host Review
+
+Use `runtime_host=container` only for public-shell parity review. The default public URL must remain iframe-backed.
+
+Check:
+
+- `/song/<slug>` renders one iframe host and no public container host
+- `/song/<slug>?runtime_host=container` renders the container host and no iframe host
+- `/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` can select the container host on a local experimental server, while `runtime_host=iframe` still forces iframe
+- host-query pages keep the canonical song URL and emit `noindex, nofollow`
+- Instrument, Fingering Chart, Note Labels, Layout, Zoom, Metronome, and Visual Theme controls preserve the explicit `runtime_host` query
+- container-mode control changes remount cleanly with one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
+- `Listen`, playback panel close, `Stop`, and metronome `On/Off` work in both iframe and container modes
+- removing `runtime_host` returns the page to the iframe default unless an experimental environment default is set
 
 ## Default Public Page
 

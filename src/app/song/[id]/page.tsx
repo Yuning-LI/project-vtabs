@@ -2,9 +2,18 @@ import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import PublicRuntimePage from '@/components/song/PublicRuntimePage'
 import {
+  buildPublicRuntimeLetterTrackData,
+  buildPublicRuntimePackageData,
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
+import type { PublicRuntimePublicFeature, PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
+import {
+  hasPublicRuntimeHostQueryFlag,
+  readPublicRuntimeHostModeSearchParam,
+  resolvePublicRuntimeHostMode,
+  shouldNoindexPublicRuntimeHostExperiment
+} from '@/lib/runtime-core/publicRuntimeHostMode'
 import {
   getRelatedSongCards,
   getSuggestedGuideCardsForSong,
@@ -17,16 +26,24 @@ import {
   adaptPresentationForInstrument,
   getSupportedPublicSongInstruments
 } from '@/lib/songbook/publicInstruments'
+import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 import { parseSongPageQueryStateFromSearchParams } from '@/lib/songbook/songPageQueryState'
 
 export const dynamicParams = false
 const DEFAULT_SHARE_IMAGE = '/static/share/default-song-share.png'
+type SongPageSearchParams = Record<string, string | string[] | undefined>
 
 export async function generateStaticParams() {
   return songCatalog.map(song => ({ id: song.slug }))
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({
+  params,
+  searchParams
+}: {
+  params: { id: string }
+  searchParams?: SongPageSearchParams
+}) {
   const { id } = params
   const song = songCatalogBySlug[id]
   const runtimePayload = song ? loadPublicRuntimeSongPayload(song.slug) : null
@@ -45,6 +62,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       .filter(Boolean)
       .join(' ')
   const canonicalUrl = `${siteUrl}/song/${song?.slug || id}`
+  const noindexRuntimeHostQuery = shouldNoindexPublicRuntimeHostExperiment(searchParams)
   const shareTitle =
     presentation?.metaTitle && presentation.metaTitle.trim().length > 0
       ? presentation.metaTitle
@@ -79,8 +97,8 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       images: [DEFAULT_SHARE_IMAGE]
     },
     robots: {
-      index: true,
-      follow: true
+      index: !noindexRuntimeHostQuery,
+      follow: !noindexRuntimeHostQuery
     }
   }
 }
@@ -90,7 +108,7 @@ export default function SongPage({
   searchParams
 }: {
   params: { id: string }
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: SongPageSearchParams
 }) {
   const song = songCatalogBySlug[params.id]
   if (!song) {
@@ -115,6 +133,12 @@ export default function SongPage({
   const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
   const queryState = parseSongPageQueryStateFromSearchParams(searchParams)
+  const runtimeHostQueryValue = readPublicRuntimeHostModeSearchParam(searchParams)
+  const runtimeHostQueryFlag = hasPublicRuntimeHostQueryFlag(searchParams)
+  const runtimeHostResolution = resolvePublicRuntimeHostMode({
+    queryValue: runtimeHostQueryValue,
+    hasQueryFlag: runtimeHostQueryFlag
+  })
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
     supportedInstruments[0]!
@@ -130,6 +154,16 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
+  const containerRuntimePackage =
+    runtimeHostResolution.mode === 'container'
+      ? buildPublicSongContainerRuntimePackage({
+          songId: song.slug,
+          title: song.title,
+          payload: runtimePayload,
+          queryState,
+          runtimeTextTitle: basePresentation.title
+        })
+      : null
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -228,9 +262,73 @@ export default function SongPage({
         runtimeDefaultFingeringIndex={runtimePayload.fingering_index ?? null}
         runtimeDefaultShowGraph={runtimePayload.show_graph ?? null}
         hasLyricToggle={hasPublicLyricToggle}
+        runtimeHostMode={runtimeHostResolution.mode}
+        runtimeHostModeSource={runtimeHostResolution.source}
+        runtimeHostQueryFlag={runtimeHostQueryFlag}
+        containerRuntimePackage={
+          containerRuntimePackage
+            ? {
+                bodyHtml: containerRuntimePackage.bodyHtml,
+                styles: containerRuntimePackage.styles,
+                scriptEntries: containerRuntimePackage.scriptEntries
+              }
+            : null
+        }
         relatedSongs={relatedSongs}
         relatedGuides={relatedGuides}
       />
     </>
   )
+}
+
+function buildPublicSongContainerRuntimePackage({
+  songId,
+  title,
+  payload,
+  queryState,
+  runtimeTextTitle
+}: {
+  songId: string
+  title: string
+  payload: NonNullable<ReturnType<typeof loadPublicRuntimeSongPayload>>
+  queryState: ReturnType<typeof parseSongPageQueryStateFromSearchParams>
+  runtimeTextTitle: string | null
+}) {
+  const runtimeState: PublicRuntimeState = {
+    instrument: queryState.instrumentId,
+    fingering_index: queryState.fingeringIndex,
+    note_label_mode: queryState.noteLabelMode ?? 'letter',
+    show_graph: queryState.showGraph,
+    show_lyric: queryState.showLyric,
+    show_note_range: queryState.showNoteRange,
+    show_measure_num: queryState.showMeasureNum,
+    measure_layout: queryState.measureLayout ?? 'compact',
+    sheet_scale: queryState.sheetScale ?? '10'
+  }
+  const publicFeatures: PublicRuntimePublicFeature[] = [
+    'playback',
+    ...(queryState.practiceTool === 'metronome' ? (['metronome'] as const) : [])
+  ]
+  const runtimeNotationSong = songCatalogBySlug[songId] ?? loadImportedOrCandidateSongDoc(songId)
+  const letterTrack = buildPublicRuntimeLetterTrackData({
+    notation: runtimeNotationSong?.notation,
+    rawNotation: typeof payload.notation === 'string' ? payload.notation : null,
+    key: runtimeNotationSong?.meta?.key,
+    mode: runtimeState.note_label_mode,
+    payload,
+    state: runtimeState
+  })
+
+  return buildPublicRuntimePackageData({
+    songId,
+    payload,
+    state: runtimeState,
+    letterTrack,
+    textMode: 'english',
+    assetProfile: 'full-template',
+    publicFeatures,
+    preferredEnglishTitle: runtimeTextTitle || title,
+    preferredEnglishSubtitle: null,
+    visualThemeName: queryState.runtimeVisualTheme === 'off' ? 'off' : 'classic'
+  })
 }
