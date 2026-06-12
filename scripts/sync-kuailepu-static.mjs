@@ -124,7 +124,7 @@ function syncKuailepuStatic() {
   }
 
   console.log(
-    `Synced Kuailepu static assets to public/k-static (${assetPaths.length} template assets verified: vendor tree ${copiedVendorTree ? 'copied' : 'missing'}, ${copied} matched, ${aliased} aliased, ${extracted} extracted)`
+    `Synced Kuailepu static assets to public/k-static (${assetPaths.length} template assets verified: vendor tree ${copiedVendorTree ? 'synced' : 'missing'}, ${copied} matched, ${aliased} aliased, ${extracted} extracted)`
   )
 }
 

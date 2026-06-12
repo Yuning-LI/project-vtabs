@@ -2,13 +2,13 @@
   "id": "vientos-suaves",
   "slug": "vientos-suaves",
   "title": "Vientos Suaves",
-  "description": "Vientos Suaves melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Vientos Suaves melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/l3Xxg1z9D.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song l3Xxg1z9D on 2026-05-24."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song l3Xxg1z9D on 2026-05-24."
   },
   "meta": {
     "key": "1 = F",
@@ -18,7 +18,7 @@
   "review": {
     "status": "verified",
     "checkedOn": "2026-05-24",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review was completed before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review was completed before publication."
   },
   "tonicMidi": 65,
   "notation": [

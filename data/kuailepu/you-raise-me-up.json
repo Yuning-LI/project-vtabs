@@ -2,7 +2,7 @@
   "id": "you-raise-me-up",
   "slug": "you-raise-me-up",
   "title": "You Raise Me Up",
-  "description": "You Raise Me Up melody reference imported from a Kuailepu detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Rolf Lovland.",
+  "description": "You Raise Me Up melody reference imported from an authorized runtime detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Rolf Lovland.",
   "published": true,
   "alignedLyrics": [
     "When I am down and _ oh my soul, so wea-ry _ When troubles _",
@@ -20,10 +20,10 @@
     "每 当 我 心情 低落 _ 灵 魂 如 此 疲惫。 _ 苦 难 来 袭 _ 我 心 承 受 煎 熬。 如 是 我 会 _ 在 这 里 静 静 等 待， 直 到 你 来 与 我 陪 坐 一 刻。 _ 有 你 指 引， 使 我 能 登 上 高 山。 有 你 指 引， 我 力 挽 大 海 狂 澜。 有 你 依 靠， _ 我 是 如 此 坚 强。 _ 有 你 指 引， 使 我 超 越 自 己。 _ _ 有 你 指 引， 使 我 能 登 上 高 山。 有 你 指 引， 我 力 挽 大 海 狂 澜。 有 你 依 靠， _ 我 是 如 _ 此 坚 强。 _ 有 你 指 引， 使 我 超 越 自 己。 _ 有你 指引， _ _ _ 有 你 指 引 使 我 超 越 自 己。"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/fZK7b1Onk.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song fZK7b1Onk on 2026-04-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song fZK7b1Onk on 2026-04-22."
   },
   "meta": {
     "key": "1 = D",
@@ -33,7 +33,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 62,
   "notation": [

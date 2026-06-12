@@ -5,10 +5,10 @@
   "description": "A flowing Kiki's Delivery Service melody page with letter notes, visual fingering charts, and switchable ocarina, recorder, and tin whistle views for expressive soundtrack practice.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/VNxKb1EHn.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song VNxKb1EHn on 2026-05-10."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song VNxKb1EHn on 2026-05-10."
   },
   "meta": {
     "key": "1 = bB",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-10",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 70,
   "notation": [

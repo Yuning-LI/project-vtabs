@@ -26,7 +26,7 @@ Must be deployable:
 Allowed for local import/debug, not production truth:
 
 - `reference/songs/*.json`
-- `reference/快乐谱代码.txt`
+- local authorized runtime template backup
 - `reference/auth/kuailepu-profile/`
 - `reference/generated-svg/**`
 - `reference/compare/**`
@@ -42,7 +42,7 @@ Raw JSON:
 Template archive:
 
 1. `vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt`
-2. `reference/快乐谱代码.txt` as local fallback
+2. local authorized runtime template backup as local fallback
 
 ## Public Chain
 

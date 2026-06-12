@@ -2,13 +2,13 @@
   "id": "cavalry-march",
   "slug": "cavalry-march",
   "title": "Cavalry March",
-  "description": "Cavalry March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Cavalry March melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/N9o2m1PeV.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song N9o2m1PeV on 2026-03-31."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song N9o2m1PeV on 2026-03-31."
   },
   "meta": {
     "key": "1 = G",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-31",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 67,
   "notation": [

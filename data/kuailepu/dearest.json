@@ -2,13 +2,13 @@
   "id": "dearest",
   "slug": "dearest",
   "title": "Dearest",
-  "description": "Dearest melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Dearest melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/SB7lp1o4Y.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song SB7lp1o4Y on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song SB7lp1o4Y on 2026-05-23."
   },
   "meta": {
     "key": "1 = A",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-23",
-    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+    "note": "Authorized runtime live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
   },
   "tonicMidi": 69,
   "notation": [

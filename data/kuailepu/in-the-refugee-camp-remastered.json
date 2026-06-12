@@ -2,13 +2,13 @@
   "id": "in-the-refugee-camp-remastered",
   "slug": "in-the-refugee-camp-remastered",
   "title": "In the Refugee Camp [Remastered]",
-  "description": "In the Refugee Camp [Remastered] melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 清田愛未.",
+  "description": "In the Refugee Camp [Remastered] melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 清田愛未.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/xHvWt1ZaF.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song xHvWt1ZaF on 2026-05-24."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song xHvWt1ZaF on 2026-05-24."
   },
   "meta": {
     "key": "1 = bD",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-24",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 61,
   "notation": [

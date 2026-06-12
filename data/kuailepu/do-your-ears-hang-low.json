@@ -2,13 +2,13 @@
   "id": "do-your-ears-hang-low",
   "slug": "do-your-ears-hang-low",
   "title": "Do Your Ears Hang Low?",
-  "description": "The English-language nursery song Do Your Ears Hang Low?, imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "The English-language nursery song Do Your Ears Hang Low?, imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/9Gatf1MQF.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 9Gatf1MQF on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 9Gatf1MQF on 2026-03-30."
   },
   "meta": {
     "key": "1 = C",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
+    "note": "Imported from an authorized runtime detail page and promoted into the public pending catalog. Keep it in the pending group until the melody is manually rechecked."
   },
   "tonicMidi": 60,
   "notation": [

@@ -2,7 +2,7 @@
   "id": "as-the-deer",
   "slug": "as-the-deer",
   "title": "As the Deer",
-  "description": "As the Deer melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Martin Nystrom.",
+  "description": "As the Deer melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Martin Nystrom.",
   "published": false,
   "alignedLyrics": [
     "As the deer pan teth for the wat-er _ So my soul long-s _ aft- er You",
@@ -21,10 +21,10 @@
     "So much more than an- y- thing"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/ODfjc1M1f.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song ODfjc1M1f on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song ODfjc1M1f on 2026-05-22."
   },
   "meta": {
     "key": "1 = D",
@@ -34,7 +34,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 62,
   "notation": [

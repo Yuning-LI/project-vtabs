@@ -539,7 +539,7 @@ function isDefaultReviewNote(note: string) {
 
   return [
     'Synthetic runtime compatibility candidate. Compare against the source MusicXML and an existing verified song before publication.',
-    'Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication.'
+    'Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication.'
   ].includes(normalized)
 }
 

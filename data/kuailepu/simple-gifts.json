@@ -2,13 +2,13 @@
   "id": "simple-gifts",
   "slug": "simple-gifts",
   "title": "Simple Gifts",
-  "description": "Simple Gifts melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Simple Gifts melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/ivT9c1DvC.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song ivT9c1DvC on 2026-04-04."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song ivT9c1DvC on 2026-04-04."
   },
   "meta": {
     "key": "1 = F",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-04",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

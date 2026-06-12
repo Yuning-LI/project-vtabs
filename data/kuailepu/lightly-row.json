@@ -2,13 +2,13 @@
   "id": "lightly-row",
   "slug": "lightly-row",
   "title": "划小船",
-  "description": "划小船 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "划小船 melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/mGMTc1R13.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song mGMTc1R13 on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song mGMTc1R13 on 2026-03-30."
   },
   "meta": {
     "key": "1 = C",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

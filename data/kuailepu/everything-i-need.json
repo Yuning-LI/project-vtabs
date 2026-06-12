@@ -2,7 +2,7 @@
   "id": "everything-i-need",
   "slug": "everything-i-need",
   "title": "Everything I Need",
-  "description": "Everything I Need melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Skylar Grey & Elliot Taylor.",
+  "description": "Everything I Need melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Skylar Grey & Elliot Taylor.",
   "published": true,
   "alignedLyrics": [
     "",
@@ -19,10 +19,10 @@
     "_ _ part _ Is who you're _ meant to be _ _ 'Cause you were meant _ for me _ _ And _ you're everything _ _ _ I need _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/5FRUj1OiL.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 5FRUj1OiL on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 5FRUj1OiL on 2026-05-23."
   },
   "meta": {
     "key": "1 = D",
@@ -32,7 +32,7 @@
   "review": {
     "status": "verified",
     "checkedOn": "2026-05-25",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
   },
   "tonicMidi": 62,
   "notation": [

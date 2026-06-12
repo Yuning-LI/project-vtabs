@@ -2,7 +2,7 @@
   "id": "moon-river",
   "slug": "moon-river",
   "title": "Moon River",
-  "description": "Moon River melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Moon River melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "月 亮 河， 河 流 宽 又 阔， 我 终 有 一 天 要 渡",
@@ -16,10 +16,10 @@
     "Moon ri ver, wid er than a mile I'm cross ing you in style some day _ Oh, dream mak er, you heart break er Wher ev er you're go in I'm go in' your way Two drift ers, off to see the world There's such a lot of world to see _ We're af ter the same rain bow's end, _ wait ing round the bend _ My huck le ber ry friend, Moon Ri ver _ and me _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/VaQjb1LS8.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song VaQjb1LS8 on 2026-04-15."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song VaQjb1LS8 on 2026-04-15."
   },
   "meta": {
     "key": "1 = C",
@@ -29,7 +29,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-15",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

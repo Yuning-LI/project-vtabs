@@ -2,7 +2,7 @@
   "id": "its-a-small-world",
   "slug": "its-a-small-world",
   "title": "It's a Small World",
-  "description": "It's a Small World melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "description": "It's a Small World melody reference imported from an authorized runtime detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
   "published": true,
   "alignedLyrics": [
     "这 是 个 美 丽 的 _ 小 世 界 这 是 个",
@@ -10,10 +10,10 @@
     "界 _ _ 界 真 善 美 的 小 世 界， 真 善 美 的 小 世 界， 真 善 美 的 小 世 界， 真 善 美 的 小 世 界， _ 这是 _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/Ewe9w1KYz.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song Ewe9w1KYz on 2026-04-20."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song Ewe9w1KYz on 2026-04-20."
   },
   "meta": {
     "key": "1 = A",
@@ -23,7 +23,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-20",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 69,
   "notation": [

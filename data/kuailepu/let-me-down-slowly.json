@@ -2,13 +2,13 @@
   "id": "let-me-down-slowly",
   "slug": "let-me-down-slowly",
   "title": "Let Me Down Slowly",
-  "description": "Let Me Down Slowly melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Let Me Down Slowly melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/oLUym1nFj.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song oLUym1nFj on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song oLUym1nFj on 2026-05-23."
   },
   "meta": {
     "key": "1 = C",
@@ -18,7 +18,7 @@
   "review": {
     "status": "verified",
     "checkedOn": "2026-05-24",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Stock-pool doctor and live-compare checks passed before publication."
   },
   "tonicMidi": 60,
   "notation": [

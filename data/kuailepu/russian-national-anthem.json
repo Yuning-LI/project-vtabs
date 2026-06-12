@@ -2,7 +2,7 @@
   "id": "russian-national-anthem",
   "slug": "russian-national-anthem",
   "title": "Russian National Anthem",
-  "description": "Russian National Anthem melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Russian National Anthem melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "俄 罗 斯 啊 我 们 的 神 圣 的 祖 国， 俄",
@@ -23,10 +23,10 @@
     "给 生 活 以 希 望， 给 理 想 以 翅 膀， 你 未 来 的 岁 月 更 光 芒 万 丈。 也 无 论 是 过 去， 也 无 论 是 将 来， 哦， 忠 诚 于 祖 国 就有 无 穷 力 量！"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/FFtgf1rrL.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song FFtgf1rrL on 2026-04-05."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song FFtgf1rrL on 2026-04-05."
   },
   "meta": {
     "key": "1 = C",
@@ -36,7 +36,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-05",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

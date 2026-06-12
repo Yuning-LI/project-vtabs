@@ -2,7 +2,7 @@
   "id": "big-big-world",
   "slug": "big-big-world",
   "title": "Big Big World",
-  "description": "Big Big World melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Emilia.",
+  "description": "Big Big World melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Emilia.",
   "published": true,
   "alignedLyrics": [
     "I'm a big big girl in a big big world It' nota big big thing if you lea- ve me but I do do feel that I",
@@ -23,10 +23,10 @@
     "miss you _ much... _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/lEuZb1Udb.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song lEuZb1Udb on 2026-05-18."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song lEuZb1Udb on 2026-05-18."
   },
   "meta": {
     "key": "1 = C",
@@ -36,7 +36,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-18",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

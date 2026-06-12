@@ -2,7 +2,7 @@
   "id": "going-home",
   "slug": "going-home",
   "title": "念故乡",
-  "description": "念故乡 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "念故乡 melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "念 故 乡 念 故 乡 故 乡 真 可 爱，",
@@ -13,10 +13,10 @@
     "众 亲 友 聚 一 堂， 同 享 从 前 乐。"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/F209f1CD2.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song F209f1CD2 on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song F209f1CD2 on 2026-03-30."
   },
   "meta": {
     "key": "1 = C",
@@ -26,7 +26,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

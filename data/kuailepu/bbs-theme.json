@@ -2,7 +2,7 @@
   "id": "bbs-theme",
   "slug": "bbs-theme",
   "title": "BB'S Theme",
-  "description": "BB'S Theme melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "BB'S Theme melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "See the sun set _ The day is end ing Let that yawn out _ There's no pre",
@@ -25,10 +25,10 @@
     "_ _ _ _ _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/aia7k1MzZ.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song aia7k1MzZ on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song aia7k1MzZ on 2026-05-23."
   },
   "meta": {
     "key": "1 = bB",
@@ -38,7 +38,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-23",
-    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+    "note": "Authorized runtime live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
   },
   "tonicMidi": 70,
   "notation": [

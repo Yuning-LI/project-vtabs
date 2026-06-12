@@ -2,7 +2,7 @@
   "id": "eternal-flame",
   "slug": "eternal-flame",
   "title": "Eternal Flame",
-  "description": "Eternal Flame melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Eternal Flame melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "Close your eyes, give me your hand, dar ling _ Do you feel my heart beat",
@@ -22,10 +22,10 @@
     "_ _ _ mea nt to be, dar ling _ Iwatch you when you are sleep _ ing you be long with me do you feel the same _ am i on ly dream _ ing or"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/w4Ncl1xYk.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song w4Ncl1xYk on 2026-05-19."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song w4Ncl1xYk on 2026-05-19."
   },
   "meta": {
     "key": "1 = E",
@@ -35,7 +35,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-19",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 64,
   "notation": [

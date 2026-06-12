@@ -2,13 +2,13 @@
   "id": "summer",
   "slug": "summer",
   "title": "Summer",
-  "description": "Summer melody reference imported from a Kuailepu detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Joe Hisaishi.",
+  "description": "Summer melody reference imported from an authorized runtime detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Joe Hisaishi.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/9MCQc1bt4.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 9MCQc1bt4 on 2026-04-11."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 9MCQc1bt4 on 2026-04-11."
   },
   "meta": {
     "key": "1 = F",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-11",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

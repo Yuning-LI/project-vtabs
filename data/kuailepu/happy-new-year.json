@@ -2,7 +2,7 @@
   "id": "happy-new-year",
   "slug": "happy-new-year",
   "title": "Happy New Year",
-  "description": "Happy New Year melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Happy New Year melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "新 年 好 呀， 新 年 好 呀， 祝 贺 大 家 新 年 好。",
@@ -12,10 +12,10 @@
     "Happy _ New Year Happy _ New Year Happy _ New Year To You All We Are Singing _ We Are Dancing _ Happy _ New Year To You All"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/9J41f192s.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 9J41f192s on 2026-04-04."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 9J41f192s on 2026-04-04."
   },
   "meta": {
     "key": "1 = F",
@@ -25,7 +25,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-04",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

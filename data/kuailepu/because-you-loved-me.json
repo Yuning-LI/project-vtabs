@@ -2,7 +2,7 @@
   "id": "because-you-loved-me",
   "slug": "because-you-loved-me",
   "title": "Because You Loved Me",
-  "description": "Because You Loved Me melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Because You Loved Me melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "For all _ those times you stood _ by me For all _ the",
@@ -43,10 +43,10 @@
     "You gave _ me wings and made _ me fly You touched _ my hand I could touch the sky I lost _ my faith, you gave it back to me You said _ no star was out of reach _ You stood _ by _ me and I _ stood tall I had _ your love I had _ it all _ I'm grate ful for _ each day _ you gave _ me May be I _ don't know _ that much But I know this much _ is true _ I was blessed _ be cause _ I was loved by you _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/FQXIl14ID.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song FQXIl14ID on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song FQXIl14ID on 2026-05-22."
   },
   "meta": {
     "key": "1 = bD",
@@ -56,7 +56,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 61,
   "notation": [

@@ -2,7 +2,7 @@
   "id": "candle-in-the-wind",
   "slug": "candle-in-the-wind",
   "title": "Candle in the Wind",
-  "description": "Candle in the Wind melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Candle in the Wind melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "Good bye england s rose May you e ver",
@@ -30,10 +30,10 @@
     "Good bye englands _ _ rose From a coun try lo st with out _ _ your soul _ Wholl miss the wings of your com pa ss ion More than you ll e ver know _ And it seems to me you lived your life Like a candle in the wind Never fading with the sunset When the rain set in And you footsteps will always fall here Along englands greenest hills Your candles burned out long before Your legend never will"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/d5gWk1VFQ.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song d5gWk1VFQ on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song d5gWk1VFQ on 2026-05-22."
   },
   "meta": {
     "key": "1 = E",
@@ -43,7 +43,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 64,
   "notation": [

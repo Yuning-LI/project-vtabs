@@ -2,13 +2,13 @@
   "id": "beautiful-world",
   "slug": "beautiful-world",
   "title": "Beautiful World",
-  "description": "Beautiful World melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 宇多田光.",
+  "description": "Beautiful World melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 宇多田光.",
   "published": false,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/Qb1Xl1Otk.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song Qb1Xl1Otk on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song Qb1Xl1Otk on 2026-05-22."
   },
   "meta": {
     "key": "1 = C",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

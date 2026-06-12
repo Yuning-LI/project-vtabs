@@ -2,7 +2,7 @@
   "id": "always-on-my-mind",
   "slug": "always-on-my-mind",
   "title": "Always on My Mind",
-  "description": "Always on My Mind melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Always on My Mind melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "May be I didn't _",
@@ -27,10 +27,10 @@
     ""
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/lByak1J06.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song lByak1J06 on 2026-05-19."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song lByak1J06 on 2026-05-19."
   },
   "meta": {
     "key": "1 = C",
@@ -40,7 +40,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-19",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

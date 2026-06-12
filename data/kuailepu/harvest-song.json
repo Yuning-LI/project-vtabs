@@ -2,7 +2,7 @@
   "id": "harvest-song",
   "slug": "harvest-song",
   "title": "丹麦民歌",
-  "description": "丹麦民歌 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "丹麦民歌 melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "田 野 上 庄 稼 都 已 收 割 完 毕 大 麦 小 麦 收 进 仓 库",
@@ -14,10 +14,10 @@
     "辛 苦 的 种 田 人 将 得 到 酬 谢 金 黄的 麦 粒 补 偿 他 们 一 年的 血 _ 汗。 欢 乐 中 别 忘 了 旁 人 的 苦 难 让 我 们 去 帮 助 别 人 慷 慨 又 大 方。 人 人 都 高 兴 到 处 歌 舞 欢 唱 着 歌 儿 编 成 一 个 丰 收的 大 花 环。"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/hfxua1ao7.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song hfxua1ao7 on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song hfxua1ao7 on 2026-03-30."
   },
   "meta": {
     "key": "1 = G",
@@ -27,7 +27,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 67,
   "notation": [

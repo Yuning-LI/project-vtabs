@@ -2,7 +2,7 @@
   "id": "beautiful-in-white",
   "slug": "beautiful-in-white",
   "title": "Beautiful in White",
-  "description": "Beautiful in White melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Beautiful in White melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "Not sure if you know this But when we first met I got so ner vous",
@@ -30,10 +30,10 @@
     "You look so beau ti ful _ in _ white _ To night"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/bsOck1B8S.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song bsOck1B8S on 2026-06-02."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song bsOck1B8S on 2026-06-02."
   },
   "meta": {
     "key": "1 = C",
@@ -43,7 +43,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-06-02",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

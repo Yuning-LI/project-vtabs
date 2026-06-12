@@ -2,7 +2,7 @@
   "id": "its-me-and-you",
   "slug": "its-me-and-you",
   "title": "It's Me and You",
-  "description": "It's Me and You melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "It's Me and You melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "The brisk chil ling air is cal ling And",
@@ -17,10 +17,10 @@
     "_ _ _ _ _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/iOeFl1CCe.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song iOeFl1CCe on 2026-05-24."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song iOeFl1CCe on 2026-05-24."
   },
   "meta": {
     "key": "1 = E",
@@ -30,7 +30,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-24",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 64,
   "notation": [

@@ -2,7 +2,7 @@
   "id": "yesterday-once-more",
   "slug": "yesterday-once-more",
   "title": "Yesterday Once More",
-  "description": "Yesterday Once More melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Yesterday Once More melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "When I was young I'd lis- tened to the ra- di- o _ waiting _ for my favo- rite songs When they",
@@ -29,10 +29,10 @@
     "All my best mem- o- ries _ Come back clear ly to me _ Some can e- ven make me cry. _ Just like _ be- fore _ It's yes- ter- day _ once _ more."
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/6THZb1yv4.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 6THZb1yv4 on 2026-04-15."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 6THZb1yv4 on 2026-04-15."
   },
   "meta": {
     "key": "1 = F",
@@ -42,7 +42,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-15",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

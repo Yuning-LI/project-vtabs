@@ -26,7 +26,7 @@ This file keeps only short current-state notes. Stable rules live in `README.md`
 - Full verification for the latest runtime-shell changes:
   - `npm run build` passes
   - `npm run test:e2e` passes (`21 passed`)
-- De-Kuailepu Phase 5 has started as dev-only native renderer work:
+- Authorized-runtime replacement Phase 5 has started as dev-only native renderer work:
   - `SongIR v0` lives in `src/lib/native-renderer/songIr.ts`
   - MusicXML draft adapter lives in `src/lib/native-renderer/fromMusicXmlDraft.ts`
   - support/fallback contract lives in `src/lib/native-renderer/support.ts`

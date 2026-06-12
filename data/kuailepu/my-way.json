@@ -2,7 +2,7 @@
   "id": "my-way",
   "slug": "my-way",
   "title": "My Way",
-  "description": "My Way melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "My Way melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "And now, the end is near And so I",
@@ -36,10 +36,10 @@
     "I planned each chart ed course Each care ful step a long the by way and more, much more than this I did it"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/8uxRk1Ljf.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 8uxRk1Ljf on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 8uxRk1Ljf on 2026-05-22."
   },
   "meta": {
     "key": "1 = G",
@@ -49,7 +49,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 67,
   "notation": [

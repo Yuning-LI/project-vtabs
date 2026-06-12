@@ -2,7 +2,7 @@
   "id": "we-wish-you-a-merry-christmas",
   "slug": "we-wish-you-a-merry-christmas",
   "title": "We Wish You a Merry Christmas",
-  "description": "We Wish You a Merry Christmas melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "We Wish You a Merry Christmas melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "We wish you _ mer ry christ mas! We wish you _ mer ry christ mas! We wish you _ mer ry",
@@ -10,10 +10,10 @@
     "are. Good tid ings for christ mas and a hap py new year!"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/MFoLe13QR.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song MFoLe13QR on 2026-03-28."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song MFoLe13QR on 2026-03-28."
   },
   "meta": {
     "key": "1 = C",
@@ -23,7 +23,7 @@
   "review": {
     "status": "verified",
     "checkedOn": "2026-03-28",
-    "note": "User manually rechecked this Kuailepu-derived page and approved it as correct for launch."
+    "note": "User manually rechecked this authorized-runtime page and approved it as correct for launch."
   },
   "tonicMidi": 60,
   "notation": [

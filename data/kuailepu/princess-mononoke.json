@@ -2,13 +2,13 @@
   "id": "princess-mononoke",
   "slug": "princess-mononoke",
   "title": "Princess Mononoke",
-  "description": "Princess Mononoke melody reference imported from a Kuailepu detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Joe Hisaishi.",
+  "description": "Princess Mononoke melody reference imported from an authorized runtime detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing. Source composer field: Joe Hisaishi.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/3t7ba1oCP.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 3t7ba1oCP on 2026-04-12."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 3t7ba1oCP on 2026-04-12."
   },
   "meta": {
     "key": "1 = D",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-12",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 62,
   "notation": [

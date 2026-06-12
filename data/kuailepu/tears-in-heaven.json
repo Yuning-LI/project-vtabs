@@ -2,7 +2,7 @@
   "id": "tears-in-heaven",
   "slug": "tears-in-heaven",
   "title": "Tears in Heaven",
-  "description": "Tears in Heaven melody reference imported from a Kuailepu detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing.",
+  "description": "Tears in Heaven melody reference imported from an authorized runtime detail page and normalized into the current lightweight melody-page renderer for ocarina, recorder, and tin whistle viewing.",
   "published": true,
   "alignedLyrics": [
     "Would you know my name _ _ _ _ _ If I saw you in hea",
@@ -24,10 +24,10 @@
     "Be cause I know _ _ _ I just can't stand _ _ _ here _ in hea _ ven."
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/VZqPe1oKG.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song VZqPe1oKG on 2026-04-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song VZqPe1oKG on 2026-04-22."
   },
   "meta": {
     "key": "1 = A",
@@ -37,7 +37,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 69,
   "notation": [

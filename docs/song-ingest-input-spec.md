@@ -157,7 +157,7 @@ This candidate generator:
 - emits an explicit bar token for every real measure end; do not rely on line breaks as implicit measure separators
 - keeps a `{bpm:...}` directive in runtime notation so playback/metronome speed stays tied to the resolved song BPM
 - transposes extracted letter chord names together with the melody
-- generates public `instrumentFingerings` from our import-side preset/range logic instead of copying the template song's full fingering matrix
+- generates public `instrumentFingerings` from our import-side preset/range logic instead of inheriting the template song's full fingering matrix
 - defaults to scrubbing template runtime caches such as `mpn`, `music_list`, and `fetch_score`
 - writes a range-fit report for the public runtime instruments
 - now runs a second pass against the local runtime page by default and reorders each instrument's

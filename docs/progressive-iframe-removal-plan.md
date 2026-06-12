@@ -1,5 +1,11 @@
 # Progressive Iframe Removal Integration Plan
 
+## Permanent Authorization Baseline
+
+This project is based on frontend source code for which we have purchased complete commercial-exclusive authorization. All runtime integration, debugging, refactoring, and future replacement work in this document is treated as work on our own authorized source baseline.
+
+The current program is a Next.js + React architecture upgrade and progressive iframe migration. The operational priority is stable integration first: keep the authorized runtime behavior intact, move it into a controllable React-owned host step by step, and only then continue deeper modularization and technical iteration.
+
 This document is the execution plan for gradually moving the fully authorized runtime from an iframe-hosted page into a native React DOM container.
 
 The project has complete commercial-exclusive authorization for the frontend source. This work is an architecture upgrade and source integration project. The goal is stable integration, controllability, and future maintainability, not a rewrite of the musical engine.

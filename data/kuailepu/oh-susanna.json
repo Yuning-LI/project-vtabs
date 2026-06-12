@@ -2,7 +2,7 @@
   "id": "oh-susanna",
   "slug": "oh-susanna",
   "title": "Oh! Susanna",
-  "description": "Oh! Susanna melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 斯蒂芬·福斯特.",
+  "description": "Oh! Susanna melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 斯蒂芬·福斯特.",
   "published": true,
   "alignedLyrics": [
     "我 _ 打 从 阿 拉 巴 马 来 还 带 着 五 弦 琴 要 _ 赶 到 路 易斯",
@@ -11,10 +11,10 @@
     "你别 为 我 担 心 我 _ 打 从 阿 拉 巴 马 来 你 听 我 弹 个 琴"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/mPyEa1Sfh.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song mPyEa1Sfh on 2026-04-04."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song mPyEa1Sfh on 2026-04-04."
   },
   "meta": {
     "key": "1 = C",
@@ -24,7 +24,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-04",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

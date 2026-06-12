@@ -2,17 +2,17 @@
   "id": "happy-birthday",
   "slug": "happy-birthday-to-you",
   "title": "Happy Birthday to You",
-  "description": "Happy Birthday to You melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Happy Birthday to You melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "Hap py birth day to you, Hap py birth day to you, Hap py",
     "birth day dear friend, _ Hap py birth day to you."
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/sM41f1bA5.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song sM41f1bA5 on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song sM41f1bA5 on 2026-03-30."
   },
   "meta": {
     "key": "1 = F",
@@ -22,7 +22,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

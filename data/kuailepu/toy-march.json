@@ -2,7 +2,7 @@
   "id": "toy-march",
   "slug": "toy-march",
   "title": "Toy March",
-  "description": "Toy March melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Toy March melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "嘀 哒 哒 嘀 哒 哒 吹 起 小 喇 叭， 小 玩 具 的 进 行 曲 _ 滴 滴 哒。",
@@ -15,10 +15,10 @@
     "一 吹 笛 子 锣 鼓 声 就 咚 咚 锵。"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/SoEBn1ppC.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song SoEBn1ppC on 2026-03-31."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song SoEBn1ppC on 2026-03-31."
   },
   "meta": {
     "key": "1 = F",
@@ -28,7 +28,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-31",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

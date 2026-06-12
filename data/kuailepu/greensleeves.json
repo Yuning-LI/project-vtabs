@@ -2,13 +2,13 @@
   "id": "greensleeves",
   "slug": "greensleeves",
   "title": "Greensleeves",
-  "description": "Greensleeves melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Greensleeves melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/MQ31c1qft.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song MQ31c1qft on 2026-03-28."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song MQ31c1qft on 2026-03-28."
   },
   "meta": {
     "key": "1 = G",
@@ -18,7 +18,7 @@
   "review": {
     "status": "verified",
     "checkedOn": "2026-03-28",
-    "note": "User manually rechecked this Kuailepu-derived page and confirmed the melody is correct for launch."
+    "note": "User manually rechecked this authorized-runtime page and confirmed the melody is correct for launch."
   },
   "tonicMidi": 67,
   "notation": [

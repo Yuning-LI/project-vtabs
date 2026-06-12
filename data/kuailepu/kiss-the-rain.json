@@ -2,13 +2,13 @@
   "id": "kiss-the-rain",
   "slug": "kiss-the-rain",
   "title": "Kiss the Rain",
-  "description": "Kiss the Rain melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "description": "Kiss the Rain melody reference imported from an authorized runtime detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/xuKzf1jPZ.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song xuKzf1jPZ on 2026-04-20."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song xuKzf1jPZ on 2026-04-20."
   },
   "meta": {
     "key": "1 = bA",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-20",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 68,
   "notation": [

@@ -87,12 +87,12 @@ w: Up a bove the world so high _`,
     slug: 'ode-to-joy',
     title: 'Ode to Joy',
     description:
-      'Lead melody from Beethoven’s Symphony No. 9, expanded from the Kuailepu reference set into a fuller lightweight instrumental letter-tab page.',
+      'Lead melody from Beethoven’s Symphony No. 9, expanded from the authorized runtime set into a fuller lightweight instrumental letter-tab page.',
     source: {
       title: 'Beethoven, Symphony No. 9',
       url: 'https://imslp.org/wiki/Symphony_No.9%2C_Op.125_%28Beethoven%2C_Ludwig_van%29',
       rights: 'Public domain work',
-      note: 'Current production page is a lightweight adaptation of the Kuailepu reference JSON for the principal melody only.'
+      note: 'Current production page is a lightweight adaptation of the authorized runtime JSON for the principal melody only.'
     },
     meta: {
       key: '1 = C',
@@ -102,7 +102,7 @@ w: Up a bove the world so high _`,
     review: {
       status: 'verified',
       checkedOn: '2026-03-28',
-      note: 'User manually rechecked this fuller Kuailepu-derived page and approved it as correct for launch.'
+      note: 'User manually rechecked this fuller authorized-runtime page and approved it as correct for launch.'
     },
     tonicMidi: 60,
     notation: [
@@ -118,12 +118,12 @@ w: Up a bove the world so high _`,
     slug: 'amazing-grace',
     title: 'Amazing Grace',
     description:
-      'Traditional hymn melody "New Britain", expanded from the Kuailepu reference set into a fuller instrumental practice page.',
+      'Traditional hymn melody "New Britain", expanded from the authorized runtime set into a fuller instrumental practice page.',
     source: {
       title: 'Amazing Grace (Anonymous) on IMSLP',
       url: 'https://imslp.org/wiki/Amazing_Grace_%28Anonymous%29',
       rights: 'Public domain source listed by IMSLP',
-      note: 'Current production page is a lightweight adaptation of the Kuailepu reference JSON and is currently surfaced as an instrumental melody page.'
+      note: 'Current production page is a lightweight adaptation of the authorized runtime JSON and is currently surfaced as an instrumental melody page.'
     },
     meta: {
       key: '1 = F',
@@ -133,7 +133,7 @@ w: Up a bove the world so high _`,
     review: {
       status: 'verified',
       checkedOn: '2026-03-28',
-      note: 'User manually rechecked this Kuailepu-derived instrumental page and confirmed the melody is correct for launch.'
+      note: 'User manually rechecked this authorized-runtime instrumental page and confirmed the melody is correct for launch.'
     },
     tonicMidi: 65,
     notation: [
@@ -243,7 +243,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     slug: 'jingle-bells',
     title: 'Jingle Bells',
     description:
-      'James Pierpont’s public-domain holiday standard, expanded from the Kuailepu reference JSON so the production detail page shows the fuller melody instead of the short excerpt.',
+      'James Pierpont’s public-domain holiday standard, expanded from the authorized runtime JSON so the production detail page shows the fuller melody instead of the short excerpt.',
     alignedLyrics: [
       "Dash ing through the snow In a one horse o pen sleigh O'er the fields we go",
       'Laug hing all the way _ Bells on bob tails ring Mak ing spir its bright What',
@@ -259,7 +259,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
       title: 'Jingle Bells at the Library of Congress',
       url: 'https://www.loc.gov/item/2023838067/',
       rights: 'Library of Congress public domain item',
-      note: 'Current production page is a lightweight adaptation of the Kuailepu reference JSON so the fuller verse-and-chorus page can be shown without copying engraved notation.'
+      note: 'Current production page is a lightweight adaptation of the authorized runtime JSON so the fuller verse-and-chorus page can be shown with site-native presentation.'
     },
     meta: {
       key: '1 = F',
@@ -269,7 +269,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     review: {
       status: 'verified',
       checkedOn: '2026-03-28',
-      note: 'User rechecked this fuller Kuailepu-derived page and confirmed the melody is correct.'
+      note: 'User rechecked this fuller authorized-runtime page and confirmed the melody is correct.'
     },
     tonicMidi: 65,
     notation: [
@@ -286,7 +286,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     slug: 'scarborough-fair',
     title: 'Scarborough Fair',
     description:
-      'Traditional English ballad melody imported from the Kuailepu reference set and simplified into the current lightweight letter-tab format for review.',
+      'Traditional English ballad melody imported from the authorized runtime set and simplified into the current lightweight letter-tab format for review.',
     alignedLyrics: [
       'Are you going _ _ to scar bo rough fair _',
       'Par sley sage rose ma ry and thyme _',
@@ -297,7 +297,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
       title: 'Scarborough Fair',
       url: 'https://en.wikipedia.org/wiki/Scarborough_Fair',
       rights: 'Traditional English ballad; public-domain melody tradition',
-      note: 'Current catalog entry is a lightweight production adaptation derived from the Kuailepu reference JSON and still awaits final melody confirmation.'
+      note: 'Current catalog entry is a lightweight production adaptation derived from the authorized runtime JSON and still awaits final melody confirmation.'
     },
     meta: {
       key: '1 = F',
@@ -307,7 +307,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     review: {
       status: 'verified',
       checkedOn: '2026-03-28',
-      note: 'User manually rechecked this Kuailepu-derived page and approved it as correct for launch.'
+      note: 'User manually rechecked this authorized-runtime page and approved it as correct for launch.'
     },
     tonicMidi: 65,
     notation: [
@@ -322,7 +322,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     slug: 'auld-lang-syne',
     title: 'Auld Lang Syne',
     description:
-      'Traditional Scottish tune refreshed against the Kuailepu reference melody while keeping the site-native lightweight letter-tab presentation.',
+      'Traditional Scottish tune refreshed against the authorized runtime melody while keeping the site-native lightweight letter-tab presentation.',
     alignedLyrics: [
       'Should old ac quaint ance be for got, and',
       'nev er brought to mind? Should _ old ac quaint ance',
@@ -334,7 +334,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
       title: 'Auld lang syne (Folk Songs, Scottish) on IMSLP',
       url: 'https://imslp.org/wiki/Auld_lang_syne_%28Folk_Songs%2C_Scottish%29',
       rights: 'Traditional tune with public-domain publication history',
-      note: 'Current production melody was rechecked against the Kuailepu reference JSON, then simplified back into the site-native lightweight token format.'
+      note: 'Current production melody was rechecked against the authorized runtime JSON, then simplified back into the site-native lightweight token format.'
     },
     meta: {
       key: '1 = F',
@@ -344,7 +344,7 @@ w: Hap py birth day dear friend _ Hap py birth day to you`,
     review: {
       status: 'verified',
       checkedOn: '2026-03-28',
-      note: 'Meter corrected to 2/4 and melody refreshed against the Kuailepu reference while keeping punctuation-safe aligned lyrics.'
+      note: 'Meter corrected to 2/4 and melody refreshed against the authorized runtime baseline while keeping punctuation-safe aligned lyrics.'
     },
     tonicMidi: 65,
     notation: [

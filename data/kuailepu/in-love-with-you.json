@@ -2,7 +2,7 @@
   "id": "in-love-with-you",
   "slug": "in-love-with-you",
   "title": "In Love With you",
-  "description": "In Love With you melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "In Love With you melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "Just a gen tle whis per _ told me that _ _ you'd gone _ Leav ing on ly me mo ries",
@@ -28,10 +28,10 @@
     "_ _ _ _ _ _ with you _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/q6Ohk129F.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song q6Ohk129F on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song q6Ohk129F on 2026-05-23."
   },
   "meta": {
     "key": "1 = bE",
@@ -41,7 +41,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-23",
-    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+    "note": "Authorized runtime live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
   },
   "tonicMidi": 63,
   "notation": [

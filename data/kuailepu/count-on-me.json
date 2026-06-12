@@ -2,7 +2,7 @@
   "id": "count-on-me",
   "slug": "count-on-me",
   "title": "Count On Me",
-  "description": "Count On Me melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Count On Me melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": false,
   "alignedLyrics": [
     "If you ever find yourself stuck in the middle of the sea _ _",
@@ -26,10 +26,10 @@
     "count on you like four three two And you'll be there you can count on me cos' I can counton you"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/wUKPl1Js5.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song wUKPl1Js5 on 2026-05-22."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song wUKPl1Js5 on 2026-05-22."
   },
   "meta": {
     "key": "1 = C",
@@ -39,7 +39,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-22",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

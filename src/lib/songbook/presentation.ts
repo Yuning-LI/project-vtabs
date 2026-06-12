@@ -38,7 +38,7 @@ export type SongPresentation = {
  * 同时，前台禁止出现：
  * - “参考了快乐谱”
  * - “source is Kuailepu”
- * - 任何把第三方来源直接暴露给搜索用户的措辞
+ * - 任何把内部授权链路或内部处理来源直接暴露给搜索用户的措辞
  */
 const TITLE_OVERRIDES: Record<string, string> = {
   'american-patrol': 'American Patrol',

@@ -20,10 +20,10 @@
     "Blue, blue, my world is blue Blue is my world now I'm with- out you"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/SMS0b1LRt.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song SMS0b1LRt on 2026-05-03."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song SMS0b1LRt on 2026-05-03."
   },
   "meta": {
     "key": "1 = G",
@@ -33,7 +33,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-03",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 67,
   "notation": [

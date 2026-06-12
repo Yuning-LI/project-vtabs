@@ -220,7 +220,7 @@ Do not touch:
 Reason:
 
 - this is still the public correctness path
-- changing it would mix “de-Kuailepu” work with “replace Kuailepu” work
+- changing it would mix architecture-boundary work with native replacement work
 
 ### 2. Compare Baseline Logic
 
@@ -438,7 +438,7 @@ Phase 1 done means:
 - old `src/lib/kuailepu/runtime.ts` and `src/lib/kuailepu/runtimeTypes.ts` are only compatibility shells
 - the next work is no longer “how do we safely mount the authorized runtime”, but “which integrated runtime module should be decoupled or replaced next”
 
-### Phase 2: Code-Level De-Kuailepu Without Core Replacement
+### Phase 2: Code-Level Architecture Boundary Cleanup Without Core Replacement
 
 Goal:
 
@@ -956,7 +956,7 @@ After each completed work step, report in plain language:
 Example format:
 
 ```text
-This step was Phase 3 groundwork. I added the visual theme boundary but did not change actual sheet styling yet. Build passed. The overall full de-Kuailepu program remains about 40%, while Phase 3 moved from 0% to about 10%.
+This step was Phase 3 groundwork. I added the visual theme boundary but did not change actual sheet styling yet. Build passed. The overall authorized-runtime replacement program remains about 40%, while Phase 3 moved from 0% to about 10%.
 ```
 
 Use two progress tracks:

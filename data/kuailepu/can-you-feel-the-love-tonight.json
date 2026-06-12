@@ -2,7 +2,7 @@
   "id": "can-you-feel-the-love-tonight",
   "slug": "can-you-feel-the-love-tonight",
   "title": "Can You Feel the Love Tonight",
-  "description": "Can You Feel the Love Tonight melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Can You Feel the Love Tonight melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "难 得 在 _ 忙 乱 _ 中 找 一 份 _ 清 静， _ 难 得 在 _ 动 荡 世 界 上， _",
@@ -28,10 +28,10 @@
     "To the wild _ out doors _ When the heart _ of this star crossed voy ag er beats in time _ with youers _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/MDRUf1Nq6.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song MDRUf1Nq6 on 2026-04-15."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song MDRUf1Nq6 on 2026-04-15."
   },
   "meta": {
     "key": "1 = bB",
@@ -41,7 +41,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-15",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 70,
   "notation": [

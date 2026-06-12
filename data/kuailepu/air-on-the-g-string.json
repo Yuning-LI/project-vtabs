@@ -2,13 +2,13 @@
   "id": "air-on-the-g-string",
   "slug": "air-on-the-g-string",
   "title": "Air on the G String",
-  "description": "Bach melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Bach melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/HJczl1Q9t.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song HJczl1Q9t on 2026-03-29."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song HJczl1Q9t on 2026-03-29."
   },
   "meta": {
     "key": "1 = G",

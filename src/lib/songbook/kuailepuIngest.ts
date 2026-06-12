@@ -395,7 +395,7 @@ export function generateKuailepuRuntimeCandidate(options: KuailepuGenerationOpti
       title: `${title} MusicXML ingest draft`,
       url: '',
       rights: 'Candidate generated for local compatibility testing; review source rights before publication.',
-      note: 'Generated from SongIngestDraft, not imported from Kuailepu.'
+      note: 'Generated from SongIngestDraft, not imported from the authorized runtime.'
     },
     meta: {
       key: formatKeynoteLabel(targetKeynote),

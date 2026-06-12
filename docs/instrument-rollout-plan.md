@@ -62,7 +62,7 @@ Current public selection rules to preserve:
 
 - do not expose a fingering candidate when one all-closed or all-open outline is reused across more than two distinct pitches; this applies to `o12`, `o6`, `r8b`, `r8g`, and `w6`
 - if every candidate for a public instrument fails the audit, hide that instrument for that song instead of keeping a bad fallback option
-- ocarina candidate ordering should continue to prefer the Kuailepu reference key order encoded from the online fingering chart table when graph quality is otherwise close
+- ocarina candidate ordering should continue to prefer the authorized fingering key order encoded from the online fingering chart table when graph quality is otherwise close
 - generated candidate recall stays broad on purpose; do not reintroduce aggressive pre-runtime range pruning in the generation layer
 
 ## Implementation Rule

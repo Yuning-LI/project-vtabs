@@ -130,7 +130,7 @@ const PHENOMENA: PhenomenonDefinition[] = [
     label: 'Non-chord curly-brace directives',
     status: 'unsupported',
     description: 'Besides chord markers, Kuailepu originals contain extra `{...}` directives.',
-    whyItMatters: 'These likely encode playback or ornament behavior and should be cataloged before reuse.',
+    whyItMatters: 'These likely encode playback or ornament behavior and should be cataloged before implementation.',
     test: notation => /\{(?!cn:|bpm:|play:)[^}]+\}/i.test(notation),
     extractSnippet: notation => findSnippet(notation, /\{(?!cn:|bpm:|play:)[^}]+\}/i)
   },
@@ -138,7 +138,7 @@ const PHENOMENA: PhenomenonDefinition[] = [
     key: 'repeat-grammar',
     label: 'Repeat grammar and section navigation',
     status: 'unsupported',
-    description: 'Repeat bars, numbered endings, and section-level reuse appear in some songs.',
+    description: 'Repeat bars, numbered endings, and section-level repetition appear in some songs.',
     whyItMatters: 'Important for future grammar coverage, but not required for the current single-pass generator.',
     test: notation =>
       /:\||\|:|\[\d/.test(notation) || /\{play:/i.test(notation) || /^[A-Za-z0-9]+:/m.test(notation),

@@ -2,7 +2,7 @@
   "id": "i-believe",
   "slug": "i-believe",
   "title": "I Believe",
-  "description": "I Believe melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Kim. Hyung. Suk.",
+  "description": "I Believe melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Kim. Hyung. Suk.",
   "published": false,
   "alignedLyrics": [
     "I Believe _ _ 当 我 在 你 家 _ 门 口 _ 下 雨 了 _ 你 看",
@@ -20,10 +20,10 @@
     "你 的 人 _ 是 _ 我 _ _ _ _ _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/Kbp9b1je9.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song Kbp9b1je9 on 2026-05-23."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song Kbp9b1je9 on 2026-05-23."
   },
   "meta": {
     "key": "1 = G",
@@ -33,7 +33,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-23",
-    "note": "Kuailepu live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
+    "note": "Authorized runtime live compare and doctor checks passed on 2026-05-23. Keep unpublished in the local grey-song stock pool until publish approval, then promote with manifest, SEO, learn/hub links, and rollout drafts."
   },
   "tonicMidi": 67,
   "notation": [

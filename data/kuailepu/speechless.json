@@ -2,7 +2,7 @@
   "id": "speechless",
   "slug": "speechless",
   "title": "Speechless",
-  "description": "Speechless melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Alan Menken.",
+  "description": "Speechless melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Alan Menken.",
   "published": true,
   "alignedLyrics": [
     "Here comes a wave _ Meant to wash",
@@ -31,10 +31,10 @@
     "_ is I won\"t _ go speech _ less _ speech _ less _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/6R6ih1BdA.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 6R6ih1BdA on 2026-06-06."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 6R6ih1BdA on 2026-06-06."
   },
   "meta": {
     "key": "1 = A",
@@ -44,7 +44,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-06-06",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 69,
   "notation": [

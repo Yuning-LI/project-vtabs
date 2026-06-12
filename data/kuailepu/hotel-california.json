@@ -2,7 +2,7 @@
   "id": "hotel-california",
   "slug": "hotel-california",
   "title": "Hotel California",
-  "description": "Hotel California melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "description": "Hotel California melody reference imported from an authorized runtime detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
   "published": true,
   "alignedLyrics": [
     "On a dark de sert high way, cool wind in my hair",
@@ -21,10 +21,10 @@
     ""
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/R5gWk1lMC.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song R5gWk1lMC on 2026-04-19."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song R5gWk1lMC on 2026-04-19."
   },
   "meta": {
     "key": "1 = D",
@@ -34,7 +34,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-19",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 62,
   "notation": [

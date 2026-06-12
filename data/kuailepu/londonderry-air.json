@@ -2,13 +2,13 @@
   "id": "londonderry-air",
   "slug": "londonderry-air",
   "title": "Londonderry Air",
-  "description": "Londonderry Air melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. The source page carried non-English lyrics, so this MVP entry is intentionally surfaced as an instrumental melody page.",
+  "description": "Londonderry Air melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. The source page carried non-English lyrics, so this MVP entry is intentionally surfaced as an instrumental melody page.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/m5z7b1fuJ.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song m5z7b1fuJ on 2026-03-28."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song m5z7b1fuJ on 2026-03-28."
   },
   "meta": {
     "key": "1 = F",
@@ -18,7 +18,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-28",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 65,
   "notation": [

@@ -2,7 +2,7 @@
   "id": "let-it-be",
   "slug": "let-it-be",
   "title": "Let It Be",
-  "description": "Let It Be melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "description": "Let It Be melody reference imported from an authorized runtime detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
   "published": true,
   "alignedLyrics": [
     "When I",
@@ -24,10 +24,10 @@
     "_ _ _ the bro ken heart ed peo ple liv ing in the world a gree There will be an an swer, let it be _ _ For though they may be part ed there is still a chance _ that they will see There will be an an swer, let it be _ _ Let it be, let it be _ let it be, _ _ _ let it be _ _ There will be _ an an swer, let it be _ _ _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/bH9rk1KnH.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song bH9rk1KnH on 2026-04-19."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song bH9rk1KnH on 2026-04-19."
   },
   "meta": {
     "key": "1 = C",
@@ -37,7 +37,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-19",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

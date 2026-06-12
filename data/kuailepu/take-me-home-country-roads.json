@@ -2,7 +2,7 @@
   "id": "take-me-home-country-roads",
   "slug": "take-me-home-country-roads",
   "title": "Take Me Home, Country Roads",
-  "description": "Take Me Home, Country Roads melody reference imported from a Kuailepu detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
+  "description": "Take Me Home, Country Roads melody reference imported from an authorized runtime detail page and prepared for the site's current melody-first ocarina, recorder, and tin whistle workflow.",
   "published": true,
   "alignedLyrics": [
     "Al most hea ven west vir gi nia Blue rid ge moun tains",
@@ -22,10 +22,10 @@
     "All my me mories ga ther round her Min ers _ la dy strang er to blue wa ter _ _ Dark and du sty paint ed on the sky Mist y taste of moon shine Tear drops in my eyes"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/dishe1R2v.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song dishe1R2v on 2026-04-19."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song dishe1R2v on 2026-04-19."
   },
   "meta": {
     "key": "1 = G",
@@ -35,7 +35,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-19",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 67,
   "notation": [

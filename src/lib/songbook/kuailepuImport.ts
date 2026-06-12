@@ -1,17 +1,17 @@
 /**
- * 快乐谱原始 JSON 的本地导入辅助层。
+ * 授权运行时原始 JSON 的本地导入辅助层。
  *
- * 这层的定位不是“把快乐谱整套渲染逻辑搬进项目”，而是：
+ * 这层的定位不是运行时集成主链，而是：
  * 1. 读取 reference/songs 下的原始 JSON。
  * 2. 提取对当前项目真正有价值的字段。
- * 3. 把快乐谱记谱/歌词先降维成我们可审查、可继续转换的候选数据。
+ * 3. 把授权运行时记谱/歌词先降维成我们可审查、可继续转换的候选数据。
  *
  * 为什么先做“预览导入”而不是直接写入 catalog：
- * - 快乐谱的 notation 语法比我们当前 notation 更复杂，带时值/装饰/重复信息。
+ * - 授权运行时的 notation 语法比我们当前 notation 更复杂，带时值/装饰/重复信息。
  * - 当前项目上线链路仍然是手写 notation -> MIDI -> 指法图/字母谱。
- * - 所以最稳的 MVP 路线是：先把外部数据转成可核对的候选格式，再决定如何落库。
+ * - 所以最稳的 MVP 路线是：先把授权运行时数据转成可核对的候选格式，再决定如何落库。
  *
- * 当前已确认的快乐谱语义（来自 reference/快乐谱代码.txt）：
+ * 当前已确认的授权运行时语义（来自本地授权运行时模板备份）：
  * - 歌词里的 `;；@＠_/` 表示空歌词槽位。
  * - 记谱里的 `g` / `'` 表示高八度，`d` / `,` 表示低八度。
  * - notation 中还混有时值/布局/装饰相关符号，例如 `x . ( ) :`。
@@ -1050,11 +1050,11 @@ export function buildKuailepuSongDoc(
     alignedLyrics: preview.renderAlignedLyrics.length > 0 ? preview.renderAlignedLyrics : undefined,
     extraLyrics: preview.extraLyricBlocks.length > 0 ? preview.extraLyricBlocks : undefined,
     source: {
-      title: 'Kuailepu detail-page snapshot',
+      title: 'Authorized runtime detail snapshot',
       url: sourceUrl,
       rights:
         'Imported from an authorized runtime detail page as notation review material. Publish only after rights review.',
-      note: `Raw context captured from Kuailepu song ${payload.song_uuid ?? 'unknown'} on ${importedOn}.`
+      note: `Raw context captured from authorized runtime song ${payload.song_uuid ?? 'unknown'} on ${importedOn}.`
     },
     meta: {
       key: formatKeynoteLabel(preview.keynote),
@@ -1064,7 +1064,7 @@ export function buildKuailepuSongDoc(
     review: {
       status: 'pending',
       checkedOn: importedOn,
-      note: 'Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication.'
+      note: 'Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication.'
     },
     tonicMidi: preview.guessedTonicMidi,
     notation: preview.simplifiedNotationLines
@@ -1087,10 +1087,10 @@ function sanitizeSongId(value: string) {
 
 function buildImportedDescription(title: string, composer?: string) {
   if (composer) {
-    return `${title} melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: ${composer}.`
+    return `${title} melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: ${composer}.`
   }
 
-  return `${title} melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.`
+  return `${title} melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.`
 }
 
 function formatKeynoteLabel(keynote: string | null) {

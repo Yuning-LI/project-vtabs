@@ -101,7 +101,7 @@ Current reference order:
 - `o6`: `F4`, `G4`, `bB4`, `C5`, `D5`, `F5`, `G5`
 - `o12`: `F4`, `G4`, `bB4`, `C5`, `D5`, `F5`, `G5`, `bB5`, `C6`
 
-When generation-layer register penalties are close, prefer the better Kuailepu reference priority instead of random ordering.
+When generation-layer register penalties are close, prefer the better authorized fingering priority instead of random ordering.
 
 ### Generation-layer ranking priorities
 

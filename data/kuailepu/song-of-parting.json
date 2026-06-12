@@ -2,7 +2,7 @@
   "id": "song-of-parting",
   "slug": "song-of-parting",
   "title": "送别",
-  "description": "送别 melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 约翰·庞德·奥特威.",
+  "description": "送别 melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 约翰·庞德·奥特威.",
   "published": true,
   "alignedLyrics": [
     "长 亭 _ 外 古 道 边 芳 草 _ 碧 连 _ 天",
@@ -11,10 +11,10 @@
     "一 壶 _ 浊 酒 尽 余 欢 今 宵 _ 别 梦 寒"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/8hxIa1C6k.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song 8hxIa1C6k on 2026-03-30."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 8hxIa1C6k on 2026-03-30."
   },
   "meta": {
     "key": "1 = C",
@@ -24,7 +24,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-03-30",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

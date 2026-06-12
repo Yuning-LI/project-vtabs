@@ -2,7 +2,7 @@
   "id": "bella-ciao",
   "slug": "bella-ciao",
   "title": "Bella Ciao",
-  "description": "Bella Ciao melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Bella Ciao melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "那 一 天",
@@ -16,10 +16,10 @@
     "啊 每 当 人 们 _ 从 这 里 走 过 _ 啊 朋 友 再 见 吧， 再 见 吧， 再 见 吧！ 每 当 人 们 _ 从 这 里 走 过 _ 都 说 啊 多 么 美丽 的 花。"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/SN2os1L8t.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song SN2os1L8t on 2026-04-04."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song SN2os1L8t on 2026-04-04."
   },
   "meta": {
     "key": "1 = bA",
@@ -29,7 +29,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-04",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 68,
   "notation": [

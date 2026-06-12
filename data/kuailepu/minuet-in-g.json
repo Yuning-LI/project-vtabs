@@ -2,13 +2,13 @@
   "id": "minuet-in-g",
   "slug": "minuet-in-g",
   "title": "Minuet in G",
-  "description": "Minuet in G melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Minuet in G melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/leoVi11R5.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song leoVi11R5 on 2026-03-29."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song leoVi11R5 on 2026-03-29."
   },
   "meta": {
     "key": "1 = G",

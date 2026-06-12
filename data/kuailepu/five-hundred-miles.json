@@ -2,7 +2,7 @@
   "id": "five-hundred-miles",
   "slug": "five-hundred-miles",
   "title": "Five Hundred Miles",
-  "description": "Five Hundred Miles melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Five Hundred Miles melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "If you miss the train I'm on, You will know that I am gone, You can",
@@ -23,10 +23,10 @@
     "gone, You can hear the whistle _ blow A hundred _ miles. _"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/Vpsdc1Qb1.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song Vpsdc1Qb1 on 2026-05-18."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song Vpsdc1Qb1 on 2026-05-18."
   },
   "meta": {
     "key": "1 = C",
@@ -36,7 +36,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-05-18",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [

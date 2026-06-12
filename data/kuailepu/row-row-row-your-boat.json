@@ -2,7 +2,7 @@
   "id": "row-row-row-your-boat",
   "slug": "row-row-row-your-boat",
   "title": "Row, Row, Row Your Boat",
-  "description": "Row, Row, Row Your Boat melody reference imported from a Kuailepu detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "description": "Row, Row, Row Your Boat melody reference imported from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
   "published": true,
   "alignedLyrics": [
     "Row row row your boa- t Gently down the strea- m",
@@ -10,10 +10,10 @@
     "Life is but a dream"
   ],
   "source": {
-    "title": "Kuailepu detail-page snapshot",
+    "title": "Authorized runtime detail snapshot",
     "url": "https://www.kuaiyuepu.com/jianpu/y4xao1wly.html",
-    "rights": "Imported from a third-party detail page as notation reference only. Publish only after independent rights review.",
-    "note": "Raw context captured from Kuailepu song y4xao1wly on 2026-04-04."
+    "rights": "Prepared from authorized runtime material for notation review. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song y4xao1wly on 2026-04-04."
   },
   "meta": {
     "key": "1 = C",
@@ -23,7 +23,7 @@
   "review": {
     "status": "pending",
     "checkedOn": "2026-04-04",
-    "note": "Imported from a Kuailepu detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
   },
   "tonicMidi": 60,
   "notation": [
