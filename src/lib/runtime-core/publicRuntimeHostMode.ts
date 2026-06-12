@@ -1,6 +1,6 @@
 export type PublicRuntimeHostMode = 'iframe' | 'container'
 
-export type PublicRuntimeHostModeSource = 'query' | 'environment' | 'default'
+export type PublicRuntimeHostModeSource = 'query' | 'environment' | 'bot' | 'rollout' | 'default'
 
 export type PublicRuntimeHostModeResolution = {
   mode: PublicRuntimeHostMode

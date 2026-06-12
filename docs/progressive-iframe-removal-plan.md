@@ -1051,21 +1051,20 @@ Phase 12 validation record:
 
 ## Phase 13: Controlled Grey Rollout
 
+Status: Complete for local self-test only. Do not enable production grey traffic splitting; the later public switch will be a deliberate full rollout after local parity is accepted.
+
 ### Goal
 
-Gradually send selected human traffic to the container host while retaining automatic rollback.
+Provide a deterministic local rollout decision layer and health signals for self-testing, while retaining iframe as the public fallback and keeping crawlers on iframe.
 
 ### Concrete Scope
 
 Rollout levels:
 
 1. local dev only
-2. internal production query only
-3. internal cookie allowlist
-4. 1% human traffic
-5. 10% human traffic
-6. 50% human traffic
-7. default container with iframe fallback
+2. internal query/environment override only
+3. local deterministic percentage checks
+4. final public switch handled later as a full rollout, not production grey traffic splitting
 
 Signals to monitor:
 
@@ -1081,18 +1080,21 @@ Signals to monitor:
 Step 1: Deterministic rollout decision
 
 - Change Scope: add a deterministic host decision layer for allowed users or sessions while iframe remains forceable.
+- Implementation: `src/lib/runtime-core/publicRuntimeHostRollout.ts` resolves host mode in query, crawler, environment, local rollout percentage, default order. Query override still wins, crawlers are forced to iframe, and percentage rollout is local/experimental only.
 - Validation: confirm the same session gets the same host mode and that query/environment overrides take priority.
 - Risk: unstable assignment can make bugs hard to reproduce. Mitigate by logging host mode and decision reason in diagnostics.
 
 Step 2: Health signals
 
 - Change Scope: observe sheet render success, runtime ready time, playback open success, JavaScript errors, route-change remount errors, and blank-sheet reports.
+- Implementation: `PublicRuntimeInteractiveShell` records local browser diagnostics in `window.__PUBLIC_RUNTIME_HOST_MONITOR__` and emits a lightweight analytics event when available. Captured signals include host decision, runtime ready, playback open, window error, and unhandled rejection.
 - Validation: verify signals are emitted for both success and failure paths on internal traffic before increasing rollout.
 - Risk: missing signals can hide regressions. Mitigate by requiring health visibility before each rollout step.
 
 Step 3: Rollout stop rule
 
 - Change Scope: document thresholds for stopping rollout and forcing iframe.
+- Implementation: QA docs record iframe force paths: `runtime_host=iframe`, `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe`, and setting local rollout percent to `0`.
 - Validation: simulate or manually trigger a failure path and confirm the fallback procedure is clear.
 - Risk: rollout can continue after a visible regression. Mitigate with a conservative stop rule for blank sheet, playback, metronome, or route-change failures.
 
@@ -1105,24 +1107,40 @@ Add:
 
 Modify:
 
+- `src/app/song/[id]/page.tsx`
+- `src/components/song/PublicRuntimePage.tsx`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
+- `docs/manual-runtime-qa-checklist.md`
 
 ### Forbidden
 
 - Do not include bots in early grey rollout.
 - Do not disable iframe fallback.
 - Do not continue rollout if blank-sheet or playback regressions appear.
+- Do not enable production grey traffic splitting for this project stage.
 
 ### Acceptance
 
 - Runtime host mode can be determined deterministically per request/session.
 - Fallback can be forced by query or environment variable.
 - Error rate and render success are observable.
+- Search crawler user agents resolve to iframe even when local rollout percentage is enabled.
+- Public default remains iframe unless an explicit local query, environment, or local rollout self-test setting changes the decision.
+
+Phase 13 validation record:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- `git diff --check` passed.
+- Local browser checks covered query override, environment override, local rollout percentage, crawler iframe forcing, runtime-ready diagnostics, playback-open diagnostics, and front-end error capture.
+- Export routes remain controlled by Phase 12 query behavior and are not included in public traffic rollout.
 
 ### Risks And Mitigation
 
 - Risk: intermittent runtime race conditions only appear under production load.
-- Mitigation: grey slowly and keep forced iframe override.
+- Mitigation: keep Phase 13 as local self-test only, keep forced iframe override, and defer public default switch to Phase 14.
+- Risk: crawler traffic sees experimental container output.
+- Mitigation: crawler user-agent detection forces iframe before environment or rollout percentage decisions.
 
 ## Phase 14: Default Container Host
 

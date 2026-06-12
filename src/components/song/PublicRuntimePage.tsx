@@ -11,6 +11,7 @@ import type {
   PublicRuntimeHostModeSource
 } from '@/lib/runtime-core/publicRuntimeHostMode'
 import PublicRuntimeInteractiveShell, {
+  type PublicRuntimeHostDiagnostics,
   type PublicRuntimeContainerPackagePayload,
   type PublicRuntimeControlPayload
 } from './PublicRuntimeInteractiveShell'
@@ -28,6 +29,7 @@ type PublicRuntimePageProps = {
   runtimeHostMode?: PublicRuntimeHostMode
   runtimeHostModeSource?: PublicRuntimeHostModeSource
   runtimeHostQueryFlag?: boolean
+  runtimeHostDiagnostics?: PublicRuntimeHostDiagnostics
   containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
@@ -50,6 +52,7 @@ export default function PublicRuntimePage({
   runtimeHostMode,
   runtimeHostModeSource,
   runtimeHostQueryFlag,
+  runtimeHostDiagnostics,
   containerRuntimePackage,
   relatedSongs,
   relatedGuides,
@@ -81,6 +84,7 @@ export default function PublicRuntimePage({
           runtimeHostMode={runtimeHostMode}
           runtimeHostModeSource={runtimeHostModeSource}
           runtimeHostQueryFlag={runtimeHostQueryFlag}
+          runtimeHostDiagnostics={runtimeHostDiagnostics}
           containerRuntimePackage={containerRuntimePackage}
           pageBasePath={pageBasePath}
           runtimeApiBasePath={runtimeApiBasePath}

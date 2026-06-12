@@ -53,6 +53,26 @@ http://127.0.0.1:3000/song/<slug>?runtime_host=container&sheet_scale=12
 http://127.0.0.1:3000/song/<slug>?runtime_host=container&practice_tool=metronome
 ```
 
+For local runtime host rollout self-test:
+
+```text
+http://127.0.0.1:3000/song/<slug>
+http://127.0.0.1:3000/song/<slug>?runtime_host=container
+http://127.0.0.1:3000/song/<slug>?runtime_host=iframe
+http://127.0.0.1:3000/song/<slug>?runtime_host_rollout_key=always-check
+```
+
+Local environment examples:
+
+```bash
+NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container npm run dev -- -p 3001
+NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe npm run dev -- -p 3001
+NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=100 npm run dev -- -p 3001
+NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=0 npm run dev -- -p 3001
+curl -A "Googlebot/2.1" "http://127.0.0.1:3001/song/<slug>"
+curl -H "x-vtabs-runtime-user-agent: Googlebot/2.1" "http://127.0.0.1:3001/song/<slug>"
+```
+
 For export-route host review:
 
 ```text
@@ -112,6 +132,38 @@ Check:
 - container-mode control changes remount cleanly with one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
 - `Listen`, playback panel close, `Stop`, and metronome `On/Off` work in both iframe and container modes
 - removing `runtime_host` returns the page to the iframe default unless an experimental environment default is set
+
+## Local Runtime Host Rollout Review
+
+Use the rollout controls only for local self-test. Do not enable production grey traffic splitting; the later public switch should be a deliberate full rollout.
+
+Check:
+
+- default `/song/<slug>` renders iframe when no query, environment default, or local rollout percentage is set
+- `runtime_host=container` still forces container and `runtime_host=iframe` still forces iframe
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` selects container for normal human requests
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` forces iframe even after a container-mode test
+- `NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=100` selects container for ordinary non-crawler local requests
+- `NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=0` returns ordinary local requests to iframe
+- requests with crawler user agents such as `Googlebot/2.1`, `Bingbot/2.0`, or `DuckDuckBot/1.0` render iframe even when local rollout percentage is `100`; browser automation may use `x-vtabs-runtime-user-agent` to verify the same server branch when stealth tooling rewrites `User-Agent`
+- repeated requests with the same `runtime_host_rollout_key` resolve to the same host while the rollout percent is unchanged
+- `window.__PUBLIC_RUNTIME_HOST_MONITOR__` records `host_decision` and `runtime_ready` after page load
+- clicking `Listen` records `playback_open` and still opens playback or preserves the existing fallback behavior
+- dispatching a test error records `window_error` without breaking the page:
+
+```js
+window.dispatchEvent(new ErrorEvent('error', { message: 'phase13 test error' }))
+window.__PUBLIC_RUNTIME_HOST_MONITOR__
+```
+
+- dispatching a rejected promise records `unhandled_rejection` without breaking the page:
+
+```js
+window.dispatchEvent(new PromiseRejectionEvent('unhandledrejection', { reason: new Error('phase13 test rejection') }))
+window.__PUBLIC_RUNTIME_HOST_MONITOR__
+```
+
+- any blank sheet, duplicated sheet, playback failure, metronome failure, or route-change remount issue is a stop condition; force iframe with `runtime_host=iframe`, `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe`, or rollout percent `0`
 
 ## Export Route Host Review
 

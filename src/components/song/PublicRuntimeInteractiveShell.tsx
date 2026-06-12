@@ -55,6 +55,12 @@ import {
   type PublicRuntimeHostModeSource
 } from '@/lib/runtime-core/publicRuntimeHostMode'
 
+declare global {
+  interface Window {
+    __PUBLIC_RUNTIME_HOST_MONITOR__?: PublicRuntimeHostMonitorEvent[]
+  }
+}
+
 export type PublicRuntimeControlPayload = {
   instrumentFingerings?: Array<{
     instrument: string
@@ -89,6 +95,28 @@ export type PublicRuntimeContainerPackagePayload = {
   scriptEntries: RuntimeScriptEntry[]
 }
 
+export type PublicRuntimeHostDiagnostics = {
+  rolloutEnabled?: boolean
+  rolloutPercent?: number
+  rolloutBucket?: number | null
+  isBot?: boolean
+  reason?: string
+}
+
+type PublicRuntimeHostMonitorEvent = {
+  type:
+    | 'host_decision'
+    | 'runtime_ready'
+    | 'playback_open'
+    | 'window_error'
+    | 'unhandled_rejection'
+  songId: string
+  hostMode: PublicRuntimeHostMode
+  source: PublicRuntimeHostModeSource
+  timestamp: number
+  details?: Record<string, string | number | boolean | null>
+}
+
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 
 type PublicRuntimeInteractiveShellProps = {
@@ -104,6 +132,7 @@ type PublicRuntimeInteractiveShellProps = {
   runtimeHostMode?: PublicRuntimeHostMode
   runtimeHostModeSource?: PublicRuntimeHostModeSource
   runtimeHostQueryFlag?: boolean
+  runtimeHostDiagnostics?: PublicRuntimeHostDiagnostics
   containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
   pageBasePath?: string
   runtimeApiBasePath?: string
@@ -125,6 +154,7 @@ export default function PublicRuntimeInteractiveShell({
   runtimeHostMode = 'iframe',
   runtimeHostModeSource = 'default',
   runtimeHostQueryFlag = false,
+  runtimeHostDiagnostics,
   containerRuntimePackage = null,
   pageBasePath = '/song',
   runtimeApiBasePath = PUBLIC_RUNTIME_API_BASE_PATH,
@@ -146,6 +176,8 @@ export default function PublicRuntimeInteractiveShell({
   const playbackLoadingStartTimeRef = useRef<number | null>(null)
   const playbackActivationPendingRef = useRef(false)
   const playbackActivationTimeoutRef = useRef<number | null>(null)
+  const runtimeHostMountedAtRef = useRef<number | null>(null)
+  const runtimeReadyTrackedRef = useRef<string | null>(null)
 
   const clearPlaybackLoadingInterval = useCallback(() => {
     if (playbackLoadingIntervalRef.current !== null) {
@@ -244,6 +276,40 @@ export default function PublicRuntimeInteractiveShell({
   const activeRuntimeHostMode: PublicRuntimeHostMode = canUseContainerHost ? 'container' : 'iframe'
   const shouldEnablePlaybackRuntimeFeature =
     activeRuntimeHostMode === 'container' || isPlaybackFeatureEnabled
+  const recordRuntimeHostMonitorEvent = useCallback(
+    (
+      type: PublicRuntimeHostMonitorEvent['type'],
+      details?: Record<string, string | number | boolean | null>
+    ) => {
+      if (typeof window === 'undefined') {
+        return
+      }
+
+      const event: PublicRuntimeHostMonitorEvent = {
+        type,
+        songId,
+        hostMode: activeRuntimeHostMode,
+        source: runtimeHostModeSource,
+        timestamp: Date.now(),
+        details
+      }
+      window.__PUBLIC_RUNTIME_HOST_MONITOR__ = [
+        ...(window.__PUBLIC_RUNTIME_HOST_MONITOR__ ?? []).slice(-49),
+        event
+      ]
+      sendGaEvent('public_runtime_host_monitor', {
+        signal_type: type,
+        song_slug: songId,
+        runtime_host_mode: activeRuntimeHostMode,
+        runtime_host_source: runtimeHostModeSource,
+        rollout_enabled: runtimeHostDiagnostics?.rolloutEnabled ?? false,
+        rollout_percent: runtimeHostDiagnostics?.rolloutPercent ?? 0,
+        rollout_bucket: runtimeHostDiagnostics?.rolloutBucket ?? null,
+        is_bot: runtimeHostDiagnostics?.isBot ?? false
+      })
+    },
+    [activeRuntimeHostMode, runtimeHostDiagnostics, runtimeHostModeSource, songId]
+  )
   const noteLabelMode =
     normalizedQueryState.noteLabelMode === 'number' ||
     normalizedQueryState.noteLabelMode === 'graph'
@@ -408,8 +474,49 @@ export default function PublicRuntimeInteractiveShell({
   }, [runtimeHostSessionKey])
 
   useEffect(() => {
+    runtimeHostMountedAtRef.current = performance.now()
+    runtimeReadyTrackedRef.current = null
+    recordRuntimeHostMonitorEvent('host_decision', {
+      queryFlag: runtimeHostQueryFlag,
+      rolloutEnabled: runtimeHostDiagnostics?.rolloutEnabled ?? false,
+      rolloutPercent: runtimeHostDiagnostics?.rolloutPercent ?? 0,
+      rolloutBucket: runtimeHostDiagnostics?.rolloutBucket ?? null,
+      isBot: runtimeHostDiagnostics?.isBot ?? false,
+      reason: runtimeHostDiagnostics?.reason ?? null
+    })
+  }, [
+    recordRuntimeHostMonitorEvent,
+    runtimeHostDiagnostics,
+    runtimeHostQueryFlag,
+    runtimeHostSessionKey
+  ])
+
+  useEffect(() => {
     onRuntimeFrameReadyChange?.(false)
   }, [onRuntimeFrameReadyChange, runtimeHostSessionKey])
+
+  useEffect(() => {
+    function handleWindowError(event: ErrorEvent) {
+      recordRuntimeHostMonitorEvent('window_error', {
+        message: event.message || 'window error',
+        filename: event.filename || null,
+        line: event.lineno || null
+      })
+    }
+
+    function handleUnhandledRejection(event: PromiseRejectionEvent) {
+      recordRuntimeHostMonitorEvent('unhandled_rejection', {
+        message: formatRuntimeMonitorError(event.reason)
+      })
+    }
+
+    window.addEventListener('error', handleWindowError)
+    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+    return () => {
+      window.removeEventListener('error', handleWindowError)
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+    }
+  }, [recordRuntimeHostMonitorEvent])
 
   useEffect(() => {
     if (playbackStatus !== 'loading') {
@@ -658,6 +765,10 @@ export default function PublicRuntimeInteractiveShell({
       instrument_id: activeInstrument.id,
       note_label_mode: noteLabelMode
     })
+    recordRuntimeHostMonitorEvent('playback_open', {
+      instrumentId: activeInstrument.id,
+      noteLabelMode
+    })
 
     if (!isPlaybackFeatureEnabled) {
       setIsPlaybackFeatureEnabled(true)
@@ -676,6 +787,7 @@ export default function PublicRuntimeInteractiveShell({
     noteLabelMode,
     playbackStatus,
     postPlaybackCommandMessage,
+    recordRuntimeHostMonitorEvent,
     resolvePlaybackActivationGuard,
     songId,
     startPlaybackActivationGuard
@@ -683,6 +795,13 @@ export default function PublicRuntimeInteractiveShell({
 
   const handleRuntimeFrameLoad = useCallback(() => {
     onRuntimeFrameReadyChange?.(true)
+    if (runtimeReadyTrackedRef.current !== runtimeHostSessionKey) {
+      runtimeReadyTrackedRef.current = runtimeHostSessionKey
+      const mountedAt = runtimeHostMountedAtRef.current
+      recordRuntimeHostMonitorEvent('runtime_ready', {
+        readyMs: mountedAt ? Math.max(0, Math.round(performance.now() - mountedAt)) : null
+      })
+    }
 
     if (
       !pendingPlaybackOpenRef.current ||
@@ -700,14 +819,30 @@ export default function PublicRuntimeInteractiveShell({
     activeRuntimeHostMode,
     isPlaybackFeatureEnabled,
     onRuntimeFrameReadyChange,
-    postPlaybackCommandMessage
+    postPlaybackCommandMessage,
+    recordRuntimeHostMonitorEvent,
+    runtimeHostSessionKey
   ])
 
   const handleRuntimeHostControllerChange = useCallback(
     (controller: PublicRuntimeHostController | null) => {
       runtimeHostControllerRef.current = controller
+      if (controller && runtimeReadyTrackedRef.current !== runtimeHostSessionKey) {
+        window.setTimeout(() => {
+          if (runtimeReadyTrackedRef.current === runtimeHostSessionKey) {
+            return
+          }
+
+          runtimeReadyTrackedRef.current = runtimeHostSessionKey
+          const mountedAt = runtimeHostMountedAtRef.current
+          recordRuntimeHostMonitorEvent('runtime_ready', {
+            readyMs: mountedAt ? Math.max(0, Math.round(performance.now() - mountedAt)) : null,
+            source: 'host-controller'
+          })
+        }, 250)
+      }
     },
-    []
+    [recordRuntimeHostMonitorEvent, runtimeHostSessionKey]
   )
 
   const instrumentSelect =
@@ -1083,4 +1218,20 @@ function normalizeExplicitShowGraph(
   }
 
   return graphOptions.includes(value) ? value : null
+}
+
+function formatRuntimeMonitorError(error: unknown) {
+  if (error instanceof Error) {
+    return error.message
+  }
+
+  if (typeof error === 'string') {
+    return error
+  }
+
+  try {
+    return JSON.stringify(error)
+  } catch {
+    return String(error)
+  }
 }
