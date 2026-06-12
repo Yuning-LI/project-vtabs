@@ -376,6 +376,10 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     );
   }
 
+  function isPublicRuntimeContainerHost() {
+    return Boolean(document.querySelector('[data-public-runtime-dom-mount="true"]'));
+  }
+
   function openPublicPlaybackPanelFallback(playModal) {
     if (!playModal) {
       return;
@@ -411,6 +415,14 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       modalFooter.style.removeProperty('bottom');
       modalFooter.style.removeProperty('height');
     }
+  }
+
+  function constrainPublicPlaybackPanelIfContainer(playModal) {
+    if (!isPublicRuntimeContainerHost()) {
+      return;
+    }
+
+    openPublicPlaybackPanelFallback(playModal);
   }
 
   function closePublicPlaybackPanelFallback(playModal) {
@@ -741,6 +753,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         if (!isPublicPlaybackPanelOpen()) {
           openPublicPlaybackPanelFallback(playModal);
         }
+        constrainPublicPlaybackPanelIfContainer(playModal);
         normalizePublicPlaybackPanelButtonState(playModal);
       }, 30);
       window.setTimeout(localizePublicPlayback, 80);
@@ -776,6 +789,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         if (!isPublicPlaybackPanelOpen()) {
           openPublicPlaybackPanelFallback(playModal);
         }
+        constrainPublicPlaybackPanelIfContainer(playModal);
         normalizePublicPlaybackPanelButtonState(playModal);
         if (!publicPlaybackSessionStarted) {
           postPublicPlaybackStatus();
