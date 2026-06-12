@@ -24,6 +24,7 @@ Already completed:
 - Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
 - Phase 8 bridge transport parity is complete on the dev comparison route: playback, playback panel state, metronome, visual theme, instrument/fingering remounts, and readiness diagnostics now work through the normalized host controller boundary.
 - Phase 11 query-flagged public host selection is complete: public `/song` still defaults to iframe, while `runtime_host=container` can opt into the container host for parity review.
+- Phase 12 export-route compatibility is complete: internal print and Pinterest preview/export routes still default to iframe, while `runtime_host=container` can opt into the container host for export parity checks.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -967,6 +968,8 @@ Phase 11 validation record:
 
 ## Phase 12: Export Route Compatibility
 
+Status: Complete.
+
 ### Goal
 
 Make print and Pinterest preview work with the same host switch, while keeping iframe as default.
@@ -982,18 +985,21 @@ Make print and Pinterest preview work with the same host switch, while keeping i
 Step 1: Internal print opt-in
 
 - Change Scope: allow internal print preview to request the container host while keeping iframe output available.
+- Implementation: `src/app/dev/print/song/[id]/page.tsx` resolves `runtime_host` with an iframe-only environment fallback, builds a server-side container package only when `runtime_host=container`, and renders the selected host through `ExportRuntimeHost`.
 - Validation: compare print preview for `twinkle-twinkle-little-star`, a long sample, and a dense sample against iframe output.
 - Risk: container measurement can change page breaks or sheet crop. Mitigate by keeping print default on iframe until parity is accepted.
 
 Step 2: Pinterest opt-in
 
 - Change Scope: allow Pinterest preview/export tooling to request the container host while keeping iframe output available.
+- Implementation: `src/app/dev/pinterest/song/[id]/page.tsx` resolves `runtime_host` with an iframe-only environment fallback, mirrors the workbench query state into the container package, and keeps iframe as the default host for preview/export.
 - Validation: compare exported image dimensions, crop, sheet visibility, and title/metadata placement against iframe output.
 - Risk: host sizing differences can shift crop boundaries. Mitigate by recording visual differences and leaving iframe export as the operational path until accepted.
 
 Step 3: Export fallback
 
 - Change Scope: document how to force iframe exports during container validation.
+- Implementation: `scripts/export-print-song-pdf.ts` and `scripts/export-pinterest-pin.ts` accept `--runtime-host iframe|container`. Omitting the flag preserves the existing iframe route. Pinterest filename, manifest destination URL, crop post-processing, and print PDF options stay unchanged.
 - Validation: run one successful iframe export after each container export test.
 - Risk: export regressions can block content work. Mitigate by keeping the existing export path unchanged until the container path passes.
 
@@ -1005,6 +1011,11 @@ Modify:
 - `src/app/dev/pinterest/song/[id]/page.tsx`
 - `scripts/export-print-song-pdf.ts`
 - `scripts/export-pinterest-pin.ts`
+
+Add:
+
+- `src/components/song/runtime-host/ExportRuntimeHost.tsx`
+- `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts`
 
 ### Forbidden
 
@@ -1021,10 +1032,22 @@ For `twinkle-twinkle-little-star`:
 - container Pinterest preview works behind query.
 - Visual differences are documented.
 
+Phase 12 validation record:
+
+- `npm run typecheck` passed.
+- Browser validation covered print preview default iframe, print `runtime_host=container`, print `runtime_host=iframe`, Pinterest preview default iframe, Pinterest `runtime_host=container`, and Pinterest `runtime_host=iframe`.
+- Export smoke checks covered print PDF iframe/container output and Pinterest image iframe/container output for `twinkle-twinkle-little-star`; generated files were written outside the repository worktree.
+- `npm run build` passed.
+- `git diff --check` passed.
+- Print and Pinterest routes keep iframe as the default host even if a public runtime host environment default is configured elsewhere.
+- No export dimensions, PDF options, image filename rules, manifest destination URLs, or crop post-processing rules were changed.
+
 ### Risks And Mitigation
 
 - Risk: container host changes measurement and export crop.
 - Mitigation: keep export host default iframe until visual parity is acceptable.
+- Risk: container export has a route-specific host issue.
+- Mitigation: force `runtime_host=iframe` in the preview URL or `--runtime-host iframe` in export scripts, then repair only the route/host adaptation layer.
 
 ## Phase 13: Controlled Grey Rollout
 

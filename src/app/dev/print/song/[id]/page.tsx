@@ -1,12 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
+import ExportRuntimeHost from '@/components/song/runtime-host/ExportRuntimeHost'
 import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
 import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
+import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
+import { resolvePublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
+import { buildPublicRuntimeContainerPackage } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
@@ -36,6 +39,7 @@ type PrintPageSearchParams = {
   sheet_scale?: string
   runtime_visual_theme?: string
   paper?: string
+  runtime_host?: string
 }
 
 export async function generateMetadata({
@@ -108,6 +112,11 @@ export default function InternalPrintSongPage({
   const runtimeVisualTheme = normalizePublicRuntimeVisualThemeName(
     searchParams?.runtime_visual_theme
   )
+  const runtimeHostResolution = resolvePublicRuntimeHostMode({
+    queryValue: searchParams?.runtime_host,
+    environmentValue: 'iframe',
+    hasQueryFlag: Boolean(searchParams?.runtime_host)
+  })
 
   const paramsForFrame = new URLSearchParams()
   // 打印链继续使用 runtime HTML 路由，而不是另写一套 renderer。
@@ -136,6 +145,26 @@ export default function InternalPrintSongPage({
   }
 
   const frameSrc = buildPublicRuntimeUrl(song.slug, { params: paramsForFrame })
+  const runtimeState: PublicRuntimeState = {
+    instrument: activeInstrument.id,
+    note_label_mode: noteLabelMode,
+    show_graph: showGraph,
+    show_lyric: showLyric,
+    show_measure_num: showMeasureNum,
+    measure_layout: measureLayout,
+    sheet_scale: sheetScale
+  }
+  const containerPackage =
+    runtimeHostResolution.mode === 'container'
+      ? buildPublicRuntimeContainerPackage({
+          songId: song.slug,
+          payload: runtimePayload,
+          state: runtimeState,
+          preferredEnglishTitle: presentation.title,
+          preferredEnglishSubtitle: null,
+          visualThemeName: runtimeVisualTheme
+        })
+      : null
   const loadingId = `public-runtime-print-${song.slug}-loading`
 
   return (
@@ -212,11 +241,13 @@ export default function InternalPrintSongPage({
           </header>
 
           <div className="px-3 py-3 print:px-0 print:py-0">
-            <PublicRuntimeFrame
+            <ExportRuntimeHost
               songId={song.slug}
               title={presentation.title}
+              mode={runtimeHostResolution.mode}
               frameSrc={frameSrc}
               loadingId={loadingId}
+              containerPackage={containerPackage}
               panelClassName="relative overflow-hidden rounded-[18px] border border-stone-200 bg-white shadow-none print:rounded-none print:border-0"
               iframeClassName="print-runtime-frame block w-full border-0"
               overlayClassName="bg-white/96"

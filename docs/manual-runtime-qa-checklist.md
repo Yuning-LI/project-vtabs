@@ -53,6 +53,32 @@ http://127.0.0.1:3000/song/<slug>?runtime_host=container&sheet_scale=12
 http://127.0.0.1:3000/song/<slug>?runtime_host=container&practice_tool=metronome
 ```
 
+For export-route host review:
+
+```text
+http://127.0.0.1:3000/dev/print/song/<slug>
+http://127.0.0.1:3000/dev/print/song/<slug>?runtime_host=container
+http://127.0.0.1:3000/dev/print/song/<slug>?runtime_host=iframe
+http://127.0.0.1:3000/dev/print/song/<slug>?runtime_host=container&note_label_mode=number
+http://127.0.0.1:3000/dev/print/song/<slug>?runtime_host=container&measure_layout=mono
+http://127.0.0.1:3000/dev/print/song/<slug>?runtime_host=container&sheet_scale=12
+http://127.0.0.1:3000/dev/pinterest/song/<slug>
+http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=container
+http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=iframe
+http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=container&note_label_mode=number
+http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=container&measure_layout=mono
+http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=container&sheet_scale=12
+```
+
+For export script host review:
+
+```bash
+npm run export:print-pdf -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output /tmp/vtabs-phase12/<slug>-print-iframe.pdf
+npm run export:print-pdf -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host container --output /tmp/vtabs-phase12/<slug>-print-container.pdf
+npm run export:pinterest-pin -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output-dir /tmp/vtabs-phase12/pinterest-iframe --width 500 --height 800 --dpr 1 --capture canvas --max-output-height 1400
+npm run export:pinterest-pin -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host container --output-dir /tmp/vtabs-phase12/pinterest-container --width 500 --height 800 --dpr 1 --capture canvas --max-output-height 1400
+```
+
 ## Internal Runtime Host Review
 
 Use `/dev/runtime-host/review/<slug>` only for internal iframe/container parity work.
@@ -86,6 +112,27 @@ Check:
 - container-mode control changes remount cleanly with one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
 - `Listen`, playback panel close, `Stop`, and metronome `On/Off` work in both iframe and container modes
 - removing `runtime_host` returns the page to the iframe default unless an experimental environment default is set
+
+## Export Route Host Review
+
+Use `runtime_host=container` only for export parity review. Print and Pinterest preview/export defaults must remain iframe-backed.
+
+Check:
+
+- `/dev/print/song/<slug>` renders one iframe host and no public container host
+- `/dev/print/song/<slug>?runtime_host=container` renders the container host and no iframe host
+- `/dev/print/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
+- print preview keeps the same paper mode, instrument, note labels, fingering chart, lyrics, measure numbers, layout, and zoom query state in both host modes
+- print PDF export without `--runtime-host` uses iframe; `--runtime-host container` opts into the container host
+- print PDF file format, filename path, A4 orientation, CSS page size, and PDF options stay unchanged
+- `/dev/pinterest/song/<slug>` renders one iframe host under the Pinterest export root and no public container host
+- `/dev/pinterest/song/<slug>?runtime_host=container` renders the container host under the Pinterest export root and no iframe host
+- `/dev/pinterest/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
+- Pinterest preview keeps the same instrument, note labels, fingering chart, lyrics, measure numbers, layout, zoom, watermark, title, footer, and destination link state in both host modes
+- Pinterest image export without `--runtime-host` uses iframe; `--runtime-host container` opts into the container host
+- Pinterest output filename, manifest destination URL, tracking URL, screenshot target, and title-gap crop behavior stay unchanged
+- container exports produce visible sheet output with no extra inner scrollbar, no clipped first system, and no unexpected bottom blank area
+- when a container export differs visually, rerun the same command with `--runtime-host iframe` and record the difference before changing code
 
 ## Default Public Page
 

@@ -44,6 +44,7 @@ type ExportArgs = {
   measureLayout: 'compact' | 'mono' | null
   sheetScale: string | null
   watermark: 'on' | 'off' | null
+  runtimeHost: 'iframe' | 'container' | null
   captureMode: 'canvas' | 'page'
 }
 
@@ -89,10 +90,7 @@ async function main() {
             searchParams: finalSearchParams
           })
           await page.goto(finalWorkbenchUrl, { waitUntil: 'networkidle', timeout: 45000 })
-          const runtimeFrame = page.locator('[data-pinterest-export-root="true"] iframe').first()
-          await runtimeFrame.waitFor({ state: 'visible', timeout: 30000 })
-          const runtime = page.frameLocator('[data-pinterest-export-root="true"] iframe')
-          await runtime.locator('svg.sheet-svg').waitFor({ timeout: 30000 })
+          await waitForPinterestRuntimeReady(page, args.runtimeHost ?? 'iframe')
           await page
             .locator('[data-runtime-loading="true"]')
             .waitFor({ state: 'detached', timeout: 30000 })
@@ -185,6 +183,26 @@ async function waitForStableExportHeight(page: Page, exportRoot: Locator) {
   return previousHeight > 0 ? previousHeight : 1500
 }
 
+async function waitForPinterestRuntimeReady(page: Page, runtimeHost: 'iframe' | 'container') {
+  if (runtimeHost === 'container') {
+    await page
+      .locator(
+        [
+          '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet svg',
+          '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet .sheet-svg'
+        ].join(', ')
+      )
+      .first()
+      .waitFor({ timeout: 30000 })
+    return
+  }
+
+  const runtimeFrame = page.locator('[data-pinterest-export-root="true"] iframe').first()
+  await runtimeFrame.waitFor({ state: 'visible', timeout: 30000 })
+  const runtime = page.frameLocator('[data-pinterest-export-root="true"] iframe')
+  await runtime.locator('svg.sheet-svg').waitFor({ timeout: 30000 })
+}
+
 async function detectRemovableTitleGap(
   page: Page,
   exportRoot: Locator
@@ -192,18 +210,21 @@ async function detectRemovableTitleGap(
   const gap = await exportRoot
     .evaluate(node => {
       const iframe = node.querySelector('iframe')
+      const runtimeRoot = node.querySelector('[data-public-runtime-container-host="active"]')
       const rootRect = node.getBoundingClientRect()
-      if (!(iframe instanceof HTMLIFrameElement)) {
+      const hasIframe = iframe instanceof HTMLIFrameElement
+      const hasRuntimeRoot = runtimeRoot instanceof HTMLElement
+      if (!hasIframe && !hasRuntimeRoot) {
         return null
       }
 
-      const iframeRect = iframe.getBoundingClientRect()
-      const doc = iframe.contentDocument
-      if (!doc) {
+      const iframeRect = hasIframe ? iframe.getBoundingClientRect() : null
+      const docOrRoot = hasIframe ? iframe.contentDocument : runtimeRoot
+      if (!docOrRoot) {
         return null
       }
 
-      const svg = doc.querySelector('#sheet svg, #sheet .sheet-svg')
+      const svg = docOrRoot.querySelector('#sheet svg, #sheet .sheet-svg')
       if (!(svg instanceof SVGSVGElement)) {
         return null
       }
@@ -259,8 +280,14 @@ async function detectRemovableTitleGap(
       }
 
       const titleRect = primaryTitle.getBoundingClientRect()
-      const gapStart = iframeRect.top - rootRect.top + titleRect.bottom + 6
-      const gapEnd = iframeRect.top - rootRect.top + firstChart.rect.top - 6
+      const gapStart =
+        hasIframe && iframeRect
+          ? iframeRect.top - rootRect.top + titleRect.bottom + 6
+          : titleRect.bottom - rootRect.top + 6
+      const gapEnd =
+        hasIframe && iframeRect
+          ? iframeRect.top - rootRect.top + firstChart.rect.top - 6
+          : firstChart.rect.top - rootRect.top - 6
       const gapHeight = gapEnd - gapStart
       if (!Number.isFinite(gapStart) || !Number.isFinite(gapEnd) || gapHeight < 16) {
         return null
@@ -575,6 +602,9 @@ function buildExportTargetFromValues(input: {
       searchParams.set('watermark', 'off')
     }
   }
+  if (args.runtimeHost) {
+    searchParams.set('runtime_host', args.runtimeHost)
+  }
 
   const destinationUrl = buildDestinationUrl(slug, preset, args)
   const pinId = preset ? getPinterestPinPresetId(preset) : `${slug}-${args.instrument ?? 'default'}`
@@ -821,6 +851,7 @@ function parseArgs(argv: string[]): ExportArgs {
     measureLayout: parseEnum(values.get('measure-layout'), ['compact', 'mono'], '--measure-layout'),
     sheetScale: values.get('sheet-scale') ?? null,
     watermark: parseEnum(values.get('watermark'), ['on', 'off'], '--watermark'),
+    runtimeHost: parseEnum(values.get('runtime-host'), ['iframe', 'container'], '--runtime-host'),
     captureMode: parseEnum(values.get('capture'), ['canvas', 'page'], '--capture') ?? 'canvas'
   }
 }

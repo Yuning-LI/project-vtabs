@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
+import type { Page } from 'playwright'
 
 type ExportArgs = {
   slug: string
@@ -14,6 +15,7 @@ type ExportArgs = {
   showMeasureNum?: string
   measureLayout?: string
   sheetScale?: string
+  runtimeHost?: 'iframe' | 'container'
 }
 
 async function main() {
@@ -50,6 +52,9 @@ async function main() {
   if (args.sheetScale) {
     search.set('sheet_scale', args.sheetScale)
   }
+  if (args.runtimeHost) {
+    search.set('runtime_host', args.runtimeHost)
+  }
 
   const url = `${args.baseUrl.replace(/\/$/, '')}/dev/print/song/${args.slug}?${search.toString()}`
   const browser = await chromium.launch({ headless: true })
@@ -60,8 +65,7 @@ async function main() {
     })
     await page.goto(url, { waitUntil: 'networkidle' })
 
-    const iframe = page.frameLocator('iframe')
-    await iframe.locator('#sheet svg, #sheet .sheet-svg').first().waitFor({ timeout: 30000 })
+    await waitForPrintRuntimeReady(page, args.runtimeHost ?? 'iframe')
     await page.locator('[data-runtime-loading="true"]').waitFor({ state: 'detached', timeout: 30000 }).catch(() => {})
     await page.emulateMedia({ media: 'print' })
 
@@ -117,8 +121,36 @@ function parseArgs(argv: string[]): ExportArgs {
     showLyric: values.get('show-lyric'),
     showMeasureNum: values.get('show-measure-num'),
     measureLayout: values.get('measure-layout'),
-    sheetScale: values.get('sheet-scale')
+    sheetScale: values.get('sheet-scale'),
+    runtimeHost: parseRuntimeHost(values.get('runtime-host'))
   }
+}
+
+async function waitForPrintRuntimeReady(page: Page, runtimeHost: 'iframe' | 'container') {
+  if (runtimeHost === 'container') {
+    await page
+      .locator(
+        '[data-public-runtime-container-host="active"] #sheet svg, [data-public-runtime-container-host="active"] #sheet .sheet-svg'
+      )
+      .first()
+      .waitFor({ timeout: 30000 })
+    return
+  }
+
+  const iframe = page.frameLocator('iframe')
+  await iframe.locator('#sheet svg, #sheet .sheet-svg').first().waitFor({ timeout: 30000 })
+}
+
+function parseRuntimeHost(value: string | undefined) {
+  if (!value) {
+    return undefined
+  }
+
+  if (value === 'iframe' || value === 'container') {
+    return value
+  }
+
+  throw new Error(`Invalid value for --runtime-host: ${value}`)
 }
 
 main().catch(error => {
