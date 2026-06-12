@@ -1,6 +1,12 @@
 import type { CSSProperties } from 'react'
 import type { PublicRuntimeHostMessage } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
+import type {
+  RuntimeScriptLoaderDiagnostics
+} from './RuntimeScriptLoader'
+import type {
+  RuntimeContainerMeasurementSnapshot
+} from './useRuntimeContainerMeasurement'
 
 export type { PublicRuntimeHostMessage } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 
@@ -64,6 +70,13 @@ export type ContainerRuntimeHostProps = {
   scriptEntries?: RuntimeScriptEntry[]
   enableScriptLoader?: boolean
   className?: string
+  loadingId?: string
+  overlayClassName?: string
+  initialHeight?: number
+  showScriptDiagnostics?: boolean
   onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
   onRuntimeReady?: () => void
+  onLoadingChange?: (isLoading: boolean) => void
+  onMeasurementChange?: (snapshot: RuntimeContainerMeasurementSnapshot) => void
+  onScriptDiagnosticsChange?: (diagnostics: RuntimeScriptLoaderDiagnostics) => void
 }

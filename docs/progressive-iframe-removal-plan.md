@@ -23,6 +23,7 @@ Already completed:
 - Phase 3 dev-only container host skeleton is complete: `/dev/runtime-host/<slug>` shows the iframe baseline next to a React-owned inert container.
 - Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
 - Phase 8 bridge transport parity is complete on the dev comparison route: playback, playback panel state, metronome, visual theme, instrument/fingering remounts, and readiness diagnostics now work through the normalized host controller boundary.
+- Phase 9 is the next active boundary: layout, resize, and lifecycle parity for the container host before any public host switch.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -654,6 +655,8 @@ Accepted after this phase:
 
 ## Phase 9: Layout, Resize, And Lifecycle Parity
 
+Status: complete for the dev comparison route.
+
 ### Goal
 
 Match the iframe version's visible layout behavior without relying on iframe height synchronization.
@@ -667,23 +670,70 @@ Match the iframe version's visible layout behavior without relying on iframe hei
 - Preserve route-change lifecycle.
 - Ensure old runtime DOM is fully removed before next song/instrument mount.
 
+### Execution Checklist
+
+Step 1: Measurement ownership
+
+- Change Scope: add container-owned measurement around the runtime root and shell frame area; keep measurement in the host integration layer.
+- Validation: compare iframe and container on the dev route for sheet height, bottom spacing, and absence of inner scrollbars across desktop and mobile widths.
+- Risk: late runtime rendering, font loading, or playback-panel changes can change height after the first measure. Mitigate with a measured update loop such as observer plus animation-frame scheduling, and keep iframe as the baseline.
+
+Step 2: Loading and readiness lifecycle
+
+- Change Scope: align container loading, ready, error, and teardown states with the iframe host controller contract.
+- Validation: refresh, hard reload, song switch, instrument switch, fingering switch, note-mode switch, layout switch, zoom switch, and visual-theme switch on the dev comparison route.
+- Risk: a stale ready state can hide a blank sheet or keep an old overlay visible. Mitigate by clearing host state before each remount and treating the current host session as the only valid message source.
+
+Step 3: Runtime DOM teardown
+
+- Change Scope: ensure the container host removes prior runtime DOM, host-created styles/scripts, tracked listeners, timers, and transient panels before mounting the next session.
+- Validation: switch repeatedly between sample songs and modes, then inspect the dev diagnostics for one active sheet root, one current readiness state, and no duplicated playback or metronome panels.
+- Risk: runtime code can keep process-level references after a React unmount. Mitigate by remounting the full container host on song or query-key changes first, then optimize only after parity.
+
+Step 4: Shell interaction cleanup
+
+- Change Scope: close playback, metronome, and transient runtime panels through normalized host commands during route changes and host disposal.
+- Validation: start playback, open/close the playback panel, start/stop metronome, navigate to another song, and confirm the new host starts cleanly without stale panel state.
+- Risk: a teardown command can race with navigation. Mitigate by making teardown idempotent and by ignoring messages that do not match the current host session.
+
+Step 5: Responsive layout parity
+
+- Change Scope: adjust only host wrappers, container sizing, and shell integration styles needed for parity; do not change runtime SVG scaling or renderer layout logic.
+- Validation: check compact and equal-width layouts, zoom options, portrait mobile, landscape mobile, tablet, and desktop widths against the iframe baseline.
+- Risk: fixing one viewport can create extra blank space or horizontal drift in another. Mitigate with sample-song coverage and keep the iframe comparison visible while tuning.
+
+Step 6: Phase 9 exit record
+
+- Change Scope: record the sampled songs, viewport coverage, failed cases, accepted differences, and rollback path in this plan or the manual runtime QA checklist.
+- Validation: `npm run typecheck`, `npm run build`, `git diff --check`, plus the Phase 9 manual sample set below.
+- Risk: accepting undocumented differences makes later grey rollout ambiguous. Mitigate by requiring every accepted difference to name its scope and fallback.
+
 ### Files
 
-Modify:
+Modified:
 
-- `src/components/song/PublicRuntimeFrame.tsx`
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
-- `src/components/song/PublicRuntimeInteractiveShell.tsx`
-
-Potentially add:
-
+- `src/components/song/runtime-host/RuntimeHostReviewClient.tsx`
+- `src/components/song/runtime-host/RuntimeScriptLoader.tsx`
+- `src/components/song/runtime-host/RuntimeStyleInjector.tsx`
+- `src/components/song/runtime-host/types.ts`
+- `src/lib/runtime-core/client/containerBootstrap.ts`
 - `src/components/song/runtime-host/useRuntimeHostLifecycle.ts`
 - `src/components/song/runtime-host/useRuntimeContainerMeasurement.ts`
+
+Not modified in this phase:
+
+- `src/components/song/PublicRuntimeFrame.tsx`
+- `src/components/song/PublicRuntimeInteractiveShell.tsx`
+- parser, SVG renderer, fingering mapping, playback timing, runtime JSON, public `/song` host selection
 
 ### Forbidden
 
 - Do not change sheet SVG scaling math inside the runtime renderer.
 - Do not change runtime layout calculations.
+- Do not enable the container host on public `/song` as part of Phase 9.
+- Do not change print or Pinterest export behavior as part of Phase 9.
+- Do not change runtime JSON shape, note-mode semantics, fingering selection, playback timing, or parser behavior.
 
 ### Acceptance
 
@@ -702,23 +752,64 @@ Checks:
 - No stale playback panel after route changes.
 - Zoom does not shift content horizontally.
 - Dense songs do not regress compared with iframe baseline.
+- Loading overlay appears and clears at the same lifecycle point as the iframe baseline.
+- Metronome and playback teardown do not leak into the next host session.
+
+Phase 9 validation record:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- `git diff --check` passed.
+- Dev comparison route browser checks passed for desktop and mobile widths on:
+  - `twinkle-twinkle-little-star`
+  - `the-godfather`
+  - `turkish-march`
+  - `we-wish-you-a-merry-christmas`
+  - `canon`
+- Additional dev comparison checks passed for `twinkle-twinkle-little-star` with `sheet_scale=12`, `measure_layout=mono`, and `practice_tool=metronome`.
+- Container metrics showed one `#sheet`, one rendered SVG, no loading overlay after render, no horizontal overflow, no inner scrollbar, and 0-2px height difference attributable to the host border/rounding against the iframe baseline.
+- Normalized playback close command hides the container playback panel; route changes from `twinkle-twinkle-little-star` to `the-godfather` and back start with a clean container host and no duplicated sheet.
+- A desktop screenshot of the metronome comparison route was visually inspected for iframe/container layout alignment.
+- Public `/song` remains iframe-backed; no public host switch was added.
 
 ### Risks And Mitigation
 
 - Risk: runtime lifecycle assumes full document refresh.
 - Mitigation: initially remount the whole container host on song or query-key change; optimize later only after parity.
+- Risk: measurement parity is song- and viewport-sensitive.
+- Mitigation: require both quick samples and long/dense samples before treating the phase as complete.
 
-## Phase 10: Internal Side-By-Side Parity Tool
+## Phase 10: Internal Parity Review Hardening
 
 ### Goal
 
-Create a repeatable review route that compares iframe host and container host for the same song.
+Turn the current dev comparison surface into a repeatable review tool for iframe/container parity.
 
 ### Concrete Scope
 
-- Add side-by-side visual review.
+- Keep side-by-side visual review.
 - Show runtime host mode, query params, readiness state, console errors, and global mutation summary.
 - Allow switching sample songs and instruments.
+
+### Execution Checklist
+
+Step 1: Review diagnostics
+
+- Change Scope: add or tighten diagnostic text for host mode, query state, ready state, measured size, console errors, and current global inventory.
+- Validation: open the review route for quick, long, and dense sample songs and confirm diagnostics update independently for iframe and container.
+- Risk: diagnostics can become misleading if they share state across hosts. Mitigate by keeping iframe and container state keyed by host session.
+
+Step 2: Repeatable sample controls
+
+- Change Scope: keep sample switching, instrument/fingering switching, layout, zoom, note mode, metronome, playback, and visual-theme controls on the normalized host boundary.
+- Validation: run the same control sequence for both hosts without direct DOM access from the shell.
+- Risk: review-only controls can drift from public controls. Mitigate by routing through the same host controller and bridge message types.
+
+Step 3: Review record
+
+- Change Scope: document the sample set, browser widths, and accepted differences for each review pass.
+- Validation: the review output is clear enough for a later engineer to repeat without extra context.
+- Risk: manual comparison is slow and inconsistent. Mitigate with targeted DOM assertions for sheet presence, note labels, playback status, and known controls when needed.
 
 ### Files
 
@@ -778,6 +869,26 @@ Possible environment override:
 NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe
 ```
 
+### Execution Checklist
+
+Step 1: Public opt-in host mode
+
+- Change Scope: add an explicit host mode selector for public song pages while keeping iframe as the default.
+- Validation: `/song/twinkle-twinkle-little-star` uses iframe; `/song/twinkle-twinkle-little-star?runtime_host=container` uses the container host; removing the query returns to iframe.
+- Risk: an opt-in query can leak into public navigation. Mitigate by documenting whether controls preserve or drop the query and by keeping the canonical URL unchanged.
+
+Step 2: Fallback controls
+
+- Change Scope: keep query and environment fallback paths that force iframe.
+- Validation: force iframe after a container render and confirm controls, playback, metronome, and note modes still work.
+- Risk: fallback may be unavailable during an incident if it is not exercised. Mitigate by checking it in every public opt-in validation pass.
+
+Step 3: Indexing guard
+
+- Change Scope: ensure experimental host query pages do not create a separate SEO surface.
+- Validation: confirm canonical behavior and any noindex handling required for host-debug URLs.
+- Risk: search engines can retain experimental URLs. Mitigate with unchanged canonical URLs and conservative metadata for host-debug queries.
+
 ### Files
 
 Modify:
@@ -819,6 +930,26 @@ Make print and Pinterest preview work with the same host switch, while keeping i
 - Add host mode support to internal print preview.
 - Add host mode support to Pinterest preview.
 - Compare exported visual output against iframe baseline.
+
+### Execution Checklist
+
+Step 1: Internal print opt-in
+
+- Change Scope: allow internal print preview to request the container host while keeping iframe output available.
+- Validation: compare print preview for `twinkle-twinkle-little-star`, a long sample, and a dense sample against iframe output.
+- Risk: container measurement can change page breaks or sheet crop. Mitigate by keeping print default on iframe until parity is accepted.
+
+Step 2: Pinterest opt-in
+
+- Change Scope: allow Pinterest preview/export tooling to request the container host while keeping iframe output available.
+- Validation: compare exported image dimensions, crop, sheet visibility, and title/metadata placement against iframe output.
+- Risk: host sizing differences can shift crop boundaries. Mitigate by recording visual differences and leaving iframe export as the operational path until accepted.
+
+Step 3: Export fallback
+
+- Change Scope: document how to force iframe exports during container validation.
+- Validation: run one successful iframe export after each container export test.
+- Risk: export regressions can block content work. Mitigate by keeping the existing export path unchanged until the container path passes.
 
 ### Files
 
@@ -876,6 +1007,26 @@ Signals to monitor:
 - route-change remount errors
 - user-visible blank sheet reports
 
+### Execution Checklist
+
+Step 1: Deterministic rollout decision
+
+- Change Scope: add a deterministic host decision layer for allowed users or sessions while iframe remains forceable.
+- Validation: confirm the same session gets the same host mode and that query/environment overrides take priority.
+- Risk: unstable assignment can make bugs hard to reproduce. Mitigate by logging host mode and decision reason in diagnostics.
+
+Step 2: Health signals
+
+- Change Scope: observe sheet render success, runtime ready time, playback open success, JavaScript errors, route-change remount errors, and blank-sheet reports.
+- Validation: verify signals are emitted for both success and failure paths on internal traffic before increasing rollout.
+- Risk: missing signals can hide regressions. Mitigate by requiring health visibility before each rollout step.
+
+Step 3: Rollout stop rule
+
+- Change Scope: document thresholds for stopping rollout and forcing iframe.
+- Validation: simulate or manually trigger a failure path and confirm the fallback procedure is clear.
+- Risk: rollout can continue after a visible regression. Mitigate with a conservative stop rule for blank sheet, playback, metronome, or route-change failures.
+
 ### Files
 
 Add:
@@ -916,6 +1067,26 @@ Make the non-iframe container host the default public host after grey rollout pa
 - Keep iframe fallback available.
 - Keep side-by-side review route.
 - Keep internal forced iframe query.
+
+### Execution Checklist
+
+Step 1: Default switch
+
+- Change Scope: switch the default public host to the container after Phase 13 passes its agreed soak and health gates.
+- Validation: run the full validation matrix on public URLs without a host query.
+- Risk: rare songs can expose layout or lifecycle assumptions missed during grey rollout. Mitigate by keeping forced iframe fallback and review diagnostics.
+
+Step 2: Fallback verification
+
+- Change Scope: keep forced iframe mode and internal review routes after the default switch.
+- Validation: `?runtime_host=iframe` or the chosen fallback mechanism still renders and supports playback, metronome, note mode, instrument, and fingering changes.
+- Risk: fallback can rot after default switch. Mitigate by testing it with the same manual samples.
+
+Step 3: Handoff update
+
+- Change Scope: update runtime handoff and QA docs to say container is default while iframe remains a fallback.
+- Validation: docs point to the correct commands, sample URLs, and rollback path.
+- Risk: stale docs slow incident response. Mitigate by updating handoff in the same phase as the default switch.
 
 ### Files
 
@@ -967,6 +1138,26 @@ All must be true:
 - Retain only internal diagnostic route if still useful.
 - Remove iframe-specific height bridge from public shell.
 - Keep the runtime route only if still needed for diagnostics, compare, or internal tools.
+
+### Execution Checklist
+
+Step 1: Retirement readiness review
+
+- Change Scope: confirm soak period, incident history, export compatibility, and fallback usage before deleting iframe-specific public paths.
+- Validation: all preconditions below are checked off with dates or release references.
+- Risk: deleting the fallback too early removes the fastest recovery path. Mitigate by requiring an explicit readiness review.
+
+Step 2: Public iframe path removal
+
+- Change Scope: remove only iframe-specific public host branches and height bridge code after readiness passes.
+- Validation: no public `/song` runtime iframe remains, and all current public features still pass the validation matrix.
+- Risk: cleanup can accidentally touch core runtime behavior. Mitigate by keeping the change scoped to host integration and reviewing diffs for parser, renderer, fingering, and playback timing files.
+
+Step 3: Post-retirement recovery note
+
+- Change Scope: record the last fallback-capable commit and current recovery procedure in the handoff docs.
+- Validation: another engineer can identify the fallback commit and the expected recovery path from docs alone.
+- Risk: rollback instructions become ambiguous after cleanup. Mitigate by documenting the recovery point before merging the retirement change.
 
 ### Files
 
@@ -1068,11 +1259,10 @@ If a phase causes public blank sheets, broken playback, or broken instrument swi
 
 ## Recommended Next Engineering Step
 
-Next step should continue Phase 2 without executing runtime scripts in a container yet:
+Next step should execute Phase 10 review hardening on the dev comparison route:
 
-1. Add focused tests or script checks for `buildPublicRuntimePackageData(...)` resource ordering.
-2. Split payload serialization, context injection, and document wrapper helpers more explicitly if it can be done without changing output.
-3. Keep `/api/kuailepu-runtime/[id]` on the full-document path.
-4. Do not execute runtime scripts in a container until assembly output and asset order are locked.
+1. Change Scope: improve repeatable review diagnostics for host mode, measured size, ready state, script status, and accepted iframe/container differences.
+2. Validation: run `npm run typecheck`, `npm run build`, `git diff --check`, and repeat the Phase 9 sample set after diagnostic changes.
+3. Risk: diagnostics can drift from public shell behavior. Mitigate by keeping review controls on the normalized host controller boundary.
 
-This keeps the work incremental and prevents a risky direct jump from iframe to full native container execution.
+Public `/song` remains iframe-backed until Phase 11 opt-in work is deliberately started.

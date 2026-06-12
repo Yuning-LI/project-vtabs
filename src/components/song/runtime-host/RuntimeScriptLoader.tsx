@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   bootstrapPublicRuntimeContainer,
   type PublicRuntimeContainerBootstrapController
@@ -17,7 +17,18 @@ type RuntimeScriptLoaderProps = {
   bodyHtml?: string
   enabled?: boolean
   label?: string
+  showDiagnostics?: boolean
   onRuntimeReady?: () => void
+  onDiagnosticsChange?: (diagnostics: RuntimeScriptLoaderDiagnostics) => void
+}
+
+export type RuntimeScriptLoaderStatus = 'disabled' | 'idle' | 'loading' | 'loaded' | 'error'
+
+export type RuntimeScriptLoaderDiagnostics = {
+  status: RuntimeScriptLoaderStatus
+  loadedCount: number
+  totalCount: number
+  capturedGlobalNames: string[]
 }
 
 export default function RuntimeScriptLoader({
@@ -26,21 +37,36 @@ export default function RuntimeScriptLoader({
   bodyHtml = '',
   enabled = false,
   label = 'runtime-host',
-  onRuntimeReady
+  showDiagnostics = true,
+  onRuntimeReady,
+  onDiagnosticsChange
 }: RuntimeScriptLoaderProps) {
   const mountRef = useRef<HTMLDivElement | null>(null)
   const sessionRef = useRef(0)
   const onRuntimeReadyRef = useRef(onRuntimeReady)
   const componentId = useId()
-  const [status, setStatus] = useState<'disabled' | 'idle' | 'loading' | 'loaded' | 'error'>(
+  const [status, setStatus] = useState<RuntimeScriptLoaderStatus>(
     enabled ? 'idle' : 'disabled'
   )
   const [loadedCount, setLoadedCount] = useState(0)
   const [capturedGlobalNames, setCapturedGlobalNames] = useState<string[]>([])
+  const diagnostics = useMemo<RuntimeScriptLoaderDiagnostics>(
+    () => ({
+      status,
+      loadedCount,
+      totalCount: entries.length,
+      capturedGlobalNames
+    }),
+    [capturedGlobalNames, entries.length, loadedCount, status]
+  )
 
   useEffect(() => {
     onRuntimeReadyRef.current = onRuntimeReady
   }, [onRuntimeReady])
+
+  useEffect(() => {
+    onDiagnosticsChange?.(diagnostics)
+  }, [diagnostics, onDiagnosticsChange])
 
   useEffect(() => {
     const mount = mountRef.current
@@ -124,17 +150,26 @@ export default function RuntimeScriptLoader({
   return (
     <div
       aria-live="polite"
-      className="mt-4 rounded-2xl border border-stone-200 bg-white/75 px-4 py-3 text-left text-xs font-semibold text-stone-700"
+      className={
+        showDiagnostics
+          ? 'mt-4 rounded-2xl border border-stone-200 bg-white/75 px-4 py-3 text-left text-xs font-semibold text-stone-700'
+          : undefined
+      }
       data-public-runtime-script-loader={componentId}
+      style={showDiagnostics ? undefined : { display: 'none' }}
     >
-      <div>
-        Runtime JS: {status}
-        {enabled ? ` (${loadedCount}/${entries.length})` : ''}
-      </div>
-      {enabled ? (
-        <div className="mt-1 text-stone-500">
-          Captured globals: {capturedGlobalNames.length > 0 ? capturedGlobalNames.join(', ') : 'none yet'}
-        </div>
+      {showDiagnostics ? (
+        <>
+          <div>
+            Runtime JS: {status}
+            {enabled ? ` (${loadedCount}/${entries.length})` : ''}
+          </div>
+          {enabled ? (
+            <div className="mt-1 text-stone-500">
+              Captured globals: {capturedGlobalNames.length > 0 ? capturedGlobalNames.join(', ') : 'none yet'}
+            </div>
+          ) : null}
+        </>
       ) : null}
       <div
         ref={mountRef}

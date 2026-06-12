@@ -9,12 +9,14 @@ import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
 import { dispatchContainerRuntimeCommand } from './containerRuntimeTransport'
 import { PUBLIC_RUNTIME_READY_MESSAGE } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import { useRuntimeContainerMeasurement } from './useRuntimeContainerMeasurement'
+import { useRuntimeHostLifecycle } from './useRuntimeHostLifecycle'
 
 /**
- * Dev-only native DOM host skeleton.
+ * Dev-only native DOM host.
  *
- * This phase intentionally mounts static diagnostic markup only. It must not
- * load runtime CSS, inject runtime HTML, or execute any runtime JavaScript.
+ * Keep this component limited to host integration concerns: scoped style
+ * injection, runtime DOM mounting, script loading, measurement, and teardown.
  */
 export default function ContainerRuntimeHost({
   songId,
@@ -24,13 +26,36 @@ export default function ContainerRuntimeHost({
   scriptEntries = [],
   enableScriptLoader = false,
   className,
+  loadingId,
+  overlayClassName,
+  initialHeight = 900,
+  showScriptDiagnostics = false,
   onHostControllerChange,
-  onRuntimeReady
+  onRuntimeReady,
+  onLoadingChange,
+  onMeasurementChange,
+  onScriptDiagnosticsChange
 }: ContainerRuntimeHostProps) {
   const rootRef = useRef<HTMLDivElement | null>(null)
+  const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null)
   const [runtimeDomRoot, setRuntimeDomRoot] = useState<HTMLDivElement | null>(null)
   const controllerRef = useRef<PublicRuntimeHostController | null>(null)
   const onHostControllerChangeRef = useRef(onHostControllerChange)
+  const { height, isLoading } = useRuntimeContainerMeasurement({
+    songId,
+    rootElement,
+    runtimeRoot: runtimeDomRoot,
+    enabled: enableScriptLoader,
+    initialHeight,
+    onLoadingChange,
+    onMeasurementChange
+  })
+
+  useRuntimeHostLifecycle({
+    rootElement,
+    runtimeRoot: runtimeDomRoot,
+    enabled: enableScriptLoader
+  })
 
   useEffect(() => {
     onHostControllerChangeRef.current = onHostControllerChange
@@ -38,6 +63,7 @@ export default function ContainerRuntimeHost({
 
   const assignRootRef = useCallback((node: HTMLDivElement | null) => {
     rootRef.current = node
+    setRootElement(node)
 
     controllerRef.current?.destroy()
     controllerRef.current = node ? createContainerRuntimeHostController(node) : null
@@ -71,60 +97,60 @@ export default function ContainerRuntimeHost({
       ref={assignRootRef}
       className={
         className ??
-        'min-h-[520px] rounded-[24px] border border-dashed border-[rgba(120,86,48,0.34)] bg-[#fffaf1]'
+        'relative overflow-hidden rounded-[24px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] shadow-[0_18px_44px_rgba(70,45,24,0.1)]'
       }
-      data-public-runtime-container-host="skeleton"
+      style={{
+        height: `${height}px`
+      }}
+      data-public-runtime-container-host="active"
       data-public-runtime-root
       data-song-id={songId}
       role="region"
-      aria-label={`${title} container runtime skeleton`}
+      aria-label={`${title} container runtime`}
     >
       <RuntimeStyleInjector assets={styleAssets} />
       <div
         ref={setRuntimeDomRoot}
         data-public-runtime-dom-root
-        className="min-h-[520px]"
+        style={{
+          height: `${height}px`
+        }}
       />
-      <div className="flex min-h-[320px] flex-col items-center justify-center px-6 py-10 text-center">
-        <div className="rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-amber-900">
-          Container Runtime Host
+      <RuntimeScriptLoader
+        entries={scriptEntries}
+        runtimeRoot={runtimeDomRoot}
+        bodyHtml={bodyHtml}
+        enabled={enableScriptLoader}
+        label={`runtime-host:${songId}`}
+        showDiagnostics={showScriptDiagnostics}
+        onRuntimeReady={dispatchRuntimeReady}
+        onDiagnosticsChange={onScriptDiagnosticsChange}
+      />
+      {enableScriptLoader && isLoading ? (
+        <div
+          id={loadingId}
+          data-runtime-loading="true"
+          className={
+            overlayClassName
+              ? `pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center ${overlayClassName}`
+              : 'pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6 text-center bg-[#fffaf1]/96'
+          }
+        >
+          <div className="runtime-loading-card" role="status" aria-live="polite">
+            <div className="runtime-loading-notes" aria-hidden="true">
+              <span>🎶</span>
+              <span>♪</span>
+              <span>♫</span>
+            </div>
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-stone-800">
+              Loading sheet...
+            </p>
+            <p className="mt-2 text-sm leading-6 text-stone-700">
+              The fingering chart is opening.
+            </p>
+          </div>
         </div>
-        <h2 className="mt-4 text-2xl font-black tracking-tight text-stone-900">
-          {title}
-        </h2>
-        <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-stone-600">
-          This panel is a React-owned DOM container. Runtime scripts and the original startup flow
-          now render into the container-local sheet area.
-        </p>
-        <dl className="mt-6 grid gap-3 text-left text-sm md:grid-cols-3">
-          <RuntimeHostFact label="Host mode" value="container skeleton" />
-          <RuntimeHostFact
-            label="Runtime JS"
-            value={enableScriptLoader ? `${scriptEntries.length} ordered entries` : 'disabled'}
-          />
-          <RuntimeHostFact label="Runtime CSS" value={styleAssets.length > 0 ? 'scoped' : 'disabled'} />
-          <RuntimeHostFact label="Song" value={songId} />
-        </dl>
-        <RuntimeScriptLoader
-          entries={scriptEntries}
-          runtimeRoot={runtimeDomRoot}
-          bodyHtml={bodyHtml}
-          enabled={enableScriptLoader}
-          label={`runtime-host:${songId}`}
-          onRuntimeReady={dispatchRuntimeReady}
-        />
-      </div>
-    </div>
-  )
-}
-
-function RuntimeHostFact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-stone-200 bg-white/80 px-4 py-3 shadow-[0_10px_22px_rgba(80,53,25,0.06)]">
-      <dt className="text-[0.7rem] font-black uppercase tracking-[0.16em] text-stone-500">
-        {label}
-      </dt>
-      <dd className="mt-1 font-bold text-stone-900">{value}</dd>
+      ) : null}
     </div>
   )
 }
@@ -139,8 +165,8 @@ function createContainerRuntimeHostController(
     },
     destroy() {
       /**
-       * This skeleton host is fully React-owned. Do not mutate its children from
-       * the controller; React may still need to unmount or reconcile them.
+       * React owns the host wrapper. Runtime DOM teardown is handled by the
+       * container lifecycle hook and script bootstrap disposer.
        */
     },
     postMessage(message) {

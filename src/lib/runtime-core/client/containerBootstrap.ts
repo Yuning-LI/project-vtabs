@@ -29,6 +29,7 @@ export function bootstrapPublicRuntimeContainer({
       return triggerRuntimeContextLoadIfNeeded(mountElement)
     },
     dispose() {
+      closeRuntimeContainerPanels(mountElement)
       bodyAppendCapture.dispose()
       mountElement.remove()
     }
@@ -95,6 +96,24 @@ function isRuntimeBodyAppendNode(node: HTMLElement) {
   return (
     node.classList.contains('print-hint') ||
     node.classList.contains('lean-overlay') ||
+    node.classList.contains('modal-overlay') ||
     node.id.startsWith('materialize-lean-overlay-')
   )
+}
+
+function closeRuntimeContainerPanels(mountElement: HTMLElement) {
+  mountElement
+    .querySelectorAll<HTMLElement>('#play-modal, #metronome-modal, #nosound-modal')
+    .forEach(panel => {
+      panel.removeAttribute('data-public-runtime-container-panel')
+      panel.style.display = 'none'
+      panel.style.visibility = 'hidden'
+      panel.style.opacity = '0'
+    })
+
+  mountElement
+    .querySelectorAll<HTMLElement>('.lean-overlay, .modal-overlay, [id^="materialize-lean-overlay-"]')
+    .forEach(node => {
+      node.remove()
+    })
 }

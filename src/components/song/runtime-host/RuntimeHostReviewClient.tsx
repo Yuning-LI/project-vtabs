@@ -16,7 +16,8 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
   PUBLIC_RUNTIME_READY_MESSAGE,
-  PUBLIC_RUNTIME_REDRAW_MESSAGE
+  PUBLIC_RUNTIME_REDRAW_MESSAGE,
+  PUBLIC_RUNTIME_SIZE_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import type {
   PublicRuntimeAsset
@@ -52,6 +53,12 @@ import SongPageFunctionZone, {
 } from '../SongPageFunctionZone'
 import ContainerRuntimeHost from './ContainerRuntimeHost'
 import { dispatchContainerRuntimeCommand } from './containerRuntimeTransport'
+import type {
+  RuntimeScriptLoaderDiagnostics
+} from './RuntimeScriptLoader'
+import type {
+  RuntimeContainerMeasurementSnapshot
+} from './useRuntimeContainerMeasurement'
 
 type RuntimeHostReviewClientProps = {
   songId: string
@@ -108,6 +115,10 @@ export default function RuntimeHostReviewClient({
     iframe: false,
     container: false
   })
+  const [containerMeasurement, setContainerMeasurement] =
+    useState<RuntimeContainerMeasurementSnapshot | null>(null)
+  const [containerScriptDiagnostics, setContainerScriptDiagnostics] =
+    useState<RuntimeScriptLoaderDiagnostics | null>(null)
   const hostControllersRef = useRef<Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>>({})
   const playbackStatus = aggregatePlaybackStatus(hostPlaybackStatus)
   const isPlaybackPanelOpen = Object.values(hostPlaybackPanelOpen).some(Boolean)
@@ -183,19 +194,39 @@ export default function RuntimeHostReviewClient({
         if (message.type === PUBLIC_RUNTIME_READY_MESSAGE) {
           setHostReadyState(current => updateRuntimeHostState(current, hostKey, true))
         }
+        if (message.type === PUBLIC_RUNTIME_SIZE_MESSAGE && hostKey === 'container') {
+          setContainerMeasurement(current => ({
+            height: message.height,
+            hasRenderedSheet: current?.hasRenderedSheet ?? false,
+            hasRuntimeContent: current?.hasRuntimeContent ?? false,
+            measuredAt: performance.now()
+          }))
+        }
       }),
     [songId]
   )
+
+  useEffect(() => {
+    setHostReadyState({ iframe: false, container: false })
+    setHostPlaybackStatus(INITIAL_HOST_PLAYBACK_STATE)
+    setHostPlaybackPanelOpen(INITIAL_HOST_PANEL_STATE)
+    setContainerMeasurement(null)
+    setContainerScriptDiagnostics(null)
+  }, [bodyHtml, frameSrc])
 
   const setHostController = useCallback(
     (key: RuntimeHostKey) => (controller: PublicRuntimeHostController | null) => {
       if (controller) {
         hostControllersRef.current[key] = controller
+        setHostReadyState(current => ({ ...current, [key]: false }))
         if (key === 'iframe') {
           startIframeReadyProbe(controller.hostElement, setHostReadyState)
         }
       } else {
         delete hostControllersRef.current[key]
+        setHostReadyState(current => ({ ...current, [key]: false }))
+        setHostPlaybackStatus(current => ({ ...current, [key]: 'idle' }))
+        setHostPlaybackPanelOpen(current => ({ ...current, [key]: false }))
       }
     },
     []
@@ -466,6 +497,18 @@ export default function RuntimeHostReviewClient({
           <span>Container playback: {hostPlaybackStatus.container}</span>
           <span>Iframe panel: {hostPlaybackPanelOpen.iframe ? 'open' : 'closed'}</span>
           <span>Container panel: {hostPlaybackPanelOpen.container ? 'open' : 'closed'}</span>
+          <span>
+            Container height: {containerMeasurement ? `${containerMeasurement.height}px` : 'measuring'}
+          </span>
+          <span>
+            Container sheet: {containerMeasurement?.hasRenderedSheet ? 'rendered' : 'pending'}
+          </span>
+          <span>
+            Container JS:{' '}
+            {containerScriptDiagnostics
+              ? `${containerScriptDiagnostics.status} (${containerScriptDiagnostics.loadedCount}/${containerScriptDiagnostics.totalCount})`
+              : 'pending'}
+          </span>
         </div>
       </section>
 
@@ -493,8 +536,12 @@ export default function RuntimeHostReviewClient({
             styleAssets={styles}
             scriptEntries={scriptEntries}
             enableScriptLoader
+            loadingId={`runtime-host-container-loading-${songId}`}
+            overlayClassName="bg-[#fffaf1]/96"
             onHostControllerChange={setContainerHostController}
             onRuntimeReady={handleContainerReady}
+            onMeasurementChange={setContainerMeasurement}
+            onScriptDiagnosticsChange={setContainerScriptDiagnostics}
           />
         </ReviewPanel>
       </div>
