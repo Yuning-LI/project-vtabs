@@ -16,6 +16,7 @@ Already completed:
 - Phase 2 has started: full-document generation and structured runtime package output now live under `src/lib/runtime-core/server/assembly/**`.
 - Phase 3 dev-only container host skeleton is complete: `/dev/runtime-host/<slug>` shows the iframe baseline next to a React-owned inert container.
 - Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
+- Phase 8 bridge transport parity is complete on the dev comparison route: playback, playback panel state, metronome, visual theme, instrument/fingering remounts, and readiness diagnostics now work through the normalized host controller boundary.
 - The iframe is still the active production host.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
@@ -545,7 +546,7 @@ For `twinkle-twinkle-little-star` on a dev-only container route:
 
 ## Phase 8: Bridge Transport Parity
 
-Status: dev comparison shell-control parity complete for the initial interaction set; manual deep QA remains.
+Status: complete for the dev comparison route. Remaining layout and lifecycle parity work moves to Phase 9.
 
 ### Goal
 
@@ -583,6 +584,24 @@ Implemented foundation:
 - Dev controls drive both hosts through normalized host controllers for Listen/Stop, redraw, and URL-state remount controls such as instrument, fingering, layout, zoom, metronome, and visual theme.
 - `RuntimeScriptLoader` keeps its runtime bootstrap stable across React development remounts by using a stable ready callback ref and session cancellation guard.
 
+Completed Phase 8 hardening:
+
+- The dev comparison shell now tracks playback status and playback-panel state per host instead of letting iframe/container messages overwrite each other.
+- The shell aggregates per-host state into a single top-level Listen/Stop action while still showing iframe/container diagnostic state separately.
+- Right-side container playback uses the full runtime asset profile in the dev comparison route, so Tempo, Start, Restart, Continue, Stop, soundfont loading, and playback status run through the same runtime path as iframe.
+- Playback panel behavior is normalized in the bridge layer: initial open shows Close/Start, active playback shows Close/Restart/Continue, and panel fallback does not expose Start before runtime loading completes.
+- Outside-click close in the dev comparison route now closes both runtime hosts through the normalized `vtabs-runtime-playback-close-panel` command.
+- Iframe readiness diagnostics are backed by both host lifecycle callbacks and a dev-only sheet probe so the review page does not report `loading` after an iframe sheet has already rendered.
+
+Phase 8 validation record:
+
+- `Listen` opens both iframe and container playback panels with matching Start/Tempo state.
+- `Start`, `Stop`, `Close`, `Restart`, and `Continue` were checked on the container host, with top-level shell state reflecting active playback.
+- Repeated open/close and refresh/song-switch checks completed without page errors or failed runtime requests.
+- Metronome `Start`/`Stop`, BPM options, time-signature options, and beat display were checked on both hosts.
+- Visual theme `classic`/`off`, recorder instrument switching, and 12-hole ocarina fingering switching were checked on both hosts.
+- Verification commands for the final Phase 8 changes: `npm run typecheck`, `npm run build`, and `git diff --check`.
+
 ### Files
 
 Modify:
@@ -615,10 +634,17 @@ On dev route, iframe and container both support:
 - zoom/layout changes
 - instrument/fingering changes by remount or controlled reload
 
+Accepted after this phase:
+
+- The dev comparison route can be used as the manual QA surface for host parity before Phase 9 layout/lifecycle work.
+- Production `/song` remains iframe-backed and continues to use the existing rollback baseline.
+
 ### Risks And Mitigation
 
 - Risk: container direct events and iframe messages diverge.
 - Mitigation: normalize both through the same host-message handler before shell state changes.
+- Risk: runtime layout in a native container still differs from iframe sizing/scrolling.
+- Mitigation: keep this out of Phase 8 and handle it explicitly in Phase 9.
 
 ## Phase 9: Layout, Resize, And Lifecycle Parity
 

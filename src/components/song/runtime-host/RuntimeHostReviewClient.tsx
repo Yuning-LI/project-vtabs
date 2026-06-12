@@ -1,12 +1,21 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction
+} from 'react'
 import {
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
+  PUBLIC_RUNTIME_READY_MESSAGE,
   PUBLIC_RUNTIME_REDRAW_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import type {
@@ -67,6 +76,18 @@ type RuntimeHostReviewClientProps = {
 
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 type RuntimeHostKey = 'iframe' | 'container'
+type RuntimeHostPlaybackState = Record<RuntimeHostKey, PlaybackUiStatus>
+type RuntimeHostPanelState = Record<RuntimeHostKey, boolean>
+
+const INITIAL_HOST_PLAYBACK_STATE: RuntimeHostPlaybackState = {
+  iframe: 'idle',
+  container: 'idle'
+}
+
+const INITIAL_HOST_PANEL_STATE: RuntimeHostPanelState = {
+  iframe: false,
+  container: false
+}
 
 export default function RuntimeHostReviewClient({
   songId,
@@ -79,13 +100,17 @@ export default function RuntimeHostReviewClient({
   queryState,
   runtimeControlPayload
 }: RuntimeHostReviewClientProps) {
-  const [playbackStatus, setPlaybackStatus] = useState<PlaybackUiStatus>('idle')
-  const [isPlaybackPanelOpen, setIsPlaybackPanelOpen] = useState(false)
+  const [hostPlaybackStatus, setHostPlaybackStatus] =
+    useState<RuntimeHostPlaybackState>(INITIAL_HOST_PLAYBACK_STATE)
+  const [hostPlaybackPanelOpen, setHostPlaybackPanelOpen] =
+    useState<RuntimeHostPanelState>(INITIAL_HOST_PANEL_STATE)
   const [hostReadyState, setHostReadyState] = useState<Record<RuntimeHostKey, boolean>>({
     iframe: false,
     container: false
   })
   const hostControllersRef = useRef<Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>>({})
+  const playbackStatus = aggregatePlaybackStatus(hostPlaybackStatus)
+  const isPlaybackPanelOpen = Object.values(hostPlaybackPanelOpen).some(Boolean)
 
   const activeInstrument =
     supportedInstruments.find(instrument => instrument.id === queryState.instrumentId) ??
@@ -142,12 +167,21 @@ export default function RuntimeHostReviewClient({
 
   useEffect(
     () =>
-      subscribeToPublicRuntimeHostMessages(songId, message => {
+      subscribeToPublicRuntimeHostMessages(songId, (message, meta) => {
+        const hostKey = identifyRuntimeHostMessageSource(meta.source, hostControllersRef.current)
+
         if (message.type === PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE) {
-          setPlaybackStatus(message.status)
+          setHostPlaybackStatus(current =>
+            updateRuntimeHostState(current, hostKey, message.status)
+          )
         }
         if (message.type === PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE) {
-          setIsPlaybackPanelOpen(message.isOpen)
+          setHostPlaybackPanelOpen(current =>
+            updateRuntimeHostState(current, hostKey, Boolean(message.isOpen))
+          )
+        }
+        if (message.type === PUBLIC_RUNTIME_READY_MESSAGE) {
+          setHostReadyState(current => updateRuntimeHostState(current, hostKey, true))
         }
       }),
     [songId]
@@ -157,6 +191,9 @@ export default function RuntimeHostReviewClient({
     (key: RuntimeHostKey) => (controller: PublicRuntimeHostController | null) => {
       if (controller) {
         hostControllersRef.current[key] = controller
+        if (key === 'iframe') {
+          startIframeReadyProbe(controller.hostElement, setHostReadyState)
+        }
       } else {
         delete hostControllersRef.current[key]
       }
@@ -190,6 +227,41 @@ export default function RuntimeHostReviewClient({
     window.location.href = href
   }, [])
 
+  useEffect(() => {
+    if (!isPlaybackPanelOpen) {
+      return
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      const target = event.target
+      if (!(target instanceof Node)) {
+        return
+      }
+
+      if (
+        target instanceof Element &&
+        target.closest('a, button, select, input, textarea, label, summary, [role="button"]')
+      ) {
+        return
+      }
+
+      const isInsideRuntimeHost = (Object.values(hostControllersRef.current) as PublicRuntimeHostController[])
+        .some(controller => controller.containsEventTarget(target))
+      if (isInsideRuntimeHost) {
+        return
+      }
+
+      if (multicastCommand(PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE)) {
+        setHostPlaybackPanelOpen(INITIAL_HOST_PANEL_STATE)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+    }
+  }, [isPlaybackPanelOpen, multicastCommand])
+
   const pageHref = useCallback(
     (nextState: PublicSongPageQueryState) =>
       buildSongPageHref({
@@ -210,12 +282,14 @@ export default function RuntimeHostReviewClient({
       onClick() {
         if (playbackStatus === 'playing') {
           if (multicastCommand(PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE)) {
-            setPlaybackStatus('idle')
+            setHostPlaybackStatus(INITIAL_HOST_PLAYBACK_STATE)
+            setHostPlaybackPanelOpen(INITIAL_HOST_PANEL_STATE)
           }
           return
         }
-        setPlaybackStatus('loading')
-        multicastCommand(PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE)
+        if (multicastCommand(PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE)) {
+          setHostPlaybackStatus(current => markActiveRuntimeHosts(current, hostControllersRef.current, 'loading'))
+        }
       }
     },
     {
@@ -388,8 +462,10 @@ export default function RuntimeHostReviewClient({
         <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-[#6b543c]">
           <span>Iframe ready: {hostReadyState.iframe ? 'yes' : 'loading'}</span>
           <span>Container ready: {hostReadyState.container ? 'yes' : 'loading'}</span>
-          <span>Playback: {playbackStatus}</span>
-          <span>Panel: {isPlaybackPanelOpen ? 'open' : 'closed'}</span>
+          <span>Iframe playback: {hostPlaybackStatus.iframe}</span>
+          <span>Container playback: {hostPlaybackStatus.container}</span>
+          <span>Iframe panel: {hostPlaybackPanelOpen.iframe ? 'open' : 'closed'}</span>
+          <span>Container panel: {hostPlaybackPanelOpen.container ? 'open' : 'closed'}</span>
         </div>
       </section>
 
@@ -445,4 +521,86 @@ function normalizeExplicitShowGraph(value: string | null | undefined, graphOptio
     return value
   }
   return graphOptions.includes(value) ? value : null
+}
+
+function aggregatePlaybackStatus(state: RuntimeHostPlaybackState): PlaybackUiStatus {
+  if (Object.values(state).includes('playing')) {
+    return 'playing'
+  }
+  if (Object.values(state).includes('loading')) {
+    return 'loading'
+  }
+  return 'idle'
+}
+
+function identifyRuntimeHostMessageSource(
+  source: MessageEventSource | null,
+  controllers: Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>
+): RuntimeHostKey | null {
+  if (typeof window !== 'undefined' && source === window) {
+    return 'container'
+  }
+
+  const iframeHost = controllers.iframe?.hostElement
+  if (iframeHost instanceof HTMLIFrameElement && source === iframeHost.contentWindow) {
+    return 'iframe'
+  }
+
+  return null
+}
+
+function updateRuntimeHostState<T>(
+  current: Record<RuntimeHostKey, T>,
+  hostKey: RuntimeHostKey | null,
+  value: T
+): Record<RuntimeHostKey, T> {
+  if (!hostKey) {
+    return {
+      iframe: value,
+      container: value
+    }
+  }
+
+  return {
+    ...current,
+    [hostKey]: value
+  }
+}
+
+function markActiveRuntimeHosts(
+  current: RuntimeHostPlaybackState,
+  controllers: Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>,
+  value: PlaybackUiStatus
+): RuntimeHostPlaybackState {
+  return {
+    iframe: controllers.iframe ? value : current.iframe,
+    container: controllers.container ? value : current.container
+  }
+}
+
+function startIframeReadyProbe(
+  hostElement: HTMLElement,
+  setHostReadyState: Dispatch<SetStateAction<Record<RuntimeHostKey, boolean>>>
+) {
+  if (!(hostElement instanceof HTMLIFrameElement)) {
+    return
+  }
+
+  let attempts = 0
+  const timer = window.setInterval(() => {
+    attempts += 1
+    try {
+      if (hostElement.contentDocument?.querySelector('#sheet svg, #sheet .sheet-svg')) {
+        setHostReadyState(current => ({ ...current, iframe: true }))
+        window.clearInterval(timer)
+        return
+      }
+    } catch {
+      // Keep probing while the iframe document is still booting.
+    }
+
+    if (attempts >= 100 || !hostElement.isConnected) {
+      window.clearInterval(timer)
+    }
+  }, 100)
 }

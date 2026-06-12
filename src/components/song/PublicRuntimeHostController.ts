@@ -31,7 +31,10 @@ export function subscribeToPublicRuntimeHostMessages(
       return
     }
 
-    handler(data)
+    handler(data, {
+      origin: event.origin,
+      source: event.source
+    })
   }
 
   window.addEventListener('message', handleMessage)

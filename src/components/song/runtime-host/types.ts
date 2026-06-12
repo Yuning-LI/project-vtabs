@@ -11,7 +11,15 @@ export type PublicRuntimeHostController = {
   destroy: () => void
 }
 
-export type PublicRuntimeHostMessageHandler = (message: PublicRuntimeHostMessage) => void
+export type PublicRuntimeHostMessageMeta = {
+  origin: string
+  source: MessageEventSource | null
+}
+
+export type PublicRuntimeHostMessageHandler = (
+  message: PublicRuntimeHostMessage,
+  meta: PublicRuntimeHostMessageMeta
+) => void
 
 export type RuntimeTextHideRule = {
   match: string
