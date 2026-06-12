@@ -60,7 +60,12 @@ import type {
   RuntimeContainerMeasurementSnapshot
 } from './useRuntimeContainerMeasurement'
 
-type RuntimeHostReviewClientProps = {
+export type RuntimeHostReviewSampleSong = {
+  slug: string
+  title: string
+}
+
+export type RuntimeHostReviewClientProps = {
   songId: string
   title: string
   frameSrc: string
@@ -79,12 +84,21 @@ type RuntimeHostReviewClientProps = {
     }>
     sheetScaleList?: number[]
   }
+  basePath?: string
+  sampleSongs?: RuntimeHostReviewSampleSong[]
+  reviewTitle?: string
+  showExtendedDiagnostics?: boolean
 }
 
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 type RuntimeHostKey = 'iframe' | 'container'
 type RuntimeHostPlaybackState = Record<RuntimeHostKey, PlaybackUiStatus>
 type RuntimeHostPanelState = Record<RuntimeHostKey, boolean>
+type RuntimeConsoleDiagnostic = {
+  level: 'error' | 'warn' | 'unhandledrejection'
+  message: string
+  timestamp: number
+}
 
 const INITIAL_HOST_PLAYBACK_STATE: RuntimeHostPlaybackState = {
   iframe: 'idle',
@@ -105,7 +119,11 @@ export default function RuntimeHostReviewClient({
   scriptEntries,
   supportedInstruments,
   queryState,
-  runtimeControlPayload
+  runtimeControlPayload,
+  basePath = '/dev/runtime-host',
+  sampleSongs = [],
+  reviewTitle = 'Internal Runtime Host Review',
+  showExtendedDiagnostics = false
 }: RuntimeHostReviewClientProps) {
   const [hostPlaybackStatus, setHostPlaybackStatus] =
     useState<RuntimeHostPlaybackState>(INITIAL_HOST_PLAYBACK_STATE)
@@ -119,6 +137,7 @@ export default function RuntimeHostReviewClient({
     useState<RuntimeContainerMeasurementSnapshot | null>(null)
   const [containerScriptDiagnostics, setContainerScriptDiagnostics] =
     useState<RuntimeScriptLoaderDiagnostics | null>(null)
+  const [consoleDiagnostics, setConsoleDiagnostics] = useState<RuntimeConsoleDiagnostic[]>([])
   const hostControllersRef = useRef<Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>>({})
   const playbackStatus = aggregatePlaybackStatus(hostPlaybackStatus)
   const isPlaybackPanelOpen = Object.values(hostPlaybackPanelOpen).some(Boolean)
@@ -175,6 +194,91 @@ export default function RuntimeHostReviewClient({
       }),
     [activeInstrument.id, normalizedQueryState, runtimeControlPayload]
   )
+  const queryDiagnostics = useMemo<Array<[string, string | number]>>(
+    () =>
+      [
+        ['song', songId],
+        ['instrument', activeInstrument.id],
+        ['fingering', normalizedQueryState.fingeringIndex ?? controlConfig.activeFingeringIndex ?? 'default'],
+        ['note', noteLabelMode],
+        ['layout', controlConfig.activeMeasureLayout],
+        ['zoom', controlConfig.activeSheetScale],
+        ['chart', controlConfig.activeGraphVisibility],
+        ['metronome', normalizedQueryState.practiceTool === 'metronome' ? 'on' : 'off'],
+        ['theme', normalizedQueryState.runtimeVisualTheme === 'off' ? 'off' : 'classic']
+      ],
+    [
+      activeInstrument.id,
+      controlConfig.activeFingeringIndex,
+      controlConfig.activeGraphVisibility,
+      controlConfig.activeMeasureLayout,
+      controlConfig.activeSheetScale,
+      normalizedQueryState.fingeringIndex,
+      normalizedQueryState.practiceTool,
+      normalizedQueryState.runtimeVisualTheme,
+      noteLabelMode,
+      songId
+    ]
+  )
+
+  useEffect(() => {
+    if (!showExtendedDiagnostics) {
+      return
+    }
+
+    const originalError = console.error
+    const originalWarn = console.warn
+
+    function appendConsoleDiagnostic(diagnostic: Omit<RuntimeConsoleDiagnostic, 'timestamp'>) {
+      setConsoleDiagnostics(current => [
+        ...current.slice(-11),
+        {
+          ...diagnostic,
+          timestamp: performance.now()
+        }
+      ])
+    }
+
+    console.error = (...args: unknown[]) => {
+      appendConsoleDiagnostic({
+        level: 'error',
+        message: formatConsoleArgs(args)
+      })
+      originalError.apply(console, args)
+    }
+
+    console.warn = (...args: unknown[]) => {
+      appendConsoleDiagnostic({
+        level: 'warn',
+        message: formatConsoleArgs(args)
+      })
+      originalWarn.apply(console, args)
+    }
+
+    function handleWindowError(event: ErrorEvent) {
+      appendConsoleDiagnostic({
+        level: 'error',
+        message: event.message || formatConsoleArgs([event.error])
+      })
+    }
+
+    function handleUnhandledRejection(event: PromiseRejectionEvent) {
+      appendConsoleDiagnostic({
+        level: 'unhandledrejection',
+        message: formatConsoleArgs([event.reason])
+      })
+    }
+
+    window.addEventListener('error', handleWindowError)
+    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+
+    return () => {
+      console.error = originalError
+      console.warn = originalWarn
+      window.removeEventListener('error', handleWindowError)
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+    }
+  }, [showExtendedDiagnostics])
 
   useEffect(
     () =>
@@ -212,6 +316,7 @@ export default function RuntimeHostReviewClient({
     setHostPlaybackPanelOpen(INITIAL_HOST_PANEL_STATE)
     setContainerMeasurement(null)
     setContainerScriptDiagnostics(null)
+    setConsoleDiagnostics([])
   }, [bodyHtml, frameSrc])
 
   const setHostController = useCallback(
@@ -297,10 +402,21 @@ export default function RuntimeHostReviewClient({
     (nextState: PublicSongPageQueryState) =>
       buildSongPageHref({
         songId,
-        basePath: '/dev/runtime-host',
+        basePath,
         ...nextState
       }),
-    [songId]
+    [basePath, songId]
+  )
+  const sampleSongHref = useCallback(
+    (nextSongId: string) =>
+      buildSongPageHref({
+        songId: nextSongId,
+        basePath,
+        ...normalizedQueryState,
+        instrumentId: activeInstrument.id,
+        noteLabelMode
+      }),
+    [activeInstrument.id, basePath, normalizedQueryState, noteLabelMode]
   )
 
   const actions: SongPageFunctionZoneActionControl[] = [
@@ -334,6 +450,20 @@ export default function RuntimeHostReviewClient({
   ]
 
   const selects: SongPageFunctionZoneSelectControl[] = [
+    ...(sampleSongs.length > 1
+      ? [
+          {
+            id: 'sample-song',
+            label: 'Sample Song',
+            value: songId,
+            options: sampleSongs.map(song => ({
+              value: song.slug,
+              label: song.title,
+              href: sampleSongHref(song.slug)
+            }))
+          }
+        ]
+      : []),
     {
       id: 'instrument',
       label: 'Instrument',
@@ -475,7 +605,7 @@ export default function RuntimeHostReviewClient({
     <div className="mx-auto flex max-w-[1800px] flex-col gap-5">
       <section className="rounded-[28px] border border-[rgba(120,86,48,0.22)] bg-[rgba(255,250,241,0.94)] p-5 shadow-[0_24px_54px_rgba(70,45,24,0.12)]">
         <div className="text-xs font-black uppercase tracking-[0.22em] text-[#806246]">
-          Internal Runtime Host Review
+          {reviewTitle}
         </div>
         <h1 className="mt-2 text-3xl font-black tracking-tight">{title}</h1>
         <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#6b543c]">
@@ -510,6 +640,17 @@ export default function RuntimeHostReviewClient({
               : 'pending'}
           </span>
         </div>
+        {showExtendedDiagnostics ? (
+          <RuntimeReviewDiagnostics
+            queryDiagnostics={queryDiagnostics}
+            containerMeasurement={containerMeasurement}
+            containerScriptDiagnostics={containerScriptDiagnostics}
+            consoleDiagnostics={consoleDiagnostics}
+            hostReadyState={hostReadyState}
+            hostPlaybackStatus={hostPlaybackStatus}
+            hostPlaybackPanelOpen={hostPlaybackPanelOpen}
+          />
+        ) : null}
       </section>
 
       <div className="grid gap-5 xl:grid-cols-2">
@@ -547,6 +688,129 @@ export default function RuntimeHostReviewClient({
       </div>
     </div>
   )
+}
+
+function RuntimeReviewDiagnostics({
+  queryDiagnostics,
+  containerMeasurement,
+  containerScriptDiagnostics,
+  consoleDiagnostics,
+  hostReadyState,
+  hostPlaybackStatus,
+  hostPlaybackPanelOpen
+}: {
+  queryDiagnostics: Array<[string, string | number]>
+  containerMeasurement: RuntimeContainerMeasurementSnapshot | null
+  containerScriptDiagnostics: RuntimeScriptLoaderDiagnostics | null
+  consoleDiagnostics: RuntimeConsoleDiagnostic[]
+  hostReadyState: Record<RuntimeHostKey, boolean>
+  hostPlaybackStatus: RuntimeHostPlaybackState
+  hostPlaybackPanelOpen: RuntimeHostPanelState
+}) {
+  const globalSummary =
+    containerScriptDiagnostics?.capturedGlobalNames.length
+      ? containerScriptDiagnostics.capturedGlobalNames.join(', ')
+      : 'none captured yet'
+
+  return (
+    <div className="mt-4 grid gap-3 text-xs font-semibold text-[#4f3b2a] lg:grid-cols-4">
+      <DiagnosticPanel title="Host Modes">
+        <DiagnosticLine label="iframe" value="iframe baseline / postMessage" />
+        <DiagnosticLine label="container" value="native DOM / normalized commands" />
+        <DiagnosticLine label="iframe ready" value={hostReadyState.iframe ? 'yes' : 'loading'} />
+        <DiagnosticLine label="container ready" value={hostReadyState.container ? 'yes' : 'loading'} />
+      </DiagnosticPanel>
+      <DiagnosticPanel title="Query State">
+        {queryDiagnostics.map(([label, value]) => (
+          <DiagnosticLine key={label} label={label} value={String(value)} />
+        ))}
+      </DiagnosticPanel>
+      <DiagnosticPanel title="Runtime State">
+        <DiagnosticLine label="iframe playback" value={hostPlaybackStatus.iframe} />
+        <DiagnosticLine label="container playback" value={hostPlaybackStatus.container} />
+        <DiagnosticLine label="iframe panel" value={hostPlaybackPanelOpen.iframe ? 'open' : 'closed'} />
+        <DiagnosticLine label="container panel" value={hostPlaybackPanelOpen.container ? 'open' : 'closed'} />
+        <DiagnosticLine
+          label="container height"
+          value={containerMeasurement ? `${containerMeasurement.height}px` : 'measuring'}
+        />
+        <DiagnosticLine
+          label="container sheet"
+          value={containerMeasurement?.hasRenderedSheet ? 'rendered' : 'pending'}
+        />
+      </DiagnosticPanel>
+      <DiagnosticPanel title="Errors / Globals">
+        <DiagnosticLine
+          label="console"
+          value={consoleDiagnostics.length > 0 ? `${consoleDiagnostics.length} captured` : 'clean'}
+        />
+        <DiagnosticLine
+          label="runtime js"
+          value={
+            containerScriptDiagnostics
+              ? `${containerScriptDiagnostics.status} ${containerScriptDiagnostics.loadedCount}/${containerScriptDiagnostics.totalCount}`
+              : 'pending'
+          }
+        />
+        <div>
+          <dt className="font-black uppercase tracking-[0.12em] text-[#806246]">
+            global changes
+          </dt>
+          <dd className="mt-1 max-h-20 overflow-auto rounded-lg bg-white/70 px-2 py-1 font-mono text-[0.68rem] leading-5 text-[#2d2118]">
+            {globalSummary}
+          </dd>
+        </div>
+        {consoleDiagnostics.length > 0 ? (
+          <div className="max-h-28 overflow-auto rounded-lg bg-[#fff8ed] px-2 py-1">
+            {consoleDiagnostics.map(item => (
+              <div key={`${item.timestamp}-${item.level}`} className="font-mono text-[0.68rem] leading-5">
+                [{item.level}] {item.message}
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </DiagnosticPanel>
+    </div>
+  )
+}
+
+function DiagnosticPanel({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <dl className="rounded-[18px] border border-[rgba(120,86,48,0.14)] bg-white/60 p-3 shadow-[0_10px_24px_rgba(70,45,24,0.06)]">
+      <div className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.16em] text-[#806246]">
+        {title}
+      </div>
+      <div className="space-y-1.5">{children}</div>
+    </dl>
+  )
+}
+
+function DiagnosticLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-3">
+      <dt className="font-black uppercase tracking-[0.1em] text-[#806246]">{label}</dt>
+      <dd className="text-right font-mono text-[0.68rem] leading-5 text-[#2d2118]">{value}</dd>
+    </div>
+  )
+}
+
+function formatConsoleArgs(args: unknown[]) {
+  return args
+    .map(arg => {
+      if (arg instanceof Error) {
+        return arg.message
+      }
+      if (typeof arg === 'string') {
+        return arg
+      }
+      try {
+        return JSON.stringify(arg)
+      } catch {
+        return String(arg)
+      }
+    })
+    .join(' ')
+    .slice(0, 320)
 }
 
 function ReviewPanel({ title, children }: { title: string; children: React.ReactNode }) {

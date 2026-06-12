@@ -779,11 +779,13 @@ Phase 9 validation record:
 - Risk: measurement parity is song- and viewport-sensitive.
 - Mitigation: require both quick samples and long/dense samples before treating the phase as complete.
 
-## Phase 10: Internal Parity Review Hardening
+## Phase 10: Internal Side-By-Side Parity Tool
+
+Status: complete for the dedicated internal review route.
 
 ### Goal
 
-Turn the current dev comparison surface into a repeatable review tool for iframe/container parity.
+Turn the current dev comparison surface into a repeatable review tool for iframe/container parity, with a dedicated internal review URL.
 
 ### Concrete Scope
 
@@ -813,13 +815,14 @@ Step 3: Review record
 
 ### Files
 
-Add:
+Added:
 
 - `src/app/dev/runtime-host/review/[id]/page.tsx`
 - `src/components/dev/RuntimeHostSideBySideReview.tsx`
 
-Modify:
+Modified:
 
+- `src/components/song/runtime-host/RuntimeHostReviewClient.tsx`
 - `docs/manual-runtime-qa-checklist.md`
 
 ### Forbidden
@@ -838,6 +841,18 @@ Review route can compare:
 - playback panel
 - metronome
 - loading lifecycle
+
+Phase 10 validation record:
+
+- `npm run typecheck` passed.
+- Dedicated review route opened successfully at `/dev/runtime-host/review/twinkle-twinkle-little-star`.
+- Browser diagnostics confirmed iframe and container render side by side, container has one `#sheet` and one rendered SVG, loading overlay clears, and iframe/container ready state reaches `yes`.
+- Extended diagnostics display host modes, query state, runtime state, container measured size, console diagnostics, script loader status, and captured runtime globals.
+- Sample Song switch from `twinkle-twinkle-little-star` to `canon` passed through the review route controls.
+- Instrument switch on the review route passed and remounted cleanly with one container sheet.
+- Direct review URL for `canon?measure_layout=mono&sheet_scale=12` passed with no horizontal overflow and no stale loading overlay.
+- No browser `pageerror` or console `error` was captured during the Phase 10 route checks.
+- Public `/song` remains iframe-backed; no public host switch was added.
 
 ### Risks And Mitigation
 
@@ -1259,10 +1274,10 @@ If a phase causes public blank sheets, broken playback, or broken instrument swi
 
 ## Recommended Next Engineering Step
 
-Next step should execute Phase 10 review hardening on the dev comparison route:
+Next step should prepare Phase 11 public opt-in host mode only after review-route parity remains stable:
 
-1. Change Scope: improve repeatable review diagnostics for host mode, measured size, ready state, script status, and accepted iframe/container differences.
-2. Validation: run `npm run typecheck`, `npm run build`, `git diff --check`, and repeat the Phase 9 sample set after diagnostic changes.
-3. Risk: diagnostics can drift from public shell behavior. Mitigate by keeping review controls on the normalized host controller boundary.
+1. Change Scope: design an explicit `runtime_host=container` opt-in path while keeping iframe as the default.
+2. Validation: run `npm run typecheck`, `npm run build`, `git diff --check`, and repeat the internal review route sample set before exposing any public query flag.
+3. Risk: an opt-in query can accidentally become an SEO surface. Mitigate with unchanged canonical URLs and conservative debug-query metadata.
 
 Public `/song` remains iframe-backed until Phase 11 opt-in work is deliberately started.

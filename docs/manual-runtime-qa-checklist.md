@@ -31,6 +31,35 @@ http://127.0.0.1:3000/song/<slug>?note_label_mode=number
 http://127.0.0.1:3000/api/kuailepu-runtime/<slug>?note_label_mode=number
 ```
 
+
+For iframe/container parity review:
+
+```text
+http://127.0.0.1:3000/dev/runtime-host/review/<slug>
+http://127.0.0.1:3000/dev/runtime-host/review/<slug>?note_label_mode=number
+http://127.0.0.1:3000/dev/runtime-host/review/<slug>?measure_layout=mono
+http://127.0.0.1:3000/dev/runtime-host/review/<slug>?sheet_scale=12
+http://127.0.0.1:3000/dev/runtime-host/review/<slug>?practice_tool=metronome
+```
+
+## Internal Runtime Host Review
+
+Use `/dev/runtime-host/review/<slug>` only for internal iframe/container parity work.
+
+Check:
+
+- iframe baseline and container host render side by side
+- runtime mode diagnostics show iframe baseline and native container host
+- query-state diagnostics match the selected sample song, instrument, note mode, layout, zoom, metronome, and visual theme
+- iframe ready and container ready both become `yes`
+- container measured height and rendered-sheet diagnostics update after render
+- console diagnostics remain `clean`; if not, capture the listed messages before changing code
+- global changes list shows the captured runtime globals after container scripts finish loading
+- Sample Song, Instrument, Fingering, Note Labels, Layout, Zoom, Fingering Chart, Metronome, and Visual Theme controls navigate and remount cleanly
+- `Listen`, playback panel close, `Stop`, and `Redraw` continue to use the normalized host controller boundary
+- route changes between sample songs leave one `#sheet` per host and no stale playback or metronome panel
+- public `/song/<slug>` still uses the iframe host by default
+
 ## Default Public Page
 
 Check:
