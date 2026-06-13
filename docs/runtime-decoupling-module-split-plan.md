@@ -404,16 +404,21 @@ Filled during Phase 0 and kept in this document until the split work is complete
 | `src/lib/kuailepu/runtime.ts` | 66 | Legacy `Kuailepu*` compatibility re-exports plus boundary comments. | Compatibility facade | High |
 | `src/components/song/PublicRuntimeInteractiveShell.tsx` | 1220 | Public runtime shell controls, query/state wiring, host command dispatch, playback/metronome UI, loading/error presentation. | Public React shell | High |
 | `src/components/song/PublicRuntimeHostController.ts` | 51 | Host controller/message type re-export and same-origin host message subscription helper. | Public React shell / runtime host boundary | Medium |
-| `src/components/song/runtime-host/ContainerRuntimeHost.tsx` | 178 | React-owned container host composition root; mounts runtime HTML, style injector, script loader, measurement, lifecycle, and host controller. | Public React shell / runtime host | Medium |
+| `src/components/song/runtime-host/ContainerRuntimeHost.tsx` | 158 | React-owned container host composition root; mounts runtime HTML, style injector, script loader, measurement, lifecycle, and delegated host controller factory. | Public React shell / runtime host | Complete in Phase 3 |
 | `src/components/song/runtime-host/ExportRuntimeHost.tsx` | 60 | Export/print/Pinterest wrapper around `ContainerRuntimeHost`. | Public React shell / runtime host export wrapper | Low |
 | `src/components/song/runtime-host/PublicRuntimeHostSwitch.tsx` | 82 | Dev/diagnostic runtime host mode switch UI, including legacy `iframe` compatibility mode label. | Public React shell / runtime host diagnostics | Low |
-| `src/components/song/runtime-host/RuntimeHostReviewClient.tsx` | 844 | Runtime host dev review UI, diagnostics, host command tests, and side-by-side state reporting. | Public React shell / dev review | High |
+| `src/components/song/runtime-host/RuntimeHostReviewClient.tsx` | 731 | Runtime host dev review state, controls, host command tests, and container host wiring; diagnostics and panel wrapper moved to review submodules. | Public React shell / dev review | Complete in Phase 3 |
 | `src/components/song/runtime-host/RuntimeScriptLoader.tsx` | 193 | Client-side runtime script loading, script diagnostics, and script load status reporting. | Public React shell / runtime host script loading | Medium |
-| `src/components/song/runtime-host/RuntimeStyleInjector.tsx` | 513 | Runtime CSS asset loading, selector scoping, injection, and diagnostics. | Public React shell / runtime host style | High |
+| `src/components/song/runtime-host/RuntimeStyleInjector.tsx` | 474 | Runtime style tag injection and container constraint CSS; scoped CSS loading moved to style hook. | Public React shell / runtime host style | Complete in Phase 3 |
 | `src/components/song/runtime-host/containerRuntimeTransport.ts` | 32 | Dispatches validated runtime host command messages into the container event channel. | Public React shell / runtime host transport | Low |
 | `src/components/song/runtime-host/types.ts` | 65 | Shared runtime host controller, message, measurement, and container host prop types. | Public React shell / runtime host type boundary | Low |
-| `src/components/song/runtime-host/useRuntimeContainerMeasurement.ts` | 312 | Runtime container measurement, resize feedback, loading state, and synthetic height event handling. | Public React shell / runtime host measurement | High |
+| `src/components/song/runtime-host/useRuntimeContainerMeasurement.ts` | 269 | Runtime container measurement orchestration, resize feedback, loading state, and synthetic height event handling; pure measurement helpers moved to measurement submodule. | Public React shell / runtime host measurement | Complete in Phase 3 |
 | `src/components/song/runtime-host/useRuntimeHostLifecycle.ts` | 113 | Runtime host lifecycle callbacks for ready/loading/measurement/controller cleanup. | Public React shell / runtime host lifecycle | Medium |
+| `src/components/song/runtime-host/review/ReviewPanel.tsx` | 12 | Review page panel wrapper. | Public React shell / dev review | Complete in Phase 3 |
+| `src/components/song/runtime-host/review/RuntimeReviewDiagnostics.tsx` | 113 | Review page diagnostics view and diagnostic line/panel rendering. | Public React shell / dev review diagnostics | Complete in Phase 3 |
+| `src/components/song/runtime-host/style/useScopedRuntimeCss.ts` | 55 | Runtime CSS asset loading and scoping hook. | Public React shell / runtime host style | Complete in Phase 3 |
+| `src/components/song/runtime-host/measurement/runtimeMeasurementHelpers.ts` | 47 | Runtime measurement selectors and pure content-height helper functions. | Public React shell / runtime host measurement | Complete in Phase 3 |
+| `src/components/song/runtime-host/lifecycle/containerRuntimeHostController.ts` | 22 | Container runtime host controller factory. | Public React shell / runtime host lifecycle | Complete in Phase 3 |
 | `src/lib/runtime-core/server/assembly/publicRuntimeAssetManifest.ts` | 147 | Builds structured runtime asset entries and preserves runtime asset list order. | Server runtime assembly | Medium |
 | `src/lib/runtime-core/server/assembly/publicRuntimeDocument.ts` | 59 | Builds full public runtime HTML document from scaffold and package parts. | Server runtime assembly | Low |
 | `src/lib/runtime-core/server/assembly/publicRuntimePackage.ts` | 39 | Builds public runtime package data for document/container consumers. | Server runtime assembly | Medium |
@@ -545,7 +550,7 @@ Likely add:
 
 ## Phase 3: Runtime Host Component Split
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
@@ -563,10 +568,10 @@ High-value targets:
 Suggested ownership split:
 
 ```text
-src/components/song/runtime-host/review/**       -> Phase3执行时创建
-src/components/song/runtime-host/style/**        -> Phase3执行时创建
-src/components/song/runtime-host/measurement/**  -> Phase3执行时创建
-src/components/song/runtime-host/lifecycle/**    -> Phase3执行时创建
+src/components/song/runtime-host/review/**       -> created in Phase 3
+src/components/song/runtime-host/style/**        -> created in Phase 3
+src/components/song/runtime-host/measurement/**  -> created in Phase 3
+src/components/song/runtime-host/lifecycle/**    -> created in Phase 3
 ```
 
 Candidate extractions:
@@ -590,9 +595,10 @@ Likely modify:
 
 Likely add:
 
-- small files under `src/components/song/runtime-host/review/**` (Phase3执行时创建)
-- small files under `src/components/song/runtime-host/style/**` (Phase3执行时创建)
-- small files under `src/components/song/runtime-host/measurement/**` (Phase3执行时创建)
+- small files under `src/components/song/runtime-host/review/**` (created in Phase 3)
+- small files under `src/components/song/runtime-host/style/**` (created in Phase 3)
+- small files under `src/components/song/runtime-host/measurement/**` (created in Phase 3)
+- small files under `src/components/song/runtime-host/lifecycle/**` (created in Phase 3)
 
 ### Forbidden
 
@@ -603,10 +609,13 @@ Likely add:
 
 ### Acceptance
 
-- `npm run typecheck` passes.
-- Public song page renders.
-- Dev review page renders.
-- Internal print and Pinterest preview routes still receive a runtime host.
+- `npm run typecheck` passes: complete.
+- Public song page renders: pending manual QA.
+- Dev review page renders: pending manual QA.
+- Internal print and Pinterest preview routes still receive a runtime host: pending manual QA.
+- Runtime script loading order remains unchanged: complete.
+- CSS selector scoping semantics remain unchanged: complete.
+- Measurement thresholds, polling interval, animation-frame loop, and timeout timings remain unchanged: complete.
 
 ## Phase 4: Public Runtime Shell Split
 

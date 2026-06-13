@@ -4,6 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   PUBLIC_RUNTIME_SIZE_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import {
+  hasRenderedRuntimeSheet,
+  hasRuntimeContentElementStarted,
+  measureRuntimeContainerContentHeight
+} from './measurement/runtimeMeasurementHelpers'
 
 export type RuntimeContainerMeasurementSnapshot = {
   height: number
@@ -21,10 +26,6 @@ type UseRuntimeContainerMeasurementOptions = {
   onLoadingChange?: (isLoading: boolean) => void
   onMeasurementChange?: (snapshot: RuntimeContainerMeasurementSnapshot) => void
 }
-
-const RUNTIME_CONTENT_SELECTOR = 'canvas, img, text, tspan, use, path, line, rect, circle, ellipse'
-const RUNTIME_SHEET_SELECTOR = '#sheet, #sheet .sheet-svg'
-const RUNTIME_RENDERED_SHEET_SELECTOR = '#sheet svg, #sheet .sheet-svg'
 
 export function useRuntimeContainerMeasurement({
   songId,
@@ -109,54 +110,10 @@ export function useRuntimeContainerMeasurement({
       }
     }
 
-    function hasRenderedSheet() {
-      return Boolean(measuredRoot.querySelector(RUNTIME_RENDERED_SHEET_SELECTOR))
-    }
-
-    function hasRuntimeContentElementStarted() {
-      const sheet = measuredRoot.querySelector('#sheet')
-      if (!sheet) {
-        return false
-      }
-
-      return Boolean(sheet.querySelector(RUNTIME_CONTENT_SELECTOR))
-    }
-
     function hideLoadingIfRuntimeContentReady() {
-      if (hasRuntimeContentElementStarted()) {
+      if (hasRuntimeContentElementStarted(measuredRoot)) {
         hideLoading()
       }
-    }
-
-    function measureContainerContentHeight() {
-      const rootTop = measuredRoot.getBoundingClientRect().top
-      let measuredBottom = 0
-
-      measuredRoot.querySelectorAll(RUNTIME_SHEET_SELECTOR).forEach(node => {
-        if (!('getBoundingClientRect' in node)) {
-          return
-        }
-        const rect = node.getBoundingClientRect()
-        if (rect.height <= 0) {
-          return
-        }
-        measuredBottom = Math.max(measuredBottom, rect.bottom - rootTop, rect.height)
-      })
-
-      const mountElement = measuredRoot.querySelector<HTMLElement>(
-        '[data-public-runtime-dom-mount="true"]'
-      )
-      const sheetElement = measuredRoot.querySelector<HTMLElement>('#sheet')
-      const fallbackHeight = Math.max(
-        mountElement?.scrollHeight ?? 0,
-        mountElement?.offsetHeight ?? 0,
-        sheetElement?.scrollHeight ?? 0,
-        sheetElement?.offsetHeight ?? 0,
-        measuredRoot.scrollHeight || 0
-      )
-
-      const nextHeight = measuredBottom > 0 ? measuredBottom : fallbackHeight
-      return nextHeight > 0 ? Math.ceil(nextHeight + 1) : null
     }
 
     function publishMeasuredHeight(nextHeight: number) {
@@ -184,9 +141,9 @@ export function useRuntimeContainerMeasurement({
       }
 
       hideLoadingIfRuntimeContentReady()
-      const measured = measureContainerContentHeight()
-      const hasRendered = hasRenderedSheet()
-      const hasRuntimeContent = hasRuntimeContentElementStarted()
+      const measured = measureRuntimeContainerContentHeight(measuredRoot)
+      const hasRendered = hasRenderedRuntimeSheet(measuredRoot)
+      const hasRuntimeContent = hasRuntimeContentElementStarted(measuredRoot)
 
       if (hasRendered) {
         hideLoading()
@@ -261,7 +218,7 @@ export function useRuntimeContainerMeasurement({
     }
 
     sheetPollTimer = window.setInterval(() => {
-      if (hasRenderedSheet() || hasRuntimeContentElementStarted()) {
+      if (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot)) {
         hideLoading()
       }
       scheduleMeasuredHeightUpdate()
@@ -272,7 +229,7 @@ export function useRuntimeContainerMeasurement({
         return
       }
 
-      if (hasRenderedSheet() || hasRuntimeContentElementStarted()) {
+      if (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot)) {
         hideLoading()
         scheduleMeasuredHeightUpdate()
         return

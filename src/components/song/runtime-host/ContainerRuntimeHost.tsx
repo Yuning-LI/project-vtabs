@@ -7,10 +7,10 @@ import type {
 } from './types'
 import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
-import { dispatchContainerRuntimeCommand } from './containerRuntimeTransport'
 import { PUBLIC_RUNTIME_READY_MESSAGE } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import { useRuntimeContainerMeasurement } from './useRuntimeContainerMeasurement'
 import { useRuntimeHostLifecycle } from './useRuntimeHostLifecycle'
+import { createContainerRuntimeHostController } from './lifecycle/containerRuntimeHostController'
 
 /**
  * Dev-only native DOM host.
@@ -155,24 +155,4 @@ export default function ContainerRuntimeHost({
       ) : null}
     </div>
   )
-}
-
-function createContainerRuntimeHostController(
-  root: HTMLElement
-): PublicRuntimeHostController {
-  return {
-    hostElement: root,
-    containsEventTarget(target) {
-      return target instanceof Node && root.contains(target)
-    },
-    destroy() {
-      /**
-       * React owns the host wrapper. Runtime DOM teardown is handled by the
-       * container lifecycle hook and script bootstrap disposer.
-       */
-    },
-    postMessage(message) {
-      return dispatchContainerRuntimeCommand(message)
-    }
-  }
 }
