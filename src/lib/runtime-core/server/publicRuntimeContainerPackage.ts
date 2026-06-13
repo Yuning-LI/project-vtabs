@@ -2,6 +2,11 @@ import {
   buildPublicRuntimeLetterTrackData,
   buildPublicRuntimePackageData
 } from '../publicRuntime.ts'
+import { buildPublicRuntimeLetterTrackInput } from './assembly/publicRuntimeLetterTrackInput.ts'
+import {
+  applyPublicRuntimeSongLyricFallback,
+  loadPublicRuntimeNotationSong
+} from './payload/publicRuntimeSongData.ts'
 import type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
@@ -9,8 +14,6 @@ import type {
   PublicRuntimeTextMode
 } from '../runtimeTypes.ts'
 import type { PublicRuntimeVisualThemeName } from '../visual/publicRuntimeVisualTheme.ts'
-import { songCatalogBySlug } from '@/lib/songbook/catalog'
-import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 
 export type PublicRuntimeContainerPackageData = {
   bodyHtml: string
@@ -30,19 +33,21 @@ export function buildPublicRuntimeContainerPackage(input: {
   publicFeatures?: PublicRuntimePublicFeature[]
   visualThemeName?: PublicRuntimeVisualThemeName | null
 }): PublicRuntimeContainerPackageData {
-  const runtimeNotationSong =
-    songCatalogBySlug[input.songId] ?? loadImportedOrCandidateSongDoc(input.songId)
-  const letterTrack = buildPublicRuntimeLetterTrackData({
-    notation: runtimeNotationSong?.notation,
-    rawNotation: typeof input.payload.notation === 'string' ? input.payload.notation : null,
-    key: runtimeNotationSong?.meta?.key,
-    mode: input.state.note_label_mode,
+  const runtimeNotationSong = loadPublicRuntimeNotationSong(input.songId)
+  const runtimePayload = applyPublicRuntimeSongLyricFallback({
     payload: input.payload,
-    state: input.state
+    song: runtimeNotationSong
   })
+  const letterTrack = buildPublicRuntimeLetterTrackData(
+    buildPublicRuntimeLetterTrackInput({
+      song: runtimeNotationSong,
+      payload: runtimePayload,
+      state: input.state
+    })
+  )
   const runtimePackage = buildPublicRuntimePackageData({
     songId: input.songId,
-    payload: input.payload,
+    payload: runtimePayload,
     state: input.state,
     letterTrack,
     textMode: input.textMode ?? 'english',

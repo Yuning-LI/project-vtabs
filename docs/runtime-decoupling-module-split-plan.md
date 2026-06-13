@@ -418,13 +418,15 @@ Filled during Phase 0 and kept in this document until the split work is complete
 | `src/lib/runtime-core/server/assembly/publicRuntimeDocument.ts` | 59 | Builds full public runtime HTML document from scaffold and package parts. | Server runtime assembly | Low |
 | `src/lib/runtime-core/server/assembly/publicRuntimePackage.ts` | 39 | Builds public runtime package data for document/container consumers. | Server runtime assembly | Medium |
 | `src/lib/runtime-core/server/assembly/publicRuntimeBuildInput.ts` | 139 | Prepares payload defaults, page title, visual theme, bridge script input, package input, lyric helpers, payload loading facade helpers, and letter-track delegation for the public runtime API facade. | Server runtime assembly / build input preparation | Complete in Phase 1 |
+| `src/lib/runtime-core/server/assembly/publicRuntimeLetterTrackInput.ts` | 22 | Builds letter-track input for container package assembly from runtime payload, runtime state, and resolved notation song data. | Server runtime assembly / letter-track input | Complete in Phase 2 |
 | `src/lib/runtime-core/server/assets/publicRuntimeAssets.ts` | 241 | Resolves public runtime asset profiles and script/style asset lists. | Server runtime assembly / asset selection | Medium |
 | `src/lib/runtime-core/server/html/runtimeHtmlDocument.ts` | 4 | Re-export shim for HTML scaffold helper. | Server runtime assembly / HTML compatibility | Low |
 | `src/lib/runtime-core/server/html/runtimeHtmlScaffold.ts` | 407 | Runtime HTML scaffold helpers, inline serialization, head/body assembly, and HTML injection support. | Server runtime assembly / HTML scaffolding | High |
 | `src/lib/runtime-core/server/payload/publicRuntimePayloadFiles.ts` | 12 | Resolves raw and packed public runtime payload file paths. | Server runtime assembly / payload file paths | Low |
 | `src/lib/runtime-core/server/payload/publicRuntimePayloadLocalization.ts` | 40 | Localizes public runtime payload title/subtitle fields. | Server runtime assembly / payload localization | Low |
+| `src/lib/runtime-core/server/payload/publicRuntimeSongData.ts` | 6 | Resolves notation song data for runtime container package assembly, preserving catalog-first then imported/candidate fallback order. | Server runtime assembly / song data lookup | Complete in Phase 2 |
 | `src/lib/runtime-core/server/payload/runtimePayload.ts` | 253 | Loads runtime payload archives, prefers packed production payloads, parses payload JSON, and applies localization. | Server runtime assembly / payload loading | Medium |
-| `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts` | 61 | Builds container package data and currently resolves song notation data for letter-track generation. | Server runtime assembly / container package | Medium |
+| `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts` | 57 | Builds container package data and delegates song data lookup plus letter-track input derivation to Phase 2 helpers. | Server runtime assembly / container package | Complete in Phase 2 |
 | `src/lib/runtime-core/server/template/publicRuntimeTemplateFiles.ts` | 5 | Re-export shim for archived runtime template loader. | Server runtime assembly / template compatibility | Low |
 | `src/lib/runtime-core/server/template/runtimeTemplate.ts` | 63 | Loads archived public runtime HTML template from vendor archive. | Server runtime assembly / template loading | Low |
 | `src/lib/runtime-core/bridge/publicRuntimeBridge.ts` | 96 | Top-level runtime container bridge script assembler and inline serialization helper. | Browser runtime bridge | Medium |
@@ -491,7 +493,7 @@ Likely add:
 
 ## Phase 2: Server Container Package Boundary Split
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
@@ -525,8 +527,8 @@ Likely modify:
 
 Likely add:
 
-- `src/lib/runtime-core/server/payload/publicRuntimeSongData.ts` (Phase2执行时创建)
-- `src/lib/runtime-core/server/assembly/publicRuntimeLetterTrackInput.ts` (Phase2执行时创建)
+- `src/lib/runtime-core/server/payload/publicRuntimeSongData.ts` (created in Phase 2)
+- `src/lib/runtime-core/server/assembly/publicRuntimeLetterTrackInput.ts` (created in Phase 2)
 
 ### Forbidden
 
@@ -536,8 +538,10 @@ Likely add:
 
 ### Acceptance
 
-- `npm run typecheck` passes.
-- One letter-mode public song and one number-mode parity URL render the same notation behavior in manual QA.
+- `npm run typecheck` passes: complete.
+- One letter-mode public song and one number-mode parity URL render the same notation behavior in manual QA: pending manual QA.
+- `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts` keeps the same public export and return shape: complete.
+- Song data lookup preserves catalog-first then imported/candidate fallback order: complete.
 
 ## Phase 3: Runtime Host Component Split
 
