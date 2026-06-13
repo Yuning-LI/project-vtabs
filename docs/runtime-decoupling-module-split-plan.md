@@ -441,7 +441,9 @@ Filled during Phase 0 and kept in this document until the split work is complete
 | `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts` | 57 | Builds container package data and delegates song data lookup plus letter-track input derivation to Phase 2 helpers. | Server runtime assembly / container package | Complete in Phase 2 |
 | `src/lib/runtime-core/server/template/publicRuntimeTemplateFiles.ts` | 5 | Re-export shim for archived runtime template loader. | Server runtime assembly / template compatibility | Low |
 | `src/lib/runtime-core/server/template/runtimeTemplate.ts` | 63 | Loads archived public runtime HTML template from vendor archive. | Server runtime assembly / template loading | Low |
-| `src/lib/runtime-core/bridge/publicRuntimeBridge.ts` | 96 | Top-level runtime container bridge script assembler and inline serialization helper. | Browser runtime bridge | Medium |
+| `src/lib/runtime-core/bridge/publicRuntimeBridge.ts` | 78 | Top-level runtime container bridge script assembler; delegates inline serialization and execution-stage grouping to Phase 5 bridge helpers. | Browser runtime bridge | Complete in Phase 5 |
+| `src/lib/runtime-core/bridge/serialization.ts` | 8 | Centralized inline script serialization helper for server-built runtime container bridge variables. | Browser runtime bridge / serialization | Complete in Phase 5 |
+| `src/lib/runtime-core/bridge/scriptStages.ts` | 30 | Groups self-contained bridge fragments by execution stage while preserving feature and host script order. | Browser runtime bridge / stage assembly | Complete in Phase 5 |
 | `src/lib/runtime-core/bridge/publicRuntimeMessageTypes.ts` | 95 | Shared runtime host message and command constants/type guards. | Runtime bridge / public React shell shared contract | Medium |
 | `src/lib/runtime-core/bridge/height/publicRuntimeHeightBridge.ts` | 55 | Self-contained runtime height reporting script fragment. | Browser runtime bridge / height | Medium |
 | `src/lib/runtime-core/bridge/metronome/publicRuntimeMetronomeBridge.ts` | 174 | Self-contained metronome bridge script fragment. | Browser runtime bridge / metronome | Medium |
@@ -691,11 +693,11 @@ Likely add:
 
 ## Phase 5: Bridge Builder Boundary Tightening
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
-Make bridge submodules easier to maintain without breaking injected-script self-containment.
+Make bridge submodules easier to maintain without breaking runtime container script context self-containment.
 
 ### Concrete Scope
 
@@ -735,7 +737,8 @@ Likely modify:
 
 Likely add:
 
-- `src/lib/runtime-core/bridge/serialization.ts` (Phase5执行时创建)
+- `src/lib/runtime-core/bridge/serialization.ts` (created in Phase 5)
+- `src/lib/runtime-core/bridge/scriptStages.ts` (created in Phase 5)
 - optional bridge-output tests if the existing test setup supports them cleanly
 
 ### Forbidden
@@ -747,10 +750,12 @@ Likely add:
 
 ### Acceptance
 
-- `npm run typecheck` passes.
-- Bridge script remains one self-contained runtime container script output.
-- Public song page reports readiness and height.
-- Playback and metronome messages still cross the host boundary.
+- `npm run typecheck` passes: complete.
+- Bridge script remains one self-contained runtime container script output: complete.
+- Public song page reports readiness and height: pending manual QA.
+- Playback and metronome messages still cross the host boundary: pending manual QA.
+- Bridge execution-stage order remains `metronome -> playback -> SVG -> height -> bootstrap`: complete.
+- Obsolete bridge comments no longer describe iframe-era parent-page behavior: complete.
 
 ## Phase 6: Obsolete Residue And Naming Cleanup
 

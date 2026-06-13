@@ -4,20 +4,11 @@ import type {
   PublicRuntimeTextMode,
   PublicRuntimeVisualTheme
 } from '../runtimeTypes.ts'
-import { buildPublicRuntimeHeightBridgeScript } from './height/publicRuntimeHeightBridge.ts'
-import { buildPublicRuntimeMetronomeBridgeScript } from './metronome/publicRuntimeMetronomeBridge.ts'
-import { buildPublicRuntimePlaybackBridgeScript } from './playback/publicRuntimePlaybackBridge.ts'
-import { buildPublicRuntimeBootstrapScript } from './script/publicRuntimeBootstrap.ts'
-import { buildPublicRuntimeSvgBridgeScript } from './svg/publicRuntimeSvgBridge.ts'
-
-function serializeForInlineScript(value: unknown) {
-  return JSON.stringify(value)
-    .replace(/</g, '\\u003c')
-    .replace(/>/g, '\\u003e')
-    .replace(/&/g, '\\u0026')
-    .replace(/\u2028/g, '\\u2028')
-    .replace(/\u2029/g, '\\u2029')
-}
+import { serializeForInlineScript } from './serialization.ts'
+import {
+  buildPublicRuntimeBridgeScriptStages,
+  joinPublicRuntimeBridgeScriptStages
+} from './scriptStages.ts'
 
 /**
  * 这层样式的目标不是美化集成运行时页面，而是把不需要的站点外壳彻底关掉，只留下谱面本体。
@@ -34,7 +25,7 @@ function serializeForInlineScript(value: unknown) {
  * 原因是公开详情页的滚动应该只由外层页面承担，哪怕测高已经基本正确，
  * 某些桌面环境仍可能因为浏览器默认的 `overflow-y: auto` 画出一条内层滚动条。
  *
- * 真正的完整谱面高度仍然依赖 bridge script 回传给父页面，
+ * 真正的完整谱面高度仍然依赖 runtime container script context 回传给宿主页面，
  * 所以这里关掉内层纵向滚动不会裁掉内容，只会避免运行时区域自己再出现一层滚动。
  */
 /**
@@ -58,11 +49,7 @@ export function buildPublicRuntimeBridgeScript(
   publicFeatures: Set<PublicRuntimePublicFeature>,
   visualTheme: PublicRuntimeVisualTheme
 ) {
-  const heightBridgeScript = buildPublicRuntimeHeightBridgeScript()
-  const metronomeBridgeScript = buildPublicRuntimeMetronomeBridgeScript()
-  const playbackBridgeScript = buildPublicRuntimePlaybackBridgeScript()
-  const svgBridgeScript = buildPublicRuntimeSvgBridgeScript()
-  const bootstrapScript = buildPublicRuntimeBootstrapScript()
+  const bridgeScriptStages = buildPublicRuntimeBridgeScriptStages()
   const safeLetterTrack = serializeForInlineScript(
     letterTrack ?? {
       mode: 'number',
@@ -84,12 +71,7 @@ export function buildPublicRuntimeBridgeScript(
   var hasPublicPlayback = ${publicFeatures.has('playback') ? 'true' : 'false'};
   var playbackLetterHighlightObservers = [];
 
-${metronomeBridgeScript}
-${playbackBridgeScript}
-${svgBridgeScript}
-
-${heightBridgeScript}
-${bootstrapScript}
+${joinPublicRuntimeBridgeScriptStages(bridgeScriptStages)}
 })();
 </script>
 `
