@@ -402,7 +402,14 @@ Filled during Phase 0 and kept in this document until the split work is complete
 |-----------|---------------|---------------------|------------------|----------------|
 | `src/lib/runtime-core/publicRuntime.ts` | 88 | Stable public runtime API facade; delegates implementation to server assembly helpers while preserving public export names and signatures. | Server runtime assembly facade | Complete in Phase 1 |
 | `src/lib/kuailepu/runtime.ts` | 66 | Legacy `Kuailepu*` compatibility re-exports plus boundary comments. | Compatibility facade | High |
-| `src/components/song/PublicRuntimeInteractiveShell.tsx` | 1220 | Public runtime shell controls, query/state wiring, host command dispatch, playback/metronome UI, loading/error presentation. | Public React shell | High |
+| `src/components/song/PublicRuntimeInteractiveShell.tsx` | 6 | Compatibility re-export wrapper for the public runtime shell implementation. | Public React shell compatibility facade | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/PublicRuntimeInteractiveShell.tsx` | 1149 | Public runtime shell integration component with host command wiring, control assembly, runtime host mounting, and analytics. | Public React shell | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/usePublicRuntimeQueryState.ts` | 12 | Public runtime query-state synchronization hook. | Public React shell / query state | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/usePublicRuntimeControls.ts` | 18 | Public runtime control helper for graph option normalization. | Public React shell / controls | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/usePublicRuntimePlayback.ts` | 76 | Public runtime playback state, loading progress, pending-open refs, and activation guard hook. | Public React shell / playback | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/usePublicRuntimeMetronome.ts` | 3 | Public runtime metronome state helper. | Public React shell / metronome | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/PublicRuntimeToolbar.tsx` | 80 | Public runtime toolbar, heading, control zone, and host switch rendering. | Public React shell / toolbar | Complete in Phase 4 |
+| `src/components/song/public-runtime-shell/PublicRuntimeStatus.tsx` | 10 | Public runtime unavailable status presentation. | Public React shell / status | Complete in Phase 4 |
 | `src/components/song/PublicRuntimeHostController.ts` | 51 | Host controller/message type re-export and same-origin host message subscription helper. | Public React shell / runtime host boundary | Medium |
 | `src/components/song/runtime-host/ContainerRuntimeHost.tsx` | 158 | React-owned container host composition root; mounts runtime HTML, style injector, script loader, measurement, lifecycle, and delegated host controller factory. | Public React shell / runtime host | Complete in Phase 3 |
 | `src/components/song/runtime-host/ExportRuntimeHost.tsx` | 60 | Export/print/Pinterest wrapper around `ContainerRuntimeHost`. | Public React shell / runtime host export wrapper | Low |
@@ -619,7 +626,7 @@ Likely add:
 
 ## Phase 4: Public Runtime Shell Split
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
@@ -640,13 +647,13 @@ Candidate extractions:
 Suggested target shape:
 
 ```text
-src/components/song/public-runtime-shell/PublicRuntimeInteractiveShell.tsx  -> Phase4执行时创建
-src/components/song/public-runtime-shell/usePublicRuntimeQueryState.ts       -> Phase4执行时创建
-src/components/song/public-runtime-shell/usePublicRuntimeControls.ts         -> Phase4执行时创建
-src/components/song/public-runtime-shell/usePublicRuntimePlayback.ts         -> Phase4执行时创建
-src/components/song/public-runtime-shell/usePublicRuntimeMetronome.ts        -> Phase4执行时创建
-src/components/song/public-runtime-shell/PublicRuntimeToolbar.tsx            -> Phase4执行时创建
-src/components/song/public-runtime-shell/PublicRuntimeStatus.tsx             -> Phase4执行时创建
+src/components/song/public-runtime-shell/PublicRuntimeInteractiveShell.tsx  -> created in Phase 4
+src/components/song/public-runtime-shell/usePublicRuntimeQueryState.ts       -> created in Phase 4
+src/components/song/public-runtime-shell/usePublicRuntimeControls.ts         -> created in Phase 4
+src/components/song/public-runtime-shell/usePublicRuntimePlayback.ts         -> created in Phase 4
+src/components/song/public-runtime-shell/usePublicRuntimeMetronome.ts        -> created in Phase 4
+src/components/song/public-runtime-shell/PublicRuntimeToolbar.tsx            -> created in Phase 4
+src/components/song/public-runtime-shell/PublicRuntimeStatus.tsx             -> created in Phase 4
 ```
 
 Compatibility option:
@@ -661,7 +668,7 @@ Likely modify:
 
 Likely add:
 
-- files under `src/components/song/public-runtime-shell/**` (Phase4执行时创建)
+- files under `src/components/song/public-runtime-shell/**` (created in Phase 4)
 
 ### Forbidden
 
@@ -673,11 +680,14 @@ Likely add:
 
 ### Acceptance
 
-- `npm run typecheck` passes.
-- Public page instrument switches preserve query state.
-- Listen opens, plays, and stops through the same host boundary.
-- Metronome starts and stops through the same host boundary.
-- Mobile `More Tools` behavior stays unchanged.
+- `npm run typecheck` passes: complete.
+- Public page instrument switches preserve query state: pending manual QA.
+- Listen opens, plays, and stops through the same host boundary: pending manual QA.
+- Metronome starts and stops through the same host boundary: pending manual QA.
+- Mobile `More Tools` behavior stays unchanged: pending manual QA.
+- Public visible copy is preserved during extraction: complete.
+- URL query parameter names and semantics remain unchanged: complete.
+- `src/components/song/PublicRuntimeInteractiveShell.tsx` remains as a compatibility re-export wrapper: complete.
 
 ## Phase 5: Bridge Builder Boundary Tightening
 
