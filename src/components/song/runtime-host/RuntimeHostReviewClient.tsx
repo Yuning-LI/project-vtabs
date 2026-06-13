@@ -593,8 +593,8 @@ export default function RuntimeHostReviewClient({
         </div>
         <h1 className="mt-2 text-3xl font-black tracking-tight">{title}</h1>
         <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#6b543c]">
-          This dev-only page verifies the retired iframe path now resolves to the React container
-          host through the normalized host command channel.
+          This dev-only page verifies legacy host signals now resolve to the React runtime
+          container through the normalized host command channel.
         </p>
         <div className="mt-4 rounded-[22px] border border-[rgba(154,126,91,0.18)] bg-white/65 p-3">
           <SongPageFunctionZone

@@ -388,9 +388,9 @@ Iframe-era residue reviewed during Phase 0:
 |----------|-----------------|------------------------|
 | `src/components/song/PublicRuntimeInteractiveShell.tsx` | `runtimeHostMode = 'iframe'` default prop value | Intentional compatibility signal path; do not change during inventory. |
 | `src/lib/runtime-core/publicRuntimeHostMode.ts` | `PublicRuntimeHostMode = 'iframe' \| 'container'`, default `'iframe'` | Intentional compatibility / rollout model naming; needs future Phase 6 review before any rename. |
-| `src/lib/runtime-core/publicRuntimeHostRollout.ts` | rollout branches and labels still mention iframe baseline | Intentional compatibility / diagnostics residue; do not change in Phase 0. |
-| `src/components/song/runtime-host/PublicRuntimeHostSwitch.tsx` | mode option includes `'iframe'` | Intentional compatibility UI signal; current behavior resolves to container host after Phase 15. |
-| `src/components/song/runtime-host/RuntimeHostReviewClient.tsx` | dev copy says retired iframe path resolves to React container | Current explanatory copy, not stale behavior. |
+| `src/lib/runtime-core/publicRuntimeHostRollout.ts` | rollout branches can still resolve the `'iframe'` mode value | Intentional compatibility / diagnostics signal; Phase 6 removed stale user-facing baseline wording and kept the compatibility value. |
+| `src/components/song/runtime-host/PublicRuntimeHostSwitch.tsx` | mode option includes `'iframe'` with a legacy-signal label | Intentional compatibility UI signal; current behavior resolves to container host after Phase 15. |
+| `src/components/song/runtime-host/RuntimeHostReviewClient.tsx` | dev copy explains legacy host signals resolving through the React runtime container | Current explanatory copy, not stale behavior. |
 | `src/lib/runtime-core/bridge/*` | bridge still uses `window.parent.postMessage` and same-origin `message` events | Transport compatibility residue; not evidence of an active iframe host by itself. |
 | `docs/runtime-decoupling-module-split-plan.md` | intentional references to iframe removal, compatibility signal, and Phase 6 cleanup | Documentation context, not source residue. |
 
@@ -759,7 +759,7 @@ Likely add:
 
 ## Phase 6: Obsolete Residue And Naming Cleanup
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
@@ -799,9 +799,10 @@ Likely modify:
 
 ### Acceptance
 
-- `rg "iframe"` results are reviewed and remaining matches are intentional.
-- `npm run typecheck` passes if code comments / names were touched.
-- Docs describe current post-Phase-15 state consistently.
+- `rg "iframe"` results are reviewed and remaining matches are intentional: complete.
+- `npm run typecheck` passes if code comments / names were touched: complete.
+- Docs describe current post-Phase-15 state consistently: complete.
+- No unused iframe-only helper or dead branch was removed because scoped review found only compatibility values, diagnostics signals, transport compatibility, and historical migration records: complete.
 
 ## Phase 7: Runtime Module Index And Ownership Docs
 

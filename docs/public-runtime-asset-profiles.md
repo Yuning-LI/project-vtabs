@@ -65,7 +65,7 @@ Public playback also depends on local soundfont assets under `public/static/soun
 
 ## CSS
 
-CSS has not been aggressively trimmed because it can affect iframe width and visual stability. If trimming CSS later, use screenshot/layout comparison, not only “SVG exists” checks.
+CSS has not been aggressively trimmed because it can affect runtime container width and visual stability. If trimming CSS later, use screenshot/layout comparison, not only “SVG exists” checks.
 
 ## Recovery Workflow
 

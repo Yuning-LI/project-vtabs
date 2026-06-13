@@ -147,7 +147,7 @@ export function resolvePublicRuntimeHostRollout(input: {
     reason:
       defaultMode === 'container'
         ? 'local default container'
-        : 'production/default iframe baseline'
+        : 'production/default legacy host signal baseline'
   }
 }
 

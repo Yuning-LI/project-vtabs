@@ -71,7 +71,7 @@ Do:
 - keep visible public copy English
 - keep `/api/kuailepu-runtime/<slug>` `noindex`
 - keep controls compact enough that the notation remains reachable
-- preserve iframe height behavior and avoid inner scrollbars / blank bottom space
+- preserve runtime container height behavior and avoid inner scrollbars / blank bottom space
 
 ## When To Touch Runtime
 

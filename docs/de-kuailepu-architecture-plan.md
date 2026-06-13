@@ -92,13 +92,13 @@ Examples:
 
 - code produced by `buildRuntimeBridgeScript(...)`
 - SVG manipulation after the integrated runtime draws the sheet
-- iframe-side height reporting
-- iframe-side playback panel observation
+- runtime container height reporting
+- runtime container playback panel observation
 
 Characteristics:
 
 - cannot directly call imported TypeScript helpers unless those helpers are explicitly emitted into the same script output
-- runs in iframe browser context, not in Next server context
+- runs in runtime container script context, not in Next server context
 - depends on global runtime objects and DOM timing
 
 Current main file:
@@ -112,24 +112,24 @@ Future target:
 But that future target still needs one of these delivery models:
 
 1. generate one self-contained inline script string
-2. emit a dedicated browser runtime asset and load it into the iframe
+2. emit a dedicated browser runtime asset and load it into the runtime container
 
 Until one of those models is chosen, this layer must remain self-contained.
 
 ### 3. Public Shell / React Layer
 
-This is our own app UI around the iframe.
+This is our own app UI around the runtime container.
 
 Examples:
 
-- `src/components/song/PublicRuntimeFrame.tsx`
+- `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
 - page-level route handling and control UI
 
 Characteristics:
 
 - standard React / Next client and server code
-- owns layout, visible copy, user controls, route params, iframe lifecycle
+- owns layout, visible copy, user controls, route params, and runtime container lifecycle
 - can import TypeScript modules normally
 
 Future target:
@@ -176,7 +176,7 @@ Safe to split:
 Reason:
 
 - pure app-side state transformation
-- no dependency on iframe runtime execution model
+- no dependency on runtime container script execution model
 
 ### C. Pure Browser SVG Transform Logic
 
@@ -195,14 +195,14 @@ Unsafe pattern:
 
 Safe to split:
 
-- iframe lifecycle logic
+- runtime container lifecycle logic
 - loading masks
 - host-side frame height synchronization
 - shell-side control event mapping
 
 Reason:
 
-- this lives in normal React / browser app code, not in the iframe inline runtime code
+- this lives in normal React / browser app code, not in the runtime container script context
 
 ## Current Unsafe Split Boundaries
 
@@ -238,7 +238,7 @@ Reason:
 
 Do not break:
 
-- self-contained browser runtime execution inside iframe
+- self-contained browser runtime execution inside the runtime container script context
 
 Reason:
 
@@ -299,7 +299,7 @@ Exit criteria:
 - public `/song/<slug>` no longer depends on an iframe wrapper
 - the authorized runtime is mounted and controlled by our React / Next app boundary
 - current controls, playback, metronome, letter / number mode, layout, zoom, instrument switching, print, and Pinterest paths remain stable
-- runtime errors can be debugged through our app structure instead of only through iframe behavior
+- runtime errors can be debugged through our app structure instead of only through legacy host behavior
 - current deployable runtime JSON and visual theme behavior remain compatible
 
 ### Phase 2: Modular Refactor And Native Replacement
@@ -313,7 +313,7 @@ Core goal:
 
 Current estimate:
 
-- Phase 1 is not complete because public song output is still iframe-backed
+- Phase 1 iframe-host retirement is complete; public song output is now container-hosted while still using the authorized runtime as the correctness engine
 - Phase 2 native replacement has substantial groundwork through `SongIR`, native renderer preview, and playback-sequence audit, but it remains internal-only
 
 Reason:
@@ -368,9 +368,9 @@ As of the current boundary phase:
 - letter-track computation now lives in `src/lib/runtime-core/letterTrack/publicLetterTrack.ts`
 - public song page shell components now use `PublicRuntime*` names directly, while old `Kuailepu*` component names only remain as compatibility-facing re-export boundaries where needed
 - song page query parsing has been centralized before shell mount so app-side runtime state no longer depends on re-reading `window.location` after first paint
-- runtime iframe API path usage is centralized through a PublicRuntime path constant, while the actual `/api/kuailepu-runtime/[id]` route remains stable
-- public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on both the main shell path and iframe command bridge
-- public runtime host control is now mediated by `PublicRuntimeHostController`, so the shell sends playback commands, receives runtime messages, and checks host pointer targets through a replaceable host boundary instead of direct iframe DOM access
+- runtime HTML API path usage is centralized through a PublicRuntime path constant, while the actual `/api/kuailepu-runtime/[id]` route remains stable
+- public playback messaging now uses the `PUBLIC_RUNTIME_*` protocol on the shell-to-runtime container bridge
+- public runtime host control is now mediated by `PublicRuntimeHostController`, so the shell sends playback commands, receives runtime messages, and checks host pointer targets through a replaceable host boundary instead of direct runtime DOM access
 - public runtime URL construction is centralized in `buildPublicRuntimeUrl(...)`, while the stable `/api/kuailepu-runtime/[id]` route remains unchanged
 - server payload loading and localization now go through PublicRuntime payload file/localization adapters instead of direct old helper imports in the main payload flow
 - authorized template lookup now goes through a PublicRuntime template file adapter, while the current deployable template package file stays unchanged
@@ -405,31 +405,31 @@ Deliverables:
 - keep public runtime behavior unchanged while moving integration seams into explicit host / server / bridge boundaries
 - split pure server assembly helpers and public state adapters
 - isolate bridge-side responsibilities that must stay browser-runtime compatible
-- introduce a replaceable runtime host controller so the React shell stops depending on raw iframe DOM APIs
+- introduce a replaceable runtime host controller so the React shell stops depending on raw runtime DOM APIs
 - centralize runtime URL construction and host messaging protocol
 - keep public song runtime behavior unchanged
 
 Exit criteria:
 
 - public `/song` still has instrument, fingering, note mode, zoom, layout, playback, metronome, lyrics, visual theme, and export behavior intact
-- the current iframe host can be replaced by a non-iframe host behind a controlled component/interface boundary
+- the retired iframe host has been replaced by the React runtime container behind a controlled component/interface boundary
 - each moved function has a clear execution layer and no server-only helper is imported into inline browser runtime code
 - `npm run build` passes after each cut
 
 Current completion estimate:
 
-- integration-boundary work is largely complete, but actual iframe removal has not started
+- integration-boundary work and iframe host retirement are complete; the current workstream is runtime code decoupling and module splitting
 
 Remaining close-out items:
 
-1. keep `PublicRuntimeFrame` as the only iframe-specific public host while preparing a non-iframe host implementation
+1. keep `runtime_host=iframe` as a legacy compatibility signal while rendering through the runtime container
 2. continue shrinking `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`
 3. split the remaining heavy bridge blocks:
    - playback bridge block
    - metronome bridge block
    - letter-render / visible-sheet transform block
 4. keep runtime behavior unchanged while proving the bridge can be assembled from smaller self-contained script parts
-5. prototype an internal non-iframe runtime host only after the current iframe host boundary has enough automated and manual coverage
+5. keep new host work on the React runtime container boundary with automated and manual coverage
 
 Phase 1 done means:
 
@@ -458,7 +458,7 @@ Deliverables:
 
 Exit criteria:
 
-- a new engineer can follow public runtime assembly and iframe behavior mostly through `runtime-core/**`
+- a new engineer can follow public runtime assembly and container behavior mostly through `runtime-core/**`
 - `publicRuntimeBridge.ts` is no longer the second giant mixed file
 - app/runtime integration no longer needs to spread direct compatibility naming across the codebase
 - future visual work can be done as an isolated layer on top of these boundaries
@@ -472,7 +472,7 @@ What is already true:
 - page shell entry, frame, and interactive wrapper now speak `PublicRuntime` first
 - server-side payload/state/query assembly is already centered on `runtime-core/**`
 - old `Kuailepu*` names are increasingly compatibility aliases instead of primary implementation names
-- public iframe route path, playback status protocol, payload file lookup, and payload localization now have explicit PublicRuntime boundaries
+- public runtime route path, playback status protocol, payload file lookup, and payload localization now have explicit PublicRuntime boundaries
 - authorized template file lookup now has an explicit PublicRuntime boundary
 - old playback command/status message names have been removed from the public runtime bridge
 - `runtime-core` main types no longer export old `Kuailepu*` names
@@ -775,7 +775,7 @@ Manual checks:
 - playback opens, stops, and closes correctly
 - metronome is still usable
 - number mode remains clean
-- iframe height has no large blank bottom area or inner scrollbar
+- runtime container height has no large blank bottom area or inner scrollbar
 - compare-related route behavior remains unchanged
 
 ## Decision Rules
@@ -790,7 +790,7 @@ Do not refactor it as though it were an ordinary imported TypeScript helper unle
 
 ### Rule 2
 
-If code only transforms input state and does not touch iframe globals or DOM, prefer moving it into `runtime-core/state/*`.
+If code only transforms input state and does not touch runtime container globals or DOM, prefer moving it into `runtime-core/state/*`.
 
 ### Rule 3
 
@@ -808,20 +808,20 @@ Any refactor that changes both execution layer and user-visible behavior at the 
 
 When something breaks, locate the layer first.
 
-### Symptom: song page loads, iframe exists, but no sheet appears
+### Symptom: song page loads, runtime container exists, but no sheet appears
 
 Likely layers:
 
 - browser inline runtime layer
-- Kuailepu core runtime inside iframe
+- Kuailepu core runtime inside the runtime container
 
 Checks:
 
 - inspect `/api/kuailepu-runtime/<slug>` output
 - search returned runtime HTML for missing inline functions or unexpected references
-- inspect iframe console/runtime errors
+- inspect runtime container console/runtime errors
 
-### Symptom: song page HTML is wrong before iframe even runs
+### Symptom: song page HTML is wrong before runtime container scripts run
 
 Likely layer:
 
@@ -921,7 +921,7 @@ Pass criteria:
 - visual theme applies only where intended
 - compare / number mode is not visually transformed in a way that breaks correctness checks
 - fingering charts stay semantically correct
-- iframe height remains correct
+- runtime container height remains correct
 - print and Pinterest output match the public visual direction
 
 ### Phase 5 Core Replacement
@@ -982,8 +982,8 @@ The current short-term goal is not a broad rewrite.
 
 The current short-term goal is:
 
-- complete Phase 1 by removing iframe nesting and integrating the authorized runtime into the Next.js + React app boundary
-- keep the integrated runtime as the public correctness engine until Phase 1 is stable
+- keep the Phase 1 iframe-free integration stable while decoupling the authorized runtime inside the Next.js + React app boundary
+- keep the integrated runtime as the public correctness engine while module decoupling continues
 - keep making the native `SongIR` path cover more semantics, layout, controls, playback, and export behavior for Phase 2
 - preserve current public feature parity while each module is replaced intentionally
 - avoid refactors that cross execution layers blindly

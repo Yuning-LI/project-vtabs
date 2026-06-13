@@ -146,7 +146,7 @@ Check:
 
 ## Local Runtime Host Rollout Review
 
-Use the rollout controls only for local self-test. Do not enable production grey traffic splitting; after Phase 14, local default is container and production default remains iframe.
+Use the rollout controls only for local self-test. Do not enable production grey traffic splitting; after Phase 15, local and production rendering resolve through the container host, while production diagnostics may still record the legacy default signal.
 
 Check:
 
