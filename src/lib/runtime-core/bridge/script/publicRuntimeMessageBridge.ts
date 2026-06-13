@@ -7,11 +7,7 @@ import {
 
 export function buildPublicRuntimeMessageBridgeScript() {
   return `
-  window.addEventListener('message', function (event) {
-    if (event.origin && event.origin !== window.location.origin) {
-      return;
-    }
-    var data = event.data;
+  function handlePublicRuntimeHostCommand(data) {
     if (!data || typeof data !== 'object') {
       return;
     }
@@ -27,6 +23,17 @@ export function buildPublicRuntimeMessageBridgeScript() {
     if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_REDRAW_MESSAGE)}) {
       requestRuntimeRedraw();
     }
+  }
+
+  window.addEventListener('vtabs-runtime-container-command', function (event) {
+    handlePublicRuntimeHostCommand(event.detail);
+  });
+
+  window.addEventListener('message', function (event) {
+    if (event.origin && event.origin !== window.location.origin) {
+      return;
+    }
+    handlePublicRuntimeHostCommand(event.data);
   });
 `
 }

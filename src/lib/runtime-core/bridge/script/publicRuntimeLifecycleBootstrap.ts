@@ -33,6 +33,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     window.addEventListener('resize', requestRuntimeRedraw);
+    installContainerSheetMenuGuard();
     mountPublicMetronomePanel();
     installPublicPlaybackBridge();
     renderLetterTrack();
@@ -59,6 +60,36 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
         setSheetPending(false);
       }
     }, 80);
+  }
+
+  function installContainerSheetMenuGuard() {
+    if (!document.querySelector('[data-public-runtime-dom-mount="true"]')) {
+      return;
+    }
+    if (document.documentElement.getAttribute('data-vtabs-container-sheet-menu-guard') === '1') {
+      return;
+    }
+    document.documentElement.setAttribute('data-vtabs-container-sheet-menu-guard', '1');
+
+    document.addEventListener(
+      'click',
+      function (event) {
+        var target = event.target;
+        if (!target || !target.closest) {
+          return;
+        }
+        var sheet = target.closest('#sheet');
+        if (!sheet) {
+          return;
+        }
+        var note = target.closest('.note');
+        if (note) {
+          return;
+        }
+        event.stopImmediatePropagation();
+      },
+      true
+    );
   }
 
   var patchTimer = window.setInterval(function () {

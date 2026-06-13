@@ -13,13 +13,6 @@ export function dispatchContainerRuntimeCommand(message: unknown) {
   }
 
   window.dispatchEvent(
-    new MessageEvent('message', {
-      data: message,
-      origin: window.location.origin,
-      source: window
-    })
-  )
-  window.dispatchEvent(
     new CustomEvent(PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT, {
       detail: message
     })

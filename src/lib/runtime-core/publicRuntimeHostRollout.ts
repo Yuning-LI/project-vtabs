@@ -29,6 +29,7 @@ export const PUBLIC_RUNTIME_HOST_ROLLOUT_PERCENT_ENV =
 export const PUBLIC_RUNTIME_HOST_ROLLOUT_ENABLED_ENV =
   'NEXT_PUBLIC_RUNTIME_HOST_ROLLOUT_ENABLED'
 export const PUBLIC_RUNTIME_HOST_ROLLOUT_KEY_QUERY_PARAM = 'runtime_host_rollout_key'
+export const LOCAL_PUBLIC_RUNTIME_HOST_DEFAULT_MODE: PublicRuntimeHostMode = 'container'
 
 type SearchParamValue = string | string[] | undefined
 type SearchParamsLike = Record<string, SearchParamValue> | undefined
@@ -48,7 +49,7 @@ export function resolvePublicRuntimeHostRollout(input: {
   const environmentMode = normalizePublicRuntimeHostMode(
     input.environmentValue ?? process.env.NEXT_PUBLIC_RUNTIME_HOST_DEFAULT ?? null
   )
-  const defaultMode = input.defaultMode ?? DEFAULT_PUBLIC_RUNTIME_HOST_MODE
+  const defaultMode = input.defaultMode ?? getPublicRuntimeHostDefaultModeForEnvironment()
   const hasQueryFlag = Boolean(input.hasQueryFlag)
   const isBot = isSearchCrawlerUserAgent(input.userAgent)
   const rolloutPercent = normalizeRolloutPercent(
@@ -143,8 +144,19 @@ export function resolvePublicRuntimeHostRollout(input: {
     rolloutBucket: null,
     rolloutKey,
     isBot,
-    reason: 'default iframe baseline'
+    reason:
+      defaultMode === 'container'
+        ? 'local default container'
+        : 'production/default iframe baseline'
   }
+}
+
+export function getPublicRuntimeHostDefaultModeForEnvironment(
+  nodeEnv = process.env.NODE_ENV
+): PublicRuntimeHostMode {
+  return nodeEnv === 'production'
+    ? DEFAULT_PUBLIC_RUNTIME_HOST_MODE
+    : LOCAL_PUBLIC_RUNTIME_HOST_DEFAULT_MODE
 }
 
 export function readPublicRuntimeHostRolloutKeySearchParam(searchParams: SearchParamsLike) {

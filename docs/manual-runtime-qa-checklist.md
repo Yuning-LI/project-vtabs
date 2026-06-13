@@ -73,6 +73,16 @@ curl -A "Googlebot/2.1" "http://127.0.0.1:3001/song/<slug>"
 curl -H "x-vtabs-runtime-user-agent: Googlebot/2.1" "http://127.0.0.1:3001/song/<slug>"
 ```
 
+For local default-container review:
+
+```text
+http://127.0.0.1:3000/song/<slug>
+http://127.0.0.1:3000/song/<slug>?runtime_host=iframe
+http://127.0.0.1:3000/song/<slug>?runtime_host=container
+http://127.0.0.1:3000/song/<slug>?measure_layout=mono
+http://127.0.0.1:3000/song/<slug>?practice_tool=metronome
+```
+
 For export-route host review:
 
 ```text
@@ -119,11 +129,12 @@ Check:
 
 ## Public Query-Flagged Host Review
 
-Use `runtime_host=container` only for public-shell parity review. The default public URL must remain iframe-backed.
+Use `runtime_host=container` for public-shell parity review and `runtime_host=iframe` for rollback checks. Production public URLs must remain iframe-backed by default; local non-production URLs default to container after Phase 14.
 
 Check:
 
-- `/song/<slug>` renders one iframe host and no public container host
+- production `/song/<slug>` renders one iframe host and no public container host
+- local `/song/<slug>` renders the container host and no iframe host
 - `/song/<slug>?runtime_host=container` renders the container host and no iframe host
 - `/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
 - `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` can select the container host on a local experimental server, while `runtime_host=iframe` still forces iframe
@@ -135,11 +146,12 @@ Check:
 
 ## Local Runtime Host Rollout Review
 
-Use the rollout controls only for local self-test. Do not enable production grey traffic splitting; the later public switch should be a deliberate full rollout.
+Use the rollout controls only for local self-test. Do not enable production grey traffic splitting; after Phase 14, local default is container and production default remains iframe.
 
 Check:
 
-- default `/song/<slug>` renders iframe when no query, environment default, or local rollout percentage is set
+- local default `/song/<slug>` renders container when no query or environment override is set
+- production-mode resolution still defaults to iframe when no query or environment override is set
 - `runtime_host=container` still forces container and `runtime_host=iframe` still forces iframe
 - `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` selects container for normal human requests
 - `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` forces iframe even after a container-mode test
@@ -164,6 +176,23 @@ window.__PUBLIC_RUNTIME_HOST_MONITOR__
 ```
 
 - any blank sheet, duplicated sheet, playback failure, metronome failure, or route-change remount issue is a stop condition; force iframe with `runtime_host=iframe`, `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe`, or rollout percent `0`
+
+## Local Default Container Review
+
+Use this after Phase 14 changes.
+
+Check:
+
+- local `/song/<slug>` renders the container host by default and records `host_decision` with default source
+- local `/song/<slug>?runtime_host=iframe` renders iframe and remains a one-click rollback path
+- local `/song/<slug>?runtime_host=container` still renders container explicitly
+- crawler checks with `Googlebot/2.1` or `x-vtabs-runtime-user-agent: Googlebot/2.1` render iframe even though local default is container
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` forces local default back to iframe for emergency fallback
+- production-mode helper resolution keeps iframe default; do not treat local default container as a production traffic rollout
+- `window.__PUBLIC_RUNTIME_HOST_MONITOR__` records `host_decision`, `runtime_ready`, `window_error`, and `playback_open` in default container mode
+- Instrument, Fingering Chart, Note Labels, Layout, Zoom, Metronome, and Visual Theme controls remount cleanly in default container mode
+- switching between sampled songs leaves one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
+- print and Pinterest preview/export routes still default to iframe unless `runtime_host=container` is explicitly provided
 
 ## Export Route Host Review
 

@@ -26,6 +26,7 @@ import {
 } from '@/lib/songbook/publicRuntimeControls'
 import PublicRuntimeFrame from './PublicRuntimeFrame'
 import ContainerRuntimeHost from './runtime-host/ContainerRuntimeHost'
+import { dispatchContainerRuntimeCommand } from './runtime-host/containerRuntimeTransport'
 import PublicRuntimeHostSwitch from './runtime-host/PublicRuntimeHostSwitch'
 import {
   subscribeToPublicRuntimeHostMessages,
@@ -688,24 +689,27 @@ export default function PublicRuntimeInteractiveShell({
         return false
       }
 
+      const message = {
+        type:
+          action === 'stop'
+            ? PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
+            : action === 'close'
+              ? PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE
+              : PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
+        songId
+      }
       const runtimeHost = runtimeHostControllerRef.current
-      if (!runtimeHost) {
-        return false
+      if (runtimeHost?.postMessage(message)) {
+        return true
       }
 
-      return runtimeHost.postMessage(
-        {
-          type:
-            action === 'stop'
-              ? PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
-              : action === 'close'
-                ? PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE
-                : PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
-          songId
-        }
-      )
+      if (activeRuntimeHostMode === 'container') {
+        return dispatchContainerRuntimeCommand(message)
+      }
+
+      return false
     },
-    [songId]
+    [activeRuntimeHostMode, songId]
   )
 
   useEffect(() => {

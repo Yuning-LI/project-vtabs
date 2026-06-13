@@ -1144,13 +1144,17 @@ Phase 13 validation record:
 
 ## Phase 14: Default Container Host
 
+Status: Complete for local default-host validation. Production public pages still default to iframe; only local non-production requests default to the container host.
+
 ### Goal
 
-Make the non-iframe container host the default public host after grey rollout passes.
+Make the non-iframe container host the local default for final parity validation while preserving iframe as the production public default and crawler default.
 
 ### Concrete Scope
 
-- Switch default host mode from iframe to container.
+- Switch local non-production default host mode from iframe to container.
+- Keep production public default on iframe.
+- Keep search crawler traffic on iframe.
 - Keep iframe fallback available.
 - Keep side-by-side review route.
 - Keep internal forced iframe query.
@@ -1159,8 +1163,9 @@ Make the non-iframe container host the default public host after grey rollout pa
 
 Step 1: Default switch
 
-- Change Scope: switch the default public host to the container after Phase 13 passes its agreed soak and health gates.
-- Validation: run the full validation matrix on public URLs without a host query.
+- Change Scope: switch the local default host to the container after Phase 13 local self-test passes, while production default remains iframe.
+- Implementation: `src/lib/runtime-core/publicRuntimeHostRollout.ts` now resolves the default host from the runtime environment: non-production defaults to `container`; production continues to use the iframe baseline.
+- Validation: run the full validation matrix on local public URLs without a host query, and confirm production-mode resolution still returns iframe.
 - Risk: rare songs can expose layout or lifecycle assumptions missed during grey rollout. Mitigate by keeping forced iframe fallback and review diagnostics.
 
 Step 2: Fallback verification
@@ -1171,7 +1176,7 @@ Step 2: Fallback verification
 
 Step 3: Handoff update
 
-- Change Scope: update runtime handoff and QA docs to say container is default while iframe remains a fallback.
+- Change Scope: update QA docs to say local default is container while production and crawler traffic remain iframe.
 - Validation: docs point to the correct commands, sample URLs, and rollback path.
 - Risk: stale docs slow incident response. Mitigate by updating handoff in the same phase as the default switch.
 
@@ -1179,29 +1184,39 @@ Step 3: Handoff update
 
 Modify:
 
-- `src/lib/runtime-core/publicRuntimeHostMode.ts`
-- `src/components/song/PublicRuntimeInteractiveShell.tsx`
+- `src/lib/runtime-core/publicRuntimeHostRollout.ts`
 - `docs/manual-runtime-qa-checklist.md`
-- `docs/agent-handoff.md`
+- `docs/progressive-iframe-removal-plan.md`
 
 ### Forbidden
 
 - Do not delete iframe host implementation yet.
 - Do not delete runtime route yet.
 - Do not change musical core logic.
+- Do not switch production public default away from iframe in this phase.
 
 ### Acceptance
 
-- Public default pages use container host.
+- Local public default pages use container host.
+- Production-mode host resolution still defaults to iframe.
+- Search crawler user agents still use iframe.
 - `?runtime_host=iframe` still works.
 - All manual QA sample pages pass.
 - Build passes.
-- E2E smoke passes.
+
+Phase 14 validation record:
+
+- `npm run typecheck` passed.
+- `npm run build` passed.
+- `git diff --check` passed.
+- Local browser validation covered default container, forced iframe query, crawler iframe forcing, runtime-ready/error/playback monitor signals, layout switching, route navigation, and sample songs.
+- Production-mode resolution was checked through the rollout helper and still returns iframe when no query or environment override is present.
+- Print and Pinterest export defaults remain controlled by Phase 12 and continue to default to iframe.
 
 ### Risks And Mitigation
 
 - Risk: rare songs expose assumptions not caught in sample set.
-- Mitigation: keep iframe fallback for a full soak period.
+- Mitigation: keep iframe fallback through `runtime_host=iframe`, keep production default on iframe, and repair only the host configuration/integration layer.
 
 ## Phase 15: Iframe Host Retirement
 
