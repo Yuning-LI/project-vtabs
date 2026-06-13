@@ -105,6 +105,21 @@ If an approved target song fails during search, import, compare, or preflight, d
 - Keep playback and metronome behavior as shell/runtime bridges; do not fork the core `Song.draw()/hc.parse` rendering chain.
 - When reducing runtime assets, change runtime asset profiles instead of deleting files from `vendor/kuailepu-static` or `public/k-static`.
 
+Runtime module ownership after the decoupling workstream:
+
+- `src/lib/runtime-core/publicRuntime.ts`: stable public runtime facade.
+- `src/lib/runtime-core/server/**`: server assembly, payload, template, HTML, and asset ownership.
+- `src/lib/runtime-core/bridge/**`: self-contained runtime container script builders.
+- `src/lib/runtime-core/client/**`: React-page browser helpers.
+- `src/lib/runtime-core/state/**`: pure runtime state adaptation.
+- `src/lib/runtime-core/letterTrack/**`: public note-label adaptation.
+- `src/lib/runtime-core/visual/**`: public visual theme data.
+- `src/components/song/runtime-host/**`: React runtime host implementation.
+- `src/components/song/public-runtime-shell/**`: public song shell controls.
+- `src/lib/kuailepu/runtime.ts`: compatibility facade; comments and re-exports only.
+
+For dependency rules and forbidden boundaries, use `docs/runtime-decoupling-module-split-plan.md` as the source of truth.
+
 ## Validation Commands
 
 Common checks:

@@ -1,5 +1,7 @@
 # Runtime Decoupling And Module Split Plan
 
+Status: complete. Runtime Decoupling & Module Split phases 0 through 7 are complete.
+
 This document is the dedicated post-iframe-removal plan for decoupling old runtime integration code, splitting large files, and cleaning redundant structure.
 
 It starts after `docs/progressive-iframe-removal-plan.md` Phase 15.
@@ -29,6 +31,7 @@ The goal of this plan is architectural hygiene and maintainability. It is not a 
 Already completed:
 
 - Phase 0 through Phase 15 of progressive iframe removal are complete.
+- Phase 0 through Phase 7 of this runtime decoupling and module split workstream are complete.
 - Public song, dev review, internal print, Pinterest, and export automation routes use the React-owned runtime container path.
 - `runtime_host=iframe` remains accepted as a legacy compatibility and diagnostics signal, but does not restore an iframe entity.
 - The stable public behavior remains the authorized runtime rendering chain:
@@ -806,7 +809,7 @@ Likely modify:
 
 ## Phase 7: Runtime Module Index And Ownership Docs
 
-Status: planned.
+Status: complete.
 
 ### Goal
 
@@ -838,8 +841,29 @@ src/components/song/public-runtime-shell/**  public song shell controls
 
 ### Acceptance
 
-- A new developer can identify the correct target module before editing runtime integration code.
-- Future tasks can reference this plan instead of re-reading every runtime document.
+- A new developer can identify the correct target module before editing runtime integration code: complete.
+- Future tasks can reference this plan instead of re-reading every runtime document: complete.
+
+## Final Runtime Module Index
+
+Use this index before changing runtime integration code. Pick the owner layer first, then use the final ownership table below to confirm allowed and forbidden dependencies.
+
+| Module path | Primary responsibility | Entry points / notes |
+|-------------|------------------------|----------------------|
+| `src/lib/runtime-core/publicRuntime.ts` | Stable public runtime facade for app/server callers. | Prefer this entry for new public runtime integration calls; keep implementation delegated to lower layers. |
+| `src/lib/runtime-core/server/assembly/**` | Server-side package, document, asset-manifest, build-input, and letter-track assembly. | Builds inputs for runtime HTML/container consumers; server-only. |
+| `src/lib/runtime-core/server/assets/**` | Runtime asset profile and asset-list resolution. | Preserve runtime asset order unless an explicit asset-profile task changes it. |
+| `src/lib/runtime-core/server/html/**` | Runtime HTML scaffold and document helpers. | May serialize inline data; must not depend on browser DOM or React state. |
+| `src/lib/runtime-core/server/payload/**` | Runtime payload file lookup, loading, localization, and song-data resolution. | Owns filesystem-backed payload access and catalog/candidate fallback order. |
+| `src/lib/runtime-core/server/template/**` | Archived runtime template loading and compatibility re-export. | Keep vendor archive path behavior stable. |
+| `src/lib/runtime-core/bridge/**` | Self-contained runtime container script builders and shared bridge message contract. | Output must remain serializable/self-contained for runtime container script context. |
+| `src/lib/runtime-core/client/**` | Browser helpers used by React pages and runtime host surfaces. | Owns script loading, global inventory, style scoping, and client bootstrap helpers. |
+| `src/lib/runtime-core/state/**` | Pure runtime state adaptation. | Use for query/payload-derived state transforms that do not touch DOM or React lifecycle. |
+| `src/lib/runtime-core/letterTrack/**` | Public note-label and notation adaptation. | Keep letter/number label transforms isolated from SVG geometry and playback timing. |
+| `src/lib/runtime-core/visual/**` | Public visual theme data and pure theme resolution. | Theme data only; do not patch renderer internals here. |
+| `src/components/song/runtime-host/**` | React runtime host implementation, lifecycle, measurement, style, review, and transport. | Use `PublicRuntimeHostController` for shell-to-host commands. |
+| `src/components/song/public-runtime-shell/**` | Public song shell controls, query state, playback/metronome hooks, toolbar, and status UI. | User-facing copy must stay English; do not bypass the host controller boundary. |
+| `src/lib/kuailepu/runtime.ts` | Legacy compatibility facade. | Comments and re-exports only; no business logic. |
 
 ## Validation Matrix
 
@@ -888,16 +912,31 @@ This workstream is complete when:
 - PR titles use this format: `runtime-module-split-phase-X: 核心操作`.
 - After all phases are complete, a final module ownership inventory table is written below and kept current with this document.
 
-Final module ownership inventory template:
+Final module ownership inventory:
 
 | Module path | Owner layer | Allowed dependencies | Forbidden dependencies | Final status |
 |-------------|-------------|----------------------|------------------------|--------------|
-| `src/lib/runtime-core/server/**` | Server runtime assembly | filesystem reads, server helpers, runtime payload data | browser DOM, React state, runtime container script globals | TBD |
-| `src/lib/runtime-core/bridge/**` | Browser runtime bridge | serialized configuration, runtime container script context globals | server filesystem reads, React hooks, non-serialized TS helper calls inside runtime container script output | TBD |
-| `src/lib/runtime-core/client/**` | React-page browser helpers | browser APIs, shell-side runtime helpers | server filesystem reads, core renderer edits | TBD |
-| `src/lib/runtime-core/state/**` | Runtime state adaptation | pure data transforms, runtime payload types | DOM access, React state, bridge script side effects | TBD |
-| `src/lib/runtime-core/letterTrack/**` | Public note-label adaptation | notation data, payload state, pure transforms | core parser edits, SVG geometry edits, playback timing edits | TBD |
-| `src/lib/runtime-core/visual/**` | Public visual theme data | visual config and pure theme resolution | renderer internals, runtime asset loading side effects | TBD |
-| `src/components/song/runtime-host/**` | React runtime host implementation | React hooks, host controller types, runtime package data | core runtime parser / renderer edits, server filesystem reads | TBD |
-| `src/components/song/public-runtime-shell/**` | Public song shell controls | React hooks, public controls, host controller boundary | direct runtime core DOM mutation, bypassing `PublicRuntimeHostController` | TBD |
-| `src/lib/kuailepu/runtime.ts` | Compatibility facade | comments, re-exports, type re-exports | business logic, browser bridge logic, React shell logic | TBD |
+| `src/lib/runtime-core/publicRuntime.ts` | Public runtime API facade | delegated server/runtime-core helpers, stable exported types | implementation-heavy assembly logic, browser DOM, React hooks | Complete facade boundary |
+| `src/lib/runtime-core/server/**` | Server runtime assembly | filesystem reads, server helpers, runtime payload data, template/archive reads | browser DOM, React state, runtime container script globals | Complete owner layer |
+| `src/lib/runtime-core/server/assembly/**` | Server package and build-input assembly | payload data, server asset helpers, visual theme data, bridge build inputs | browser DOM, React lifecycle, runtime container globals | Complete owner layer |
+| `src/lib/runtime-core/server/assets/**` | Server asset profile resolution | runtime asset metadata, public/static path helpers | DOM access, React state, renderer mutations | Complete owner layer |
+| `src/lib/runtime-core/server/html/**` | Server HTML scaffold assembly | serialized inline data, runtime template parts, server string helpers | browser DOM, React state, runtime container globals | Complete owner layer |
+| `src/lib/runtime-core/server/payload/**` | Server payload loading and song-data lookup | filesystem reads, runtime JSON, catalog/candidate fallback helpers | browser DOM, React state, renderer edits | Complete owner layer |
+| `src/lib/runtime-core/server/template/**` | Server runtime template loading | vendor archive reads, server path helpers | browser DOM, React state, runtime container globals | Complete owner layer |
+| `src/lib/runtime-core/bridge/**` | Browser runtime bridge | serialized configuration, runtime container script context globals, self-contained script fragments | server filesystem reads, React hooks, non-serialized TS helper calls inside runtime container script output | Complete owner layer |
+| `src/lib/runtime-core/client/**` | React-page browser helpers | browser APIs, shell-side runtime helpers, runtime script metadata | server filesystem reads, core renderer edits, server-only payload loading | Complete owner layer |
+| `src/lib/runtime-core/state/**` | Runtime state adaptation | pure data transforms, runtime payload types, query-derived state | DOM access, React state, bridge script side effects | Complete owner layer |
+| `src/lib/runtime-core/letterTrack/**` | Public note-label adaptation | notation data, payload state, pure transforms | core parser edits, SVG geometry edits, playback timing edits | Complete owner layer |
+| `src/lib/runtime-core/visual/**` | Public visual theme data | visual config and pure theme resolution | renderer internals, runtime asset loading side effects, DOM mutation | Complete owner layer |
+| `src/lib/runtime-core/publicRuntimeHostMode.ts` | Runtime host compatibility signal parsing | query/env string parsing, host-mode types | rendering logic, React components, runtime container DOM | Complete compatibility boundary |
+| `src/lib/runtime-core/publicRuntimeHostRollout.ts` | Runtime host decision diagnostics | deterministic rollout helpers, crawler detection, host-mode signals | rendering logic, React components, runtime container DOM | Complete compatibility boundary |
+| `src/lib/runtime-core/publicRuntimePaths.ts` | Stable runtime URL construction | route/path string helpers | payload loading, DOM access, React state | Complete utility boundary |
+| `src/components/song/runtime-host/**` | React runtime host implementation | React hooks, host controller types, runtime package data, client helpers | core runtime parser / renderer edits, server filesystem reads | Complete owner layer |
+| `src/components/song/runtime-host/review/**` | Dev review host diagnostics | React view components, review diagnostics props | runtime core parser/render edits, server filesystem reads | Complete owner layer |
+| `src/components/song/runtime-host/style/**` | Runtime host style scoping | React hooks, browser CSS loading/scoping helpers | runtime parser/render edits, server filesystem reads | Complete owner layer |
+| `src/components/song/runtime-host/measurement/**` | Runtime host measurement helpers | pure DOM measurement selectors/helpers used by host hooks | playback timing edits, renderer geometry edits, server filesystem reads | Complete owner layer |
+| `src/components/song/runtime-host/lifecycle/**` | Runtime host lifecycle/controller helpers | host controller construction, React host lifecycle data | parser/render edits, server filesystem reads | Complete owner layer |
+| `src/components/song/public-runtime-shell/**` | Public song shell controls | React hooks, public controls, host controller boundary, English UI copy | direct runtime core DOM mutation, bypassing `PublicRuntimeHostController`, server filesystem reads | Complete owner layer |
+| `src/lib/kuailepu/runtime.ts` | Compatibility facade | comments, re-exports, type re-exports | business logic, browser bridge logic, React shell logic | Complete facade boundary |
+
+Runtime Decoupling & Module Split is complete as of Phase 7. Future work should treat this document as the ownership reference before changing runtime integration modules.

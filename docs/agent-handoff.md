@@ -116,6 +116,8 @@ Playbook:
 - Prefer `src/lib/runtime-core/publicRuntime.ts` for new app/runtime integration work.
 - Treat `src/lib/kuailepu/runtime.ts` as compatibility shell, not the preferred place for new feature logic.
 - Runtime container bridge assembly currently lives in `src/lib/runtime-core/bridge/publicRuntimeBridge.ts`.
+- Runtime Decoupling & Module Split phases 0 through 7 are complete; use `docs/runtime-decoupling-module-split-plan.md` as the ownership map before editing runtime integration modules.
+- Module ownership: `runtime-core/server/**` owns server assembly; `runtime-core/bridge/**` owns self-contained runtime container script builders; `runtime-core/client/**` owns React-page browser helpers; `runtime-core/state/**` owns pure state adaptation; `runtime-core/letterTrack/**` owns public note-label adaptation; `runtime-core/visual/**` owns visual theme data; `components/song/runtime-host/**` owns React host behavior; `components/song/public-runtime-shell/**` owns public controls.
 - Current preferred priority after the latest boundary work: integrate the authorized runtime into the Next.js + React architecture without iframe nesting, while preserving current behavior.
 - Public shell runtime commands and runtime message intake now go through `PublicRuntimeHostController`; keep new shell features on that host boundary instead of reaching directly into runtime DOM.
 - Public runtime URL construction should use `buildPublicRuntimeUrl(...)`; keep `/api/kuailepu-runtime/[id]` stable until a deliberate route migration is planned.
