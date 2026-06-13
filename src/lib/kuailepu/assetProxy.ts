@@ -5,7 +5,7 @@ import { resolveKuailepuRuntimeArchivePath } from './archiveFiles'
 
 /**
  * 浏览器直接从 `localhost` 页面去加载 `https://www.kuaiyuepu.com/static/...`
- * 的大量 JS/CSS 时，在当前 iframe/runtime 场景下容易被 ORB / 资源策略拦掉。
+ * 的大量 JS/CSS 时，在当前 runtime 宿主场景下容易被 ORB / 资源策略拦掉。
  *
  * 所以这里做了一个“同源静态资源代理”：
  * - 浏览器只请求我们自己的 `/k-static/...` 或 `/static/...`

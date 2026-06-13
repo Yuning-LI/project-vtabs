@@ -15,30 +15,31 @@ The project has complete commercial-exclusive authorization for the frontend sou
 Already completed:
 
 - Public runtime wording and planning docs have been aligned to the authorized-runtime architecture-upgrade framing.
-- Runtime URL construction is centralized through `buildPublicRuntimeUrl(...)`.
-- The React shell no longer sends playback commands by directly reaching into iframe DOM. It uses `PublicRuntimeHostController`.
+- Runtime container package construction is the active public host assembly path; the runtime HTML route remains available for internal diagnostics and compatibility checks.
+- The React shell sends playback, metronome, readiness, and lifecycle commands through `PublicRuntimeHostController`.
 - Runtime-to-shell message intake is centralized through the host-message subscription boundary.
-- Phase 1 host contract hardening is complete: iframe-specific lifecycle and DOM access now live in `src/components/song/runtime-host/IframeRuntimeHost.tsx`, while `PublicRuntimeFrame` is only the shell wrapper.
 - Phase 2 has started: full-document generation and structured runtime package output now live under `src/lib/runtime-core/server/assembly/**`.
-- Phase 3 dev-only container host skeleton is complete: `/dev/runtime-host/<slug>` shows the iframe baseline next to a React-owned inert container.
+- Phase 3 dev-only container host skeleton is complete and has been superseded by the active React-owned container host.
 - Phase 4 CSS scope isolation is complete for the dev container skeleton: runtime CSS assets are loaded, selector-prefixed, and injected only under `[data-public-runtime-root]`; Shadow DOM remains a future fallback only.
 - Phase 8 bridge transport parity is complete on the dev comparison route: playback, playback panel state, metronome, visual theme, instrument/fingering remounts, and readiness diagnostics now work through the normalized host controller boundary.
-- Phase 11 query-flagged public host selection is complete: public `/song` still defaults to iframe, while `runtime_host=container` can opt into the container host for parity review.
-- Phase 12 export-route compatibility is complete: internal print and Pinterest preview/export routes still default to iframe, while `runtime_host=container` can opt into the container host for export parity checks.
-- The iframe is still the active production host.
+- Phase 11 query-flagged public host selection is complete: `runtime_host` remains a compatibility and diagnostics signal.
+- Phase 12 export-route compatibility is complete: internal print and Pinterest preview/export routes use the same container host path.
+- Phase 15 iframe host retirement is complete: public song, dev review, print, Pinterest, and export automation no longer load an iframe runtime entity.
 - Public behavior is still protected by the existing runtime route and existing runtime HTML assembly path.
 
 Current important files:
 
 - `src/components/song/PublicRuntimeHostController.ts`
-- `src/components/song/PublicRuntimeFrame.tsx`
-- `src/components/song/runtime-host/IframeRuntimeHost.tsx`
 - `src/components/song/runtime-host/ContainerRuntimeHost.tsx`
+- `src/components/song/runtime-host/ExportRuntimeHost.tsx`
 - `src/components/song/runtime-host/RuntimeStyleInjector.tsx`
 - `src/components/song/runtime-host/types.ts`
 - `src/components/song/PublicRuntimeInteractiveShell.tsx`
+- `src/lib/runtime-core/publicRuntimeHostMode.ts`
+- `src/lib/runtime-core/publicRuntimeHostRollout.ts`
 - `src/lib/runtime-core/publicRuntimePaths.ts`
 - `src/lib/runtime-core/publicRuntime.ts`
+- `src/lib/runtime-core/server/publicRuntimeContainerPackage.ts`
 - `src/lib/runtime-core/server/assembly/**`
 - `src/lib/runtime-core/client/styleScope.ts`
 - `src/lib/runtime-core/bridge/**`
@@ -52,8 +53,8 @@ These constraints apply to every phase in this plan.
 - Do not modify notation parsing, SVG rendering, fingering mapping, playback timing, or musical business logic.
 - Only change script loading, DOM container mounting, scope isolation, global-conflict handling, communication forwarding, and shell integration.
 - Keep formal `Copyright` / `LICENSE` header comments unchanged.
-- Preserve current iframe behavior as the correctness baseline until the non-iframe host has passed parity gates.
-- Keep the iframe host available as an immediate rollback path until the final removal phase.
+- Preserve the last fallback-capable commit as the recovery reference after Phase 15; do not restore an iframe entity without an explicit rollback decision.
+- Keep `runtime_host=iframe` accepted as a compatibility signal, while the retired host path resolves to the React-owned container host.
 - Do not change publish compare semantics.
 - Do not change `note_label_mode=number` parity behavior.
 - Do not change runtime JSON data format as part of iframe removal.
@@ -64,23 +65,22 @@ These constraints apply to every phase in this plan.
 
 Use a three-track rollout model.
 
-Track A: production iframe host
+Track A: retired iframe host
 
-- Remains the default public path.
-- Must stay stable during all early phases.
-- Serves as functional fallback and parity baseline.
+- Was the early-phase correctness baseline.
+- Was removed in Phase 15 after the container host became the active public, review, and export path.
+- `runtime_host=iframe` remains accepted only as a legacy emergency signal and does not load an iframe entity.
 
-Track B: internal container host
+Track B: React-owned container host
 
-- Runs on dev-only or query-flagged routes first.
+- Runs on public song, dev review, print, Pinterest, and export automation routes.
 - Loads the same authorized runtime logic into a React-owned DOM container.
 - Used for diagnostics, parity checks, and manual QA.
 
-Track C: grey public container host
+Track C: local rollout decision layer
 
-- Enabled by explicit query param, cookie, or environment flag.
-- Gradually expands from internal users to selected public traffic.
-- Can instantly fall back to Track A.
+- Remains available for local self-test and decision diagnostics.
+- Does not load a separate iframe entity after Phase 15.
 
 ## Phase 0: Baseline Lock And Recovery Gate
 
@@ -1220,46 +1220,49 @@ Phase 14 validation record:
 
 ## Phase 15: Iframe Host Retirement
 
+Status: Complete. Iframe migration work is formally closed at 100%. The next engineering stage is code decoupling and file splitting inside the authorized runtime integration layer.
+
 ### Goal
 
-Remove iframe dependency after the container host has been stable through a full soak period.
+Remove the iframe host entity and its dedicated branches after the container host has passed the public, review, playback, layout, lifecycle, print, Pinterest, and export compatibility gates.
 
 ### Preconditions
 
-All must be true:
+All were checked before retirement:
 
 - Container host has been default for a defined soak period.
 - No material blank-sheet, playback, metronome, or route-change regressions remain.
 - Print and Pinterest routes have accepted container behavior.
-- Forced iframe fallback has not been needed operationally.
-- Rollback plan has been reviewed.
+- Forced legacy host fallback has not been needed operationally.
+- Recovery plan keeps the last fallback-capable commit available through git history.
 
 ### Concrete Scope
 
-- Remove iframe public host switch.
-- Retain only internal diagnostic route if still useful.
-- Remove iframe-specific height bridge from public shell.
-- Keep the runtime route only if still needed for diagnostics, compare, or internal tools.
+- Delete the retired public runtime frame wrapper and runtime-host implementation.
+- Remove iframe-specific host branches, diagnostics, and selector probes from public, dev-review, print, Pinterest, and export automation paths.
+- Retain `runtime_host=iframe` as a compatibility signal accepted by query parsing and scripts, but resolve rendering through the React-owned container host.
+- Retain internal diagnostic routes only as container-host review tools.
+- Keep the runtime HTML API route for diagnostics and assembly compatibility; it is no longer loaded as a public iframe entity.
 
 ### Execution Checklist
 
 Step 1: Retirement readiness review
 
-- Change Scope: confirm soak period, incident history, export compatibility, and fallback usage before deleting iframe-specific public paths.
-- Validation: all preconditions below are checked off with dates or release references.
-- Risk: deleting the fallback too early removes the fastest recovery path. Mitigate by requiring an explicit readiness review.
+- Change Scope: confirm Phase 14 local-default validation, follow-up interaction fixes, export compatibility, and fallback usage before deleting retired host files.
+- Validation: public song, dev review, print, Pinterest, and export script flows are checked with default, `runtime_host=container`, and `runtime_host=iframe` URLs.
+- Risk: deleting the retired host too early removes the fastest in-app recovery path. Mitigate by keeping the last fallback-capable commit and preserving the legacy query signal for diagnostics.
 
 Step 2: Public iframe path removal
 
-- Change Scope: remove only iframe-specific public host branches and height bridge code after readiness passes.
-- Validation: no public `/song` runtime iframe remains, and all current public features still pass the validation matrix.
+- Change Scope: remove only retired host components, public shell branches, dev-review panels, and automation probes that depended on an iframe entity.
+- Validation: no public `/song`, dev review, print, Pinterest, or export automation path renders or waits for an iframe node; all current public features still pass the validation matrix.
 - Risk: cleanup can accidentally touch core runtime behavior. Mitigate by keeping the change scoped to host integration and reviewing diffs for parser, renderer, fingering, and playback timing files.
 
 Step 3: Post-retirement recovery note
 
-- Change Scope: record the last fallback-capable commit and current recovery procedure in the handoff docs.
-- Validation: another engineer can identify the fallback commit and the expected recovery path from docs alone.
-- Risk: rollback instructions become ambiguous after cleanup. Mitigate by documenting the recovery point before merging the retirement change.
+- Change Scope: document that `runtime_host=iframe` is now a legacy compatibility signal, not an iframe renderer, and record the next stage as integration-layer code decoupling and file splitting.
+- Validation: planning docs and QA checklist both state that the migration is complete and that emergency investigation stays inside the host compatibility layer unless a full git rollback is deliberately chosen.
+- Risk: rollback instructions become ambiguous after cleanup. Mitigate by documenting the last fallback-capable commit in release handoff when preparing a production release.
 
 ### Files
 
@@ -1267,23 +1270,28 @@ Modify or delete:
 
 - `src/components/song/PublicRuntimeFrame.tsx`
 - `src/components/song/runtime-host/IframeRuntimeHost.tsx`
-- iframe-specific branches in `PublicRuntimeHostController`
-- iframe-only QA notes
+- `src/components/song/KuailepuRuntimeFrame.tsx`
+- iframe-specific branches in public shell, dev-review pages, print/Pinterest preview routes, and export scripts
+- iframe-only QA notes and review diagnostics
 
-Potentially keep:
+Keep:
 
-- `/api/kuailepu-runtime/[id]` for internal diagnostics if still useful
+- `/api/kuailepu-runtime/[id]` for internal diagnostics and runtime HTML assembly compatibility
+- `runtime_host=iframe` query parsing and script CLI compatibility as a legacy emergency signal
 
 ### Forbidden
 
-- Do not delete diagnostic or fallback code until post-default soak has passed.
 - Do not combine final iframe removal with core renderer replacement.
+- Do not remove the legacy `runtime_host=iframe` parser branch in this phase.
+- Do not modify parser, SVG renderer, fingering mapping, playback timing, export sizing, or crop rules.
 
 ### Acceptance
 
 - No public `/song` page renders an iframe for the runtime.
+- No dev-review, print, Pinterest, or export automation path renders or waits for an iframe runtime node.
 - Authorized runtime code runs inside a React-owned native DOM container.
 - Runtime globals are either isolated, namespaced, or documented and controlled.
+- `?runtime_host=iframe` is accepted and resolves without page errors, while still rendering through the React-owned container host.
 - All current public features remain available:
   - instrument switching
   - fingering switching
@@ -1296,11 +1304,23 @@ Potentially keep:
   - metronome
   - print preview
   - Pinterest preview
+- `npm run typecheck`, `npm run build`, and `git diff --check` pass.
+
+### Phase 15 Completion Record
+
+- Deleted retired host files: `src/components/song/PublicRuntimeFrame.tsx`, `src/components/song/runtime-host/IframeRuntimeHost.tsx`, and `src/components/song/KuailepuRuntimeFrame.tsx`.
+- Public song pages always receive the server-built container package. The host-decision result is still recorded for diagnostics, including legacy `runtime_host=iframe` requests and crawler/default decisions.
+- Public shell rendering no longer imports or instantiates the retired frame wrapper. If a container package is unavailable, the page shows an explicit unavailable state instead of falling back to an iframe.
+- Print and Pinterest preview routes always build the container package; `runtime_host` remains accepted in URLs and scripts for reproducible checks.
+- Export scripts wait for `[data-public-runtime-container-host="active"]` and visible sheet SVG output instead of frame locators.
+- Dev review and native-renderer review pages now inspect the container host path only; diagnostics describe the retired host signal resolving to the container.
+- QA docs were updated so manual checks assert zero iframe DOM nodes and no retired host component usage.
+- Next stage: start code decoupling and file splitting in the runtime integration layer, keeping the music engine behavior unchanged.
 
 ### Risks And Mitigation
 
 - Risk: final deletion removes an emergency recovery path.
-- Mitigation: tag the last fallback-capable commit and keep rollback instructions in `docs/handoff.md`.
+- Mitigation: tag or record the last fallback-capable commit during release prep, keep the legacy query signal for diagnostics, and use a full git rollback only if the container host itself cannot be repaired in the integration layer.
 
 ## Validation Matrix
 
@@ -1347,24 +1367,23 @@ Manual feature checks:
 Every phase must keep at least one rollback path:
 
 - code revert for the phase commit
-- query flag fallback to iframe
-- environment fallback to iframe
-- internal route to compare iframe and container
+- legacy `runtime_host=iframe` signal for diagnostics
+- environment decision logging for reproducing host-mode resolution
+- internal container-host review routes for layout, lifecycle, and playback diagnosis
+- full git rollback to the last fallback-capable commit only when the container host cannot be repaired inside the integration layer
 
 If a phase causes public blank sheets, broken playback, or broken instrument switching:
 
-1. force iframe host
-2. stop rollout
+1. preserve the failing URL, query string, and host-decision monitor output
+2. use the legacy `runtime_host=iframe` signal to confirm compatibility handling still routes without page errors
 3. capture console errors and host mode
-4. reproduce on side-by-side dev route
+4. reproduce on the internal container-host review route
 5. fix only the host integration layer unless proven otherwise
 
 ## Recommended Next Engineering Step
 
-Next step should prepare Phase 11 public opt-in host mode only after review-route parity remains stable:
+Iframe migration is complete. The next step should start code decoupling and file splitting inside the authorized runtime integration layer:
 
-1. Change Scope: design an explicit `runtime_host=container` opt-in path while keeping iframe as the default.
-2. Validation: run `npm run typecheck`, `npm run build`, `git diff --check`, and repeat the internal review route sample set before exposing any public query flag.
-3. Risk: an opt-in query can accidentally become an SEO surface. Mitigate with unchanged canonical URLs and conservative debug-query metadata.
-
-Public `/song` remains iframe-backed until Phase 11 opt-in work is deliberately started.
+1. Change Scope: split large host/bridge/style modules into smaller integration-layer units without changing notation parsing, SVG rendering, fingering mapping, playback timing, export sizing, or crop rules.
+2. Validation: run `npm run typecheck`, `npm run build`, `git diff --check`, and repeat the public song plus print/Pinterest smoke set after each independently revertible split.
+3. Risk: file movement can obscure behavior changes. Mitigate with small commits, no mixed refactor/functionality changes, and explicit before/after QA notes.

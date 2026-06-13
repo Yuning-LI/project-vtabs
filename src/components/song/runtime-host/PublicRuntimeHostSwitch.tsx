@@ -25,7 +25,7 @@ const HOST_OPTIONS: Array<{
 }> = [
   {
     mode: 'iframe',
-    label: 'Iframe'
+    label: 'Legacy Fallback'
   },
   {
     mode: 'container',

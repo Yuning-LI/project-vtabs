@@ -5,9 +5,7 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
-  type Dispatch,
-  type SetStateAction
+  useState
 } from 'react'
 import {
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
@@ -41,7 +39,6 @@ import {
   normalizeSheetScale,
   normalizeToggleParam
 } from '@/lib/songbook/songPageQueryState'
-import PublicRuntimeFrame from '../PublicRuntimeFrame'
 import {
   subscribeToPublicRuntimeHostMessages,
   type PublicRuntimeHostController
@@ -68,7 +65,6 @@ export type RuntimeHostReviewSampleSong = {
 export type RuntimeHostReviewClientProps = {
   songId: string
   title: string
-  frameSrc: string
   bodyHtml: string
   styles: PublicRuntimeAsset[]
   scriptEntries: RuntimeScriptEntry[]
@@ -91,7 +87,7 @@ export type RuntimeHostReviewClientProps = {
 }
 
 type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
-type RuntimeHostKey = 'iframe' | 'container'
+type RuntimeHostKey = 'container'
 type RuntimeHostPlaybackState = Record<RuntimeHostKey, PlaybackUiStatus>
 type RuntimeHostPanelState = Record<RuntimeHostKey, boolean>
 type RuntimeConsoleDiagnostic = {
@@ -101,19 +97,16 @@ type RuntimeConsoleDiagnostic = {
 }
 
 const INITIAL_HOST_PLAYBACK_STATE: RuntimeHostPlaybackState = {
-  iframe: 'idle',
   container: 'idle'
 }
 
 const INITIAL_HOST_PANEL_STATE: RuntimeHostPanelState = {
-  iframe: false,
   container: false
 }
 
 export default function RuntimeHostReviewClient({
   songId,
   title,
-  frameSrc,
   bodyHtml,
   styles,
   scriptEntries,
@@ -130,7 +123,6 @@ export default function RuntimeHostReviewClient({
   const [hostPlaybackPanelOpen, setHostPlaybackPanelOpen] =
     useState<RuntimeHostPanelState>(INITIAL_HOST_PANEL_STATE)
   const [hostReadyState, setHostReadyState] = useState<Record<RuntimeHostKey, boolean>>({
-    iframe: false,
     container: false
   })
   const [containerMeasurement, setContainerMeasurement] =
@@ -283,7 +275,7 @@ export default function RuntimeHostReviewClient({
   useEffect(
     () =>
       subscribeToPublicRuntimeHostMessages(songId, (message, meta) => {
-        const hostKey = identifyRuntimeHostMessageSource(meta.source, hostControllersRef.current)
+        const hostKey = identifyRuntimeHostMessageSource(meta.source)
 
         if (message.type === PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE) {
           setHostPlaybackStatus(current =>
@@ -311,22 +303,19 @@ export default function RuntimeHostReviewClient({
   )
 
   useEffect(() => {
-    setHostReadyState({ iframe: false, container: false })
+    setHostReadyState({ container: false })
     setHostPlaybackStatus(INITIAL_HOST_PLAYBACK_STATE)
     setHostPlaybackPanelOpen(INITIAL_HOST_PANEL_STATE)
     setContainerMeasurement(null)
     setContainerScriptDiagnostics(null)
     setConsoleDiagnostics([])
-  }, [bodyHtml, frameSrc])
+  }, [bodyHtml])
 
   const setHostController = useCallback(
     (key: RuntimeHostKey) => (controller: PublicRuntimeHostController | null) => {
       if (controller) {
         hostControllersRef.current[key] = controller
         setHostReadyState(current => ({ ...current, [key]: false }))
-        if (key === 'iframe') {
-          startIframeReadyProbe(controller.hostElement, setHostReadyState)
-        }
       } else {
         delete hostControllersRef.current[key]
         setHostReadyState(current => ({ ...current, [key]: false }))
@@ -336,11 +325,7 @@ export default function RuntimeHostReviewClient({
     },
     []
   )
-  const setIframeHostController = useMemo(() => setHostController('iframe'), [setHostController])
   const setContainerHostController = useMemo(() => setHostController('container'), [setHostController])
-  const handleIframeReady = useCallback(() => {
-    setHostReadyState(current => ({ ...current, iframe: true }))
-  }, [])
   const handleContainerReady = useCallback(() => {
     setHostReadyState(current => ({ ...current, container: true }))
   }, [])
@@ -609,8 +594,8 @@ export default function RuntimeHostReviewClient({
         </div>
         <h1 className="mt-2 text-3xl font-black tracking-tight">{title}</h1>
         <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#6b543c]">
-          This dev-only page drives the iframe baseline and the React container host through the same
-          shell controls and normalized host command channel.
+          This dev-only page verifies the retired iframe path now resolves to the React container
+          host through the normalized host command channel.
         </p>
         <div className="mt-4 rounded-[22px] border border-[rgba(154,126,91,0.18)] bg-white/65 p-3">
           <SongPageFunctionZone
@@ -621,11 +606,8 @@ export default function RuntimeHostReviewClient({
           />
         </div>
         <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-[#6b543c]">
-          <span>Iframe ready: {hostReadyState.iframe ? 'yes' : 'loading'}</span>
           <span>Container ready: {hostReadyState.container ? 'yes' : 'loading'}</span>
-          <span>Iframe playback: {hostPlaybackStatus.iframe}</span>
           <span>Container playback: {hostPlaybackStatus.container}</span>
-          <span>Iframe panel: {hostPlaybackPanelOpen.iframe ? 'open' : 'closed'}</span>
           <span>Container panel: {hostPlaybackPanelOpen.container ? 'open' : 'closed'}</span>
           <span>
             Container height: {containerMeasurement ? `${containerMeasurement.height}px` : 'measuring'}
@@ -653,39 +635,22 @@ export default function RuntimeHostReviewClient({
         ) : null}
       </section>
 
-      <div className="grid gap-5 xl:grid-cols-2">
-        <ReviewPanel title="Iframe Baseline">
-          <PublicRuntimeFrame
-            songId={songId}
-            title={title}
-            frameSrc={frameSrc}
-            loadingId={`runtime-host-iframe-loading-${songId}`}
-            panelClassName="relative overflow-hidden rounded-[24px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] shadow-[0_18px_44px_rgba(70,45,24,0.1)]"
-            iframeClassName="block w-full border-0 bg-[#fffaf1]"
-            overlayClassName="bg-[#fffaf1]/96"
-            initialHeight={900}
-            onHostControllerChange={setIframeHostController}
-            onFrameLoad={handleIframeReady}
-          />
-        </ReviewPanel>
-
-        <ReviewPanel title="Container Host">
-          <ContainerRuntimeHost
-            songId={songId}
-            title={title}
-            bodyHtml={bodyHtml}
-            styleAssets={styles}
-            scriptEntries={scriptEntries}
-            enableScriptLoader
-            loadingId={`runtime-host-container-loading-${songId}`}
-            overlayClassName="bg-[#fffaf1]/96"
-            onHostControllerChange={setContainerHostController}
-            onRuntimeReady={handleContainerReady}
-            onMeasurementChange={setContainerMeasurement}
-            onScriptDiagnosticsChange={setContainerScriptDiagnostics}
-          />
-        </ReviewPanel>
-      </div>
+      <ReviewPanel title="Container Host">
+        <ContainerRuntimeHost
+          songId={songId}
+          title={title}
+          bodyHtml={bodyHtml}
+          styleAssets={styles}
+          scriptEntries={scriptEntries}
+          enableScriptLoader
+          loadingId={`runtime-host-container-loading-${songId}`}
+          overlayClassName="bg-[#fffaf1]/96"
+          onHostControllerChange={setContainerHostController}
+          onRuntimeReady={handleContainerReady}
+          onMeasurementChange={setContainerMeasurement}
+          onScriptDiagnosticsChange={setContainerScriptDiagnostics}
+        />
+      </ReviewPanel>
     </div>
   )
 }
@@ -715,9 +680,8 @@ function RuntimeReviewDiagnostics({
   return (
     <div className="mt-4 grid gap-3 text-xs font-semibold text-[#4f3b2a] lg:grid-cols-4">
       <DiagnosticPanel title="Host Modes">
-        <DiagnosticLine label="iframe" value="iframe baseline / postMessage" />
+        <DiagnosticLine label="retired path" value="legacy host query resolves to container" />
         <DiagnosticLine label="container" value="native DOM / normalized commands" />
-        <DiagnosticLine label="iframe ready" value={hostReadyState.iframe ? 'yes' : 'loading'} />
         <DiagnosticLine label="container ready" value={hostReadyState.container ? 'yes' : 'loading'} />
       </DiagnosticPanel>
       <DiagnosticPanel title="Query State">
@@ -726,9 +690,7 @@ function RuntimeReviewDiagnostics({
         ))}
       </DiagnosticPanel>
       <DiagnosticPanel title="Runtime State">
-        <DiagnosticLine label="iframe playback" value={hostPlaybackStatus.iframe} />
         <DiagnosticLine label="container playback" value={hostPlaybackStatus.container} />
-        <DiagnosticLine label="iframe panel" value={hostPlaybackPanelOpen.iframe ? 'open' : 'closed'} />
         <DiagnosticLine label="container panel" value={hostPlaybackPanelOpen.container ? 'open' : 'closed'} />
         <DiagnosticLine
           label="container height"
@@ -845,16 +807,10 @@ function aggregatePlaybackStatus(state: RuntimeHostPlaybackState): PlaybackUiSta
 }
 
 function identifyRuntimeHostMessageSource(
-  source: MessageEventSource | null,
-  controllers: Partial<Record<RuntimeHostKey, PublicRuntimeHostController>>
+  source: MessageEventSource | null
 ): RuntimeHostKey | null {
   if (typeof window !== 'undefined' && source === window) {
     return 'container'
-  }
-
-  const iframeHost = controllers.iframe?.hostElement
-  if (iframeHost instanceof HTMLIFrameElement && source === iframeHost.contentWindow) {
-    return 'iframe'
   }
 
   return null
@@ -867,7 +823,6 @@ function updateRuntimeHostState<T>(
 ): Record<RuntimeHostKey, T> {
   if (!hostKey) {
     return {
-      iframe: value,
       container: value
     }
   }
@@ -884,34 +839,6 @@ function markActiveRuntimeHosts(
   value: PlaybackUiStatus
 ): RuntimeHostPlaybackState {
   return {
-    iframe: controllers.iframe ? value : current.iframe,
     container: controllers.container ? value : current.container
   }
-}
-
-function startIframeReadyProbe(
-  hostElement: HTMLElement,
-  setHostReadyState: Dispatch<SetStateAction<Record<RuntimeHostKey, boolean>>>
-) {
-  if (!(hostElement instanceof HTMLIFrameElement)) {
-    return
-  }
-
-  let attempts = 0
-  const timer = window.setInterval(() => {
-    attempts += 1
-    try {
-      if (hostElement.contentDocument?.querySelector('#sheet svg, #sheet .sheet-svg')) {
-        setHostReadyState(current => ({ ...current, iframe: true }))
-        window.clearInterval(timer)
-        return
-      }
-    } catch {
-      // Keep probing while the iframe document is still booting.
-    }
-
-    if (attempts >= 100 || !hostElement.isConnected) {
-      window.clearInterval(timer)
-    }
-  }, 100)
 }

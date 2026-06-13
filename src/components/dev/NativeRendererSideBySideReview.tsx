@@ -1,9 +1,9 @@
 import NativeMelodySheet from '@/components/native-renderer/NativeMelodySheet'
-import PublicRuntimeFrame from '@/components/song/PublicRuntimeFrame'
-import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
+import ContainerRuntimeHost from '@/components/song/runtime-host/ContainerRuntimeHost'
 import type { NativeMelodyMeasureLayoutMode } from '@/lib/native-renderer/layout'
 import type { SongIrDocument } from '@/lib/native-renderer/songIr'
 import type { NativeRendererSupportDecision } from '@/lib/native-renderer/support'
+import type { PublicRuntimeContainerPackageData } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
 
 type NativeRendererSideBySideReviewProps = {
   slug: string
@@ -16,6 +16,7 @@ type NativeRendererSideBySideReviewProps = {
   showMeasureNum?: 'on' | 'off'
   forceNativePreview?: boolean
   sheetScale?: string | number
+  runtimeContainerPackage?: PublicRuntimeContainerPackageData | null
 }
 
 export default function NativeRendererSideBySideReview({
@@ -28,20 +29,10 @@ export default function NativeRendererSideBySideReview({
   showLyric = 'on',
   showMeasureNum = 'off',
   forceNativePreview = false,
-  sheetScale = 10
+  sheetScale = 10,
+  runtimeContainerPackage = null
 }: NativeRendererSideBySideReviewProps) {
   const title = song?.metadata.title ?? slug
-  const archivedFrameSrc = buildPublicRuntimeUrl(slug, {
-    params: new URLSearchParams({
-      note_label_mode: 'letter',
-      runtime_visual_theme: 'classic',
-      measure_layout: measureLayout,
-      sheet_scale: String(sheetScale),
-      show_graph: showGraph,
-      show_lyric: showLyric,
-      show_measure_num: showMeasureNum
-    })
-  })
 
   return (
     <div className="min-h-screen bg-[#ece0cb] px-4 py-6 text-[#2d2118]">
@@ -69,17 +60,26 @@ export default function NativeRendererSideBySideReview({
         </section>
 
         <div className="grid gap-5 xl:grid-cols-2">
-          <ReviewPanel title="Archived Runtime">
-            <PublicRuntimeFrame
-              songId={slug}
-              title={title}
-              frameSrc={archivedFrameSrc}
-              loadingId={`native-review-archived-loading-${slug}`}
-              panelClassName="relative overflow-hidden rounded-[24px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] shadow-[0_18px_44px_rgba(70,45,24,0.1)]"
-              iframeClassName="block w-full border-0 bg-[#fffaf1]"
-              overlayClassName="bg-[#fffaf1]/96"
-              initialHeight={900}
-            />
+          <ReviewPanel title="Runtime Container">
+            {runtimeContainerPackage ? (
+              <ContainerRuntimeHost
+                songId={slug}
+                title={title}
+                bodyHtml={runtimeContainerPackage.bodyHtml}
+                styleAssets={runtimeContainerPackage.styles}
+                scriptEntries={runtimeContainerPackage.scriptEntries}
+                enableScriptLoader
+                className="relative overflow-hidden rounded-[24px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] shadow-[0_18px_44px_rgba(70,45,24,0.1)]"
+                loadingId={`native-review-container-loading-${slug}`}
+                overlayClassName="bg-[#fffaf1]/96"
+                initialHeight={900}
+                showScriptDiagnostics={false}
+              />
+            ) : (
+              <div className="rounded-[30px] border border-amber-300 bg-amber-50 p-6 text-sm font-semibold leading-6 text-amber-900">
+                Runtime container package unavailable.
+              </div>
+            )}
           </ReviewPanel>
 
           <ReviewPanel title="Native Renderer">

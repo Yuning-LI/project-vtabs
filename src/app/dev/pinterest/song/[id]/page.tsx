@@ -8,7 +8,6 @@ import {
   loadPublicRuntimeSongPayload,
   resolvePublicRuntimeContextState
 } from '@/lib/runtime-core/publicRuntime'
-import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import { resolvePublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
 import { buildPublicRuntimeContainerPackage } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
@@ -124,23 +123,6 @@ export default function PinterestSongPreviewPage({
     environmentValue: 'iframe',
     hasQueryFlag: Boolean(searchParams?.runtime_host)
   })
-  const paramsForFrame = new URLSearchParams({
-    runtime_text_mode: 'english',
-    runtime_visual_theme: runtimeVisualTheme,
-    instrument: activeInstrument.id,
-    note_label_mode: noteLabelMode,
-    show_lyric: controlConfig.activeShowLyric,
-    show_measure_num: controlConfig.activeShowMeasureNum,
-    measure_layout: controlConfig.activeMeasureLayout,
-    sheet_scale: controlConfig.activeSheetScale
-  })
-  if (controlConfig.activeGraphVisibility === 'off') {
-    paramsForFrame.set('show_graph', 'off')
-  } else if (controlConfig.activeGraphValue) {
-    paramsForFrame.set('show_graph', controlConfig.activeGraphValue)
-  }
-
-  const frameSrc = buildPublicRuntimeUrl(song.slug, { params: paramsForFrame })
   const runtimeState: PublicRuntimeState = {
     instrument: activeInstrument.id,
     note_label_mode: noteLabelMode,
@@ -153,17 +135,14 @@ export default function PinterestSongPreviewPage({
     measure_layout: controlConfig.activeMeasureLayout,
     sheet_scale: controlConfig.activeSheetScale
   }
-  const containerPackage =
-    runtimeHostResolution.mode === 'container'
-      ? buildPublicRuntimeContainerPackage({
-          songId: song.slug,
-          payload: runtimePayload,
-          state: runtimeState,
-          preferredEnglishTitle: song.title,
-          preferredEnglishSubtitle: null,
-          visualThemeName: runtimeVisualTheme
-        })
-      : null
+  const containerPackage = buildPublicRuntimeContainerPackage({
+    songId: song.slug,
+    payload: runtimePayload,
+    state: runtimeState,
+    preferredEnglishTitle: song.title,
+    preferredEnglishSubtitle: null,
+    visualThemeName: runtimeVisualTheme
+  })
   const loadingId = `pinterest-preview-${song.slug}-loading`
   const publicSongHref = buildSongPageHref({
     songId: song.slug,
@@ -219,11 +198,9 @@ export default function PinterestSongPreviewPage({
               songId={song.slug}
               title={song.title}
               mode={runtimeHostResolution.mode}
-              frameSrc={frameSrc}
               loadingId={loadingId}
               containerPackage={containerPackage}
               panelClassName="relative z-0 overflow-hidden rounded-none border-0 bg-[#fcfaf7] shadow-none"
-              iframeClassName="relative z-0 block w-full border-0"
               overlayClassName="bg-[#fcfaf7]/96"
               initialHeight={1520}
             />

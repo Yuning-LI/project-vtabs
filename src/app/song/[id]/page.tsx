@@ -124,7 +124,7 @@ export default function SongPage({
    *
    * 站点原生 Jianpu / SongClient 仍然保留：
    * - 供 dev 预览页使用
-   * - 供未来去 iframe 化迁移时参考
+   * - 供未来运行时宿主解耦迁移时参考
    * 但它不再是当前公开详情页的默认产品路线。
    */
   const runtimePayload = loadPublicRuntimeSongPayload(song.slug)
@@ -163,16 +163,13 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
-  const containerRuntimePackage =
-    runtimeHostResolution.mode === 'container'
-      ? buildPublicSongContainerRuntimePackage({
-          songId: song.slug,
-          title: song.title,
-          payload: runtimePayload,
-          queryState,
-          runtimeTextTitle: basePresentation.title
-        })
-      : null
+  const containerRuntimePackage = buildPublicSongContainerRuntimePackage({
+    songId: song.slug,
+    title: song.title,
+    payload: runtimePayload,
+    queryState,
+    runtimeTextTitle: basePresentation.title
+  })
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

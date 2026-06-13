@@ -26,6 +26,7 @@ export default function ContainerRuntimeHost({
   scriptEntries = [],
   enableScriptLoader = false,
   className,
+  style,
   loadingId,
   overlayClassName,
   initialHeight = 900,
@@ -100,6 +101,7 @@ export default function ContainerRuntimeHost({
         'relative overflow-hidden rounded-[24px] border border-[rgba(120,86,48,0.18)] bg-[#fffaf1] shadow-[0_18px_44px_rgba(70,45,24,0.1)]'
       }
       style={{
+        ...style,
         height: `${height}px`
       }}
       data-public-runtime-container-host="active"

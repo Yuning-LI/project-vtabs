@@ -31,7 +31,7 @@ let runtimeHtmlCacheBytes = 0
 /**
  * 这个路由返回的不是 JSON，而是一整页“公开歌曲 runtime HTML”。
  *
- * 外层站点页面只负责提供 iframe 容器；
+ * 外层站点页面只负责提供 React 宿主容器；
  * 真正的 `Kit / Song / hc.parse / SVG` 渲染仍发生在这个 HTML 里。
  */
 export async function GET(
@@ -129,7 +129,7 @@ export async function GET(
   const presentation = song ? getSongPresentation(song) : null
   /**
    * 字母谱不是修改 raw JSON 后再交给授权 runtime 重渲染，
-   * 而是先让授权 runtime 按原逻辑吐出简谱 SVG，再在 iframe 内做一层可逆的显示替换。
+   * 而是先让授权 runtime 按原逻辑吐出简谱 SVG，再在运行时宿主内做一层可逆的显示替换。
    *
    * 因此这里的 `letterTrack` 更像“后处理渲染指令”：
    * - `number`：不做任何替换，保留授权 runtime 的数字谱输出

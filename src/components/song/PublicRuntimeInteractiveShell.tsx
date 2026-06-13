@@ -15,8 +15,7 @@ import {
   normalizeMeasureLayout,
   normalizePracticeTool,
   normalizeSheetScale,
-  normalizeToggleParam,
-  parseSongPageQueryState
+  normalizeToggleParam
 } from '@/lib/songbook/songPageQueryState'
 import {
   buildPublicRuntimeControlConfig,
@@ -24,7 +23,6 @@ import {
   getPublicRuntimeFingeringOptions,
   getPublicRuntimeGraphOptions
 } from '@/lib/songbook/publicRuntimeControls'
-import PublicRuntimeFrame from './PublicRuntimeFrame'
 import ContainerRuntimeHost from './runtime-host/ContainerRuntimeHost'
 import { dispatchContainerRuntimeCommand } from './runtime-host/containerRuntimeTransport'
 import PublicRuntimeHostSwitch from './runtime-host/PublicRuntimeHostSwitch'
@@ -45,10 +43,7 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
-import {
-  buildPublicRuntimeUrl,
-  PUBLIC_RUNTIME_API_BASE_PATH
-} from '@/lib/runtime-core/publicRuntimePaths'
+import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
 import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
 import {
   normalizePublicRuntimeHostMode,
@@ -273,10 +268,12 @@ export default function PublicRuntimeInteractiveShell({
       runtimeControlPayload.sheetScaleList
     ]
   )
-  const canUseContainerHost = runtimeHostMode === 'container' && Boolean(containerRuntimePackage)
-  const activeRuntimeHostMode: PublicRuntimeHostMode = canUseContainerHost ? 'container' : 'iframe'
-  const shouldEnablePlaybackRuntimeFeature =
-    activeRuntimeHostMode === 'container' || isPlaybackFeatureEnabled
+  const activeRuntimeHostMode: PublicRuntimeHostMode = containerRuntimePackage
+    ? 'container'
+    : runtimeHostMode
+  const shouldEnablePlaybackRuntimeFeature = containerRuntimePackage
+    ? true
+    : isPlaybackFeatureEnabled
   const recordRuntimeHostMonitorEvent = useCallback(
     (
       type: PublicRuntimeHostMonitorEvent['type'],
@@ -454,11 +451,7 @@ export default function PublicRuntimeInteractiveShell({
     shouldPinDefaultInstrument
   ])
   const runtimeQueryString = params.toString()
-  const frameSrc = buildPublicRuntimeUrl(songId, {
-    basePath: runtimeApiBasePath,
-    params
-  })
-  const runtimeHostSessionKey = `${activeRuntimeHostMode}:${frameSrc}`
+  const runtimeHostSessionKey = `${activeRuntimeHostMode}:${runtimeApiBasePath}:${songId}:${runtimeQueryString}`
   const loadingId = `public-runtime-${songId}-loading`
   const pageHref = useCallback(
     (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
@@ -638,18 +631,7 @@ export default function PublicRuntimeInteractiveShell({
       return
     }
 
-    if (activeRuntimeHostMode === 'container') {
-      window.location.replace(nextUrl.toString())
-      return
-    }
-
-    const nextQueryState = parseSongPageQueryState(nextUrl)
-    setCurrentQueryState(nextQueryState)
-    window.history.replaceState(
-      window.history.state,
-      '',
-      `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`
-    )
+    window.location.replace(nextUrl.toString())
   }
 
   useEffect(
@@ -703,13 +685,13 @@ export default function PublicRuntimeInteractiveShell({
         return true
       }
 
-      if (activeRuntimeHostMode === 'container') {
+      if (containerRuntimePackage) {
         return dispatchContainerRuntimeCommand(message)
       }
 
       return false
     },
-    [activeRuntimeHostMode, songId]
+    [containerRuntimePackage, songId]
   )
 
   useEffect(() => {
@@ -809,7 +791,7 @@ export default function PublicRuntimeInteractiveShell({
 
     if (
       !pendingPlaybackOpenRef.current ||
-      (activeRuntimeHostMode !== 'container' && !isPlaybackFeatureEnabled)
+      (!containerRuntimePackage && !isPlaybackFeatureEnabled)
     ) {
       return
     }
@@ -820,7 +802,7 @@ export default function PublicRuntimeInteractiveShell({
       }
     }, 80)
   }, [
-    activeRuntimeHostMode,
+    containerRuntimePackage,
     isPlaybackFeatureEnabled,
     onRuntimeFrameReadyChange,
     postPlaybackCommandMessage,
@@ -1163,17 +1145,17 @@ export default function PublicRuntimeInteractiveShell({
           />
           <PublicRuntimeHostSwitch
             songId={songId}
-            activeMode={activeRuntimeHostMode}
+            activeMode={runtimeHostMode}
             queryState={normalizedQueryState}
             pageBasePath={pageBasePath}
             source={runtimeHostModeSource}
-            isVisible={runtimeHostQueryFlag || activeRuntimeHostMode === 'container'}
+            isVisible={runtimeHostQueryFlag}
           />
         </div>
       </section>
 
       <div className="mt-1 md:mt-0" data-public-runtime-host-mode={activeRuntimeHostMode}>
-        {canUseContainerHost && containerRuntimePackage ? (
+        {containerRuntimePackage ? (
           <ContainerRuntimeHost
             key={runtimeHostSessionKey}
             songId={songId}
@@ -1190,15 +1172,12 @@ export default function PublicRuntimeInteractiveShell({
             onRuntimeReady={handleRuntimeFrameLoad}
           />
         ) : (
-          <PublicRuntimeFrame
-            songId={songId}
-            title={title}
-            frameSrc={frameSrc}
-            loadingId={loadingId}
-            initialHeight={320}
-            onHostControllerChange={handleRuntimeHostControllerChange}
-            onFrameLoad={handleRuntimeFrameLoad}
-          />
+          <div
+            className="page-warm-panel relative overflow-hidden px-6 py-8 text-sm font-semibold text-stone-700"
+            data-public-runtime-retired-host="true"
+          >
+            Runtime host package unavailable.
+          </div>
         )}
       </div>
     </>

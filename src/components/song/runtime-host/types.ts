@@ -42,24 +42,6 @@ export type RuntimeMaskRect = {
   opacity?: number
 }
 
-export type IframeRuntimeHostProps = {
-  songId: string
-  title: string
-  frameSrc: string
-  iframeClassName?: string
-  iframeStyle?: CSSProperties
-  initialHeight: number
-  fitHeight?: number
-  fitTopPadding: number
-  fitCropTop: number
-  fitCropBottom: number
-  runtimeTextHideRules?: RuntimeTextHideRule[]
-  runtimeMaskRects?: RuntimeMaskRect[]
-  onHostControllerChange?: (controller: PublicRuntimeHostController | null) => void
-  onFrameLoad?: () => void
-  onLoadingChange?: (isLoading: boolean) => void
-}
-
 export type ContainerRuntimeHostProps = {
   songId: string
   title: string
@@ -70,6 +52,7 @@ export type ContainerRuntimeHostProps = {
   scriptEntries?: RuntimeScriptEntry[]
   enableScriptLoader?: boolean
   className?: string
+  style?: CSSProperties
   loadingId?: string
   overlayClassName?: string
   initialHeight?: number

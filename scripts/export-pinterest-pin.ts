@@ -90,7 +90,7 @@ async function main() {
             searchParams: finalSearchParams
           })
           await page.goto(finalWorkbenchUrl, { waitUntil: 'networkidle', timeout: 45000 })
-          await waitForPinterestRuntimeReady(page, args.runtimeHost ?? 'iframe')
+          await waitForPinterestRuntimeReady(page)
           await page
             .locator('[data-runtime-loading="true"]')
             .waitFor({ state: 'detached', timeout: 30000 })
@@ -183,24 +183,16 @@ async function waitForStableExportHeight(page: Page, exportRoot: Locator) {
   return previousHeight > 0 ? previousHeight : 1500
 }
 
-async function waitForPinterestRuntimeReady(page: Page, runtimeHost: 'iframe' | 'container') {
-  if (runtimeHost === 'container') {
-    await page
-      .locator(
-        [
-          '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet svg',
-          '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet .sheet-svg'
-        ].join(', ')
-      )
-      .first()
-      .waitFor({ timeout: 30000 })
-    return
-  }
-
-  const runtimeFrame = page.locator('[data-pinterest-export-root="true"] iframe').first()
-  await runtimeFrame.waitFor({ state: 'visible', timeout: 30000 })
-  const runtime = page.frameLocator('[data-pinterest-export-root="true"] iframe')
-  await runtime.locator('svg.sheet-svg').waitFor({ timeout: 30000 })
+async function waitForPinterestRuntimeReady(page: Page) {
+  await page
+    .locator(
+      [
+        '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet svg',
+        '[data-pinterest-export-root="true"] [data-public-runtime-container-host="active"] #sheet .sheet-svg'
+      ].join(', ')
+    )
+    .first()
+    .waitFor({ timeout: 30000 })
 }
 
 async function detectRemovableTitleGap(
@@ -209,22 +201,14 @@ async function detectRemovableTitleGap(
 ) {
   const gap = await exportRoot
     .evaluate(node => {
-      const iframe = node.querySelector('iframe')
       const runtimeRoot = node.querySelector('[data-public-runtime-container-host="active"]')
       const rootRect = node.getBoundingClientRect()
-      const hasIframe = iframe instanceof HTMLIFrameElement
       const hasRuntimeRoot = runtimeRoot instanceof HTMLElement
-      if (!hasIframe && !hasRuntimeRoot) {
+      if (!hasRuntimeRoot) {
         return null
       }
 
-      const iframeRect = hasIframe ? iframe.getBoundingClientRect() : null
-      const docOrRoot = hasIframe ? iframe.contentDocument : runtimeRoot
-      if (!docOrRoot) {
-        return null
-      }
-
-      const svg = docOrRoot.querySelector('#sheet svg, #sheet .sheet-svg')
+      const svg = runtimeRoot.querySelector('#sheet svg, #sheet .sheet-svg')
       if (!(svg instanceof SVGSVGElement)) {
         return null
       }
@@ -280,14 +264,8 @@ async function detectRemovableTitleGap(
       }
 
       const titleRect = primaryTitle.getBoundingClientRect()
-      const gapStart =
-        hasIframe && iframeRect
-          ? iframeRect.top - rootRect.top + titleRect.bottom + 6
-          : titleRect.bottom - rootRect.top + 6
-      const gapEnd =
-        hasIframe && iframeRect
-          ? iframeRect.top - rootRect.top + firstChart.rect.top - 6
-          : firstChart.rect.top - rootRect.top - 6
+      const gapStart = titleRect.bottom - rootRect.top + 6
+      const gapEnd = firstChart.rect.top - rootRect.top - 6
       const gapHeight = gapEnd - gapStart
       if (!Number.isFinite(gapStart) || !Number.isFinite(gapEnd) || gapHeight < 16) {
         return null

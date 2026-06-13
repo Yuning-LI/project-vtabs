@@ -1,6 +1,6 @@
 # Manual Runtime QA Checklist
 
-Use this after importing/publishing songs or changing runtime, song shell, letter mode, controls, or iframe behavior.
+Use this after importing/publishing songs or changing runtime, song shell, letter mode, controls, or host-container behavior.
 
 ## Required Automated Checks
 
@@ -31,7 +31,7 @@ http://127.0.0.1:3000/song/<slug>?note_label_mode=number
 http://127.0.0.1:3000/api/kuailepu-runtime/<slug>?note_label_mode=number
 ```
 
-For iframe/container parity review:
+For container-host review:
 
 ```text
 http://127.0.0.1:3000/dev/runtime-host/review/<slug>
@@ -41,7 +41,7 @@ http://127.0.0.1:3000/dev/runtime-host/review/<slug>?sheet_scale=12
 http://127.0.0.1:3000/dev/runtime-host/review/<slug>?practice_tool=metronome
 ```
 
-For public query-flagged host review:
+For public host compatibility review:
 
 ```text
 http://127.0.0.1:3000/song/<slug>
@@ -103,46 +103,46 @@ http://127.0.0.1:3000/dev/pinterest/song/<slug>?runtime_host=container&sheet_sca
 For export script host review:
 
 ```bash
-npm run export:print-pdf -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output /tmp/vtabs-phase12/<slug>-print-iframe.pdf
+npm run export:print-pdf -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output /tmp/vtabs-phase15/<slug>-print-legacy.pdf
 npm run export:print-pdf -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host container --output /tmp/vtabs-phase12/<slug>-print-container.pdf
-npm run export:pinterest-pin -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output-dir /tmp/vtabs-phase12/pinterest-iframe --width 500 --height 800 --dpr 1 --capture canvas --max-output-height 1400
+npm run export:pinterest-pin -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host iframe --output-dir /tmp/vtabs-phase15/pinterest-legacy --width 500 --height 800 --dpr 1 --capture canvas --max-output-height 1400
 npm run export:pinterest-pin -- --slug <slug> --base-url http://127.0.0.1:3000 --runtime-host container --output-dir /tmp/vtabs-phase12/pinterest-container --width 500 --height 800 --dpr 1 --capture canvas --max-output-height 1400
 ```
 
 ## Internal Runtime Host Review
 
-Use `/dev/runtime-host/review/<slug>` only for internal iframe/container parity work.
+Use `/dev/runtime-host/review/<slug>` for internal container-host diagnostics after Phase 15.
 
 Check:
 
-- iframe baseline and container host render side by side
-- runtime mode diagnostics show iframe baseline and native container host
+- the retired host path resolves to the React container host
+- runtime mode diagnostics show native container host status
 - query-state diagnostics match the selected sample song, instrument, note mode, layout, zoom, metronome, and visual theme
-- iframe ready and container ready both become `yes`
+- container ready becomes `yes`
 - container measured height and rendered-sheet diagnostics update after render
 - console diagnostics remain `clean`; if not, capture the listed messages before changing code
 - global changes list shows the captured runtime globals after container scripts finish loading
 - Sample Song, Instrument, Fingering, Note Labels, Layout, Zoom, Fingering Chart, Metronome, and Visual Theme controls navigate and remount cleanly
 - `Listen`, playback panel close, `Stop`, and `Redraw` continue to use the normalized host controller boundary
-- route changes between sample songs leave one `#sheet` per host and no stale playback or metronome panel
-- public `/song/<slug>` still uses the iframe host by default
+- route changes between sample songs leave one `#sheet`, one rendered SVG, and no stale playback or metronome panel
+- no iframe nodes are present in the page DOM
 
 ## Public Query-Flagged Host Review
 
-Use `runtime_host=container` for public-shell parity review and `runtime_host=iframe` for rollback checks. Production public URLs must remain iframe-backed by default; local non-production URLs default to container after Phase 14.
+Use `runtime_host=container` for explicit container review and `runtime_host=iframe` for legacy compatibility checks. After Phase 15, all public host decisions render through the React-owned container host.
 
 Check:
 
-- production `/song/<slug>` renders one iframe host and no public container host
+- production `/song/<slug>` renders the container host and no iframe host
 - local `/song/<slug>` renders the container host and no iframe host
 - `/song/<slug>?runtime_host=container` renders the container host and no iframe host
-- `/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
-- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` can select the container host on a local experimental server, while `runtime_host=iframe` still forces iframe
+- `/song/<slug>?runtime_host=iframe` is accepted, preserves the compatibility signal, and still renders the container host with no iframe node
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` can select the container host on a local experimental server, while `runtime_host=iframe` still resolves without page errors
 - host-query pages keep the canonical song URL and emit `noindex, nofollow`
 - Instrument, Fingering Chart, Note Labels, Layout, Zoom, Metronome, and Visual Theme controls preserve the explicit `runtime_host` query
 - container-mode control changes remount cleanly with one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
-- `Listen`, playback panel close, `Stop`, and metronome `On/Off` work in both iframe and container modes
-- removing `runtime_host` returns the page to the iframe default unless an experimental environment default is set
+- `Listen`, playback panel close, `Stop`, and metronome `On/Off` work in default and query-flagged visits
+- removing `runtime_host` returns the page to the configured host-decision source, which renders through the container host after Phase 15
 
 ## Local Runtime Host Rollout Review
 
@@ -151,13 +151,13 @@ Use the rollout controls only for local self-test. Do not enable production grey
 Check:
 
 - local default `/song/<slug>` renders container when no query or environment override is set
-- production-mode resolution still defaults to iframe when no query or environment override is set
-- `runtime_host=container` still forces container and `runtime_host=iframe` still forces iframe
+- production-mode decision logging may still report the legacy default mode when no query or environment override is set, but rendering resolves to the container host after Phase 15
+- `runtime_host=container` still records container intent and `runtime_host=iframe` still records the legacy fallback intent
 - `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=container` selects container for normal human requests
-- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` forces iframe even after a container-mode test
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` records legacy fallback intent and still renders through the container host after Phase 15
 - `NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=100` selects container for ordinary non-crawler local requests
-- `NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=0` returns ordinary local requests to iframe
-- requests with crawler user agents such as `Googlebot/2.1`, `Bingbot/2.0`, or `DuckDuckBot/1.0` render iframe even when local rollout percentage is `100`; browser automation may use `x-vtabs-runtime-user-agent` to verify the same server branch when stealth tooling rewrites `User-Agent`
+- `NEXT_PUBLIC_RUNTIME_HOST_CONTAINER_ROLLOUT_PERCENT=0` records the non-container branch for ordinary local requests, while rendering still resolves to the container host
+- requests with crawler user agents such as `Googlebot/2.1`, `Bingbot/2.0`, or `DuckDuckBot/1.0` record the crawler branch and still render the container host with no iframe node; browser automation may use `x-vtabs-runtime-user-agent` to verify the same server branch when stealth tooling rewrites `User-Agent`
 - repeated requests with the same `runtime_host_rollout_key` resolve to the same host while the rollout percent is unchanged
 - `window.__PUBLIC_RUNTIME_HOST_MONITOR__` records `host_decision` and `runtime_ready` after page load
 - clicking `Listen` records `playback_open` and still opens playback or preserves the existing fallback behavior
@@ -175,7 +175,7 @@ window.dispatchEvent(new PromiseRejectionEvent('unhandledrejection', { reason: n
 window.__PUBLIC_RUNTIME_HOST_MONITOR__
 ```
 
-- any blank sheet, duplicated sheet, playback failure, metronome failure, or route-change remount issue is a stop condition; force iframe with `runtime_host=iframe`, `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe`, or rollout percent `0`
+- any blank sheet, duplicated sheet, playback failure, metronome failure, or route-change remount issue is a stop condition; record the legacy signal with `runtime_host=iframe`, `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe`, or rollout percent `0`, then fix only the host integration layer unless a deliberate git rollback is chosen
 
 ## Local Default Container Review
 
@@ -184,36 +184,36 @@ Use this after Phase 14 changes.
 Check:
 
 - local `/song/<slug>` renders the container host by default and records `host_decision` with default source
-- local `/song/<slug>?runtime_host=iframe` renders iframe and remains a one-click rollback path
+- local `/song/<slug>?runtime_host=iframe` records the legacy fallback signal and still renders the container host with no iframe node
 - local `/song/<slug>?runtime_host=container` still renders container explicitly
-- crawler checks with `Googlebot/2.1` or `x-vtabs-runtime-user-agent: Googlebot/2.1` render iframe even though local default is container
-- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` forces local default back to iframe for emergency fallback
-- production-mode helper resolution keeps iframe default; do not treat local default container as a production traffic rollout
+- crawler checks with `Googlebot/2.1` or `x-vtabs-runtime-user-agent: Googlebot/2.1` record the crawler branch and still render the container host
+- `NEXT_PUBLIC_RUNTIME_HOST_DEFAULT=iframe` records legacy fallback intent for emergency diagnostics
+- production-mode helper resolution may still record the legacy default; do not treat local default container as a production traffic rollout
 - `window.__PUBLIC_RUNTIME_HOST_MONITOR__` records `host_decision`, `runtime_ready`, `window_error`, and `playback_open` in default container mode
 - Instrument, Fingering Chart, Note Labels, Layout, Zoom, Metronome, and Visual Theme controls remount cleanly in default container mode
 - switching between sampled songs leaves one `#sheet`, one rendered SVG, no stale loading overlay, and no duplicated playback or metronome panel
-- print and Pinterest preview/export routes still default to iframe unless `runtime_host=container` is explicitly provided
+- print and Pinterest preview/export routes render the container host for default and query-flagged visits
 
 ## Export Route Host Review
 
-Use `runtime_host=container` only for export parity review. Print and Pinterest preview/export defaults must remain iframe-backed.
+Use `runtime_host=container` for explicit container review and `runtime_host=iframe` for legacy compatibility checks. After Phase 15, print and Pinterest preview/export routes render through the container host.
 
 Check:
 
-- `/dev/print/song/<slug>` renders one iframe host and no public container host
+- `/dev/print/song/<slug>` renders the container host and no iframe host
 - `/dev/print/song/<slug>?runtime_host=container` renders the container host and no iframe host
-- `/dev/print/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
-- print preview keeps the same paper mode, instrument, note labels, fingering chart, lyrics, measure numbers, layout, and zoom query state in both host modes
-- print PDF export without `--runtime-host` uses iframe; `--runtime-host container` opts into the container host
+- `/dev/print/song/<slug>?runtime_host=iframe` is accepted and still renders the container host with no iframe node
+- print preview keeps the same paper mode, instrument, note labels, fingering chart, lyrics, measure numbers, layout, and zoom query state in default and query-flagged visits
+- print PDF export without `--runtime-host` uses the container host; `--runtime-host iframe` records the legacy signal and still waits for container output
 - print PDF file format, filename path, A4 orientation, CSS page size, and PDF options stay unchanged
-- `/dev/pinterest/song/<slug>` renders one iframe host under the Pinterest export root and no public container host
+- `/dev/pinterest/song/<slug>` renders the container host under the Pinterest export root and no iframe host
 - `/dev/pinterest/song/<slug>?runtime_host=container` renders the container host under the Pinterest export root and no iframe host
-- `/dev/pinterest/song/<slug>?runtime_host=iframe` renders the iframe host even after a container-mode visit
-- Pinterest preview keeps the same instrument, note labels, fingering chart, lyrics, measure numbers, layout, zoom, watermark, title, footer, and destination link state in both host modes
-- Pinterest image export without `--runtime-host` uses iframe; `--runtime-host container` opts into the container host
+- `/dev/pinterest/song/<slug>?runtime_host=iframe` is accepted and still renders the container host with no iframe node
+- Pinterest preview keeps the same instrument, note labels, fingering chart, lyrics, measure numbers, layout, zoom, watermark, title, footer, and destination link state in default and query-flagged visits
+- Pinterest image export without `--runtime-host` uses the container host; `--runtime-host iframe` records the legacy signal and still waits for container output
 - Pinterest output filename, manifest destination URL, tracking URL, screenshot target, and title-gap crop behavior stay unchanged
 - container exports produce visible sheet output with no extra inner scrollbar, no clipped first system, and no unexpected bottom blank area
-- when a container export differs visually, rerun the same command with `--runtime-host iframe` and record the difference before changing code
+- when an export differs visually, rerun the same command with `--runtime-host iframe` to confirm legacy-signal handling and record the difference before changing code
 
 ## Default Public Page
 
@@ -223,7 +223,7 @@ Check:
 - title, body, FAQ, controls are English
 - no internal runtime provenance wording
 - fingering chart and notation enter view without excessive shell height
-- no grey overlay, modal residue, inner iframe scrollbar, or large bottom blank area
+- no grey overlay, modal residue, inner runtime scrollbar, or large bottom blank area
 - pure Chinese lyrics stay hidden and do not expose a public lyrics toggle
 - if public lyrics exist, lyrics remain aligned with the melody
 
@@ -266,8 +266,8 @@ When controls are touched:
 - Playback opens from the shell `Listen` button and can return to `Stop`.
 - Playback panel opens in the upper-right area on desktop and stays readable on mobile.
 - Playback start shows the integrated runtime `3 / 2 / 1` countdown overlay before audio begins.
-- Clicking blank area inside the iframe closes the playback panel without breaking the page.
-- Clicking blank area outside the iframe also closes the playback panel without stopping playback.
+- Clicking blank area inside the runtime host closes the playback panel without breaking the page.
+- Clicking blank area outside the runtime host also closes the playback panel without stopping playback.
 - In `letter` mode, playback note highlight remains visible on the overlay instead of disappearing behind the white label cover.
 - On mobile, `More Tools` opens and `Close more tools` fully dismisses the drawer without immediately reopening.
 
@@ -316,4 +316,4 @@ Classify first:
 
 1. `number` mode fails: raw JSON / runtime / compare condition issue.
 2. `number` passes, `letter` fails: letter overlay issue.
-3. bare runtime passes, public page fails: shell / iframe / controls issue.
+3. bare runtime passes, public page fails: shell / container host / controls issue.

@@ -8,10 +8,10 @@ type RuntimeValidationResult = {
   pageUrl: string
   ok: boolean
   reason?: string
-  iframeCount?: number
+  containerCount?: number
   svgCount?: number
   overlayCount?: number
-  frameHeight?: string | null
+  hostHeight?: string | null
 }
 
 const baseUrl = process.argv[2] ?? 'http://127.0.0.1:3000'
@@ -31,32 +31,31 @@ async function inspectRuntimePage(pageUrl: string) {
   await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 30000 })
   await page.waitForTimeout(5000)
 
-  const iframeCount = await page.locator('iframe').count()
-  if (iframeCount < 1) {
+  const container = page.locator('[data-public-runtime-container-host="active"]').first()
+  const containerCount = await page.locator('[data-public-runtime-container-host="active"]').count()
+  if (containerCount < 1) {
     return {
-      iframeCount,
+      containerCount,
       svgCount: 0,
       overlayCount: 0,
-      frameHeight: null
+      hostHeight: null
     }
   }
 
-  const iframe = page.frameLocator('iframe')
-  const svgCount = await iframe.locator('#sheet .sheet-svg').count().catch(() => 0)
-  const overlayCount = await iframe
+  const svgCount = await container.locator('#sheet .sheet-svg, #sheet svg').count().catch(() => 0)
+  const overlayCount = await container
     .locator('.lean-overlay,.overlay,#overlay,#materialbox-overlay,#sidenav-overlay')
     .count()
     .catch(() => 0)
-  const frameHeight = await page
-    .locator('iframe')
+  const hostHeight = await container
     .evaluate(el => getComputedStyle(el).height)
     .catch(() => null)
 
   return {
-    iframeCount,
+    containerCount,
     svgCount,
     overlayCount,
-    frameHeight
+    hostHeight
   }
 }
 
@@ -67,9 +66,9 @@ try {
     try {
       let inspection = await inspectRuntimePage(pageUrl)
 
-      // Next 开发态首开某个详情页时，偶发会遇到编译尚未完成、短时间内 iframe/svg 还没挂上的情况。
-      // 这里对“缺 iframe”或“缺 svg”做一次重试，避免把冷启动抖动误报成真实失败。
-      if (inspection.iframeCount < 1 || inspection.svgCount < 1) {
+      // Next 开发态首开某个详情页时，偶发会遇到编译尚未完成、短时间内容器/svg 还没挂上的情况。
+      // 这里对“缺容器”或“缺 svg”做一次重试，避免把冷启动抖动误报成真实失败。
+      if (inspection.containerCount < 1 || inspection.svgCount < 1) {
         await page.waitForTimeout(2000)
         inspection = await inspectRuntimePage(pageUrl)
       }
@@ -80,17 +79,17 @@ try {
         pageUrl,
         ok: inspection.svgCount > 0 && inspection.overlayCount === 0,
         reason:
-          inspection.iframeCount < 1
-            ? 'no iframe found'
+          inspection.containerCount < 1
+            ? 'no container runtime host found'
             : inspection.svgCount < 1
             ? 'sheet svg missing'
             : inspection.overlayCount > 0
               ? 'overlay still visible'
               : undefined,
-        iframeCount: inspection.iframeCount,
+        containerCount: inspection.containerCount,
         svgCount: inspection.svgCount,
         overlayCount: inspection.overlayCount,
-        frameHeight: inspection.frameHeight
+        hostHeight: inspection.hostHeight
       })
     } catch (error) {
       results.push({

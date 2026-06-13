@@ -6,7 +6,6 @@ import {
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
-import { buildPublicRuntimeUrl } from '@/lib/runtime-core/publicRuntimePaths'
 import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import { resolvePublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
 import { buildPublicRuntimeContainerPackage } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
@@ -118,33 +117,6 @@ export default function InternalPrintSongPage({
     hasQueryFlag: Boolean(searchParams?.runtime_host)
   })
 
-  const paramsForFrame = new URLSearchParams()
-  // 打印链继续使用 runtime HTML 路由，而不是另写一套 renderer。
-  paramsForFrame.set('runtime_text_mode', 'english')
-  paramsForFrame.set('runtime_visual_theme', runtimeVisualTheme)
-  if (activeInstrument.id !== 'o12') {
-    paramsForFrame.set('instrument', activeInstrument.id)
-  }
-  if (noteLabelMode !== 'letter') {
-    paramsForFrame.set('note_label_mode', noteLabelMode)
-  }
-  if (showGraph) {
-    paramsForFrame.set('show_graph', showGraph)
-  }
-  if (showLyric) {
-    paramsForFrame.set('show_lyric', showLyric)
-  }
-  if (showMeasureNum) {
-    paramsForFrame.set('show_measure_num', showMeasureNum)
-  }
-  if (measureLayout) {
-    paramsForFrame.set('measure_layout', measureLayout)
-  }
-  if (sheetScale) {
-    paramsForFrame.set('sheet_scale', sheetScale)
-  }
-
-  const frameSrc = buildPublicRuntimeUrl(song.slug, { params: paramsForFrame })
   const runtimeState: PublicRuntimeState = {
     instrument: activeInstrument.id,
     note_label_mode: noteLabelMode,
@@ -154,17 +126,14 @@ export default function InternalPrintSongPage({
     measure_layout: measureLayout,
     sheet_scale: sheetScale
   }
-  const containerPackage =
-    runtimeHostResolution.mode === 'container'
-      ? buildPublicRuntimeContainerPackage({
-          songId: song.slug,
-          payload: runtimePayload,
-          state: runtimeState,
-          preferredEnglishTitle: presentation.title,
-          preferredEnglishSubtitle: null,
-          visualThemeName: runtimeVisualTheme
-        })
-      : null
+  const containerPackage = buildPublicRuntimeContainerPackage({
+    songId: song.slug,
+    payload: runtimePayload,
+    state: runtimeState,
+    preferredEnglishTitle: presentation.title,
+    preferredEnglishSubtitle: null,
+    visualThemeName: runtimeVisualTheme
+  })
   const loadingId = `public-runtime-print-${song.slug}-loading`
 
   return (
@@ -245,11 +214,9 @@ export default function InternalPrintSongPage({
               songId={song.slug}
               title={presentation.title}
               mode={runtimeHostResolution.mode}
-              frameSrc={frameSrc}
               loadingId={loadingId}
               containerPackage={containerPackage}
               panelClassName="relative overflow-hidden rounded-[18px] border border-stone-200 bg-white shadow-none print:rounded-none print:border-0"
-              iframeClassName="print-runtime-frame block w-full border-0"
               overlayClassName="bg-white/96"
               initialHeight={1120}
             />

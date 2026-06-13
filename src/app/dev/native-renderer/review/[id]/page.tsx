@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import NativeRendererSideBySideReview from '@/components/dev/NativeRendererSideBySideReview'
+import { loadPublicRuntimeSongPayload } from '@/lib/runtime-core/publicRuntime'
+import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
+import { buildPublicRuntimeContainerPackage } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
 import {
   loadNativeSongIrFromDraft,
   loadNativeSongIrFromRuntimePayload
@@ -74,6 +77,25 @@ export default function NativeRendererReviewPage({
   const showLyric = normalizeToggleParam(requestedShowLyric) ?? 'on'
   const showMeasureNum = normalizeToggleParam(requestedShowMeasureNum) ?? 'off'
   const forceNativePreview = requestedForceNativePreview === '1'
+  const runtimePayload = loadPublicRuntimeSongPayload(params.id)
+  const runtimeState: PublicRuntimeState = {
+    note_label_mode: 'letter',
+    show_graph: showGraph,
+    show_lyric: showLyric,
+    show_measure_num: showMeasureNum,
+    measure_layout: measureLayout,
+    sheet_scale: String(sheetScale)
+  }
+  const runtimeContainerPackage = runtimePayload
+    ? buildPublicRuntimeContainerPackage({
+        songId: params.id,
+        payload: runtimePayload,
+        state: runtimeState,
+        preferredEnglishTitle: song?.metadata.title ?? params.id,
+        preferredEnglishSubtitle: null,
+        visualThemeName: 'classic'
+      })
+    : null
 
   return (
     <NativeRendererSideBySideReview
@@ -87,6 +109,7 @@ export default function NativeRendererReviewPage({
       showMeasureNum={showMeasureNum}
       forceNativePreview={forceNativePreview}
       sheetScale={sheetScale}
+      runtimeContainerPackage={runtimeContainerPackage}
     />
   )
 }

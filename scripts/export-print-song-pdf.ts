@@ -65,7 +65,7 @@ async function main() {
     })
     await page.goto(url, { waitUntil: 'networkidle' })
 
-    await waitForPrintRuntimeReady(page, args.runtimeHost ?? 'iframe')
+    await waitForPrintRuntimeReady(page)
     await page.locator('[data-runtime-loading="true"]').waitFor({ state: 'detached', timeout: 30000 }).catch(() => {})
     await page.emulateMedia({ media: 'print' })
 
@@ -126,19 +126,13 @@ function parseArgs(argv: string[]): ExportArgs {
   }
 }
 
-async function waitForPrintRuntimeReady(page: Page, runtimeHost: 'iframe' | 'container') {
-  if (runtimeHost === 'container') {
-    await page
-      .locator(
-        '[data-public-runtime-container-host="active"] #sheet svg, [data-public-runtime-container-host="active"] #sheet .sheet-svg'
-      )
-      .first()
-      .waitFor({ timeout: 30000 })
-    return
-  }
-
-  const iframe = page.frameLocator('iframe')
-  await iframe.locator('#sheet svg, #sheet .sheet-svg').first().waitFor({ timeout: 30000 })
+async function waitForPrintRuntimeReady(page: Page) {
+  await page
+    .locator(
+      '[data-public-runtime-container-host="active"] #sheet svg, [data-public-runtime-container-host="active"] #sheet .sheet-svg'
+    )
+    .first()
+    .waitFor({ timeout: 30000 })
 }
 
 function parseRuntimeHost(value: string | undefined) {

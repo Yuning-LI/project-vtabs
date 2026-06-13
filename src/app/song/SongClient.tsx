@@ -16,7 +16,7 @@ import { getSongViewData } from '@/lib/songbook/songView'
  *
  * 当前它保留的主要价值是：
  * - 作为站点原生渲染链的研究样本
- * - 作为未来逐步脱离 iframe/runtime 时可迁移的 UI 资产
+ * - 作为未来逐步脱离 runtime 宿主耦合时可迁移的 UI 资产
  * - 供 dev/import 预览链继续参考
  *
  * 当前产品决策非常重要，交接时必须先读懂：
