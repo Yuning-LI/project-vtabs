@@ -18,6 +18,7 @@ Read as little as the task allows:
 - For routine MusicXML ingest execution, prefer `docs/song-ingest-operator-runbook.md` as the canonical step-by-step path.
 - Public-domain candidate search / traffic ranking: also read `docs/public-domain-candidate-search.md`.
 - MuseScore candidate sourcing for MusicXML ingest: also read `docs/musescore-candidate-workflow.md`.
+- Post-iframe runtime code decoupling / module split work: also read `docs/runtime-decoupling-module-split-plan.md`.
 
 The older rule of reading every major document for every substantial task has been replaced by this topic map to save context.
 

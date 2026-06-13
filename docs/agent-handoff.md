@@ -137,6 +137,7 @@ Playbook:
 - Runtime strategy: `docs/kuailepu-compatibility-roadmap.md`
 - Current authorized-runtime architecture upgrade boundary plan: `docs/de-kuailepu-architecture-plan.md`
 - Progressive iframe removal plan: `docs/progressive-iframe-removal-plan.md`
+- Post-iframe runtime decoupling / module split plan: `docs/runtime-decoupling-module-split-plan.md`
 - Runtime QA: `docs/manual-runtime-qa-checklist.md`
 - Instrument rollout: `docs/instrument-rollout-plan.md`
 - Public instrument fit / transposition / fingering rules: `docs/public-instrument-selection-rules.md`

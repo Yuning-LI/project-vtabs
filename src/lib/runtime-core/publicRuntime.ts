@@ -8,56 +8,38 @@ import type {
   PublicRuntimeVisualTheme
 } from './runtimeTypes.ts'
 import {
-  buildPublicLetterTrackData
-} from './letterTrack/publicLetterTrack.ts'
-import {
-  applyRuntimeDefaults as applyPublicRuntimeDefaults,
-  extractPayloadLyricText as extractPublicRuntimeLyricText,
-  resolvePublicRuntimeState,
-  shouldHideLyricTrackByDefault as shouldHidePublicRuntimeLyricTrackByDefault
-} from './state/publicRuntimeState.ts'
-import {
-  serializeForInlineScript as serializeRuntimeHtmlInlineValue
-} from './server/html/runtimeHtmlScaffold.ts'
-import {
-  buildPublicRuntimePackage,
-  type PublicRuntimePackage
-} from './server/assembly/publicRuntimePackage.ts'
-import {
-  loadPublicRuntimePayloadArchive,
-  localizePublicRuntimePayloadArchive
-} from './server/payload/runtimePayload.ts'
-import { buildPublicRuntimeBridgeScript } from './bridge/publicRuntimeBridge.ts'
-import { loadArchivedPublicRuntimeHtmlTemplate } from './server/template/runtimeTemplate.ts'
-import {
-  type PublicRuntimeVisualThemeName,
-  resolvePublicRuntimeVisualTheme
-} from './visual/publicRuntimeVisualTheme.ts'
+  buildPublicRuntimeHtml as buildPublicRuntimeHtmlImpl,
+  buildPublicRuntimeLetterTrackData as buildPublicRuntimeLetterTrackDataImpl,
+  buildPublicRuntimePackageData as buildPublicRuntimePackageDataImpl,
+  hasPublicRuntimeLyricContent as hasPublicRuntimeLyricContentImpl,
+  hasPublicRuntimeLyricToggle as hasPublicRuntimeLyricToggleImpl,
+  loadPublicRuntimeSongPayload as loadPublicRuntimeSongPayloadImpl,
+  resolvePublicRuntimeContextState as resolvePublicRuntimeContextStateImpl
+} from './server/assembly/publicRuntimeBuildInput.ts'
+import type { PublicRuntimePackage } from './server/assembly/publicRuntimePackage.ts'
+import type { PublicRuntimeVisualThemeName } from './visual/publicRuntimeVisualTheme.ts'
 
 export function loadPublicRuntimeSongPayload(songId: string) {
-  return loadPublicRuntimePayloadArchive(songId)
+  return loadPublicRuntimeSongPayloadImpl(songId)
 }
 
 export function resolvePublicRuntimeContextState(
   payload: PublicRuntimePayload,
   state: PublicRuntimeState | null
 ) {
-  return resolvePublicRuntimeState(payload, state)
+  return resolvePublicRuntimeContextStateImpl(payload, state)
 }
 
 export function hasPublicRuntimeLyricContent(
   payload: Pick<PublicRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
-  return extractPublicRuntimeLyricText(payload).trim().length > 0
+  return hasPublicRuntimeLyricContentImpl(payload)
 }
 
 export function hasPublicRuntimeLyricToggle(
   payload: Pick<PublicRuntimePayload, 'lyric' | 'lyric_text'>
 ) {
-  return (
-    hasPublicRuntimeLyricContent(payload) &&
-    !shouldHidePublicRuntimeLyricTrackByDefault(payload)
-  )
+  return hasPublicRuntimeLyricToggleImpl(payload)
 }
 
 export function buildPublicRuntimeHtml(input: {
@@ -74,7 +56,7 @@ export function buildPublicRuntimeHtml(input: {
   visualThemeName?: PublicRuntimeVisualThemeName | null
   visualTheme?: PublicRuntimeVisualTheme | null
 }) {
-  return buildPublicRuntimePackageData(input).html
+  return buildPublicRuntimeHtmlImpl(input)
 }
 
 export function buildPublicRuntimePackageData(input: {
@@ -91,47 +73,7 @@ export function buildPublicRuntimePackageData(input: {
   visualThemeName?: PublicRuntimeVisualThemeName | null
   visualTheme?: PublicRuntimeVisualTheme | null
 }): PublicRuntimePackage {
-  const { songId } = input
-  const payload = applyPublicRuntimeDefaults(
-    localizePublicRuntimePayloadArchive(input.payload, {
-      mode: input.textMode ?? 'source',
-      preferredTitle: input.preferredEnglishTitle ?? null,
-      preferredSubtitle: input.preferredEnglishSubtitle ?? null
-    }),
-    input.state ?? null
-  )
-  const letterTrack = input.letterTrack ?? null
-  const assetProfile = input.assetProfile ?? 'public-song'
-  const publicFeatures = new Set(input.publicFeatures ?? [])
-  const compareMode = Boolean(input.compareMode)
-  const visualTheme = resolvePublicRuntimeVisualTheme({
-    compareMode,
-    themeName: input.visualThemeName ?? null,
-    theme: input.visualTheme ?? null
-  })
-  const pageTitle = [payload.song_name, payload.alias_name].filter(Boolean).join(' - ') || songId
-  const safePayload = serializeRuntimeHtmlInlineValue(payload)
-  const template = loadArchivedPublicRuntimeHtmlTemplate()
-  const hasPendingLetterMask = !compareMode && Boolean(letterTrack) && letterTrack?.mode !== 'number'
-  const bridgeScriptHtml = buildPublicRuntimeBridgeScript(
-    songId,
-    letterTrack,
-    input.textMode ?? 'source',
-    publicFeatures,
-    visualTheme
-  )
-
-  return buildPublicRuntimePackage({
-    template,
-    songId,
-    payloadJson: safePayload,
-    pageTitle,
-    assetProfile,
-    publicFeatures,
-    compareMode,
-    hasPendingLetterMask,
-    bridgeScriptHtml
-  })
+  return buildPublicRuntimePackageDataImpl(input)
 }
 
 export function buildPublicRuntimeLetterTrackData(input: {
@@ -142,5 +84,5 @@ export function buildPublicRuntimeLetterTrackData(input: {
   payload?: PublicRuntimePayload | null
   state?: PublicRuntimeState | null
 }): PublicLetterTrackData {
-  return buildPublicLetterTrackData(input)
+  return buildPublicRuntimeLetterTrackDataImpl(input)
 }
