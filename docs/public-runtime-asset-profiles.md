@@ -44,7 +44,7 @@ Do not remove from the minimal public profile without a new runtime QA pass:
 - `lib/jquery/1.8.3/jquery.min.js`
 - `cdn/js/i18n_d3be79dfbd.js`
 - `cdn/js/kit_9b7263d863.js`
-- `cdn/js/dist/hc.min_1fefdac49d.js`
+- `cdn/js/dist/hc.min_1cfae5fe62.js`
 - `cdn/js/song_builder_a87186a4c4.js`
 - `cdn/js/song_1f2ad3c3ba.js`
 
