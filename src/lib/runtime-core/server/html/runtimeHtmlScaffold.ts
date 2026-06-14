@@ -72,6 +72,20 @@ export function buildRuntimeOverrideStyle(publicFeatures: Set<PublicRuntimePubli
     '.sheet-copy-tip'
   ]
 
+  /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
+  const hiddenSelectorTriggers = [
+    '[href="#menu-modal"]',
+    '[data-target="menu-modal"]',
+    '[href="#score-modal"]',
+    '[data-target="score-modal"]',
+    '[href="#select-instrument"]',
+    '[data-target="select-instrument"]',
+    '[href="#diaohao-modal"]',
+    '[data-target="diaohao-modal"]',
+    '[href="#instruments-modal"]',
+    '[data-target="instruments-modal"]'
+  ]
+
   if (!publicFeatures.has('playback')) {
     hiddenSelectors.push('.count-down-area')
     hiddenSelectors.push('.lean-overlay')
@@ -95,6 +109,19 @@ html, body {
 
 ${hiddenSelectors.join(',\n')} {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+}
+
+${hiddenSelectorTriggers.join(',\n')} {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 #sheet {

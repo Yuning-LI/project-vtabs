@@ -87,15 +87,30 @@ ${rootSelector} [data-public-runtime-dom-mount] .fixed-action-btn,
 ${rootSelector} [data-public-runtime-dom-mount] .floating-tools,
 ${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
 }
 
 ${rootSelector} [data-public-runtime-dom-mount] [data-public-runtime-body-append-mount] {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
 ${rootSelector} [data-public-runtime-dom-mount] #preload {
   display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
@@ -525,6 +540,9 @@ ${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
 }
 `
 }
