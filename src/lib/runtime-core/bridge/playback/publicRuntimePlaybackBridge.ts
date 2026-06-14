@@ -472,37 +472,6 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     });
   }
 
-  function getPublicViewportScrollPosition() {
-    if (!isPublicRuntimeContainerHost()) {
-      return null;
-    }
-
-    return {
-      x: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
-      y: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-    };
-  }
-
-  function restorePublicViewportScrollPosition(position) {
-    if (!position || !isPublicRuntimeContainerHost()) {
-      return;
-    }
-
-    window.scrollTo(position.x, position.y);
-  }
-
-  function schedulePublicViewportScrollRestore(position) {
-    if (!position) {
-      return;
-    }
-
-    [0, 40, 140, 320, 700, 1200].forEach(function (delay) {
-      window.setTimeout(function () {
-        restorePublicViewportScrollPosition(position);
-      }, delay);
-    });
-  }
-
   function closePublicContainerPlaybackPanel(playModal) {
     publicPlaybackPanelRequestId += 1;
 
@@ -575,9 +544,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         }
         button.setAttribute('data-vtabs-playback-hooked', '1');
         button.addEventListener('click', function () {
-          var viewportScroll = getPublicViewportScrollPosition();
           disablePublicPlaybackAutoScroll();
-          schedulePublicViewportScrollRestore(viewportScroll);
+          pausePublicPlaybackScheduler();
         }, true);
         button.addEventListener('click', function () {
           if (button.classList && button.classList.contains('start-play-1')) {
@@ -622,6 +590,63 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (midiPlayer.engine) {
       midiPlayer.engine.enableScroll = false;
     }
+  }
+
+  function pausePublicPlaybackScheduler() {
+    var midiPlayer = window.Song && window.Song.midiPlayer;
+    var engine = midiPlayer && midiPlayer.engine;
+    if (!engine) {
+      return;
+    }
+
+    if (typeof engine.pause === 'function') {
+      engine.pause();
+      return;
+    }
+    if (engine.timeScheduler && typeof engine.timeScheduler.stop === 'function') {
+      engine.timeScheduler.stop(true);
+    }
+  }
+
+  function installPublicPlaybackContainerModalOverride() {
+    if (!isPublicRuntimeContainerHost()) {
+      return;
+    }
+
+    var $ = window.jQuery || window.$;
+    if (!$ || !$.fn || $.fn.__vtabsPublicPlaybackModalOverride === true) {
+      return;
+    }
+
+    var originalOpenModal = $.fn.openModal;
+    var originalCloseModal = $.fn.closeModal;
+
+    if (typeof originalOpenModal === 'function') {
+      $.fn.openModal = function () {
+        var playModal = this && this[0];
+        if (playModal && playModal.id === 'play-modal' && isPublicRuntimeContainerHost()) {
+          openPublicPlaybackPanelFallback(playModal);
+          postPublicPlaybackPanelStatus();
+          return this;
+        }
+
+        return originalOpenModal.apply(this, arguments);
+      };
+    }
+
+    if (typeof originalCloseModal === 'function') {
+      $.fn.closeModal = function () {
+        var playModal = this && this[0];
+        if (playModal && playModal.id === 'play-modal' && isPublicRuntimeContainerHost()) {
+          closePublicContainerPlaybackPanel(playModal);
+          return this;
+        }
+
+        return originalCloseModal.apply(this, arguments);
+      };
+    }
+
+    $.fn.__vtabsPublicPlaybackModalOverride = true;
   }
 
   function installPublicPlaybackStatusObserver() {
@@ -712,6 +737,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     forceEnglishPublicPlaybackLocale();
+    installPublicPlaybackContainerModalOverride();
+    disablePublicPlaybackAutoScroll();
 
     var playModal = document.getElementById('play-modal');
     if (!playModal) {
@@ -872,14 +899,12 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     if (playButton.classList && playButton.classList.contains('icon-stop2')) {
-      var activePlaybackViewportScroll = getPublicViewportScrollPosition();
       var $ = window.jQuery || window.$;
       if ($ && $.fn && $.fn.openModal) {
         $(playModal).openModal({ opacity: 0, in_duration: 120, out_duration: 80 });
       } else {
         playModal.style.display = 'block';
       }
-      schedulePublicViewportScrollRestore(activePlaybackViewportScroll);
       schedulePublicContainerPageScrollRestore();
       window.setTimeout(function () {
         if (playbackPanelOpenRequestId !== publicPlaybackPanelRequestId) {
@@ -904,14 +929,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var playbackOpenViewportScroll = getPublicViewportScrollPosition();
+    disablePublicPlaybackAutoScroll();
     var playTrigger = document.getElementById('play-li') || playButton;
     playTrigger.dispatchEvent(new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window
     }));
-    schedulePublicViewportScrollRestore(playbackOpenViewportScroll);
 
     [120, 500, 1200, 2200, 4500, 8000].forEach(function (delay) {
       window.setTimeout(function () {
