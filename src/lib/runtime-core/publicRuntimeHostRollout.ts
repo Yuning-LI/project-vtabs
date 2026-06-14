@@ -85,7 +85,7 @@ export function resolvePublicRuntimeHostRollout(input: {
 
   if (isBot) {
     return {
-      mode: 'iframe',
+      mode: 'container',
       source: 'bot',
       queryMode,
       environmentMode,
