@@ -472,6 +472,37 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     });
   }
 
+  function getPublicViewportScrollPosition() {
+    if (!isPublicRuntimeContainerHost()) {
+      return null;
+    }
+
+    return {
+      x: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0,
+      y: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    };
+  }
+
+  function restorePublicViewportScrollPosition(position) {
+    if (!position || !isPublicRuntimeContainerHost()) {
+      return;
+    }
+
+    window.scrollTo(position.x, position.y);
+  }
+
+  function schedulePublicViewportScrollRestore(position) {
+    if (!position) {
+      return;
+    }
+
+    [0, 40, 140, 320, 700, 1200].forEach(function (delay) {
+      window.setTimeout(function () {
+        restorePublicViewportScrollPosition(position);
+      }, delay);
+    });
+  }
+
   function closePublicContainerPlaybackPanel(playModal) {
     publicPlaybackPanelRequestId += 1;
 
@@ -544,6 +575,11 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         }
         button.setAttribute('data-vtabs-playback-hooked', '1');
         button.addEventListener('click', function () {
+          var viewportScroll = getPublicViewportScrollPosition();
+          disablePublicPlaybackAutoScroll();
+          schedulePublicViewportScrollRestore(viewportScroll);
+        }, true);
+        button.addEventListener('click', function () {
           if (button.classList && button.classList.contains('start-play-1')) {
             publicPlaybackResumeAvailable = false;
           }
@@ -570,6 +606,22 @@ export function buildPublicRuntimePlaybackBridgeScript() {
           }, 2600);
         });
       });
+  }
+
+  function disablePublicPlaybackAutoScroll() {
+    var midiPlayer = window.Song && window.Song.midiPlayer;
+    if (!midiPlayer) {
+      return;
+    }
+
+    if (midiPlayer.context) {
+      midiPlayer.context.playScroll = function () {
+        return false;
+      };
+    }
+    if (midiPlayer.engine) {
+      midiPlayer.engine.enableScroll = false;
+    }
   }
 
   function installPublicPlaybackStatusObserver() {
@@ -820,12 +872,14 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     if (playButton.classList && playButton.classList.contains('icon-stop2')) {
+      var activePlaybackViewportScroll = getPublicViewportScrollPosition();
       var $ = window.jQuery || window.$;
       if ($ && $.fn && $.fn.openModal) {
         $(playModal).openModal({ opacity: 0, in_duration: 120, out_duration: 80 });
       } else {
         playModal.style.display = 'block';
       }
+      schedulePublicViewportScrollRestore(activePlaybackViewportScroll);
       schedulePublicContainerPageScrollRestore();
       window.setTimeout(function () {
         if (playbackPanelOpenRequestId !== publicPlaybackPanelRequestId) {
@@ -850,12 +904,14 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
+    var playbackOpenViewportScroll = getPublicViewportScrollPosition();
     var playTrigger = document.getElementById('play-li') || playButton;
     playTrigger.dispatchEvent(new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window
     }));
+    schedulePublicViewportScrollRestore(playbackOpenViewportScroll);
 
     [120, 500, 1200, 2200, 4500, 8000].forEach(function (delay) {
       window.setTimeout(function () {

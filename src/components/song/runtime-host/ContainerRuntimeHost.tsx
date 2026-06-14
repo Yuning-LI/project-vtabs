@@ -185,7 +185,7 @@ export default function ContainerRuntimeHost({
               Loading sheet...
             </p>
             <p className="mt-2 text-sm leading-6 text-stone-700">
-              The fingering chart is opening.
+              Fingering chart is loading...
             </p>
           </div>
         </div>
