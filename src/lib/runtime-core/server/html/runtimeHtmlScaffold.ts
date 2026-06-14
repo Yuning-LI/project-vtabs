@@ -33,6 +33,7 @@ export function buildRuntimePendingScript(
 }
 
 export function buildRuntimeOverrideStyle(publicFeatures: Set<PublicRuntimePublicFeature>) {
+  /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
   const hiddenSelectors = [
     '#header',
     '#foot',
@@ -77,6 +78,7 @@ export function buildRuntimeOverrideStyle(publicFeatures: Set<PublicRuntimePubli
     hiddenSelectors.push('#play-modal')
   }
 
+  /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
   if (!publicFeatures.has('metronome')) {
     hiddenSelectors.push('#metronome-modal')
   }
@@ -219,12 +221,14 @@ html[data-vtabs-public-playback="1"] .lean-overlay {
   display: none !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 html[data-vtabs-public-playback="1"] #nosound-btn,
 html[data-vtabs-public-playback="1"] #nosound-modal,
 html[data-vtabs-public-playback="1"] #play-microphone-row {
   display: none !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 html[data-vtabs-public-playback="1"] #play-modal {
   left: auto !important;
   right: 14px !important;

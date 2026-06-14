@@ -1,5 +1,6 @@
 type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'lib/jqueryui/1.11.4/jquery-ui.min.js',
   'lib/materialize/0.97.5/js/materialize.min.js',
@@ -94,6 +95,7 @@ function injectPublicRuntimeCompatibilityScript(
   )
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 function buildPublicRuntimeCompatibilityScript() {
   return `<script data-vtabs-runtime-public-compat>
     (function () {

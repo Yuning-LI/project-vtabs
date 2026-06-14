@@ -3,6 +3,7 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
 } from '../publicRuntimeMessageTypes.ts'
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 export function buildPublicRuntimePlaybackBridgeScript() {
   return `
   var playbackStatusObserver = null;

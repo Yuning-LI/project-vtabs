@@ -64,6 +64,7 @@ ${rootSelector} [data-public-runtime-dom-mount] {
   background: #fff8ee;
 }
 
+/* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
 ${rootSelector} [data-public-runtime-dom-mount] #header,
 ${rootSelector} [data-public-runtime-dom-mount] #foot,
 ${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
@@ -92,10 +93,12 @@ ${rootSelector} [data-public-runtime-dom-mount] [data-public-runtime-body-append
   display: none !important;
 }
 
+/* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
 ${rootSelector} [data-public-runtime-dom-mount] #preload {
   display: none !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 ${rootSelector} [data-public-runtime-dom-mount] .flex-body {
   display: block;
   position: relative !important;
@@ -122,6 +125,7 @@ ${rootSelector} [data-public-runtime-dom-mount] #sheet .sheet-svg {
   transform-origin: top left !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal {
   position: relative !important;
   display: block !important;
@@ -212,6 +216,7 @@ ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #me
   box-shadow: 0 8px 18px rgba(171, 85, 31, 0.22) !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] .lean-overlay {
   display: none !important;
 }
@@ -222,6 +227,7 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   display: none !important;
 }
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal {
   position: absolute !important;
   left: auto !important;
@@ -349,6 +355,7 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   box-shadow: none !important;
 }
 
+/* TODO: 快乐谱代码，用途待核验，暂保留 */
 ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-container-panel] {
   position: absolute !important;
   top: 16px !important;
@@ -495,6 +502,7 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
 
 function buildRuntimeContainerFinalConstraintCss(rootSelector: string) {
   return `
+/* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
 ${rootSelector} [data-public-runtime-dom-mount] #foot,
 ${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
 ${rootSelector} [data-public-runtime-dom-mount] #media-wrapper,

@@ -64,6 +64,7 @@ function installBodyAppendCapture(mountElement: HTMLElement) {
   runtimeExtraMount.hidden = true
   mountElement.appendChild(runtimeExtraMount)
 
+  /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
@@ -93,6 +94,7 @@ function installBodyAppendCapture(mountElement: HTMLElement) {
 }
 
 function isRuntimeBodyAppendNode(node: HTMLElement) {
+  /* TODO: 快乐谱代码，用途待核验，暂保留 */
   return (
     node.classList.contains('print-hint') ||
     node.classList.contains('lean-overlay') ||
@@ -102,6 +104,7 @@ function isRuntimeBodyAppendNode(node: HTMLElement) {
 }
 
 function closeRuntimeContainerPanels(mountElement: HTMLElement) {
+  /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
   mountElement
     .querySelectorAll<HTMLElement>('#play-modal, #metronome-modal, #nosound-modal')
     .forEach(panel => {

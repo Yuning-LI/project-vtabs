@@ -10,6 +10,7 @@ import {
   joinPublicRuntimeBridgeScriptStages
 } from './scriptStages.ts'
 
+/* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 /**
  * 这层样式的目标不是美化集成运行时页面，而是把不需要的站点外壳彻底关掉，只留下谱面本体。
  *
