@@ -13,12 +13,14 @@ export type {
   PublicRuntimeHostMessageHandler
 } from './runtime-host/types'
 
+const noopPublicRuntimeHostUnsubscribe = () => {}
+
 export function subscribeToPublicRuntimeHostMessages(
   songId: string,
   handler: PublicRuntimeHostMessageHandler
 ) {
   if (typeof window === 'undefined') {
-    return () => {}
+    return noopPublicRuntimeHostUnsubscribe
   }
 
   function handleMessage(event: MessageEvent) {

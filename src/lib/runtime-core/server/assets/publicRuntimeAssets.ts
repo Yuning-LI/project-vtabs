@@ -120,8 +120,10 @@ function buildPublicRuntimeCompatibilityScript() {
         return null;
       }
 
+      function noop() {}
+
       if (!win.initMetronome) {
-        win.initMetronome = function () {};
+        win.initMetronome = noop;
       }
 
       if (!win.Media) {
@@ -145,7 +147,7 @@ function buildPublicRuntimeCompatibilityScript() {
 
       if (!win.MidiContext) {
         win.MidiContext = {
-          tick: function () {},
+          tick: noop,
           getAudioContext: function () {
             return null;
           }
@@ -156,10 +158,10 @@ function buildPublicRuntimeCompatibilityScript() {
         win.MidiPlayer = function () {};
       }
       if (!win.MidiPlayer.prototype.setContext) {
-        win.MidiPlayer.prototype.setContext = function () {};
+        win.MidiPlayer.prototype.setContext = noop;
       }
       if (!win.MidiPlayer.prototype.refresh) {
-        win.MidiPlayer.prototype.refresh = function () {};
+        win.MidiPlayer.prototype.refresh = noop;
       }
 
       if (!win.WebAudioScheduler) {
@@ -169,8 +171,8 @@ function buildPublicRuntimeCompatibilityScript() {
       if (!win.MicroPhone) {
         win.MicroPhone = {
           gainNode: null,
-          init: function () {},
-          setGain: function () {},
+          init: noop,
+          setGain: noop,
           isBrowserSupport: function () {
             return false;
           }
@@ -183,7 +185,7 @@ function buildPublicRuntimeCompatibilityScript() {
 
       win.Clipboard = function ClipboardStub() {
         return {
-          on: function () {}
+          on: noop
         };
       };
 
@@ -201,7 +203,7 @@ function buildPublicRuntimeCompatibilityScript() {
 
       if (!win.Materialize) {
         win.Materialize = {
-          toast: function () {}
+          toast: noop
         };
       }
 
@@ -212,9 +214,9 @@ function buildPublicRuntimeCompatibilityScript() {
           },
           createSound: function () {
             return {
-              play: function () {},
-              pause: function () {},
-              stop: function () {}
+              play: noop,
+              pause: noop,
+              stop: noop
             };
           },
           onready: function (callback) {
@@ -222,14 +224,14 @@ function buildPublicRuntimeCompatibilityScript() {
               callback();
             }
           },
-          stopAll: function () {},
-          pauseAll: function () {},
-          resumeAll: function () {},
-          destroySound: function () {},
+          stopAll: noop,
+          pauseAll: noop,
+          resumeAll: noop,
+          destroySound: noop,
           getSoundById: function () {
             return null;
           },
-          setVolume: function () {}
+          setVolume: noop
         };
       }
 
