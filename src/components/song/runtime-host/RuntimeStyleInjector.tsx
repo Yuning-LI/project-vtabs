@@ -27,6 +27,9 @@ export default function RuntimeStyleInjector({
           {scopedCss}
         </style>
       ) : null}
+      <style data-public-runtime-final-constraints suppressHydrationWarning>
+        {buildRuntimeContainerFinalConstraintCss(rootSelector)}
+      </style>
     </>
   )
 }
@@ -62,9 +65,26 @@ ${rootSelector} [data-public-runtime-dom-mount] {
 }
 
 ${rootSelector} [data-public-runtime-dom-mount] #header,
+${rootSelector} [data-public-runtime-dom-mount] #foot,
+${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
 ${rootSelector} [data-public-runtime-dom-mount] .head-bar,
+${rootSelector} [data-public-runtime-dom-mount] .header,
+${rootSelector} [data-public-runtime-dom-mount] .footer,
+${rootSelector} [data-public-runtime-dom-mount] .footer-copyright,
 ${rootSelector} [data-public-runtime-dom-mount] .nav-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .button-collapse {
+${rootSelector} [data-public-runtime-dom-mount] .button-collapse,
+${rootSelector} [data-public-runtime-dom-mount] .comment-box,
+${rootSelector} [data-public-runtime-dom-mount] .comment-list,
+${rootSelector} [data-public-runtime-dom-mount] .comment-item,
+${rootSelector} [data-public-runtime-dom-mount] .recommend-box,
+${rootSelector} [data-public-runtime-dom-mount] .song-recommend,
+${rootSelector} [data-public-runtime-dom-mount] .media-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .tags-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .tag-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .right-fixed-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .fixed-action-btn,
+${rootSelector} [data-public-runtime-dom-mount] .floating-tools,
+${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
   display: none !important;
 }
 
@@ -469,6 +489,34 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
   ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer {
     padding: 10px 14px 14px !important;
   }
+}
+`
+}
+
+function buildRuntimeContainerFinalConstraintCss(rootSelector: string) {
+  return `
+${rootSelector} [data-public-runtime-dom-mount] #foot,
+${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] #media-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] #tags-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .footer,
+${rootSelector} [data-public-runtime-dom-mount] .footer-copyright,
+${rootSelector} [data-public-runtime-dom-mount] .comment-box,
+${rootSelector} [data-public-runtime-dom-mount] .comment-list,
+${rootSelector} [data-public-runtime-dom-mount] .comment-item,
+${rootSelector} [data-public-runtime-dom-mount] .recommend-box,
+${rootSelector} [data-public-runtime-dom-mount] .song-recommend,
+${rootSelector} [data-public-runtime-dom-mount] .media-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .tags-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .tag-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .right-fixed-wrapper,
+${rootSelector} [data-public-runtime-dom-mount] .fixed-action-btn,
+${rootSelector} [data-public-runtime-dom-mount] .floating-tools,
+${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 `
 }

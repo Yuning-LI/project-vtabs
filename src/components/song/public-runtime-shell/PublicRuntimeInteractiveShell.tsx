@@ -665,6 +665,32 @@ export default function PublicRuntimeInteractiveShell({
   )
 
   useEffect(() => {
+    function handleRuntimePlaybackCloseClick(event: MouseEvent) {
+      const target = event.target
+      if (!(target instanceof Element)) {
+        return
+      }
+
+      if (!target.closest('.vtabs-public-playback-close')) {
+        return
+      }
+
+      if (!runtimeHostControllerRef.current?.containsEventTarget(target)) {
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+      postPlaybackCommandMessage('close')
+    }
+
+    document.addEventListener('click', handleRuntimePlaybackCloseClick, true)
+    return () => {
+      document.removeEventListener('click', handleRuntimePlaybackCloseClick, true)
+    }
+  }, [postPlaybackCommandMessage])
+
+  useEffect(() => {
     if (!isPlaybackPanelOpen) {
       return
     }
