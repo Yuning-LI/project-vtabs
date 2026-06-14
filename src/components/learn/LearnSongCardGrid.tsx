@@ -113,8 +113,9 @@ function LearnSongCardLink({
       }}
     >
       {isPending ? (
-        <span className="page-warm-pill absolute right-4 top-4 px-3 py-1 text-xs font-semibold">
-          Opening...
+        <span className="page-warm-pill absolute right-4 top-4 inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold">
+          <span className="page-warm-opening-spinner" aria-hidden="true" />
+          <span>Opening</span>
         </span>
       ) : null}
       <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>

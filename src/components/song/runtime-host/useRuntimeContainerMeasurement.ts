@@ -22,6 +22,7 @@ type UseRuntimeContainerMeasurementOptions = {
   rootElement: HTMLElement | null
   runtimeRoot: HTMLElement | null
   enabled: boolean
+  isRuntimeReady?: boolean
   initialHeight?: number
   onLoadingChange?: (isLoading: boolean) => void
   onMeasurementChange?: (snapshot: RuntimeContainerMeasurementSnapshot) => void
@@ -32,6 +33,7 @@ export function useRuntimeContainerMeasurement({
   rootElement,
   runtimeRoot,
   enabled,
+  isRuntimeReady = false,
   initialHeight = 900,
   onLoadingChange,
   onMeasurementChange
@@ -110,8 +112,8 @@ export function useRuntimeContainerMeasurement({
       }
     }
 
-    function hideLoadingIfRuntimeContentReady() {
-      if (hasRuntimeContentElementStarted(measuredRoot)) {
+    function hideLoadingIfRuntimeReady() {
+      if (isRuntimeReady && hasRuntimeContentElementStarted(measuredRoot)) {
         hideLoading()
       }
     }
@@ -140,12 +142,12 @@ export function useRuntimeContainerMeasurement({
         return
       }
 
-      hideLoadingIfRuntimeContentReady()
+      hideLoadingIfRuntimeReady()
       const measured = measureRuntimeContainerContentHeight(measuredRoot)
       const hasRendered = hasRenderedRuntimeSheet(measuredRoot)
       const hasRuntimeContent = hasRuntimeContentElementStarted(measuredRoot)
 
-      if (hasRendered) {
+      if (isRuntimeReady && hasRendered) {
         hideLoading()
       }
 
@@ -218,7 +220,10 @@ export function useRuntimeContainerMeasurement({
     }
 
     sheetPollTimer = window.setInterval(() => {
-      if (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot)) {
+      if (
+        isRuntimeReady &&
+        (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot))
+      ) {
         hideLoading()
       }
       scheduleMeasuredHeightUpdate()
@@ -229,7 +234,10 @@ export function useRuntimeContainerMeasurement({
         return
       }
 
-      if (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot)) {
+      if (
+        isRuntimeReady &&
+        (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot))
+      ) {
         hideLoading()
         scheduleMeasuredHeightUpdate()
         return
@@ -259,7 +267,7 @@ export function useRuntimeContainerMeasurement({
       timeoutIds.forEach(timeoutId => window.clearTimeout(timeoutId))
       observedResizeNodes.clear()
     }
-  }, [enabled, rootElement, runtimeRoot, songId, updateLoading])
+  }, [enabled, isRuntimeReady, rootElement, runtimeRoot, songId, updateLoading])
 
   return {
     height,

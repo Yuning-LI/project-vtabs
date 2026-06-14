@@ -3,6 +3,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
   return `
   var resizeTimer = null;
   var initialSyncTimer = null;
+  var runtimeReadyPosted = false;
 
   function requestRuntimeRedraw() {
     window.clearTimeout(resizeTimer);
@@ -39,6 +40,13 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     installPublicPlaybackBridge();
     renderLetterTrack();
     postSize();
+  }
+
+  function postRuntimeReadyOnce() {
+    if (runtimeReadyPosted) {
+      return;
+    }
+    runtimeReadyPosted = true;
     postRuntimeReady();
   }
 
@@ -59,6 +67,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
         window.clearInterval(initialSyncTimer);
         postSize();
         setSheetPending(false);
+        window.requestAnimationFrame(postRuntimeReadyOnce);
       }
     }, 80);
   }

@@ -475,8 +475,9 @@ function LibrarySongCard({
       }
     >
       {isPending ? (
-        <span className="page-warm-pill absolute right-3 top-3 px-3 py-1 text-xs font-semibold md:right-4 md:top-4">
-          Opening...
+        <span className="page-warm-pill absolute right-3 top-3 inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold md:right-4 md:top-4">
+          <span className="page-warm-opening-spinner" aria-hidden="true" />
+          <span>Opening</span>
         </span>
       ) : null}
       <h3 className="text-lg font-semibold leading-6 text-stone-900 transition group-hover:text-stone-700 md:text-xl">

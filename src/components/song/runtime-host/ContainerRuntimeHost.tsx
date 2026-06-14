@@ -8,6 +8,7 @@ import type {
 import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
 import { PUBLIC_RUNTIME_READY_MESSAGE } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import { subscribeToPublicRuntimeHostMessages } from '../PublicRuntimeHostController'
 import { useRuntimeContainerMeasurement } from './useRuntimeContainerMeasurement'
 import { useRuntimeHostLifecycle } from './useRuntimeHostLifecycle'
 import { createContainerRuntimeHostController } from './lifecycle/containerRuntimeHostController'
@@ -40,13 +41,16 @@ export default function ContainerRuntimeHost({
   const rootRef = useRef<HTMLDivElement | null>(null)
   const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null)
   const [runtimeDomRoot, setRuntimeDomRoot] = useState<HTMLDivElement | null>(null)
+  const [isRuntimeReady, setIsRuntimeReady] = useState(false)
   const controllerRef = useRef<PublicRuntimeHostController | null>(null)
   const onHostControllerChangeRef = useRef(onHostControllerChange)
+  const onRuntimeReadyRef = useRef(onRuntimeReady)
   const { height, isLoading } = useRuntimeContainerMeasurement({
     songId,
     rootElement,
     runtimeRoot: runtimeDomRoot,
     enabled: enableScriptLoader,
+    isRuntimeReady,
     initialHeight,
     onLoadingChange,
     onMeasurementChange
@@ -61,6 +65,47 @@ export default function ContainerRuntimeHost({
   useEffect(() => {
     onHostControllerChangeRef.current = onHostControllerChange
   }, [onHostControllerChange])
+
+  useEffect(() => {
+    onRuntimeReadyRef.current = onRuntimeReady
+  }, [onRuntimeReady])
+
+  useEffect(() => {
+    setIsRuntimeReady(false)
+  }, [bodyHtml, enableScriptLoader, songId])
+
+  useEffect(() => {
+    if (!enableScriptLoader) {
+      return
+    }
+
+    let readyFrame: number | null = null
+    const unsubscribe = subscribeToPublicRuntimeHostMessages(songId, message => {
+      if (message.type !== PUBLIC_RUNTIME_READY_MESSAGE) {
+        return
+      }
+
+      if (readyFrame !== null) {
+        window.cancelAnimationFrame(readyFrame)
+      }
+      readyFrame = window.requestAnimationFrame(() => {
+        readyFrame = null
+        setIsRuntimeReady(current => {
+          if (!current) {
+            onRuntimeReadyRef.current?.()
+          }
+          return true
+        })
+      })
+    })
+
+    return () => {
+      unsubscribe()
+      if (readyFrame !== null) {
+        window.cancelAnimationFrame(readyFrame)
+      }
+    }
+  }, [enableScriptLoader, songId])
 
   const assignRootRef = useCallback((node: HTMLDivElement | null) => {
     rootRef.current = node
@@ -79,19 +124,9 @@ export default function ContainerRuntimeHost({
     }
   }, [])
 
-  const dispatchRuntimeReady = useCallback(() => {
-    window.dispatchEvent(
-      new MessageEvent('message', {
-        data: {
-          type: PUBLIC_RUNTIME_READY_MESSAGE,
-          songId
-        },
-        origin: window.location.origin,
-        source: window
-      })
-    )
-    onRuntimeReady?.()
-  }, [onRuntimeReady, songId])
+  const isRuntimeDomVisible = !enableScriptLoader || isRuntimeReady
+  const shouldShowRuntimeLoading = enableScriptLoader && !isRuntimeReady && isLoading
+  const visibleHeight = isRuntimeDomVisible ? height : initialHeight
 
   return (
     <div
@@ -102,7 +137,7 @@ export default function ContainerRuntimeHost({
       }
       style={{
         ...style,
-        height: `${height}px`
+        height: `${visibleHeight}px`
       }}
       data-public-runtime-container-host="active"
       data-public-runtime-root
@@ -114,8 +149,11 @@ export default function ContainerRuntimeHost({
       <div
         ref={setRuntimeDomRoot}
         data-public-runtime-dom-root
+        data-public-runtime-dom-visible={isRuntimeDomVisible ? 'true' : 'false'}
+        aria-hidden={isRuntimeDomVisible ? undefined : true}
         style={{
-          height: `${height}px`
+          height: `${visibleHeight}px`,
+          visibility: isRuntimeDomVisible ? 'visible' : 'hidden'
         }}
       />
       <RuntimeScriptLoader
@@ -125,10 +163,9 @@ export default function ContainerRuntimeHost({
         enabled={enableScriptLoader}
         label={`runtime-host:${songId}`}
         showDiagnostics={showScriptDiagnostics}
-        onRuntimeReady={dispatchRuntimeReady}
         onDiagnosticsChange={onScriptDiagnosticsChange}
       />
-      {enableScriptLoader && isLoading ? (
+      {shouldShowRuntimeLoading ? (
         <div
           id={loadingId}
           data-runtime-loading="true"

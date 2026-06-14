@@ -18,6 +18,7 @@ type RuntimeScriptLoaderProps = {
   enabled?: boolean
   label?: string
   showDiagnostics?: boolean
+  logEvents?: boolean
   onRuntimeReady?: () => void
   onDiagnosticsChange?: (diagnostics: RuntimeScriptLoaderDiagnostics) => void
 }
@@ -38,6 +39,7 @@ export default function RuntimeScriptLoader({
   enabled = false,
   label = 'runtime-host',
   showDiagnostics = true,
+  logEvents = showDiagnostics,
   onRuntimeReady,
   onDiagnosticsChange
 }: RuntimeScriptLoaderProps) {
@@ -113,7 +115,9 @@ export default function RuntimeScriptLoader({
           if (sessionRef.current !== session) {
             return
           }
-          logRuntimeScriptEvent(label, event)
+          if (logEvents) {
+            logRuntimeScriptEvent(label, event)
+          }
           if (event.phase === 'loaded' || event.phase === 'executed') {
             setLoadedCount(current => Math.max(current, event.index + 1))
           }
@@ -145,7 +149,7 @@ export default function RuntimeScriptLoader({
       bootstrapController?.dispose()
       setCapturedGlobalNames([])
     }
-  }, [bodyHtml, enabled, entries, label, runtimeRoot])
+  }, [bodyHtml, enabled, entries, label, logEvents, runtimeRoot])
 
   return (
     <div
