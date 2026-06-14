@@ -11,6 +11,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var observedPlaybackButton = null;
   var observedPlaybackPanel = null;
   var publicPlaybackSessionStarted = false;
+  var publicPlaybackResumeAvailable = false;
   var publicPlaybackStatusLockUntil = 0;
   var publicPlaybackPanelRequestId = 0;
 
@@ -506,7 +507,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     var midiPlayer = window.Song && window.Song.midiPlayer;
     var engine = midiPlayer && midiPlayer.engine;
     var context = midiPlayer && midiPlayer.context;
-    var hasPlayProgress = Boolean(engine && engine.playTime);
+    var hasPlayProgress = Boolean(engine && engine.playTime) || publicPlaybackResumeAvailable;
     var hasPlayLine = Boolean(context && context.playLine);
 
     setPublicPlaybackActionVisible(playModal.querySelector('.op-replay.start-play-1'), !isPlaying && !isLoading && !hasPlayProgress);
@@ -543,6 +544,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         }
         button.setAttribute('data-vtabs-playback-hooked', '1');
         button.addEventListener('click', function () {
+          if (button.classList && button.classList.contains('start-play-1')) {
+            publicPlaybackResumeAvailable = false;
+          }
           publicPlaybackSessionStarted = true;
           publicPlaybackStatusLockUntil = Date.now() + 4500;
           if (isPublicRuntimeContainerHost()) {
@@ -740,7 +744,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       closeButton.href = 'javascript:void(0)';
       closeButton.className = 'modal-action modal-close waves-effect waves-green btn-flat vtabs-public-playback-close';
       closeButton.textContent = 'Close';
-      closeButton.addEventListener('click', function () {
+      closeButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (isPublicRuntimeContainerHost()) {
+          closePublicContainerPlaybackPanel(playModal);
+          return;
+        }
         var $ = window.jQuery || window.$;
         if ($ && $.fn && $.fn.closeModal) {
           $(playModal).closeModal({ out_duration: 80 });
@@ -883,6 +893,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
+    publicPlaybackResumeAvailable = publicPlaybackSessionStarted || playButton.classList.contains('icon-stop2');
     publicPlaybackSessionStarted = false;
     publicPlaybackStatusLockUntil = 0;
     publicPlaybackPanelRequestId += 1;
