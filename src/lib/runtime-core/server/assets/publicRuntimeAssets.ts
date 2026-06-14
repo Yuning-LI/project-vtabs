@@ -100,7 +100,6 @@ function buildPublicRuntimeCompatibilityScript() {
   return `<script data-vtabs-runtime-public-compat>
     (function () {
       var win = window;
-      var $ = win.jQuery || win.$;
 
       function escapeHtml(value) {
         return String(value)
@@ -108,6 +107,17 @@ function buildPublicRuntimeCompatibilityScript() {
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;');
+      }
+
+      function getRuntimeQueryPrototype() {
+        var candidates = [win.jQuery, win.$];
+        for (var index = 0; index < candidates.length; index += 1) {
+          var candidate = candidates[index];
+          if (candidate && candidate.fn) {
+            return candidate.fn;
+          }
+        }
+        return null;
       }
 
       if (!win.initMetronome) {
@@ -223,11 +233,12 @@ function buildPublicRuntimeCompatibilityScript() {
         };
       }
 
-      if ($ && $.fn) {
+      var queryPrototype = getRuntimeQueryPrototype();
+      if (queryPrototype) {
         ['openModal', 'closeModal', 'materialbox', 'material_select', 'leanModal'].forEach(
           function (method) {
-            if (!$.fn[method]) {
-              $.fn[method] = function () {
+            if (!queryPrototype[method]) {
+              queryPrototype[method] = function () {
                 return this;
               };
             }
