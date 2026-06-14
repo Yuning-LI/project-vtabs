@@ -3,12 +3,44 @@ import type { PublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHost
 
 export type PublicSongInstrumentId = 'o12' | 'o6' | 'r8b' | 'r8g' | 'w6'
 
+type ReservedSongInstrumentId =
+  | 'none'
+  | 'o3'
+  | 'a6'
+  | 'b6'
+  | 'x8'
+  | 'x10'
+  | 'hx'
+  | 'p8'
+  | 'h7'
+  | 'h9'
+  | 'sn'
+  | 'ch12'
+
+type SongInstrumentConfigId = PublicSongInstrumentId | ReservedSongInstrumentId
+type SongInstrumentFamily = 'ocarina' | 'recorder' | 'whistle' | 'other'
+
 export type PublicSongInstrument = {
   id: PublicSongInstrumentId
   label: string
   shortLabel: string
   seoLabel: string
   family: 'ocarina' | 'recorder' | 'whistle'
+}
+
+type SongInstrumentConfig = {
+  id: SongInstrumentConfigId
+  label: string
+  shortLabel: string
+  seoLabel: string
+  family: SongInstrumentFamily
+  enabled: boolean
+}
+
+type EnabledPublicSongInstrumentConfig = SongInstrumentConfig & {
+  id: PublicSongInstrumentId
+  family: PublicSongInstrument['family']
+  enabled: true
 }
 
 export type PublicSongPageQueryState = {
@@ -34,43 +66,173 @@ type RuntimeInstrumentCarrier = {
   }>
 } | null
 
-const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] = [
+const ENABLED_PUBLIC_SONG_INSTRUMENT_IDS = new Set<PublicSongInstrumentId>([
+  'o12',
+  'o6',
+  'r8b',
+  'r8g',
+  'w6'
+])
+
+const PUBLIC_SONG_INSTRUMENT_CONFIGS: readonly SongInstrumentConfig[] = [
   {
     id: 'o12',
     label: '12-Hole Ocarina',
     shortLabel: 'Ocarina (12-Hole)',
     seoLabel: '12-hole ocarina',
-    family: 'ocarina'
+    family: 'ocarina',
+    enabled: true
   },
   {
     id: 'o6',
     label: '6-Hole Ocarina',
     shortLabel: 'Ocarina (6-Hole)',
     seoLabel: '6-hole ocarina',
-    family: 'ocarina'
+    family: 'ocarina',
+    enabled: true
   },
   {
     id: 'r8b',
     label: 'Recorder (Baroque fingering)',
     shortLabel: 'Recorder (Baroque fingering)',
     seoLabel: 'recorder with Baroque fingering',
-    family: 'recorder'
+    family: 'recorder',
+    enabled: true
   },
   {
     id: 'r8g',
     label: 'Recorder (German fingering)',
     shortLabel: 'Recorder (German fingering)',
     seoLabel: 'recorder with German fingering',
-    family: 'recorder'
+    family: 'recorder',
+    enabled: true
   },
   {
     id: 'w6',
     label: 'Tin Whistle',
     shortLabel: 'Tin Whistle',
     seoLabel: 'tin whistle',
-    family: 'whistle'
+    family: 'whistle',
+    enabled: true
+  },
+  {
+    id: 'none',
+    label: 'No Instrument',
+    shortLabel: 'No Instrument',
+    seoLabel: 'no instrument',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'o3',
+    label: '3-Hole Ocarina',
+    shortLabel: 'Ocarina (3-Hole)',
+    seoLabel: '3-hole ocarina',
+    family: 'ocarina',
+    enabled: false
+  },
+  {
+    id: 'a6',
+    label: '6-Hole Alto Ocarina',
+    shortLabel: 'Alto Ocarina (6-Hole)',
+    seoLabel: '6-hole alto ocarina',
+    family: 'ocarina',
+    enabled: false
+  },
+  {
+    id: 'b6',
+    label: '6-Hole Bass Ocarina',
+    shortLabel: 'Bass Ocarina (6-Hole)',
+    seoLabel: '6-hole bass ocarina',
+    family: 'ocarina',
+    enabled: false
+  },
+  {
+    id: 'x8',
+    label: '8-Hole Xiao',
+    shortLabel: 'Xiao (8-Hole)',
+    seoLabel: '8-hole xiao',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'x10',
+    label: '10-Hole Xiao',
+    shortLabel: 'Xiao (10-Hole)',
+    seoLabel: '10-hole xiao',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'hx',
+    label: 'Hulusi',
+    shortLabel: 'Hulusi',
+    seoLabel: 'hulusi',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'p8',
+    label: '8-Hole Pan Flute',
+    shortLabel: 'Pan Flute (8-Hole)',
+    seoLabel: '8-hole pan flute',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'h7',
+    label: '7-Hole Xun',
+    shortLabel: 'Xun (7-Hole)',
+    seoLabel: '7-hole xun',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'h9',
+    label: '9-Hole Xun',
+    shortLabel: 'Xun (9-Hole)',
+    seoLabel: '9-hole xun',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'sn',
+    label: 'Suona',
+    shortLabel: 'Suona',
+    seoLabel: 'suona',
+    family: 'other',
+    enabled: false
+  },
+  {
+    id: 'ch12',
+    label: '12-Hole Chromatic Harmonica',
+    shortLabel: 'Chromatic Harmonica (12-Hole)',
+    seoLabel: '12-hole chromatic harmonica',
+    family: 'other',
+    enabled: false
   }
 ] as const
+
+const PUBLIC_SONG_INSTRUMENTS: readonly PublicSongInstrument[] =
+  PUBLIC_SONG_INSTRUMENT_CONFIGS
+    .filter(isEnabledPublicSongInstrumentConfig)
+    .map(({ id, label, shortLabel, seoLabel, family }) => ({
+      id,
+      label,
+      shortLabel,
+      seoLabel,
+      family
+    }))
+
+function isEnabledPublicSongInstrumentConfig(
+  instrument: SongInstrumentConfig
+): instrument is EnabledPublicSongInstrumentConfig {
+  return instrument.enabled && isPublicSongInstrumentId(instrument.id)
+}
+
+function isPublicSongInstrumentId(value: SongInstrumentConfigId): value is PublicSongInstrumentId {
+  return ENABLED_PUBLIC_SONG_INSTRUMENT_IDS.has(value as PublicSongInstrumentId)
+}
 
 export function getSupportedPublicSongInstruments(payload: RuntimeInstrumentCarrier) {
   const available = new Set(
