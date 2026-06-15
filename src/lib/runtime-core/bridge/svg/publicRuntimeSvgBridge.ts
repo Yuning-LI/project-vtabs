@@ -1,24 +1,152 @@
+const PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG = {
+  attributes: {
+    accessibility: 'data-vtabs-a11y',
+    fingeringPalette: 'data-vtabs-fingering-palette',
+    fingeringShape: 'data-vtabs-fingering-shape',
+    letterHidden: 'data-vtabs-letter-hidden',
+    letterTrack: 'data-vtabs-letter-track',
+    letterTrackKind: 'data-vtabs-letter-track-kind',
+    letterTrackPending: 'data-vtabs-letter-track-pending',
+    paperTexture: 'data-vtabs-paper-texture',
+    sheetTone: 'data-vtabs-sheet-tone',
+    topLeftMetadataHidden: 'data-vtabs-top-left-metadata-hidden',
+    typography: 'data-vtabs-typography',
+    visualTheme: 'data-vtabs-visual-theme'
+  },
+  selectors: {
+    accessibilityNodes: '[data-vtabs-a11y]',
+    defs: 'defs',
+    filledColorNodes: 'text[fill], tspan[fill], path[fill], circle[fill], ellipse[fill]',
+    jianpuLineNodes: 'line',
+    letterHiddenNodes: '[data-vtabs-letter-hidden]',
+    letterTrackNodes: '[data-vtabs-letter-track]',
+    paperTextureOverlay: '[data-vtabs-paper-texture="overlay"]',
+    sheetBackground: 'rect[x="0"][y="0"][width="100%"][height="100%"]',
+    sheetSvg: '#sheet svg, #sheet .sheet-svg',
+    strokeColorNodes: 'path[stroke], line[stroke], polyline[stroke], rect[stroke], circle[stroke], ellipse[stroke]',
+    symbols: 'symbol[id]',
+    textNodes: 'text',
+    textOrUseNodes: 'text, use',
+    useNodes: 'use'
+  },
+  accessibility: {
+    titleId: 'vtabs-sheet-title',
+    descId: 'vtabs-sheet-desc',
+    titleSuffix: 'fingering chart and sheet music',
+    defaultTitle: 'Fingering chart and sheet music',
+    descPrefix: 'Interactive SVG fingering chart and melody notation for ',
+    defaultDesc: 'Interactive SVG fingering chart and melody notation.'
+  },
+  theme: {
+    activeName: 'public-runtime',
+    classicName: 'classic-public',
+    defaultFingeringPalette: 'legacy',
+    defaultFingeringShape: 'legacy',
+    defaultSheetTone: 'none',
+    defaultTypography: 'legacy'
+  },
+  paperTextureId: 'vtabs-classic-paper-texture'
+} as const
+
+const PUBLIC_RUNTIME_VISUAL_THEME_ATTRIBUTES = [
+  PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG.attributes.visualTheme,
+  PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG.attributes.sheetTone,
+  PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG.attributes.fingeringPalette,
+  PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG.attributes.typography,
+  PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG.attributes.fingeringShape
+] as const
+
+const PUBLIC_RUNTIME_VISIBLE_SHEET_TEXT_REPLACEMENTS = [
+  ['作曲', 'Composer'],
+  ['作词', 'Lyricist'],
+  ['編曲', 'Arranger'],
+  ['编曲', 'Arranger'],
+  ['記譜', 'Notation'],
+  ['记谱', 'Notation'],
+  ['制谱', 'Notation'],
+  ['十二孔陶笛', '12-hole ocarina'],
+  ['六孔陶笛', '6-hole ocarina'],
+  ['三管陶笛', 'Triple ocarina'],
+  ['英式八孔竖笛', 'Recorder (Baroque fingering)'],
+  ['德式八孔竖笛', 'Recorder (German fingering)'],
+  ['爱尔兰哨笛', 'Tin whistle'],
+  ['筒音作低音', 'Tube tone bass '],
+  ['筒音作', 'Tube tone '],
+  ['八孔埙', '8-hole xun'],
+  ['十孔埙', '10-hole xun'],
+  ['合埙', 'He-xun'],
+  ['八孔箫', '8-hole xiao'],
+  ['七孔葫芦丝', '7-hole hulusi'],
+  ['九孔葫芦丝', '9-hole hulusi'],
+  ['六孔竹笛', '6-hole bamboo flute'],
+  ['F调指法', 'F fingering'],
+  ['G调指法', 'G fingering'],
+  ['C调指法', 'C fingering'],
+  ['D调指法', 'D fingering'],
+  ['bB调指法', 'Bb fingering'],
+  ['♭B调指法', 'Bb fingering'],
+  ['bE调指法', 'Eb fingering'],
+  ['♭E调指法', 'Eb fingering'],
+  ['标准指法', 'Standard fingering'],
+  ['易于握持', 'Easy grip'],
+  ['吹口在下（推荐）', 'Mouthpiece down (Recommended)'],
+  ['吹口在上（推荐）', 'Mouthpiece up (Recommended)'],
+  ['吹口在下', 'Mouthpiece down'],
+  ['吹口在上', 'Mouthpiece up'],
+  ['轻吹', 'Soft blow'],
+  ['重吹', 'Strong blow'],
+  ['演奏顺序：', 'Play order:'],
+  ['演奏顺序', 'Play order'],
+  ['前奏', 'Prelude'],
+  ['後奏', 'Postlude'],
+  ['后奏', 'Postlude'],
+  ['間奏', 'Interlude'],
+  ['间奏', 'Interlude'],
+  ['尾奏', 'Coda'],
+  ['省略', 'Omit'],
+  ['休止', 'Rest'],
+  ['英文版', 'English lyrics version'],
+  ['瓦格纳版本', 'Wagner version'],
+  ['美国民歌', 'American folk song'],
+  ['英国民歌', 'English folk song'],
+  ['爱尔兰民歌', 'Irish folk song'],
+  ['加拿大民歌', 'Canadian folk song'],
+  ['意大利民歌', 'Italian folk song'],
+  ['日本民歌', 'Japanese folk song'],
+  ['江苏民歌', 'Jiangsu folk song'],
+  ['丹麦民歌', 'Danish folk song'],
+  ['朝鲜族民歌', 'Korean folk song'],
+  ['法国童谣', 'French nursery rhyme'],
+  ['英语童谣', 'English nursery rhyme'],
+  ['左起', 'Left-start'],
+  ['右起', 'Right-start'],
+  ['七星', 'Seven-star']
+] as const
+
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 export function buildPublicRuntimeSvgBridgeScript() {
   return `
+  var publicSvgBridgeConfig = ${JSON.stringify(PUBLIC_RUNTIME_SVG_BRIDGE_CONFIG)};
+  var publicRuntimeVisualThemeAttributes = ${JSON.stringify(PUBLIC_RUNTIME_VISUAL_THEME_ATTRIBUTES)};
+  var publicVisibleSheetTextReplacements = ${JSON.stringify(PUBLIC_RUNTIME_VISIBLE_SHEET_TEXT_REPLACEMENTS)};
   var letterTrackWarned = false;
 
   function setSheetPending(isPending) {
     if (!letterTrack || letterTrack.mode === 'number') {
-      document.documentElement.removeAttribute('data-vtabs-letter-track-pending');
+      document.documentElement.removeAttribute(publicSvgBridgeConfig.attributes.letterTrackPending);
       return;
     }
 
     if (isPending) {
-      document.documentElement.setAttribute('data-vtabs-letter-track-pending', '1');
+      document.documentElement.setAttribute(publicSvgBridgeConfig.attributes.letterTrackPending, '1');
       return;
     }
 
-    document.documentElement.removeAttribute('data-vtabs-letter-track-pending');
+    document.documentElement.removeAttribute(publicSvgBridgeConfig.attributes.letterTrackPending);
   }
 
   function getSheetSvg() {
-    return document.querySelector('#sheet svg, #sheet .sheet-svg');
+    return document.querySelector(publicSvgBridgeConfig.selectors.sheetSvg);
   }
 
   function getRuntimeAccessibleSongTitle() {
@@ -36,20 +164,32 @@ export function buildPublicRuntimeSvgBridgeScript() {
     return documentTitle || songId;
   }
 
+  function hideSvgBridgeNode(node, markerAttribute, markerValue) {
+    if (!node) {
+      return;
+    }
+
+    node.setAttribute('display', 'none');
+    node.setAttribute('aria-hidden', 'true');
+    if (markerAttribute) {
+      node.setAttribute(markerAttribute, markerValue || '1');
+    }
+  }
+
   function annotateSheetSvgAccessibility(svg) {
     if (!svg) {
       return;
     }
 
     var songTitle = getRuntimeAccessibleSongTitle();
-    var titleId = 'vtabs-sheet-title';
-    var descId = 'vtabs-sheet-desc';
+    var titleId = publicSvgBridgeConfig.accessibility.titleId;
+    var descId = publicSvgBridgeConfig.accessibility.descId;
     var titleText = songTitle
-      ? songTitle + ' fingering chart and sheet music'
-      : 'Fingering chart and sheet music';
+      ? songTitle + ' ' + publicSvgBridgeConfig.accessibility.titleSuffix
+      : publicSvgBridgeConfig.accessibility.defaultTitle;
     var descText = songTitle
-      ? 'Interactive SVG fingering chart and melody notation for ' + songTitle + '.'
-      : 'Interactive SVG fingering chart and melody notation.';
+      ? publicSvgBridgeConfig.accessibility.descPrefix + songTitle + '.'
+      : publicSvgBridgeConfig.accessibility.defaultDesc;
 
     svg.setAttribute('role', 'img');
     svg.setAttribute('focusable', 'false');
@@ -57,19 +197,19 @@ export function buildPublicRuntimeSvgBridgeScript() {
     svg.removeAttribute('aria-hidden');
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('[data-vtabs-a11y]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.accessibilityNodes))
       .forEach(function (node) {
         node.remove();
       });
 
     var titleNode = createSvgNode('title');
     titleNode.setAttribute('id', titleId);
-    titleNode.setAttribute('data-vtabs-a11y', 'title');
+    titleNode.setAttribute(publicSvgBridgeConfig.attributes.accessibility, 'title');
     titleNode.textContent = titleText;
 
     var descNode = createSvgNode('desc');
     descNode.setAttribute('id', descId);
-    descNode.setAttribute('data-vtabs-a11y', 'desc');
+    descNode.setAttribute(publicSvgBridgeConfig.attributes.accessibility, 'desc');
     descNode.textContent = descText;
 
     svg.insertBefore(descNode, svg.firstChild || null);
@@ -95,29 +235,39 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
     var theme = getPublicRuntimeVisualTheme();
     if (!theme) {
-      svg.removeAttribute('data-vtabs-visual-theme');
-      svg.removeAttribute('data-vtabs-sheet-tone');
-      svg.removeAttribute('data-vtabs-fingering-palette');
-      svg.removeAttribute('data-vtabs-typography');
-      svg.removeAttribute('data-vtabs-fingering-shape');
+      publicRuntimeVisualThemeAttributes.forEach(function (attributeName) {
+        svg.removeAttribute(attributeName);
+      });
       return;
     }
 
-    svg.setAttribute('data-vtabs-visual-theme', 'public-runtime');
-    svg.setAttribute('data-vtabs-sheet-tone', theme.sheetTone || 'none');
-    svg.setAttribute('data-vtabs-fingering-palette', theme.fingeringPalette || 'legacy');
-    svg.setAttribute('data-vtabs-typography', theme.typography || 'legacy');
-    svg.setAttribute('data-vtabs-fingering-shape', theme.fingeringShape || 'legacy');
+    svg.setAttribute(publicSvgBridgeConfig.attributes.visualTheme, publicSvgBridgeConfig.theme.activeName);
+    svg.setAttribute(
+      publicSvgBridgeConfig.attributes.sheetTone,
+      theme.sheetTone || publicSvgBridgeConfig.theme.defaultSheetTone
+    );
+    svg.setAttribute(
+      publicSvgBridgeConfig.attributes.fingeringPalette,
+      theme.fingeringPalette || publicSvgBridgeConfig.theme.defaultFingeringPalette
+    );
+    svg.setAttribute(
+      publicSvgBridgeConfig.attributes.typography,
+      theme.typography || publicSvgBridgeConfig.theme.defaultTypography
+    );
+    svg.setAttribute(
+      publicSvgBridgeConfig.attributes.fingeringShape,
+      theme.fingeringShape || publicSvgBridgeConfig.theme.defaultFingeringShape
+    );
 
     if (theme.sheetTone === 'classic-paper') {
       applyClassicPublicSheetTone(svg);
     }
 
-    if (theme.typography === 'classic-public') {
+    if (theme.typography === publicSvgBridgeConfig.theme.classicName) {
       applyClassicPublicInkAndTypography(svg);
     }
 
-    if (theme.fingeringPalette === 'classic-public') {
+    if (theme.fingeringPalette === publicSvgBridgeConfig.theme.classicName) {
       ensureClassicPublicFingeringGradients(svg);
       applyClassicPublicFingeringPalette(svg);
       applyClassicPublicFingeringDetailStyle(svg);
@@ -137,7 +287,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
   }
 
   function applyClassicPublicSheetTone(svg) {
-    var background = svg.querySelector('rect[x="0"][y="0"][width="100%"][height="100%"]');
+    var background = svg.querySelector(publicSvgBridgeConfig.selectors.sheetBackground);
     if (background) {
       background.setAttribute('fill', '#fff8ee');
     }
@@ -147,8 +297,8 @@ export function buildPublicRuntimeSvgBridgeScript() {
   }
 
   function ensureClassicPublicPaperTexture(svg) {
-    var textureId = 'vtabs-classic-paper-texture';
-    if (svg.querySelector('[data-vtabs-paper-texture="overlay"]')) {
+    var textureId = publicSvgBridgeConfig.paperTextureId;
+    if (svg.querySelector(publicSvgBridgeConfig.selectors.paperTextureOverlay)) {
       return;
     }
 
@@ -160,7 +310,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     if (!svg.querySelector('#' + textureId)) {
       var pattern = createSvgNode('pattern');
       pattern.setAttribute('id', textureId);
-      pattern.setAttribute('data-vtabs-paper-texture', 'pattern');
+      pattern.setAttribute(publicSvgBridgeConfig.attributes.paperTexture, 'pattern');
       pattern.setAttribute('patternUnits', 'userSpaceOnUse');
       pattern.setAttribute('width', '18');
       pattern.setAttribute('height', '18');
@@ -183,7 +333,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     }
 
     var overlay = createSvgNode('rect');
-    overlay.setAttribute('data-vtabs-paper-texture', 'overlay');
+    overlay.setAttribute(publicSvgBridgeConfig.attributes.paperTexture, 'overlay');
     overlay.setAttribute('x', '0');
     overlay.setAttribute('y', '0');
     overlay.setAttribute('width', '100%');
@@ -199,7 +349,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
   }
 
   function getOrCreateSvgDefs(svg) {
-    var defs = svg.querySelector('defs');
+    var defs = svg.querySelector(publicSvgBridgeConfig.selectors.defs);
     if (!defs) {
       defs = createSvgNode('defs');
       svg.insertBefore(defs, svg.firstChild || null);
@@ -235,7 +385,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     };
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('path[stroke], line[stroke], polyline[stroke], rect[stroke], circle[stroke], ellipse[stroke]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.strokeColorNodes))
       .forEach(function (node) {
         var nextStroke = strokeMap[normalizeSvgColor(node.getAttribute('stroke'))];
         if (!nextStroke) {
@@ -246,7 +396,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       });
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('text[fill], tspan[fill], path[fill], circle[fill], ellipse[fill]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.filledColorNodes))
       .forEach(function (node) {
         var nextFill = fillMap[normalizeSvgColor(node.getAttribute('fill'))];
         if (!nextFill) {
@@ -257,9 +407,9 @@ export function buildPublicRuntimeSvgBridgeScript() {
       });
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('text'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.textNodes))
       .forEach(function (node) {
-        if (node.getAttribute('data-vtabs-letter-track')) {
+        if (node.getAttribute(publicSvgBridgeConfig.attributes.letterTrack)) {
           return;
         }
 
@@ -372,7 +522,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function applyClassicPublicFingeringDetailStyle(svg) {
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/(?:tdo12Outline|do12Outline|o12Outline|td6|do6|r8|w6|Outline|Graph)/i.test(id)) {
@@ -425,7 +575,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       'M43,97c-5,0,-7,-2,-7,-16c-1,-5,-3,-7,-8,-8c-32,-8,-37,-25,3,-41c18,-7,47,-12,73,-8c16,3,17,9,1,21c-12,9,-32,19,-45,36c-4,7,-5,11,-8,15c-2,3,-7,2,-13,1';
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
@@ -458,7 +608,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       'M92,197L87,177L87,16L84,0L118,0L115,16L115,177L110,197Z';
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/recorder8Outline/i.test(id)) {
@@ -745,7 +895,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       return;
     }
 
-    var recorderUses = Array.prototype.slice.call(svg.querySelectorAll('use')).filter(function (node) {
+    var recorderUses = Array.prototype.slice.call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes)).filter(function (node) {
       return /recorder8Outline/i.test(getUseHref(node));
     });
     if (recorderUses.length < 2) {
@@ -797,7 +947,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
   }
 
   function applyClassicPublicWhistle6Shape(svg) {
-    Array.prototype.slice.call(svg.querySelectorAll('symbol[id]')).forEach(function (symbol) {
+    Array.prototype.slice.call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols)).forEach(function (symbol) {
       var id = symbol.getAttribute('id') || '';
       if (!/whistle6Outline/i.test(id) || symbol.getAttribute('data-vtabs-whistle6-shape') === '1') {
         return;
@@ -888,7 +1038,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     var publicOutlineD =
       'M40,96c-8,0,-11,-1,-12,-8c-1,-5,-4,-7,-11,-10C6,72,3,57,3,41C3,20,15,6,32,2c4,-1,12,-1,16,0c17,4,29,18,29,39c0,16,-3,31,-14,37c-7,3,-10,5,-11,10c-1,7,-4,8,-12,8Z';
 
-    Array.prototype.slice.call(svg.querySelectorAll('symbol[id]')).forEach(function (symbol) {
+    Array.prototype.slice.call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols)).forEach(function (symbol) {
       var id = symbol.getAttribute('id') || '';
       if (!/^tdOutline\\d+$/i.test(id) || symbol.getAttribute('data-vtabs-o6-shape') === '1') {
         return;
@@ -1057,7 +1207,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     ];
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
@@ -1092,7 +1242,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function applyClassicPublicO12VisualScale(svg) {
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
@@ -1123,7 +1273,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     ];
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('symbol[id]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.symbols))
       .forEach(function (symbol) {
         var id = symbol.getAttribute('id') || '';
         if (!/(?:tdo12Outline|do12Outline|o12Outline)/i.test(id)) {
@@ -1153,7 +1303,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function isClassicPublicTypographyEnabled() {
     var theme = getPublicRuntimeVisualTheme();
-    return Boolean(theme && theme.typography === 'classic-public');
+    return Boolean(theme && theme.typography === publicSvgBridgeConfig.theme.classicName);
   }
 
   function getPublicRuntimeLetterFill() {
@@ -1179,7 +1329,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     }
 
     var texture = createSvgNode('rect');
-    texture.setAttribute('data-vtabs-letter-track', 'cover-texture');
+    texture.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'cover-texture');
     ['x', 'y', 'width', 'height', 'rx', 'ry'].forEach(function (name) {
       var value = cover.getAttribute(name);
       if (value !== null) {
@@ -1200,7 +1350,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getLetterTrackAnchors(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .filter(function (node) {
         var href = node.getAttribute('xlink:href') || node.getAttribute('href') || '';
         return (
@@ -1233,7 +1383,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getLetterTrackNoteGlyphs(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .filter(function (node) {
         return /^#note_serif_[0-7](?:_s)?$/.test(getUseHref(node));
       })
@@ -1265,7 +1415,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getLetterTrackGraceNoteGlyphs(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .filter(function (node) {
         return /^#yiyin_yinfu_[0-7]$/.test(getUseHref(node));
       })
@@ -1296,7 +1446,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getLetterTrackGlyphMarkers(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .map(function (node) {
         return {
           href: getUseHref(node),
@@ -1759,74 +1909,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
       return text;
     }
 
-    var replacements = [
-      ['作曲', 'Composer'],
-      ['作词', 'Lyricist'],
-      ['編曲', 'Arranger'],
-      ['编曲', 'Arranger'],
-      ['記譜', 'Notation'],
-      ['记谱', 'Notation'],
-      ['制谱', 'Notation'],
-      ['十二孔陶笛', '12-hole ocarina'],
-      ['六孔陶笛', '6-hole ocarina'],
-      ['三管陶笛', 'Triple ocarina'],
-      ['英式八孔竖笛', 'Recorder (Baroque fingering)'],
-      ['德式八孔竖笛', 'Recorder (German fingering)'],
-      ['爱尔兰哨笛', 'Tin whistle'],
-      ['筒音作低音', 'Tube tone bass '],
-      ['筒音作', 'Tube tone '],
-      ['八孔埙', '8-hole xun'],
-      ['十孔埙', '10-hole xun'],
-      ['合埙', 'He-xun'],
-      ['八孔箫', '8-hole xiao'],
-      ['七孔葫芦丝', '7-hole hulusi'],
-      ['九孔葫芦丝', '9-hole hulusi'],
-      ['六孔竹笛', '6-hole bamboo flute'],
-      ['F调指法', 'F fingering'],
-      ['G调指法', 'G fingering'],
-      ['C调指法', 'C fingering'],
-      ['D调指法', 'D fingering'],
-      ['bB调指法', 'Bb fingering'],
-      ['♭B调指法', 'Bb fingering'],
-      ['bE调指法', 'Eb fingering'],
-      ['♭E调指法', 'Eb fingering'],
-      ['标准指法', 'Standard fingering'],
-      ['易于握持', 'Easy grip'],
-      ['吹口在下（推荐）', 'Mouthpiece down (Recommended)'],
-      ['吹口在上（推荐）', 'Mouthpiece up (Recommended)'],
-      ['吹口在下', 'Mouthpiece down'],
-      ['吹口在上', 'Mouthpiece up'],
-      ['轻吹', 'Soft blow'],
-      ['重吹', 'Strong blow'],
-      ['演奏顺序：', 'Play order:'],
-      ['演奏顺序', 'Play order'],
-      ['前奏', 'Prelude'],
-      ['後奏', 'Postlude'],
-      ['后奏', 'Postlude'],
-      ['間奏', 'Interlude'],
-      ['间奏', 'Interlude'],
-      ['尾奏', 'Coda'],
-      ['省略', 'Omit'],
-      ['休止', 'Rest'],
-      ['英文版', 'English lyrics version'],
-      ['瓦格纳版本', 'Wagner version'],
-      ['美国民歌', 'American folk song'],
-      ['英国民歌', 'English folk song'],
-      ['爱尔兰民歌', 'Irish folk song'],
-      ['加拿大民歌', 'Canadian folk song'],
-      ['意大利民歌', 'Italian folk song'],
-      ['日本民歌', 'Japanese folk song'],
-      ['江苏民歌', 'Jiangsu folk song'],
-      ['丹麦民歌', 'Danish folk song'],
-      ['朝鲜族民歌', 'Korean folk song'],
-      ['法国童谣', 'French nursery rhyme'],
-      ['英语童谣', 'English nursery rhyme'],
-      ['左起', 'Left-start'],
-      ['右起', 'Right-start'],
-      ['七星', 'Seven-star']
-    ];
-
-    var translated = replaceAllText(text, replacements);
+    var translated = replaceAllText(text, publicVisibleSheetTextReplacements);
     translated = translated
       .replace(/[（(]\\s*Prelude\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar prelude')
       .replace(/[（(]\\s*Postlude\\s*(\\d+)\\s*小[节節]\\s*[）)]/g, '$1-bar postlude')
@@ -1945,7 +2028,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     }
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('text, use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.textOrUseNodes))
       .forEach(function (node) {
         var tagName = node && node.tagName ? String(node.tagName).toLowerCase() : '';
         if (tagName !== 'text' && tagName !== 'use') {
@@ -1989,9 +2072,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
           return;
         }
 
-        node.setAttribute('display', 'none');
-        node.setAttribute('aria-hidden', 'true');
-        node.setAttribute('data-vtabs-top-left-metadata-hidden', '1');
+        hideSvgBridgeNode(node, publicSvgBridgeConfig.attributes.topLeftMetadataHidden);
       });
   }
 
@@ -2003,16 +2084,15 @@ export function buildPublicRuntimeSvgBridgeScript() {
     hideTopLeftSheetMetadata(svg);
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('text'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.textNodes))
       .forEach(function (node) {
-        if (node.getAttribute('data-vtabs-top-left-metadata-hidden') === '1') {
+        if (node.getAttribute(publicSvgBridgeConfig.attributes.topLeftMetadataHidden) === '1') {
           return;
         }
         var original = node.textContent || '';
         var translated = translateVisibleSheetText(original);
         if (shouldHideVisibleSheetText(translated || original)) {
-          node.setAttribute('display', 'none');
-          node.setAttribute('aria-hidden', 'true');
+          hideSvgBridgeNode(node);
           return;
         }
         var shouldRelaxWidth = shouldRelaxVisibleSheetTextWidth(translated || original);
@@ -2036,15 +2116,15 @@ export function buildPublicRuntimeSvgBridgeScript() {
   function clearLetterTrack(svg) {
     clearPublicPlaybackLetterHighlightObservers();
     Array.prototype.slice
-      .call(svg.querySelectorAll('[data-vtabs-letter-track]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.letterTrackNodes))
       .forEach(function (node) {
         node.remove();
       });
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('[data-vtabs-letter-hidden]'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.letterHiddenNodes))
       .forEach(function (node) {
-        node.removeAttribute('data-vtabs-letter-hidden');
+        node.removeAttribute(publicSvgBridgeConfig.attributes.letterHidden);
         node.style.opacity = '';
       });
   }
@@ -2160,7 +2240,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getNotationMarkers(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .map(function (node) {
         return {
           href: node.getAttribute('xlink:href') || node.getAttribute('href') || '',
@@ -2182,7 +2262,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function getLetterTrackBreathMarks(svg) {
     return Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .map(function (node) {
         return {
           href: getUseHref(node),
@@ -2197,7 +2277,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
   function hideLetterModeJianpuOnlyMarks(svg) {
     Array.prototype.slice
-      .call(svg.querySelectorAll('use'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.useNodes))
       .forEach(function (node) {
         var href = getUseHref(node);
         if (
@@ -2216,20 +2296,20 @@ export function buildPublicRuntimeSvgBridgeScript() {
           href === '#yiyin_bianyinfu_jiang' ||
           href === '#yiyin_bianyinfu_sheng'
         ) {
-          node.setAttribute('data-vtabs-letter-hidden', '1');
+          node.setAttribute(publicSvgBridgeConfig.attributes.letterHidden, '1');
           node.style.opacity = '0';
         }
       });
 
     Array.prototype.slice
-      .call(svg.querySelectorAll('line'))
+      .call(svg.querySelectorAll(publicSvgBridgeConfig.selectors.jianpuLineNodes))
       .forEach(function (node) {
         var y1 = Number(node.getAttribute('y1') || 0);
         var y2 = Number(node.getAttribute('y2') || 0);
         var strokeWidth = Number(node.getAttribute('stroke-width') || 0);
 
         if (strokeWidth === 2 && Math.abs(y1 - y2) < 0.2) {
-          node.setAttribute('data-vtabs-letter-hidden', '1');
+          node.setAttribute(publicSvgBridgeConfig.attributes.letterHidden, '1');
           node.style.opacity = '0';
         }
       });
@@ -2311,7 +2391,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
     var rows = getLetterTrackRowMetrics(svg, anchors);
     var layer = createSvgNode('g');
-    layer.setAttribute('data-vtabs-letter-track', 'layer');
+    layer.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'layer');
     layer.setAttribute('pointer-events', 'none');
 
     if (letterTrack.mode === 'graph') {
@@ -2321,7 +2401,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
       rows.forEach(function (row) {
         var cover = createSvgNode('rect');
-        cover.setAttribute('data-vtabs-letter-track', 'cover');
+        cover.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'cover');
         cover.setAttribute('x', String(coverX));
         cover.setAttribute('y', String(row.notationY - 4));
         cover.setAttribute('width', String(coverWidth));
@@ -2376,7 +2456,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
         }
 
         var cover = createSvgNode('rect');
-        cover.setAttribute('data-vtabs-letter-track', 'cover');
+        cover.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'cover');
         cover.setAttribute('x', String(glyph.x - 3));
         cover.setAttribute('y', String(glyph.y - 2));
         cover.setAttribute('width', String(Math.max(18, glyph.width + 6)));
@@ -2391,7 +2471,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
         }
 
         var text = createSvgNode('text');
-        text.setAttribute('data-vtabs-letter-track', 'label');
+        text.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'label');
         text.setAttribute('x', String(glyph.x + glyph.width / 2));
         text.setAttribute('y', String(glyph.y + glyph.height - 0.5));
         text.setAttribute('fill', getPublicRuntimeLetterFill());
@@ -2422,7 +2502,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
         }
 
         var cover = createSvgNode('rect');
-        cover.setAttribute('data-vtabs-letter-track', 'cover');
+        cover.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'cover');
         cover.setAttribute('x', String(glyph.x - 5));
         cover.setAttribute('y', String(glyph.y - 4));
         cover.setAttribute('width', String(Math.max(label.length >= 3 ? 20 : 17, glyph.width + 10)));
@@ -2437,8 +2517,8 @@ export function buildPublicRuntimeSvgBridgeScript() {
         }
 
         var text = createSvgNode('text');
-        text.setAttribute('data-vtabs-letter-track', 'label');
-        text.setAttribute('data-vtabs-letter-track-kind', 'grace');
+        text.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'label');
+        text.setAttribute(publicSvgBridgeConfig.attributes.letterTrackKind, 'grace');
         text.setAttribute('x', String(glyph.x + glyph.width / 2));
         text.setAttribute('y', String(glyph.y + glyph.height + 1.5));
         text.setAttribute('fill', getPublicRuntimeLetterFill());
@@ -2468,7 +2548,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
 
       breathMarks.forEach(function (breath) {
         var mark = createSvgNode('text');
-        mark.setAttribute('data-vtabs-letter-track', 'breath');
+        mark.setAttribute(publicSvgBridgeConfig.attributes.letterTrack, 'breath');
         mark.setAttribute('x', String(breath.x + 1));
         mark.setAttribute('y', String(breath.y - 11));
         mark.setAttribute('fill', getPublicRuntimeLetterFill());
