@@ -501,15 +501,50 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
 
   ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content {
     max-height: calc(100vh - 92px) !important;
-    padding: 16px 14px 8px !important;
+    padding: 10px 10px 6px !important;
+    overflow: visible !important;
+  }
+
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content::before {
+    content: none !important;
   }
 
   ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .row {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field {
+    min-height: 0 !important;
+  }
+
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field label {
+    margin-bottom: 3px !important;
+    font-size: 9px !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-default,
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-select {
+    height: 30px !important;
+    padding: 0 18px 0 7px !important;
+    border-radius: 8px !important;
+    font-size: 10px !important;
+    line-height: 1.1 !important;
   }
 
   ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer {
-    padding: 10px 14px 14px !important;
+    gap: 5px !important;
+    padding: 7px 10px 9px !important;
+  }
+
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer .btn-flat,
+  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer a {
+    height: 30px !important;
+    padding: 0 9px !important;
+    font-size: 10.5px !important;
+    line-height: 30px !important;
   }
 }
 `
