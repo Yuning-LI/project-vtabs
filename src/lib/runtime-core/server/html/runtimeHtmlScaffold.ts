@@ -1,5 +1,121 @@
 type PublicRuntimePublicFeature = 'metronome' | 'playback'
 
+const RUNTIME_HTML_BACKGROUND_COLOR = '#fff8ee'
+const RUNTIME_PENDING_ATTRIBUTE = 'data-vtabs-letter-track-pending'
+const RUNTIME_OVERRIDE_STYLE_ATTRIBUTE = 'data-vtabs-runtime-override'
+const RUNTIME_METRONOME_STATE_SELECTOR = 'html[data-vtabs-public-metronome="1"]'
+const RUNTIME_PLAYBACK_STATE_SELECTOR = 'html[data-vtabs-public-playback="1"]'
+const RUNTIME_PENDING_STATE_SELECTOR = `html[${RUNTIME_PENDING_ATTRIBUTE}="1"]`
+
+const RUNTIME_BASE_HIDDEN_SELECTORS = [
+  '#header',
+  '#foot',
+  '#menu-modal',
+  '#diaohao-modal',
+  '#instruments-modal',
+  '#nosound-modal',
+  '#score-modal',
+  '#preload',
+  '.header',
+  '.navbar-fixed',
+  '.footer',
+  '.footer-copyright',
+  '.right-fixed-wrapper',
+  '.fixed-action-btn',
+  '.modal-trigger',
+  '.icon-quick-link',
+  '.favorite-btn',
+  '.share-btn',
+  '.comment-box',
+  '.login-box',
+  '.breadcrumb-nav',
+  '.banner',
+  '.banner-box',
+  '.ad-box',
+  '.slogan-box',
+  '.sheet-toolbar',
+  '.song-toolbar',
+  '.toolbar',
+  '.qr-box',
+  '.wx-qrcode',
+  '.user-panel',
+  '.floating-tools',
+  '.recommend-box',
+  '.song-recommend',
+  '.sheet-copy-tip'
+] as const
+
+const RUNTIME_BASE_HIDDEN_TRIGGER_SELECTORS = [
+  '[href="#menu-modal"]',
+  '[data-target="menu-modal"]',
+  '[href="#score-modal"]',
+  '[data-target="score-modal"]',
+  '[href="#select-instrument"]',
+  '[data-target="select-instrument"]',
+  '[href="#diaohao-modal"]',
+  '[data-target="diaohao-modal"]',
+  '[href="#instruments-modal"]',
+  '[data-target="instruments-modal"]'
+] as const
+
+const RUNTIME_PLAYBACK_DISABLED_SELECTORS = [
+  '.count-down-area',
+  '.lean-overlay',
+  '#play-modal'
+] as const
+
+const RUNTIME_METRONOME_DISABLED_SELECTORS = ['#metronome-modal'] as const
+
+const RUNTIME_METRONOME_CONTROL_SELECTORS = [
+  '#metronome-play',
+  '[href="#metronome-modal"]',
+  '[data-target="metronome-modal"]'
+] as const
+
+const RUNTIME_PLAYBACK_CONTROL_SELECTORS = [
+  '#play-btn',
+  '[href="#play-modal"]',
+  '[data-target="play-modal"]'
+] as const
+
+function buildRuntimeHiddenCss(
+  selectors: readonly string[],
+  collapseBox: boolean
+) {
+  if (selectors.length === 0) {
+    return ''
+  }
+
+  const declarations = [
+    '  display: none !important;',
+    '  visibility: hidden !important;',
+    '  opacity: 0 !important;',
+    '  pointer-events: none !important;'
+  ]
+
+  if (collapseBox) {
+    declarations.push(
+      '  max-width: 0 !important;',
+      '  max-height: 0 !important;',
+      '  overflow: hidden !important;'
+    )
+  }
+
+  return `${selectors.join(',\n')} {
+${declarations.join('\n')}
+}`
+}
+
+function buildRuntimeDisplayNoneCss(selectors: readonly string[]) {
+  if (selectors.length === 0) {
+    return ''
+  }
+
+  return `${selectors.join(',\n')} {
+  display: none !important;
+}`
+}
+
 export function serializeForInlineScript(value: unknown) {
   return JSON.stringify(value)
     .replace(/</g, '\\u003c')
@@ -22,10 +138,10 @@ export function buildRuntimePendingScript(
   hasPendingMask: boolean
 ) {
   return `
-<script data-vtabs-letter-track-pending>
+<script ${RUNTIME_PENDING_ATTRIBUTE}>
 (function () {
   if (${hasPendingMask ? 'true' : 'false'}) {
-    document.documentElement.setAttribute('data-vtabs-letter-track-pending', '1');
+    document.documentElement.setAttribute('${RUNTIME_PENDING_ATTRIBUTE}', '1');
   }
 })();
 </script>
@@ -34,95 +150,33 @@ export function buildRuntimePendingScript(
 
 export function buildRuntimeOverrideStyle(publicFeatures: Set<PublicRuntimePublicFeature>) {
   /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
-  const hiddenSelectors = [
-    '#header',
-    '#foot',
-    '#menu-modal',
-    '#diaohao-modal',
-    '#instruments-modal',
-    '#nosound-modal',
-    '#score-modal',
-    '#preload',
-    '.header',
-    '.navbar-fixed',
-    '.footer',
-    '.footer-copyright',
-    '.right-fixed-wrapper',
-    '.fixed-action-btn',
-    '.modal-trigger',
-    '.icon-quick-link',
-    '.favorite-btn',
-    '.share-btn',
-    '.comment-box',
-    '.login-box',
-    '.breadcrumb-nav',
-    '.banner',
-    '.banner-box',
-    '.ad-box',
-    '.slogan-box',
-    '.sheet-toolbar',
-    '.song-toolbar',
-    '.toolbar',
-    '.qr-box',
-    '.wx-qrcode',
-    '.user-panel',
-    '.floating-tools',
-    '.recommend-box',
-    '.song-recommend',
-    '.sheet-copy-tip'
-  ]
+  const hiddenSelectors: string[] = [...RUNTIME_BASE_HIDDEN_SELECTORS]
 
   /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
-  const hiddenSelectorTriggers = [
-    '[href="#menu-modal"]',
-    '[data-target="menu-modal"]',
-    '[href="#score-modal"]',
-    '[data-target="score-modal"]',
-    '[href="#select-instrument"]',
-    '[data-target="select-instrument"]',
-    '[href="#diaohao-modal"]',
-    '[data-target="diaohao-modal"]',
-    '[href="#instruments-modal"]',
-    '[data-target="instruments-modal"]'
-  ]
+  const hiddenSelectorTriggers: string[] = [...RUNTIME_BASE_HIDDEN_TRIGGER_SELECTORS]
 
   if (!publicFeatures.has('playback')) {
-    hiddenSelectors.push('.count-down-area')
-    hiddenSelectors.push('.lean-overlay')
-    hiddenSelectors.push('#play-modal')
+    hiddenSelectors.push(...RUNTIME_PLAYBACK_DISABLED_SELECTORS)
   }
 
   /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
   if (!publicFeatures.has('metronome')) {
-    hiddenSelectors.push('#metronome-modal')
+    hiddenSelectors.push(...RUNTIME_METRONOME_DISABLED_SELECTORS)
   }
 
   return `
-<style data-vtabs-runtime-override>
+<style ${RUNTIME_OVERRIDE_STYLE_ATTRIBUTE}>
 html, body {
   margin: 0 !important;
   padding: 0 !important;
-  background: #fff8ee !important;
+  background: ${RUNTIME_HTML_BACKGROUND_COLOR} !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
 }
 
-${hiddenSelectors.join(',\n')} {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  max-width: 0 !important;
-  max-height: 0 !important;
-  overflow: hidden !important;
-}
+${buildRuntimeHiddenCss(hiddenSelectors, true)}
 
-${hiddenSelectorTriggers.join(',\n')} {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
+${buildRuntimeHiddenCss(hiddenSelectorTriggers, false)}
 
 #sheet {
   margin: 0 auto !important;
@@ -148,7 +202,7 @@ ${hiddenSelectorTriggers.join(',\n')} {
   transform-origin: top left !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal {
   position: relative !important;
   display: block !important;
   visibility: visible !important;
@@ -172,7 +226,7 @@ html[data-vtabs-public-metronome="1"] #metronome-modal {
   z-index: 1 !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .modal-content {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .modal-content {
   display: block !important;
   width: auto !important;
   height: auto !important;
@@ -180,35 +234,35 @@ html[data-vtabs-public-metronome="1"] #metronome-modal .modal-content {
   overflow: visible !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .modal-footer {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .modal-footer {
   display: none !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .vtabs-public-metronome-toolbar {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .vtabs-public-metronome-toolbar {
   display: grid !important;
   grid-template-columns: minmax(120px, 1fr) minmax(120px, 150px) minmax(120px, 170px) auto !important;
   align-items: end !important;
   gap: 10px !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .vtabs-public-metronome-title h2 {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .vtabs-public-metronome-title h2 {
   margin: 0 !important;
   color: #24170d !important;
   font: 800 16px/1.15 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .vtabs-public-metronome-chip {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .vtabs-public-metronome-chip {
   min-height: 16px !important;
   margin: 4px 0 0 !important;
   color: #7b624c !important;
   font: 700 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .input-field {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .input-field {
   margin: 0 !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal .input-field label {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .input-field label {
   position: static !important;
   display: block !important;
   transform: none !important;
@@ -219,14 +273,14 @@ html[data-vtabs-public-metronome="1"] #metronome-modal .input-field label {
   text-transform: uppercase !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal select {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal select {
   display: block !important;
   width: 100% !important;
   height: 36px !important;
   margin: 0 !important;
 }
 
-html[data-vtabs-public-metronome="1"] #metronome-modal #metronome-play {
+${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal #metronome-play {
   height: 36px !important;
   margin: 0 !important;
   padding: 0 16px !important;
@@ -239,24 +293,24 @@ html[data-vtabs-public-metronome="1"] #metronome-modal #metronome-play {
 }
 
 @media (max-width: 640px) {
-  html[data-vtabs-public-metronome="1"] #metronome-modal .vtabs-public-metronome-toolbar {
+  ${RUNTIME_METRONOME_STATE_SELECTOR} #metronome-modal .vtabs-public-metronome-toolbar {
     grid-template-columns: 1fr !important;
   }
 }
 
-html[data-vtabs-public-playback="1"] .lean-overlay {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} .lean-overlay {
   display: none !important;
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-html[data-vtabs-public-playback="1"] #nosound-btn,
-html[data-vtabs-public-playback="1"] #nosound-modal,
-html[data-vtabs-public-playback="1"] #play-microphone-row {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #nosound-btn,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #nosound-modal,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-microphone-row {
   display: none !important;
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-html[data-vtabs-public-playback="1"] #play-modal {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal {
   left: auto !important;
   right: 14px !important;
   top: 14px !important;
@@ -276,7 +330,7 @@ html[data-vtabs-public-playback="1"] #play-modal {
   z-index: 1002 !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .modal-content {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-content {
   position: relative !important;
   height: auto !important;
   max-height: calc(min(78vh, 520px) - 64px) !important;
@@ -285,7 +339,7 @@ html[data-vtabs-public-playback="1"] #play-modal .modal-content {
   overflow-y: auto !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .modal-content::before {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-content::before {
   content: 'Playback';
   display: block;
   margin: 0 0 12px;
@@ -294,20 +348,20 @@ html[data-vtabs-public-playback="1"] #play-modal .modal-content::before {
   letter-spacing: 0.02em;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .row {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .row {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 9px !important;
   margin: 0 !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .input-field {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .input-field {
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .input-field label {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .input-field label {
   position: static !important;
   display: block !important;
   transform: none !important;
@@ -318,8 +372,8 @@ html[data-vtabs-public-playback="1"] #play-modal .input-field label {
   text-transform: uppercase !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal select.browser-default,
-html[data-vtabs-public-playback="1"] #play-modal select.browser-select {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-default,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-select {
   display: block !important;
   width: 100% !important;
   height: 36px !important;
@@ -334,13 +388,13 @@ html[data-vtabs-public-playback="1"] #play-modal select.browser-select {
   outline: none !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal select.browser-default:focus,
-html[data-vtabs-public-playback="1"] #play-modal select.browser-select:focus {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-default:focus,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-select:focus {
   border-color: rgba(178, 106, 36, 0.68) !important;
   box-shadow: 0 0 0 3px rgba(226, 158, 62, 0.18) !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .modal-footer {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer {
   position: relative !important;
   display: flex !important;
   flex-wrap: wrap !important;
@@ -354,8 +408,8 @@ html[data-vtabs-public-playback="1"] #play-modal .modal-footer {
   background: rgba(255, 248, 238, 0.72) !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .modal-footer .btn-flat,
-html[data-vtabs-public-playback="1"] #play-modal .modal-footer a {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer .btn-flat,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer a {
   float: none !important;
   height: 36px !important;
   margin: 0 !important;
@@ -367,22 +421,22 @@ html[data-vtabs-public-playback="1"] #play-modal .modal-footer a {
   text-transform: none !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .op-replay,
-html[data-vtabs-public-playback="1"] #play-modal .op-resume,
-html[data-vtabs-public-playback="1"] #play-modal .op-play {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .op-replay,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .op-resume,
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .op-play {
   background: linear-gradient(135deg, #f4b54f 0%, #e37d3f 100%) !important;
   color: #fffdf7 !important;
   box-shadow: 0 8px 18px rgba(171, 85, 31, 0.22) !important;
 }
 
-html[data-vtabs-public-playback="1"] #play-modal .vtabs-public-playback-close {
+${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .vtabs-public-playback-close {
   background: rgba(255, 255, 255, 0.72) !important;
   border: 1px solid rgba(78, 52, 28, 0.13) !important;
   box-shadow: none !important;
 }
 
 @media (max-width: 520px) {
-  html[data-vtabs-public-playback="1"] #play-modal {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal {
     left: 10px !important;
     right: 10px !important;
     top: 10px !important;
@@ -391,34 +445,34 @@ html[data-vtabs-public-playback="1"] #play-modal .vtabs-public-playback-close {
     border-radius: 18px !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .modal-content {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-content {
     max-height: calc(100vh - 92px) !important;
     padding: 10px 10px 6px !important;
     overflow: visible !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .modal-content::before {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-content::before {
     content: none !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .row {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .row {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 6px !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .input-field {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .input-field {
     min-height: 0 !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .input-field label {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .input-field label {
     margin-bottom: 3px !important;
     font-size: 9px !important;
     line-height: 1.05 !important;
     letter-spacing: 0.04em !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal select.browser-default,
-  html[data-vtabs-public-playback="1"] #play-modal select.browser-select {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-default,
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal select.browser-select {
     height: 30px !important;
     padding: 0 18px 0 7px !important;
     border-radius: 8px !important;
@@ -426,13 +480,13 @@ html[data-vtabs-public-playback="1"] #play-modal .vtabs-public-playback-close {
     line-height: 1.1 !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .modal-footer {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer {
     gap: 5px !important;
     padding: 7px 10px 9px !important;
   }
 
-  html[data-vtabs-public-playback="1"] #play-modal .modal-footer .btn-flat,
-  html[data-vtabs-public-playback="1"] #play-modal .modal-footer a {
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer .btn-flat,
+  ${RUNTIME_PLAYBACK_STATE_SELECTOR} #play-modal .modal-footer a {
     height: 30px !important;
     padding: 0 9px !important;
     font-size: 10.5px !important;
@@ -440,7 +494,7 @@ html[data-vtabs-public-playback="1"] #play-modal .vtabs-public-playback-close {
   }
 }
 
-html[data-vtabs-letter-track-pending="1"] body::before {
+${RUNTIME_PENDING_STATE_SELECTOR} body::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -449,25 +503,13 @@ html[data-vtabs-letter-track-pending="1"] body::before {
   z-index: 9998;
 }
 
-html[data-vtabs-letter-track-pending="1"] body::after {
+${RUNTIME_PENDING_STATE_SELECTOR} body::after {
   content: none;
 }
 
-${publicFeatures.has('metronome') ? '' : `
-#metronome-play,
-[href="#metronome-modal"],
-[data-target="metronome-modal"] {
-  display: none !important;
-}
-`}
+${publicFeatures.has('metronome') ? '' : buildRuntimeDisplayNoneCss(RUNTIME_METRONOME_CONTROL_SELECTORS)}
 
-${publicFeatures.has('playback') ? '' : `
-#play-btn,
-[href="#play-modal"],
-[data-target="play-modal"] {
-  display: none !important;
-}
-`}
+${publicFeatures.has('playback') ? '' : buildRuntimeDisplayNoneCss(RUNTIME_PLAYBACK_CONTROL_SELECTORS)}
 </style>
 `
 }
