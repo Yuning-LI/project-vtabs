@@ -12,19 +12,35 @@ export type BootstrapPublicRuntimeContainerOptions = {
   bodyHtml: string
 }
 
+const PUBLIC_RUNTIME_DOM_MOUNT_DATA_KEY = 'publicRuntimeDomMount'
+const PUBLIC_RUNTIME_BODY_APPEND_MOUNT_DATA_KEY = 'publicRuntimeBodyAppendMount'
+const PUBLIC_RUNTIME_ROOT_SELECTOR = '[data-public-runtime-root]'
+const PUBLIC_RUNTIME_SHEET_SELECTOR = '#sheet'
+const PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR = 'svg, .sheet-svg'
+const PUBLIC_RUNTIME_BODY_APPEND_NODE_CLASSES = [
+  'print-hint',
+  'lean-overlay',
+  'modal-overlay'
+] as const
+const PUBLIC_RUNTIME_BODY_APPEND_NODE_ID_PREFIXES = [
+  'materialize-lean-overlay-'
+] as const
+const PUBLIC_RUNTIME_CONTAINER_PANEL_SELECTOR = '#play-modal, #metronome-modal, #nosound-modal'
+const PUBLIC_RUNTIME_OVERLAY_SELECTOR = '.lean-overlay, .modal-overlay, [id^="materialize-lean-overlay-"]'
+
 export function bootstrapPublicRuntimeContainer({
   root,
   bodyHtml
 }: BootstrapPublicRuntimeContainerOptions): PublicRuntimeContainerBootstrapController {
   const mountElement = document.createElement('div')
-  mountElement.dataset.publicRuntimeDomMount = 'true'
+  mountElement.dataset[PUBLIC_RUNTIME_DOM_MOUNT_DATA_KEY] = 'true'
   mountElement.innerHTML = bodyHtml
   root.appendChild(mountElement)
   const bodyAppendCapture = installBodyAppendCapture(mountElement)
 
   return {
     mountElement,
-    sheetElement: mountElement.querySelector<HTMLElement>('#sheet'),
+    sheetElement: mountElement.querySelector<HTMLElement>(PUBLIC_RUNTIME_SHEET_SELECTOR),
     ensureStarted() {
       return triggerRuntimeContextLoadIfNeeded(mountElement)
     },
@@ -37,8 +53,8 @@ export function bootstrapPublicRuntimeContainer({
 }
 
 function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
-  const sheet = mountElement.querySelector('#sheet')
-  if (sheet?.querySelector('svg, .sheet-svg')) {
+  const sheet = mountElement.querySelector(PUBLIC_RUNTIME_SHEET_SELECTOR)
+  if (sheet?.querySelector(PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR)) {
     return false
   }
 
@@ -60,7 +76,7 @@ function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
 
 function installBodyAppendCapture(mountElement: HTMLElement) {
   const runtimeExtraMount = document.createElement('div')
-  runtimeExtraMount.dataset.publicRuntimeBodyAppendMount = 'true'
+  runtimeExtraMount.dataset[PUBLIC_RUNTIME_BODY_APPEND_MOUNT_DATA_KEY] = 'true'
   runtimeExtraMount.hidden = true
   mountElement.appendChild(runtimeExtraMount)
 
@@ -71,7 +87,7 @@ function installBodyAppendCapture(mountElement: HTMLElement) {
         if (!(node instanceof HTMLElement)) {
           return
         }
-        if (node.closest('[data-public-runtime-root]')) {
+        if (node.closest(PUBLIC_RUNTIME_ROOT_SELECTOR)) {
           return
         }
         if (isRuntimeBodyAppendNode(node)) {
@@ -96,27 +112,27 @@ function installBodyAppendCapture(mountElement: HTMLElement) {
 function isRuntimeBodyAppendNode(node: HTMLElement) {
   /* TODO: 快乐谱代码，用途待核验，暂保留 */
   return (
-    node.classList.contains('print-hint') ||
-    node.classList.contains('lean-overlay') ||
-    node.classList.contains('modal-overlay') ||
-    node.id.startsWith('materialize-lean-overlay-')
+    PUBLIC_RUNTIME_BODY_APPEND_NODE_CLASSES.some(className => node.classList.contains(className)) ||
+    PUBLIC_RUNTIME_BODY_APPEND_NODE_ID_PREFIXES.some(prefix => node.id.startsWith(prefix))
   )
 }
 
 function closeRuntimeContainerPanels(mountElement: HTMLElement) {
   /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
   mountElement
-    .querySelectorAll<HTMLElement>('#play-modal, #metronome-modal, #nosound-modal')
-    .forEach(panel => {
-      panel.removeAttribute('data-public-runtime-container-panel')
-      panel.style.display = 'none'
-      panel.style.visibility = 'hidden'
-      panel.style.opacity = '0'
-    })
+    .querySelectorAll<HTMLElement>(PUBLIC_RUNTIME_CONTAINER_PANEL_SELECTOR)
+    .forEach(hideRuntimeContainerPanel)
 
   mountElement
-    .querySelectorAll<HTMLElement>('.lean-overlay, .modal-overlay, [id^="materialize-lean-overlay-"]')
+    .querySelectorAll<HTMLElement>(PUBLIC_RUNTIME_OVERLAY_SELECTOR)
     .forEach(node => {
       node.remove()
     })
+}
+
+function hideRuntimeContainerPanel(panel: HTMLElement) {
+  panel.removeAttribute('data-public-runtime-container-panel')
+  panel.style.display = 'none'
+  panel.style.visibility = 'hidden'
+  panel.style.opacity = '0'
 }
