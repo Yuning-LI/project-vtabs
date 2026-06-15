@@ -4,7 +4,8 @@ import type {
 } from './publicRuntimeHostMode'
 import {
   DEFAULT_PUBLIC_RUNTIME_HOST_MODE,
-  normalizePublicRuntimeHostMode
+  normalizePublicRuntimeHostMode,
+  resolvePublicRuntimeEffectiveHostMode
 } from './publicRuntimeHostMode'
 
 export type PublicRuntimeHostRolloutSource =
@@ -69,7 +70,7 @@ export function resolvePublicRuntimeHostRollout(input: {
 
   if (queryMode) {
     return {
-      mode: queryMode,
+      mode: resolvePublicRuntimeEffectiveHostMode(queryMode),
       source: 'query',
       queryMode,
       environmentMode,
@@ -101,7 +102,7 @@ export function resolvePublicRuntimeHostRollout(input: {
 
   if (environmentMode) {
     return {
-      mode: environmentMode,
+      mode: resolvePublicRuntimeEffectiveHostMode(environmentMode),
       source: 'environment',
       queryMode,
       environmentMode,
@@ -117,9 +118,10 @@ export function resolvePublicRuntimeHostRollout(input: {
 
   if (rolloutEnabled && rolloutPercent > 0) {
     const rolloutBucket = getDeterministicRolloutBucket(rolloutKey)
-    const mode: PublicRuntimeHostMode = rolloutBucket < rolloutPercent ? 'container' : 'iframe'
+    const rolloutMode: PublicRuntimeHostMode =
+      rolloutBucket < rolloutPercent ? 'container' : 'iframe'
     return {
-      mode,
+      mode: resolvePublicRuntimeEffectiveHostMode(rolloutMode),
       source: 'rollout',
       queryMode,
       environmentMode,
@@ -134,7 +136,7 @@ export function resolvePublicRuntimeHostRollout(input: {
   }
 
   return {
-    mode: defaultMode,
+    mode: resolvePublicRuntimeEffectiveHostMode(defaultMode),
     source: 'default',
     queryMode,
     environmentMode,

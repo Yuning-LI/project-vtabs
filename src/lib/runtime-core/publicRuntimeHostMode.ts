@@ -13,6 +13,7 @@ export type PublicRuntimeHostModeResolution = {
 export const PUBLIC_RUNTIME_HOST_QUERY_PARAM = 'runtime_host'
 export const PUBLIC_RUNTIME_HOST_DEFAULT_ENV = 'NEXT_PUBLIC_RUNTIME_HOST_DEFAULT'
 export const DEFAULT_PUBLIC_RUNTIME_HOST_MODE: PublicRuntimeHostMode = 'iframe'
+export const PUBLIC_RUNTIME_IFRAME_FALLBACK_ENABLED = false
 
 type SearchParamValue = string | string[] | undefined
 type SearchParamsLike = Record<string, SearchParamValue> | undefined
@@ -27,6 +28,16 @@ export function normalizePublicRuntimeHostMode(
   }
 
   return null
+}
+
+export function resolvePublicRuntimeEffectiveHostMode(
+  mode: PublicRuntimeHostMode
+): PublicRuntimeHostMode {
+  if (mode === 'iframe' && !PUBLIC_RUNTIME_IFRAME_FALLBACK_ENABLED) {
+    return 'container'
+  }
+
+  return mode
 }
 
 export function readPublicRuntimeHostModeSearchParam(searchParams: SearchParamsLike) {
@@ -54,7 +65,7 @@ export function resolvePublicRuntimeHostMode(input?: {
 
   if (queryMode) {
     return {
-      mode: queryMode,
+      mode: resolvePublicRuntimeEffectiveHostMode(queryMode),
       source: 'query',
       queryMode,
       environmentMode,
@@ -64,7 +75,7 @@ export function resolvePublicRuntimeHostMode(input?: {
 
   if (environmentMode) {
     return {
-      mode: environmentMode,
+      mode: resolvePublicRuntimeEffectiveHostMode(environmentMode),
       source: 'environment',
       queryMode,
       environmentMode,
@@ -73,7 +84,7 @@ export function resolvePublicRuntimeHostMode(input?: {
   }
 
   return {
-    mode: DEFAULT_PUBLIC_RUNTIME_HOST_MODE,
+    mode: resolvePublicRuntimeEffectiveHostMode(DEFAULT_PUBLIC_RUNTIME_HOST_MODE),
     source: 'default',
     queryMode,
     environmentMode,
