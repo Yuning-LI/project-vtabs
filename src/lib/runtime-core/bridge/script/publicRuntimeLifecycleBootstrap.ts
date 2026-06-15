@@ -1,9 +1,38 @@
+const PUBLIC_RUNTIME_LIFECYCLE_BOOTSTRAP_CONFIG = {
+  attributes: {
+    sheetMenuGuard: 'data-vtabs-container-sheet-menu-guard'
+  },
+  selectors: {
+    containerMount: '[data-public-runtime-dom-mount="true"]',
+    note: '.note',
+    sheet: '#sheet'
+  },
+  timings: {
+    drawPatchPollMs: 30,
+    initialSyncIntervalMs: 80,
+    redrawDelayMs: 80,
+    resizeObserverPostSizeDelayMs: 30,
+    postDrawSyncDelayMs: 60
+  },
+  initialSync: {
+    maxAttempts: 60,
+    minReadyAttempts: 12,
+    readySuccessfulRenders: 12
+  }
+} as const
+
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 export function buildPublicRuntimeLifecycleBootstrapScript() {
   return `
+  var publicRuntimeLifecycleConfig = ${JSON.stringify(PUBLIC_RUNTIME_LIFECYCLE_BOOTSTRAP_CONFIG)};
   var resizeTimer = null;
   var initialSyncTimer = null;
   var runtimeReadyPosted = false;
+
+  function syncRuntimeSheetLayout() {
+    renderLetterTrack();
+    postSize();
+  }
 
   function requestRuntimeRedraw() {
     window.clearTimeout(resizeTimer);
@@ -18,10 +47,9 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
         console.error(error);
       }
       window.setTimeout(function () {
-        renderLetterTrack();
-        postSize();
-      }, 60);
-    }, 80);
+        syncRuntimeSheetLayout();
+      }, publicRuntimeLifecycleConfig.timings.postDrawSyncDelayMs);
+    }, publicRuntimeLifecycleConfig.timings.redrawDelayMs);
   }
 
   function installRuntimeLifecycleObservers() {
@@ -29,7 +57,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
       // 这里只监听 body 尺寸变化，不再做额外复杂观察。
       // 原因是授权 runtime draw 之后，body 变化已经足够覆盖谱面重排场景。
       var observer = new ResizeObserver(function () {
-        window.setTimeout(postSize, 30);
+        window.setTimeout(postSize, publicRuntimeLifecycleConfig.timings.resizeObserverPostSizeDelayMs);
       });
       observer.observe(document.body);
     }
@@ -38,8 +66,7 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     installContainerSheetMenuGuard();
     mountPublicMetronomePanel();
     installPublicPlaybackBridge();
-    renderLetterTrack();
-    postSize();
+    syncRuntimeSheetLayout();
   }
 
   function postRuntimeReadyOnce() {
@@ -63,23 +90,29 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
       }
       mountPublicMetronomePanel();
       installPublicPlaybackBridge();
-      if (attempts >= 60 || (successfulRenders >= 12 && attempts >= 12)) {
+      if (
+        attempts >= publicRuntimeLifecycleConfig.initialSync.maxAttempts ||
+        (successfulRenders >= publicRuntimeLifecycleConfig.initialSync.readySuccessfulRenders &&
+          attempts >= publicRuntimeLifecycleConfig.initialSync.minReadyAttempts)
+      ) {
         window.clearInterval(initialSyncTimer);
         postSize();
         setSheetPending(false);
         window.requestAnimationFrame(postRuntimeReadyOnce);
       }
-    }, 80);
+    }, publicRuntimeLifecycleConfig.timings.initialSyncIntervalMs);
   }
 
   function installContainerSheetMenuGuard() {
-    if (!document.querySelector('[data-public-runtime-dom-mount="true"]')) {
+    if (!document.querySelector(publicRuntimeLifecycleConfig.selectors.containerMount)) {
       return;
     }
-    if (document.documentElement.getAttribute('data-vtabs-container-sheet-menu-guard') === '1') {
+    if (
+      document.documentElement.getAttribute(publicRuntimeLifecycleConfig.attributes.sheetMenuGuard) === '1'
+    ) {
       return;
     }
-    document.documentElement.setAttribute('data-vtabs-container-sheet-menu-guard', '1');
+    document.documentElement.setAttribute(publicRuntimeLifecycleConfig.attributes.sheetMenuGuard, '1');
 
     document.addEventListener(
       'click',
@@ -88,11 +121,11 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
         if (!target || !target.closest) {
           return;
         }
-        var sheet = target.closest('#sheet');
+        var sheet = target.closest(publicRuntimeLifecycleConfig.selectors.sheet);
         if (!sheet) {
           return;
         }
-        var note = target.closest('.note');
+        var note = target.closest(publicRuntimeLifecycleConfig.selectors.note);
         if (note) {
           return;
         }
@@ -112,13 +145,12 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     window.Song.draw = function () {
       var result = originalDraw.apply(this, arguments);
       window.requestAnimationFrame(function () {
-        renderLetterTrack();
-        postSize();
+        syncRuntimeSheetLayout();
       });
       return result;
     };
     installRuntimeLifecycleObservers();
     scheduleRuntimeInitialSync();
-  }, 30);
+  }, publicRuntimeLifecycleConfig.timings.drawPatchPollMs);
 `
 }
