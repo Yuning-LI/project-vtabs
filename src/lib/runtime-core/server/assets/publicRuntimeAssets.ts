@@ -1,7 +1,16 @@
-type PublicRuntimeAssetProfileName = 'public-song' | 'full-template'
+import type { PublicRuntimeAssetProfileName } from '../../runtimeTypes.ts'
+
+type PublicRuntimeAssetProfile = {
+  disabledScriptAssets: readonly string[]
+  reservedScriptAssets: readonly string[]
+}
+
+const PUBLIC_RUNTIME_STATIC_BASE_PATH = '/k-static/'
+const PUBLIC_RUNTIME_COMPATIBILITY_ANCHOR_SCRIPT_ASSET = 'cdn/js/song_1f2ad3c3ba.js'
+const PUBLIC_RUNTIME_COMPATIBILITY_SCRIPT_ATTRIBUTE = 'data-vtabs-runtime-public-compat'
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
+const PUBLIC_RUNTIME_OPTIONAL_SCRIPT_ASSETS = [
   'lib/jqueryui/1.11.4/jquery-ui.min.js',
   'lib/materialize/0.97.5/js/materialize.min.js',
   'lib/soundmanager2/2.97a.20150601/script/soundmanager2-nodebug-jsmin.js',
@@ -26,20 +35,14 @@ const PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS = [
   'cdn/js/cangqiang.song_1ce5916de5.js'
 ] as const
 
-const PUBLIC_RUNTIME_ASSET_PROFILES: Record<
-  PublicRuntimeAssetProfileName,
-  {
-    disabledScriptAssets: readonly string[]
-    reservedScriptAssets: readonly string[]
-  }
-> = {
+const PUBLIC_RUNTIME_ASSET_PROFILES: Record<PublicRuntimeAssetProfileName, PublicRuntimeAssetProfile> = {
   'public-song': {
-    disabledScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS,
-    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
+    disabledScriptAssets: PUBLIC_RUNTIME_OPTIONAL_SCRIPT_ASSETS,
+    reservedScriptAssets: PUBLIC_RUNTIME_OPTIONAL_SCRIPT_ASSETS
   },
   'full-template': {
     disabledScriptAssets: [],
-    reservedScriptAssets: PUBLIC_RUNTIME_RESERVED_SCRIPT_ASSETS
+    reservedScriptAssets: PUBLIC_RUNTIME_OPTIONAL_SCRIPT_ASSETS
   }
 }
 
@@ -62,7 +65,7 @@ export function applyPublicRuntimeAssetProfile(
   }
 
   return profile.disabledScriptAssets.reduce((nextHtml, assetPath) => {
-    const publicPath = `/k-static/${assetPath}`
+    const publicPath = buildPublicRuntimeStaticPath(assetPath)
     return nextHtml.replace(buildExternalScriptTagPattern(publicPath), '')
   }, injectPublicRuntimeCompatibilityScript(html, profileName))
 }
@@ -73,12 +76,16 @@ export function buildRuntimeCriticalPreloads(profileName: PublicRuntimeAssetProf
   }
 
   return PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS.map(
-    assetPath => `<link rel="preload" href="/k-static/${assetPath}" as="script" />`
+    assetPath => `<link rel="preload" href="${buildPublicRuntimeStaticPath(assetPath)}" as="script" />`
   ).join('')
 }
 
-function buildExternalScriptTagPattern(src: string) {
-  return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, 'g')
+function buildPublicRuntimeStaticPath(assetPath: string) {
+  return `${PUBLIC_RUNTIME_STATIC_BASE_PATH}${assetPath.replace(/^\/+/, '')}`
+}
+
+function buildExternalScriptTagPattern(src: string, flags = 'g') {
+  return new RegExp(`\\s*<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>\\s*`, flags)
 }
 
 function injectPublicRuntimeCompatibilityScript(
@@ -90,14 +97,17 @@ function injectPublicRuntimeCompatibilityScript(
   }
 
   return html.replace(
-    /(<script[^>]+src="\/k-static\/cdn\/js\/song_1f2ad3c3ba\.js"[^>]*><\/script>)/i,
+    buildExternalScriptTagCapturePattern(
+      buildPublicRuntimeStaticPath(PUBLIC_RUNTIME_COMPATIBILITY_ANCHOR_SCRIPT_ASSET),
+      'i'
+    ),
     `${buildPublicRuntimeCompatibilityScript()}$1`
   )
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 function buildPublicRuntimeCompatibilityScript() {
-  return `<script data-vtabs-runtime-public-compat>
+  return `<script ${PUBLIC_RUNTIME_COMPATIBILITY_SCRIPT_ATTRIBUTE}>
     (function () {
       var win = window;
 
@@ -249,6 +259,10 @@ function buildPublicRuntimeCompatibilityScript() {
       }
     })();
   </script>`
+}
+
+function buildExternalScriptTagCapturePattern(src: string, flags = '') {
+  return new RegExp(`(<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>)`, flags)
 }
 
 function escapeRegExp(value: string) {
