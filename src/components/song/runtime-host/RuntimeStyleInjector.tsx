@@ -2,6 +2,65 @@
 
 import { useScopedRuntimeCss } from './style/useScopedRuntimeCss'
 
+const PUBLIC_RUNTIME_DEFAULT_ROOT_SELECTOR = '[data-public-runtime-root]'
+const PUBLIC_RUNTIME_DOM_ROOT_SELECTOR = '[data-public-runtime-dom-root]'
+const PUBLIC_RUNTIME_DOM_MOUNT_SELECTOR = '[data-public-runtime-dom-mount]'
+const PUBLIC_RUNTIME_BODY_APPEND_MOUNT_SELECTOR =
+  '[data-public-runtime-body-append-mount]'
+const PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE = 'data-vtabs-public-metronome'
+const PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE = 'data-vtabs-public-playback'
+const PUBLIC_RUNTIME_METRONOME_CLASS_SELECTORS = {
+  chip: '.vtabs-public-metronome-chip',
+  title: '.vtabs-public-metronome-title',
+  toolbar: '.vtabs-public-metronome-toolbar'
+} as const
+const PUBLIC_RUNTIME_PLAYBACK_CLOSE_SELECTOR = '.vtabs-public-playback-close'
+
+const PUBLIC_RUNTIME_REDUNDANT_SHELL_SELECTORS = [
+  '#header',
+  '#foot',
+  '#comment-wrapper',
+  '.head-bar',
+  '.header',
+  '.footer',
+  '.footer-copyright',
+  '.nav-wrapper',
+  '.button-collapse',
+  '.comment-box',
+  '.comment-list',
+  '.comment-item',
+  '.recommend-box',
+  '.song-recommend',
+  '.media-wrapper',
+  '.tags-wrapper',
+  '.tag-wrapper',
+  '.right-fixed-wrapper',
+  '.fixed-action-btn',
+  '.floating-tools',
+  '.sheet-copy-tip'
+] as const
+
+const PUBLIC_RUNTIME_FINAL_REDUNDANT_SHELL_SELECTORS = [
+  '#foot',
+  '#comment-wrapper',
+  '#media-wrapper',
+  '#tags-wrapper',
+  '.footer',
+  '.footer-copyright',
+  '.comment-box',
+  '.comment-list',
+  '.comment-item',
+  '.recommend-box',
+  '.song-recommend',
+  '.media-wrapper',
+  '.tags-wrapper',
+  '.tag-wrapper',
+  '.right-fixed-wrapper',
+  '.fixed-action-btn',
+  '.floating-tools',
+  '.sheet-copy-tip'
+] as const
+
 export type RuntimeStyleAsset = {
   src: string
 }
@@ -13,7 +72,7 @@ type RuntimeStyleInjectorProps = {
 
 export default function RuntimeStyleInjector({
   assets,
-  rootSelector = '[data-public-runtime-root]'
+  rootSelector = PUBLIC_RUNTIME_DEFAULT_ROOT_SELECTOR
 }: RuntimeStyleInjectorProps) {
   const scopedCss = useScopedRuntimeCss({ assets, rootSelector })
 
@@ -44,7 +103,7 @@ ${rootSelector} {
   background: #fff8ee;
 }
 
-${rootSelector} [data-public-runtime-dom-root] {
+${rootSelector} ${PUBLIC_RUNTIME_DOM_ROOT_SELECTOR} {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -54,7 +113,7 @@ ${rootSelector} [data-public-runtime-dom-root] {
   background: #fff8ee;
 }
 
-${rootSelector} [data-public-runtime-dom-mount] {
+${rootSelector} ${PUBLIC_RUNTIME_DOM_MOUNT_SELECTOR} {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -65,37 +124,9 @@ ${rootSelector} [data-public-runtime-dom-mount] {
 }
 
 /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
-${rootSelector} [data-public-runtime-dom-mount] #header,
-${rootSelector} [data-public-runtime-dom-mount] #foot,
-${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .head-bar,
-${rootSelector} [data-public-runtime-dom-mount] .header,
-${rootSelector} [data-public-runtime-dom-mount] .footer,
-${rootSelector} [data-public-runtime-dom-mount] .footer-copyright,
-${rootSelector} [data-public-runtime-dom-mount] .nav-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .button-collapse,
-${rootSelector} [data-public-runtime-dom-mount] .comment-box,
-${rootSelector} [data-public-runtime-dom-mount] .comment-list,
-${rootSelector} [data-public-runtime-dom-mount] .comment-item,
-${rootSelector} [data-public-runtime-dom-mount] .recommend-box,
-${rootSelector} [data-public-runtime-dom-mount] .song-recommend,
-${rootSelector} [data-public-runtime-dom-mount] .media-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .tags-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .tag-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .right-fixed-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .fixed-action-btn,
-${rootSelector} [data-public-runtime-dom-mount] .floating-tools,
-${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  max-width: 0 !important;
-  max-height: 0 !important;
-  overflow: hidden !important;
-}
+${buildHiddenRuntimeShellCss(rootSelector, PUBLIC_RUNTIME_REDUNDANT_SHELL_SELECTORS)}
 
-${rootSelector} [data-public-runtime-dom-mount] [data-public-runtime-body-append-mount] {
+${rootSelector} ${PUBLIC_RUNTIME_DOM_MOUNT_SELECTOR} ${PUBLIC_RUNTIME_BODY_APPEND_MOUNT_SELECTOR} {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -141,7 +172,7 @@ ${rootSelector} [data-public-runtime-dom-mount] #sheet .sheet-svg {
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal {
   position: relative !important;
   display: block !important;
   visibility: visible !important;
@@ -165,7 +196,7 @@ ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #me
   z-index: 1 !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .modal-content {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal .modal-content {
   display: block !important;
   width: auto !important;
   height: auto !important;
@@ -173,35 +204,35 @@ ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #me
   overflow: visible !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .modal-footer {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal .modal-footer {
   display: none !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .vtabs-public-metronome-toolbar {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal ${PUBLIC_RUNTIME_METRONOME_CLASS_SELECTORS.toolbar} {
   display: grid !important;
   grid-template-columns: minmax(120px, 1fr) minmax(120px, 150px) minmax(120px, 170px) auto !important;
   align-items: end !important;
   gap: 10px !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .vtabs-public-metronome-title h2 {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal ${PUBLIC_RUNTIME_METRONOME_CLASS_SELECTORS.title} h2 {
   margin: 0 !important;
   color: #24170d !important;
   font: 800 16px/1.15 -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .vtabs-public-metronome-chip {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal ${PUBLIC_RUNTIME_METRONOME_CLASS_SELECTORS.chip} {
   min-height: 16px !important;
   margin: 4px 0 0 !important;
   color: #7b624c !important;
   font: 700 12px/1.2 -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .input-field {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal .input-field {
   margin: 0 !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .input-field label {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal .input-field label {
   position: static !important;
   display: block !important;
   transform: none !important;
@@ -212,14 +243,14 @@ ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #me
   text-transform: uppercase !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal select {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal select {
   display: block !important;
   width: 100% !important;
   height: 36px !important;
   margin: 0 !important;
 }
 
-${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal #metronome-play {
+${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal #metronome-play {
   height: 36px !important;
   margin: 0 !important;
   padding: 0 16px !important;
@@ -232,18 +263,18 @@ ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #me
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] .lean-overlay {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] .lean-overlay {
   display: none !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #nosound-btn,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #nosound-modal,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-microphone-row {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #nosound-btn,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #nosound-modal,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-microphone-row {
   display: none !important;
 }
 
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal {
   position: absolute !important;
   left: auto !important;
   right: 14px !important;
@@ -265,7 +296,7 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   z-index: 1002 !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-content {
   position: relative !important;
   height: auto !important;
   max-height: calc(min(78vh, 520px) - 64px) !important;
@@ -274,7 +305,7 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   overflow-y: auto !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content::before {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-content::before {
   content: 'Playback';
   display: block;
   margin: 0 0 12px;
@@ -283,20 +314,20 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   letter-spacing: 0.02em;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .row {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .row {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   gap: 9px !important;
   margin: 0 !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .input-field {
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field label {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .input-field label {
   position: static !important;
   display: block !important;
   transform: none !important;
@@ -307,8 +338,8 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   text-transform: uppercase !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-default,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-select {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-default,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-select {
   display: block !important;
   width: 100% !important;
   height: 36px !important;
@@ -323,13 +354,13 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   outline: none !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-default:focus,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-select:focus {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-default:focus,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-select:focus {
   border-color: rgba(178, 106, 36, 0.68) !important;
   box-shadow: 0 0 0 3px rgba(226, 158, 62, 0.18) !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer {
   position: relative !important;
   display: flex !important;
   flex-wrap: wrap !important;
@@ -343,8 +374,8 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   background: rgba(255, 248, 238, 0.72) !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer .btn-flat,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer a {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer .btn-flat,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer a {
   float: none !important;
   height: 36px !important;
   margin: 0 !important;
@@ -356,15 +387,15 @@ ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #pla
   text-transform: none !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .op-replay,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .op-resume,
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .op-play {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .op-replay,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .op-resume,
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .op-play {
   background: linear-gradient(135deg, #f4b54f 0%, #e37d3f 100%) !important;
   color: #fffdf7 !important;
   box-shadow: 0 8px 18px rgba(171, 85, 31, 0.22) !important;
 }
 
-${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .vtabs-public-playback-close {
+${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal ${PUBLIC_RUNTIME_PLAYBACK_CLOSE_SELECTOR} {
   background: rgba(255, 255, 255, 0.72) !important;
   border: 1px solid rgba(78, 52, 28, 0.13) !important;
   box-shadow: none !important;
@@ -474,7 +505,7 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
 }
 
 @media (max-width: 640px) {
-  ${rootSelector}[data-vtabs-public-metronome] [data-public-runtime-dom-mount] #metronome-modal .vtabs-public-metronome-toolbar {
+  ${rootSelector}[${PUBLIC_RUNTIME_METRONOME_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #metronome-modal ${PUBLIC_RUNTIME_METRONOME_CLASS_SELECTORS.toolbar} {
     grid-template-columns: 1fr !important;
   }
 }
@@ -490,7 +521,7 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
 }
 
 @media (max-width: 520px) {
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal {
     left: 10px !important;
     right: 10px !important;
     top: 10px !important;
@@ -499,34 +530,34 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
     border-radius: 18px !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-content {
     max-height: calc(100vh - 92px) !important;
     padding: 10px 10px 6px !important;
     overflow: visible !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-content::before {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-content::before {
     content: none !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .row {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .row {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 6px !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .input-field {
     min-height: 0 !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .input-field label {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .input-field label {
     margin-bottom: 3px !important;
     font-size: 9px !important;
     line-height: 1.05 !important;
     letter-spacing: 0.04em !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-default,
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal select.browser-select {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-default,
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal select.browser-select {
     height: 30px !important;
     padding: 0 18px 0 7px !important;
     border-radius: 8px !important;
@@ -534,13 +565,13 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
     line-height: 1.1 !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer {
     gap: 5px !important;
     padding: 7px 10px 9px !important;
   }
 
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer .btn-flat,
-  ${rootSelector}[data-vtabs-public-playback] [data-public-runtime-dom-mount] #play-modal .modal-footer a {
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer .btn-flat,
+  ${rootSelector}[${PUBLIC_RUNTIME_PLAYBACK_STATE_ATTRIBUTE}] [data-public-runtime-dom-mount] #play-modal .modal-footer a {
     height: 30px !important;
     padding: 0 9px !important;
     font-size: 10.5px !important;
@@ -553,24 +584,20 @@ ${rootSelector} [data-public-runtime-dom-mount] .modal[data-public-runtime-conta
 function buildRuntimeContainerFinalConstraintCss(rootSelector: string) {
   return `
 /* REDUNDANT: 快乐谱原生冗余，本项目已迁移功能，后续隔离删除 */
-${rootSelector} [data-public-runtime-dom-mount] #foot,
-${rootSelector} [data-public-runtime-dom-mount] #comment-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] #media-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] #tags-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .footer,
-${rootSelector} [data-public-runtime-dom-mount] .footer-copyright,
-${rootSelector} [data-public-runtime-dom-mount] .comment-box,
-${rootSelector} [data-public-runtime-dom-mount] .comment-list,
-${rootSelector} [data-public-runtime-dom-mount] .comment-item,
-${rootSelector} [data-public-runtime-dom-mount] .recommend-box,
-${rootSelector} [data-public-runtime-dom-mount] .song-recommend,
-${rootSelector} [data-public-runtime-dom-mount] .media-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .tags-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .tag-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .right-fixed-wrapper,
-${rootSelector} [data-public-runtime-dom-mount] .fixed-action-btn,
-${rootSelector} [data-public-runtime-dom-mount] .floating-tools,
-${rootSelector} [data-public-runtime-dom-mount] .sheet-copy-tip {
+${buildHiddenRuntimeShellCss(
+  rootSelector,
+  PUBLIC_RUNTIME_FINAL_REDUNDANT_SHELL_SELECTORS
+)}
+`
+}
+
+function buildHiddenRuntimeShellCss(
+  rootSelector: string,
+  selectors: readonly string[]
+) {
+  return `${selectors
+    .map(selector => `${rootSelector} ${PUBLIC_RUNTIME_DOM_MOUNT_SELECTOR} ${selector}`)
+    .join(',\n')} {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;

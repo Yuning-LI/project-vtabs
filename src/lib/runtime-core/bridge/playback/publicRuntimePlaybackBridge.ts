@@ -3,9 +3,149 @@ import {
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
 } from '../publicRuntimeMessageTypes.ts'
 
+const PUBLIC_RUNTIME_PLAYBACK_BRIDGE_CONFIG = {
+  storageKeys: {
+    countIn: 'song_play_count_in',
+    transpose: 'song_play_transpose'
+  },
+  ids: {
+    countInControl: 'play_count_in',
+    countInRow: 'play-count-in-row',
+    microphoneControl: 'play_microphone',
+    noSoundButton: 'nosound-btn',
+    noSoundModal: 'nosound-modal',
+    playButton: 'play-btn',
+    playButtonLabel: 'play-btn-label',
+    playModal: 'play-modal',
+    playTrigger: 'play-li',
+    transposeControl: 'play_transpose'
+  },
+  selectors: {
+    containerMount: '[data-public-runtime-dom-mount="true"]',
+    countDownArea: '.count-down-area',
+    inputField: '.input-field',
+    modalContent: '.modal-content',
+    modalContentRow: '.modal-content .row',
+    modalFooter: '.modal-footer',
+    noSoundCloseButton: '#nosound-modal .modal-footer .modal-close',
+    noSoundParagraphs: '.modal-content p',
+    noSoundTitles: '.modal-content .card-title',
+    overlay: '.lean-overlay',
+    playbackActions: '.op-play, .op-replay, .op-resume',
+    playbackCloseButton: '.vtabs-public-playback-close',
+    playFromNoteAction: '.op-play.start-play-3',
+    resumeAction: '.op-resume.start-play-2',
+    restartAction: '.op-replay.start-play-2',
+    startAction: '.op-replay.start-play-1',
+    transposeOptions: '#play_transpose option'
+  },
+  attributes: {
+    containerPanel: 'data-public-runtime-container-panel',
+    countInHooked: 'data-vtabs-play-count-in-hooked',
+    playbackHooked: 'data-vtabs-playback-hooked',
+    publicPlayback: 'data-vtabs-public-playback',
+    transposeHooked: 'data-vtabs-play-transpose-hooked'
+  },
+  classes: {
+    playbackCloseButton:
+      'modal-action modal-close waves-effect waves-green btn-flat vtabs-public-playback-close',
+    spinner: 'icon-spinner',
+    startPlayInitial: 'start-play-1',
+    stop: 'icon-stop2'
+  }
+} as const
+
+const PUBLIC_RUNTIME_PLAYBACK_CONTROL_ORDER = [
+  'play_speed',
+  'play_transpose',
+  'play_note',
+  'play_chord',
+  'play_metronome',
+  'play_count_in',
+  'play_loop',
+  'play_drum',
+  'locate_note',
+  'highlight_note'
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_CONTROL_LABELS = {
+  play_speed: 'Tempo',
+  play_loop: 'Loop',
+  play_note: 'Melody',
+  play_metronome: 'Metronome',
+  play_drum: 'Drums',
+  play_chord: 'Chords',
+  play_count_in: 'Count-in',
+  play_transpose: 'Transpose',
+  locate_note: 'Follow note',
+  highlight_note: 'Highlight note'
+} as const
+
+const PUBLIC_RUNTIME_PLAYBACK_TOGGLE_CONTROLS = [
+  'play_loop',
+  'play_metronome',
+  'play_drum',
+  'locate_note',
+  'highlight_note'
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_OPTION_LABELS = [
+  ['play_note', 'acoustic_grand_piano', 'On'],
+  ['play_note', 'off', 'Off'],
+  ['play_chord', 'default', 'Auto'],
+  ['play_chord', 'on', 'On'],
+  ['play_chord', 'off', 'Off'],
+  ['play_count_in', 'off', 'Off'],
+  ['play_count_in', 'on', '3 beats']
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_ACTION_LABELS = [
+  ['startAction', 'Start'],
+  ['restartAction', 'Restart'],
+  ['resumeAction', 'Continue'],
+  ['playFromNoteAction', 'Play from note']
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_PANEL_RESET_PROPERTIES = [
+  'position',
+  'top',
+  'left',
+  'right',
+  'bottom',
+  'width',
+  'max-height',
+  'height',
+  'transform'
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_MODAL_CONTENT_RESET_PROPERTIES = [
+  'position',
+  'top',
+  'bottom',
+  'height',
+  'max-height',
+  'overflow'
+] as const
+
+const PUBLIC_RUNTIME_PLAYBACK_MODAL_FOOTER_RESET_PROPERTIES = [
+  'position',
+  'top',
+  'bottom',
+  'height'
+] as const
+
 /* KEEP: 功能已迁移至自有界面，底层逻辑复用，禁止删除 */
 export function buildPublicRuntimePlaybackBridgeScript() {
   return `
+  var publicPlaybackBridgeConfig = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_BRIDGE_CONFIG)};
+  var publicPlaybackControlOrder = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_CONTROL_ORDER)};
+  var publicPlaybackControlLabels = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_CONTROL_LABELS)};
+  var publicPlaybackToggleControls = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_TOGGLE_CONTROLS)};
+  var publicPlaybackOptionLabels = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_OPTION_LABELS)};
+  var publicPlaybackActionLabels = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_ACTION_LABELS)};
+  var publicPlaybackPanelResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_PANEL_RESET_PROPERTIES)};
+  var publicPlaybackModalContentResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_MODAL_CONTENT_RESET_PROPERTIES)};
+  var publicPlaybackModalFooterResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_MODAL_FOOTER_RESET_PROPERTIES)};
   var playbackStatusObserver = null;
   var playbackPanelObserver = null;
   var observedPlaybackButton = null;
@@ -53,7 +193,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         return null;
       }
 
-      return normalizeStoredPlaybackTranspose(window.Kit.storage.readFromStorage('song_play_transpose'));
+      return normalizeStoredPlaybackTranspose(
+        window.Kit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.transpose)
+      );
     } catch (error) {
       return null;
     }
@@ -65,7 +207,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         return;
       }
 
-      window.Kit.storage.writeToStorage('song_play_transpose', String(value));
+      window.Kit.storage.writeToStorage(publicPlaybackBridgeConfig.storageKeys.transpose, String(value));
     } catch (error) {
       // Keep playback usable even if storage is unavailable.
     }
@@ -77,7 +219,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         return 'off';
       }
 
-      return normalizeStoredPlaybackToggle(window.Kit.storage.readFromStorage('song_play_count_in'));
+      return normalizeStoredPlaybackToggle(
+        window.Kit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.countIn)
+      );
     } catch (error) {
       return 'off';
     }
@@ -89,14 +233,17 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         return;
       }
 
-      window.Kit.storage.writeToStorage('song_play_count_in', normalizeStoredPlaybackToggle(value));
+      window.Kit.storage.writeToStorage(
+        publicPlaybackBridgeConfig.storageKeys.countIn,
+        normalizeStoredPlaybackToggle(value)
+      );
     } catch (error) {
       // Keep playback usable even if storage is unavailable.
     }
   }
 
   function getPublicPlaybackCountInValue() {
-    var control = document.getElementById('play_count_in');
+    var control = document.getElementById(publicPlaybackBridgeConfig.ids.countInControl);
     if (control && control.value) {
       return normalizeStoredPlaybackToggle(control.value);
     }
@@ -119,7 +266,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function syncPublicPlaybackTransposeControl() {
-    var playTranspose = document.getElementById('play_transpose');
+    var playTranspose = document.getElementById(publicPlaybackBridgeConfig.ids.transposeControl);
     if (!playTranspose) {
       return;
     }
@@ -133,8 +280,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       playTranspose.value = storedValue;
     }
 
-    if (playTranspose.getAttribute('data-vtabs-play-transpose-hooked') !== '1') {
-      playTranspose.setAttribute('data-vtabs-play-transpose-hooked', '1');
+    if (playTranspose.getAttribute(publicPlaybackBridgeConfig.attributes.transposeHooked) !== '1') {
+      playTranspose.setAttribute(publicPlaybackBridgeConfig.attributes.transposeHooked, '1');
       playTranspose.addEventListener('change', function () {
         setStoredPlaybackTranspose(playTranspose.value);
       });
@@ -146,34 +293,36 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var row = playModal.querySelector('.modal-content .row');
+    var row = playModal.querySelector(publicPlaybackBridgeConfig.selectors.modalContentRow);
     if (!row) {
       return;
     }
 
-    var wrapper = document.getElementById('play-count-in-row');
+    var wrapper = document.getElementById(publicPlaybackBridgeConfig.ids.countInRow);
     if (!wrapper) {
       wrapper = document.createElement('div');
-      wrapper.id = 'play-count-in-row';
+      wrapper.id = publicPlaybackBridgeConfig.ids.countInRow;
       wrapper.className = 'input-field col select-div s4 m3';
       wrapper.innerHTML =
-        '<label class="active" for="play_count_in">Count-in</label>' +
-        '<select id="play_count_in" class="browser-select browser-default">' +
+        '<label class="active" for="' + publicPlaybackBridgeConfig.ids.countInControl + '">Count-in</label>' +
+        '<select id="' +
+        publicPlaybackBridgeConfig.ids.countInControl +
+        '" class="browser-select browser-default">' +
         '<option value="off">Off</option>' +
         '<option value="on">3 beats</option>' +
         '</select>';
       row.appendChild(wrapper);
     }
 
-    var control = document.getElementById('play_count_in');
+    var control = document.getElementById(publicPlaybackBridgeConfig.ids.countInControl);
     if (!control) {
       return;
     }
 
     control.value = getStoredPlaybackCountIn();
 
-    if (control.getAttribute('data-vtabs-play-count-in-hooked') !== '1') {
-      control.setAttribute('data-vtabs-play-count-in-hooked', '1');
+    if (control.getAttribute(publicPlaybackBridgeConfig.attributes.countInHooked) !== '1') {
+      control.setAttribute(publicPlaybackBridgeConfig.attributes.countInHooked, '1');
       control.addEventListener('change', function () {
         setStoredPlaybackCountIn(control.value);
       });
@@ -185,25 +334,16 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var row = playModal.querySelector('.modal-content .row');
+    var row = playModal.querySelector(publicPlaybackBridgeConfig.selectors.modalContentRow);
     if (!row) {
       return;
     }
 
-    [
-      'play_speed',
-      'play_transpose',
-      'play_note',
-      'play_chord',
-      'play_metronome',
-      'play_count_in',
-      'play_loop',
-      'play_drum',
-      'locate_note',
-      'highlight_note'
-    ].forEach(function (controlId) {
+    publicPlaybackControlOrder.forEach(function (controlId) {
       var control = document.getElementById(controlId);
-      var field = control && control.closest ? control.closest('.input-field') : null;
+      var field = control && control.closest
+        ? control.closest(publicPlaybackBridgeConfig.selectors.inputField)
+        : null;
       if (field) {
         row.appendChild(field);
       }
@@ -268,20 +408,20 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function localizeNoSoundHelp() {
-    var noSoundButton = document.getElementById('nosound-btn');
+    var noSoundButton = document.getElementById(publicPlaybackBridgeConfig.ids.noSoundButton);
     if (noSoundButton) {
       noSoundButton.setAttribute('aria-hidden', 'true');
       noSoundButton.style.display = 'none';
     }
 
-    var noSoundModal = document.getElementById('nosound-modal');
+    var noSoundModal = document.getElementById(publicPlaybackBridgeConfig.ids.noSoundModal);
     if (!noSoundModal) {
       return;
     }
 
     noSoundModal.setAttribute('aria-label', 'Audio troubleshooting');
-    var titles = noSoundModal.querySelectorAll('.modal-content .card-title');
-    var paragraphs = noSoundModal.querySelectorAll('.modal-content p');
+    var titles = noSoundModal.querySelectorAll(publicPlaybackBridgeConfig.selectors.noSoundTitles);
+    var paragraphs = noSoundModal.querySelectorAll(publicPlaybackBridgeConfig.selectors.noSoundParagraphs);
     if (titles[0]) {
       titles[0].textContent = 'No Sound';
     }
@@ -300,26 +440,30 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (paragraphs[2]) {
       paragraphs[2].textContent = 'Close this panel and try playback again after changing device audio settings.';
     }
-    setElementText('#nosound-modal .modal-footer .modal-close', 'OK');
+    setElementText(publicPlaybackBridgeConfig.selectors.noSoundCloseButton, 'OK');
   }
 
   function getPublicPlaybackStatus() {
-    var playButton = document.getElementById('play-btn');
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
     if (!playButton || !playButton.classList) {
       return 'idle';
     }
-    if (playButton.classList.contains('icon-stop2')) {
+    if (playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
       return 'playing';
     }
-    if (playButton.classList.contains('icon-spinner')) {
+    if (playButton.classList.contains(publicPlaybackBridgeConfig.classes.spinner)) {
       return 'loading';
     }
     return 'idle';
   }
 
   function isPublicPlaybackLoading() {
-    var playButton = document.getElementById('play-btn');
-    return Boolean(playButton && playButton.classList && playButton.classList.contains('icon-spinner'));
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
+    return Boolean(
+      playButton &&
+        playButton.classList &&
+        playButton.classList.contains(publicPlaybackBridgeConfig.classes.spinner)
+    );
   }
 
   function postPublicPlaybackStatus() {
@@ -365,7 +509,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function isPublicPlaybackPanelOpen() {
-    var playModal = document.getElementById('play-modal');
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playModal) {
       return false;
     }
@@ -379,7 +523,17 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function isPublicRuntimeContainerHost() {
-    return Boolean(document.querySelector('[data-public-runtime-dom-mount="true"]'));
+    return Boolean(document.querySelector(publicPlaybackBridgeConfig.selectors.containerMount));
+  }
+
+  function removePublicPlaybackStyleProperties(element, properties) {
+    if (!element || !element.style) {
+      return;
+    }
+
+    properties.forEach(function (propertyName) {
+      element.style.removeProperty(propertyName);
+    });
   }
 
   function openPublicPlaybackPanelFallback(playModal) {
@@ -387,36 +541,18 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    playModal.setAttribute('data-public-runtime-container-panel', 'open');
+    playModal.setAttribute(publicPlaybackBridgeConfig.attributes.containerPanel, 'open');
     playModal.style.display = 'block';
     playModal.style.opacity = '1';
-    playModal.style.removeProperty('position');
-    playModal.style.removeProperty('top');
-    playModal.style.removeProperty('left');
-    playModal.style.removeProperty('right');
-    playModal.style.removeProperty('bottom');
-    playModal.style.removeProperty('width');
-    playModal.style.removeProperty('max-height');
-    playModal.style.removeProperty('height');
-    playModal.style.removeProperty('transform');
-
-    var modalContent = playModal.querySelector('.modal-content');
-    if (modalContent && modalContent.style) {
-      modalContent.style.removeProperty('position');
-      modalContent.style.removeProperty('top');
-      modalContent.style.removeProperty('bottom');
-      modalContent.style.removeProperty('height');
-      modalContent.style.removeProperty('max-height');
-      modalContent.style.removeProperty('overflow');
-    }
-
-    var modalFooter = playModal.querySelector('.modal-footer');
-    if (modalFooter && modalFooter.style) {
-      modalFooter.style.removeProperty('position');
-      modalFooter.style.removeProperty('top');
-      modalFooter.style.removeProperty('bottom');
-      modalFooter.style.removeProperty('height');
-    }
+    removePublicPlaybackStyleProperties(playModal, publicPlaybackPanelResetProperties);
+    removePublicPlaybackStyleProperties(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.modalContent),
+      publicPlaybackModalContentResetProperties
+    );
+    removePublicPlaybackStyleProperties(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.modalFooter),
+      publicPlaybackModalFooterResetProperties
+    );
     restorePublicContainerPageScroll();
   }
 
@@ -434,7 +570,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    playModal.removeAttribute('data-public-runtime-container-panel');
+    playModal.removeAttribute(publicPlaybackBridgeConfig.attributes.containerPanel);
     restorePublicContainerPageScroll();
   }
 
@@ -454,7 +590,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       document.documentElement.style.removeProperty('overflow');
     }
 
-    Array.prototype.slice.call(document.querySelectorAll('.lean-overlay')).forEach(function (overlay) {
+    Array.prototype.slice.call(document.querySelectorAll(publicPlaybackBridgeConfig.selectors.overlay)).forEach(function (overlay) {
       if (overlay && overlay.style) {
         overlay.style.display = 'none';
         overlay.style.opacity = '0';
@@ -501,19 +637,35 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var playButton = document.getElementById('play-btn');
-    var isPlaying = Boolean(playButton && playButton.classList && playButton.classList.contains('icon-stop2'));
-    var isLoading = Boolean(playButton && playButton.classList && playButton.classList.contains('icon-spinner'));
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
+    var isPlaying = Boolean(
+      playButton && playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)
+    );
+    var isLoading = Boolean(
+      playButton && playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.spinner)
+    );
     var midiPlayer = window.Song && window.Song.midiPlayer;
     var engine = midiPlayer && midiPlayer.engine;
     var context = midiPlayer && midiPlayer.context;
     var hasPlayProgress = Boolean(engine && engine.playTime) || publicPlaybackResumeAvailable;
     var hasPlayLine = Boolean(context && context.playLine);
 
-    setPublicPlaybackActionVisible(playModal.querySelector('.op-replay.start-play-1'), !isPlaying && !isLoading && !hasPlayProgress);
-    setPublicPlaybackActionVisible(playModal.querySelector('.op-replay.start-play-2'), isPlaying || hasPlayProgress);
-    setPublicPlaybackActionVisible(playModal.querySelector('.op-resume.start-play-2'), isPlaying || hasPlayProgress);
-    setPublicPlaybackActionVisible(playModal.querySelector('.op-play.start-play-3'), !isPlaying && !isLoading && hasPlayLine);
+    setPublicPlaybackActionVisible(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.startAction),
+      !isPlaying && !isLoading && !hasPlayProgress
+    );
+    setPublicPlaybackActionVisible(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.restartAction),
+      isPlaying || hasPlayProgress
+    );
+    setPublicPlaybackActionVisible(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.resumeAction),
+      isPlaying || hasPlayProgress
+    );
+    setPublicPlaybackActionVisible(
+      playModal.querySelector(publicPlaybackBridgeConfig.selectors.playFromNoteAction),
+      !isPlaying && !isLoading && hasPlayLine
+    );
   }
 
   function postPublicPlaybackPanelStatus() {
@@ -537,18 +689,18 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     Array.prototype.slice
-      .call(document.querySelectorAll('.op-play, .op-replay, .op-resume'))
+      .call(document.querySelectorAll(publicPlaybackBridgeConfig.selectors.playbackActions))
       .forEach(function (button) {
-        if (!button || button.getAttribute('data-vtabs-playback-hooked') === '1') {
+        if (!button || button.getAttribute(publicPlaybackBridgeConfig.attributes.playbackHooked) === '1') {
           return;
         }
-        button.setAttribute('data-vtabs-playback-hooked', '1');
+        button.setAttribute(publicPlaybackBridgeConfig.attributes.playbackHooked, '1');
         button.addEventListener('click', function () {
           disablePublicPlaybackAutoScroll();
           pausePublicPlaybackScheduler();
         }, true);
         button.addEventListener('click', function () {
-          if (button.classList && button.classList.contains('start-play-1')) {
+          if (button.classList && button.classList.contains(publicPlaybackBridgeConfig.classes.startPlayInitial)) {
             publicPlaybackResumeAvailable = false;
           }
           publicPlaybackSessionStarted = true;
@@ -556,7 +708,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
           if (isPublicRuntimeContainerHost()) {
             [0, 40, 140].forEach(function (delay) {
               window.setTimeout(function () {
-                closePublicContainerPlaybackPanel(document.getElementById('play-modal'));
+                closePublicContainerPlaybackPanel(
+                  document.getElementById(publicPlaybackBridgeConfig.ids.playModal)
+                );
               }, delay);
             });
           }
@@ -564,7 +718,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
             postPublicPlaybackStatusValue('loading');
           }, 20);
           window.setTimeout(function () {
-            normalizePublicPlaybackPanelButtonState(document.getElementById('play-modal'));
+            normalizePublicPlaybackPanelButtonState(
+              document.getElementById(publicPlaybackBridgeConfig.ids.playModal)
+            );
             postPublicPlaybackStatus();
           }, 120);
           window.setTimeout(function () {
@@ -624,7 +780,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (typeof originalOpenModal === 'function') {
       $.fn.openModal = function () {
         var playModal = this && this[0];
-        if (playModal && playModal.id === 'play-modal' && isPublicRuntimeContainerHost()) {
+        if (playModal && playModal.id === publicPlaybackBridgeConfig.ids.playModal && isPublicRuntimeContainerHost()) {
           openPublicPlaybackPanelFallback(playModal);
           postPublicPlaybackPanelStatus();
           return this;
@@ -637,7 +793,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (typeof originalCloseModal === 'function') {
       $.fn.closeModal = function () {
         var playModal = this && this[0];
-        if (playModal && playModal.id === 'play-modal' && isPublicRuntimeContainerHost()) {
+        if (playModal && playModal.id === publicPlaybackBridgeConfig.ids.playModal && isPublicRuntimeContainerHost()) {
           closePublicContainerPlaybackPanel(playModal);
           return this;
         }
@@ -654,7 +810,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var playButton = document.getElementById('play-btn');
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
     if (!playButton) {
       postPublicPlaybackStatus();
       return;
@@ -671,7 +827,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     observedPlaybackButton = playButton;
     playbackStatusObserver = new MutationObserver(function () {
-      normalizePublicPlaybackPanelButtonState(document.getElementById('play-modal'));
+      normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
       postPublicPlaybackStatus();
     });
     playbackStatusObserver.observe(playButton, {
@@ -686,7 +842,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var playModal = document.getElementById('play-modal');
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playModal) {
       postPublicPlaybackPanelStatus();
       return;
@@ -724,7 +880,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     window.clearInterval(context.countDownInterval);
     context.countDownInterval = null;
-    var countDownArea = document.querySelector('.count-down-area');
+    var countDownArea = document.querySelector(publicPlaybackBridgeConfig.selectors.countDownArea);
     if (countDownArea && countDownArea.style) {
       countDownArea.style.display = 'none';
     }
@@ -740,16 +896,16 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     installPublicPlaybackContainerModalOverride();
     disablePublicPlaybackAutoScroll();
 
-    var playModal = document.getElementById('play-modal');
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playModal) {
       return;
     }
 
-    document.documentElement.setAttribute('data-vtabs-public-playback', '1');
+    document.documentElement.setAttribute(publicPlaybackBridgeConfig.attributes.publicPlayback, '1');
     playModal.setAttribute('role', 'dialog');
     playModal.setAttribute('aria-label', 'Playback controls');
 
-    var playLabel = document.getElementById('play-btn-label');
+    var playLabel = document.getElementById(publicPlaybackBridgeConfig.ids.playButtonLabel);
     if (playLabel && String(playLabel.textContent || '').trim() === '播放') {
       playLabel.textContent = 'Listen';
     }
@@ -757,32 +913,19 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       playLabel.textContent = 'Loading soundfonts...';
     }
 
-    setLabelText('play_speed', 'Tempo');
-    setLabelText('play_loop', 'Loop');
-    setLabelText('play_note', 'Melody');
-    setLabelText('play_metronome', 'Metronome');
-    setLabelText('play_drum', 'Drums');
-    setLabelText('play_chord', 'Chords');
-    setLabelText('play_count_in', 'Count-in');
-    setLabelText('play_transpose', 'Transpose');
-    setLabelText('locate_note', 'Follow note');
-    setLabelText('highlight_note', 'Highlight note');
+    Object.keys(publicPlaybackControlLabels).forEach(function (controlId) {
+      setLabelText(controlId, publicPlaybackControlLabels[controlId]);
+    });
 
-    localizePlaybackToggle('play_loop');
-    localizePlaybackToggle('play_metronome');
-    localizePlaybackToggle('play_drum');
-    localizePlaybackToggle('locate_note');
-    localizePlaybackToggle('highlight_note');
-    setOptionText('play_note', 'acoustic_grand_piano', 'On');
-    setOptionText('play_note', 'off', 'Off');
-    setOptionText('play_chord', 'default', 'Auto');
-    setOptionText('play_chord', 'on', 'On');
-    setOptionText('play_chord', 'off', 'Off');
-    setOptionText('play_count_in', 'off', 'Off');
-    setOptionText('play_count_in', 'on', '3 beats');
+    publicPlaybackToggleControls.forEach(localizePlaybackToggle);
+    publicPlaybackOptionLabels.forEach(function (optionLabel) {
+      setOptionText(optionLabel[0], optionLabel[1], optionLabel[2]);
+    });
 
-    var microphone = document.getElementById('play_microphone');
-    var microphoneField = microphone && microphone.closest ? microphone.closest('.input-field') : null;
+    var microphone = document.getElementById(publicPlaybackBridgeConfig.ids.microphoneControl);
+    var microphoneField = microphone && microphone.closest
+      ? microphone.closest(publicPlaybackBridgeConfig.selectors.inputField)
+      : null;
     if (microphoneField) {
       microphoneField.setAttribute('aria-hidden', 'true');
       microphoneField.style.display = 'none';
@@ -791,37 +934,27 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     syncPublicPlaybackCountInControl(playModal);
     reorderPublicPlaybackControls(playModal);
 
-    Array.prototype.slice.call(document.querySelectorAll('#play_transpose option')).forEach(function (option) {
+    Array.prototype.slice.call(document.querySelectorAll(publicPlaybackBridgeConfig.selectors.transposeOptions)).forEach(function (option) {
       var value = option.getAttribute('value') || '';
       option.textContent = formatSemitoneLabel(value);
     });
 
     syncPublicPlaybackTransposeControl();
 
-    var start = playModal.querySelector('.op-replay.start-play-1');
-    if (start) {
-      start.textContent = 'Start';
-    }
-    var restart = playModal.querySelector('.op-replay.start-play-2');
-    if (restart) {
-      restart.textContent = 'Restart';
-    }
-    var resume = playModal.querySelector('.op-resume.start-play-2');
-    if (resume) {
-      resume.textContent = 'Continue';
-    }
-    var fromNote = playModal.querySelector('.op-play.start-play-3');
-    if (fromNote) {
-      fromNote.textContent = 'Play from note';
-    }
+    publicPlaybackActionLabels.forEach(function (actionLabel) {
+      var action = playModal.querySelector(publicPlaybackBridgeConfig.selectors[actionLabel[0]]);
+      if (action) {
+        action.textContent = actionLabel[1];
+      }
+    });
     normalizePublicPlaybackPanelButtonState(playModal);
     localizeNoSoundHelp();
 
-    var footer = playModal.querySelector('.modal-footer');
-    if (footer && !footer.querySelector('.vtabs-public-playback-close')) {
+    var footer = playModal.querySelector(publicPlaybackBridgeConfig.selectors.modalFooter);
+    if (footer && !footer.querySelector(publicPlaybackBridgeConfig.selectors.playbackCloseButton)) {
       var closeButton = document.createElement('a');
       closeButton.href = 'javascript:void(0)';
-      closeButton.className = 'modal-action modal-close waves-effect waves-green btn-flat vtabs-public-playback-close';
+      closeButton.className = publicPlaybackBridgeConfig.classes.playbackCloseButton;
       closeButton.textContent = 'Close';
       closeButton.addEventListener('click', function (event) {
         event.preventDefault();
@@ -854,7 +987,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     publicPlaybackPanelRequestId += 1;
-    var playModal = document.getElementById('play-modal');
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playModal) {
       postPublicPlaybackPanelStatus();
       return;
@@ -892,13 +1025,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     publicPlaybackPanelRequestId = playbackPanelOpenRequestId;
     localizePublicPlayback();
 
-    var playButton = document.getElementById('play-btn');
-    var playModal = document.getElementById('play-modal');
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playButton || !playModal) {
       return;
     }
 
-    if (playButton.classList && playButton.classList.contains('icon-stop2')) {
+    if (playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
       var $ = window.jQuery || window.$;
       if ($ && $.fn && $.fn.openModal) {
         $(playModal).openModal({ opacity: 0, in_duration: 120, out_duration: 80 });
@@ -924,13 +1057,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    if (playButton.classList && playButton.classList.contains('icon-spinner')) {
+    if (playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.spinner)) {
       window.setTimeout(localizePublicPlayback, 300);
       return;
     }
 
     disablePublicPlaybackAutoScroll();
-    var playTrigger = document.getElementById('play-li') || playButton;
+    var playTrigger = document.getElementById(publicPlaybackBridgeConfig.ids.playTrigger) || playButton;
     playTrigger.dispatchEvent(new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
@@ -967,24 +1100,25 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var playButton = document.getElementById('play-btn');
+    var playButton = document.getElementById(publicPlaybackBridgeConfig.ids.playButton);
     if (!playButton || !playButton.classList) {
       postPublicPlaybackStatus();
       return;
     }
 
-    publicPlaybackResumeAvailable = publicPlaybackSessionStarted || playButton.classList.contains('icon-stop2');
+    publicPlaybackResumeAvailable =
+      publicPlaybackSessionStarted || playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop);
     publicPlaybackSessionStarted = false;
     publicPlaybackStatusLockUntil = 0;
     publicPlaybackPanelRequestId += 1;
 
-    if (!playButton.classList.contains('icon-stop2')) {
+    if (!playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
       if (cancelPublicPlaybackCountdown()) {
         postPublicPlaybackStatusValue('idle');
       } else {
         postPublicPlaybackStatus();
       }
-      var pendingModal = document.getElementById('play-modal');
+      var pendingModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
       if (pendingModal) {
         pendingModal.style.display = 'none';
         closePublicPlaybackPanelFallback(pendingModal);
@@ -1000,7 +1134,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       view: window
     }));
 
-    var playModal = document.getElementById('play-modal');
+    var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     var $ = window.jQuery || window.$;
     if (playModal && $ && $.fn && $.fn.closeModal) {
       $(playModal).closeModal({ out_duration: 80 });
@@ -1023,7 +1157,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    document.documentElement.setAttribute('data-vtabs-public-playback', '1');
+    document.documentElement.setAttribute(publicPlaybackBridgeConfig.attributes.publicPlayback, '1');
     localizePublicPlayback();
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
