@@ -1,5 +1,4 @@
 import Script from 'next/script'
-import { headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import PublicRuntimePage from '@/components/song/PublicRuntimePage'
 import {
@@ -136,17 +135,10 @@ export default function SongPage({
   const queryState = parseSongPageQueryStateFromSearchParams(searchParams)
   const runtimeHostQueryValue = readPublicRuntimeHostModeSearchParam(searchParams)
   const runtimeHostQueryFlag = hasPublicRuntimeHostQueryFlag(searchParams)
-  const requestHeaders = headers()
   const runtimeHostResolution = resolvePublicRuntimeHostRollout({
     queryValue: runtimeHostQueryValue,
     hasQueryFlag: runtimeHostQueryFlag,
-    searchParams,
-    userAgent:
-      requestHeaders.get('x-vtabs-runtime-user-agent') ?? requestHeaders.get('user-agent'),
-    rolloutKey:
-      requestHeaders.get('x-vtabs-runtime-host-rollout-key') ??
-      requestHeaders.get('x-forwarded-for') ??
-      null
+    searchParams
   })
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
