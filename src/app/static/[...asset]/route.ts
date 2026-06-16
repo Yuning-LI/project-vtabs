@@ -1,10 +1,16 @@
-import { proxyKuailepuStaticAsset } from '@/lib/kuailepu/assetProxy'
+import { proxyPublicRuntimeStaticAsset } from '@/lib/kuailepu/assetProxy'
+
+type StaticAssetRouteContext = {
+  params: {
+    asset?: string[]
+  }
+}
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(
   _request: Request,
-  { params }: { params: { asset: string[] } }
+  { params }: StaticAssetRouteContext
 ) {
-  return proxyKuailepuStaticAsset(params.asset ?? [])
+  return proxyPublicRuntimeStaticAsset(params.asset ?? [])
 }
