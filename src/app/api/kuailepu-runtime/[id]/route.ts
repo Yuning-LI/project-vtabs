@@ -54,7 +54,7 @@ export async function GET(
    * 如果后续需要排查完整授权 runtime 模板行为，允许临时切回 `full-template`。
    */
   const publicRuntimeAssetProfile =
-    searchParams.get('runtime_asset_profile') === 'full-template' || publicFeatures.length > 0
+    searchParams.get('runtime_asset_profile') === 'full-template'
       ? 'full-template'
       : 'public-song'
   const shouldCdnCacheRuntimeHtml = isRuntimeHtmlCdnCacheable({

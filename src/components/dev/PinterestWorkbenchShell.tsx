@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
+import { getBrowserWindow } from '@/lib/runtime-core/client/browserEnvironment'
 
 type PinterestWorkbenchShellProps = {
   footer: ReactNode
@@ -17,6 +18,11 @@ export default function PinterestWorkbenchShell({
   const [isControlsOpen, setIsControlsOpen] = useState(false)
 
   useEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     function onKeyDown(event: KeyboardEvent) {
       const target = event.target
       const isEditableTarget =
@@ -41,8 +47,8 @@ export default function PinterestWorkbenchShell({
       }
     }
 
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    runtimeWindow.addEventListener('keydown', onKeyDown)
+    return () => runtimeWindow.removeEventListener('keydown', onKeyDown)
   }, [])
 
   return (

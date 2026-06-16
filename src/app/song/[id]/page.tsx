@@ -338,7 +338,7 @@ function buildPublicSongContainerRuntimePackage({
     state: runtimeState,
     letterTrack,
     textMode: 'english',
-    assetProfile: 'full-template',
+    assetProfile: 'public-song',
     publicFeatures,
     preferredEnglishTitle: runtimeTextTitle || title,
     preferredEnglishSubtitle: null,

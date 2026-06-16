@@ -2,6 +2,7 @@ import { buildPublicRuntimeHeightBridgeScript } from './height/publicRuntimeHeig
 import { buildPublicRuntimeMetronomeBridgeScript } from './metronome/publicRuntimeMetronomeBridge.ts'
 import { buildPublicRuntimePlaybackBridgeScript } from './playback/publicRuntimePlaybackBridge.ts'
 import { buildPublicRuntimeBootstrapScript } from './script/publicRuntimeBootstrap.ts'
+import { buildPublicRuntimeBridgeHelperScript } from './script/publicRuntimeBridgeHelpers.ts'
 import { buildPublicRuntimeSvgBridgeScript } from './svg/publicRuntimeSvgBridge.ts'
 
 export type PublicRuntimeBridgeScriptStages = {
@@ -12,6 +13,7 @@ export type PublicRuntimeBridgeScriptStages = {
 export function buildPublicRuntimeBridgeScriptStages(): PublicRuntimeBridgeScriptStages {
   return {
     runtimeFeatureScripts: [
+      buildPublicRuntimeBridgeHelperScript(),
       buildPublicRuntimeMetronomeBridgeScript(),
       buildPublicRuntimePlaybackBridgeScript(),
       buildPublicRuntimeSvgBridgeScript()

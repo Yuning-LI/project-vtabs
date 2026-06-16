@@ -1,4 +1,9 @@
-export type PublicRuntimeHostMode = 'iframe' | 'container'
+export const LEGACY_RUNTIME_IFRAME_SIGNAL = 'iframe'
+export const PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL = 'container'
+
+export type PublicRuntimeHostMode =
+  | typeof LEGACY_RUNTIME_IFRAME_SIGNAL
+  | typeof PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
 
 export type PublicRuntimeHostModeSource = 'query' | 'environment' | 'bot' | 'rollout' | 'default'
 
@@ -12,7 +17,8 @@ export type PublicRuntimeHostModeResolution = {
 
 export const PUBLIC_RUNTIME_HOST_QUERY_PARAM = 'runtime_host'
 export const PUBLIC_RUNTIME_HOST_DEFAULT_ENV = 'NEXT_PUBLIC_RUNTIME_HOST_DEFAULT'
-export const DEFAULT_PUBLIC_RUNTIME_HOST_MODE: PublicRuntimeHostMode = 'iframe'
+export const DEFAULT_PUBLIC_RUNTIME_HOST_MODE: PublicRuntimeHostMode =
+  LEGACY_RUNTIME_IFRAME_SIGNAL
 export const PUBLIC_RUNTIME_IFRAME_FALLBACK_ENABLED = false
 
 type SearchParamValue = string | string[] | undefined
@@ -23,7 +29,10 @@ export function normalizePublicRuntimeHostMode(
 ): PublicRuntimeHostMode | null {
   const normalized = value?.trim().toLowerCase()
 
-  if (normalized === 'iframe' || normalized === 'container') {
+  if (
+    normalized === LEGACY_RUNTIME_IFRAME_SIGNAL ||
+    normalized === PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
+  ) {
     return normalized
   }
 
@@ -33,8 +42,8 @@ export function normalizePublicRuntimeHostMode(
 export function resolvePublicRuntimeEffectiveHostMode(
   mode: PublicRuntimeHostMode
 ): PublicRuntimeHostMode {
-  if (mode === 'iframe' && !PUBLIC_RUNTIME_IFRAME_FALLBACK_ENABLED) {
-    return 'container'
+  if (mode === LEGACY_RUNTIME_IFRAME_SIGNAL && !PUBLIC_RUNTIME_IFRAME_FALLBACK_ENABLED) {
+    return PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
   }
 
   return mode

@@ -17,6 +17,11 @@ import {
   PUBLIC_RUNTIME_REDRAW_MESSAGE,
   PUBLIC_RUNTIME_SIZE_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import {
+  getBrowserDocument,
+  getBrowserPerformanceNow,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
 import type {
   PublicRuntimeAsset
 } from '@/lib/runtime-core/server/assembly/publicRuntimeAssetManifest'
@@ -213,7 +218,8 @@ export default function RuntimeHostReviewClient({
   )
 
   useEffect(() => {
-    if (!showExtendedDiagnostics) {
+    const runtimeWindow = getBrowserWindow()
+    if (!showExtendedDiagnostics || !runtimeWindow) {
       return
     }
 
@@ -225,7 +231,7 @@ export default function RuntimeHostReviewClient({
         ...current.slice(-11),
         {
           ...diagnostic,
-          timestamp: performance.now()
+          timestamp: getBrowserPerformanceNow()
         }
       ])
     }
@@ -260,14 +266,14 @@ export default function RuntimeHostReviewClient({
       })
     }
 
-    window.addEventListener('error', handleWindowError)
-    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+    runtimeWindow.addEventListener('error', handleWindowError)
+    runtimeWindow.addEventListener('unhandledrejection', handleUnhandledRejection)
 
     return () => {
       console.error = originalError
       console.warn = originalWarn
-      window.removeEventListener('error', handleWindowError)
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+      runtimeWindow.removeEventListener('error', handleWindowError)
+      runtimeWindow.removeEventListener('unhandledrejection', handleUnhandledRejection)
     }
   }, [showExtendedDiagnostics])
 
@@ -294,7 +300,7 @@ export default function RuntimeHostReviewClient({
             height: message.height,
             hasRenderedSheet: current?.hasRenderedSheet ?? false,
             hasRuntimeContent: current?.hasRuntimeContent ?? false,
-            measuredAt: performance.now()
+            measuredAt: getBrowserPerformanceNow()
           }))
         }
       }),
@@ -334,7 +340,7 @@ export default function RuntimeHostReviewClient({
       const message = { type, songId }
       const controllers = hostControllersRef.current
       const results = (Object.values(controllers) as PublicRuntimeHostController[])
-        .map(controller => controller.postMessage(message))
+        .map(controller => controller.dispatchCommand(message))
       if (!controllers.container) {
         results.push(dispatchContainerRuntimeCommand(message))
       }
@@ -344,11 +350,16 @@ export default function RuntimeHostReviewClient({
   )
 
   const navigateWithinReview = useCallback((href: string) => {
-    window.location.href = href
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+    runtimeWindow.location.href = href
   }, [])
 
   useEffect(() => {
-    if (!isPlaybackPanelOpen) {
+    const runtimeDocument = getBrowserDocument()
+    if (!runtimeDocument || !isPlaybackPanelOpen) {
       return
     }
 
@@ -376,9 +387,9 @@ export default function RuntimeHostReviewClient({
       }
     }
 
-    document.addEventListener('pointerdown', handlePointerDown)
+    runtimeDocument.addEventListener('pointerdown', handlePointerDown)
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
+      runtimeDocument.removeEventListener('pointerdown', handlePointerDown)
     }
   }, [isPlaybackPanelOpen, multicastCommand])
 
@@ -693,14 +704,8 @@ function aggregatePlaybackStatus(state: RuntimeHostPlaybackState): PlaybackUiSta
   return 'idle'
 }
 
-function identifyRuntimeHostMessageSource(
-  source: MessageEventSource | null
-): RuntimeHostKey | null {
-  if (typeof window !== 'undefined' && source === window) {
-    return 'container'
-  }
-
-  return null
+function identifyRuntimeHostMessageSource(source: 'container-event'): RuntimeHostKey {
+  return source === 'container-event' ? 'container' : 'container'
 }
 
 function updateRuntimeHostState<T>(

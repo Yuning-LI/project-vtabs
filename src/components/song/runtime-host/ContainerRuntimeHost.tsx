@@ -8,6 +8,10 @@ import type {
 import RuntimeScriptLoader from './RuntimeScriptLoader'
 import RuntimeStyleInjector from './RuntimeStyleInjector'
 import { PUBLIC_RUNTIME_READY_MESSAGE } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
+import {
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
+import { useBrowserLayoutEffect } from '@/lib/runtime-core/client/useBrowserLayoutEffect'
 import { subscribeToPublicRuntimeHostMessages } from '../PublicRuntimeHostController'
 import { useRuntimeContainerMeasurement } from './useRuntimeContainerMeasurement'
 import { useRuntimeHostLifecycle } from './useRuntimeHostLifecycle'
@@ -73,9 +77,9 @@ export default function ContainerRuntimeHost({
   useEffect(() => {
     setIsRuntimeReady(false)
   }, [bodyHtml, enableScriptLoader, songId])
-
-  useEffect(() => {
-    if (!enableScriptLoader) {
+  useBrowserLayoutEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!enableScriptLoader || !runtimeWindow) {
       return
     }
 
@@ -86,9 +90,9 @@ export default function ContainerRuntimeHost({
       }
 
       if (readyFrame !== null) {
-        window.cancelAnimationFrame(readyFrame)
+        runtimeWindow.cancelAnimationFrame(readyFrame)
       }
-      readyFrame = window.requestAnimationFrame(() => {
+      readyFrame = runtimeWindow.requestAnimationFrame(() => {
         readyFrame = null
         setIsRuntimeReady(current => {
           if (!current) {
@@ -102,7 +106,7 @@ export default function ContainerRuntimeHost({
     return () => {
       unsubscribe()
       if (readyFrame !== null) {
-        window.cancelAnimationFrame(readyFrame)
+        runtimeWindow.cancelAnimationFrame(readyFrame)
       }
     }
   }, [enableScriptLoader, songId])

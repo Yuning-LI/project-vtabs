@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { getBrowserWindow } from '@/lib/runtime-core/client/browserEnvironment'
 
 export type PlaybackUiStatus = 'idle' | 'loading' | 'playing'
 
@@ -14,23 +15,30 @@ export function usePublicRuntimePlaybackState() {
   const playbackActivationTimeoutRef = useRef<number | null>(null)
 
   const clearPlaybackLoadingInterval = useCallback(() => {
+    const runtimeWindow = getBrowserWindow()
     if (playbackLoadingIntervalRef.current !== null) {
-      window.clearInterval(playbackLoadingIntervalRef.current)
+      runtimeWindow?.clearInterval(playbackLoadingIntervalRef.current)
       playbackLoadingIntervalRef.current = null
     }
   }, [])
 
   const clearPlaybackActivationTimeout = useCallback(() => {
+    const runtimeWindow = getBrowserWindow()
     if (playbackActivationTimeoutRef.current !== null) {
-      window.clearTimeout(playbackActivationTimeoutRef.current)
+      runtimeWindow?.clearTimeout(playbackActivationTimeoutRef.current)
       playbackActivationTimeoutRef.current = null
     }
   }, [])
 
   const startPlaybackActivationGuard = useCallback(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     playbackActivationPendingRef.current = true
     clearPlaybackActivationTimeout()
-    playbackActivationTimeoutRef.current = window.setTimeout(() => {
+    playbackActivationTimeoutRef.current = runtimeWindow.setTimeout(() => {
       playbackActivationPendingRef.current = false
       playbackActivationTimeoutRef.current = null
     }, 5000)

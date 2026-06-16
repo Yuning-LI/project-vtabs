@@ -7,6 +7,10 @@ import {
   useSongRoutePrefetch,
   useVisibleSongRoutePrefetch
 } from '@/components/song/useSongRoutePrefetch'
+import {
+  getBrowserDocument,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
 
 type LibrarySong = {
   id: string
@@ -73,18 +77,20 @@ export default function LibraryBrowser({
   }, [familyFilters])
 
   useEffect(() => {
-    if (sortMode !== 'az') {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow || sortMode !== 'az') {
       setShowBackToTop(false)
       return
     }
+    const browserWindow = runtimeWindow
 
     function onScroll() {
-      setShowBackToTop(window.scrollY > 720)
+      setShowBackToTop(browserWindow.scrollY > 720)
     }
 
     onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    browserWindow.addEventListener('scroll', onScroll, { passive: true })
+    return () => browserWindow.removeEventListener('scroll', onScroll)
   }, [sortMode])
 
   const normalizedQuery = normalizeLibrarySearchText(query)
@@ -96,11 +102,16 @@ export default function LibraryBrowser({
       return
     }
 
-    const timeoutId = window.setTimeout(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
+    const timeoutId = runtimeWindow.setTimeout(() => {
       setVisiblePrefetchSearchKey(normalizedQuery)
     }, 300)
 
-    return () => window.clearTimeout(timeoutId)
+    return () => runtimeWindow.clearTimeout(timeoutId)
   }, [normalizedQuery])
 
   const filteredSongs = useMemo(() => {
@@ -171,29 +182,46 @@ export default function LibraryBrowser({
     }
 
     const scrollY = restoreScrollY
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     setRestoreScrollY(null)
-    window.requestAnimationFrame(() => {
-      window.scrollTo({ top: scrollY, behavior: 'auto' })
+    runtimeWindow.requestAnimationFrame(() => {
+      runtimeWindow.scrollTo({ top: scrollY, behavior: 'auto' })
     })
   }, [filteredSongs, groupedSongs, restoreScrollY, sortMode])
 
   function scrollBackToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    window.setTimeout(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
+    runtimeWindow.scrollTo({ top: 0, behavior: 'smooth' })
+    runtimeWindow.setTimeout(() => {
       azJumpNavRef.current?.focus()
     }, 360)
   }
 
   function scrollToLetterGroup(letter: string) {
-    const target = document.getElementById(`library-group-${encodeURIComponent(letter)}`)
+    const target = getBrowserDocument()?.getElementById(
+      `library-group-${encodeURIComponent(letter)}`
+    )
     target?.scrollIntoView({ behavior: 'auto', block: 'start' })
   }
 
   function saveCurrentLibraryBrowserState() {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     writeLibraryBrowserHistoryState({
       activeFamily,
       query,
-      scrollY: window.scrollY,
+      scrollY: runtimeWindow.scrollY,
       showMobileFilters,
       sortMode
     })
@@ -505,11 +533,12 @@ function isCurrentTabNavigation(
 function readLibraryBrowserHistoryState(
   familyFilters: string[]
 ): LibraryBrowserHistoryState | null {
-  if (typeof window === 'undefined') {
+  const runtimeWindow = getBrowserWindow()
+  if (!runtimeWindow) {
     return null
   }
 
-  const value = window.history.state?.[LIBRARY_BROWSER_HISTORY_STATE_KEY]
+  const value = runtimeWindow.history.state?.[LIBRARY_BROWSER_HISTORY_STATE_KEY]
   if (!isLibraryBrowserHistoryState(value)) {
     return null
   }
@@ -526,17 +555,18 @@ function readLibraryBrowserHistoryState(
 }
 
 function writeLibraryBrowserHistoryState(state: LibraryBrowserHistoryState) {
-  if (typeof window === 'undefined') {
+  const runtimeWindow = getBrowserWindow()
+  if (!runtimeWindow) {
     return
   }
 
-  window.history.replaceState(
+  runtimeWindow.history.replaceState(
     {
-      ...(window.history.state ?? {}),
+      ...(runtimeWindow.history.state ?? {}),
       [LIBRARY_BROWSER_HISTORY_STATE_KEY]: state
     },
     '',
-    window.location.href
+    runtimeWindow.location.href
   )
 }
 

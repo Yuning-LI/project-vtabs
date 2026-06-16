@@ -1,4 +1,5 @@
 import {
+  PUBLIC_RUNTIME_HOST_MESSAGE_EVENT,
   PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE
 } from '../publicRuntimeMessageTypes.ts'
@@ -154,6 +155,11 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var publicPlaybackResumeAvailable = false;
   var publicPlaybackStatusLockUntil = 0;
   var publicPlaybackPanelRequestId = 0;
+  var postPublicPlaybackStatusThrottled = createPublicRuntimeThrottledTask(function () {
+    normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
+    postPublicPlaybackStatus();
+  }, 120);
+  var postPublicPlaybackPanelStatusThrottled = createPublicRuntimeThrottledTask(postPublicPlaybackPanelStatus, 120);
 
   function setLabelText(inputId, text) {
     var label = document.querySelector('label[for="' + inputId + '"]');
@@ -189,12 +195,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
   function getStoredPlaybackTranspose() {
     try {
-      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.readFromStorage !== 'function') {
+      var runtimeKit = getPublicRuntimeKit();
+      if (!runtimeKit || !runtimeKit.storage || typeof runtimeKit.storage.readFromStorage !== 'function') {
         return null;
       }
 
       return normalizeStoredPlaybackTranspose(
-        window.Kit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.transpose)
+        runtimeKit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.transpose)
       );
     } catch (error) {
       return null;
@@ -203,11 +210,12 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
   function setStoredPlaybackTranspose(value) {
     try {
-      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.writeToStorage !== 'function') {
+      var runtimeKit = getPublicRuntimeKit();
+      if (!runtimeKit || !runtimeKit.storage || typeof runtimeKit.storage.writeToStorage !== 'function') {
         return;
       }
 
-      window.Kit.storage.writeToStorage(publicPlaybackBridgeConfig.storageKeys.transpose, String(value));
+      runtimeKit.storage.writeToStorage(publicPlaybackBridgeConfig.storageKeys.transpose, String(value));
     } catch (error) {
       // Keep playback usable even if storage is unavailable.
     }
@@ -215,12 +223,13 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
   function getStoredPlaybackCountIn() {
     try {
-      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.readFromStorage !== 'function') {
+      var runtimeKit = getPublicRuntimeKit();
+      if (!runtimeKit || !runtimeKit.storage || typeof runtimeKit.storage.readFromStorage !== 'function') {
         return 'off';
       }
 
       return normalizeStoredPlaybackToggle(
-        window.Kit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.countIn)
+        runtimeKit.storage.readFromStorage(publicPlaybackBridgeConfig.storageKeys.countIn)
       );
     } catch (error) {
       return 'off';
@@ -229,11 +238,12 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
   function setStoredPlaybackCountIn(value) {
     try {
-      if (!window.Kit || !window.Kit.storage || typeof window.Kit.storage.writeToStorage !== 'function') {
+      var runtimeKit = getPublicRuntimeKit();
+      if (!runtimeKit || !runtimeKit.storage || typeof runtimeKit.storage.writeToStorage !== 'function') {
         return;
       }
 
-      window.Kit.storage.writeToStorage(
+      runtimeKit.storage.writeToStorage(
         publicPlaybackBridgeConfig.storageKeys.countIn,
         normalizeStoredPlaybackToggle(value)
       );
@@ -286,6 +296,21 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         setStoredPlaybackTranspose(playTranspose.value);
       });
     }
+  }
+
+  function normalizePublicPlaybackTempoOptions() {
+    var tempoControl = document.getElementById('play_speed');
+    if (!tempoControl) {
+      return;
+    }
+
+    Array.prototype.slice.call(tempoControl.querySelectorAll('option')).forEach(function (option) {
+      var value = option.getAttribute('value') || '';
+      var text = String(option.textContent || '').trim();
+      if (!text || /undefined/i.test(text)) {
+        option.textContent = value;
+      }
+    });
   }
 
   function syncPublicPlaybackCountInControl(playModal) {
@@ -351,11 +376,12 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function installPublicPlaybackCountInOverride() {
-    if (!hasPublicPlayback || typeof window.MidiPlayer !== 'function') {
+    var RuntimeMidiPlayer = getPublicRuntimeMidiPlayerConstructor();
+    if (!hasPublicPlayback || typeof RuntimeMidiPlayer !== 'function') {
       return;
     }
 
-    var prototype = window.MidiPlayer && window.MidiPlayer.prototype;
+    var prototype = RuntimeMidiPlayer && RuntimeMidiPlayer.prototype;
     if (!prototype || prototype.__vtabsCountInHooked === true || typeof prototype.count !== 'function') {
       return;
     }
@@ -467,10 +493,6 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function postPublicPlaybackStatus() {
-    if (!window.parent) {
-      return;
-    }
-
     var status = getPublicPlaybackStatus();
     if (publicPlaybackSessionStarted && status === 'idle' && Date.now() < publicPlaybackStatusLockUntil) {
       status = 'loading';
@@ -483,29 +505,19 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       publicPlaybackSessionStarted = true;
     }
 
-    window.parent.postMessage(
-      {
-        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
-        songId: songId,
-        status: status
-      },
-      '*'
-    );
+    dispatchPublicRuntimePlaybackHostMessage({
+      type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
+      songId: songId,
+      status: status
+    });
   }
 
   function postPublicPlaybackStatusValue(status) {
-    if (!window.parent) {
-      return;
-    }
-
-    window.parent.postMessage(
-      {
-        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
-        songId: songId,
-        status: status
-      },
-      '*'
-    );
+    dispatchPublicRuntimePlaybackHostMessage({
+      type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_STATUS_MESSAGE)},
+      songId: songId,
+      status: status
+    });
   }
 
   function isPublicPlaybackPanelOpen() {
@@ -644,7 +656,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     var isLoading = Boolean(
       playButton && playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.spinner)
     );
-    var midiPlayer = window.Song && window.Song.midiPlayer;
+    var runtimeSong = getPublicRuntimeSong();
+    var midiPlayer = runtimeSong && runtimeSong.midiPlayer;
     var engine = midiPlayer && midiPlayer.engine;
     var context = midiPlayer && midiPlayer.context;
     var hasPlayProgress = Boolean(engine && engine.playTime) || publicPlaybackResumeAvailable;
@@ -669,17 +682,18 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function postPublicPlaybackPanelStatus() {
-    if (!window.parent) {
-      return;
-    }
+    dispatchPublicRuntimePlaybackHostMessage({
+      type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE)},
+      songId: songId,
+      isOpen: isPublicPlaybackPanelOpen()
+    });
+  }
 
-    window.parent.postMessage(
-      {
-        type: ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE)},
-        songId: songId,
-        isOpen: isPublicPlaybackPanelOpen()
-      },
-      '*'
+  function dispatchPublicRuntimePlaybackHostMessage(detail) {
+    window.dispatchEvent(
+      new CustomEvent(${JSON.stringify(PUBLIC_RUNTIME_HOST_MESSAGE_EVENT)}, {
+        detail: detail
+      })
     );
   }
 
@@ -733,7 +747,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function disablePublicPlaybackAutoScroll() {
-    var midiPlayer = window.Song && window.Song.midiPlayer;
+    var runtimeSong = getPublicRuntimeSong();
+    var midiPlayer = runtimeSong && runtimeSong.midiPlayer;
     if (!midiPlayer) {
       return;
     }
@@ -749,7 +764,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function pausePublicPlaybackScheduler() {
-    var midiPlayer = window.Song && window.Song.midiPlayer;
+    var runtimeSong = getPublicRuntimeSong();
+    var midiPlayer = runtimeSong && runtimeSong.midiPlayer;
     var engine = midiPlayer && midiPlayer.engine;
     if (!engine) {
       return;
@@ -769,7 +785,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var $ = window.jQuery || window.$;
+    var $ = getPublicRuntimeQuery();
     if (!$ || !$.fn || $.fn.__vtabsPublicPlaybackModalOverride === true) {
       return;
     }
@@ -827,8 +843,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     observedPlaybackButton = playButton;
     playbackStatusObserver = new MutationObserver(function () {
-      normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
-      postPublicPlaybackStatus();
+      postPublicPlaybackStatusThrottled();
     });
     playbackStatusObserver.observe(playButton, {
       attributes: true,
@@ -844,7 +859,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     if (!playModal) {
-      postPublicPlaybackPanelStatus();
+      postPublicPlaybackPanelStatusThrottled();
       return;
     }
 
@@ -869,11 +884,12 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   }
 
   function cancelPublicPlaybackCountdown() {
-    if (typeof window.CountDown !== 'object' || !window.CountDown || !window.CountDown.context) {
+    var runtimeCountDown = getPublicRuntimeCountDown();
+    if (typeof runtimeCountDown !== 'object' || !runtimeCountDown || !runtimeCountDown.context) {
       return false;
     }
 
-    var context = window.CountDown.context;
+    var context = runtimeCountDown.context;
     if (!context.countDownInterval) {
       return false;
     }
@@ -921,6 +937,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     publicPlaybackOptionLabels.forEach(function (optionLabel) {
       setOptionText(optionLabel[0], optionLabel[1], optionLabel[2]);
     });
+    normalizePublicPlaybackTempoOptions();
 
     var microphone = document.getElementById(publicPlaybackBridgeConfig.ids.microphoneControl);
     var microphoneField = microphone && microphone.closest
@@ -963,7 +980,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
           closePublicContainerPlaybackPanel(playModal);
           return;
         }
-        var $ = window.jQuery || window.$;
+        var $ = getPublicRuntimeQuery();
         if ($ && $.fn && $.fn.closeModal) {
           $(playModal).closeModal({ out_duration: 80 });
           window.setTimeout(postPublicPlaybackPanelStatus, 90);
@@ -998,7 +1015,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    var $ = window.jQuery || window.$;
+    var $ = getPublicRuntimeQuery();
     if ($ && $.fn && $.fn.closeModal && isPublicPlaybackPanelOpen()) {
       $(playModal).closeModal({ out_duration: 80 });
       [40, 120].forEach(function (delay) {
@@ -1032,7 +1049,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
 
     if (playButton.classList && playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
-      var $ = window.jQuery || window.$;
+      var $ = getPublicRuntimeQuery();
       if ($ && $.fn && $.fn.openModal) {
         $(playModal).openModal({ opacity: 0, in_duration: 120, out_duration: 80 });
       } else {
@@ -1135,7 +1152,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }));
 
     var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
-    var $ = window.jQuery || window.$;
+    var $ = getPublicRuntimeQuery();
     if (playModal && $ && $.fn && $.fn.closeModal) {
       $(playModal).closeModal({ out_duration: 80 });
     } else if (playModal) {

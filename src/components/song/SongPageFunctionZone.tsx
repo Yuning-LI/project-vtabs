@@ -3,6 +3,10 @@
 import { ChevronDown, ChevronUp, LoaderCircle, PlayCircle, SlidersHorizontal, Square } from 'lucide-react'
 import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
+import {
+  getBrowserDocument,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
 
 export type SongPageFunctionZoneSelectOption = {
   value: string
@@ -75,7 +79,8 @@ export default function SongPageFunctionZone({
   }, [])
 
   useEffect(() => {
-    if (!isDesktopExpanded) {
+    const runtimeDocument = getBrowserDocument()
+    if (!runtimeDocument || !isDesktopExpanded) {
       return
     }
 
@@ -91,17 +96,18 @@ export default function SongPageFunctionZone({
       }
     }
 
-    document.addEventListener('pointerdown', handlePointerDown)
-    document.addEventListener('keydown', handleKeyDown)
+    runtimeDocument.addEventListener('pointerdown', handlePointerDown)
+    runtimeDocument.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
-      document.removeEventListener('keydown', handleKeyDown)
+      runtimeDocument.removeEventListener('pointerdown', handlePointerDown)
+      runtimeDocument.removeEventListener('keydown', handleKeyDown)
     }
   }, [isDesktopExpanded])
 
   useEffect(() => {
-    if (!isMobileExpanded) {
+    const runtimeDocument = getBrowserDocument()
+    if (!runtimeDocument || !isMobileExpanded) {
       return
     }
 
@@ -111,10 +117,10 @@ export default function SongPageFunctionZone({
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown)
+    runtimeDocument.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
+      runtimeDocument.removeEventListener('keydown', handleKeyDown)
     }
   }, [isMobileExpanded])
 
@@ -142,7 +148,7 @@ export default function SongPageFunctionZone({
       gesture.moved = true
     }
     if (scrollDelta !== 0) {
-      window.scrollBy({ top: scrollDelta, behavior: 'auto' })
+      getBrowserWindow()?.scrollBy({ top: scrollDelta, behavior: 'auto' })
     }
     gesture.lastY = event.clientY
   }
@@ -163,7 +169,7 @@ export default function SongPageFunctionZone({
   function handleMobileBackdropWheel(event: ReactWheelEvent<HTMLDivElement>) {
     event.preventDefault()
     event.stopPropagation()
-    window.scrollBy({ top: event.deltaY, behavior: 'auto' })
+    getBrowserWindow()?.scrollBy({ top: event.deltaY, behavior: 'auto' })
   }
 
   function navigate(href: string, options: NavigateOptions = {}) {
@@ -184,7 +190,7 @@ export default function SongPageFunctionZone({
       return
     }
 
-    window.location.replace(href)
+    getBrowserWindow()?.location.replace(href)
   }
 
   function closeMobileSheet() {

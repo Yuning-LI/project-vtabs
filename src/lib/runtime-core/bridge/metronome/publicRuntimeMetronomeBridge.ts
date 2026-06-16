@@ -53,7 +53,8 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
       return;
     }
 
-    if (window.Metronome && window.Metronome.tick >= 0) {
+    var runtimeMetronome = getPublicRuntimeMetronome();
+    if (runtimeMetronome && runtimeMetronome.tick >= 0) {
       playButton.textContent = 'Stop';
       return;
     }
@@ -193,15 +194,16 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
     document.documentElement.setAttribute(publicMetronomeBridgeConfig.attributes.publicMetronome, '1');
     localizePublicMetronome();
 
-    if (window.Metronome) {
-      window.Metronome.onstart = function () {
+    var runtimeMetronome = getPublicRuntimeMetronome();
+    if (runtimeMetronome) {
+      runtimeMetronome.onstart = function () {
         syncPublicMetronomeButtonLabel();
       };
-      window.Metronome.onstop = function () {
+      runtimeMetronome.onstop = function () {
         setPublicMetronomeBeat('');
         syncPublicMetronomeButtonLabel();
       };
-      window.Metronome.onbeat = function (value) {
+      runtimeMetronome.onbeat = function (value) {
         setPublicMetronomeBeat(value);
       };
       syncPublicMetronomeButtonLabel();

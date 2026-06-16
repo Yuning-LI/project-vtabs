@@ -9,6 +9,10 @@ import {
 } from '@/lib/songbook/practicePairTypes'
 import { buildSongPageHref } from '@/lib/songbook/publicInstruments'
 import {
+  getBrowserDocument,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
+import {
   useSongRoutePrefetch,
   useVisibleSongRoutePrefetch
 } from '@/components/song/useSongRoutePrefetch'
@@ -37,7 +41,9 @@ export default function DeferredPracticePairSection({
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!suggestions) {
+    const runtimeWindow = getBrowserWindow()
+    const runtimeDocument = getBrowserDocument()
+    if (!suggestions || !runtimeWindow || !runtimeDocument) {
       return
     }
 
@@ -50,13 +56,13 @@ export default function DeferredPracticePairSection({
     }
 
     const scheduleReveal = () => {
-      if (typeof window.requestIdleCallback === 'function') {
-        const handle = window.requestIdleCallback(reveal, { timeout: 2000 })
-        return () => window.cancelIdleCallback?.(handle)
+      if (typeof runtimeWindow.requestIdleCallback === 'function') {
+        const handle = runtimeWindow.requestIdleCallback(reveal, { timeout: 2000 })
+        return () => runtimeWindow.cancelIdleCallback?.(handle)
       }
 
-      const timeoutId = window.setTimeout(reveal, 1200)
-      return () => window.clearTimeout(timeoutId)
+      const timeoutId = runtimeWindow.setTimeout(reveal, 1200)
+      return () => runtimeWindow.clearTimeout(timeoutId)
     }
 
     let cleanupScheduler: (() => void) | null = null
@@ -65,20 +71,25 @@ export default function DeferredPracticePairSection({
       cleanupScheduler = scheduleReveal()
     }
 
-    if (document.readyState === 'complete') {
+    if (runtimeDocument.readyState === 'complete') {
       onWindowLoaded()
     } else {
-      window.addEventListener('load', onWindowLoaded, { once: true })
+      runtimeWindow.addEventListener('load', onWindowLoaded, { once: true })
     }
 
     return () => {
       cancelled = true
-      window.removeEventListener('load', onWindowLoaded)
+      runtimeWindow.removeEventListener('load', onWindowLoaded)
       cleanupScheduler?.()
     }
   }, [suggestions])
 
   useEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     function handleLinkStateChange(event: Event) {
       const customEvent = event as CustomEvent<PracticePairLinkState>
       if (!customEvent.detail) {
@@ -88,9 +99,9 @@ export default function DeferredPracticePairSection({
       setLinkState(customEvent.detail)
     }
 
-    window.addEventListener(SONG_PAGE_LINK_STATE_EVENT, handleLinkStateChange as EventListener)
+    runtimeWindow.addEventListener(SONG_PAGE_LINK_STATE_EVENT, handleLinkStateChange as EventListener)
     return () => {
-      window.removeEventListener(
+      runtimeWindow.removeEventListener(
         SONG_PAGE_LINK_STATE_EVENT,
         handleLinkStateChange as EventListener
       )

@@ -1,4 +1,5 @@
 import type { FingeringState, RenderResult } from '@/lib/types'
+import { getBrowserDocument } from '@/lib/runtime-core/client/browserEnvironment'
 
 /**
  * 12 孔 AC 陶笛指法字典。
@@ -153,11 +154,16 @@ export const MIDI_TO_NAME: Record<number, { letter: string; octave: number }> =
  * @returns 渲染结果，包含 SVG 元素与尺寸信息
  */
 export function drawOcarina12(state: FingeringState): RenderResult {
+  const runtimeDocument = getBrowserDocument()
+  if (!runtimeDocument) {
+    throw new Error('drawOcarina12 requires a browser document')
+  }
+
   const ns = 'http://www.w3.org/2000/svg'
-  const g = document.createElementNS(ns, 'g')
+  const g = runtimeDocument.createElementNS(ns, 'g')
 
   // 1. 身体轮廓
-  const path = document.createElementNS(ns, 'path')
+  const path = runtimeDocument.createElementNS(ns, 'path')
   path.setAttribute('d', BODY_PATH)
   path.setAttribute('fill', 'none')
   path.setAttribute('stroke', '#3E2723')
@@ -166,7 +172,7 @@ export function drawOcarina12(state: FingeringState): RenderResult {
 
   // 2. 画 12 个孔位
   Object.entries(HOLE_COORDS).forEach(([id, { cx, cy, r }]) => {
-    const circle = document.createElementNS(ns, 'circle')
+    const circle = runtimeDocument.createElementNS(ns, 'circle')
     circle.setAttribute('cx', cx.toString())
     circle.setAttribute('cy', cy.toString())
     circle.setAttribute('r', r.toString())

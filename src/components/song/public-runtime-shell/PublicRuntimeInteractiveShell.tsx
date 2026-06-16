@@ -44,7 +44,15 @@ import {
 import { PUBLIC_RUNTIME_API_BASE_PATH } from '@/lib/runtime-core/publicRuntimePaths'
 import type { RuntimeScriptEntry } from '@/lib/runtime-core/runtimeScriptTypes'
 import {
+  getBrowserDocument,
+  getBrowserPerformanceNow,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
+import { scheduleRuntimeSoundfontIdlePreload } from '@/lib/runtime-core/client/soundfontIdlePreload'
+import {
   normalizePublicRuntimeHostMode,
+  PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL,
+  LEGACY_RUNTIME_IFRAME_SIGNAL,
   type PublicRuntimeHostMode,
   type PublicRuntimeHostModeSource
 } from '@/lib/runtime-core/publicRuntimeHostMode'
@@ -150,7 +158,7 @@ export default function PublicRuntimeInteractiveShell({
   runtimeDefaultFingeringIndex,
   runtimeDefaultShowGraph,
   hasLyricToggle,
-  runtimeHostMode = 'iframe',
+  runtimeHostMode = LEGACY_RUNTIME_IFRAME_SIGNAL,
   runtimeHostModeSource = 'default',
   runtimeHostQueryFlag = false,
   runtimeHostDiagnostics,
@@ -188,6 +196,8 @@ export default function PublicRuntimeInteractiveShell({
   const previousInstrumentRef = useRef<string | null>(null)
   const runtimeHostMountedAtRef = useRef<number | null>(null)
   const runtimeReadyTrackedRef = useRef<string | null>(null)
+  const pendingPlaybackCommandTimeoutRef = useRef<number | null>(null)
+  const runtimeReadyFallbackTimeoutRef = useRef<number | null>(null)
 
   const activeInstrument = useMemo(
     () =>
@@ -239,7 +249,7 @@ export default function PublicRuntimeInteractiveShell({
     ]
   )
   const activeRuntimeHostMode: PublicRuntimeHostMode = containerRuntimePackage
-    ? 'container'
+    ? PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
     : runtimeHostMode
   const shouldEnablePlaybackRuntimeFeature = containerRuntimePackage
     ? true
@@ -249,7 +259,8 @@ export default function PublicRuntimeInteractiveShell({
       type: PublicRuntimeHostMonitorEvent['type'],
       details?: Record<string, string | number | boolean | null>
     ) => {
-      if (typeof window === 'undefined') {
+      const runtimeWindow = getBrowserWindow()
+      if (!runtimeWindow) {
         return
       }
 
@@ -261,8 +272,8 @@ export default function PublicRuntimeInteractiveShell({
         timestamp: Date.now(),
         details
       }
-      window.__PUBLIC_RUNTIME_HOST_MONITOR__ = [
-        ...(window.__PUBLIC_RUNTIME_HOST_MONITOR__ ?? []).slice(-49),
+      runtimeWindow.__PUBLIC_RUNTIME_HOST_MONITOR__ = [
+        ...(runtimeWindow.__PUBLIC_RUNTIME_HOST_MONITOR__ ?? []).slice(-49),
         event
       ]
       sendGaEvent('public_runtime_host_monitor', {
@@ -423,6 +434,10 @@ export default function PublicRuntimeInteractiveShell({
   const runtimeQueryString = params.toString()
   const runtimeHostSessionKey = `${activeRuntimeHostMode}:${runtimeApiBasePath}:${songId}:${runtimeQueryString}`
   const loadingId = `public-runtime-${songId}-loading`
+  const shouldMonitorRuntimeGlobalErrors =
+    runtimeHostQueryFlag ||
+    Boolean(runtimeHostDiagnostics?.rolloutEnabled) ||
+    process.env.NODE_ENV !== 'production'
   const pageHref = useCallback(
     (nextQueryState: PublicSongPageQueryState & { songId?: string }) =>
       buildSongPageHref({
@@ -435,10 +450,20 @@ export default function PublicRuntimeInteractiveShell({
 
   useEffect(() => {
     setIsPlaybackPanelOpen(false)
-  }, [runtimeHostSessionKey])
+  }, [runtimeHostSessionKey, setIsPlaybackPanelOpen])
 
   useEffect(() => {
-    runtimeHostMountedAtRef.current = performance.now()
+    const controller = scheduleRuntimeSoundfontIdlePreload({
+      enabled: shouldEnablePlaybackRuntimeFeature
+    })
+
+    return () => {
+      controller.cancel()
+    }
+  }, [shouldEnablePlaybackRuntimeFeature, runtimeHostSessionKey])
+
+  useEffect(() => {
+    runtimeHostMountedAtRef.current = getBrowserPerformanceNow()
     runtimeReadyTrackedRef.current = null
     recordRuntimeHostMonitorEvent('host_decision', {
       queryFlag: runtimeHostQueryFlag,
@@ -460,6 +485,11 @@ export default function PublicRuntimeInteractiveShell({
   }, [onRuntimeFrameReadyChange, runtimeHostSessionKey])
 
   useEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow || !shouldMonitorRuntimeGlobalErrors) {
+      return
+    }
+
     function handleWindowError(event: ErrorEvent) {
       recordRuntimeHostMonitorEvent('window_error', {
         message: event.message || 'window error',
@@ -474,15 +504,20 @@ export default function PublicRuntimeInteractiveShell({
       })
     }
 
-    window.addEventListener('error', handleWindowError)
-    window.addEventListener('unhandledrejection', handleUnhandledRejection)
+    runtimeWindow.addEventListener('error', handleWindowError)
+    runtimeWindow.addEventListener('unhandledrejection', handleUnhandledRejection)
     return () => {
-      window.removeEventListener('error', handleWindowError)
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
+      runtimeWindow.removeEventListener('error', handleWindowError)
+      runtimeWindow.removeEventListener('unhandledrejection', handleUnhandledRejection)
     }
-  }, [recordRuntimeHostMonitorEvent])
+  }, [recordRuntimeHostMonitorEvent, shouldMonitorRuntimeGlobalErrors])
 
   useEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     if (playbackStatus !== 'loading') {
       if (playbackStatus === 'playing') {
         completePlaybackLoadingProgress()
@@ -493,7 +528,7 @@ export default function PublicRuntimeInteractiveShell({
     }
 
     if (playbackLoadingStartTimeRef.current === null) {
-      playbackLoadingStartTimeRef.current = performance.now()
+      playbackLoadingStartTimeRef.current = getBrowserPerformanceNow()
       setPlaybackLoadingProgress(0)
     }
 
@@ -503,16 +538,16 @@ export default function PublicRuntimeInteractiveShell({
 
     const syntheticLoadingDurationMs = 5300
 
-    playbackLoadingIntervalRef.current = window.setInterval(() => {
-      const startedAt = playbackLoadingStartTimeRef.current ?? performance.now()
+    playbackLoadingIntervalRef.current = runtimeWindow.setInterval(() => {
+      const startedAt = playbackLoadingStartTimeRef.current ?? getBrowserPerformanceNow()
       setPlaybackLoadingProgress(current => {
-        const elapsed = Math.max(0, performance.now() - startedAt)
+        const elapsed = Math.max(0, getBrowserPerformanceNow() - startedAt)
         const ratio = Math.min(1, elapsed / syntheticLoadingDurationMs)
         const easedRatio = 1 - Math.pow(1 - ratio, 2.2)
         const next = Math.min(95, Math.round(easedRatio * 95))
         return next > current ? next : current
       })
-    }, 90)
+    }, 180)
 
     return () => {
       clearPlaybackLoadingInterval()
@@ -520,8 +555,11 @@ export default function PublicRuntimeInteractiveShell({
   }, [
     clearPlaybackLoadingInterval,
     completePlaybackLoadingProgress,
+    playbackLoadingIntervalRef,
+    playbackLoadingStartTimeRef,
     playbackStatus,
-    resetPlaybackLoadingProgress
+    resetPlaybackLoadingProgress,
+    setPlaybackLoadingProgress
   ])
 
   useEffect(() => {
@@ -534,8 +572,32 @@ export default function PublicRuntimeInteractiveShell({
     () => () => {
       clearPlaybackLoadingInterval()
       clearPlaybackActivationTimeout()
+      const runtimeWindow = getBrowserWindow()
+      if (runtimeWindow && pendingPlaybackCommandTimeoutRef.current !== null) {
+        runtimeWindow.clearTimeout(pendingPlaybackCommandTimeoutRef.current)
+      }
+      if (runtimeWindow && runtimeReadyFallbackTimeoutRef.current !== null) {
+        runtimeWindow.clearTimeout(runtimeReadyFallbackTimeoutRef.current)
+      }
+      pendingPlaybackCommandTimeoutRef.current = null
+      runtimeReadyFallbackTimeoutRef.current = null
     },
     [clearPlaybackActivationTimeout, clearPlaybackLoadingInterval]
+  )
+
+  useEffect(
+    () => () => {
+      const runtimeWindow = getBrowserWindow()
+      if (runtimeWindow && pendingPlaybackCommandTimeoutRef.current !== null) {
+        runtimeWindow.clearTimeout(pendingPlaybackCommandTimeoutRef.current)
+      }
+      if (runtimeWindow && runtimeReadyFallbackTimeoutRef.current !== null) {
+        runtimeWindow.clearTimeout(runtimeReadyFallbackTimeoutRef.current)
+      }
+      pendingPlaybackCommandTimeoutRef.current = null
+      runtimeReadyFallbackTimeoutRef.current = null
+    },
+    [runtimeHostSessionKey]
   )
 
   useEffect(() => {
@@ -553,11 +615,12 @@ export default function PublicRuntimeInteractiveShell({
   }, [activeInstrument.id, hasLyricToggle, noteLabelMode, songId])
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
       return
     }
 
-    window.dispatchEvent(
+    runtimeWindow.dispatchEvent(
       new CustomEvent(SONG_PAGE_LINK_STATE_EVENT, {
         detail: {
           instrumentId: activeInstrument.id,
@@ -591,17 +654,18 @@ export default function PublicRuntimeInteractiveShell({
   }, [activeInstrument.id, noteLabelMode, songId])
 
   function navigateWithinSongPage(href: string) {
-    if (!href || typeof window === 'undefined') {
+    const runtimeWindow = getBrowserWindow()
+    if (!href || !runtimeWindow) {
       return
     }
 
-    const nextUrl = new URL(href, window.location.origin)
+    const nextUrl = new URL(href, runtimeWindow.location.origin)
     if (nextUrl.pathname !== `${pageBasePath}/${songId}`) {
-      window.location.replace(nextUrl.toString())
+      runtimeWindow.location.replace(nextUrl.toString())
       return
     }
 
-    window.location.replace(nextUrl.toString())
+    runtimeWindow.location.replace(nextUrl.toString())
   }
 
   useEffect(
@@ -632,12 +696,19 @@ export default function PublicRuntimeInteractiveShell({
           setPlaybackStatus(data.status)
         }
       }),
-    [resolvePlaybackActivationGuard, songId]
+    [
+      pendingPlaybackOpenRef,
+      playbackActivationPendingRef,
+      resolvePlaybackActivationGuard,
+      setIsPlaybackPanelOpen,
+      setPlaybackStatus,
+      songId
+    ]
   )
 
   const postPlaybackCommandMessage = useCallback(
     (action: 'open' | 'stop' | 'close') => {
-      if (typeof window === 'undefined') {
+      if (!getBrowserWindow()) {
         return false
       }
 
@@ -651,7 +722,7 @@ export default function PublicRuntimeInteractiveShell({
         songId
       }
       const runtimeHost = runtimeHostControllerRef.current
-      if (runtimeHost?.postMessage(message)) {
+      if (runtimeHost?.dispatchCommand(message)) {
         return true
       }
 
@@ -665,6 +736,14 @@ export default function PublicRuntimeInteractiveShell({
   )
 
   useEffect(() => {
+    const runtimeDocument = getBrowserDocument()
+    if (
+      !runtimeDocument ||
+      (playbackStatus === 'idle' && !isPlaybackPanelOpen && !pendingPlaybackOpenRef.current)
+    ) {
+      return
+    }
+
     function handleRuntimePlaybackCloseClick(event: MouseEvent) {
       const target = event.target
       if (!(target instanceof Element)) {
@@ -684,14 +763,15 @@ export default function PublicRuntimeInteractiveShell({
       postPlaybackCommandMessage('close')
     }
 
-    document.addEventListener('click', handleRuntimePlaybackCloseClick, true)
+    runtimeDocument.addEventListener('click', handleRuntimePlaybackCloseClick, true)
     return () => {
-      document.removeEventListener('click', handleRuntimePlaybackCloseClick, true)
+      runtimeDocument.removeEventListener('click', handleRuntimePlaybackCloseClick, true)
     }
-  }, [postPlaybackCommandMessage])
+  }, [isPlaybackPanelOpen, playbackStatus, postPlaybackCommandMessage, pendingPlaybackOpenRef])
 
   useEffect(() => {
-    if (!isPlaybackPanelOpen) {
+    const runtimeDocument = getBrowserDocument()
+    if (!runtimeDocument || !isPlaybackPanelOpen) {
       return
     }
 
@@ -715,9 +795,9 @@ export default function PublicRuntimeInteractiveShell({
       postPlaybackCommandMessage('close')
     }
 
-    document.addEventListener('pointerdown', handlePointerDown)
+    runtimeDocument.addEventListener('pointerdown', handlePointerDown)
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
+      runtimeDocument.removeEventListener('pointerdown', handlePointerDown)
     }
   }, [isPlaybackPanelOpen, postPlaybackCommandMessage])
 
@@ -754,7 +834,7 @@ export default function PublicRuntimeInteractiveShell({
 
     if (!isPlaybackFeatureEnabled) {
       setIsPlaybackFeatureEnabled(true)
-      if (activeRuntimeHostMode !== 'container') {
+      if (activeRuntimeHostMode !== PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL) {
         return
       }
     }
@@ -768,20 +848,30 @@ export default function PublicRuntimeInteractiveShell({
     isPlaybackFeatureEnabled,
     noteLabelMode,
     playbackStatus,
+    pendingPlaybackOpenRef,
     postPlaybackCommandMessage,
     recordRuntimeHostMonitorEvent,
     resolvePlaybackActivationGuard,
+    setIsPlaybackFeatureEnabled,
+    setPlaybackStatus,
     songId,
     startPlaybackActivationGuard
   ])
 
   const handleRuntimeFrameLoad = useCallback(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     onRuntimeFrameReadyChange?.(true)
     if (runtimeReadyTrackedRef.current !== runtimeHostSessionKey) {
       runtimeReadyTrackedRef.current = runtimeHostSessionKey
       const mountedAt = runtimeHostMountedAtRef.current
       recordRuntimeHostMonitorEvent('runtime_ready', {
-        readyMs: mountedAt ? Math.max(0, Math.round(performance.now() - mountedAt)) : null
+        readyMs: mountedAt
+          ? Math.max(0, Math.round(getBrowserPerformanceNow() - mountedAt))
+          : null
       })
     }
 
@@ -792,7 +882,12 @@ export default function PublicRuntimeInteractiveShell({
       return
     }
 
-    window.setTimeout(() => {
+    if (pendingPlaybackCommandTimeoutRef.current !== null) {
+      runtimeWindow.clearTimeout(pendingPlaybackCommandTimeoutRef.current)
+    }
+
+    pendingPlaybackCommandTimeoutRef.current = runtimeWindow.setTimeout(() => {
+      pendingPlaybackCommandTimeoutRef.current = null
       if (postPlaybackCommandMessage('open')) {
         pendingPlaybackOpenRef.current = false
       }
@@ -801,6 +896,7 @@ export default function PublicRuntimeInteractiveShell({
     containerRuntimePackage,
     isPlaybackFeatureEnabled,
     onRuntimeFrameReadyChange,
+    pendingPlaybackOpenRef,
     postPlaybackCommandMessage,
     recordRuntimeHostMonitorEvent,
     runtimeHostSessionKey
@@ -808,9 +904,14 @@ export default function PublicRuntimeInteractiveShell({
 
   const handleRuntimeHostControllerChange = useCallback(
     (controller: PublicRuntimeHostController | null) => {
+      const runtimeWindow = getBrowserWindow()
       runtimeHostControllerRef.current = controller
-      if (controller && runtimeReadyTrackedRef.current !== runtimeHostSessionKey) {
-        window.setTimeout(() => {
+      if (controller && runtimeWindow && runtimeReadyTrackedRef.current !== runtimeHostSessionKey) {
+        if (runtimeReadyFallbackTimeoutRef.current !== null) {
+          runtimeWindow.clearTimeout(runtimeReadyFallbackTimeoutRef.current)
+        }
+        runtimeReadyFallbackTimeoutRef.current = runtimeWindow.setTimeout(() => {
+          runtimeReadyFallbackTimeoutRef.current = null
           if (runtimeReadyTrackedRef.current === runtimeHostSessionKey) {
             return
           }
@@ -818,7 +919,9 @@ export default function PublicRuntimeInteractiveShell({
           runtimeReadyTrackedRef.current = runtimeHostSessionKey
           const mountedAt = runtimeHostMountedAtRef.current
           recordRuntimeHostMonitorEvent('runtime_ready', {
-            readyMs: mountedAt ? Math.max(0, Math.round(performance.now() - mountedAt)) : null,
+            readyMs: mountedAt
+              ? Math.max(0, Math.round(getBrowserPerformanceNow() - mountedAt))
+              : null,
             source: 'host-controller'
           })
         }, 250)

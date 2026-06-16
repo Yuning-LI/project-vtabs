@@ -33,6 +33,46 @@ const nextConfig = {
       destination: `/song/${destinationId}`,
       permanent: true
     }))
+  },
+  async headers() {
+    return [
+      {
+        source: '/k-static/:path*.:ext(js|css)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      {
+        source: '/k-static/:path*.:ext(woff|woff2|ttf|eot|svg|png|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      {
+        source: '/static/soundfont/:path*.:ext(js)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=604800, stale-while-revalidate=2592000'
+          }
+        ]
+      },
+      {
+        source: '/static/soundfont/:path*.:ext(mp3|ogg)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=2592000'
+          }
+        ]
+      }
+    ]
   }
 }
 

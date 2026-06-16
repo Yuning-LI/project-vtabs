@@ -4,6 +4,8 @@ import type {
 } from './publicRuntimeHostMode'
 import {
   DEFAULT_PUBLIC_RUNTIME_HOST_MODE,
+  LEGACY_RUNTIME_IFRAME_SIGNAL,
+  PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL,
   normalizePublicRuntimeHostMode,
   resolvePublicRuntimeEffectiveHostMode
 } from './publicRuntimeHostMode'
@@ -30,7 +32,8 @@ export const PUBLIC_RUNTIME_HOST_ROLLOUT_PERCENT_ENV =
 export const PUBLIC_RUNTIME_HOST_ROLLOUT_ENABLED_ENV =
   'NEXT_PUBLIC_RUNTIME_HOST_ROLLOUT_ENABLED'
 export const PUBLIC_RUNTIME_HOST_ROLLOUT_KEY_QUERY_PARAM = 'runtime_host_rollout_key'
-export const LOCAL_PUBLIC_RUNTIME_HOST_DEFAULT_MODE: PublicRuntimeHostMode = 'container'
+export const LOCAL_PUBLIC_RUNTIME_HOST_DEFAULT_MODE: PublicRuntimeHostMode =
+  PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
 
 type SearchParamValue = string | string[] | undefined
 type SearchParamsLike = Record<string, SearchParamValue> | undefined
@@ -86,7 +89,7 @@ export function resolvePublicRuntimeHostRollout(input: {
 
   if (isBot) {
     return {
-      mode: 'container',
+      mode: PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL,
       source: 'bot',
       queryMode,
       environmentMode,
@@ -119,7 +122,9 @@ export function resolvePublicRuntimeHostRollout(input: {
   if (rolloutEnabled && rolloutPercent > 0) {
     const rolloutBucket = getDeterministicRolloutBucket(rolloutKey)
     const rolloutMode: PublicRuntimeHostMode =
-      rolloutBucket < rolloutPercent ? 'container' : 'iframe'
+      rolloutBucket < rolloutPercent
+        ? PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
+        : LEGACY_RUNTIME_IFRAME_SIGNAL
     return {
       mode: resolvePublicRuntimeEffectiveHostMode(rolloutMode),
       source: 'rollout',
@@ -147,7 +152,7 @@ export function resolvePublicRuntimeHostRollout(input: {
     rolloutKey,
     isBot,
     reason:
-      defaultMode === 'container'
+      defaultMode === PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
         ? 'local default container'
         : 'production/default legacy host signal baseline'
   }

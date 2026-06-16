@@ -15,7 +15,7 @@ export function createContainerRuntimeHostController(
        * container lifecycle hook and script bootstrap disposer.
        */
     },
-    postMessage(message) {
+    dispatchCommand(message) {
       return dispatchContainerRuntimeCommand(message)
     }
   }

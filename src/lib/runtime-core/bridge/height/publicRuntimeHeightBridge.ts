@@ -1,11 +1,14 @@
 import {
+  PUBLIC_RUNTIME_HOST_MESSAGE_EVENT,
   PUBLIC_RUNTIME_READY_MESSAGE,
   PUBLIC_RUNTIME_SIZE_MESSAGE
 } from '../publicRuntimeMessageTypes.ts'
 
 export function buildPublicRuntimeHeightBridgeScript() {
   return `
-  function postSize() {
+  var postSize = createPublicRuntimeThrottledTask(postSizeImmediate, 120);
+
+  function postSizeImmediate() {
     var body = document.body;
     var html = document.documentElement;
     var bodyTop = body ? body.getBoundingClientRect().top : 0;
@@ -26,29 +29,25 @@ export function buildPublicRuntimeHeightBridgeScript() {
     );
     var height = measuredBottom > 0 ? measuredBottom + 1 : fallbackHeight;
 
-    if (window.parent) {
-      window.parent.postMessage(
-        {
-          type: ${JSON.stringify(PUBLIC_RUNTIME_SIZE_MESSAGE)},
-          songId: songId,
-          height: Math.ceil(height)
-        },
-        '*'
-      );
-    }
+    dispatchPublicRuntimeHostMessage({
+      type: ${JSON.stringify(PUBLIC_RUNTIME_SIZE_MESSAGE)},
+      songId: songId,
+      height: Math.ceil(height)
+    });
   }
 
   function postRuntimeReady() {
-    if (!window.parent) {
-      return;
-    }
+    dispatchPublicRuntimeHostMessage({
+      type: ${JSON.stringify(PUBLIC_RUNTIME_READY_MESSAGE)},
+      songId: songId
+    });
+  }
 
-    window.parent.postMessage(
-      {
-        type: ${JSON.stringify(PUBLIC_RUNTIME_READY_MESSAGE)},
-        songId: songId
-      },
-      '*'
+  function dispatchPublicRuntimeHostMessage(detail) {
+    window.dispatchEvent(
+      new CustomEvent(${JSON.stringify(PUBLIC_RUNTIME_HOST_MESSAGE_EVENT)}, {
+        detail: detail
+      })
     );
   }
 `

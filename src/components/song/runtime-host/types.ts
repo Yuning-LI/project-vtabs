@@ -13,13 +13,13 @@ export type { PublicRuntimeHostMessage } from '@/lib/runtime-core/bridge/publicR
 export type PublicRuntimeHostController = {
   hostElement: HTMLElement
   containsEventTarget: (target: EventTarget | null) => boolean
-  postMessage: (message: unknown) => boolean
+  dispatchCommand: (message: unknown) => boolean
   destroy: () => void
 }
 
 export type PublicRuntimeHostMessageMeta = {
   origin: string
-  source: MessageEventSource | null
+  source: 'container-event'
 }
 
 export type PublicRuntimeHostMessageHandler = (

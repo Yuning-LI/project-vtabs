@@ -8,6 +8,11 @@ import { useFontReady } from '@/lib/hooks/useFontReady'
 import { useRenderLock } from '@/lib/hooks/useRenderLock'
 import Skeleton from '@/components/ui/Skeleton'
 import { DICT, MIDI_TO_NAME } from '@/components/InstrumentDicts/ocarina12'
+import {
+  getBrowserDocument,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
+import { useBrowserLayoutEffect } from '@/lib/runtime-core/client/useBrowserLayoutEffect'
 
 /**
  * 五线谱试点渲染器。
@@ -139,13 +144,20 @@ export default function AbcRenderer({
   const [viewportWidth, setViewportWidth] = useState(0)
 
   useEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!runtimeWindow) {
+      return
+    }
+
     const updateViewportWidth = () => {
-      setViewportWidth(prev => (prev === window.innerWidth ? prev : window.innerWidth))
+      setViewportWidth(prev =>
+        prev === runtimeWindow.innerWidth ? prev : runtimeWindow.innerWidth
+      )
     }
 
     updateViewportWidth()
-    window.addEventListener('resize', updateViewportWidth)
-    return () => window.removeEventListener('resize', updateViewportWidth)
+    runtimeWindow.addEventListener('resize', updateViewportWidth)
+    return () => runtimeWindow.removeEventListener('resize', updateViewportWidth)
   }, [])
 
   const handleTimeout = useCallback(() => {
@@ -153,9 +165,9 @@ export default function AbcRenderer({
     finishRender()
     onRenderComplete?.()
   }, [finishRender, onRenderComplete])
-
-  useEffect(() => {
-    if (!fontReady || !containerRef.current || !abcString) return
+  useBrowserLayoutEffect(() => {
+    const runtimeDocument = getBrowserDocument()
+    if (!runtimeDocument || !fontReady || !containerRef.current || !abcString) return
 
     const renderPass = ++renderPassRef.current
     let cancelled = false
@@ -306,19 +318,19 @@ export default function AbcRenderer({
           const rowKey = Math.round(currentStaffBottom - containerBox.top)
 
           if (!dictData) {
-            const widget = document.createElement('div')
+            const widget = runtimeDocument.createElement('div')
             widget.className = 'ocarina-widget'
             widget.style.left = absoluteX + 'px'
             widget.style.top = absoluteY + 'px'
 
-            const svgContainer = document.createElement('div')
+            const svgContainer = runtimeDocument.createElement('div')
             svgContainer.innerHTML = PLACEHOLDER_SVG
             const svgDom = svgContainer.querySelector('svg')
             if (svgDom) {
               widget.appendChild(svgDom)
             }
 
-            const letter = document.createElement('div')
+            const letter = runtimeDocument.createElement('div')
             letter.className = 'ocarina-note-label font-bold text-primary'
             letter.textContent = '?'
             widget.appendChild(letter)
@@ -330,12 +342,12 @@ export default function AbcRenderer({
             return
           }
 
-          const widget = document.createElement('div')
+          const widget = runtimeDocument.createElement('div')
           widget.className = 'ocarina-widget'
           widget.style.left = absoluteX + 'px'
           widget.style.top = absoluteY + 'px'
 
-          const svgContainer = document.createElement('div')
+          const svgContainer = runtimeDocument.createElement('div')
           svgContainer.innerHTML = SVG_TEMPLATE
           const svgDom = svgContainer.querySelector('svg')
           if (!svgDom) return
@@ -350,7 +362,7 @@ export default function AbcRenderer({
             }
           }
 
-          const letter = document.createElement('div')
+          const letter = runtimeDocument.createElement('div')
           letter.className = 'ocarina-note-label font-bold text-primary'
           const name = MIDI_TO_NAME[midi]
           letter.innerHTML = name

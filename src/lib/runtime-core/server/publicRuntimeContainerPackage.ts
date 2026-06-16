@@ -51,7 +51,7 @@ export function buildPublicRuntimeContainerPackage(input: {
     state: input.state,
     letterTrack,
     textMode: input.textMode ?? 'english',
-    assetProfile: 'full-template',
+    assetProfile: 'public-song',
     publicFeatures: input.publicFeatures ?? [],
     preferredEnglishTitle: input.preferredEnglishTitle,
     preferredEnglishSubtitle: input.preferredEnglishSubtitle ?? null,

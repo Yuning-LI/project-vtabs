@@ -9,7 +9,10 @@ import {
   resolvePublicRuntimeContextState
 } from '@/lib/runtime-core/publicRuntime'
 import type { PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
-import { resolvePublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
+import {
+  LEGACY_RUNTIME_IFRAME_SIGNAL,
+  resolvePublicRuntimeHostMode
+} from '@/lib/runtime-core/publicRuntimeHostMode'
 import { buildPublicRuntimeContainerPackage } from '@/lib/runtime-core/server/publicRuntimeContainerPackage'
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import {
@@ -120,7 +123,7 @@ export default function PinterestSongPreviewPage({
   )
   const runtimeHostResolution = resolvePublicRuntimeHostMode({
     queryValue: searchParams?.runtime_host,
-    environmentValue: 'iframe',
+    environmentValue: LEGACY_RUNTIME_IFRAME_SIGNAL,
     hasQueryFlag: Boolean(searchParams?.runtime_host)
   })
   const runtimeState: PublicRuntimeState = {

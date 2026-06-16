@@ -5,6 +5,13 @@ import {
   PUBLIC_RUNTIME_SIZE_MESSAGE
 } from '@/lib/runtime-core/bridge/publicRuntimeMessageTypes'
 import {
+  canUseBrowserDOM,
+  getBrowserPerformanceNow,
+  getBrowserWindow
+} from '@/lib/runtime-core/client/browserEnvironment'
+import { useBrowserLayoutEffect } from '@/lib/runtime-core/client/useBrowserLayoutEffect'
+import { dispatchContainerRuntimeHostMessage } from './containerRuntimeTransport'
+import {
   hasRenderedRuntimeSheet,
   hasRuntimeContentElementStarted,
   measureRuntimeContainerContentHeight
@@ -49,6 +56,7 @@ export function useRuntimeContainerMeasurement({
   const onLoadingChangeRef = useRef(onLoadingChange)
   const onMeasurementChangeRef = useRef(onMeasurementChange)
   const lastPublishedHeightRef = useRef(initialHeight)
+  const lastSnapshotRef = useRef(snapshot)
 
   useEffect(() => {
     onLoadingChangeRef.current = onLoadingChange
@@ -77,22 +85,22 @@ export function useRuntimeContainerMeasurement({
       hasRuntimeContent: false,
       measuredAt: null
     }
+    lastSnapshotRef.current = initialSnapshot
     setSnapshot(initialSnapshot)
     onMeasurementChangeRef.current?.(initialSnapshot)
     updateLoading(true)
   }, [enabled, initialHeight, rootElement, runtimeRoot, songId, updateLoading])
-
-  useEffect(() => {
-    if (!enabled || !rootElement || !runtimeRoot) {
+  useBrowserLayoutEffect(() => {
+    const runtimeWindow = getBrowserWindow()
+    if (!enabled || !rootElement || !runtimeRoot || !runtimeWindow || !canUseBrowserDOM()) {
       return
     }
+    const browserWindow = runtimeWindow
 
     const measuredRoot = runtimeRoot
     let destroyed = false
     let resizeObserver: ResizeObserver | null = null
     let mutationObserver: MutationObserver | null = null
-    let sheetPollTimer: number | null = null
-    let sheetPollFrame: number | null = null
     let pendingMeasureFrame: number | null = null
     const observedResizeNodes = new Set<Element>()
     const timeoutIds: number[] = []
@@ -102,14 +110,6 @@ export function useRuntimeContainerMeasurement({
         return
       }
       updateLoading(false)
-      if (sheetPollTimer !== null) {
-        window.clearInterval(sheetPollTimer)
-        sheetPollTimer = null
-      }
-      if (sheetPollFrame !== null) {
-        window.cancelAnimationFrame(sheetPollFrame)
-        sheetPollFrame = null
-      }
     }
 
     function hideLoadingIfRuntimeReady() {
@@ -124,17 +124,11 @@ export function useRuntimeContainerMeasurement({
       }
 
       lastPublishedHeightRef.current = nextHeight
-      window.dispatchEvent(
-        new MessageEvent('message', {
-          data: {
-            type: PUBLIC_RUNTIME_SIZE_MESSAGE,
-            songId,
-            height: nextHeight
-          },
-          origin: window.location.origin,
-          source: window
-        })
-      )
+      dispatchContainerRuntimeHostMessage({
+        type: PUBLIC_RUNTIME_SIZE_MESSAGE,
+        songId,
+        height: nextHeight
+      })
     }
 
     function updateMeasuredHeight() {
@@ -159,10 +153,18 @@ export function useRuntimeContainerMeasurement({
         height: measured,
         hasRenderedSheet: hasRendered,
         hasRuntimeContent,
-        measuredAt: performance.now()
+        measuredAt: getBrowserPerformanceNow()
       }
-      setSnapshot(nextSnapshot)
-      onMeasurementChangeRef.current?.(nextSnapshot)
+      const previousSnapshot = lastSnapshotRef.current
+      const hasMeaningfulChange =
+        Math.abs(previousSnapshot.height - nextSnapshot.height) > 1 ||
+        previousSnapshot.hasRenderedSheet !== nextSnapshot.hasRenderedSheet ||
+        previousSnapshot.hasRuntimeContent !== nextSnapshot.hasRuntimeContent
+      if (hasMeaningfulChange) {
+        lastSnapshotRef.current = nextSnapshot
+        setSnapshot(nextSnapshot)
+        onMeasurementChangeRef.current?.(nextSnapshot)
+      }
       publishMeasuredHeight(measured)
       setHeight(current => (Math.abs(current - measured) > 1 ? measured : current))
     }
@@ -172,7 +174,7 @@ export function useRuntimeContainerMeasurement({
         return
       }
 
-      pendingMeasureFrame = window.requestAnimationFrame(() => {
+      pendingMeasureFrame = browserWindow.requestAnimationFrame(() => {
         pendingMeasureFrame = null
         updateMeasuredHeight()
         observeCurrentRuntimeNodes()
@@ -209,7 +211,8 @@ export function useRuntimeContainerMeasurement({
       childList: true,
       subtree: true,
       attributes: true,
-      characterData: true
+      attributeFilter: ['class', 'style', 'data-public-runtime-container-panel'],
+      characterData: false
     })
 
     if (typeof ResizeObserver !== 'undefined') {
@@ -219,52 +222,37 @@ export function useRuntimeContainerMeasurement({
       observeCurrentRuntimeNodes()
     }
 
-    sheetPollTimer = window.setInterval(() => {
-      if (
-        isRuntimeReady &&
-        (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot))
-      ) {
-        hideLoading()
-      }
-      scheduleMeasuredHeightUpdate()
-    }, 180)
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 0))
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 120))
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 350))
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 800))
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 1500))
+    timeoutIds.push(browserWindow.setTimeout(scheduleMeasuredHeightUpdate, 2600))
 
-    const pollAnimationFrame = () => {
+    const loadingFallbackTimer = browserWindow.setInterval(() => {
       if (destroyed) {
         return
       }
 
+      scheduleMeasuredHeightUpdate()
       if (
         isRuntimeReady &&
         (hasRenderedRuntimeSheet(measuredRoot) || hasRuntimeContentElementStarted(measuredRoot))
       ) {
         hideLoading()
-        scheduleMeasuredHeightUpdate()
-        return
+        browserWindow.clearInterval(loadingFallbackTimer)
       }
-      scheduleMeasuredHeightUpdate()
-      sheetPollFrame = window.requestAnimationFrame(pollAnimationFrame)
-    }
-
-    sheetPollFrame = window.requestAnimationFrame(pollAnimationFrame)
-    timeoutIds.push(window.setTimeout(scheduleMeasuredHeightUpdate, 0))
-    timeoutIds.push(window.setTimeout(scheduleMeasuredHeightUpdate, 120))
-    timeoutIds.push(window.setTimeout(scheduleMeasuredHeightUpdate, 350))
+    }, 500)
 
     return () => {
       destroyed = true
       mutationObserver?.disconnect()
       resizeObserver?.disconnect()
-      if (sheetPollTimer !== null) {
-        window.clearInterval(sheetPollTimer)
-      }
-      if (sheetPollFrame !== null) {
-        window.cancelAnimationFrame(sheetPollFrame)
-      }
+      browserWindow.clearInterval(loadingFallbackTimer)
       if (pendingMeasureFrame !== null) {
-        window.cancelAnimationFrame(pendingMeasureFrame)
+        browserWindow.cancelAnimationFrame(pendingMeasureFrame)
       }
-      timeoutIds.forEach(timeoutId => window.clearTimeout(timeoutId))
+      timeoutIds.forEach(timeoutId => browserWindow.clearTimeout(timeoutId))
       observedResizeNodes.clear()
     }
   }, [enabled, isRuntimeReady, rootElement, runtimeRoot, songId, updateLoading])

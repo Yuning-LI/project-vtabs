@@ -7,6 +7,9 @@ export const PUBLIC_RUNTIME_SIZE_MESSAGE = 'vtabs-runtime-size'
 export const PUBLIC_RUNTIME_READY_MESSAGE = 'vtabs-runtime-ready'
 export const PUBLIC_RUNTIME_REDRAW_MESSAGE = 'vtabs-runtime-redraw'
 
+export const PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT = 'vtabs-runtime-container-command'
+export const PUBLIC_RUNTIME_HOST_MESSAGE_EVENT = 'vtabs-runtime-host-message'
+
 export const PUBLIC_RUNTIME_HOST_COMMAND_MESSAGES = [
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,

@@ -19,6 +19,11 @@ import {
 import { songCatalogBySlug } from '../src/lib/songbook/catalog.ts'
 import { buildSongPageHref } from '../src/lib/songbook/publicInstruments.ts'
 import { siteUrl } from '../src/lib/site.ts'
+import {
+  LEGACY_RUNTIME_IFRAME_SIGNAL,
+  PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL,
+  type PublicRuntimeHostMode
+} from '../src/lib/runtime-core/publicRuntimeHostMode.ts'
 
 type ExportArgs = {
   slugs: string[]
@@ -44,7 +49,7 @@ type ExportArgs = {
   measureLayout: 'compact' | 'mono' | null
   sheetScale: string | null
   watermark: 'on' | 'off' | null
-  runtimeHost: 'iframe' | 'container' | null
+  runtimeHost: PublicRuntimeHostMode | null
   captureMode: 'canvas' | 'page'
 }
 
@@ -829,7 +834,11 @@ function parseArgs(argv: string[]): ExportArgs {
     measureLayout: parseEnum(values.get('measure-layout'), ['compact', 'mono'], '--measure-layout'),
     sheetScale: values.get('sheet-scale') ?? null,
     watermark: parseEnum(values.get('watermark'), ['on', 'off'], '--watermark'),
-    runtimeHost: parseEnum(values.get('runtime-host'), ['iframe', 'container'], '--runtime-host'),
+    runtimeHost: parseEnum(
+      values.get('runtime-host'),
+      [LEGACY_RUNTIME_IFRAME_SIGNAL, PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL],
+      '--runtime-host'
+    ),
     captureMode: parseEnum(values.get('capture'), ['canvas', 'page'], '--capture') ?? 'canvas'
   }
 }

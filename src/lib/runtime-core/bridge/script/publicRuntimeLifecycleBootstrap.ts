@@ -8,16 +8,16 @@ const PUBLIC_RUNTIME_LIFECYCLE_BOOTSTRAP_CONFIG = {
     sheet: '#sheet'
   },
   timings: {
-    drawPatchPollMs: 30,
-    initialSyncIntervalMs: 80,
-    redrawDelayMs: 80,
-    resizeObserverPostSizeDelayMs: 30,
+    drawPatchPollMs: 60,
+    initialSyncIntervalMs: 120,
+    redrawDelayMs: 120,
+    resizeObserverPostSizeDelayMs: 80,
     postDrawSyncDelayMs: 60
   },
   initialSync: {
-    maxAttempts: 60,
-    minReadyAttempts: 12,
-    readySuccessfulRenders: 12
+    maxAttempts: 45,
+    minReadyAttempts: 4,
+    readySuccessfulRenders: 4
   }
 } as const
 
@@ -40,8 +40,9 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
       try {
         // 授权 runtime 很多布局值是在 Song.draw() 里一次性计算并写入 DOM 的。
         // 外层尺寸变化后，最稳妥的办法就是重新走一次原始 draw。
-        if (window.Song && typeof window.Song.draw === 'function') {
-          window.Song.draw();
+        var runtimeSong = getPublicRuntimeSong();
+        if (runtimeSong && typeof runtimeSong.draw === 'function') {
+          runtimeSong.draw();
         }
       } catch (error) {
         console.error(error);
@@ -136,17 +137,17 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
   }
 
   var patchTimer = window.setInterval(function () {
-    if (!window.Song || typeof window.Song.draw !== 'function') {
+    var runtimeSong = getPublicRuntimeSong();
+    if (!runtimeSong || typeof runtimeSong.draw !== 'function') {
       return;
     }
 
     window.clearInterval(patchTimer);
-    var originalDraw = window.Song.draw;
-    window.Song.draw = function () {
+    var originalDraw = runtimeSong.draw;
+    runtimeSong.draw = function () {
       var result = originalDraw.apply(this, arguments);
-      window.requestAnimationFrame(function () {
-        syncRuntimeSheetLayout();
-      });
+      postSize();
+      renderLetterTrack();
       return result;
     };
     installRuntimeLifecycleObservers();

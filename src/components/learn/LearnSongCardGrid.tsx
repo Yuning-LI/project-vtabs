@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRef, useState, type MouseEvent, type PointerEvent } from 'react'
 import type { LearnSongCard } from '@/lib/learn/content'
 import { sendGaEvent } from '@/lib/analytics/ga'
+import { getBrowserWindow } from '@/lib/runtime-core/client/browserEnvironment'
 import {
   useSongRoutePrefetch,
   useVisibleSongRoutePrefetch
@@ -26,11 +27,12 @@ export default function LearnSongCardGrid({
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   function handleSongClick(song: LearnSongCard, position: number) {
-    if (!analyticsContext || typeof window === 'undefined') {
+    const runtimeWindow = getBrowserWindow()
+    if (!analyticsContext || !runtimeWindow) {
       return
     }
 
-    const href = new URL(song.href, window.location.origin)
+    const href = new URL(song.href, runtimeWindow.location.origin)
     sendGaEvent('learn_to_song_click', {
       guide_slug: analyticsContext.guideSlug,
       source: analyticsContext.source,

@@ -1588,11 +1588,12 @@ export function buildPublicRuntimeSvgBridgeScript() {
   }
 
   function getRuntimeMpnVisibleNodesById(noteGlyphs) {
+    var runtimeKit = getPublicRuntimeKit();
     var context =
-      window.Kit &&
-      window.Kit.context &&
-      typeof window.Kit.context.getContext === 'function'
-        ? window.Kit.context.getContext()
+      runtimeKit &&
+      runtimeKit.context &&
+      typeof runtimeKit.context.getContext === 'function'
+        ? runtimeKit.context.getContext()
         : null;
     var tracks = context && context.mpn && Array.isArray(context.mpn.tracks) ? context.mpn.tracks : null;
     if (!tracks || !Array.isArray(noteGlyphs) || noteGlyphs.length === 0) {

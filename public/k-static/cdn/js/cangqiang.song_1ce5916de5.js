@@ -1,1 +1,0 @@
-$(function(){setTimeout(function(){$("#check_copyright").val()&&CangQiang.checkCopyright({songName:$("#song_name").val(),lyricist:$("#lyricist").val(),composer:$("#composer").val()},function(o){console.log(JSON.stringify(o))})},3e3)});

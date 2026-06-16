@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  getBrowserDocument,
+  getBrowserWindow
+} from './browserEnvironment'
+
 export type PublicRuntimeContainerBootstrapController = {
   mountElement: HTMLElement
   sheetElement: HTMLElement | null
@@ -32,7 +37,12 @@ export function bootstrapPublicRuntimeContainer({
   root,
   bodyHtml
 }: BootstrapPublicRuntimeContainerOptions): PublicRuntimeContainerBootstrapController {
-  const mountElement = document.createElement('div')
+  const runtimeDocument = getBrowserDocument()
+  if (!runtimeDocument) {
+    throw new Error('Runtime container bootstrap requires a browser document')
+  }
+
+  const mountElement = runtimeDocument.createElement('div')
   mountElement.dataset[PUBLIC_RUNTIME_DOM_MOUNT_DATA_KEY] = 'true'
   mountElement.innerHTML = bodyHtml
   root.appendChild(mountElement)
@@ -58,15 +68,17 @@ function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
     return false
   }
 
-  const runtimeWindow = window as unknown as {
+  const runtimeWindow = getBrowserWindow() as
+    | (Window & {
     Kit?: {
       context?: {
         triggerLoad?: () => unknown
       }
     }
-  }
+  })
+    | null
 
-  if (typeof runtimeWindow.Kit?.context?.triggerLoad !== 'function') {
+  if (typeof runtimeWindow?.Kit?.context?.triggerLoad !== 'function') {
     return false
   }
 
@@ -75,7 +87,14 @@ function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
 }
 
 function installBodyAppendCapture(mountElement: HTMLElement) {
-  const runtimeExtraMount = document.createElement('div')
+  const runtimeDocument = getBrowserDocument()
+  if (!runtimeDocument?.body) {
+    return {
+      dispose() {}
+    }
+  }
+
+  const runtimeExtraMount = runtimeDocument.createElement('div')
   runtimeExtraMount.dataset[PUBLIC_RUNTIME_BODY_APPEND_MOUNT_DATA_KEY] = 'true'
   runtimeExtraMount.hidden = true
   mountElement.appendChild(runtimeExtraMount)
@@ -97,7 +116,7 @@ function installBodyAppendCapture(mountElement: HTMLElement) {
     })
   })
 
-  observer.observe(document.body, {
+  observer.observe(runtimeDocument.body, {
     childList: true
   })
 

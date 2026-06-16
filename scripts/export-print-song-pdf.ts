@@ -2,6 +2,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { chromium } from 'playwright'
 import type { Page } from 'playwright'
+import {
+  LEGACY_RUNTIME_IFRAME_SIGNAL,
+  PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL,
+  type PublicRuntimeHostMode
+} from '../src/lib/runtime-core/publicRuntimeHostMode.ts'
 
 type ExportArgs = {
   slug: string
@@ -15,7 +20,7 @@ type ExportArgs = {
   showMeasureNum?: string
   measureLayout?: string
   sheetScale?: string
-  runtimeHost?: 'iframe' | 'container'
+  runtimeHost?: PublicRuntimeHostMode
 }
 
 async function main() {
@@ -140,7 +145,7 @@ function parseRuntimeHost(value: string | undefined) {
     return undefined
   }
 
-  if (value === 'iframe' || value === 'container') {
+  if (value === LEGACY_RUNTIME_IFRAME_SIGNAL || value === PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL) {
     return value
   }
 

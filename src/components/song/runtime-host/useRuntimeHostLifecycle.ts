@@ -1,6 +1,10 @@
 'use client'
 
-import { useEffect } from 'react'
+import {
+  canUseBrowserDOM,
+  getBrowserDocument
+} from '@/lib/runtime-core/client/browserEnvironment'
+import { useBrowserLayoutEffect } from '@/lib/runtime-core/client/useBrowserLayoutEffect'
 
 type UseRuntimeHostLifecycleOptions = {
   rootElement: HTMLElement | null
@@ -24,13 +28,14 @@ export function useRuntimeHostLifecycle({
   runtimeRoot,
   enabled
 }: UseRuntimeHostLifecycleOptions) {
-  useEffect(() => {
-    if (!enabled || !rootElement) {
+  useBrowserLayoutEffect(() => {
+    const runtimeDocument = getBrowserDocument()
+    if (!enabled || !rootElement || !runtimeDocument || !canUseBrowserDOM()) {
       return
     }
 
     const hostRoot = rootElement
-    const documentElement = document.documentElement
+    const documentElement = runtimeDocument.documentElement
     const snapshot = captureRuntimeDocumentAttributeSnapshot(documentElement)
 
     function syncRuntimeDocumentAttributes() {

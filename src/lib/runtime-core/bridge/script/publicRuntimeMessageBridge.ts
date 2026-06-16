@@ -1,4 +1,5 @@
 import {
+  PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT,
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
@@ -25,15 +26,8 @@ export function buildPublicRuntimeMessageBridgeScript() {
     }
   }
 
-  window.addEventListener('vtabs-runtime-container-command', function (event) {
+  window.addEventListener(${JSON.stringify(PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT)}, function (event) {
     handlePublicRuntimeHostCommand(event.detail);
-  });
-
-  window.addEventListener('message', function (event) {
-    if (event.origin && event.origin !== window.location.origin) {
-      return;
-    }
-    handlePublicRuntimeHostCommand(event.data);
   });
 `
 }
