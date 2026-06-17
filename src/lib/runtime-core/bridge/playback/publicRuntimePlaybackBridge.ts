@@ -155,6 +155,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var publicPlaybackResumeAvailable = false;
   var publicPlaybackStatusLockUntil = 0;
   var publicPlaybackPanelRequestId = 0;
+  var publicPlaybackActiveMidiPlayer = null;
   var postPublicPlaybackStatusThrottled = createPublicRuntimeThrottledTask(function () {
     normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
     postPublicPlaybackStatus();
@@ -710,6 +711,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         }
         button.setAttribute(publicPlaybackBridgeConfig.attributes.playbackHooked, '1');
         button.addEventListener('click', function () {
+          resumePublicPlaybackAudioContextFromGesture();
+          stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
           disablePublicPlaybackAutoScroll();
           pausePublicPlaybackScheduler();
         }, true);
@@ -778,6 +781,130 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     if (engine.timeScheduler && typeof engine.timeScheduler.stop === 'function') {
       engine.timeScheduler.stop(true);
     }
+  }
+
+  function resumePublicPlaybackAudioContextFromGesture() {
+    try {
+      var runtimeMidiContext = getPublicRuntimeGlobal('MidiContext');
+      var audioContext = runtimeMidiContext &&
+        typeof runtimeMidiContext.getAudioContext === 'function'
+        ? runtimeMidiContext.getAudioContext()
+        : runtimeMidiContext && runtimeMidiContext.audioContext;
+      if (audioContext && audioContext.state === 'suspended' && typeof audioContext.resume === 'function') {
+        var resumeResult = audioContext.resume();
+        if (resumeResult && typeof resumeResult.catch === 'function') {
+          resumeResult.catch(function () {
+            // Chrome may still reject resume() if the legacy runtime touched it before a gesture.
+          });
+        }
+      }
+    } catch (error) {
+      // Best-effort only. Playback controls still route through the original runtime.
+    }
+  }
+
+  function stopPublicPlaybackPlayer(player, options) {
+    if (!player) {
+      return false;
+    }
+
+    var resetProgress = !options || options.resetProgress !== false;
+    var notifyStop = Boolean(options && options.notifyStop);
+    var stopped = false;
+
+    try {
+      var engine = player.engine;
+      if (engine) {
+        if (resetProgress && typeof engine.stop === 'function') {
+          engine.stop();
+          stopped = true;
+        } else if (typeof engine.pause === 'function') {
+          engine.pause();
+          stopped = true;
+        } else if (
+          engine.timeScheduler &&
+          typeof engine.timeScheduler.stop === 'function'
+        ) {
+          engine.timeScheduler.stop(true);
+          stopped = true;
+        }
+      }
+    } catch (error) {
+      // Keep cleanup idempotent; UI status normalization runs separately.
+    }
+
+    try {
+      if (notifyStop && player.context && typeof player.context.onStop === 'function') {
+        player.context.onStop();
+      }
+    } catch (error) {
+      // Ignore legacy runtime callback failures during forced cleanup.
+    }
+
+    if (publicPlaybackActiveMidiPlayer === player && resetProgress) {
+      publicPlaybackActiveMidiPlayer = null;
+    }
+
+    return stopped;
+  }
+
+  function stopActivePublicPlaybackPlayer(exceptPlayer, options) {
+    var stopped = false;
+    var runtimeSong = getPublicRuntimeSong();
+    var currentPlayer = runtimeSong && runtimeSong.midiPlayer;
+    var candidates = [publicPlaybackActiveMidiPlayer, currentPlayer];
+
+    candidates.forEach(function (player) {
+      if (!player || player === exceptPlayer) {
+        return;
+      }
+      stopped = stopPublicPlaybackPlayer(player, options) || stopped;
+    });
+
+    return stopped;
+  }
+
+  function installPublicPlaybackSinglePlayerGuard() {
+    var RuntimeMidiPlayer = getPublicRuntimeMidiPlayerConstructor();
+    var prototype = RuntimeMidiPlayer && RuntimeMidiPlayer.prototype;
+    if (!hasPublicPlayback || !prototype || prototype.__vtabsSinglePlayerGuardHooked === true) {
+      return;
+    }
+
+    var originalPlay = typeof prototype.play === 'function' ? prototype.play : null;
+    var originalResume = typeof prototype.resume === 'function' ? prototype.resume : null;
+    var originalStop = typeof prototype.stop === 'function' ? prototype.stop : null;
+
+    if (originalPlay) {
+      prototype.play = function () {
+        resumePublicPlaybackAudioContextFromGesture();
+        stopActivePublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
+        publicPlaybackActiveMidiPlayer = this;
+        return originalPlay.apply(this, arguments);
+      };
+    }
+
+    if (originalResume) {
+      prototype.resume = function () {
+        resumePublicPlaybackAudioContextFromGesture();
+        stopActivePublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
+        publicPlaybackActiveMidiPlayer = this;
+        return originalResume.apply(this, arguments);
+      };
+    }
+
+    if (originalStop) {
+      prototype.stop = function () {
+        var result = originalStop.apply(this, arguments);
+        stopPublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
+        if (publicPlaybackActiveMidiPlayer === this) {
+          publicPlaybackActiveMidiPlayer = null;
+        }
+        return result;
+      };
+    }
+
+    prototype.__vtabsSinglePlayerGuardHooked = true;
   }
 
   function installPublicPlaybackContainerModalOverride() {
@@ -996,6 +1123,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     installPublicPlaybackPanelObserver();
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
+    installPublicPlaybackSinglePlayerGuard();
   }
 
   function closePublicPlaybackPanel() {
@@ -1123,11 +1251,11 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    publicPlaybackResumeAvailable =
-      publicPlaybackSessionStarted || playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop);
+    publicPlaybackResumeAvailable = false;
     publicPlaybackSessionStarted = false;
     publicPlaybackStatusLockUntil = 0;
     publicPlaybackPanelRequestId += 1;
+    stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
 
     if (!playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
       if (cancelPublicPlaybackCountdown()) {
@@ -1150,6 +1278,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       cancelable: true,
       view: window
     }));
+    stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
 
     var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     var $ = getPublicRuntimeQuery();
@@ -1178,6 +1307,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     localizePublicPlayback();
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
+    installPublicPlaybackSinglePlayerGuard();
     installPublicPlaybackStatusObserver();
     installPublicPlaybackPanelObserver();
     postPublicPlaybackStatus();
