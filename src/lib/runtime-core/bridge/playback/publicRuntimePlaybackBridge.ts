@@ -156,6 +156,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var publicPlaybackStatusLockUntil = 0;
   var publicPlaybackPanelRequestId = 0;
   var publicPlaybackActiveMidiPlayer = null;
+  var publicPlaybackPageLifecycleCleanupInstalled = false;
   var postPublicPlaybackStatusThrottled = createPublicRuntimeThrottledTask(function () {
     normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
     postPublicPlaybackStatus();
@@ -907,6 +908,48 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     prototype.__vtabsSinglePlayerGuardHooked = true;
   }
 
+  function releasePublicPlaybackAudioContextForPageExit(event) {
+    try {
+      var runtimeMidiContext = getPublicRuntimeGlobal('MidiContext');
+      var audioContext = runtimeMidiContext && runtimeMidiContext.audioContext;
+      if (!audioContext || audioContext.state === 'closed') {
+        return;
+      }
+
+      var releaseResult = event && event.persisted && typeof audioContext.suspend === 'function'
+        ? audioContext.suspend()
+        : typeof audioContext.close === 'function'
+          ? audioContext.close()
+          : null;
+      if (releaseResult && typeof releaseResult.catch === 'function') {
+        releaseResult.catch(function () {
+          // Page exit cleanup must not block navigation.
+        });
+      }
+      if (!event || !event.persisted) {
+        runtimeMidiContext.audioContext = null;
+      }
+    } catch (error) {
+      // Browser teardown is best-effort.
+    }
+  }
+
+  function cleanupPublicPlaybackBeforePageExit(event) {
+    cancelPublicPlaybackCountdown();
+    stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
+    releasePublicPlaybackAudioContextForPageExit(event);
+  }
+
+  function installPublicPlaybackPageLifecycleCleanup() {
+    if (publicPlaybackPageLifecycleCleanupInstalled) {
+      return;
+    }
+
+    publicPlaybackPageLifecycleCleanupInstalled = true;
+    window.addEventListener('pagehide', cleanupPublicPlaybackBeforePageExit, { capture: true });
+    window.addEventListener('beforeunload', cleanupPublicPlaybackBeforePageExit, { capture: true });
+  }
+
   function installPublicPlaybackContainerModalOverride() {
     if (!isPublicRuntimeContainerHost()) {
       return;
@@ -1124,6 +1167,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
     installPublicPlaybackSinglePlayerGuard();
+    installPublicPlaybackPageLifecycleCleanup();
   }
 
   function closePublicPlaybackPanel() {
@@ -1308,6 +1352,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
     installPublicPlaybackSinglePlayerGuard();
+    installPublicPlaybackPageLifecycleCleanup();
     installPublicPlaybackStatusObserver();
     installPublicPlaybackPanelObserver();
     postPublicPlaybackStatus();
