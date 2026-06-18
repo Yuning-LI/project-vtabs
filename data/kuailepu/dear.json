@@ -1,0 +1,45 @@
+{
+  "id": "dear",
+  "slug": "dear",
+  "title": "Dear",
+  "description": "Dear melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": false,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/FRgQn12J5.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song FRgQn12J5 on 2026-06-17."
+  },
+  "meta": {
+    "key": "1 = bG",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-17",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 66,
+  "notation": [
+    "6 - - - - - - - 7 - 1' - - - 7 - | 7 - - - - - - - 0 0 6 - - - 5 - | 5 - - - - - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "6 - - - - - - - 7 - 1' - - - 7 - | 7 - - - - - - - 0 0 6 - - - 3 - | 3 - - - - - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "5 6 - - 6 - 5 7 7 5 - - 5 - - - | 5 6 - - 6 - 5 7 7 5 - - 5 - 5 - | 5 - - - 0 0 0 0 0 0 0 0 0 0 5 - |",
+    "5 - - 2 2 - - - 0 0 0 0 0 0 0 3 | 5 6 - - 6 - 5 7 7 5 - - 5 - - 3 | 5 6 - - 6 - 5 7 7 5 - - 5 - 2' - |",
+    "2' - - - - - - - - - - - - - - - | |",
+    "1' - - - - - - - 1' - - - - - 6 - | 2' - 6 - - - - - 6 - - - - - - 5 | 1' - - - - - - - 1' - - - - - 6 - | 2' 6 1' - - - - - 0 0 0 0 0 0 0 0 |",
+    "3' - 3' - - - - - #2' - 2' - - - - - | 2' - 2' - - - - - 2' - - - 2' - 1' 1' | 1' 6 1' - 1' - - - 0 0 0 0 |",
+    "|",
+    "3' - - - - - - - 3' 2' - 2' 2' 1' - - | 2' - - - - - - - 0 0 0 0 0 0 5' - | 3' - - - - - - - 3' 2' - 2' 2' - 1' 7 | 7 - 1' 7 7 - - - - - - - 0 0 0 6 |",
+    "3' 4' - 4' 4' - 3' - 3' 2' - 2' 2' - - - | 3' 4' - - 4' - 3' - 3' - 2' - 2' - 1' 7 | 1' - - - - - - - 7 - - - - - - - | 6 - - - - - - - 5 - - - - - - - |",
+    "5 6 - - 6 - 5 7 7 5 - - 5 - - - | 5 6 - - 6 - 5 7 7 5 - - 5 - 5 - | 5 - - - 0 0 0 0 0 0 0 0 0 0 5 - |",
+    "5 - - 1 2 - - - 0 0 0 0 0 0 0 3 | 5 6 - - 6 - 5 7 7 5 - - 5 - - - | 5 6 - - 6 - 5 7 7 5 - - 5 - 2' - |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1' | 2' - 1' - 2' - 1' - b3' - 2' - - - - - |",
+    "1' - - - - - - - 1' - - - - - 6 - | 2' - 6 - - - - - 6 - - - - - - 5 | 1' - - - - - - - 1' - - - - - 6 - | 2' 6 1' - - - - - 0 0 0 0 0 0 0 0 |",
+    "3' - 3' - - - - - #2' - 2' - - - - - | 2' - 2' #2' n2' - - - - - - - 2' - 1' 1' | 1' 6 1' - 1' - - - - - - - 0 0 0 0 |",
+    "3' - - - - - - - 3' 2' - 2' 2' 1' - - | 2' - - - - - - - 0 0 0 0 0 0 5' - | 3' - - - - - - - 3' 2' - 2' 2' - 1' 7 | 7 - 1' 7 7 - - - - - - - 0 0 0 6 |",
+    "3' 4' - 4' 4' - 3' - 3' 2' - 2' 2' - - - | 3' 4' - - 4' - 3' - 3' - 2' - 2' - 1' 7 | 1' - - - - - - - 7 - - - - - - - | 6 - - - - - - - 5 - - - - - - - |",
+    "|",
+    "0 0 0 0 1' - - - 7 - - - - - - - | 6 - - - - - - - 3 - - - - - - - | | |"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-07",
+  "updatedOn": "2026-06-18",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -2561,6 +2561,206 @@
       "group": "song",
       "addedOn": "2026-06-06",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/pef5l1NGC.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "again",
+      "title": "Again",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/OEMMg1mNT.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "answer",
+      "title": "Answer",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/1N6Lk1BNc.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "celeste",
+      "title": "Celeste",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/1O3ne1m2E.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "counterattack",
+      "title": "Counterattack",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/n6ACp1Qgv.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "down-by-the-river",
+      "title": "Down by the river",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/UdTEt11yT.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "fade",
+      "title": "Fade",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/RNNQe1wpR.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "lucky",
+      "title": "Lucky",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wGdel1qxh.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "mojito",
+      "title": "Mojito",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/UmXjj1fYo.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "monsters",
+      "title": "Monsters",
+      "status": "live",
+      "batch": "stock-2026-06-17-9",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/syWJt1Zle.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "new-boy",
+      "title": "New Boy",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/YgJ8k1LqO.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "if",
+      "title": "IF",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/o0kIl1pPE.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "here-we-are-again",
+      "title": "Here We Are Again",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6u28f1H4h.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "beautiful-eyes",
+      "title": "Beautiful Eyes",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/JbK3g1BBh.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "baby-blue-sky",
+      "title": "Baby Blue Sky",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/EOaZm1zk6.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "farandole",
+      "title": "Farandole",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/HpZ0q1oZq.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "escape",
+      "title": "Escape",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/k20gm1jGW.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "ebb-and-flow",
+      "title": "Ebb and Flow",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6cOVn1YYM.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "despair",
+      "title": "Despair",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/iZ3ko1TYz.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "dear",
+      "title": "Dear",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/FRgQn12J5.html",
+      "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
+    },
+    {
+      "slug": "clouds-of-sunset",
+      "title": "Clouds Of Sunset",
+      "status": "live",
+      "batch": "stock-2026-06-17-10",
+      "group": "song",
+      "addedOn": "2026-06-17",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Iyy8l1V3S.html",
       "notes": "Published from the local grey-song stock pool after doctor, compare, and publication-layer promotion."
     }
   ]
