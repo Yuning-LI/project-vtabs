@@ -1,24 +1,35 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+const deployableRuntimeArchivePath = path.resolve(
+  process.cwd(),
+  'vendor',
+  'kuailepu-runtime',
+  'kuaiyuepu-runtime-archive.txt'
+)
+const localReferenceArchivePath = path.resolve(process.cwd(), 'reference', '快乐谱代码.txt')
+
 type PublicRuntimeArchiveSource = {
   label: string
-  pathSegments: readonly string[]
+  pathLabel: string
+  filePath: string
 }
 
 const PUBLIC_RUNTIME_ARCHIVE_SOURCES: readonly PublicRuntimeArchiveSource[] = [
   {
     label: 'deployable runtime archive',
-    pathSegments: ['vendor', 'kuailepu-runtime', 'kuaiyuepu-runtime-archive.txt']
+    pathLabel: 'vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt',
+    filePath: deployableRuntimeArchivePath
   },
   {
     label: 'local reference fallback',
-    pathSegments: ['reference', '快乐谱代码.txt']
+    pathLabel: 'reference/快乐谱代码.txt',
+    filePath: localReferenceArchivePath
   }
 ] as const
 
 function resolveArchiveSourcePath(source: PublicRuntimeArchiveSource) {
-  return path.resolve(process.cwd(), ...source.pathSegments)
+  return source.filePath
 }
 
 export function listPublicRuntimeArchiveCandidatePaths() {
@@ -27,7 +38,7 @@ export function listPublicRuntimeArchiveCandidatePaths() {
 
 export function describePublicRuntimeArchiveCandidates() {
   return PUBLIC_RUNTIME_ARCHIVE_SOURCES.map(source =>
-    `${source.label}: ${source.pathSegments.join('/')}`
+    `${source.label}: ${source.pathLabel}`
   ).join(', ')
 }
 

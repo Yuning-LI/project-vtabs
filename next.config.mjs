@@ -12,8 +12,16 @@ const rawRuntimeTraceExcludes = [
   './reference/songs/**/*'
 ]
 
+const runtimeArchiveTraceIncludes = [
+  './vendor/kuailepu-runtime/kuaiyuepu-runtime-archive.txt'
+]
+
 const nextConfig = {
   experimental: {
+    outputFileTracingIncludes: {
+      '/api/kuailepu-runtime/[id]': runtimeArchiveTraceIncludes,
+      '/song/[id]': runtimeArchiveTraceIncludes
+    },
     outputFileTracingExcludes: {
       '/*': rawRuntimeTraceExcludes,
       '/api/kuailepu-runtime/[id]': rawRuntimeTraceExcludes,
