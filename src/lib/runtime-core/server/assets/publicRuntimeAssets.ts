@@ -125,6 +125,131 @@ function buildPublicRuntimeCompatibilityScript() {
 
       function noop() {}
 
+      function createDeferredAudioParam() {
+        return {
+          value: 0,
+          setValueAtTime: noop,
+          linearRampToValueAtTime: noop,
+          exponentialRampToValueAtTime: noop
+        };
+      }
+
+      function createDeferredAudioNode() {
+        return {
+          gain: createDeferredAudioParam(),
+          frequency: createDeferredAudioParam(),
+          playbackRate: createDeferredAudioParam(),
+          connect: function () {
+            return this;
+          },
+          disconnect: noop,
+          start: noop,
+          stop: noop,
+          noteOn: noop,
+          noteOff: noop
+        };
+      }
+
+      function createDeferredAudioContext() {
+        return {
+          state: 'suspended',
+          sampleRate: 44100,
+          destination: createDeferredAudioNode(),
+          get currentTime() {
+            return Date.now() / 1000;
+          },
+          createGain: createDeferredAudioNode,
+          createBufferSource: createDeferredAudioNode,
+          createOscillator: createDeferredAudioNode,
+          createBiquadFilter: createDeferredAudioNode,
+          createConvolver: createDeferredAudioNode,
+          createBuffer: function () {
+            return {
+              getChannelData: function () {
+                return new Float32Array(0);
+              }
+            };
+          },
+          decodeAudioData: function (_data, onSuccess, onError) {
+            if (typeof onError === 'function') {
+              onError(new Error('AudioContext is locked until a user gesture.'));
+            }
+            return Promise.resolve(null);
+          },
+          resume: function () {
+            return Promise.resolve();
+          },
+          suspend: function () {
+            return Promise.resolve();
+          },
+          close: function () {
+            return Promise.resolve();
+          }
+        };
+      }
+
+      function installMidiContextGestureGate() {
+        var midiContext = win.MidiContext;
+        if (
+          !midiContext ||
+          midiContext.__vtabsPublicRuntimeGestureGateInstalled === true ||
+          typeof midiContext.getAudioContext !== 'function'
+        ) {
+          return;
+        }
+
+        var originalGetAudioContext = midiContext.getAudioContext;
+        var deferredAudioContext = createDeferredAudioContext();
+        var audioUnlocked = false;
+        var unlockEvents = ['pointerdown', 'mousedown', 'touchstart', 'keydown', 'click'];
+
+        function removeUnlockListeners() {
+          unlockEvents.forEach(function (eventName) {
+            win.removeEventListener(eventName, unlockAudioContext, true);
+          });
+        }
+
+        function unlockAudioContext() {
+          audioUnlocked = true;
+          removeUnlockListeners();
+        }
+
+        function getRealAudioContext() {
+          var audioContext = originalGetAudioContext.apply(midiContext, arguments);
+          if (
+            audioContext &&
+            audioContext.state === 'suspended' &&
+            typeof audioContext.resume === 'function'
+          ) {
+            var resumeResult = audioContext.resume();
+            if (resumeResult && typeof resumeResult.catch === 'function') {
+              resumeResult.catch(noop);
+            }
+          }
+          return audioContext;
+        }
+
+        unlockEvents.forEach(function (eventName) {
+          win.addEventListener(eventName, unlockAudioContext, true);
+        });
+
+        midiContext.__vtabsPublicRuntimeGestureGateInstalled = true;
+        midiContext.__vtabsPublicRuntimeResumeAudioContext = function () {
+          audioUnlocked = true;
+          removeUnlockListeners();
+          return getRealAudioContext.apply(midiContext, arguments);
+        };
+        midiContext.getAudioContext = function () {
+          if (audioUnlocked) {
+            return getRealAudioContext.apply(midiContext, arguments);
+          }
+          if (midiContext.audioContext && midiContext.audioContext.state === 'running') {
+            return midiContext.audioContext;
+          }
+          return deferredAudioContext;
+        };
+      }
+
       if (!win.initMetronome) {
         win.initMetronome = noop;
       }
@@ -250,6 +375,8 @@ function buildPublicRuntimeCompatibilityScript() {
           }
         );
       }
+
+      installMidiContextGestureGate();
     })();
   </script>`
 }

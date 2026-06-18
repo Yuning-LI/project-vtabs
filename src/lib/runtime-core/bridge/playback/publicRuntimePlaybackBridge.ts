@@ -107,6 +107,25 @@ const PUBLIC_RUNTIME_PLAYBACK_ACTION_LABELS = [
   ['playFromNoteAction', 'Play from note']
 ] as const
 
+const PUBLIC_RUNTIME_METRONOME_I18N_LABELS = {
+  time_signature: 'Time signature',
+  start: 'Start',
+  stop: 'Stop',
+  grave: 'Grave',
+  largo: 'Largo',
+  larglletto: 'Larghetto',
+  larghetto: 'Larghetto',
+  adagio: 'Adagio',
+  andante: 'Andante',
+  andantino: 'Andantino',
+  moderato: 'Moderato',
+  allegretto: 'Allegretto',
+  allegro: 'Allegro',
+  vivace: 'Vivace',
+  presto: 'Presto',
+  prestissimo: 'Prestissimo'
+} as const
+
 const PUBLIC_RUNTIME_PLAYBACK_PANEL_RESET_PROPERTIES = [
   'position',
   'top',
@@ -144,6 +163,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var publicPlaybackToggleControls = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_TOGGLE_CONTROLS)};
   var publicPlaybackOptionLabels = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_OPTION_LABELS)};
   var publicPlaybackActionLabels = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_ACTION_LABELS)};
+  var publicRuntimeMetronomeI18nLabels = ${JSON.stringify(PUBLIC_RUNTIME_METRONOME_I18N_LABELS)};
   var publicPlaybackPanelResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_PANEL_RESET_PROPERTIES)};
   var publicPlaybackModalContentResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_MODAL_CONTENT_RESET_PROPERTIES)};
   var publicPlaybackModalFooterResetProperties = ${JSON.stringify(PUBLIC_RUNTIME_PLAYBACK_MODAL_FOOTER_RESET_PROPERTIES)};
@@ -156,7 +176,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   var publicPlaybackStatusLockUntil = 0;
   var publicPlaybackPanelRequestId = 0;
   var publicPlaybackActiveMidiPlayer = null;
+  var publicPlaybackActiveAudioNodes = [];
   var publicPlaybackPageLifecycleCleanupInstalled = false;
+  var publicPlaybackBridgeInstanceId = 'vtabs-public-playback-' + Date.now() + '-' + Math.random().toString(36).slice(2);
   var postPublicPlaybackStatusThrottled = createPublicRuntimeThrottledTask(function () {
     normalizePublicPlaybackPanelButtonState(document.getElementById(publicPlaybackBridgeConfig.ids.playModal));
     postPublicPlaybackStatus();
@@ -417,7 +439,8 @@ export function buildPublicRuntimePlaybackBridgeScript() {
             resume: 'Continue',
             start: 'Start',
             stop: 'Stop'
-          }
+          },
+          metronome: publicRuntimeMetronomeI18nLabels
         });
       }
       if (typeof window.I18n.setLocale === 'function') {
@@ -712,8 +735,15 @@ export function buildPublicRuntimePlaybackBridgeScript() {
         }
         button.setAttribute(publicPlaybackBridgeConfig.attributes.playbackHooked, '1');
         button.addEventListener('click', function () {
+          var shouldResetProgress = !(
+            button.matches &&
+            button.matches(publicPlaybackBridgeConfig.selectors.resumeAction)
+          );
           resumePublicPlaybackAudioContextFromGesture();
-          stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
+          stopActivePublicPlaybackPlayer(null, { resetProgress: shouldResetProgress, notifyStop: false });
+          if (!shouldResetProgress) {
+            publicPlaybackResumeAvailable = true;
+          }
           disablePublicPlaybackAutoScroll();
           pausePublicPlaybackScheduler();
         }, true);
@@ -784,13 +814,103 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     }
   }
 
+  function removeTrackedPublicPlaybackAudioNode(node) {
+    var index = publicPlaybackActiveAudioNodes.indexOf(node);
+    if (index >= 0) {
+      publicPlaybackActiveAudioNodes.splice(index, 1);
+    }
+  }
+
+  function trackPublicPlaybackAudioNode(node) {
+    if (!node || publicPlaybackActiveAudioNodes.indexOf(node) >= 0) {
+      return;
+    }
+
+    publicPlaybackActiveAudioNodes.push(node);
+    try {
+      var previousOnEnded = typeof node.onended === 'function' ? node.onended : null;
+      node.onended = function () {
+        removeTrackedPublicPlaybackAudioNode(node);
+        if (previousOnEnded) {
+          previousOnEnded.apply(this, arguments);
+        }
+      };
+    } catch (error) {
+      // Some browser audio nodes expose read-only event properties.
+    }
+  }
+
+  function stopTrackedPublicPlaybackAudioNodes() {
+    var nodes = publicPlaybackActiveAudioNodes.splice(0);
+    nodes.forEach(function (node) {
+      if (!node) {
+        return;
+      }
+      try {
+        if (typeof node.stop === 'function') {
+          node.stop(0);
+        } else if (typeof node.noteOff === 'function') {
+          node.noteOff(0);
+        }
+      } catch (error) {
+        // Already-stopped AudioBufferSourceNodes throw; cleanup is still complete.
+      }
+      try {
+        if (typeof node.disconnect === 'function') {
+          node.disconnect();
+        }
+      } catch (error) {
+        // Disconnect is best-effort for nodes already torn down by the browser.
+      }
+    });
+  }
+
+  function installPublicPlaybackAudioNodeTracker() {
+    var runtimeMidiContext = getPublicRuntimeGlobal('MidiContext');
+    if (
+      runtimeMidiContext &&
+      runtimeMidiContext.__vtabsPublicPlaybackAudioNodeTrackerHooked !== true &&
+      typeof runtimeMidiContext.playAudio === 'function'
+    ) {
+      var originalPlayAudio = runtimeMidiContext.playAudio;
+      runtimeMidiContext.playAudio = function (node) {
+        trackPublicPlaybackAudioNode(node);
+        return originalPlayAudio.apply(this, arguments);
+      };
+      runtimeMidiContext.__vtabsPublicPlaybackAudioNodeTrackerHooked = true;
+    }
+
+    var runtimeMidiSoundFont = getPublicRuntimeGlobal('MidiSoundFont');
+    if (
+      runtimeMidiSoundFont &&
+      runtimeMidiSoundFont.__vtabsPublicPlaybackSoundFontTrackerHooked !== true &&
+      typeof runtimeMidiSoundFont.playNote === 'function'
+    ) {
+      var originalPlayNote = runtimeMidiSoundFont.playNote;
+      runtimeMidiSoundFont.playNote = function () {
+        var node = originalPlayNote.apply(this, arguments);
+        trackPublicPlaybackAudioNode(node);
+        return node;
+      };
+      runtimeMidiSoundFont.__vtabsPublicPlaybackSoundFontTrackerHooked = true;
+    }
+  }
+
   function resumePublicPlaybackAudioContextFromGesture() {
     try {
       var runtimeMidiContext = getPublicRuntimeGlobal('MidiContext');
-      var audioContext = runtimeMidiContext &&
-        typeof runtimeMidiContext.getAudioContext === 'function'
-        ? runtimeMidiContext.getAudioContext()
-        : runtimeMidiContext && runtimeMidiContext.audioContext;
+      var audioContext = null;
+      if (
+        runtimeMidiContext &&
+        typeof runtimeMidiContext.__vtabsPublicRuntimeResumeAudioContext === 'function'
+      ) {
+        audioContext = runtimeMidiContext.__vtabsPublicRuntimeResumeAudioContext();
+      } else {
+        audioContext = runtimeMidiContext &&
+          typeof runtimeMidiContext.getAudioContext === 'function'
+          ? runtimeMidiContext.getAudioContext()
+          : runtimeMidiContext && runtimeMidiContext.audioContext;
+      }
       if (audioContext && audioContext.state === 'suspended' && typeof audioContext.resume === 'function') {
         var resumeResult = audioContext.resume();
         if (resumeResult && typeof resumeResult.catch === 'function') {
@@ -801,6 +921,22 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       }
     } catch (error) {
       // Best-effort only. Playback controls still route through the original runtime.
+    }
+  }
+
+  function ensurePublicPlaybackSchedulerAudioContext(player) {
+    try {
+      var runtimeMidiContext = getPublicRuntimeGlobal('MidiContext');
+      var audioContext = runtimeMidiContext && runtimeMidiContext.audioContext;
+      var scheduler = player && player.engine && player.engine.timeScheduler;
+      if (!audioContext || !scheduler) {
+        return;
+      }
+
+      scheduler.context = audioContext;
+      scheduler.playbackTime = audioContext.currentTime;
+    } catch (error) {
+      // The original runtime can still start playback without this scheduler normalization.
     }
   }
 
@@ -833,6 +969,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
     } catch (error) {
       // Keep cleanup idempotent; UI status normalization runs separately.
     }
+    stopTrackedPublicPlaybackAudioNodes();
 
     try {
       if (notifyStop && player.context && typeof player.context.onStop === 'function') {
@@ -861,6 +998,9 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       }
       stopped = stopPublicPlaybackPlayer(player, options) || stopped;
     });
+    if (!exceptPlayer) {
+      stopTrackedPublicPlaybackAudioNodes();
+    }
 
     return stopped;
   }
@@ -868,44 +1008,68 @@ export function buildPublicRuntimePlaybackBridgeScript() {
   function installPublicPlaybackSinglePlayerGuard() {
     var RuntimeMidiPlayer = getPublicRuntimeMidiPlayerConstructor();
     var prototype = RuntimeMidiPlayer && RuntimeMidiPlayer.prototype;
-    if (!hasPublicPlayback || !prototype || prototype.__vtabsSinglePlayerGuardHooked === true) {
+    if (!hasPublicPlayback || !prototype) {
       return;
     }
 
-    var originalPlay = typeof prototype.play === 'function' ? prototype.play : null;
-    var originalResume = typeof prototype.resume === 'function' ? prototype.resume : null;
-    var originalStop = typeof prototype.stop === 'function' ? prototype.stop : null;
+    var originals = prototype.__vtabsSinglePlayerGuardOriginals;
+    if (!originals) {
+      originals = {
+        play: typeof prototype.play === 'function' ? prototype.play : null,
+        resume: typeof prototype.resume === 'function' ? prototype.resume : null,
+        stop: typeof prototype.stop === 'function' ? prototype.stop : null
+      };
+      prototype.__vtabsSinglePlayerGuardOriginals = originals;
+    }
+
+    var originalPlay = originals.play;
+    var originalResume = originals.resume;
+    var originalStop = originals.stop;
 
     if (originalPlay) {
       prototype.play = function () {
+        var shouldResetProgress = !(
+          this &&
+          this.context &&
+          this.kPlayMethod &&
+          this.context.playMethod === this.kPlayMethod.resume
+        );
         resumePublicPlaybackAudioContextFromGesture();
-        stopActivePublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
+        ensurePublicPlaybackSchedulerAudioContext(this);
+        stopActivePublicPlaybackPlayer(this, { resetProgress: shouldResetProgress, notifyStop: false });
+        stopTrackedPublicPlaybackAudioNodes();
+        if (!shouldResetProgress) {
+          publicPlaybackResumeAvailable = true;
+        }
         publicPlaybackActiveMidiPlayer = this;
         return originalPlay.apply(this, arguments);
       };
+      prototype.play.__vtabsPublicPlaybackWrapper = true;
     }
 
     if (originalResume) {
       prototype.resume = function () {
         resumePublicPlaybackAudioContextFromGesture();
-        stopActivePublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
+        ensurePublicPlaybackSchedulerAudioContext(this);
+        stopActivePublicPlaybackPlayer(this, { resetProgress: false, notifyStop: false });
+        stopTrackedPublicPlaybackAudioNodes();
         publicPlaybackActiveMidiPlayer = this;
         return originalResume.apply(this, arguments);
       };
+      prototype.resume.__vtabsPublicPlaybackWrapper = true;
     }
 
     if (originalStop) {
       prototype.stop = function () {
         var result = originalStop.apply(this, arguments);
-        stopPublicPlaybackPlayer(this, { resetProgress: true, notifyStop: false });
-        if (publicPlaybackActiveMidiPlayer === this) {
-          publicPlaybackActiveMidiPlayer = null;
-        }
+        stopPublicPlaybackPlayer(this, { resetProgress: false, notifyStop: false });
+        publicPlaybackResumeAvailable = true;
         return result;
       };
+      prototype.stop.__vtabsPublicPlaybackWrapper = true;
     }
 
-    prototype.__vtabsSinglePlayerGuardHooked = true;
+    prototype.__vtabsSinglePlayerGuardHooked = publicPlaybackBridgeInstanceId;
   }
 
   function releasePublicPlaybackAudioContextForPageExit(event) {
@@ -1295,11 +1459,11 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       return;
     }
 
-    publicPlaybackResumeAvailable = false;
+    publicPlaybackResumeAvailable = playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop);
     publicPlaybackSessionStarted = false;
     publicPlaybackStatusLockUntil = 0;
     publicPlaybackPanelRequestId += 1;
-    stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
+    stopActivePublicPlaybackPlayer(null, { resetProgress: false, notifyStop: false });
 
     if (!playButton.classList.contains(publicPlaybackBridgeConfig.classes.stop)) {
       if (cancelPublicPlaybackCountdown()) {
@@ -1322,7 +1486,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
       cancelable: true,
       view: window
     }));
-    stopActivePublicPlaybackPlayer(null, { resetProgress: true, notifyStop: false });
+    stopActivePublicPlaybackPlayer(null, { resetProgress: false, notifyStop: false });
 
     var playModal = document.getElementById(publicPlaybackBridgeConfig.ids.playModal);
     var $ = getPublicRuntimeQuery();
@@ -1349,6 +1513,7 @@ export function buildPublicRuntimePlaybackBridgeScript() {
 
     document.documentElement.setAttribute(publicPlaybackBridgeConfig.attributes.publicPlayback, '1');
     localizePublicPlayback();
+    installPublicPlaybackAudioNodeTracker();
     installPublicPlaybackStartHooks();
     installPublicPlaybackCountInOverride();
     installPublicPlaybackSinglePlayerGuard();
