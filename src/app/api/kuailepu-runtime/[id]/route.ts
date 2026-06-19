@@ -12,6 +12,7 @@ import {
 import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import { normalizePublicRuntimeVisualThemeName } from '@/lib/runtime-core/visual/publicRuntimeVisualTheme'
+import { resolvePublicRuntimeAssetProfile } from '@/lib/runtime-core/server/assets/publicRuntimeAssets'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,16 +48,13 @@ export async function GET(
         feature === 'metronome' || feature === 'playback'
     )
   /**
-   * 公开详情页默认走最小公开资产 profile：
-   * - 当前不会触发的旧模块脚本默认不注入
-   * - 相关静态文件仍保留在本地快照里，方便以后恢复登录 / 播放等能力
-   *
-   * 如果后续需要排查完整授权 runtime 模板行为，允许临时切回 `full-template`。
+   * 只读谱面可走最小 profile；playback/metronome 必须回到完整授权模板脚本链。
+   * 这保持和 369dd0b 线上稳定路径一致，也避免 feature runtime HTML 被 CDN 复用。
    */
-  const publicRuntimeAssetProfile =
-    searchParams.get('runtime_asset_profile') === 'full-template'
-      ? 'full-template'
-      : 'public-song'
+  const publicRuntimeAssetProfile = resolvePublicRuntimeAssetProfile({
+    requestedProfile: searchParams.get('runtime_asset_profile'),
+    publicFeatures
+  })
   const shouldCdnCacheRuntimeHtml = isRuntimeHtmlCdnCacheable({
     runtimeAssetProfile: publicRuntimeAssetProfile,
     runtimeCompareMode: publicRuntimeCompareMode

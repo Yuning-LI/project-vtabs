@@ -7,6 +7,7 @@ import {
   applyPublicRuntimeSongLyricFallback,
   loadPublicRuntimeNotationSong
 } from './payload/publicRuntimeSongData.ts'
+import { resolvePublicRuntimeAssetProfile } from './assets/publicRuntimeAssets.ts'
 import type {
   PublicRuntimePayload,
   PublicRuntimePublicFeature,
@@ -51,7 +52,9 @@ export function buildPublicRuntimeContainerPackage(input: {
     state: input.state,
     letterTrack,
     textMode: input.textMode ?? 'english',
-    assetProfile: 'public-song',
+    assetProfile: resolvePublicRuntimeAssetProfile({
+      publicFeatures: input.publicFeatures ?? []
+    }),
     publicFeatures: input.publicFeatures ?? [],
     preferredEnglishTitle: input.preferredEnglishTitle,
     preferredEnglishSubtitle: input.preferredEnglishSubtitle ?? null,

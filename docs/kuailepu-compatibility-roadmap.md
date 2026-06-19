@@ -44,8 +44,8 @@ Do not change compare to `letter`; letter mode is a public overlay, not the pari
 
 Current public runtime profile:
 
-- `public-song`: default public page, minimal validated script set
-- `full-template`: debugging / compare / recovery mode and current public feature mode for playback / metronome
+- `public-song`: read-only public runtime, minimal validated script set
+- `full-template`: debugging / compare / recovery mode and current public song detail feature mode for playback / metronome
 
 When reducing runtime assets:
 

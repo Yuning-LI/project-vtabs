@@ -66,6 +66,8 @@ export function applyRuntimeDefaults(
   next.show_measure_num = normalizeToggle(state?.show_measure_num, undefined, 'off')
   next.measure_layout = state?.measure_layout ?? payload.measure_layout ?? 'compact'
   next.no_check_href = true
+  // Public pages run under our own host and should not trigger the legacy site's copyright API.
+  next.check_copyright = false
   next.no_preference_instrument = true
   next.preference_instrument = next.instrument
   next.sheet_scale =

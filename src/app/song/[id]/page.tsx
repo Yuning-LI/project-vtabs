@@ -28,6 +28,7 @@ import {
 } from '@/lib/songbook/publicInstruments'
 import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
 import { parseSongPageQueryStateFromSearchParams } from '@/lib/songbook/songPageQueryState'
+import { resolvePublicRuntimeAssetProfile } from '@/lib/runtime-core/server/assets/publicRuntimeAssets'
 
 export const dynamicParams = false
 const DEFAULT_SHARE_IMAGE = '/static/share/default-song-share.png'
@@ -330,7 +331,7 @@ function buildPublicSongContainerRuntimePackage({
     state: runtimeState,
     letterTrack,
     textMode: 'english',
-    assetProfile: 'public-song',
+    assetProfile: resolvePublicRuntimeAssetProfile({ publicFeatures }),
     publicFeatures,
     preferredEnglishTitle: runtimeTextTitle || title,
     preferredEnglishSubtitle: null,

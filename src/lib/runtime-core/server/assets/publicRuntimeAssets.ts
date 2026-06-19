@@ -1,4 +1,7 @@
-import type { PublicRuntimeAssetProfileName } from '../../runtimeTypes.ts'
+import type {
+  PublicRuntimeAssetProfileName,
+  PublicRuntimePublicFeature
+} from '../../runtimeTypes.ts'
 
 type PublicRuntimeAssetProfile = {
   disabledScriptAssets: readonly string[]
@@ -47,6 +50,21 @@ const PUBLIC_RUNTIME_CRITICAL_SCRIPT_ASSETS = [
   'cdn/js/song_builder_a87186a4c4.js',
   'cdn/js/song_1f2ad3c3ba.js'
 ] as const
+
+export function resolvePublicRuntimeAssetProfile(input: {
+  requestedProfile?: string | null
+  publicFeatures?: readonly PublicRuntimePublicFeature[] | Set<PublicRuntimePublicFeature> | null
+} = {}): PublicRuntimeAssetProfileName {
+  if (input.requestedProfile === 'full-template') {
+    return 'full-template'
+  }
+
+  /**
+   * Playback and metronome still depend on the complete authorized runtime chain.
+   * The slim public-song profile is only safe for read-only notation rendering.
+   */
+  return hasRuntimePublicFeatures(input.publicFeatures) ? 'full-template' : 'public-song'
+}
 
 export function applyPublicRuntimeAssetProfile(
   html: string,
@@ -383,6 +401,15 @@ function buildPublicRuntimeCompatibilityScript() {
 
 function buildExternalScriptTagCapturePattern(src: string, flags = '') {
   return new RegExp(`(<script[^>]+src="${escapeRegExp(src)}"[^>]*><\\/script>)`, flags)
+}
+
+function hasRuntimePublicFeatures(
+  publicFeatures: readonly PublicRuntimePublicFeature[] | Set<PublicRuntimePublicFeature> | null | undefined
+) {
+  if (!publicFeatures) {
+    return false
+  }
+  return publicFeatures instanceof Set ? publicFeatures.size > 0 : publicFeatures.length > 0
 }
 
 function escapeRegExp(value: string) {

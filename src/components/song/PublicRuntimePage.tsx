@@ -234,6 +234,7 @@ function StaticSongCardGrid({ songs }: { songs: LearnSongCard[] }) {
         <Link
           key={song.slug}
           href={song.href}
+          prefetch={false}
           className="page-warm-card-link flex h-full flex-col p-5"
         >
           <h3 className="text-xl font-bold leading-tight text-stone-900">{song.title}</h3>
@@ -295,6 +296,7 @@ function StaticGuideCardGrid({ guides }: { guides: LearnGuideCard[] }) {
         <Link
           key={guide.slug}
           href={`/learn/${guide.slug}`}
+          prefetch={false}
           className="page-warm-card-link flex h-full flex-col p-5"
         >
           <h3 className="text-xl font-bold leading-tight text-stone-900">{guide.title}</h3>

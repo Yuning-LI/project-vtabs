@@ -45,8 +45,9 @@ npm run validate:content
 
 ## Runtime Notes
 
-- Default public pages still use `public-song` asset profile.
-- Any request with `public_feature=metronome` or `public_feature=playback` currently upgrades to `full-template`.
+- Read-only runtime HTML can still use the `public-song` asset profile.
+- Public song detail pages enable `playback`, so they currently resolve to `full-template`.
+- Any request with `public_feature=metronome` or `public_feature=playback` upgrades to `full-template`.
 - Keep runtime bridge changes isolated to `src/lib/kuailepu/runtime.ts`; do not fork integrated `song_*.js` behavior unless unavoidable.
 
 ## Current MusicXML Ingest Boundary

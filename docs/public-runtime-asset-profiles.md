@@ -9,20 +9,20 @@ Do not delete bundled Kuailepu assets just because the public page does not curr
 Instead:
 
 - keep assets in `vendor/kuailepu-static` and `public/k-static`
-- control default loading in `src/lib/kuailepu/runtime.ts`
+- control default loading in `src/lib/runtime-core/server/assets/publicRuntimeAssets.ts`
 - use `full-template` for compare, debugging, and recovery
 
 ## Current Profiles
 
-`src/lib/kuailepu/runtime.ts` defines:
+`src/lib/runtime-core/server/assets/publicRuntimeAssets.ts` defines:
 
 - `public-song`
-  - default public profile
+  - default read-only public runtime profile
   - minimal validated runtime script set
-  - currently injects the 6 critical scripts only
+  - only safe when playback / metronome are not enabled
 - `full-template`
   - full original template injection
-  - used for compare / debugging / recovery and for current public playback / metronome paths
+  - used for compare / debugging / recovery and current public song detail playback / metronome paths
 
 API selector:
 
@@ -50,11 +50,11 @@ Do not remove from the minimal public profile without a new runtime QA pass:
 
 ## Reserved Assets
 
-The disabled-by-default scripts cover legacy UI/features such as:
+The disabled-by-default scripts in the read-only profile cover legacy UI/features such as:
 
 - Materialize / jQuery UI
-- soundmanager / MIDI playback / countdown
-- metronome
+- soundmanager legacy UI helpers
+- non-feature metronome helpers
 - microphone
 - favorites / login-related UI
 - clipboard / chip tags / media helpers

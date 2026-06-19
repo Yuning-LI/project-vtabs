@@ -209,6 +209,7 @@ function PracticePairLinkCard({
     <Link
       ref={cardRef}
       href={item.href}
+      prefetch={prefetchEnabled}
       aria-label={`Open ${item.title}`}
       aria-busy={isPending}
       className={

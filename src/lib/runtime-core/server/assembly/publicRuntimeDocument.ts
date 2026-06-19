@@ -12,6 +12,8 @@ const RUNTIME_DOCUMENT_FAVICON_PATTERN =
   /<link\s+rel="Shortcut Icon"\s+href="\/static\/img\/favicon\.ico"\s+type="image\/x-icon"\s*\/?>/i
 const RUNTIME_CONTEXT_SCRIPT_PATTERN =
   /(<script type="text\/javascript">\s*)var context = Kit\.context\.setContext\([\s\S]*?\);\s*(<\/script>)/i
+const RUNTIME_CHECK_COPYRIGHT_INPUT_PATTERN =
+  /(<input\s+type="hidden"\s+id="check_copyright"\s+value=")true("[^>]*>)/i
 const RUNTIME_STATIC_ASSET_PATH_PATTERN = /(href|src)="\/static\/(?!\/)/g
 const RUNTIME_HEAD_CLOSE_PATTERN = /<\/head>/i
 const RUNTIME_BODY_CLOSE_PATTERN = /<\/body>/i
@@ -65,6 +67,10 @@ function buildRuntimeDocumentHtml(input: RuntimeDocumentAssemblyInput) {
       RUNTIME_CONTEXT_SCRIPT_PATTERN,
       (_match, openTag: string, closeTag: string) =>
         `${openTag}var context = Kit.context.setContext(${input.payloadJson});${closeTag}`
+    )
+    .replace(
+      RUNTIME_CHECK_COPYRIGHT_INPUT_PATTERN,
+      (_match, openTag: string, closeTag: string) => `${openTag}${closeTag}`
     )
     .replace(RUNTIME_STATIC_ASSET_PATH_PATTERN, '$1="/k-static/')
     .replace(RUNTIME_HEAD_CLOSE_PATTERN, `${buildRuntimeHeadInjection(input)}</head>`)
