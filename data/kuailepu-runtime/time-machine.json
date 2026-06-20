@@ -1,0 +1,1189 @@
+{
+  "song_uuid": "4MXzr1rE2",
+  "song_name": "Time Machine",
+  "alias_name": "",
+  "song_pinyin": "timemachine",
+  "song_code": "tm",
+  "music_composer": "",
+  "lyric_composer": "",
+  "keynote": "1=bD",
+  "rhythm": "6/8",
+  "instruments": "none,o6,o12,o3,a6,r8b,r8g,b6,x8,x10,hx,p8,h7,h9,sn",
+  "tags": "",
+  "fingerings": "o6-C,o6-D,o6-bB,o6-F,o6-G,o12-C,o12-D,o12-bB,o12-F,o12-G,r8b-C,r8b-D,r8b-bB,r8b-F,r8b-G,r8g-C,r8g-D,r8g-bB,r8g-F,r8g-G,w6-D,w6-C,w6-bE,w6-bB,w6-F,w6-bA,w6-G",
+  "tonalities": "o6-AG,o12-AF,o12-AG,o3-AF,a6-bA,r8b-Alto,r8g-Alto,hx-G",
+  "image_url": "",
+  "music_url": "",
+  "lyric": "[]",
+  "notation": "{play:A B C B D}\nA:\n6dx1x2x3.|6dx1x2x3.|6dx1x2x3x2x1x|3x5x3x2.|6dx1x2x36dx|\n6dx1x2x36dx|6dx1x2x3x2x1x|3x5x3x2.|\nB:\n6x5x6x3x2x1x|6x5x6x31x|6x5x6x3x2x1x|5x5x6x3.|6dx1x2x3x2x1x|\n6x5x6x36dx|6dx1x2x3x2x1x|1.0.|\nC:\n2xx3xx2xx3xx2xx3xx5.|2xx3xx2xx3xx2xx3xx5x3x2x|6dx35dx2x7dx|1.0.|\n6dx1x2x3x2x1x|6dx1x2x36dx|6dx1x2x3x2x1x|3x5x3x2.|6dx1x2x3x2x1x|\n6dx1x2x36dx|6dx1x2x3x2x1x|3x5x3x2.|\nD:\n1x2x3x|32x6d.|2x3x2x5xx3xx3x2x|32x11x|2x3x3x6x3x2x|\n32x6d1x|2x3x2x5xx3xx3x2x|32x12xx3xx|32xx1xx1x2x3x|\n32x6d1x|2x3x2x5xx3xx3x2x|32x12xx3xx|32xx1xx1x2x3x|\n32x6d.|2x3x2x5xx3xx3x2x|32x11x|2x3x3x5xx6xx5x3x|\n32x6d1x|32x5d1xx6dxx|6d3x2x1x7dxx1xx|1.01x|\n32x6d1x|32x5d1x|32xx1xx15xx3xx32x2.|\n2xx3xx2xx3xx2xx3xx5.|2xx3xx2x1xx6dxx6d1x|6dx1x3x2xx1xx1x1x|1.0x00|||",
+  "comment": "",
+  "category": "0",
+  "song_type": "0",
+  "difficulty": "8",
+  "status": "1",
+  "domain": "0",
+  "hot": "0",
+  "pv": "2884",
+  "author_id": "8",
+  "created_time": "2024-04-24 16:05:16",
+  "updated_time": "2024-04-26 08:05:31",
+  "nickname": "顺其自然",
+  "qq_avatar": "https://q.qlogo.cn/qqapp/101293999/8A6C35BF7AD7B3CC93CF73E42BC07AC2/100",
+  "last_login_ip": "116.3.5.232",
+  "last_login_time": "2026-06-17 21:02:36",
+  "music_list": [],
+  "lyric_text": "",
+  "comment_list": [],
+  "user_id": 0,
+  "fetch_score": true,
+  "no_check_vip": true,
+  "check_copyright": true,
+  "instrumentFingerings": [
+    {
+      "instrument": "none",
+      "instrumentName": "简谱(无图谱)",
+      "fingeringsList": [],
+      "fingeringSetList": [],
+      "graphList": []
+    },
+    {
+      "instrument": "o6",
+      "instrumentName": "六孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "o12",
+      "instrumentName": "十二孔陶笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "o12",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        }
+      ]
+    },
+    {
+      "instrument": "r8b",
+      "instrumentName": "英式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "Soprano",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F6",
+            "fingeringName": "F调指法",
+            "tonalityName": "Tenor",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "Soprano",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "F6",
+            "fingeringName": "F调指法",
+            "tonalityName": "Tenor",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8b",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "r8g",
+      "instrumentName": "德式八孔竖笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "Soprano",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F6",
+            "fingeringName": "F调指法",
+            "tonalityName": "Tenor",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "Alto",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "D6",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "Soprano",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "F6",
+            "fingeringName": "F调指法",
+            "tonalityName": "Tenor",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "r8g",
+            "fingering": "G6",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    },
+    {
+      "instrument": "w6",
+      "instrumentName": "爱尔兰哨笛",
+      "fingeringsList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D4",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C3",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bE4",
+            "fingeringName": "bE调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bE5",
+            "fingeringName": "bE调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB3",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F3",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA4",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA5",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G3",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "fingeringSetList": [
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D4",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C5",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "D5",
+            "fingeringName": "D调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C3",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "C6",
+            "fingeringName": "C调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bE4",
+            "fingeringName": "bE调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bE5",
+            "fingeringName": "bE调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB3",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB4",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bB5",
+            "fingeringName": "bB调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F4",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F3",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "F5",
+            "fingeringName": "F调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA4",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "bA5",
+            "fingeringName": "bA调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G4",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G3",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ],
+        [
+          {
+            "instrument": "w6",
+            "fingering": "G5",
+            "fingeringName": "G调指法",
+            "tonalityName": "",
+            "match": 2
+          }
+        ]
+      ],
+      "graphList": [
+        {
+          "name": "吹口在下（推荐）",
+          "value": "1d"
+        },
+        {
+          "name": "吹口在上",
+          "value": "1u"
+        }
+      ]
+    }
+  ],
+  "instrument": "none",
+  "fingering": "",
+  "fingering_index": 0,
+  "show_graph": "",
+  "vtabs_import": {
+    "runtimeFingeringAudit": {
+      "status": "optimized",
+      "rulesVersion": "2026-05-15-public-instrument-selection-v1",
+      "optimizedAt": "2026-06-20T08:03:45.735Z",
+      "baseUrl": null,
+      "instrumentCount": 5
+    }
+  }
+}

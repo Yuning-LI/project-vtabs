@@ -1,0 +1,30 @@
+{
+  "id": "the-foggy-dew",
+  "slug": "the-foggy-dew",
+  "title": "The Foggy Dew",
+  "description": "The Foggy Dew melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 班得瑞.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/zmque1lGx.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song zmque1lGx on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 100,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "0 0 3 5 | 6 - 5 3 | 6 - 5 3 | 2 - - 3 | 5, - 6, 7, | 1 3 2 1 | 6, - - 5, |",
+    "6, - - - | 6, - 3 5 | 6 - 5 3 | 6 - 5 3 | 2 - - 3 | 5, - 6, 7, | 1 3 2 1 | 6, - - 5, | 6, - - - | 6, - -",
+    "5, | 1 - - 3 | 5 - 4 3 | 2 - - 2 | 3 - 1 2 | 3 - 1' 7 | 6 5 3 5 | 6 - - - | 6 - 3 5 | 6 - 5 3 |",
+    "6 - 5 3 | 2 3 - - | 5, - 6, 7, | 1 3 2 1 | 6, - - 5, | 6, - - - 6, - 0 0 | | |"
+  ]
+}

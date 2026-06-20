@@ -1,0 +1,36 @@
+{
+  "id": "song-of-the-sea",
+  "slug": "song-of-the-sea",
+  "title": "Song of the Sea",
+  "description": "Song of the Sea melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/fGLzj1U92.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song fGLzj1U92 on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "5, - 5, - 5, - - - 5, - 2 - 2 - - - | 2 - 3 - 3 - - - 1 - - - 2 - - - | 2 - - - - - - - - - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "0 0 0 0 5, - 5, - 5, - - - 5, - 2 - | 2 - - - 2 - 3 - 3 - - - 1 - 5 - | 5 - - - 4 3 2 - 1 - 7, - 3 - 5, - | 5, - - - 0 0 0 0 0 0 0 0 5, - 5, - | 5, - - - 5, - 2 - 2 - - - 2 - 3 - | 3 - - - 1 - - - 2 - - - - - - - | 2 - - - - - - - 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "5, - 5, - 5, - - - 5, - 2 - 2 - - - | 2 - 3 - 3 - - - 1 - 5 - 5 - - - | 4 3 2 - 1 - 7, - 3 - 5, - 5, - - - | 5, - - - - - - - - - - - 0 0 0 0 | 5 - - - - - - - 4 - - - 3 - - - |",
+    "2 - - - - - - - - - - - 2 - 3 - | 5 - - - - - - - 6 - - - - - - - | 4 3 2 - 2 - - - 0 0 0 0 2 - 3 - |",
+    "5 - - - - - - - 4 - - - 3 - - - | 2 - - - - - - - - - - - 0 0 0 0 | 5 - - - - - - - 6 - - - - - - - | 4 3 2 - 2 - - - 0 0 0 0 4 - 5 - |",
+    "5 - - - - - - - - - - - - - - - | 5 - - - 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 5, - 5, - 5, - - - 5, - 2 - 2 - - - | 2 - 3 - 3 - - - 1 - - - 2 - - - | 2 - - - - - - - - - - - 0 0 0 0 |",
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 5, - 5, - 5, - - - 5, - 2 - | 2 - - - 2 - 3 - 3 - - - 1 - - - | 2 - - - - - - - - - - - - - - - | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 5, - 5, - 5, - - - |",
+    "5 - 2 - 2 - - - 2 - 3 - 3 - - - | 1 - 5 - 5 - - - 4 3 2 - 1 - 7, - | 3 - 5, - 5, - - - - - - - - - - - | 5 - - - 0 0 0 0 5 - - - - - - - |",
+    "4 - - - 3 - - - 2 - - - - - - - | 2 - - - 2 - 3 - 5 - - - - - - - | 6 - - - - - - - 4 3 2 - 2 - - - | 0 0 0 0 2 - 3 - 5 - - - - - - - | 4 - - - 3 - - - 2 - - - - - - - | 2 - - - 5 - - - - - - - 6 - - - | 6 - - - 4 3 2 - 2 - - - 5, - 5, - | 5 - - - 5, - 2 - 2 - - - 2 - 3 - | 3 - - - 1 - 5 - 5 - - - 4 3 2 - | 1 - 7, - 3 - 5, - 5 - - - - - - - |",
+    "0 0 0 0 2 - - - - - - - 2 - 3 - | 4 - - - 4 - 2 - 2 - - - 0 0 0 0 | | |"
+  ]
+}

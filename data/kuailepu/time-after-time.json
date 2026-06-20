@@ -1,0 +1,27 @@
+{
+  "id": "time-after-time",
+  "slug": "time-after-time",
+  "title": "Time After Time",
+  "description": "Time After Time melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: 大野爱果 & Cybersound.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/qkp6j1Zeg.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song qkp6j1Zeg on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 2 #1 - 7, - | 6, - - - 7, - - - 6, - - - 0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 2 #1 - 7, - | 6, - - - 5 - - - #4 - - - 0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 2 #1 - 7, - | 6, - - - 7, - - - 6, - - - 0 0 2 #1 | 7, - - - - - 7, - 3 - 2 - #1 - 6, - | 7, - - - - - - - - - - - 2 - 3 - | #4 - - - 6 - - - 3 - - - 0 0 2 #1 | 7, - #1 - 2 - 3 #4 #4 - - - 0 0 2 #1 | 7, - - - 7 - - - 6 - - - 0 0 #4 #4 | 3 - - - 7 - - - 7 - #6 - #6 - - - | #6 - - - - - - - 0 0 7 - 6 - #4 - | 3 - 3 3 3 #4 3 - 3 - 7 - 6 - #4 - | 3 - 3 3 3 #4 6 - 6 - 7 - 6 - #4 - | 3 - 3 3 3 - #4 - 6 - - - #4 - #4 - | 2' - - - #1' - - - 7 - 7 - 6 - #4 - | 3 - 3 3 3 #4 3 - 3 - 7 - 6 - #4 - | 3 - 3 3 3 #4 2 - 2 - - - 0 0 7, #1 | 2 - - - - - #4 #4 3 - #4 - 6 - #4 - | 2' - - - - - - - #1' - - - - - - - | 7 - - - - - - - - - - - 0 0 0 0 | | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7, #1 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | 5 - - - #4 - 5 #4 #4 - - - 0 0 3 - | #4 - - - #4 - 5 5 5 - - - - - - - | 5 - - - #4 - 5 #4 #4 - - - 0 0 2 - | 6 - 6 - 5 - #4 5 5 - - - - - - - | #6 - - - 6 - #6 6 6 - - - - - 5 - | 6 - - - #6 - - - 6 - - - 5 - 5 - | 2 - - - - - - - 1 - - - 6, - - - | 2 - - - - - - - - - - - 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 #2 1 - 7, - | 6, - - - 7, - - - 6, - - - 0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 #2 1 - 7, - | 6, - - - 5 - - - #4 - - - 0 0 7, #1 | 2 - - - - - 7, #1 2 - 3 #2 1 - 2 - | 3 - - - - - #4 - #4 - - - - - #4 - | #4 - - - #4 - #5 - #5 - - - - - #5 - | #5 - - - #5 - #6 - #6 - - - - - - - | 0 0 0 0 7 - - - 6 - - - #4 - - - | 3 - 3 3 3 #4 3 - 3 - 7 - 6 - #4 - | 3 - 3 3 3 #4 6 - 6 - 7 - 6 - #4 - | 3 - 3 3 3 - #4 - 6 - - - #4 - #4 - | 2' - - - #1' - - - 7 - 7 - 6 - #4 - | 3 - 3 3 3 #4 3 - 3 - 7 - 6 - #4 - | 3 - 3 3 3 #4 2 - 2 - - - 0 0 7, #1 | 2 - - - - - #4 #4 3 - #4 - 6 - #4 - | 2' - - - - - - - #1' - - - - - - - | 7 - - - - - - - - - - - - - - - | | |"
+  ]
+}

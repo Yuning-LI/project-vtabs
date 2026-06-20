@@ -1,0 +1,41 @@
+{
+  "id": "the-magic-inside",
+  "slug": "the-magic-inside",
+  "title": "The Magic Inside",
+  "description": "The Magic Inside melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/ZpILm1wME.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song ZpILm1wME on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = bA",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 68,
+  "notation": [
+    "0 0 5 5 5 5 - - 4 - 3 - 4 - 3 - | 1 - - - - - - - 0 0 0 0 0 0 0 0 | 0 0 5 5 5 4 - - 4 - 5 6 6 - 5 - | 5 - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "0 0 5 5 5 5 - - 4 - 4 - 3 - 2 - | 1 - - - - - 2 3 2 - - - 0 0 0 0 | 0 0 5 5 5 - 4 - 4 - 5 6 6 - - 1' | 1' - - - 1' 2' 3' 2' 1' - - - - - 5 - |",
+    "6 1' - 6 1' - 6 1' 1' 6 2' - 2' - - 5 | 6 1' - 7 1' - 7 1' 1' 6 5 - 5 - - 5 | 6 1' - 6 1' - 6 1' 1' 6 2' - 2' 1' 1' 1' |",
+    "1' - - - - - 1' - 1' 2' - 4' 4' - 3' - | 3' - 1' - 0 5 1' 1' 1' 2' - 4' 4' - 3' - | 3' - - - - - 5 - 6 1' - 1' 1' 2' 2' 3' |",
+    "0 0 3' - 4' 4' - 4' 4' - 3' - 3' - - - | 3' 2' 2' 2' 2' 2' 2' 2' 3' 2' 1' - 1' - 5' - | 3' - 2' 1' 2' - - 3' 2' 1' - - 1' - - - |",
+    "0 1' 1' 1' 2' 2' 2' 2' 3' 2' 1' - 1' - 5' - | 3' - 2' 1' 2' - - 3' 2' 1' - - 1' - - - |",
+    "0 1' 1' 1' 2' 2' 2' 2' 3' - 1' - 1' - - - |",
+    "0 5 - 5 5 4 - 4 4 - 5 6 6 - 5 - | 3 - 5 6 6 - 5 - 2 3 - - 3 - - - | 0 5 - 5 5 4 - 4 4 - 5 6 6 - 5 - |",
+    "7 - 7 6 6 - 5 - 5 - - - - - 2 - |",
+    "6 1' - 6 1' - 6 1' 1' 6 2' - 2' - - 5 | 6 1' - 1' 1' - 1' 4' 4' 3' 2' 1' 0 0 0 5 |",
+    "6 1' - 1' 1' - 1' 4' 4' 3' 2' 1' 1' - - 5 | 6 1' - 6 1' - 6 1' 1' 6 2' - 2' 1' 1' 1' |",
+    "1' - - - - - 1' - 1' 2' - 4' 4' - 3' - | 3' - 1' - 0 5 1' 1' 1' 2' - 4' 4' - 3' - | 3' - - - - - 5 - 6 1' - 1' 1' 2' 2' 3' |",
+    "0 0 3' - 4' 4' - 4' 4' - 3' - 3' - - - | 3' 2' 2' 2' 2' 2' 2' 2' 3' 2' 1' - 1' - 5' - | 3' - 2' 1' 2' - - 3' 2' 1' - - 1' - - - |",
+    "0 1' 1' 1' 2' 2' 2' 2' 3' 2' 1' - 1' - 5' - | 3' - 2' 1' 2' - - 3' 2' 1' - - 1' - - - |",
+    "0 1' 1' 1' 2' 2' 2' 2' 3' - 1' - 1' - - - | 0 1' 1' 1' 2' 2' 2' 2' 3' - 1' - 1' - - - | | |"
+  ]
+}

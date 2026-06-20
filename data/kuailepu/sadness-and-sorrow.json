@@ -1,0 +1,32 @@
+{
+  "id": "sadness-and-sorrow",
+  "slug": "sadness-and-sorrow",
+  "title": "Sadness and Sorrow",
+  "description": "Sadness and Sorrow melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/cBNuc1Ln8.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song cBNuc1Ln8 on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = G",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 67,
+  "notation": [
+    "7 6 3 - 3 - - - - - - - 6 - 1' - | 2' - - - 6 - - - - - - - - - - - | 1' - - - - - - - 7 - 1' - 2' - 5 - | 3' - - - - - - - 2' - - - - - - - |",
+    "7 6 3 - 3 - - - - - - - 6 - 1' - | 2' - - - 6 - - - - - - - - - - - | 1' - - - - - - - 7 - 1' - 2' - 5 - | 6 - - - - - - - - - - - - - - - |",
+    "0 0 0 0 0 0 0 0 0 0 6 - 7 - 1' - | 2' - 3' - 6 - 1' - - - 7 - 7 - - - | 6 - - - - - - - - - - - - - - - | 1' - 2' - 1' - 7 - 7 - - - 3' - - - |",
+    "3' - - - - - - - 2' - - - - - - - | 2' - 3' - 6 - 1' - - - 7 - 7 - - - | 6 - - - - - - - - - - - - - - - | 1' - 2' - 1' - 7 - 7 - - - 3 - - - |",
+    "2' - 3' - 6 - 1' - 1' - - - 7 - 7 - | 6 - - - - - - - - - - - - - - - | 1' - 2' - 1' - 7 - 7 - - - 3' - - - | 3' - - - - - - - 2' - - - - - - - |",
+    "2' - 3' - 6 - 1' - - - 7 - 7 - - - 6 - - - - - - - - - - - - - - - | 1' - 2' - 1' - 7 - 7 - - - 3 - - - | 6 - - - - - - - - - - - - - - - | 6 - - - - - - - - - - - - - - - | | |"
+  ]
+}

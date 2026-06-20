@@ -1,0 +1,34 @@
+{
+  "id": "the-biggest-dreamer",
+  "slug": "the-biggest-dreamer",
+  "title": "The Biggest Dreamer",
+  "description": "The Biggest Dreamer melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/61W1h1ne9.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 61W1h1ne9 on 2026-06-19."
+  },
+  "meta": {
+    "key": "1 = F",
+    "tempo": 130,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-19",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 65,
+  "notation": [
+    "3 - - - 3 - - - - - 2 - 3 - 3 - 5 - 6 - | 3 - 2 - 2 - 3 2 2 - - - 0 0 0 0 | 2 - 2 - - - - - 2 - 2 - 2 - 3 - | 1 - 6, - 6, - 5, 6, 6, - - - 0 0 0 0 |",
+    "3 - 3 - - - - - 3 - 3 - 5 - 6 - | 3 - 2 - 2 - 1 2 2 - - - - - - - | 2 - 2 - - - - - 2 - 2 - 2 - 3 - | 1 - 6, - 6, - 5, 6, 6, - - - - - 6, - |",
+    "4 - 4 - 4 - 4 - 4 5 - 6 6 - - - | #5 - #5 - #5 - #5 - #5 6 - 7 7 - - - | 1' - - - 7 - - - 6 - - - 5 - 6 - | 3 - - 2 2 - - - - - - - 2 - 3 - |",
+    "4 - 4 - 4 - 4 - 4 5 - 6 6 - - - | #5 - #5 - #5 - #5 - #5 6 - 7 7 - 3 - | 1' - - - - - 1' - 1' - 6 - 1' - 1' - |",
+    "7 - - - - - - - - - - - - - - - | 7 - - - - - - - - - - -",
+    "6 - 7 - | 1' - 2' - 6 7 - 1' 1' - 2' - 6 - 7 - | 1' - 7 - 6 5 - 3 3 - - - - - 1 - |",
+    "2 - 3 - 6, 1 - 2 2 - - - 6, - 1 - | 2 - 3 - 5 3 - 5 5 - 3 - 6 - 7 - | 1' - 2' - 6 7 - 1' 1' - 2' - 6 - 7 - |",
+    "1' - 7 - 6 5 - 6 6 - - - - - 5 - | 6 - 5 6 6 - - - 6 - 5 6 6 - - - | 6 - 5 - 1' 7 - 6 6 - - - - - - - | | |"
+  ]
+}
