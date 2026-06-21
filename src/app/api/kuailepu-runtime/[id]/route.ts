@@ -13,6 +13,10 @@ import { songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import { normalizePublicRuntimeVisualThemeName } from '@/lib/runtime-core/visual/publicRuntimeVisualTheme'
 import { resolvePublicRuntimeAssetProfile } from '@/lib/runtime-core/server/assets/publicRuntimeAssets'
+import {
+  getSupportedPublicSongInstruments,
+  resolveDefaultPublicSongInstrumentId
+} from '@/lib/songbook/publicInstruments'
 
 export const dynamic = 'force-dynamic'
 
@@ -98,8 +102,12 @@ export async function GET(
     })
   }
 
+  const requestedInstrument = normalizeRuntimeSearchParam(searchParams.get('instrument'))
+  const publicDefaultInstrumentId = publicRuntimeCompareMode
+    ? null
+    : resolveDefaultPublicSongInstrumentId(getSupportedPublicSongInstruments(payload))
   const state: PublicRuntimeState = {
-    instrument: searchParams.get('instrument'),
+    instrument: requestedInstrument ?? publicDefaultInstrumentId,
     fingering: searchParams.get('fingering'),
     fingering_index: searchParams.get('fingering_index'),
     show_graph: searchParams.get('show_graph'),
@@ -312,6 +320,11 @@ function isRuntimeHtmlCdnCacheable(input: {
   runtimeCompareMode: boolean
 }) {
   return input.runtimeAssetProfile === 'public-song' && !input.runtimeCompareMode
+}
+
+function normalizeRuntimeSearchParam(value: string | null) {
+  const normalized = value?.trim()
+  return normalized ? normalized : null
 }
 
 function doesRequestEtagMatch(header: string | null, etag: string) {

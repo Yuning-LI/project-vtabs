@@ -20,6 +20,8 @@ import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
   getSupportedPublicSongInstruments,
+  resolveDefaultPublicSongInstrumentId,
+  type PublicSongInstrument,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
 import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
@@ -124,6 +126,7 @@ export default function SongPage({
   }
   const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
+  const defaultRuntimeInstrumentId = resolveDefaultPublicSongInstrumentId(supportedInstruments)
   const queryState = DEFAULT_QUERY_STATE
   const runtimeHostQueryFlag = false
   const runtimeHostResolution = resolvePublicRuntimeHostRollout({
@@ -149,6 +152,7 @@ export default function SongPage({
     title: song.title,
     payload: runtimePayload,
     queryState,
+    defaultInstrumentId: defaultRuntimeInstrumentId,
     runtimeTextTitle: basePresentation.title
   })
   const breadcrumbJsonLd = {
@@ -280,16 +284,18 @@ function buildPublicSongContainerRuntimePackage({
   title,
   payload,
   queryState,
+  defaultInstrumentId,
   runtimeTextTitle
 }: {
   songId: string
   title: string
   payload: NonNullable<ReturnType<typeof loadPublicRuntimeSongPayload>>
   queryState: PublicSongPageQueryState
+  defaultInstrumentId: PublicSongInstrument['id'] | null
   runtimeTextTitle: string | null
 }) {
   const runtimeState: PublicRuntimeState = {
-    instrument: queryState.instrumentId,
+    instrument: queryState.instrumentId ?? defaultInstrumentId,
     fingering_index: queryState.fingeringIndex,
     note_label_mode: queryState.noteLabelMode ?? 'letter',
     show_graph: queryState.showGraph,

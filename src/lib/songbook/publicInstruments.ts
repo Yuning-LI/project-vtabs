@@ -246,6 +246,14 @@ export function getSupportedPublicSongInstruments(payload: RuntimeInstrumentCarr
   return supported.length > 0 ? supported : [PUBLIC_SONG_INSTRUMENTS[0]]
 }
 
+export function resolveDefaultPublicSongInstrumentId(supported: PublicSongInstrument[]) {
+  return (
+    supported.find(instrument => instrument.id === 'o12')?.id ??
+    supported[0]?.id ??
+    null
+  )
+}
+
 export function normalizePublicSongInstrument(
   value: string | undefined,
   supported: PublicSongInstrument[]
