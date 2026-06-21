@@ -1,14 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef, useState, type MouseEvent, type PointerEvent } from 'react'
+import { useState, type MouseEvent, type PointerEvent } from 'react'
 import type { LearnSongCard } from '@/lib/learn/content'
 import { sendGaEvent } from '@/lib/analytics/ga'
 import { getBrowserWindow } from '@/lib/runtime-core/client/browserEnvironment'
-import {
-  useSongRoutePrefetch,
-  useVisibleSongRoutePrefetch
-} from '@/components/song/useSongRoutePrefetch'
+import { useSongRoutePrefetch } from '@/components/song/useSongRoutePrefetch'
 
 type LearnSongCardGridProps = {
   songs: LearnSongCard[]
@@ -23,7 +20,7 @@ export default function LearnSongCardGrid({
   songs,
   analyticsContext
 }: LearnSongCardGridProps) {
-  const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch()
+  const { prefetchSongRoute } = useSongRoutePrefetch()
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
 
   function handleSongClick(song: LearnSongCard, position: number) {
@@ -53,7 +50,6 @@ export default function LearnSongCardGrid({
           isPending={pendingSongSlug === song.slug}
           onClick={handleSongClick}
           onPrefetch={prefetchSongRoute}
-          onVisiblePrefetch={prefetchVisibleSongRoute}
           onPending={setPendingSongSlug}
         />
       ))}
@@ -67,7 +63,6 @@ function LearnSongCardLink({
   isPending,
   onClick,
   onPrefetch,
-  onVisiblePrefetch,
   onPending
 }: {
   song: LearnSongCard
@@ -75,13 +70,8 @@ function LearnSongCardLink({
   isPending: boolean
   onClick: (song: LearnSongCard, position: number) => void
   onPrefetch: (href: string) => void
-  onVisiblePrefetch: (href: string) => void
   onPending: (songSlug: string) => void
 }) {
-  const cardRef = useRef<HTMLAnchorElement | null>(null)
-
-  useVisibleSongRoutePrefetch(cardRef, song.href, onVisiblePrefetch)
-
   function markPendingNavigation(
     event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
   ) {
@@ -98,8 +88,8 @@ function LearnSongCardLink({
 
   return (
     <Link
-      ref={cardRef}
       href={song.href}
+      prefetch={false}
       aria-busy={isPending}
       className={
         isPending

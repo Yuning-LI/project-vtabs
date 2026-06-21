@@ -26,8 +26,8 @@ type VisibleSongRoutePrefetchContext =
     }
 
 export function useSongRoutePrefetch({
-  maxVisibleRoutePrefetches = 18,
-  maxSearchVisibleRoutePrefetches = 8
+  maxVisibleRoutePrefetches = 0,
+  maxSearchVisibleRoutePrefetches = 0
 }: SongRoutePrefetchOptions = {}) {
   const router = useRouter()
   const prefetchedSongHrefsRef = useRef(new Set<string>())
@@ -59,6 +59,10 @@ export function useSongRoutePrefetch({
       }
 
       if (context.kind === 'search') {
+        if (maxSearchVisibleRoutePrefetches <= 0) {
+          return
+        }
+
         const searchKey = context.searchKey.trim()
         if (!searchKey) {
           return
@@ -71,6 +75,10 @@ export function useSongRoutePrefetch({
 
         searchVisibleRoutePrefetchCountsRef.current.set(searchKey, currentCount + 1)
       } else {
+        if (maxVisibleRoutePrefetches <= 0) {
+          return
+        }
+
         if (visibleRoutePrefetchCountRef.current >= maxVisibleRoutePrefetches) {
           return
         }

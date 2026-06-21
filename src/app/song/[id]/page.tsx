@@ -8,11 +8,6 @@ import {
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
 import type { PublicRuntimePublicFeature, PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
-import {
-  hasPublicRuntimeHostQueryFlag,
-  readPublicRuntimeHostModeSearchParam,
-  shouldNoindexPublicRuntimeHostExperiment
-} from '@/lib/runtime-core/publicRuntimeHostMode'
 import { resolvePublicRuntimeHostRollout } from '@/lib/runtime-core/publicRuntimeHostRollout'
 import {
   getRelatedSongCards,
@@ -24,26 +19,25 @@ import { songCatalog, songCatalogBySlug } from '@/lib/songbook/catalog'
 import { getSongPresentation } from '@/lib/songbook/presentation'
 import {
   adaptPresentationForInstrument,
-  getSupportedPublicSongInstruments
+  getSupportedPublicSongInstruments,
+  type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
 import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
-import { parseSongPageQueryStateFromSearchParams } from '@/lib/songbook/songPageQueryState'
 import { resolvePublicRuntimeAssetProfile } from '@/lib/runtime-core/server/assets/publicRuntimeAssets'
 
+export const dynamic = 'force-static'
 export const dynamicParams = false
 const DEFAULT_SHARE_IMAGE = '/static/share/default-song-share.png'
-type SongPageSearchParams = Record<string, string | string[] | undefined>
+const DEFAULT_QUERY_STATE: PublicSongPageQueryState = {}
 
 export async function generateStaticParams() {
   return songCatalog.map(song => ({ id: song.slug }))
 }
 
 export async function generateMetadata({
-  params,
-  searchParams
+  params
 }: {
   params: { id: string }
-  searchParams?: SongPageSearchParams
 }) {
   const { id } = params
   const song = songCatalogBySlug[id]
@@ -63,7 +57,6 @@ export async function generateMetadata({
       .filter(Boolean)
       .join(' ')
   const canonicalUrl = `${siteUrl}/song/${song?.slug || id}`
-  const noindexRuntimeHostQuery = shouldNoindexPublicRuntimeHostExperiment(searchParams)
   const shareTitle =
     presentation?.metaTitle && presentation.metaTitle.trim().length > 0
       ? presentation.metaTitle
@@ -98,18 +91,16 @@ export async function generateMetadata({
       images: [DEFAULT_SHARE_IMAGE]
     },
     robots: {
-      index: !noindexRuntimeHostQuery,
-      follow: !noindexRuntimeHostQuery
+      index: true,
+      follow: true
     }
   }
 }
 
 export default function SongPage({
-  params,
-  searchParams
+  params
 }: {
   params: { id: string }
-  searchParams?: SongPageSearchParams
 }) {
   const song = songCatalogBySlug[params.id]
   if (!song) {
@@ -133,13 +124,10 @@ export default function SongPage({
   }
   const hasPublicLyricToggle = hasPublicRuntimeLyricToggle(runtimePayload)
   const supportedInstruments = getSupportedPublicSongInstruments(runtimePayload)
-  const queryState = parseSongPageQueryStateFromSearchParams(searchParams)
-  const runtimeHostQueryValue = readPublicRuntimeHostModeSearchParam(searchParams)
-  const runtimeHostQueryFlag = hasPublicRuntimeHostQueryFlag(searchParams)
+  const queryState = DEFAULT_QUERY_STATE
+  const runtimeHostQueryFlag = false
   const runtimeHostResolution = resolvePublicRuntimeHostRollout({
-    queryValue: runtimeHostQueryValue,
-    hasQueryFlag: runtimeHostQueryFlag,
-    searchParams
+    hasQueryFlag: runtimeHostQueryFlag
   })
   const shellSeo = adaptPresentationForInstrument(
     getSongPresentation(song, { publicLyricsAvailable: hasPublicLyricToggle }),
@@ -297,7 +285,7 @@ function buildPublicSongContainerRuntimePackage({
   songId: string
   title: string
   payload: NonNullable<ReturnType<typeof loadPublicRuntimeSongPayload>>
-  queryState: ReturnType<typeof parseSongPageQueryStateFromSearchParams>
+  queryState: PublicSongPageQueryState
   runtimeTextTitle: string | null
 }) {
   const runtimeState: PublicRuntimeState = {

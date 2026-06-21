@@ -3,10 +3,7 @@
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type MouseEvent, type PointerEvent } from 'react'
-import {
-  useSongRoutePrefetch,
-  useVisibleSongRoutePrefetch
-} from '@/components/song/useSongRoutePrefetch'
+import { useSongRoutePrefetch } from '@/components/song/useSongRoutePrefetch'
 import {
   getBrowserDocument,
   getBrowserWindow
@@ -47,14 +44,13 @@ export default function LibraryBrowser({
   embedded = false
 }: LibraryBrowserProps) {
   const azJumpNavRef = useRef<HTMLElement | null>(null)
-  const { prefetchSongRoute, prefetchVisibleSongRoute } = useSongRoutePrefetch()
+  const { prefetchSongRoute } = useSongRoutePrefetch()
   const [query, setQuery] = useState('')
   const [activeFamily, setActiveFamily] = useState('All')
   const [sortMode, setSortMode] = useState<SortMode>('featured')
   const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [pendingSongSlug, setPendingSongSlug] = useState<string | null>(null)
-  const [visiblePrefetchSearchKey, setVisiblePrefetchSearchKey] = useState('')
   const [restoreScrollY, setRestoreScrollY] = useState<number | null>(null)
   const restoredHistoryStateRef = useRef(false)
 
@@ -95,24 +91,6 @@ export default function LibraryBrowser({
 
   const normalizedQuery = normalizeLibrarySearchText(query)
   const compactQuery = compactLibrarySearchText(normalizedQuery)
-
-  useEffect(() => {
-    if (!normalizedQuery) {
-      setVisiblePrefetchSearchKey('')
-      return
-    }
-
-    const runtimeWindow = getBrowserWindow()
-    if (!runtimeWindow) {
-      return
-    }
-
-    const timeoutId = runtimeWindow.setTimeout(() => {
-      setVisiblePrefetchSearchKey(normalizedQuery)
-    }, 300)
-
-    return () => runtimeWindow.clearTimeout(timeoutId)
-  }, [normalizedQuery])
 
   const filteredSongs = useMemo(() => {
     return songs
@@ -169,13 +147,6 @@ export default function LibraryBrowser({
   }, [filteredSongs, sortMode])
 
   const activeFilters = familyFilters.map(label => (label === activeFamily ? label : null)).filter(Boolean)
-  const visiblePrefetchMode =
-    normalizedQuery && visiblePrefetchSearchKey === normalizedQuery
-      ? 'search'
-      : normalizedQuery
-        ? 'disabled'
-        : 'general'
-
   useEffect(() => {
     if (restoreScrollY === null) {
       return
@@ -384,9 +355,6 @@ export default function LibraryBrowser({
                     song={song}
                     isPending={pendingSongSlug === song.slug}
                     onPrefetch={prefetchSongRoute}
-                    onVisiblePrefetch={prefetchVisibleSongRoute}
-                    visiblePrefetchMode={visiblePrefetchMode}
-                    visiblePrefetchSearchKey={visiblePrefetchSearchKey}
                     onSaveState={saveCurrentLibraryBrowserState}
                     onPending={setPendingSongSlug}
                   />
@@ -403,9 +371,6 @@ export default function LibraryBrowser({
               song={song}
               isPending={pendingSongSlug === song.slug}
               onPrefetch={prefetchSongRoute}
-              onVisiblePrefetch={prefetchVisibleSongRoute}
-              visiblePrefetchMode={visiblePrefetchMode}
-              visiblePrefetchSearchKey={visiblePrefetchSearchKey}
               onSaveState={saveCurrentLibraryBrowserState}
               onPending={setPendingSongSlug}
             />
@@ -432,45 +397,16 @@ function LibrarySongCard({
   song,
   isPending,
   onPrefetch,
-  onVisiblePrefetch,
-  visiblePrefetchMode,
-  visiblePrefetchSearchKey,
   onSaveState,
   onPending
 }: {
   song: LibrarySongSearchResult
   isPending: boolean
   onPrefetch: (href: string) => void
-  onVisiblePrefetch: (
-    href: string,
-    context?: { kind?: 'general' } | { kind: 'search'; searchKey: string }
-  ) => void
-  visiblePrefetchMode: 'general' | 'search' | 'disabled'
-  visiblePrefetchSearchKey: string
   onSaveState: () => void
   onPending: (songSlug: string) => void
 }) {
-  const cardRef = useRef<HTMLAnchorElement | null>(null)
   const href = `/song/${song.slug}`
-
-  useVisibleSongRoutePrefetch(
-    cardRef,
-    href,
-    nextHref => {
-      if (visiblePrefetchMode === 'search') {
-        onVisiblePrefetch(nextHref, {
-          kind: 'search',
-          searchKey: visiblePrefetchSearchKey
-        })
-        return
-      }
-
-      onVisiblePrefetch(nextHref)
-    },
-    {
-      enabled: visiblePrefetchMode !== 'disabled'
-    }
-  )
 
   function markPendingNavigation(
     event: MouseEvent<HTMLAnchorElement> | PointerEvent<HTMLAnchorElement>
@@ -489,8 +425,8 @@ function LibrarySongCard({
 
   return (
     <Link
-      ref={cardRef}
       href={href}
+      prefetch={false}
       aria-busy={isPending}
       onFocus={() => onPrefetch(href)}
       onPointerEnter={() => onPrefetch(href)}
