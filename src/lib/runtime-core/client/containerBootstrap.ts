@@ -17,8 +17,27 @@ export type BootstrapPublicRuntimeContainerOptions = {
   bodyHtml: string
 }
 
+type PublicRuntimeContextLoadCallback = (context: unknown) => void
+
+type PublicRuntimeKitContext = {
+  context?: unknown
+  callbacks?: PublicRuntimeContextLoadCallback[]
+  triggerLoad?: () => unknown
+  onLoad?: (callback: PublicRuntimeContextLoadCallback) => unknown
+  __vtabsPublicRuntimeContextLoadGuard?: PublicRuntimeContextLoadGuardState
+}
+
+type PublicRuntimeContextLoadGuardState = {
+  loaded: boolean
+  mountElement: HTMLElement
+  originalTriggerLoad: () => unknown
+  originalOnLoad: ((callback: PublicRuntimeContextLoadCallback) => unknown) | null
+  executedCallbacks: Set<PublicRuntimeContextLoadCallback>
+}
+
 const PUBLIC_RUNTIME_DOM_MOUNT_DATA_KEY = 'publicRuntimeDomMount'
 const PUBLIC_RUNTIME_BODY_APPEND_MOUNT_DATA_KEY = 'publicRuntimeBodyAppendMount'
+const PUBLIC_RUNTIME_CONTEXT_STARTED_DATA_KEY = 'publicRuntimeContextStarted'
 const PUBLIC_RUNTIME_ROOT_SELECTOR = '[data-public-runtime-root]'
 const PUBLIC_RUNTIME_SHEET_SELECTOR = '#sheet'
 const PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR = 'svg, .sheet-svg'
@@ -63,27 +82,167 @@ export function bootstrapPublicRuntimeContainer({
 }
 
 function triggerRuntimeContextLoadIfNeeded(mountElement: HTMLElement) {
-  const sheet = mountElement.querySelector(PUBLIC_RUNTIME_SHEET_SELECTOR)
-  if (sheet?.querySelector(PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR)) {
-    return false
-  }
-
   const runtimeWindow = getBrowserWindow() as
     | (Window & {
     Kit?: {
-      context?: {
-        triggerLoad?: () => unknown
-      }
+      context?: PublicRuntimeKitContext
     }
   })
     | null
+
+  if (runtimeWindow) {
+    installPublicRuntimeContextLoadGuard(mountElement, runtimeWindow)
+  }
+
+  if (!shouldTriggerPublicRuntimeContextLoad(mountElement)) {
+    return false
+  }
 
   if (typeof runtimeWindow?.Kit?.context?.triggerLoad !== 'function') {
     return false
   }
 
+  markPublicRuntimeContextStarted(mountElement)
   runtimeWindow.Kit.context.triggerLoad()
   return true
+}
+
+export function shouldTriggerPublicRuntimeContextLoad(mountElement: HTMLElement) {
+  if (mountElement.dataset[PUBLIC_RUNTIME_CONTEXT_STARTED_DATA_KEY] === 'true') {
+    return false
+  }
+
+  const sheet = mountElement.querySelector(PUBLIC_RUNTIME_SHEET_SELECTOR)
+  if (sheet?.querySelector(PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR)) {
+    markPublicRuntimeContextStarted(mountElement)
+    return false
+  }
+
+  return true
+}
+
+export function markPublicRuntimeContextStarted(mountElement: HTMLElement) {
+  mountElement.dataset[PUBLIC_RUNTIME_CONTEXT_STARTED_DATA_KEY] = 'true'
+}
+
+export function installPublicRuntimeContextLoadGuard(
+  mountElement: HTMLElement,
+  runtimeWindow: Window
+) {
+  const runtimeContext = (runtimeWindow as Window & {
+    Kit?: {
+      context?: PublicRuntimeKitContext
+    }
+  }).Kit?.context
+
+  if (!runtimeContext || typeof runtimeContext.triggerLoad !== 'function') {
+    return false
+  }
+
+  const existingGuard = runtimeContext.__vtabsPublicRuntimeContextLoadGuard
+  if (existingGuard) {
+    existingGuard.mountElement = mountElement
+    if (hasPublicRuntimeContextStartedEvidence(mountElement, runtimeWindow)) {
+      existingGuard.loaded = true
+      markPublicRuntimeContextStarted(mountElement)
+      markExistingRuntimeCallbacksExecuted(runtimeContext, existingGuard)
+    }
+    return true
+  }
+
+  const guardState: PublicRuntimeContextLoadGuardState = {
+    loaded: hasPublicRuntimeContextStartedEvidence(mountElement, runtimeWindow),
+    mountElement,
+    originalTriggerLoad: runtimeContext.triggerLoad,
+    originalOnLoad:
+      typeof runtimeContext.onLoad === 'function' ? runtimeContext.onLoad : null,
+    executedCallbacks: new Set()
+  }
+
+  if (guardState.loaded) {
+    markPublicRuntimeContextStarted(mountElement)
+    markExistingRuntimeCallbacksExecuted(runtimeContext, guardState)
+  }
+
+  runtimeContext.triggerLoad = function guardedPublicRuntimeTriggerLoad() {
+    if (guardState.loaded) {
+      markPublicRuntimeContextStarted(guardState.mountElement)
+      runPendingRuntimeContextCallbacks(runtimeContext, guardState)
+      return runtimeContext.context
+    }
+
+    guardState.loaded = true
+    markPublicRuntimeContextStarted(guardState.mountElement)
+    const result = guardState.originalTriggerLoad.apply(this)
+    markExistingRuntimeCallbacksExecuted(runtimeContext, guardState)
+    return result
+  }
+
+  runtimeContext.onLoad = function guardedPublicRuntimeOnLoad(callback) {
+    const result = guardState.originalOnLoad
+      ? guardState.originalOnLoad.apply(this, [callback])
+      : pushRuntimeContextCallback(runtimeContext, callback)
+
+    if (guardState.loaded && !guardState.executedCallbacks.has(callback)) {
+      guardState.executedCallbacks.add(callback)
+      callback(runtimeContext.context)
+    }
+
+    return result
+  }
+
+  runtimeContext.__vtabsPublicRuntimeContextLoadGuard = guardState
+  return true
+}
+
+function pushRuntimeContextCallback(
+  runtimeContext: PublicRuntimeKitContext,
+  callback: PublicRuntimeContextLoadCallback
+) {
+  if (!runtimeContext.callbacks) {
+    runtimeContext.callbacks = []
+  }
+  runtimeContext.callbacks.push(callback)
+  return runtimeContext.context
+}
+
+function runPendingRuntimeContextCallbacks(
+  runtimeContext: PublicRuntimeKitContext,
+  guardState: PublicRuntimeContextLoadGuardState
+) {
+  runtimeContext.callbacks?.forEach(callback => {
+    if (guardState.executedCallbacks.has(callback)) {
+      return
+    }
+    guardState.executedCallbacks.add(callback)
+    callback(runtimeContext.context)
+  })
+}
+
+function markExistingRuntimeCallbacksExecuted(
+  runtimeContext: PublicRuntimeKitContext,
+  guardState: PublicRuntimeContextLoadGuardState
+) {
+  runtimeContext.callbacks?.forEach(callback => {
+    guardState.executedCallbacks.add(callback)
+  })
+}
+
+function hasPublicRuntimeContextStartedEvidence(
+  mountElement: HTMLElement,
+  runtimeWindow: Window
+) {
+  const sheet = mountElement.querySelector(PUBLIC_RUNTIME_SHEET_SELECTOR)
+  if (sheet?.querySelector(PUBLIC_RUNTIME_RENDERED_SHEET_SELECTOR)) {
+    return true
+  }
+
+  const runtimeSong = (runtimeWindow as Window & {
+    Song?: {
+      midiPlayer?: unknown
+    }
+  }).Song
+  return Boolean(runtimeSong?.midiPlayer)
 }
 
 function installBodyAppendCapture(mountElement: HTMLElement) {

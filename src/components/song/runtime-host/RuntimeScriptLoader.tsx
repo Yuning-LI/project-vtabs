@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   bootstrapPublicRuntimeContainer,
+  installPublicRuntimeContextLoadGuard,
   type PublicRuntimeContainerBootstrapController
 } from '@/lib/runtime-core/client/containerBootstrap'
 import {
@@ -153,6 +154,12 @@ export default function RuntimeScriptLoader({
           }
           if (event.phase === 'loaded' || event.phase === 'executed') {
             setLoadedCount(current => Math.max(current, event.index + 1))
+          }
+          if (bootstrapController && runtimeWindow) {
+            installPublicRuntimeContextLoadGuard(
+              bootstrapController.mountElement,
+              runtimeWindow
+            )
           }
           if (event.phase === 'globals-captured' && controller) {
             setCapturedGlobalNames(Object.keys(controller.registry.globals).sort())

@@ -1,0 +1,1 @@
+var CangQiang={callAPI:function(a,c,n){var t={action:"api",method:a,params:c};console.log(t),$.ajax({url:"/web/cangqiang.php",type:"POST",dataType:"JSON",data:t,success:n})},checkContent:function(a,c){this.callAPI("checkContent",a,c)},checkCopyright:function(a,c){this.callAPI("checkCopyright",a,c)}};
