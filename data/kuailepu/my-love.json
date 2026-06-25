@@ -1,0 +1,71 @@
+{
+  "id": "my-love",
+  "slug": "my-love",
+  "title": "My Love",
+  "description": "My Love melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "An",
+    "empty _ street _ An empty _ house _ A hole in si de _ myheart _ I'm",
+    "all _ alone _ The rooms are _ getting smaller _ _ _ _ _ _ I",
+    "won der how _ I _ wonder _ why I wonder _ where _ they _ are _ The",
+    "days _ we had _ The songs we sang to ge ther _ _ _ _ _ _ _ _ And all _ my _ love We're",
+    "holding _ on _ fo re _ ver _ Rea ching for _ the love _ that see _ ms so",
+    "far",
+    "So I say a li ttle p rayer Hope my dreams will ta ke me there _ Where the",
+    "skies are blue _ _ To see _ you on _ ce a _ gain _ my love _ O ver",
+    "seas from coast to coast _ Find the pla ce I lo ve the mo st Where the fie _ l ds are green _",
+    "_ _ To see you on ce a gain, _ _ _ _ my love _ I",
+    "again To hold you in _ my arms _ To pro mi se _ you my _",
+    "love _ _ _ _ To tell you from _ my heart _ _ You're all _ I'm thinking of _ _",
+    "And reaching for _ the love _ that se ems _ so",
+    "far So",
+    "I say a li ttle p rayer Hope my dreams will ta ke me there Where the skies are",
+    "blue _ To see _ you on _ ce a _ gain _ my love O ver seas from coast to",
+    "coast Find the pla ce I lo ve the mo st Where the fie l ds are green _ To see you on ce a",
+    "gain, my love _",
+    ""
+  ],
+  "extraLyrics": [
+    "I tried to read _ I go to work _ I'm laughing _ with my frien ds But I can't stop _ _ To keep my self _ from thin king _"
+  ],
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/wx7Uk1iIA.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song wx7Uk1iIA on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = C",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 60,
+  "notation": [
+    "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5, - |",
+    "1 - - - 1 - 1 - 1 - - - - - 5, - 2 - - - 2 - 2 - 2 - - - - - 3, - | 7, - - - 7, - 7, - 7, - 1 - - - 1 - 1 - - - - - - - 0 0 0 0 0 0 5, - |",
+    "6, - - - 6, - 6, - 6, - - - 5, - 5, - 6, - - - 6, - 1 - 6, - 6, - - - 6, - | 6, - 5, - 5, - - - 5, - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5, - |",
+    "1 - - - 1 - 1 - 1 - - - - - 5, - 2 - - - 2 - 2 - 2 - - - - - 3 - | 5 - - - 5 - 5 - 3 - 3 - 1 - 1 - 1 - - - - - - - 0 0 0 0 0 0 5, - |",
+    "6, - - 6, 6, - 6, - 6, - - - - - 1 - 6, - - - 6, - 6, - 1 - - - - - 1 - | 6, - 5, - 5, - - - 5, - - - 7, - 6, - 6, - 5, - - - - - 5, - - - 5, - - - | 4 - - - 6, - - - 6, - - - 7, - - - 7, - - - - - - - 0 0 0 0 0 0 5, - |",
+    "1 - - - 1 - 1 - 1 - - - 3 - 2 - 1 - 1 - - - - - 1 - - - - - - - | 4 - - - 4 - 4 - 4 - - - 4 - 4 - 4 - 4 - 4 - 4 - 1 - 2 - - - - - |",
+    "2 - - - - - - - - - - - - - - - 0 0 0 0 0 0 0 0",
+    "1 - - - 7, - - - | 6, - - - - - 5, - 5, - - - 5, - 5, - 5, - - - - - - - 1 - - - 7, - - - | 6, - - - 5, - 5, - 5, - 4, - - - 3, - 3, - - - - - - - 3 - - - 5 - - - |",
+    "4 3 - - 3 - 2 - 2 - - - 1 - 3 - 3 - - - 2 - 1 - 1 - - - 3 - 2 - | 2 - - - - - - - 2 - 6, - 7, - 7, - 7, - - - - - - - 1 - - - 7, - - - |",
+    "6, - - - 5, - 5, - 5, - 5, - 5, - 5, - 5, - 5, - - - - - 1 - 7, - 6, - 6, - | 6, - 5, - 5, - 5 - 5 - 4 - 3 - 3 - 3 - - - - - - - 3 - - - 5 - 4 - |",
+    "4 - 4 - 4 - 2 - 2 - - - - - 5, - 3 - - - 2 - 1 - 1 - - - 3 - 2 - | 2 - - - - - - - - - - - - - - - - - - - - - - - 1 - - - 1 - - - | 1 - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 5, - |",
+    "2 - - - - - - - - - - - - - 5, - 3 - - - 2 - 1 - 1 - 7, - - - 1 - | 1 - - - - - - - - - - - - - 5, - 2 - - - 1 - 7, - 7, - 6, - 7, - 7, - |",
+    "7, - 6, - 5, - - - 5, - - - - - 5, - 3 - - - 2 - 1 - 1 - - - 7, - 1 - | 2 - 1 - - - - - 1 - - - - - - - 6, - - - 6, - 6, - 6, - 5, - 5, - 5, - | 5 - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 0 0 |",
+    "| 4 - - - 4 - 4 - 4 - - - 4 - 4 - 4 - 4 - 4 - 4 - 1 - 2 - - - - - |",
+    "2 - - - - - - - - - - - - - - - 1 - - - - - - -",
+    "1 - - - 7, - - - | 6, - - - - - 5, - 5, - - - 5, - 5, - 5, - - - - - - - 1 - - - 7, - - - | 6, - - - 5, - 5, - 5, - 4, - - - 3, - 3, - - - - - - - 3 - - - 5 - - - |",
+    "4 3 - - 3 - 2 - 2 - - - 1 - 3 - 3 - - - 2 - 1 - 1 - - - 3 - 2 - | 2 - - - - - - - 2 - 6, - 7, - 7, - 7, - - - - - - - 1 - - - 7, - - - |",
+    "6, - - - 5, - 5, - 5, - 5, - 5, - 5, - 5, - 5, - - - - - 1 - 7, - 6, - 6, - | 6, - 5, - 5, - 5 - 5 - 4 - 3 - 3 - 3 - - - - - - - 3 - - - 5 - 4 - |",
+    "2 - - - - - - - - - - - - - - - - - - - - - - - 1 - - - 1 - - - | 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+    "| | |"
+  ]
+}

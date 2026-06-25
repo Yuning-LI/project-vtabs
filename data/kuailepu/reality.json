@@ -1,0 +1,79 @@
+{
+  "id": "reality",
+  "slug": "reality",
+  "title": "Reality",
+  "description": "Reality melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "alignedLyrics": [
+    "Met you by sur prise _ I did n't re a lize _",
+    "that my life would change _ for ev er _",
+    "Saw you stand ing there _ I did n't know i care _",
+    "There is some thing spe cial in the air _",
+    "Dreams are my re _ al i ty The on ly _ kind of",
+    "real fan ta sy Il lu sions",
+    "are a _ com mon thing I try to _ live in dreams It",
+    "seems as _ if it's meant to be",
+    "Dreams are my re _ al i ty A dif ferent _ kind of",
+    "re al i ty _ I dream of",
+    "lov ing _ in the night And lov ing seems _ al right Al",
+    "though it's _ on ly fan ta sy"
+  ],
+  "extraLyrics": [
+    "If you do ex ist _",
+    "_ Hon ey, don't re sist _",
+    "Show me a new way _ of lov ing _",
+    "Tell me that it's true _",
+    "_ Show me what to do _",
+    "I feel some thing spe cial a bout you _",
+    "Dreams are my re _ al i ty",
+    "The on ly _ kind of re al i ty",
+    "May be my fool ish _ ness is past",
+    "And may be _ now at last",
+    "I'll see how _ re al thing can be",
+    "Dreams are my re _ al i ty",
+    "A won drous _ world where I like to be _",
+    "I dream of hold ing _ you all night and hold ing",
+    "seems _ all right",
+    "Pe rhaps that's _ my re al i ty",
+    "Met you by sur prise _ I did n't re a lize _",
+    "That' my love would change _ for ev er _",
+    "Tell me that it's true, _ _ feel ing that are new _",
+    "I feel some thing spe cial a bout you _",
+    "Dreams are my re _ al i ty",
+    "A won derous _ world where I like to be",
+    "Il lu sions are a _ com mon thing",
+    "I try to _ live in dreams Al though it's _ on ly fan ta sy",
+    "Dreams are my re _ al i ty I like to _ dream of you close to me _ I dream of lov ing _ in the night And lov ing seems _ all right Per haps that's _ my re al i ty"
+  ],
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/sGVHh13r6.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song sGVHh13r6 on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = bE",
+    "tempo": 84,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "3 - - - - - 5 - - - - - 5 - - - - - 3 - - 5 - - 5 - - - - - - - - - - - - - - - - - 0 0 0 5 - - | 3 - - - - - 5 - - - - - 5 - - - - - 3 - - 5 - - 5 - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 |",
+    "b7 - - - - - 6 - - - - - b7 - - - - - 6 - - b7 - - b7 - - - - - - - - - - - - - - - - - 2 - - - - - | #1 - - - - - 6 - - - - - - - - - - - - - - - - - 6 - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "2 - - - - - 4 - - - - - 4 - - - - - 2 - - 4 - - 4 - - - - - - - - - - - - - - - - - 0 0 0 4 - - | 4 - - - - - b6 - - - - - b6 - - - - - 4 - - b6 - - b6 - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 |",
+    "3 - - - - - 5 - - - - - 5 - - - - - 3 - - - - - 2 - - 1 - - - - - - - - 7, - - - - - 1 - - 2 - - | 2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "3 - - - - - - - - - - - - - - - - - 5, - - - - - 4 - - - - - 3 - - - - - 3 - - - 2 - - - 1 - - - | 3 - - - - - - - - - - - - - - - - - #5, - - - - - 4 - - - - - 3 - - - - - 3 - - - 2 - - - 1 - - - |",
+    "3 - - - - - - - - - - - - - - - - - - - - - - - 7 - - - - - - - - - - - - - - - - - 6 - - - - - | 3 - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 6, - - - - - 7, - - - - - 1 - - - - - |",
+    "3 - - - - - 2 - - - - - 2 - - - 2 - - - #1 - - - 2 - - - - - - - - - - - - - - - - - 7, - - - - - | 6 - - - - - 5 - - - - - 5 - - - 5 - - - #4 - - - 5 - - - - - - - - - - - - - - - - - 1 - - - - - |",
+    "5 - - - - - 4 - - - - - 4 - - - 4 - - - 3 - - - 4 - - - - - - - - - - - - - - - - - 3 - - - - - | 2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 0 0 0 0 0 0 0 0 0 0 0 0 |",
+    "3 - - - - - - - - - - - - - - - - - 5, - - - - - 4 - - - - - 3 - - - - - 3 - - - 2 - - - 1 - - - | 3 - - - - - - - - - - - - - - - - - #5, - - - - - 4 - - - - - 3 - - - - - 3 - - - 2 - - - 1 - - - |",
+    "3 - - - - - - - - - - - - - - - - - - - - - - - 7 - - - - - - - - - - - - - - - - - 6 - - - - - | 3 - - - - - - - - - - - - - - - - - - - - - - - 3 - - - - - 6, - - - - - 7, - - - - - 1 - - - - - |",
+    "3 - - - - - 2 - - - - - 2 - - - 2 - - - #1 - - - 2 - - - - - - - - - - - - - - - - - 7, - - - - - | 6 - - - - - 5 - - - - - 5 - - - 5 - - - #4 - - - 5 - - - - - - - - - - - - - - - - - 1 - - - - - |",
+    "5 - - - - - 4 - - - - - 4 - - - 4 - - - 3 - - - 2 - - - - - - - - - - - - - - - - - 1 - - - - - | 1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - | | |"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-20",
+  "updatedOn": "2026-06-25",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -3052,6 +3052,56 @@
       "addedOn": "2026-06-19",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ZpILm1wME.html",
       "notes": "Published from the local grey-song stock pool after doctor and publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "tiny-light",
+      "title": "Tiny Light",
+      "status": "live",
+      "batch": "stock-2026-06-21-12",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/3RJSm1jPN.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "reality",
+      "title": "Reality",
+      "status": "live",
+      "batch": "stock-2026-06-21-13",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/sGVHh13r6.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "star-sky",
+      "title": "Star Sky",
+      "status": "live",
+      "batch": "stock-2026-06-21-13",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/eBu1c1Lmt.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "my-love",
+      "title": "My Love",
+      "status": "live",
+      "batch": "stock-2026-06-21-13",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/wx7Uk1iIA.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "one-day",
+      "title": "One Day",
+      "status": "live",
+      "batch": "stock-2026-06-21-13",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/LqoNl1wkS.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
     }
   ]
 }
