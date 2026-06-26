@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, type RefObject } from 'react'
 
 export const DEFAULT_VISIBLE_SONG_ROUTE_PREFETCH_ROOT_MARGIN = '180px 0px'
+const ENABLE_PRODUCTION_SONG_ROUTE_PREFETCH =
+  process.env.NEXT_PUBLIC_ENABLE_SONG_ROUTE_PREFETCH === '1'
 
 type SongRoutePrefetchOptions = {
   maxVisibleRoutePrefetches?: number
@@ -36,6 +38,10 @@ export function useSongRoutePrefetch({
 
   const prefetchSongRoute = useCallback(
     (href: string) => {
+      if (!shouldAllowSongRoutePrefetch()) {
+        return
+      }
+
       const normalizedHref = normalizeSongRouteHref(href)
       if (!normalizedHref || prefetchedSongHrefsRef.current.has(normalizedHref)) {
         return
@@ -170,4 +176,8 @@ function shouldSkipVisibleRoutePrefetch() {
     connection.effectiveType === 'slow-2g' ||
     connection.effectiveType === '2g'
   )
+}
+
+function shouldAllowSongRoutePrefetch() {
+  return process.env.NODE_ENV !== 'production' || ENABLE_PRODUCTION_SONG_ROUTE_PREFETCH
 }

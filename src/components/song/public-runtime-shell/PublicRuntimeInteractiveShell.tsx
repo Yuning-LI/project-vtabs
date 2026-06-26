@@ -270,13 +270,12 @@ export default function PublicRuntimeInteractiveShell({
       runtimeControlPayload.sheetScaleList
     ]
   )
-  const hasContainerRuntimePackage = Boolean(containerRuntimePackage)
-  const activeRuntimeHostMode: PublicRuntimeHostMode = hasContainerRuntimePackage
+  const hasServerContainerRuntimePackage = Boolean(containerRuntimePackage)
+  const shouldUseContainerRuntimeHost = true
+  const activeRuntimeHostMode: PublicRuntimeHostMode = shouldUseContainerRuntimeHost
     ? PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL
     : runtimeHostMode
-  const shouldEnablePlaybackRuntimeFeature = hasContainerRuntimePackage
-    ? true
-    : isPlaybackFeatureEnabled
+  const shouldEnablePlaybackRuntimeFeature = isPlaybackFeatureEnabled
   const recordRuntimeHostMonitorEvent = useCallback(
     (
       type: PublicRuntimeHostMonitorEvent['type'],
@@ -464,7 +463,7 @@ export default function PublicRuntimeInteractiveShell({
       clientPackageState: runtimePackageRequest
     })
   const isRuntimePackageLoading =
-    hasContainerRuntimePackage &&
+    shouldUseContainerRuntimeHost &&
     !activeContainerRuntimePackage &&
     runtimePackageRequest.queryString === runtimeQueryString &&
     runtimePackageRequest.status === 'loading'
@@ -498,7 +497,7 @@ export default function PublicRuntimeInteractiveShell({
   }, [shouldEnablePlaybackRuntimeFeature, runtimeHostSessionKey])
 
   useEffect(() => {
-    if (!hasContainerRuntimePackage) {
+    if (!shouldUseContainerRuntimeHost) {
       initialRuntimeQueryStringRef.current = null
       runtimePackageKeyRef.current = null
       setRuntimePackageRequest({
@@ -513,17 +512,24 @@ export default function PublicRuntimeInteractiveShell({
     const packageKey = `${runtimeApiBasePath}:${songId}:container`
     if (runtimePackageKeyRef.current !== packageKey) {
       runtimePackageKeyRef.current = packageKey
-      initialRuntimeQueryStringRef.current = runtimeQueryString
+      initialRuntimeQueryStringRef.current = hasServerContainerRuntimePackage
+        ? runtimeQueryString
+        : null
       setRuntimePackageRequest({
         queryString: null,
         package: null,
         status: 'idle',
         errorMessage: null
       })
-      return
+      if (hasServerContainerRuntimePackage) {
+        return
+      }
     }
 
-    if (runtimeQueryString === initialRuntimeQueryStringRef.current) {
+    if (
+      hasServerContainerRuntimePackage &&
+      runtimeQueryString === initialRuntimeQueryStringRef.current
+    ) {
       setRuntimePackageRequest({
         queryString: null,
         package: null,
@@ -577,7 +583,13 @@ export default function PublicRuntimeInteractiveShell({
     return () => {
       abortController.abort()
     }
-  }, [hasContainerRuntimePackage, runtimeApiBasePath, runtimeQueryString, songId])
+  }, [
+    hasServerContainerRuntimePackage,
+    runtimeApiBasePath,
+    runtimeQueryString,
+    shouldUseContainerRuntimeHost,
+    songId
+  ])
 
   useEffect(() => {
     runtimeHostMountedAtRef.current = getBrowserPerformanceNow()
@@ -844,13 +856,13 @@ export default function PublicRuntimeInteractiveShell({
         return true
       }
 
-      if (hasContainerRuntimePackage) {
+      if (shouldUseContainerRuntimeHost) {
         return dispatchContainerRuntimeCommand(message)
       }
 
       return false
     },
-    [hasContainerRuntimePackage, songId]
+    [shouldUseContainerRuntimeHost, songId]
   )
 
   useEffect(() => {
@@ -952,9 +964,7 @@ export default function PublicRuntimeInteractiveShell({
 
     if (!isPlaybackFeatureEnabled) {
       setIsPlaybackFeatureEnabled(true)
-      if (activeRuntimeHostMode !== PUBLIC_RUNTIME_CONTAINER_HOST_SIGNAL) {
-        return
-      }
+      return
     }
 
     if (postPlaybackCommandMessage('open')) {
@@ -962,7 +972,6 @@ export default function PublicRuntimeInteractiveShell({
     }
   }, [
     activeInstrument.id,
-    activeRuntimeHostMode,
     isPlaybackFeatureEnabled,
     noteLabelMode,
     playbackStatus,
@@ -995,7 +1004,7 @@ export default function PublicRuntimeInteractiveShell({
 
     if (
       !pendingPlaybackOpenRef.current ||
-      (!hasContainerRuntimePackage && !isPlaybackFeatureEnabled)
+      !isPlaybackFeatureEnabled
     ) {
       return
     }
@@ -1011,7 +1020,6 @@ export default function PublicRuntimeInteractiveShell({
       }
     }, 80)
   }, [
-    hasContainerRuntimePackage,
     isPlaybackFeatureEnabled,
     onRuntimeFrameReadyChange,
     pendingPlaybackOpenRef,
@@ -1371,7 +1379,7 @@ export default function PublicRuntimeInteractiveShell({
             onHostControllerChange={handleRuntimeHostControllerChange}
             onRuntimeReady={handleRuntimeFrameLoad}
           />
-        ) : hasContainerRuntimePackage ? (
+        ) : shouldUseContainerRuntimeHost ? (
           <PublicRuntimePackageLoading
             isLoading={isRuntimePackageLoading}
             errorMessage={runtimePackageRequest.errorMessage}
@@ -1395,11 +1403,10 @@ function resolveActiveContainerRuntimePackage({
   serverPackage: PublicRuntimeContainerPackagePayload | null
   clientPackageState: RuntimePackageRequestState
 }) {
-  if (!serverPackage) {
-    return null
-  }
-
-  if (!initialRuntimeQueryString || runtimeQueryString === initialRuntimeQueryString) {
+  if (
+    serverPackage &&
+    (!initialRuntimeQueryString || runtimeQueryString === initialRuntimeQueryString)
+  ) {
     return serverPackage
   }
 

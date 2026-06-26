@@ -9,6 +9,7 @@ const DEFAULT_INTERNAL_IP_RULES = ['104.215.151.123', '175.146.62.91']
 function shouldSkipMiddleware(pathname: string) {
   return (
     pathname.startsWith('/_next/') ||
+    pathname.startsWith('/api/') ||
     pathname.startsWith('/static/') ||
     pathname.startsWith('/k-static/') ||
     /\.[a-z0-9]+$/i.test(pathname)

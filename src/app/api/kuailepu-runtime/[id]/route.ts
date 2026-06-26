@@ -29,7 +29,7 @@ type CachedRuntimeHtml = {
 
 const MAX_RUNTIME_HTML_CACHE_ENTRIES = 16
 const MAX_RUNTIME_HTML_CACHE_BYTES = 12 * 1024 * 1024
-const PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS = 300
+const PUBLIC_RUNTIME_HTML_CDN_TTL_SECONDS = 60 * 60 * 24
 const runtimeHtmlCache = new Map<string, CachedRuntimeHtml>()
 let runtimeHtmlCacheBytes = 0
 

@@ -2,12 +2,9 @@ import Script from 'next/script'
 import { notFound } from 'next/navigation'
 import PublicRuntimePage from '@/components/song/PublicRuntimePage'
 import {
-  buildPublicRuntimeLetterTrackData,
-  buildPublicRuntimePackageData,
   hasPublicRuntimeLyricToggle,
   loadPublicRuntimeSongPayload
 } from '@/lib/runtime-core/publicRuntime'
-import type { PublicRuntimePublicFeature, PublicRuntimeState } from '@/lib/runtime-core/runtimeTypes'
 import { resolvePublicRuntimeHostRollout } from '@/lib/runtime-core/publicRuntimeHostRollout'
 import {
   getRelatedSongCards,
@@ -21,11 +18,8 @@ import {
   adaptPresentationForInstrument,
   getSupportedPublicSongInstruments,
   resolveDefaultPublicSongInstrumentId,
-  type PublicSongInstrument,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
-import { loadImportedOrCandidateSongDoc } from '@/lib/songbook/importedCatalog'
-import { resolvePublicRuntimeAssetProfile } from '@/lib/runtime-core/server/assets/publicRuntimeAssets'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -147,14 +141,6 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
-  const containerRuntimePackage = buildPublicSongContainerRuntimePackage({
-    songId: song.slug,
-    title: song.title,
-    payload: runtimePayload,
-    queryState,
-    defaultInstrumentId: defaultRuntimeInstrumentId,
-    runtimeTextTitle: basePresentation.title
-  })
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -263,72 +249,10 @@ export default function SongPage({
           isBot: runtimeHostResolution.isBot,
           reason: runtimeHostResolution.reason
         }}
-        containerRuntimePackage={
-          containerRuntimePackage
-            ? {
-                bodyHtml: containerRuntimePackage.bodyHtml,
-                styles: containerRuntimePackage.styles,
-                scriptEntries: containerRuntimePackage.scriptEntries
-              }
-            : null
-        }
+        containerRuntimePackage={null}
         relatedSongs={relatedSongs}
         relatedGuides={relatedGuides}
       />
     </>
   )
-}
-
-function buildPublicSongContainerRuntimePackage({
-  songId,
-  title,
-  payload,
-  queryState,
-  defaultInstrumentId,
-  runtimeTextTitle
-}: {
-  songId: string
-  title: string
-  payload: NonNullable<ReturnType<typeof loadPublicRuntimeSongPayload>>
-  queryState: PublicSongPageQueryState
-  defaultInstrumentId: PublicSongInstrument['id'] | null
-  runtimeTextTitle: string | null
-}) {
-  const runtimeState: PublicRuntimeState = {
-    instrument: queryState.instrumentId ?? defaultInstrumentId,
-    fingering_index: queryState.fingeringIndex,
-    note_label_mode: queryState.noteLabelMode ?? 'letter',
-    show_graph: queryState.showGraph,
-    show_lyric: queryState.showLyric,
-    show_note_range: queryState.showNoteRange,
-    show_measure_num: queryState.showMeasureNum,
-    measure_layout: queryState.measureLayout ?? 'compact',
-    sheet_scale: queryState.sheetScale ?? '10'
-  }
-  const publicFeatures: PublicRuntimePublicFeature[] = [
-    'playback',
-    ...(queryState.practiceTool === 'metronome' ? (['metronome'] as const) : [])
-  ]
-  const runtimeNotationSong = songCatalogBySlug[songId] ?? loadImportedOrCandidateSongDoc(songId)
-  const letterTrack = buildPublicRuntimeLetterTrackData({
-    notation: runtimeNotationSong?.notation,
-    rawNotation: typeof payload.notation === 'string' ? payload.notation : null,
-    key: runtimeNotationSong?.meta?.key,
-    mode: runtimeState.note_label_mode,
-    payload,
-    state: runtimeState
-  })
-
-  return buildPublicRuntimePackageData({
-    songId,
-    payload,
-    state: runtimeState,
-    letterTrack,
-    textMode: 'english',
-    assetProfile: resolvePublicRuntimeAssetProfile({ publicFeatures }),
-    publicFeatures,
-    preferredEnglishTitle: runtimeTextTitle || title,
-    preferredEnglishSubtitle: null,
-    visualThemeName: queryState.runtimeVisualTheme === 'off' ? 'off' : 'classic'
-  })
 }
