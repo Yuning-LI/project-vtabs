@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-26",
+  "updatedOn": "2026-06-27",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -3201,6 +3201,56 @@
       "group": "song",
       "addedOn": "2026-06-21",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/7dUDh1L4T.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "love-song",
+      "title": "Love Song",
+      "status": "live",
+      "batch": "stock-2026-06-21-14",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Vt8xi18tf.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "lydia",
+      "title": "Lydia",
+      "status": "live",
+      "batch": "stock-2026-06-21-14",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/weoln1IOx.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "lovers",
+      "title": "Lovers",
+      "status": "live",
+      "batch": "stock-2026-06-21-14",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/sFCNs1lIx.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "light-a-candle-for-peace",
+      "title": "Light A Candle For Peace",
+      "status": "live",
+      "batch": "stock-2026-06-21-14",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/cHsHf19cd.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "lose-my-mind",
+      "title": "Lose My Mind",
+      "status": "live",
+      "batch": "stock-2026-06-21-14",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/6NHju1Bkx.html",
       "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
     }
   ]

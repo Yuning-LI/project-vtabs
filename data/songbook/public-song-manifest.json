@@ -3400,5 +3400,40 @@
     "family": "media",
     "featuredRank": 487,
     "published": true
+  },
+  {
+    "id": "love-song",
+    "slug": "love-song",
+    "family": "media",
+    "featuredRank": 488,
+    "published": true
+  },
+  {
+    "id": "lydia",
+    "slug": "lydia",
+    "family": "media",
+    "featuredRank": 489,
+    "published": true
+  },
+  {
+    "id": "lovers",
+    "slug": "lovers",
+    "family": "media",
+    "featuredRank": 490,
+    "published": true
+  },
+  {
+    "id": "light-a-candle-for-peace",
+    "slug": "light-a-candle-for-peace",
+    "family": "media",
+    "featuredRank": 491,
+    "published": true
+  },
+  {
+    "id": "lose-my-mind",
+    "slug": "lose-my-mind",
+    "family": "media",
+    "featuredRank": 492,
+    "published": true
   }
 ]
