@@ -21,7 +21,10 @@ export default function LearnGuideCardGrid({ guides }: LearnGuideCardGridProps) 
           </div>
           <h3 className="mt-4 text-xl font-bold leading-tight text-stone-900">{guide.title}</h3>
           <p className="mt-3 text-sm leading-7 text-stone-700">{guide.description}</p>
-          <div className="mt-5 text-sm font-semibold text-stone-900">Open guide →</div>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Related learning path</p>
+          <div className="mt-5 text-sm font-semibold text-stone-900">
+            Continue with this guide →
+          </div>
         </Link>
       ))}
     </div>

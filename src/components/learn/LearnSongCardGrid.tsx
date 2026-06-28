@@ -114,7 +114,10 @@ function LearnSongCardLink({
       <p className="mt-3 text-sm leading-7 text-stone-700">
         {song.difficultyLabel} · {song.keyLabel} · {song.meterLabel}
       </p>
-      <div className="mt-5 text-sm font-semibold text-stone-900">Open song page →</div>
+      <p className="mt-2 text-sm leading-6 text-stone-600">
+        Letter notes · Fingering chart · Playable practice page
+      </p>
+      <div className="mt-5 text-sm font-semibold text-stone-900">Open practice page →</div>
     </Link>
   )
 }
