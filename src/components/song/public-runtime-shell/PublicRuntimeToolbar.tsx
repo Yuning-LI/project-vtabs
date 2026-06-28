@@ -16,6 +16,7 @@ export function PublicRuntimeToolbar({
   backLabel,
   title,
   subtitle,
+  seoSummary,
   selects,
   toggles,
   actions,
@@ -31,6 +32,7 @@ export function PublicRuntimeToolbar({
   backLabel: string
   title: string
   subtitle: string | null | undefined
+  seoSummary?: string | null
   selects: SongPageFunctionZoneSelectControl[]
   toggles: SongPageFunctionZoneToggleControl[]
   actions: SongPageFunctionZoneActionControl[]
@@ -42,6 +44,8 @@ export function PublicRuntimeToolbar({
   runtimeHostModeSource: PublicRuntimeHostModeSource
   runtimeHostQueryFlag: boolean
 }) {
+  const summary = seoSummary || subtitle
+
   return (
     <section className="page-warm-hero mb-2 px-4 py-3 md:mb-3 md:px-7 md:py-[1.125rem]">
       <Link
@@ -56,8 +60,10 @@ export function PublicRuntimeToolbar({
       <h1 className="mt-1.5 text-[1.7rem] font-black leading-tight tracking-tight text-stone-900 md:mt-2 md:text-[3.05rem]">
         {title}
       </h1>
-      {subtitle ? (
-        <p className="mt-2 hidden text-sm leading-6 text-stone-600 md:block">{subtitle}</p>
+      {summary ? (
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600 md:text-[0.95rem] md:leading-7">
+          {summary}
+        </p>
       ) : null}
       <div className="mt-2 border-t border-[rgba(154,126,91,0.18)] pt-2 md:mt-3 md:pt-3">
         <SongPageFunctionZone

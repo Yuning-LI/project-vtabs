@@ -151,6 +151,7 @@ type PublicRuntimeInteractiveShellProps = {
   runtimeHostQueryFlag?: boolean
   runtimeHostDiagnostics?: PublicRuntimeHostDiagnostics
   containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
+  seoSummary?: string | null
   pageBasePath?: string
   runtimeApiBasePath?: string
   backHref?: string
@@ -173,6 +174,7 @@ export default function PublicRuntimeInteractiveShell({
   runtimeHostQueryFlag = false,
   runtimeHostDiagnostics,
   containerRuntimePackage = null,
+  seoSummary = null,
   pageBasePath = '/song',
   runtimeApiBasePath = PUBLIC_RUNTIME_API_BASE_PATH,
   backHref = '/',
@@ -1350,6 +1352,7 @@ export default function PublicRuntimeInteractiveShell({
         backLabel={backLabel}
         title={title}
         subtitle={subtitle}
+        seoSummary={seoSummary}
         selects={selects}
         toggles={toggles}
         actions={actions}

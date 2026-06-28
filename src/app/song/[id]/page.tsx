@@ -20,6 +20,14 @@ import {
   resolveDefaultPublicSongInstrumentId,
   type PublicSongPageQueryState
 } from '@/lib/songbook/publicInstruments'
+import {
+  getSongPreviewImagePath,
+  getSongPreviewImageUrl,
+  getSongSeoDescription,
+  getSongSeoSummary,
+  SONG_PREVIEW_IMAGE_HEIGHT,
+  SONG_PREVIEW_IMAGE_WIDTH
+} from '@/lib/songbook/songPreviewImages'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -44,15 +52,25 @@ export async function generateMetadata({
     : null
   const songName = presentation?.title || song?.title || 'Song'
   const primaryAlias = presentation?.aliases?.[0] ?? null
-  const description =
-    presentation?.metaDescription ||
-    [
-      `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument setups.`,
-      primaryAlias ? `Also known as ${primaryAlias}.` : ''
-    ]
-      .filter(Boolean)
-      .join(' ')
+  const description = song
+    ? getSongSeoDescription(
+        songName,
+        presentation?.metaDescription ||
+          [
+            `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument setups.`,
+            primaryAlias ? `Also known as ${primaryAlias}.` : ''
+          ]
+            .filter(Boolean)
+            .join(' ')
+      )
+    : [
+        `Play ${songName} with letter notes, fingering charts, optional numbered notes, and switchable instrument setups.`,
+        primaryAlias ? `Also known as ${primaryAlias}.` : ''
+      ]
+        .filter(Boolean)
+        .join(' ')
   const canonicalUrl = `${siteUrl}/song/${song?.slug || id}`
+  const previewImagePath = song ? getSongPreviewImagePath(song.slug) : DEFAULT_SHARE_IMAGE
   const shareTitle =
     presentation?.metaTitle && presentation.metaTitle.trim().length > 0
       ? presentation.metaTitle
@@ -73,9 +91,9 @@ export async function generateMetadata({
       siteName: 'Play By Fingering',
       images: [
         {
-          url: DEFAULT_SHARE_IMAGE,
-          width: 1200,
-          height: 630,
+          url: previewImagePath,
+          width: SONG_PREVIEW_IMAGE_WIDTH,
+          height: SONG_PREVIEW_IMAGE_HEIGHT,
           alt: shareTitle
         }
       ]
@@ -84,11 +102,16 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: shareTitle,
       description,
-      images: [DEFAULT_SHARE_IMAGE]
+      images: [previewImagePath]
     },
     robots: {
       index: true,
-      follow: true
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large'
+      }
     }
   }
 }
@@ -141,6 +164,55 @@ export default function SongPage({
   )
   const relatedSongs = getRelatedSongCards(song.slug)
   const relatedGuides = getSuggestedGuideCardsForSong(song.slug)
+  const seoSummary = getSongSeoSummary(shellSeo.title)
+  const seoDescription = getSongSeoDescription(shellSeo.title, shellSeo.metaDescription)
+  const previewImageUrl = getSongPreviewImageUrl(song.slug)
+  const webPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: shellSeo.metaTitle || shellSeo.title,
+    headline: shellSeo.metaTitle || shellSeo.title,
+    description: seoDescription,
+    url: `${siteUrl}/song/${song.slug}`,
+    image: previewImageUrl,
+    thumbnailUrl: previewImageUrl,
+    inLanguage: 'en',
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: previewImageUrl,
+      width: SONG_PREVIEW_IMAGE_WIDTH,
+      height: SONG_PREVIEW_IMAGE_HEIGHT
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Play By Fingering',
+      url: siteUrl
+    },
+    about: {
+      '@type': 'MusicComposition',
+      name: shellSeo.title
+    }
+  }
+  const musicCompositionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'MusicComposition',
+    name: shellSeo.title,
+    alternateName: shellSeo.aliases,
+    description: seoDescription,
+    url: `${siteUrl}/song/${song.slug}`,
+    image: previewImageUrl,
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+    instrument: ['Ocarina', 'Recorder', 'Tin Whistle'],
+    genre: shellSeo.familyLabel,
+    keywords: [
+      `${shellSeo.title} ocarina tabs`,
+      `${shellSeo.title} recorder notes`,
+      `${shellSeo.title} tin whistle notes`,
+      `${shellSeo.title} letter notes`,
+      `${shellSeo.title} finger chart`
+    ].join(', ')
+  }
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -207,6 +279,16 @@ export default function SongPage({
   return (
     <>
       <Script
+        id={`song-webpage-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
+      <Script
+        id={`song-music-${song.slug}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(musicCompositionJsonLd) }}
+      />
+      <Script
         id={`song-breadcrumb-${song.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -250,6 +332,7 @@ export default function SongPage({
           reason: runtimeHostResolution.reason
         }}
         containerRuntimePackage={null}
+        seoSummary={seoSummary}
         relatedSongs={relatedSongs}
         relatedGuides={relatedGuides}
       />

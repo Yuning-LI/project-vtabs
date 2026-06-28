@@ -1,4 +1,7 @@
-import { DICT as O12_DICT, MIDI_TO_NAME as O12_MIDI_TO_NAME } from '../../components/InstrumentDicts/ocarina12.ts'
+import {
+  O12_FINGERING_DICT,
+  O12_MIDI_TO_NAME
+} from '../runtime-core/visual/o12FingeringData.ts'
 
 export type NativeRendererInstrumentId = 'o12'
 
@@ -15,7 +18,7 @@ const O12_ADAPTER: NativeRendererInstrumentAdapter = {
   id: 'o12',
   label: '12-hole ocarina',
   hasFingering(midi) {
-    return Boolean(O12_DICT[midi])
+    return Boolean(O12_FINGERING_DICT[midi])
   },
   formatMidiLabel(midi) {
     const value = O12_MIDI_TO_NAME[midi]

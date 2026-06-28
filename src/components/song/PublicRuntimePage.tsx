@@ -33,6 +33,7 @@ type PublicRuntimePageProps = {
   containerRuntimePackage?: PublicRuntimeContainerPackagePayload | null
   relatedSongs: LearnSongCard[]
   relatedGuides: LearnGuideCard[]
+  seoSummary?: string | null
   pageBasePath?: string
   runtimeApiBasePath?: string
   backHref?: string
@@ -56,6 +57,7 @@ export default function PublicRuntimePage({
   containerRuntimePackage,
   relatedSongs,
   relatedGuides,
+  seoSummary,
   pageBasePath,
   runtimeApiBasePath,
   backHref,
@@ -86,6 +88,7 @@ export default function PublicRuntimePage({
           runtimeHostQueryFlag={runtimeHostQueryFlag}
           runtimeHostDiagnostics={runtimeHostDiagnostics}
           containerRuntimePackage={containerRuntimePackage}
+          seoSummary={seoSummary}
           pageBasePath={pageBasePath}
           runtimeApiBasePath={runtimeApiBasePath}
           backHref={backHref}

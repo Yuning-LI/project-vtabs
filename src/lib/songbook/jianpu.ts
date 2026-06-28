@@ -1,4 +1,7 @@
-import { DICT, MIDI_TO_NAME } from '../../components/InstrumentDicts/ocarina12.ts'
+import {
+  O12_FINGERING_DICT,
+  O12_MIDI_TO_NAME
+} from '../runtime-core/visual/o12FingeringData.ts'
 import type { ParsedToken } from './types.ts'
 
 /**
@@ -173,7 +176,7 @@ export function tokenToLabel(token: ParsedToken): string {
   if (token.kind === 'bar') return ''
   if (token.kind !== 'note') return ''
 
-  const noteName = MIDI_TO_NAME[token.midi]
+  const noteName = O12_MIDI_TO_NAME[token.midi]
   if (!noteName) return 'Out'
   return `${noteName.letter}${noteName.octave}`
 }
@@ -187,7 +190,7 @@ export function tokenToLabel(token: ParsedToken): string {
  */
 export function tokenHasFingering(token: ParsedToken): boolean {
   if (token.kind !== 'note') return false
-  return Boolean(DICT[token.midi])
+  return Boolean(O12_FINGERING_DICT[token.midi])
 }
 
 export function linePreview(line: string): string {
