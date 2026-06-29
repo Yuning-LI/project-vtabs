@@ -293,6 +293,7 @@ export default function PublicRuntimeInteractiveShell({
   const { applyRuntimeDisplaySettings } = useRuntimeDisplaySettingCommands({
     songId,
     sheetScale: normalizedQueryState.sheetScale,
+    showMeasureNum: normalizedQueryState.showMeasureNum ?? 'off',
     enabled: Boolean(activeContainerRuntimePackage),
     runtimeHostControllerRef
   })

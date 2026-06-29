@@ -65,6 +65,18 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     ) {
       applyPublicRuntimeSheetScale(settings.sheetScale);
     }
+
+    if (
+      settings.showMeasureNum !== null &&
+      settings.showMeasureNum !== undefined &&
+      settings.showMeasureNum !== ''
+    ) {
+      applyPublicRuntimeContextToggle(
+        'show_measure_num',
+        'show-measure-num',
+        settings.showMeasureNum
+      );
+    }
   }
 
   function applyPublicRuntimeSheetScale(sheetScale) {
@@ -103,6 +115,30 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     window.setTimeout(function () {
       syncRuntimeSheetLayout();
     }, publicRuntimeLifecycleConfig.timings.postDrawSyncDelayMs + publicRuntimeLifecycleConfig.timings.redrawDelayMs);
+  }
+
+  function applyPublicRuntimeContextToggle(contextKey, controlId, value) {
+    var normalizedValue = value === 'on' ? 'on' : 'off';
+    var runtimeKit = getPublicRuntimeKit();
+    var control = document.getElementById(controlId);
+
+    try {
+      if (
+        runtimeKit &&
+        runtimeKit.context &&
+        typeof runtimeKit.context.getContext === 'function'
+      ) {
+        runtimeKit.context.getContext()[contextKey] = normalizedValue;
+      }
+    } catch (error) {
+      // Context sync is best-effort; redraw fallback below keeps the UI usable.
+    }
+
+    if (control) {
+      control.value = normalizedValue;
+    }
+
+    requestRuntimeRedraw();
   }
 
   function installRuntimeLifecycleObservers() {

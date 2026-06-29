@@ -196,12 +196,6 @@ export function useRuntimeDisplaySettings({
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
     if (
-      normalizedQueryState.showMeasureNum &&
-      normalizedQueryState.showMeasureNum !== runtimeDefaultShowMeasureNum
-    ) {
-      next.set('show_measure_num', normalizedQueryState.showMeasureNum)
-    }
-    if (
       normalizedQueryState.measureLayout &&
       normalizedQueryState.measureLayout !== runtimeDefaultMeasureLayout
     ) {
@@ -221,7 +215,6 @@ export function useRuntimeDisplaySettings({
     normalizedQueryState,
     runtimeDefaultMeasureLayout,
     runtimeDefaultShowLyric,
-    runtimeDefaultShowMeasureNum,
     runtimeInitialFingeringIndex,
     shouldEnablePlaybackRuntimeFeature,
     shouldPinDefaultGraphDirection,

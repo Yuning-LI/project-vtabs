@@ -996,7 +996,7 @@ Runtime Interaction Ownership Upgrade
 |------|------|----------|--------------|
 | A | 暂停推进 | loading / fetch baseline 已记录；loading 视觉统一不再作为当前硬目标，等待 B/C/D 后自然收敛 | 后续只在状态模型收口后再更新 loading 策略 |
 | B | 基本完成 | shell 第一轮收口已完成：package request、host/session、display settings/selects/toggles、setting navigation、playback controls 已迁出 | 人工验收通过后进入阶段 C |
-| C | 进行中 | Zoom / sheet scale 已改成 runtime display command，不再 fetch package / remount container | 继续处理 measure numbers、lyrics、fingering chart 显隐 |
+| C | 进行中 | Zoom / sheet scale、Measure Numbers 已改成 runtime display command，不再 fetch package / remount container | 继续处理 lyrics、fingering chart 显隐 |
 | D | 待做 | 中等设置 redraw 未开始 | 完成后记录哪些设置仍会 remount |
 | E | 待做 | 播放 / 节拍器所有权迁移未完成 | 完成后记录 UI 归属和 fallback 行为 |
 | F | 待做 | 与 native / 新数据模型衔接未开始 | 完成后记录 adapter 接口与复用方式 |
@@ -1087,6 +1087,8 @@ src/components/song/public-runtime-shell/useRuntimeSettingNavigation.ts
 - `sheet_scale` 已从 runtime package query 中移除：URL 仍保留 `sheet_scale`，但不再因此请求 `/api/kuailepu-runtime/...` 或重挂 `ContainerRuntimeHost`。
 - runtime bridge 收到 `sheetScale` 后调用授权 runtime 的 `Song.scaleSheet()`，只重 draw 谱面 SVG，不重新加载脚本。
 - 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Zoom 到 120%，URL 同步为 `?sheet_scale=12`，没有新的 runtime API 请求，谱面高度从约 533px 变为约 779px。
+- `show_measure_num` 已从 runtime package query 中移除；runtime bridge 收到 `showMeasureNum` 后写入授权 runtime context 并 redraw。
+- 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Measure Numbers 到 On，URL 同步为 `?show_measure_num=on`，没有新的 runtime API 请求，开关状态变为 `Measure Numbers: On`。
 
 候选顺序：
 

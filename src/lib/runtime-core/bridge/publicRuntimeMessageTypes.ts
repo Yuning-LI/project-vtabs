@@ -36,6 +36,7 @@ export type PublicRuntimeDisplaySettingMessage = {
   songId: string
   settings: {
     sheetScale?: string | number | null
+    showMeasureNum?: string | null
   }
 }
 
