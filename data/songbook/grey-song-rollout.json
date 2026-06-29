@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-28",
+  "updatedOn": "2026-06-29",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -3351,6 +3351,106 @@
       "group": "song",
       "addedOn": "2026-06-21",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/89pIk1jrM.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "cuchulainn",
+      "title": "Cuchulainn",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/lsUuu1JCq.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "guile",
+      "title": "Guile",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/NGe4k11c7.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "hydra",
+      "title": "HYDRA",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/tcGRh1M7B.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "oracle",
+      "title": "Oracle",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xnRZm1nv8.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "perfect-slumbers",
+      "title": "perfect slumbers",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/gbN5t1xMy.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "no-second-thoughts",
+      "title": "No Second Thoughts",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/uXttj1xPe.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "never-coming-back",
+      "title": "Never Coming Back",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/2vEoo141N.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "rage-your-dream",
+      "title": "Rage your Dream",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/60Icn1mbM.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "robotics-notes",
+      "title": "ROBOTICS;NOTES",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/MMGmk1896.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "restoring-the-light-facing-the-dark",
+      "title": "Restoring the Light, Facing the Dark",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/t5SMo1x1r.html",
       "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
     }
   ]

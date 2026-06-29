@@ -3505,5 +3505,75 @@
     "family": "media",
     "featuredRank": 502,
     "published": true
+  },
+  {
+    "id": "cuchulainn",
+    "slug": "cuchulainn",
+    "family": "media",
+    "featuredRank": 503,
+    "published": true
+  },
+  {
+    "id": "guile",
+    "slug": "guile",
+    "family": "media",
+    "featuredRank": 504,
+    "published": true
+  },
+  {
+    "id": "hydra",
+    "slug": "hydra",
+    "family": "media",
+    "featuredRank": 505,
+    "published": true
+  },
+  {
+    "id": "oracle",
+    "slug": "oracle",
+    "family": "media",
+    "featuredRank": 506,
+    "published": true
+  },
+  {
+    "id": "perfect-slumbers",
+    "slug": "perfect-slumbers",
+    "family": "media",
+    "featuredRank": 507,
+    "published": true
+  },
+  {
+    "id": "no-second-thoughts",
+    "slug": "no-second-thoughts",
+    "family": "media",
+    "featuredRank": 508,
+    "published": true
+  },
+  {
+    "id": "never-coming-back",
+    "slug": "never-coming-back",
+    "family": "media",
+    "featuredRank": 509,
+    "published": true
+  },
+  {
+    "id": "rage-your-dream",
+    "slug": "rage-your-dream",
+    "family": "media",
+    "featuredRank": 510,
+    "published": true
+  },
+  {
+    "id": "robotics-notes",
+    "slug": "robotics-notes",
+    "family": "media",
+    "featuredRank": 511,
+    "published": true
+  },
+  {
+    "id": "restoring-the-light-facing-the-dark",
+    "slug": "restoring-the-light-facing-the-dark",
+    "family": "media",
+    "featuredRank": 512,
+    "published": true
   }
 ]

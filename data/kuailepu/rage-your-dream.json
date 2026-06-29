@@ -1,0 +1,50 @@
+{
+  "id": "rage-your-dream",
+  "slug": "rage-your-dream",
+  "title": "Rage your Dream",
+  "description": "Rage your Dream melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/60Icn1mbM.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 60Icn1mbM on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = bE",
+    "tempo": 150,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 63,
+  "notation": [
+    "3 - 5 - | 6 - - - 6 - 1' - 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 - 5 - - -",
+    "3 - 5 - | 6 - - - 6 - 1' - 2' - - - - - 2' - | 3' - - - 7 - 5 - 5 - - -",
+    "3 - 5 - | 6 - - - 6 - 1' - 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 - 5 - - -",
+    "3 - - - |",
+    "4 - - 6 6 - 1' - 5 - - - 2' - - - | 1' - - - - - - - - - - - - - - - |",
+    "6 - 6 - 6 - 6 4 4 - 4 - 4 - 4 - | 5 - 5 - 5 - 5 3 3 - 3 - 3 - 3 - |",
+    "4 - 4 - 4 - 4 2 2 - 2 - 2 - 2 - | 3 - - - 7 - - - 5 - - - 3 - 5 - | 6 - 6 - 6 - 6 4 4 - 4 - 4 - 4 - | 5 - 5 - 5 - 5 3 3 - 3 - 3 - 3 - |",
+    "2 - 2 - 2 - 2 5 5 - 5 - 5 - 5 - | 1 - - 1 1 - 1 - 1 - - - 1 - - - | 6, - - - - - - - - - - - - - - -",
+    "|",
+    "6, - 6, - 6, - 6, 6, 6, 6, 6, - 6, - - - | 1 - 1 - 1 - 1 2 2 2 2 - 2 - - - |",
+    "6, - 6, - 6, - 6, 6, 6, 6, 6, - 6, - - - | 1 - 1 - 1 - 1 2 2 2 2 -",
+    "2 - - -",
+    "|",
+    "1 - 1 - 1 - 1 2 2 2 2 - 1 - 2 - | 1 - 6, - 6, - 5, 6, 6, - - - - - - -",
+    "|",
+    "4 - - - - - 2 - 2 - - - 7, - - - | 5, - - - 2 - 1 - 1 - - - 2 - 3 - | 4 - - - - - 2 - 2 - - - 7, - - - | 5, - - - 2 - 1 - 1 - - - - - - - | 4 - - - - - 2 - 2 - - - 7, - - -",
+    "5, - - - 2 - 1 - 1 - - - 6, - 7, - | 1 - - 6, 6, - 1 - 2 - - 7, 7, - 2 - | 3 - - 1 1 - 3 - 5 - - - |",
+    "3 - 5 - | 6 - - - 6 - 1' 6 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 5 5 - - - 3 - 5 - | 4 - - - 4 - 5 2 2 - - - 1 - 2 - | 3 - - - 7 - - - 5 - - - 3 - 5 - |",
+    "6 - - - 6 - 1' 6 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 5 5 - - - 3 - 5 - | 4 - - - 4 - 5 2 2 - - - 2 - 3 - | 2 - 1 1 1 - - - - - - -",
+    "3 - 5 - | 6 - - - 6 - 1' 6 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 5 5 - - - 3 - 5 - | 4 - - - 4 - 5 2 2 - - - 1 - 2 - | 3 - - - 7 - - - 5 - - - 3 - 5 - |",
+    "6 - - - 6 - 1' 6 6 - - - 6 - 1' - | 7 - 5 - 5 - 3 5 5 - - - 3 - 5 - | 4 - - - 4 - 5 2 2 - - - 2 - 3 - |",
+    "2 - 1 1 1 - - - - - - - 3 - 5 - |",
+    "2 - 1 1 1 - - - - - - - - - - -",
+    "| | |"
+  ]
+}
