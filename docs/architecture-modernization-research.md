@@ -1005,8 +1005,8 @@ Runtime Interaction Ownership Upgrade
 |------|------|----------|--------------|
 | A | 暂停推进 | loading / fetch baseline 已记录；loading 视觉统一不再作为当前硬目标，等待 B/C/D 后自然收敛 | 后续只在状态模型收口后再更新 loading 策略 |
 | B | 基本完成 | shell 第一轮收口已完成：package request、host/session、display settings/selects/toggles、setting navigation、playback controls 已迁出 | 人工验收通过后进入阶段 C |
-| C | 进行中 | Zoom / sheet scale、Measure Numbers、Lyrics 已改成 runtime display command，不再 fetch package / remount container | 继续处理 fingering chart 显隐 |
-| D | 待做 | 中等设置 redraw 未开始 | 完成后记录哪些设置仍会 remount |
+| C | 基本完成 | Zoom / sheet scale、Measure Numbers、Lyrics、Fingering Chart、Diagram Direction 已改成 runtime display command，不再 fetch package / remount container | 人工验收通过后进入阶段 D |
+| D | 待做 | 中等设置 redraw 未开始；优先评估 instrument / fingering_index 是否可降级为 redraw | 完成后记录哪些设置仍会 remount |
 | E | 待做 | 播放 / 节拍器所有权迁移未完成 | 完成后记录 UI 归属和 fallback 行为 |
 | F | 待做 | 与 native / 新数据模型衔接未开始 | 完成后记录 adapter 接口与复用方式 |
 
@@ -1100,6 +1100,9 @@ src/components/song/public-runtime-shell/useRuntimeSettingNavigation.ts
 - 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Measure Numbers 到 On，URL 同步为 `?show_measure_num=on`，没有新的 runtime API 请求，开关状态变为 `Measure Numbers: On`。
 - `show_lyric` 已从 runtime package query 中移除；runtime bridge 收到 `showLyric` 后写入授权 runtime context 并 redraw。
 - 已验证：`auld-lang-syne-english` 打开 More Tools 后切 Lyrics 到 Off / On，URL 分别同步为 `?show_lyric=off` / `?show_lyric=on`，初次加载后没有新的 runtime API 请求，开关状态在 `Lyrics: Off` / `Lyrics: On` 间正确切换。
+- `show_graph` 已从 runtime package query 中移除；runtime bridge 收到 `showGraph` 后写入授权 runtime context 和 `show-graph` 控件并 redraw。
+- 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Fingering Chart 到 Off / On，URL 分别同步为 `?show_graph=off` / `?show_graph=1d`，初次加载后没有新的 runtime API 请求，开关状态在 `Fingering Chart: Off` / `Fingering Chart: On` 间正确切换。
+- 已验证：`happy-birthday-to-you?instrument=r8b` 打开 More Tools 后切 Diagram Direction 从 `1u` 到 `1d`，URL 同步为 `?instrument=r8b&show_graph=1d`，初次加载后没有新的 runtime API 请求，方向 select 状态正确切换。
 
 候选顺序：
 
@@ -1108,7 +1111,8 @@ src/components/song/public-runtime-shell/useRuntimeSettingNavigation.ts
 | Zoom / sheet scale | CSS 或 runtime command 局部更新 | 优先级最高，用户感知明显 |
 | show measure numbers | SVG / DOM 层显示切换或 redraw command | 不应重新加载脚本 |
 | lyrics on/off | runtime command 局部 redraw | 已完成；注意无歌词歌曲不显示控件 |
-| fingering chart on/off | 图谱层显隐或 redraw command | 下一步；不改具体指法数据 |
+| fingering chart on/off | runtime command 局部 redraw | 已完成；不改具体指法数据 |
+| diagram direction | runtime command 局部 redraw | 已完成；复用 `show_graph` 值 |
 | visual theme on/off | 复用现有 SVG bridge apply，不 remount | 当前已有后处理基础 |
 
 建议新增命令类型：

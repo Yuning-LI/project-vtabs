@@ -8,6 +8,7 @@ import type { PublicRuntimeHostController } from '../PublicRuntimeHostController
 type UseRuntimeDisplaySettingCommandsInput = {
   songId: string
   sheetScale: string | number | null | undefined
+  showGraph: string | null | undefined
   showLyric: string | null | undefined
   showMeasureNum: string | null | undefined
   enabled: boolean
@@ -17,6 +18,7 @@ type UseRuntimeDisplaySettingCommandsInput = {
 export function useRuntimeDisplaySettingCommands({
   songId,
   sheetScale,
+  showGraph,
   showLyric,
   showMeasureNum,
   enabled,
@@ -32,6 +34,7 @@ export function useRuntimeDisplaySettingCommands({
       songId,
       settings: {
         sheetScale: sheetScale ?? null,
+        showGraph: showGraph ?? null,
         showLyric: showLyric ?? null,
         showMeasureNum: showMeasureNum ?? null
       }
@@ -41,7 +44,7 @@ export function useRuntimeDisplaySettingCommands({
       runtimeHostControllerRef.current?.dispatchCommand(message) ??
       dispatchContainerRuntimeCommand(message)
     )
-  }, [enabled, runtimeHostControllerRef, sheetScale, showLyric, showMeasureNum, songId])
+  }, [enabled, runtimeHostControllerRef, sheetScale, showGraph, showLyric, showMeasureNum, songId])
 
   useEffect(() => {
     applyRuntimeDisplaySettings()

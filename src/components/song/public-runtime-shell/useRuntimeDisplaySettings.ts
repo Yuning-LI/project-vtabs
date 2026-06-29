@@ -181,11 +181,6 @@ export function useRuntimeDisplaySettings({
     if (noteLabelMode !== 'letter') {
       next.set('note_label_mode', noteLabelMode)
     }
-    if (normalizedQueryState.showGraph) {
-      next.set('show_graph', normalizedQueryState.showGraph)
-    } else if (shouldPinDefaultGraphDirection && controlConfig.activeGraphValue) {
-      next.set('show_graph', controlConfig.activeGraphValue)
-    }
     if (normalizedQueryState.showNoteRange) {
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
@@ -204,13 +199,11 @@ export function useRuntimeDisplaySettings({
     return next.toString()
   }, [
     activeInstrument.id,
-    controlConfig.activeGraphValue,
     noteLabelMode,
     normalizedQueryState,
     runtimeDefaultMeasureLayout,
     runtimeInitialFingeringIndex,
     shouldEnablePlaybackRuntimeFeature,
-    shouldPinDefaultGraphDirection,
     shouldPinDefaultInstrument
   ])
 

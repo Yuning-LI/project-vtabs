@@ -79,6 +79,18 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     if (
+      settings.showGraph !== null &&
+      settings.showGraph !== undefined &&
+      settings.showGraph !== ''
+    ) {
+      applyPublicRuntimeContextValue(
+        'show_graph',
+        'show-graph',
+        settings.showGraph
+      );
+    }
+
+    if (
       settings.showLyric !== null &&
       settings.showLyric !== undefined &&
       settings.showLyric !== ''
@@ -131,6 +143,11 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
 
   function applyPublicRuntimeContextToggle(contextKey, controlId, value) {
     var normalizedValue = value === 'on' ? 'on' : 'off';
+    applyPublicRuntimeContextValue(contextKey, controlId, normalizedValue);
+  }
+
+  function applyPublicRuntimeContextValue(contextKey, controlId, value) {
+    var normalizedValue = String(value);
     var runtimeKit = getPublicRuntimeKit();
     var control = document.getElementById(controlId);
 
