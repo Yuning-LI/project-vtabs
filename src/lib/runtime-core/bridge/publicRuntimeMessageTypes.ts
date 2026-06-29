@@ -6,6 +6,7 @@ export const PUBLIC_RUNTIME_PLAYBACK_PANEL_STATUS_MESSAGE = 'vtabs-runtime-playb
 export const PUBLIC_RUNTIME_SIZE_MESSAGE = 'vtabs-runtime-size'
 export const PUBLIC_RUNTIME_READY_MESSAGE = 'vtabs-runtime-ready'
 export const PUBLIC_RUNTIME_REDRAW_MESSAGE = 'vtabs-runtime-redraw'
+export const PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE = 'vtabs-runtime-display-setting'
 
 export const PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT = 'vtabs-runtime-container-command'
 export const PUBLIC_RUNTIME_HOST_MESSAGE_EVENT = 'vtabs-runtime-host-message'
@@ -14,7 +15,8 @@ export const PUBLIC_RUNTIME_HOST_COMMAND_MESSAGES = [
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
-  PUBLIC_RUNTIME_REDRAW_MESSAGE
+  PUBLIC_RUNTIME_REDRAW_MESSAGE,
+  PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
 ] as const
 
 export const PUBLIC_RUNTIME_HOST_EVENT_MESSAGES = [
@@ -29,10 +31,22 @@ export type PublicRuntimePlaybackStatus = 'idle' | 'loading' | 'playing'
 export type PublicRuntimeHostCommandType = (typeof PUBLIC_RUNTIME_HOST_COMMAND_MESSAGES)[number]
 export type PublicRuntimeHostEventType = (typeof PUBLIC_RUNTIME_HOST_EVENT_MESSAGES)[number]
 
-export type PublicRuntimeHostCommandMessage = {
-  type: PublicRuntimeHostCommandType
+export type PublicRuntimeDisplaySettingMessage = {
+  type: typeof PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
+  songId: string
+  settings: {
+    sheetScale?: string | number | null
+  }
+}
+
+export type PublicRuntimeSimpleHostCommandMessage = {
+  type: Exclude<PublicRuntimeHostCommandType, typeof PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE>
   songId: string
 }
+
+export type PublicRuntimeHostCommandMessage =
+  | PublicRuntimeSimpleHostCommandMessage
+  | PublicRuntimeDisplaySettingMessage
 
 export type PublicRuntimeReadyMessage = {
   type: typeof PUBLIC_RUNTIME_READY_MESSAGE

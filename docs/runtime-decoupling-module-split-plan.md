@@ -940,3 +940,44 @@ Final module ownership inventory:
 | `src/lib/kuailepu/runtime.ts` | Compatibility facade | comments, re-exports, type re-exports | business logic, browser bridge logic, React shell logic | Complete facade boundary |
 
 Runtime Decoupling & Module Split is complete as of Phase 7. Future work should treat this document as the ownership reference before changing runtime integration modules.
+
+## Follow-up Workstream: Runtime Interaction Ownership
+
+The module split workstream removed the retired iframe host and clarified ownership of server assembly, browser bridge, React host, and public shell modules. It did not fully remove the old iframe-era interaction model.
+
+The next architecture workstream is tracked in `docs/architecture-modernization-research.md`, especially section `9.5 建议执行顺序`.
+
+Its goal is not another file-splitting pass. Its goal is to migrate public song interactions away from:
+
+```text
+query / context change
+  -> fetch a new runtime package
+  -> remount ContainerRuntimeHost
+  -> rerun authorized runtime scripts
+```
+
+toward:
+
+```text
+React shell score intent state
+  -> host command or local display update
+  -> runtime redraw only when necessary
+  -> native renderer can later reuse the same state model
+```
+
+Keep these boundaries clear:
+
+| Workstream | Primary goal | Do not mix with |
+|------------|--------------|-----------------|
+| Runtime Decoupling & Module Split | File/module ownership, execution-context cleanup, iframe host retirement | Product behavior changes or renderer replacement |
+| Runtime Interaction Ownership | Stop treating every control change as a runtime package remount | Core `hc` parser/renderer rewrite |
+| Native Renderer / Score Engine | Replace parser/layout/render/playback ownership with our own model | Short-term runtime host cleanup |
+
+Expected first follow-up phases:
+
+1. Unify package-loading and container-loading UI.
+2. Split runtime package request state from score display intent state.
+3. Make lightweight display settings avoid package fetch and host remount.
+4. Convert medium settings to redraw commands instead of script reloads where safe.
+5. Move playback and metronome UI ownership into the React shell before replacing the underlying timeline/audio path.
+6. Preserve authorized runtime fallback until native renderer coverage and semantic QA are production-ready.

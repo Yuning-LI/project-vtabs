@@ -1,5 +1,6 @@
 import {
   PUBLIC_RUNTIME_CONTAINER_COMMAND_EVENT,
+  PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_CLOSE_PANEL_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_OPEN_MESSAGE,
   PUBLIC_RUNTIME_PLAYBACK_STOP_MESSAGE,
@@ -23,6 +24,9 @@ export function buildPublicRuntimeMessageBridgeScript() {
     }
     if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_REDRAW_MESSAGE)}) {
       requestRuntimeRedraw();
+    }
+    if (data.type === ${JSON.stringify(PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE)}) {
+      applyPublicRuntimeDisplaySettings(data.settings || {});
     }
   }
 

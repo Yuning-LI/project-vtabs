@@ -71,6 +71,60 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
     beat.textContent = value ? String(value) : '';
   }
 
+  function stopPublicRuntimeMetronomeIntervals() {
+    var runtimeMetronome = getPublicRuntimeMetronome();
+    if (!runtimeMetronome) {
+      return;
+    }
+
+    try {
+      if (typeof runtimeMetronome.stopTick === 'function') {
+        runtimeMetronome.stopTick();
+      } else {
+        runtimeMetronome.tick = -1;
+      }
+    } catch (error) {
+      runtimeMetronome.tick = -1;
+    }
+
+    if (Array.isArray(runtimeMetronome.__vtabsPublicIntervalIds)) {
+      runtimeMetronome.__vtabsPublicIntervalIds.forEach(function (intervalId) {
+        window.clearInterval(intervalId);
+      });
+      runtimeMetronome.__vtabsPublicIntervalIds.length = 0;
+    }
+  }
+
+  function installPublicMetronomeIntervalGuard(runtimeMetronome) {
+    if (
+      !runtimeMetronome ||
+      runtimeMetronome.__vtabsPublicIntervalGuardInstalled === true ||
+      typeof runtimeMetronome.play !== 'function'
+    ) {
+      return;
+    }
+
+    var originalPlay = runtimeMetronome.play;
+    runtimeMetronome.__vtabsPublicIntervalIds = runtimeMetronome.__vtabsPublicIntervalIds || [];
+    runtimeMetronome.play = function guardedPublicMetronomePlay() {
+      var originalSetInterval = window.setInterval;
+      window.setInterval = function guardedPublicMetronomeSetInterval(handler, timeout) {
+        var intervalId = originalSetInterval.apply(window, arguments);
+        if (handler === runtimeMetronome.update || timeout === 100) {
+          runtimeMetronome.__vtabsPublicIntervalIds.push(intervalId);
+        }
+        return intervalId;
+      };
+
+      try {
+        return originalPlay.apply(runtimeMetronome, arguments);
+      } finally {
+        window.setInterval = originalSetInterval;
+      }
+    };
+    runtimeMetronome.__vtabsPublicIntervalGuardInstalled = true;
+  }
+
   function localizePublicMetronome() {
     if (!hasPublicMetronome || textMode !== 'english') {
       return;
@@ -196,6 +250,7 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
 
     var runtimeMetronome = getPublicRuntimeMetronome();
     if (runtimeMetronome) {
+      installPublicMetronomeIntervalGuard(runtimeMetronome);
       runtimeMetronome.onstart = function () {
         syncPublicMetronomeButtonLabel();
       };
@@ -209,5 +264,7 @@ export function buildPublicRuntimeMetronomeBridgeScript() {
       syncPublicMetronomeButtonLabel();
     }
   }
+
+  window.__VTABS_PUBLIC_RUNTIME_STOP_METRONOME__ = stopPublicRuntimeMetronomeIntervals;
 `
 }

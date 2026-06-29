@@ -232,6 +232,7 @@ export default function RuntimeScriptLoader({
       if (loadTimeoutId !== null) {
         runtimeWindow.clearTimeout(loadTimeoutId)
       }
+      stopRuntimeMetronomeBeforeDispose(runtimeWindow)
       globalReadyGate?.cancel()
       controller?.cancel()
       bootstrapController?.dispose()
@@ -294,6 +295,44 @@ export default function RuntimeScriptLoader({
       />
     </div>
   )
+}
+
+function stopRuntimeMetronomeBeforeDispose(runtimeWindow: Window) {
+  const runtimeGlobal = runtimeWindow as Window & {
+    __VTABS_PUBLIC_RUNTIME_STOP_METRONOME__?: () => void
+    Metronome?: {
+      tick?: number
+      stopTick?: () => void
+      __vtabsPublicIntervalIds?: number[]
+    }
+  }
+
+  if (typeof runtimeGlobal.__VTABS_PUBLIC_RUNTIME_STOP_METRONOME__ === 'function') {
+    runtimeGlobal.__VTABS_PUBLIC_RUNTIME_STOP_METRONOME__()
+    return
+  }
+
+  const runtimeMetronome = runtimeGlobal.Metronome
+  if (!runtimeMetronome) {
+    return
+  }
+
+  try {
+    if (typeof runtimeMetronome.stopTick === 'function') {
+      runtimeMetronome.stopTick()
+    } else {
+      runtimeMetronome.tick = -1
+    }
+  } catch {
+    runtimeMetronome.tick = -1
+  }
+
+  runtimeMetronome.__vtabsPublicIntervalIds?.forEach(intervalId => {
+    runtimeWindow.clearInterval(intervalId)
+  })
+  if (runtimeMetronome.__vtabsPublicIntervalIds) {
+    runtimeMetronome.__vtabsPublicIntervalIds.length = 0
+  }
 }
 
 function getRuntimeGlobalReadyChecks(entries: RuntimeScriptEntry[]): RuntimeGlobalReadyCheck[] {

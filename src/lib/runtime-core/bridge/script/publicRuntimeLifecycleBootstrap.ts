@@ -53,6 +53,58 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }, publicRuntimeLifecycleConfig.timings.redrawDelayMs);
   }
 
+  function applyPublicRuntimeDisplaySettings(settings) {
+    if (!settings || typeof settings !== 'object') {
+      return;
+    }
+
+    if (
+      settings.sheetScale !== null &&
+      settings.sheetScale !== undefined &&
+      settings.sheetScale !== ''
+    ) {
+      applyPublicRuntimeSheetScale(settings.sheetScale);
+    }
+  }
+
+  function applyPublicRuntimeSheetScale(sheetScale) {
+    var normalizedSheetScale = String(sheetScale);
+    var runtimeSong = getPublicRuntimeSong();
+    var runtimeKit = getPublicRuntimeKit();
+    var sheetScaleControl = document.getElementById('sheet-scale');
+
+    try {
+      if (
+        runtimeKit &&
+        runtimeKit.context &&
+        typeof runtimeKit.context.getContext === 'function'
+      ) {
+        runtimeKit.context.getContext().sheet_scale = normalizedSheetScale;
+      }
+    } catch (error) {
+      // Context sync is best-effort; runtime redraw fallback below keeps the UI usable.
+    }
+
+    if (sheetScaleControl) {
+      sheetScaleControl.value = normalizedSheetScale;
+    }
+
+    try {
+      if (runtimeSong && typeof runtimeSong.scaleSheet === 'function') {
+        runtimeSong.scaleSheet(normalizedSheetScale);
+      } else {
+        requestRuntimeRedraw();
+      }
+    } catch (error) {
+      console.error(error);
+      requestRuntimeRedraw();
+    }
+
+    window.setTimeout(function () {
+      syncRuntimeSheetLayout();
+    }, publicRuntimeLifecycleConfig.timings.postDrawSyncDelayMs + publicRuntimeLifecycleConfig.timings.redrawDelayMs);
+  }
+
   function installRuntimeLifecycleObservers() {
     if (window.ResizeObserver && document.body) {
       // 这里只监听 body 尺寸变化，不再做额外复杂观察。
