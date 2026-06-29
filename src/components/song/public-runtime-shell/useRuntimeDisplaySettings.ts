@@ -186,12 +186,6 @@ export function useRuntimeDisplaySettings({
     } else if (shouldPinDefaultGraphDirection && controlConfig.activeGraphValue) {
       next.set('show_graph', controlConfig.activeGraphValue)
     }
-    if (
-      normalizedQueryState.showLyric &&
-      normalizedQueryState.showLyric !== runtimeDefaultShowLyric
-    ) {
-      next.set('show_lyric', normalizedQueryState.showLyric)
-    }
     if (normalizedQueryState.showNoteRange) {
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
@@ -214,7 +208,6 @@ export function useRuntimeDisplaySettings({
     noteLabelMode,
     normalizedQueryState,
     runtimeDefaultMeasureLayout,
-    runtimeDefaultShowLyric,
     runtimeInitialFingeringIndex,
     shouldEnablePlaybackRuntimeFeature,
     shouldPinDefaultGraphDirection,

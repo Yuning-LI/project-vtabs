@@ -77,6 +77,18 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
         settings.showMeasureNum
       );
     }
+
+    if (
+      settings.showLyric !== null &&
+      settings.showLyric !== undefined &&
+      settings.showLyric !== ''
+    ) {
+      applyPublicRuntimeContextToggle(
+        'show_lyric',
+        'show-lyric',
+        settings.showLyric
+      );
+    }
   }
 
   function applyPublicRuntimeSheetScale(sheetScale) {

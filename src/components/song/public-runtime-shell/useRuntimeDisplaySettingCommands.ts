@@ -8,6 +8,7 @@ import type { PublicRuntimeHostController } from '../PublicRuntimeHostController
 type UseRuntimeDisplaySettingCommandsInput = {
   songId: string
   sheetScale: string | number | null | undefined
+  showLyric: string | null | undefined
   showMeasureNum: string | null | undefined
   enabled: boolean
   runtimeHostControllerRef: React.MutableRefObject<PublicRuntimeHostController | null>
@@ -16,6 +17,7 @@ type UseRuntimeDisplaySettingCommandsInput = {
 export function useRuntimeDisplaySettingCommands({
   songId,
   sheetScale,
+  showLyric,
   showMeasureNum,
   enabled,
   runtimeHostControllerRef
@@ -30,6 +32,7 @@ export function useRuntimeDisplaySettingCommands({
       songId,
       settings: {
         sheetScale: sheetScale ?? null,
+        showLyric: showLyric ?? null,
         showMeasureNum: showMeasureNum ?? null
       }
     }
@@ -38,7 +41,7 @@ export function useRuntimeDisplaySettingCommands({
       runtimeHostControllerRef.current?.dispatchCommand(message) ??
       dispatchContainerRuntimeCommand(message)
     )
-  }, [enabled, runtimeHostControllerRef, sheetScale, showMeasureNum, songId])
+  }, [enabled, runtimeHostControllerRef, sheetScale, showLyric, showMeasureNum, songId])
 
   useEffect(() => {
     applyRuntimeDisplaySettings()
