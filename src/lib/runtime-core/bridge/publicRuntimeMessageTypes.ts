@@ -35,6 +35,7 @@ export type PublicRuntimeDisplaySettingMessage = {
   type: typeof PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
   songId: string
   settings: {
+    measureLayout?: string | null
     sheetScale?: string | number | null
     showGraph?: string | null
     showLyric?: string | null

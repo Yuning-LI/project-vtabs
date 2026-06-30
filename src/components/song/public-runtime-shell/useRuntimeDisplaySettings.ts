@@ -184,12 +184,6 @@ export function useRuntimeDisplaySettings({
     if (normalizedQueryState.showNoteRange) {
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
-    if (
-      normalizedQueryState.measureLayout &&
-      normalizedQueryState.measureLayout !== runtimeDefaultMeasureLayout
-    ) {
-      next.set('measure_layout', normalizedQueryState.measureLayout)
-    }
     if (normalizedQueryState.practiceTool === 'metronome') {
       next.append('public_feature', 'metronome')
     }
@@ -201,7 +195,6 @@ export function useRuntimeDisplaySettings({
     activeInstrument.id,
     noteLabelMode,
     normalizedQueryState,
-    runtimeDefaultMeasureLayout,
     runtimeInitialFingeringIndex,
     shouldEnablePlaybackRuntimeFeature,
     shouldPinDefaultInstrument

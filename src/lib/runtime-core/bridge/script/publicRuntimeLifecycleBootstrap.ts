@@ -67,6 +67,18 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     if (
+      settings.measureLayout !== null &&
+      settings.measureLayout !== undefined &&
+      settings.measureLayout !== ''
+    ) {
+      applyPublicRuntimeContextValue(
+        'measure_layout',
+        'measure-layout',
+        settings.measureLayout
+      );
+    }
+
+    if (
       settings.showMeasureNum !== null &&
       settings.showMeasureNum !== undefined &&
       settings.showMeasureNum !== ''

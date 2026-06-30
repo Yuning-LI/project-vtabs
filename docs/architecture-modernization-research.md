@@ -1006,7 +1006,7 @@ Runtime Interaction Ownership Upgrade
 | A | 暂停推进 | loading / fetch baseline 已记录；loading 视觉统一不再作为当前硬目标，等待 B/C/D 后自然收敛 | 后续只在状态模型收口后再更新 loading 策略 |
 | B | 基本完成 | shell 第一轮收口已完成：package request、host/session、display settings/selects/toggles、setting navigation、playback controls 已迁出 | 人工验收通过后进入阶段 C |
 | C | 基本完成 | Zoom / sheet scale、Measure Numbers、Lyrics、Fingering Chart、Diagram Direction 已改成 runtime display command，不再 fetch package / remount container | 人工验收通过后进入阶段 D |
-| D | 待做 | 中等设置 redraw 未开始；优先评估 instrument / fingering_index 是否可降级为 redraw | 完成后记录哪些设置仍会 remount |
+| D | 进行中 | Layout / measure_layout 已改成 runtime display command；instrument / fingering_index 仍待评估 | 完成后记录哪些设置仍会 remount |
 | E | 待做 | 播放 / 节拍器所有权迁移未完成 | 完成后记录 UI 归属和 fallback 行为 |
 | F | 待做 | 与 native / 新数据模型衔接未开始 | 完成后记录 adapter 接口与复用方式 |
 
@@ -1150,14 +1150,19 @@ PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
 
 处理会影响 runtime context 但理论上不需要重新加载全部脚本的设置。
 
+当前进度：
+
+- `measure_layout` 已从 runtime package query 中移除；runtime bridge 收到 `measureLayout` 后写入授权 runtime context 和 `measure-layout` 控件并 redraw。
+- 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Layout 到 Equal Width / Compact，URL 分别同步为 `?measure_layout=mono` / `?measure_layout=compact`，初次加载后没有新的 runtime API 请求，Layout select 状态正确切换，页面保持 1 个 `#sheet`。
+
 候选：
 
 | 设置 | 目标方式 | 风险 |
 |------|----------|------|
+| layout compact/mono | runtime redraw 或 layout command | 已完成 |
 | fingering key / fingering_index | 更新 runtime context 后 `Song.draw()` / redraw | 指法图正确性需重点测 |
-| chart direction / show_graph 具体方向 | 更新图谱参数后 redraw | 中 |
+| chart direction / show_graph 具体方向 | 更新图谱参数后 redraw | 已在阶段 C 完成 |
 | note label letter/number | 重新应用 letter track / SVG transform | 中高 |
-| layout compact/mono | runtime redraw 或 layout command | 中高 |
 
 这阶段可以接受“重 draw SVG”，但目标是不重新 fetch package、不重新加载脚本、不重建 container。
 

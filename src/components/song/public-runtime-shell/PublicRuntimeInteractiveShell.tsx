@@ -292,6 +292,7 @@ export default function PublicRuntimeInteractiveShell({
   })
   const { applyRuntimeDisplaySettings } = useRuntimeDisplaySettingCommands({
     songId,
+    measureLayout: normalizedQueryState.measureLayout ?? 'compact',
     sheetScale: normalizedQueryState.sheetScale,
     showGraph: normalizedQueryState.showGraph ?? display.controlConfig.activeGraphValue,
     showLyric: hasLyricToggle ? normalizedQueryState.showLyric ?? 'on' : null,
