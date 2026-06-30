@@ -19,6 +19,7 @@ type UseRuntimeDisplaySettingCommandsInput = {
     | null
     | undefined
   measureLayout: string | null | undefined
+  noteLabelMode: string | null | undefined
   sheetScale: string | number | null | undefined
   showGraph: string | null | undefined
   showLyric: string | null | undefined
@@ -34,6 +35,7 @@ export function useRuntimeDisplaySettingCommands({
   fingeringIndex,
   letterTrackScale,
   measureLayout,
+  noteLabelMode,
   sheetScale,
   showGraph,
   showLyric,
@@ -55,6 +57,7 @@ export function useRuntimeDisplaySettingCommands({
         fingeringIndex: fingeringIndex ?? null,
         letterTrackScale: letterTrackScale ?? null,
         measureLayout: measureLayout ?? null,
+        noteLabelMode: noteLabelMode ?? null,
         sheetScale: sheetScale ?? null,
         showGraph: showGraph ?? null,
         showLyric: showLyric ?? null,
@@ -73,6 +76,7 @@ export function useRuntimeDisplaySettingCommands({
     instrument,
     letterTrackScale,
     measureLayout,
+    noteLabelMode,
     runtimeHostControllerRef,
     sheetScale,
     showGraph,

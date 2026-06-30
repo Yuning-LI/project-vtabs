@@ -181,9 +181,6 @@ export function useRuntimeDisplaySettings({
     const next = new URLSearchParams()
     next.set('runtime_text_mode', 'english')
     next.set('runtime_visual_theme', normalizedQueryState.runtimeVisualTheme ?? 'classic')
-    if (noteLabelMode !== 'letter') {
-      next.set('note_label_mode', noteLabelMode)
-    }
     if (normalizedQueryState.showNoteRange) {
       next.set('show_note_range', normalizedQueryState.showNoteRange)
     }
@@ -195,7 +192,6 @@ export function useRuntimeDisplaySettings({
     }
     return next.toString()
   }, [
-    noteLabelMode,
     normalizedQueryState,
     shouldEnablePlaybackRuntimeFeature
   ])

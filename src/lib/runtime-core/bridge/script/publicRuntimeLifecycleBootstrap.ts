@@ -99,6 +99,14 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     if (
+      settings.noteLabelMode !== null &&
+      settings.noteLabelMode !== undefined &&
+      settings.noteLabelMode !== ''
+    ) {
+      applyPublicRuntimeNoteLabelMode(settings.noteLabelMode);
+    }
+
+    if (
       settings.showMeasureNum !== null &&
       settings.showMeasureNum !== undefined &&
       settings.showMeasureNum !== ''
@@ -202,6 +210,20 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     requestRuntimeRedraw();
+  }
+
+  function applyPublicRuntimeNoteLabelMode(noteLabelMode) {
+    var normalizedMode =
+      noteLabelMode === 'number' || noteLabelMode === 'graph' ? noteLabelMode : 'letter';
+    try {
+      if (letterTrack) {
+        letterTrack.mode = normalizedMode;
+      }
+    } catch (error) {
+      // Letter track sync is best-effort; runtime redraw fallback below keeps the UI usable.
+    }
+
+    syncRuntimeSheetLayout();
   }
 
   function applyPublicRuntimeInstrumentSelection(instrument) {

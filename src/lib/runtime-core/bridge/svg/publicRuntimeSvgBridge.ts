@@ -2363,6 +2363,7 @@ export function buildPublicRuntimeSvgBridgeScript() {
     clearPublicPlaybackLetterHighlightObservers();
 
     if (!letterTrack || letterTrack.mode === 'number') {
+      clearLetterTrack(svg);
       setSheetPending(false);
       return true;
     }

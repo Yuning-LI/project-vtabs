@@ -44,6 +44,7 @@ export type PublicRuntimeDisplaySettingMessage = {
       octave: number
     }> | null
     measureLayout?: string | null
+    noteLabelMode?: string | null
     sheetScale?: string | number | null
     showGraph?: string | null
     showLyric?: string | null

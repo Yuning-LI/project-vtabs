@@ -297,6 +297,7 @@ export default function PublicRuntimeInteractiveShell({
     fingeringIndex: display.activeFingeringRuntimeState.fingeringIndex,
     letterTrackScale: display.activeFingeringRuntimeState.letterTrackScale,
     measureLayout: normalizedQueryState.measureLayout ?? 'compact',
+    noteLabelMode,
     sheetScale: normalizedQueryState.sheetScale,
     showGraph: normalizedQueryState.showGraph ?? display.controlConfig.activeGraphValue,
     showLyric: hasLyricToggle ? normalizedQueryState.showLyric ?? 'on' : null,
