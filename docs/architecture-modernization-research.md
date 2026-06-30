@@ -1096,6 +1096,7 @@ src/components/song/public-runtime-shell/useRuntimeSettingNavigation.ts
 - `sheet_scale` 已从 runtime package query 中移除：URL 仍保留 `sheet_scale`，但不再因此请求 `/api/kuailepu-runtime/...` 或重挂 `ContainerRuntimeHost`。
 - runtime bridge 收到 `sheetScale` 后调用授权 runtime 的 `Song.scaleSheet()`，只重 draw 谱面 SVG，不重新加载脚本。
 - 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Zoom 到 120%，URL 同步为 `?sheet_scale=12`，没有新的 runtime API 请求，谱面高度从约 533px 变为约 779px。
+- 已修复默认值回落：从 `?sheet_scale=12` 回到无参数 URL 后，React shell 会把功能区 active 默认值 `10` 重新发给 runtime，避免 UI 显示 100% 但谱面仍残留 120%。
 - `show_measure_num` 已从 runtime package query 中移除；runtime bridge 收到 `showMeasureNum` 后写入授权 runtime context 并 redraw。
 - 已验证：`happy-birthday-to-you` 打开 More Tools 后切 Measure Numbers 到 On，URL 同步为 `?show_measure_num=on`，没有新的 runtime API 请求，开关状态变为 `Measure Numbers: On`。
 - `show_lyric` 已从 runtime package query 中移除；runtime bridge 收到 `showLyric` 后写入授权 runtime context 并 redraw。
