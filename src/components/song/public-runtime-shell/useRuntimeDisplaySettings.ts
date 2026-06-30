@@ -28,6 +28,10 @@ import type { PublicRuntimeControlPayload } from './PublicRuntimeInteractiveShel
 import type { PublicRuntimeHostMode } from '@/lib/runtime-core/publicRuntimeHostMode'
 import { normalizeExplicitShowGraph } from './usePublicRuntimeControls'
 
+type RuntimeFingeringSet = Array<{
+  fingering?: string
+}>
+
 type UseRuntimeDisplaySettingsInput = {
   songId: string
   supportedInstruments: PublicSongInstrument[]
@@ -139,6 +143,16 @@ export function useRuntimeDisplaySettings({
     [activeInstrument.id, controlFingeringIndex, normalizedQueryState, runtimeControlPayload]
   )
 
+  const activeFingeringRuntimeState = useMemo(
+    () =>
+      resolveActiveFingeringRuntimeState({
+        runtimeControlPayload,
+        instrumentId: activeInstrument.id,
+        fingeringIndex: controlConfig.activeFingeringIndex
+      }),
+    [activeInstrument.id, controlConfig.activeFingeringIndex, runtimeControlPayload]
+  )
+
   const hasNonStandardRuntimeDefaultInstrument =
     Boolean(runtimeDefaultInstrumentId) &&
     runtimeDefaultInstrumentId !== 'none' &&
@@ -170,14 +184,6 @@ export function useRuntimeDisplaySettings({
     if (activeInstrument.id !== 'o12' || shouldPinDefaultInstrument) {
       next.set('instrument', activeInstrument.id)
     }
-    if (
-      normalizedQueryState.fingeringIndex !== null &&
-      normalizedQueryState.fingeringIndex !== undefined &&
-      normalizedQueryState.fingeringIndex !== '' &&
-      String(normalizedQueryState.fingeringIndex) !== runtimeInitialFingeringIndex
-    ) {
-      next.set('fingering_index', String(normalizedQueryState.fingeringIndex))
-    }
     if (noteLabelMode !== 'letter') {
       next.set('note_label_mode', noteLabelMode)
     }
@@ -195,7 +201,6 @@ export function useRuntimeDisplaySettings({
     activeInstrument.id,
     noteLabelMode,
     normalizedQueryState,
-    runtimeInitialFingeringIndex,
     shouldEnablePlaybackRuntimeFeature,
     shouldPinDefaultInstrument
   ])
@@ -479,6 +484,7 @@ export function useRuntimeDisplaySettings({
     noteLabelMode,
     controlConfig,
     controlFingeringIndex,
+    activeFingeringRuntimeState,
     runtimeInitialFingeringIndex,
     runtimeDefaultShowLyric,
     runtimeDefaultShowMeasureNum,
@@ -492,4 +498,100 @@ export function useRuntimeDisplaySettings({
     selects,
     toggles
   }
+}
+
+function resolveActiveFingeringRuntimeState({
+  runtimeControlPayload,
+  instrumentId,
+  fingeringIndex
+}: {
+  runtimeControlPayload: PublicRuntimeControlPayload
+  instrumentId: string
+  fingeringIndex: string | null
+}) {
+  const instrument = (runtimeControlPayload.instrumentFingerings ?? []).find(
+    option => option.instrument === instrumentId
+  )
+  const fingeringSets = instrument?.fingeringSetList ?? instrument?.fingeringsList ?? []
+  const selectedIndex = Number(fingeringIndex ?? 0)
+  const boundedIndex = Number.isFinite(selectedIndex)
+    ? Math.min(Math.max(selectedIndex, 0), Math.max(fingeringSets.length - 1, 0))
+    : 0
+  const selectedSet = fingeringSets[boundedIndex] as RuntimeFingeringSet | undefined
+  const fingering = selectedSet
+    ?.map(item => item.fingering?.trim())
+    .filter((value): value is string => Boolean(value))
+    .join('+') ?? null
+
+  return {
+    fingeringIndex: String(boundedIndex),
+    fingering,
+    letterTrackScale: buildLetterTrackScaleFromFingering(fingering)
+  }
+}
+
+function buildLetterTrackScaleFromFingering(fingering: string | null) {
+  const tonic = fingering
+    ?.split('+')
+    .map(candidate => parseFingeringScaleTonic(candidate))
+    .find(Boolean)
+
+  return tonic ? buildMajorScaleNoteNames(tonic) : null
+}
+
+function parseFingeringScaleTonic(fingering: string | null | undefined) {
+  if (!fingering) {
+    return null
+  }
+
+  const match = fingering.trim().match(/^([#b]?)([A-Ga-g])(\d+)?$/)
+  if (!match) {
+    return null
+  }
+
+  return {
+    accidental: match[1] === '#' ? 1 : match[1] === 'b' ? -1 : 0,
+    letter: match[2]!.toUpperCase(),
+    octave: Number(match[3] ?? 5)
+  }
+}
+
+function buildMajorScaleNoteNames(tonic: {
+  accidental: number
+  letter: string
+  octave: number
+}) {
+  const LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+  const NATURAL_PITCH_CLASS: Record<string, number> = {
+    C: 0,
+    D: 2,
+    E: 4,
+    F: 5,
+    G: 7,
+    A: 9,
+    B: 11
+  }
+  const MAJOR_INTERVALS = [0, 2, 4, 5, 7, 9, 11]
+  const tonicLetterIndex = LETTERS.indexOf(tonic.letter)
+  if (tonicLetterIndex === -1) {
+    return null
+  }
+
+  const tonicPitchClass = (NATURAL_PITCH_CLASS[tonic.letter]! + tonic.accidental + 12 * 10) % 12
+
+  return MAJOR_INTERVALS.map((interval, degreeIndex) => {
+    const letter = LETTERS[(tonicLetterIndex + degreeIndex) % LETTERS.length]!
+    const targetPitchClass = (tonicPitchClass + interval) % 12
+    const letterPitchClass = NATURAL_PITCH_CLASS[letter]!
+    let accidental = targetPitchClass - letterPitchClass
+
+    while (accidental > 6) accidental -= 12
+    while (accidental < -6) accidental += 12
+
+    return {
+      letter,
+      accidental,
+      octave: tonic.octave + Math.floor((tonicLetterIndex + degreeIndex) / LETTERS.length)
+    }
+  })
 }

@@ -67,6 +67,18 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     if (
+      settings.fingeringIndex !== null &&
+      settings.fingeringIndex !== undefined &&
+      settings.fingeringIndex !== ''
+    ) {
+      applyPublicRuntimeFingeringSelection(
+        settings.fingeringIndex,
+        settings.fingering,
+        settings.letterTrackScale
+      );
+    }
+
+    if (
       settings.measureLayout !== null &&
       settings.measureLayout !== undefined &&
       settings.measureLayout !== ''
@@ -151,6 +163,37 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     window.setTimeout(function () {
       syncRuntimeSheetLayout();
     }, publicRuntimeLifecycleConfig.timings.postDrawSyncDelayMs + publicRuntimeLifecycleConfig.timings.redrawDelayMs);
+  }
+
+  function applyPublicRuntimeFingeringSelection(fingeringIndex, fingering, letterTrackScale) {
+    var normalizedFingeringIndex = String(fingeringIndex);
+    var normalizedFingering =
+      fingering !== null && fingering !== undefined && fingering !== ''
+        ? String(fingering)
+        : null;
+    var runtimeKit = getPublicRuntimeKit();
+
+    try {
+      if (
+        runtimeKit &&
+        runtimeKit.context &&
+        typeof runtimeKit.context.getContext === 'function'
+      ) {
+        var context = runtimeKit.context.getContext();
+        context.fingering_index = normalizedFingeringIndex;
+        if (normalizedFingering) {
+          context.fingering = normalizedFingering;
+        }
+      }
+    } catch (error) {
+      // Context sync is best-effort; redraw fallback below keeps the UI usable.
+    }
+
+    if (letterTrack && Array.isArray(letterTrackScale) && letterTrackScale.length >= 7) {
+      letterTrack.scale = letterTrackScale;
+    }
+
+    requestRuntimeRedraw();
   }
 
   function applyPublicRuntimeContextToggle(contextKey, controlId, value) {

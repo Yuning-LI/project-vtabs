@@ -292,6 +292,9 @@ export default function PublicRuntimeInteractiveShell({
   })
   const { applyRuntimeDisplaySettings } = useRuntimeDisplaySettingCommands({
     songId,
+    fingering: display.activeFingeringRuntimeState.fingering,
+    fingeringIndex: display.activeFingeringRuntimeState.fingeringIndex,
+    letterTrackScale: display.activeFingeringRuntimeState.letterTrackScale,
     measureLayout: normalizedQueryState.measureLayout ?? 'compact',
     sheetScale: normalizedQueryState.sheetScale,
     showGraph: normalizedQueryState.showGraph ?? display.controlConfig.activeGraphValue,
