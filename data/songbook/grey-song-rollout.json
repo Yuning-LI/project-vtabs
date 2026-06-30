@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-29",
+  "updatedOn": "2026-06-30",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -3451,6 +3451,106 @@
       "group": "song",
       "addedOn": "2026-06-21",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/t5SMo1x1r.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "rain-after-summer",
+      "title": "Rain after Summer",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/n4Gcn1OhZ.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "rhythm-emotion",
+      "title": "Rhythm Emotion",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/dWHju1WZK.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "sis-puella-magica",
+      "title": "Sis puella magica!",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/HZPjf1N9G.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "stonefire",
+      "title": "Stonefire",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/oscdc1ozo.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "so-far",
+      "title": "So Far",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/dCpHk1oz6.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "sweetwater",
+      "title": "Sweetwater",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/BOgLf1zdl.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "spiritual",
+      "title": "Spiritual",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/IadVf1qDW.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "santiano",
+      "title": "Santiano",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Mzvyo1b1Q.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "start-over",
+      "title": "Start Over",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/U526r15FC.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "sakuya",
+      "title": "Sakuya",
+      "status": "live",
+      "batch": "stock-2026-06-21-16",
+      "group": "song",
+      "addedOn": "2026-06-21",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ZQ1yq1r5G.html",
       "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
     }
   ]
