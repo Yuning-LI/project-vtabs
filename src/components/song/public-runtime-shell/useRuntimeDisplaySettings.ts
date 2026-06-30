@@ -181,9 +181,6 @@ export function useRuntimeDisplaySettings({
     const next = new URLSearchParams()
     next.set('runtime_text_mode', 'english')
     next.set('runtime_visual_theme', normalizedQueryState.runtimeVisualTheme ?? 'classic')
-    if (activeInstrument.id !== 'o12' || shouldPinDefaultInstrument) {
-      next.set('instrument', activeInstrument.id)
-    }
     if (noteLabelMode !== 'letter') {
       next.set('note_label_mode', noteLabelMode)
     }
@@ -198,11 +195,9 @@ export function useRuntimeDisplaySettings({
     }
     return next.toString()
   }, [
-    activeInstrument.id,
     noteLabelMode,
     normalizedQueryState,
-    shouldEnablePlaybackRuntimeFeature,
-    shouldPinDefaultInstrument
+    shouldEnablePlaybackRuntimeFeature
   ])
 
   const runtimeHostSessionKey = `${activeRuntimeHostMode}:${runtimeApiBasePath}:${songId}:${runtimeQueryString}`

@@ -35,6 +35,7 @@ export type PublicRuntimeDisplaySettingMessage = {
   type: typeof PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
   songId: string
   settings: {
+    instrument?: string | null
     fingering?: string | null
     fingeringIndex?: string | number | null
     letterTrackScale?: Array<{

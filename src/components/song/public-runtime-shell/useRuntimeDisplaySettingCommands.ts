@@ -7,6 +7,7 @@ import type { PublicRuntimeHostController } from '../PublicRuntimeHostController
 
 type UseRuntimeDisplaySettingCommandsInput = {
   songId: string
+  instrument: string | null | undefined
   fingering: string | null | undefined
   fingeringIndex: string | number | null | undefined
   letterTrackScale:
@@ -28,6 +29,7 @@ type UseRuntimeDisplaySettingCommandsInput = {
 
 export function useRuntimeDisplaySettingCommands({
   songId,
+  instrument,
   fingering,
   fingeringIndex,
   letterTrackScale,
@@ -48,6 +50,7 @@ export function useRuntimeDisplaySettingCommands({
       type: PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE,
       songId,
       settings: {
+        instrument: instrument ?? null,
         fingering: fingering ?? null,
         fingeringIndex: fingeringIndex ?? null,
         letterTrackScale: letterTrackScale ?? null,
@@ -67,6 +70,7 @@ export function useRuntimeDisplaySettingCommands({
     enabled,
     fingering,
     fingeringIndex,
+    instrument,
     letterTrackScale,
     measureLayout,
     runtimeHostControllerRef,

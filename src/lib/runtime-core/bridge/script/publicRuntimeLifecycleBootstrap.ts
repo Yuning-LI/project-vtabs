@@ -67,6 +67,14 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     if (
+      settings.instrument !== null &&
+      settings.instrument !== undefined &&
+      settings.instrument !== ''
+    ) {
+      applyPublicRuntimeInstrumentSelection(settings.instrument);
+    }
+
+    if (
       settings.fingeringIndex !== null &&
       settings.fingeringIndex !== undefined &&
       settings.fingeringIndex !== ''
@@ -194,6 +202,39 @@ export function buildPublicRuntimeLifecycleBootstrapScript() {
     }
 
     requestRuntimeRedraw();
+  }
+
+  function applyPublicRuntimeInstrumentSelection(instrument) {
+    var normalizedInstrument = String(instrument);
+    var runtimeKit = getPublicRuntimeKit();
+    var instrumentControl = document.getElementById('instrument');
+    var whichInstrumentControl = document.getElementById('which-instrument');
+    var instrumentsWrapperControl = document.getElementById('instruments-wrapper');
+
+    try {
+      if (
+        runtimeKit &&
+        runtimeKit.context &&
+        typeof runtimeKit.context.getContext === 'function'
+      ) {
+        var context = runtimeKit.context.getContext();
+        context.instrument = normalizedInstrument;
+        context.preference_instrument = normalizedInstrument;
+        context.no_preference_instrument = true;
+      }
+    } catch (error) {
+      // Context sync is best-effort; redraw fallback below keeps the UI usable.
+    }
+
+    if (instrumentControl) {
+      instrumentControl.value = normalizedInstrument;
+    }
+    if (whichInstrumentControl) {
+      whichInstrumentControl.value = normalizedInstrument;
+    }
+    if (instrumentsWrapperControl) {
+      instrumentsWrapperControl.value = normalizedInstrument;
+    }
   }
 
   function applyPublicRuntimeContextToggle(contextKey, controlId, value) {

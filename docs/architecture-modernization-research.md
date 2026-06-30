@@ -1006,7 +1006,7 @@ Runtime Interaction Ownership Upgrade
 | A | 暂停推进 | loading / fetch baseline 已记录；loading 视觉统一不再作为当前硬目标，等待 B/C/D 后自然收敛 | 后续只在状态模型收口后再更新 loading 策略 |
 | B | 基本完成 | shell 第一轮收口已完成：package request、host/session、display settings/selects/toggles、setting navigation、playback controls 已迁出 | 人工验收通过后进入阶段 C |
 | C | 基本完成 | Zoom / sheet scale、Measure Numbers、Lyrics、Fingering Chart、Diagram Direction 已改成 runtime display command，不再 fetch package / remount container | 人工验收通过后进入阶段 D |
-| D | 进行中 | Layout / measure_layout、fingering_index 已改成 runtime display command；instrument 仍待评估 | 完成后记录哪些设置仍会 remount |
+| D | 进行中 | Layout / measure_layout、fingering_index、instrument 已改成 runtime display command；仍需继续观察 note_label_mode / show_note_range / practice_tool 这些脚本能力相关状态 | 完成后记录哪些设置仍会 remount |
 | E | 待做 | 播放 / 节拍器所有权迁移未完成 | 完成后记录 UI 归属和 fallback 行为 |
 | F | 待做 | 与 native / 新数据模型衔接未开始 | 完成后记录 adapter 接口与复用方式 |
 
@@ -1158,6 +1158,9 @@ PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
 - runtime bridge 收到指法切换后同步授权 runtime context 中的 `fingering_index` / `fingering`，更新 bridge 内部 `letterTrack.scale`，再局部 redraw。
 - 已验证：`happy-birthday-to-you` 的 12 孔陶笛 Ocarina Key 从 F 切到 G / Bb 时，URL 分别同步为 `?fingering_index=1` / `?fingering_index=2`，初次加载后没有新的 runtime API 请求，runtime context 分别变为 `G5` / `bB5`。
 - 已验证：同一切换下 letter labels 会随调性更新，首段从 `C6 C6 D6...` 变为 `D6 D6 E6...` / `F6 F6 G6...`，避免“指法图变了但字母谱不变”的错位。
+- `instrument` 已从 runtime package query 中移除；React shell 切换乐器时会把 `instrument`、该乐器当前/默认 `fingering_index`、解析后的 `fingering`、该指法对应的 `letterTrack.scale`、该乐器默认图谱方向一起通过 display command 发给 runtime。
+- runtime bridge 收到乐器切换后同步授权 runtime context 中的 `instrument` / `preference_instrument` / `no_preference_instrument`，再由同一条 command 同步 `fingering_index` / `fingering` / `show_graph`，最后局部 redraw。
+- 这个实现仍保留 URL 可分享语义：地址栏继续出现 `?instrument=r8b`、`?instrument=w6` 等参数，刷新后会恢复同一乐器；区别是同页操作不再为了乐器变化重新 fetch runtime package 或重挂 container。
 
 候选：
 
@@ -1165,6 +1168,7 @@ PUBLIC_RUNTIME_DISPLAY_SETTING_MESSAGE
 |------|----------|------|
 | layout compact/mono | runtime redraw 或 layout command | 已完成 |
 | fingering key / fingering_index | 更新 runtime context 后 `Song.draw()` / redraw | 已完成；已同步 letter track scale |
+| instrument | 更新 runtime context、默认指法和图谱方向后 `Song.draw()` / redraw | 已完成；同一 command 内同步 instrument + fingering + letter track scale |
 | chart direction / show_graph 具体方向 | 更新图谱参数后 redraw | 已在阶段 C 完成 |
 | note label letter/number | 重新应用 letter track / SVG transform | 中高 |
 

@@ -292,6 +292,7 @@ export default function PublicRuntimeInteractiveShell({
   })
   const { applyRuntimeDisplaySettings } = useRuntimeDisplaySettingCommands({
     songId,
+    instrument: activeInstrument.id,
     fingering: display.activeFingeringRuntimeState.fingering,
     fingeringIndex: display.activeFingeringRuntimeState.fingeringIndex,
     letterTrackScale: display.activeFingeringRuntimeState.letterTrackScale,
