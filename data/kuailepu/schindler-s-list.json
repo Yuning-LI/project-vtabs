@@ -1,0 +1,29 @@
+{
+  "id": "schindler-s-list",
+  "slug": "schindler-s-list",
+  "title": "schindler's list",
+  "description": "schindler's list melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/9K1Gi1Zom.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song 9K1Gi1Zom on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "0 0 0 0 3 - - - | 3' 6 3' 6 4' 3' 1' 3 | 1' 2 1' 2' 3' - 3' 3 |",
+    "3' 6 3' 6 5' 4' 3' 2' | 5 4 7 2' 4' 3' 2' 1' | 2' 4 2' 4 3' 2' 1' 2' | 3' - 6 - #5 - 6 - |",
+    "2' 4 2' 4 3' 2' 1' 2' | 1' 2 1' 2 3' 2' 1' 7 | 6 - - 3' 6' 6 - 3"
+  ]
+}

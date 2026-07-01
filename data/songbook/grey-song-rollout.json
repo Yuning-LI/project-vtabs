@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-06-30",
+  "updatedOn": "2026-07-01",
   "notes": "Internal-only tracker for the grey-song rollout lane. This file improves visibility into imported grey songs, but it is not the public truth layer.",
   "entries": [
     {
@@ -3552,6 +3552,106 @@
       "addedOn": "2026-06-21",
       "sourceUrl": "https://www.kuaiyuepu.com/jianpu/ZQ1yq1r5G.html",
       "notes": "Published from the local grey-song stock pool after publication-layer promotion. Live compare was skipped for this batch under explicit operator approval to avoid additional Kuailepu site operations."
+    },
+    {
+      "slug": "shining-star",
+      "title": "Shining Star",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/xMErn1Wk9.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "stories",
+      "title": "Stories",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/zlcsk19fA.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "schindler-s-list",
+      "title": "schindler's list",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/9K1Gi1Zom.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "spring-comes-along",
+      "title": "Spring Comes Along",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/WmOTg1MJM.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "saltarello",
+      "title": "Saltarello",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/CiKKq1pZg.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "without-you",
+      "title": "Without You",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/BxNnj16vQ.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "way-back-home",
+      "title": "Way Back Home",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/PCsDg1Xjr.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "windy-hill",
+      "title": "Windy Hill",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/KlKfe1gKZ.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "take-me-hand",
+      "title": "Take Me Hand",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/Ztg4g1Csu.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
+    },
+    {
+      "slug": "that-s-what-friends-are-for",
+      "title": "That's What Friends Are For",
+      "status": "live",
+      "batch": "stock-2026-07-01-01",
+      "group": "song",
+      "addedOn": "2026-07-01",
+      "sourceUrl": "https://www.kuaiyuepu.com/jianpu/CC0up1wGO.html",
+      "notes": "Published from the local grey-song stock pool after publication-layer promotion and batch validation."
     }
   ]
 }

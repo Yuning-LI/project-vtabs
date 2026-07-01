@@ -1,0 +1,36 @@
+{
+  "id": "windy-hill",
+  "slug": "windy-hill",
+  "title": "Windy Hill",
+  "description": "Windy Hill melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/KlKfe1gKZ.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song KlKfe1gKZ on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = D",
+    "tempo": 80,
+    "meter": "2/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 62,
+  "notation": [
+    "5 - - - | 6 - 5 6 5 6 5 3 | 2 - - - 2 3 5 - | 2 - 2 3 2 3 2 1 | 6, - - - 3 - 5 - | 6 - 5 6 3 - 1' - | 7 - 1' 7 6 - 5 - |",
+    "3 - - - - - - - | 3 - - - 5 - - - | 6 - 5 6 5 - 3 - | 2 - 3 2 1 - 5, - | 6, - - - - - - - |",
+    "1' - - - 7 - - - | 6 - - - 5 - 3 - | 2 - - - 1 - - - | 3 - - - - - - - | 3 - - - 7, - 1 - | 6, - - - 1 - - - | 7, - - - 6, - 5, - | 3, - - - - - - - |",
+    "3, - - - 7 - 1' - | 6 - - - 3' - - - | 2' - - - 1' - 7 - | 1' - - - 7 - - - | 6 - 5 - 3 - 5 - | 6 - - - 3' - - - 6 - - - - - 5 - | 6 - - - - - - - | 6 - - - 0 0 0 0 |",
+    "0 0 0 0 1' - - - | 6 - - - 5 - 3 - | 2 - 3 2 1 - 2 - | 3 - - - - - - - | 3 - - - 7, - 1 - | 6, - - - 1 - - - | 7, - 1 6, 5, - 5 - |",
+    "3 - - - - - - - | 3 - - - 7 - 1' - | 6 - - - 3' - - - | 6 - - - - - 5 - | 6 - - - 5 - - - | 3 - - - 3 - 5 - | 6 - 5 6 6 - 3 - |",
+    "2 - - - 3 - 5, - | 6, - - - - - - - | 6, - - - 0 0 0 0 |",
+    "0 0 1 - 3 - 5 - | 6 - - 5 5 - 3 - | 2 - - - 0 2 3 5 | 2 - - 3 3 - 5, - | 6, - - - 0 1 3 5 | 6 - 5 6 3 - 1' - |",
+    "7 - 1' 7 6 - 5 - | 3 - - - - - - - | 3 - 2 - 3 - 5 - | 6 - - 5 5 - 3 - | 2 - - - 0 2 3 5 | 2 - - 3 3 - 5 - | 1 - - - 0 2 3 5 |",
+    "6 - 5 6 5 - 3 - | 2 - 3 2 1 - 5, - | 6, - - - - - - - | 6, - - - 0 0 0 0 | | |"
+  ]
+}

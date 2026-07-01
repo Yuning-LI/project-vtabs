@@ -1,0 +1,43 @@
+{
+  "id": "way-back-home",
+  "slug": "way-back-home",
+  "title": "Way Back Home",
+  "description": "Way Back Home melody reference prepared from an authorized runtime detail page and normalized into the current lightweight ocarina-tab renderer. Source composer field: Shaun.",
+  "published": true,
+  "source": {
+    "title": "Authorized runtime detail snapshot",
+    "url": "https://www.kuaiyuepu.com/jianpu/PCsDg1Xjr.html",
+    "rights": "Imported from an authorized runtime detail page as notation review material. Publish only after rights review.",
+    "note": "Raw context captured from authorized runtime song PCsDg1Xjr on 2026-06-21."
+  },
+  "meta": {
+    "key": "1 = bB",
+    "tempo": 100,
+    "meter": "4/4"
+  },
+  "review": {
+    "status": "pending",
+    "checkedOn": "2026-06-21",
+    "note": "Imported from an authorized runtime detail page and normalized into the current lightweight renderer. Manual melody review is still required before publication."
+  },
+  "tonicMidi": 70,
+  "notation": [
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 3 - - - 0 0 1 - | 1 - 1 1 1 - 6 - 5 - - - 1 - 3 - |",
+    "2 - 2 2 2 - 1 - 1 - - - 6 - 7 - | 1' - 1' 1' 1' - 3' - 6 - - - 5 - - - | 2 - 2 2 2 - 5 - 3 - - - 0 0 1 - |",
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 1 - - - 0 0 0 0 |",
+    "0 0 0 0 0 3 3 3 3 - 3 3 3 2 2 - | 0 0 0 0 0 0 1 1 2 - 2 3 3 2 1 - | 6, - - - 0 3 3 3 3 - 3 3 3 2 2 - |",
+    "0 0 0 0 0 0 1 1 2 - 2 3 3 2 1 2 | 6, - - - 0 3 3 3 6 - 6 3 3 5 5 - | 6 - - - 0 0 1 - 2 - 2 2 2 - 3 - |",
+    "3 - 2 - 2 - 1 - 7, - 6, - 6, - 5, - | 3 - 2 - 2 - 1 - 7, - 6, - 6, - 5, - |",
+    "0 0 0 1 3 - 2 - | 1 - 1 1 1 - 2 - 2 - - - 0 0 0 1 | 3 - 2 1 1 1 2 - 6, - - - 0 5, 5, 5, | 1 - 1 1 1 2 2 - 2 - - -",
+    "0 1 1 1 | 5 3 - 2 2 1 1 - 1 - - - 0 0 1 - | 6 - 7 1' 1' 3 2 - 2 - - - 0 0 1 - | 5 3 - 2 2 1 1 - 1 2 3 -",
+    "0 0 1 - | 1 - - - 0 0 0 0 0 0 0 0 0 0 1 - | 2 - 1 - 1 - - - 0 0 0 0 |",
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 3 - - - 0 0 1 - | 1 - 1 1 1 - 6 - 5 - - - 1 - 3 - |",
+    "2 - 2 2 2 - 1 - 1 - - - 6 - 7 - | 1' - 1' 1' 1' - 3' - 6 - - - 5 - - - | 2 - 2 2 2 - 5 - 3 - - - 0 0 1 - |",
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 1 - - - 0 0 0 0 |",
+    "0 0 1 - 1 - 1 - 1 - 2 - 1 - - - | 0 0 1 - 6, - 5, - 2 - - - - - - - | 0 0 1 1 1 - 1 - 1 - 2 - 1 - - - | 0 0 1 - 6, - 5, - 2 - - - 1 - - - |",
+    "0 0 0 0 0 0 1 - 3 - - - 2 - - - | 1 - - - 2 - 5, - 5, - - - 0 0 0 0 | 0 0 0 0 3 - 3 - 5 - 6 - 1' - 2' - | 2' - - - - - 1' - 1' - - - - - - - |",
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 3 - - - 0 0 1 - | 1 - 1 1 1 - 6 - 5 - - - 1 - 3 - |",
+    "2 - 2 2 2 - 1 - 1 - - - 6 - 7 - | 1' - 1' 1' 1' - 3' - 6 - - - 5 - - - | 2 - 2 2 2 - 5 - 3 - - - 0 0 1 - |",
+    "1 - 1 1 1 - 6 - 5 - - - 1 - 3 - | 2 - 2 2 2 - 1 - 1 - - - 0 0 0 0 | | |"
+  ]
+}
